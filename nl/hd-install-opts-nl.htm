@@ -12,14 +12,14 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.6-2007-05-08 nl lang maintainer eislon zerby harzG-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 08/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.1-05-05-2007 nl lang maintainer eislon zerby harzG-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Kies een andere taal" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
 		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-nl.htm">Welkom bij de officiële sidux handleiding</a>
@@ -48,7 +48,8 @@
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-nl.htm">Live Mode</a>
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-nl.htm#rootpw">Root-wachtwoord op de sidux-LiveCD</a></li>
-				<li><a href="live-mode-nl.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-en.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-en.htm#live-cd-perm-store">Storing permanent changes to a HD using the Live-CD</a></li>
 				<li><a href="live-mode-nl.htm#ntfs-3g">Schrijven op NTFS-partities met ntfs-3g</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-nl.htm#Inst-prep">Installatie voorbereiden</a></li>
 				<li><a href="hd-install-nl.htm#Installation">Installeren naar je HD</a></li>
 				<li><a href="hd-install-nl.htm#first-hd-boot">Eerste keer opstarten</a></li>
+				<li><a href="hd-install-opts-nl.htm#perst-home">Blijvende Home directory</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso'</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
 				<li><a href="hd-install-opts-nl.htm#qemu">Installeren met QEMU</a></li>
@@ -155,20 +157,52 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="fromiso">
-		<h2 id="top-header">Opstarten met "fromiso"</h2>
+	<div class="divider" id="perst-home">
+		<h2 id="top-header">Het aanmaken van een blijvende home voor de Live-CD</h2>
+		<p  class="highlight-2">Voor normaal gebruik raden wij het aan om gebruik te maken van het ext3-bestandssysteem. Het is de standaard bestandssystem van sidux en wordt goed onderhouden.</p>
 
-		<p  class="highlight-2">For normal use we recommend the ext3 file system. It is the default file system for sidux and well maintained.</p>
+		<p>Tijdens het gebruik van de sidux Live-CD kun je een blijvende $HOME directory aanmaken om hier je configuratie, user-data en extra geinstalleerde programma's in op te slaan.</p>
+		
+		<p>De meest gebruikte manieren om van de Live-CD te booten zijn (maar niet gelimiteerd tot):<br />
+		1) Van CD/DVD-drive, of <br />
+		2) Booten vanuit een ISO-bestand die op de harddisk staat via. <a href="hd-install-opts-nl.htm#fromiso">"fromiso"</a></p>
+
+		<p>Deze blijvende $HOME kan geinstalleerd worden op je hard drive of op je USB stick.</p>
+		
+
+		<p>Nu starten we op van de Live-CD of van de geinstalleerde ISO (fromiso) op de harddisk en starten dan het script om de config-bestand te creeeren (config.tbz) om het op te slaan op je USB stick of harddisk.</p>
+		<pre>sidux-Menu - Configuration - save configuration</pre>
+
+		<p>Als volgende creeeren we het image-bestand voor de home directory:</p>
+		<pre>sidux-Menu - Configuration - install permanent sidux home directory</pre>
+		
+		<p>Maak deze groot genoeg , zodat er ruimte genoeg is voor software die je misschien in de toekomst wil gaan installeren. Nu maken we een lege directory aan namens unionfs in de /home van gebruiker sidex (/home/sidux) dit kun je doen met konqueror, konsole of een andere tool naar je eigen keuze.</p>
+
+		<p>Daarna starten we de Live-CD op of de fromiso-ISO en geven bij de Grub-Bootscreen het volgende in:</p>
+
+		<pre>myconfig=scan home=scan unionrw=/home/sidux/unionfs</pre>
+
+		<p>Nu ben je klaar om nieuwe software te installeren in je nieuwe home-dir op je harddisk of usb stick.</p>
+
+		<p>Het installeren van software gebeurd meestal zo:</p>
+
+<pre>#sux
+#apt-get update
+#apt-get install pakketnaam</pre>
+
+		<p>De volgende keer dat je gaat booten geef je de volgende opties mee om de nieuw geinstalleerde software te kunnen gebruiken: <strong>myconfig=scan home=scan unionrw=/home/sidux/unionfs</strong></p>
+	</div>
+	<div class="divider" id="fromiso">
+		<h2>Opstarten met "fromiso"</h2>
 
 		<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een paritie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag, sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
-
 		<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. . Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
 
 		<h6>Benodigdheden:</h6>
 
 		    <p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
-			* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
-			* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
+			* a sidux ISO Image e.g.: sidux.ISO and a linux file system like ext2/3 <br />
+			* If you rename your image to sidux.iso you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
 
 		<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creeeren we een basis-directory: bijvoorbeeld /dev/hda5, creeer nu de directory "sidux" en copieer de iso-bestand hiernaar toe via:</p>
@@ -179,7 +213,7 @@
 		<p>nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
 
 <pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
+# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.ISO /mnt/test</pre>
 
 		<p>nu copieren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
 
@@ -190,7 +224,7 @@
 
 <pre>### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz ramdisk_size=100000 init=/etc/init fromiso=/sidux/sidux.iso noprompt noeject lang=en apm=power-off nomce quiet vga=791
+kernel (hd0,4)/sidux/vmlinuz ramdisk_size=100000 init=/etc/init fromiso=/sidux/*.ISO noprompt noeject lang=en apm=power-off nomce quiet vga=791
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>Bij de volgend herstart v/d pc hebben we een nieuwe menu item in grub om vanaf de iso image op te starten.</p>
@@ -217,7 +251,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 
 		<p>Je kunt nu opstarten van je USB-HD/Stick. 'Boot from USB' moet in je BIOS op enabled staan.</p>
-	</div>
+
 	<div class="divider" id="qemu">
 		<h2>Installeren van sidux met QEMU</h2>
 
@@ -328,7 +362,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laats aangepast op UTC 08/05/2007 0600uur</div>
+			<div id="rev"> Inhoud het laats aangepast op UTC 28/01/2007 1300uur</div>
 </div>
 </div>
 </body>

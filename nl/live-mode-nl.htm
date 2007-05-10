@@ -12,14 +12,14 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.6-2007-05-08 nl lang maintainer eislon zerby harzG-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 08/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.1-05-05-2007 nl lang maintainer eislon zerby harzG-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Kies een andere taal" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
 		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-nl.htm">Welkom bij de officiële sidux handleiding</a>
@@ -48,7 +48,8 @@
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-nl.htm">Live Mode</a>
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-nl.htm#rootpw">Root-wachtwoord op de sidux-LiveCD</a></li>
-				<li><a href="live-mode-nl.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-en.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-en.htm#live-cd-perm-store">Storing permanent changes to a HD using the Live-CD</a></li>
 				<li><a href="live-mode-nl.htm#ntfs-3g">Schrijven op NTFS-partities met ntfs-3g</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-nl.htm#Inst-prep">Installatie voorbereiden</a></li>
 				<li><a href="hd-install-nl.htm#Installation">Installeren naar je HD</a></li>
 				<li><a href="hd-install-nl.htm#first-hd-boot">Eerste keer opstarten</a></li>
+				<li><a href="hd-install-opts-nl.htm#perst-home">Blijvende Home directory</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso'</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
 				<li><a href="hd-install-opts-nl.htm#qemu">Installeren met QEMU</a></li>
@@ -196,7 +198,28 @@ exit
 (waarnaar het konsole zich zal gaan afsluiten)
 </pre>
 	</div>
+<!--	<div class="divider" id="unionfs">
+		<h2>Unionfs - of hoe installeer ik software in live mode</h2>
+		<p>Unionfs is een overlapend bestandssysteem welke het mogelijk maakt om gebruik te maken van apt-get of install nvidia of radeon drivers tijdens de live-cd modus. sidux's nvidia/radeon scripts detecteren de live mode en activeren unionfs indien dit nodig is. Om unionfs tijdens het opstarten aan te zetten , geef je een cheatcode op in de commandoregel, de cheatcode is:</p>
 
+<pre >unionfs</pre>
+
+		<p>Door het gebruik van deze cheatcode, bestands wijzigingen zullen dan opgeslagen worden in de diretory /tmp/unionfs (deze zal na het uitzetten van de pc verloren gaan).</p>
+
+		<p>Gebruik je de cheatcode niet tijdens het opstarten, dan kun je unionfs nog altijd activeren terwijl je in live modus bent, door het openen van een shell en dan het script fix-unionfs uit te voeren via:</p>
+
+<pre >sidux@0[sidux]$ sudo su
+fix-unionfs
+Activating Unionfs now.</pre>
+
+		<p>Nu kun je gebruik maken van apt-get om extra software te installeren:</p>
+
+<pre >sidux@0[sidux]$ sudo
+root@0[sidux]# apt-get update
+<i>(...)</i>
+root@0[sidux]# apt-get install kdegames</pre>
+</div>
+-->
 	<div class="divider" id="live-cd-installsoft">
 					<h2>Installing software whilst on a Live-CD</h2>
 <pre>
@@ -205,14 +228,46 @@ apt-get install your-preferred-package
 </pre>
 					<p>Note: when you power off the Live-CD, no changes will be kept</p>
 	</div>
+	<div class="divider" id="live-cd-perm-store">
 
+					<h2>Storing permanent changes to a HD using the Live-cd</h2>
+						<h4>Permanent $HOME</h4>
+<pre>
+home  /dev/sda1/sidux.img  mount loopback file as /home/sidux
+</pre>
+					<h4> unionrw</h4>
+ 
+			<p>De eerste kan aangemaakt worden middels cheatcode:</p>
+
+<pre >unionrw</pre>
+
+		<p>Het unionrw cheat kan in verschillende manieren gebruikt worden:</p>
+
+	<ol>
+		<li>Verwijst naar een partitie op de harddisk</li>
+		<li>Verwijst naar een loop bestand (zoals een ext2 loopback bestand)</li>
+		<li>Verwijst naar een directory</li>
+	</ol>
+
+		<p>Alle drie manieren werken om een permanente opslag van wijzigingen op te slaan op een harddisk naar je keuze - indien je altijd dezelfde cheatcode gebruikt, dan kun je een op maat ingestelde programma's selectie hebben. Dit slaat niet je /home op, om dit uit te voeren heb je de home cheatcode nodig.</p>
+
+		<p>Zoals genoemd zijn er drie cheatcode's , de derde is:</p>
+
+				<h4> unionro</h4>
+
+<pre >unionro</pre>
+
+		<p>Deze is ongeveer hetzelfde als unionrw, maar je bent niet instaat om bestanden te overschrijven op de plek waar je ze hebt opgeslagen. Echter kun je een nieuwe unionrw en de unionro cheatcode gelijktijdig gebruiken. Niet iedereen vindt dit bruikbaar, maar bedenk wel dat dit allemaal experimenteel is. Bedenk ook dat geen enkele van deze cheatcodes genoemd wordt in het help bestand, welke je met F1 kunt oproepen bij het starten van sidux.</p>
+
+	</div>
 	<div class="divider" id="ntfs-3g">
 		<h2>Hoe kan ik op NTFS-partities schrijven met ntfs-3g</h2>
 
 		<p class="highlight-2"><b>Wees gewaarschuwd</b>: ntfs-3g is in een beta driver, gebruik het nooit zonder je data gebackupped te hebben, en gebruik het niet op productie systemen! Doe je dit wel, dan is het op eigen risico!!!</p>
 
-		<p>Open een shell en voer de volgende commando's uit: Zie ook <a href="part-cfdisk-nl.htm" >Partitioning your HD - Disk Naming</a></p>
+		<p>Open een shell en voer de volgende commando's uit: Zie ook <a href="part-cfdisk-en.htm" >Partitioning your HD - Disk Naming</a></p>
 <pre >su
+fix-unionfs
 apt-get update &amp;&amp; apt-get install ntfs-3g
 umount /media/xdxx
 mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
@@ -222,7 +277,7 @@ exit
 
 		<p>Nu is je NTFS-Volume gemount als <b>rw</b> en zou je er data op kunnen schrijven. Maar nogmaals wees gewaarschuwd het is <span class="highlight-2">experimentele software!</span></p>
 
-			<div id="rev"> Inhoud het laats aangepast op UTC 08/05/2007 0600uur</div>
+
 </div>
 </div>
 </body>

@@ -12,14 +12,14 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.6-2007-05-08 es lang maintainer Richard-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 05/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.1-05-05-2007 es lang maintainer Richard-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Regresa al men&uacute; principal de sidux</a></li>
+		<li><a href="http://sidux.com/">Zur&#252;ck zum sidux Hauptmen&#252;</a></li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Seleccione otra idioma." alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
 		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-es.htm">Bienvenido al Manual Oficial de sidux</a>
@@ -49,6 +49,7 @@
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-es.htm#rootpw">Clave root del LiveCD de sidux</a></li>
 				<li><a href="live-mode-es.htm#live-cd-installsoft">Instalar software usando el Live-CD</a></li>
+				<li><a href="live-mode-es.htm#live-cd-perm-store">Guardar cambios al Disco Duro usando Live-CD</a></li>
 				<li><a href="live-mode-es.htm#ntfs-3g">ntfs-3g-Escribir en particiones NTFS</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-es.htm#Inst-prep">Preparaci&oacute;n para la instalaci&oacute;n</a></li>
 				<li><a href="hd-install-es.htm#Installation">Instalando al DD</a></li>
 				<li><a href="hd-install-es.htm#first-hd-boot">Primer Arranque</a></li>
+				<li><a href="hd-install-opts-es.htm#perst-home">Un "home" persistente</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso">Arrancando "fromiso"</a></li>
 				<li><a href="hd-install-opts-es.htm#usb-hd">Instalando en un USB-DD</a></li>
 				<li><a href="hd-install-opts-es.htm#qemu">Instalando a trav&eacute;s de QEMU</a></li>
@@ -196,6 +198,27 @@ exit
 (y ahora el consola debe cerrar)
 </pre>
 	</div>
+<!--	<div class="divider" id="unionfs">
+		<h2>unionfs - o como instalar software en modo vivo</h2>
+		<p>unionfs es una plantilla de un sistema de archivos lo cual hace posible el uso de apt-get para instalar interpretes para nvidia o radeon mientras en modo vivo con el LiveCD. Los scripts de sidux para nvidia/radeon detecta el modo vivo y activa el "unionfs" si es requerido. Para activar unionfs al arranque, tipear este cheatcode al arranque en la l&iacute;nea de comandos de Grub:</p>
+
+<pre>unionfs</pre>
+
+		<p>utilizando este cheatcode, los cambios a los archivos ser&aacute;n almacenada en /tmp/unionfs (lo cual sera perdido al apagar el computador).</p>
+
+		<p>Si no usas el cheatcode al inicio, todav&iacute;a puede activar unionfs en modo vivo al abrir una consola y ejecutando fix-unionfs:</p>
+
+<pre>sidux@0[sidux]$ sudo su
+fix-unionfs
+Activando Unionfs ahora.</pre>
+
+		<p>Ahora, puede instalar software adicional con el uso de apt-get:</p>
+
+<pre >idux@0[sidux]$ sudo
+root@0[sidux]# apt-get update
+<i>(...)</i>
+root@0[sidux]# apt-get install kdegames</pre>
+-->	
 <div class="divider" id="live-cd-installsoft">
 					<h2>Installing software whilst on a Live-CD</h2>
 <pre>
@@ -204,6 +227,39 @@ apt-get install your-preferred-package
 </pre>
 					<p>Note: when you power off the Live-CD, no changes will be kept</p>
 	</div>
+	<div class="divider" id="live-cd-perm-store">
+
+					<h2>Storing permanent changes to a HD using the Live-cd</h2>
+						<h4>Permanent $HOME</h4>
+<pre>
+home  /dev/sda1/sidux.img  mount loopback file as /home/sidux
+</pre>
+					<h4> unionrw</h4>
+
+<pre >unionrw</pre> 
+     <p>y</p> 
+<pre >unionro</pre> 
+			<p>la primera puede ser creado con este cheatcode:</p>
+
+<pre >unionrw</pre>
+
+		<p>El cheatcode, unionrw, puede ser usada en varias maneras:</p>
+
+	<ol>
+		<li>Apuntar a una partici&oacute;n en el disco duro</li>
+		<li>Apuntar a un archivo loopback (como un archivo loopback de ext2)</li>
+		<li>Apuntar a un directorio</li>
+	</ol>
+
+		<p>Las dos maneras funciona para almacenar cambios permanente en un disco designado -si siempre usa el mismo cheatcode, puede tener selecciones al gusto de programas en un lugar dado por el usuario. Este no se almacena en /home directamente, tienes que usar el cheatcode "home" para eso.</p>
+
+				<h4> unionro</h4>
+		
+<pre >unionro</pre>
+
+		<p>Este es b&aacute;sicamente como el unionrw, pero no puede sobre-escribir archivos en el lugar donde hab&iacute;an almacenado; sin embargo, puede combinar los cheatcodes para un nuevo unionrw y el unionro. No todo se encuentro este &uacute;til, pero recuerdo, todo esto es experimental, note que ninguno de estos cheatcodes est&aacute;n mencionada en el archivo de ayuda visible cuando se oprima F1 cuando inicia sidux.</p>
+
+	</div>
 	<div class="divider" id="ntfs-3g">
 		<h2>Como escribir en particiones NTFS con ntfs-3g</h2>
 
@@ -211,6 +267,7 @@ apt-get install your-preferred-package
 
 		<p>Abrir una consola y entra los siguientes comandos: Ver <a href="part-cfdisk-es.htm" >Particionando el DD - Nombramiento del Disco</a></p>
 <pre >su
+fix-unionfs
 umount /dev/XdXX
 umount /media/xdxx
 mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
@@ -218,8 +275,7 @@ Para salir de la consola, tipea: exit
 </pre>
 
 		<p>Ahora, el volumen NTFS debe ser montado <b>rw</b> (leer/escribir) y debe ser posible de escribir datos en el. &#161;Pero, una vez m&aacute;s, Precauci&oacute;n! <span class="highlight-2">experimental!</span></p>
-
-	<div id="rev">Content last revised 08/05/2007 0500 UTC</div>
+		<p>Contenido modificado el 25/03/2007 1500 UTC</p>
 
 
 </div>

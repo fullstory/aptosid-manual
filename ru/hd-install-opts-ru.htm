@@ -12,8 +12,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.6-2007-05-08 ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 08/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 t0 0.1-05-05-2007 ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
@@ -49,6 +49,7 @@
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-ru.htm#rootpw">Пароль суперпользователи на sidux-Live-CD</a></li>
 				<li><a href="live-mode-ru.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-ru.htm#live-cd-perm-store">Storing permanent changes to a HD using the Live-CD</a></li>
 				<li><a href="live-mode-ru.htm#ntfs-3g">Запись на NTFS раздел с помошью ntfs-3g в режиме Live-CD</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-ru.htm#Inst-prep">Подготовка установки</a></li>
 				<li><a href="hd-install-ru.htm#Installation">Установка на жесткий диск</a></li>
 				<li><a href="hd-install-ru.htm#first-hd-boot">Первоначальная загрузка с жесткого диска</a></li>
+				<li><a href="hd-install-opts-ru.htm#perst-home">Постоянный каталог /home</a></li>
 				<li><a href="hd-install-opts-ru.htm#fromiso">Загрузка с ISO-образа 'fromiso'</a></li>
 				<li><a href="hd-install-opts-ru.htm#usb-hd">Инсталяция на жесткий диск с УСБ-приводом</a></li>
 				<li><a href="hd-install-opts-ru.htm#qemu">Установка sidux через qemu</a></li>
@@ -155,8 +157,43 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+	<div class="divider" id="perst-home">
+		<h2 id="top-header">Создание постоянного каталога /home к использованию с LiveCD</h2>
+
+		<p  class="highlight-2">Для нормального употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
+
+		<p>С помощью sidux&nbsp;LiveCD можно установить постоянный каталог $HOME для сохранения конфигурации, пользовательских данных и дополнительно инсталлируемых пакетов.</p>
+
+		<p>Имеются 2 пути, чтобы использовать LiveCD:<br /></p>
+		<p>1) Из дисковода CD-/DVD, или <br /> 2) Поместить ISO-файл на жесткий диск и использовать это оттуда <span class="highlight-1">Больше o: <a href="hd-install-opts-ru.htm#fromiso">"fromiso"</a>.</span></p>
+
+		<p>Метод 2 (ISO-файл на жестком диске) несравненно быстрее и имеет своё преимущество в том, что дисковод свободен.</p>
+
+		<p>Постоянный каталог $HOME может сохраняться на персональном компьютере, но также и на USB-Stick.</p>
+
+		<p>Теперь грузятся с LiveCD или с инсталлированного fromiso-ISO и скрипт стартует генерацию файла конфигурации (config.tbz), который сохраняется на жестком диске или USB-Stick.</p>
+		<pre>sidux-Меню - Конфигурация - &nbsp;Сохранение конфигураций</pre>
+
+		<p>Затем Вы создаёте файл имиджа для каталога home:</p>
+		<pre>Ме­ню sidux &gt; &nbsp;Конфигурация &gt; Постоянный sidux-Homе каталог создать</pre>
+
+
+		<p>Места нужно выбираться достаточно много, для будущих потребностей. Потом закладывается в каталоге home пользователя sidux пустая папка с обозначением unionfs: /home/sidux/unionfs. Это делают с Konqueror, или посредством консоли или другой программой выбора.</p>
+
+		<p>В заключение к этому перезагружаются поновому и в загрузичном дисплее Grub&nbsp;вводят следующий код обмана:</p>
+
+<pre>myconfig=scan home=scan unionrw=/home/sidux/unionfs</pre>
+
+		<p>Теперь компьютер&nbsp;готов для инсталляции дополнительного программного обеспечения в новый каталог home на жестком диске или USB-Stick. Это делается как обычно с обыкновенными шагами:</p>
+
+<pre>#sux
+#apt-get update
+#apt-get install paketname</pre>
+
+		<p>После следующего процесса загрузки стоят с вводом данных <span class="highlight-3">myconfig=scan home=scan unionrw=/home/sidux/unionfs</span> в командную строку GRUB установленные программы в распоряжение.</p>
+	</div>
 	<div class="divider" id="fromiso">
-		<h2 id="top-header">Загрузка с "fromiso"</h2>
+		<h2>Загрузка с "fromiso"</h2>
 
 		<p>Для нормального употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
 		
@@ -167,18 +204,18 @@
 		<h5>Предпосылки:</h5>
 
 		<p>* функционирующая установка с Grub (на Floppy, установке на жестком диске или LiveCD)<br /> 
-		* ISO-образ, например, sidux.iso, and a linux file system like ext2/3<br />
-		* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
+		* ISO-образ, например, sidux.ISO, and a linux file system like ext2/3<br />
+		* If you rename your image to sidux.iso you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
 		<p>Сначала мы ищем место для файла ISO Чтобы получить короткие спецификации пути, мы создаем базовый каталог по имени sidux, например, на /dev/hda5, и копируем ISO внутрь:</p>
 
 <pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
+# mv sidux.ISO /media/hda5/sidux</pre>
 
 		<p>Мы подсоединяем ISO:</p>
 
 <pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
+# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.ISO /mnt/test</pre>
 
 		<p>Мы копируем файлы miniroot.gz и vmlinuz из подсоединённого ISO:</p>
 
@@ -189,7 +226,7 @@
 
 <pre>### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz ramdisk_size=100000 init=/etc/init fromiso=/sidux/sidux.iso noprompt noeject lang=de apm=power-off nomce quiet vga=791
+kernel (hd0,4)/sidux/vmlinuz ramdisk_size=100000 init=/etc/init fromiso=/sidux/*.ISO noprompt noeject lang=de apm=power-off nomce quiet vga=791
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>При следующей загрузке новый выбор появляется в меню Grub: "sidux 32bit fromISO".</p>
@@ -326,7 +363,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено UTC 08/05/2007 0600 hrs UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено UTC 04/02/2007 2247hrs UTC</div>
 </div>
 </div>
 </body>

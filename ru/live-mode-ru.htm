@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.6-2007-05-08 ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 08/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 t0 0.1-05-05-2007 ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
@@ -49,6 +49,7 @@
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-ru.htm#rootpw">Пароль суперпользователи на sidux-Live-CD</a></li>
 				<li><a href="live-mode-ru.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-ru.htm#live-cd-perm-store">Storing permanent changes to a HD using the Live-CD</a></li>
 				<li><a href="live-mode-ru.htm#ntfs-3g">Запись на NTFS раздел с помошью ntfs-3g в режиме Live-CD</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-ru.htm#Inst-prep">Подготовка установки</a></li>
 				<li><a href="hd-install-ru.htm#Installation">Установка на жесткий диск</a></li>
 				<li><a href="hd-install-ru.htm#first-hd-boot">Первоначальная загрузка с жесткого диска</a></li>
+				<li><a href="hd-install-opts-ru.htm#perst-home">Постоянный каталог /home</a></li>
 				<li><a href="hd-install-opts-ru.htm#fromiso">Загрузка с ISO-образа 'fromiso'</a></li>
 				<li><a href="hd-install-opts-ru.htm#usb-hd">Инсталяция на жесткий диск с УСБ-приводом</a></li>
 				<li><a href="hd-install-opts-ru.htm#qemu">Установка sidux через qemu</a></li>
@@ -198,7 +200,32 @@ exit
 exit
 (вместе с этим терминал должен&nbsp;закрыться)
 </pre>
+	
 
+<!--	<div class="divider" id="unionfs">
+		<h2>Unionfs - программное обеспечение устанавливают в Live режиме</h2>
+
+		<p>Unionfs производит перекрывающую файловую систему в оперативной памяти. Это позволяет в Live режиме использовать apt-get или устанавливать Nvidia/Radeon модулы sidux' Nvidia/Radeon скрипты автоматически активируют Unionfs в Live режиме. Иначе активируют Unionfs с Cheatcode в командной строке загрузки. Это добавляют &nbsp;к строке:</p>
+
+<pre>unionfs</pre>
+
+		<p>С этим Cheatcode изменения файлов сохраняются в <span class="highglight-3">/tmp/unionfs</span>, 
+однако они пропадают, после завершения сеанса.</p>
+
+		<p>Если не использовали Unionfs-Cheatcode при Загрузке, его можно также активировать во время Live сеанса в консоли:</p>
+
+<pre>sidux@0[sidux]$ sudo su
+fix-unionfs
+activating Unionfs now.</pre>
+
+		<p>Теперь с apt-get можно устанавливать, например, дополнительное программное обеспечение:</p>
+
+<pre>sidux@9[sidux]$ sudo
+root@0[sidux]# apt-get update
+<i>(...)</i>
+root@0[sidux]# apt-get install kdegames</pre>
+	</div>
+-->
 	<div class="divider" id="live-cd-installsoft">
 					<h2>Installing software whilst on a Live-CD</h2>
 <pre>
@@ -207,7 +234,32 @@ apt-get install your-preferred-package
 </pre>
 					<p>Note: when you power off the Live-CD, no changes will be kept</p>
 	</div>
+	<div class="divider" id="live-cd-perm-store">
 
+					<h2>Storing permanent changes to a HD using the Live-cd</h2>
+						<h4>Permanent $HOME</h4>
+<pre>
+home  /dev/sda1/sidux.img  mount loopback file as /home/sidux
+</pre>
+					<h4> unionrw</h4>
+<pre>unionrw</pre>
+		<p>Команда unionrw может использоваться разными способами:</p>
+
+		<ol>
+			<li>указывают на раздел на жестком диске</li>
+			<li>указывают на loop файл, как ext2 файл loopback</li>
+			<li>указывают на директорию</li>
+		</ol>
+
+		<p>Все эти 3 пути позволяют делать постоянные изменения и их сохранять. Если используют тот же Cheatcode, то можно снова иметь в распоряжении свой собственный набор программ. Каталог дома <span class="highlight-3">/home</span> при этом, однако не сохраняется, для этого нужно использовать <i>home</i>-Cheat.</p>
+
+		<p>Теперь к другой упомянутой возможности:</p>
+
+		<pre>unionro</pre>
+
+		<p>Это является в принципе похоже на unionrw, производит, однако, read-only доступ на уже раньше установленные модификации. Также unionro может применяться вместе с новым unionrw-Cheat. Внимание: Эти Cheats являются экспериментальными, и никакой из них не упоминается в помощи загрузки sidux.</p>
+
+	</div>
 	<div class="divider" id="ntfs-3g">
 		<h2>Разделы NTFS с ntfs-3g делают фиксирующимися</h2>
 
@@ -215,13 +267,14 @@ apt-get install your-preferred-package
 
 		<p>В консоль вводят следующее: <i>Смотрите <a href="part-cfdisk-ru.htm" >разбиение жесткого диска</a>, для выяснения наименования разделов жесткого диска в Linux.</i></p>
 
-<pre>sidux@9[sidux]$ su
+		<pre>sidux@9[sidux]$ su
+root@0[sidux]# fix-unionfs
 root@0[sidux]# umount /dev/XdXX
 root@0[sidux]# mount -o silent,umask=0,no_def_opts,allow_other -t ntfs-3g /dev/XdXX /media/XdXX</pre>
 
 		<p>Теперь NTFS-Volume должен &nbsp;быть присоединен <b>с письменным доступом</b>, и данные могут быть там сохранены. И еще раз наше предупреждение: <i>этот образ действия классифицирован как экспериментальный!!</i>!</p>
 	</div>
-	<div id="rev">Content last revised UTC 08/05/2007 0600hrs UTC </div>
+	<div id="rev">Content last revised UTC 11/01/2007 0200hrs UTC </div>
 </div>
 </div>
 </body>

@@ -12,8 +12,8 @@
 </head>
 <body id="live-mode">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.6-2007-05-08 en lang maintainer bluewater-->
-<!-- menu last updated by bluewater 08/05/2007 1700rs AEST 05/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.1-05-05-2007 dk lang maintainer bluewater-->
+<!-- menu last updated by bluewater 05/05/2007 1100rs AEST 05/05/2007 0100hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
@@ -49,6 +49,7 @@
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-dk.htm#rootpw">Root-password p&#229; sidux-LiveCD'en?</a></li>
 				<li><a href="live-mode-dk.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-dk.htm#live-cd-perm-store">Storing permanent changes to a HD using the Live-CD</a></li>
 				<li><a href="live-mode-dk.htm#ntfs-3g">Skriv til NTFS-partitioner med ntfs-3g</a></li>
 			</ul>
 		</li>
@@ -80,6 +81,7 @@
 				<li><a href="hd-install-dk.htm#Inst-prep">Installations forberedelser</a></li>
 				<li><a href="hd-install-dk.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-dk.htm#first-hd-boot">F&#248;rste opstart</a></li>
+				<li><a href="hd-install-opts-dk.htm#perst-home">Permanent /Home mappe</a></li>
 				<li><a href="hd-install-opts-dk.htm#fromiso">Opstart 'fromiso'</a></li>
 				<li><a href="hd-install-opts-dk.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-dk.htm#qemu">Installering med QEMU</a></li>
@@ -196,7 +198,28 @@ exit
 (herefter skulle konsollen lukke ned)
 </pre>
 	</div>
+<!--	<div class="divider" id="unionfs">
+		<h2>Unionfs - eller hvordan du installerer software i Live-mode</h2>
+		<p>Unionfs er et 'overlay' filsystem der gør det muligt at anvende apt-get eller installere nvidia eller radeon drivere i en Live-CD session. sidux's nvidia/radeon scripts detekterer live-mode og aktiverer unionfs hvis det er nødvendigt. For at aktivere unionfs fra opstarten skal du blot bruge denne cheatcode i bootmanageren GRUB's kommandolinie:</p>
 
+<pre >unionfs</pre>
+
+		<p>Denne cheatcode bevirker at filændringer bliver gemt i /tmp/unionfs (og vil blive tabt ved nedlukning af maskinen).</p>
+
+		<p>Hvis du ikke har anvendt cheatcode ved opstarten kan du stadig aktivere unionfs i live mode ved at åbne en konsol og starte fix-unionfs:</p>
+
+<pre >sidux@0[sidux]$ sudo su
+fix-unionfs
+Activating Unionfs now.</pre>
+
+		<p>Nu kan du anvende apt-get til at installere yderligere software, for eksempel:</p>
+
+<pre >sidux@0[sidux]$ sudo
+root@0[sidux]# apt-get update
+<i>(...)</i>
+root@0[sidux]# apt-get install kdegames</pre>
+	</div>
+-->
 	<div class="divider" id="live-cd-installsoft">
 					<h2>Installing software whilst on a Live-CD</h2>
 <pre>
@@ -205,6 +228,38 @@ apt-get install your-preferred-package
 </pre>
 					<p>Note: when you power off the Live-CD, no changes will be kept</p>
 	</div>
+	<div class="divider" id="live-cd-perm-store">
+
+					<h2>Storing permanent changes to a HD using the Live-cd</h2>
+						<h4>Permanent $HOME</h4>
+<pre>
+home  /dev/sda1/sidux.img  mount loopback file as /home/sidux
+</pre>
+					<h4> unionrw</h4>
+<pre >unionrw</pre> 
+			<p>og</p>
+<pre >unionro</pre>. 
+			<p>Den første kan startes som cheatcode:</p>
+
+<pre >unionrw</pre>
+
+		<p>'unionrw cheat' kan bruges på flere måder:</p>
+
+	<ol>
+		<li>Henvise til en harddisk partition</li>
+		<li>Henvise til en loop file (for eksempel en ext2 loopback fil)</li>
+		<li>Henvise til en mappe</li>
+	</ol>
+
+		<p>Alle tre metoder fungerer til permanent at gemme ændringer til et designeret drev - hvis du altid bruger den samme cheatcode kan du have dit personlige program udvalg på det af brugeren angivne sted. Dette gemmer ikke /home direkte, hertil skal du bruge 'home cheat'.</p>
+
+				<h4> unionro</h4>
+
+<pre >unionro</pre>
+
+		<p>Stort set det samme som unionrw, men du er ikke i stand til at overskrive filerne (read-only). Men du kan kombinere unionro med en ny unionrw cheatcode samtidig. Men husk at dette er eksperimentiel software og ingen af disse cheatcodes kan finde i sidux-boothjælp menuen (tryk F1 når sidux booter).</p>
+
+	</div>
 	<div class="divider" id="ntfs-3g">
 		<h2>Skriv til NTFS-partitioner med ntfs-3g</h2>
 
@@ -212,6 +267,7 @@ apt-get install your-preferred-package
 
 		<p>Åbn en konsol og skriv følgende kommando: Se <a href="part-cfdisk-dk.htm" >Partitionering af harddiske - IUUD, partitionsbetegnelser og fstab</a></p>
 <pre >su
+<!--fix-unionfs -->
 apt-get update &amp;&amp; apt-get install ntfs-3g
 umount /media/xdxx
 mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx

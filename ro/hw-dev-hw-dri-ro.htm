@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.8-2007-05-12 ro lang maintainer ladepa-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.10-2007-05-16 ro lang maintainer ladepa-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Inapoi la meniul principal sidux</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-ro.htm#welcome-gen">Manual Oficial </a></li>
 				<li><a href="welcome-ro.htm#how-to">Folosirea acestui manual</a></li>
+				<li><a href="welcome-ro.htm#table-contents">Index</a></li>
 				<li><a href="help-ro.htm#help-gen">De unde primiti ajutor</a></li>
 				<li><a href="credits-ro.htm#cred-team">Credits</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-ro.htm#partition">Partitionarea Hard Discului folosind GParted</a></li>
 				<li><a href="part-gparted-ro.htm#ntfs">Redimensionarea partitiilor NTFS folosind GParted</a></li>
+				<li><a href="part-uuid-ro.htm#uuid">Re-Building fstab</a></li>
 				<li><a href="part-uuid-ro.htm#uuid">UUID, Etichetarea Partitiilor si fstab</a></li>
 				<li><a href="part-cfdisk-ro.htm#partition">Partitionarea Hard discului folosind cfdisk</a></li>
 				<li><a href="part-cfdisk-ro.htm#formating">Formatarea dupa partitionarea cu cfdisk</a></li>
@@ -464,7 +466,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
  			<ul>
 				<li>
-					Placile ATi Radeon : acceleratia 3d  pentru placile mai vechi de pana la  r35x ar trebui sa functioneze , mai noile placi Radeon X1xxx necesita drivere non-free pentru accelerarea performantelor , asa ca va rugam  folositi <span class= "highlight-3">get-sidux-binary-gfx</span> pentru scripturile de instalare ale acestor placi.
+					ATi Radeon graphics: 3d acceleration for older cards up to r35x should work, newer Radeon X1xxx cards need non-free drivers for accelerated performance which are not yet compatible with X.org 7.2.
 				</li>
 				<li>
 					Atheros/ "madwifi" wlan :
@@ -479,10 +481,7 @@ apt-get install atmel-firmware
 </pre>
 				</li>
 				<li>
-					Placile AVM ISDN/ ADSL PCI/ USB : AVM's closed source driver nu sunt compatibile inca cu kernelul 2.6.19.x , va rugam descarcati kernelul 2.6.18.x (<a href="http://sidux.net/files/kernel/">http://sidux.net/files/kernel</a>) deocamdata si folositi
-<pre>
- m-a a-i avm.
-</pre>
+					AVM ISDN/ ADSL PCI/ USB cards: AVM's closed source drivers are not compatible with kernel 2.6.21 yet.
 				</li>
 				<li>
 					Broadcom/ bcm43xx wlan :
@@ -497,18 +496,29 @@ apt-get install bcm43xx-fwcutter.
 					DVB firmwares pentru diferite placi DVB TV  (cele mai multe placi budget nu vor avea nevoie): gasiti la  (verificati dmesg) : <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> si plasati-le in  /lib/firmware/
 				</li>
 				<li>
-					hostap based 11 MBit/s wlan with loadable firmware (e.g. D-Link DWL-520 rev. E1 and others): <a href="http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html">http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html</a>
-				</li>
-				<li>
-					Intel ipw2100, 11 MBit/s wlan: vedeti la  <a href="http://ipw2100.sf.net/">http://ipw2100.sf.net/</a> si plasati in  /lib/firmware/
-				</li>
-				<li>
-					Intel ipw2200, 54 MBit/s wlan: luati de la  <a href="http://ipw2200.sf.net/">http://ipw2200.sf.net</a> si plasati in  /lib/firmware/.
-				</li>
-				<li>
-					Intel ipw3945, 54 Mbit/s wlan:
+					Intel ipw2100, 11 MBit/s wlan: 
 <pre>
+apt-get install ipw2100-firmware
+</pre>
+				</li>
+				<li>
+					Intel ipw2200, 54 MBit/s wlan: 
+<pre>
+apt-get install ipw2200-firmware
+</pre>
+				</li>
+				<li>
+				Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:
+<pre>
+apt-get install iwlwifi-ucode
+</pre>
+			You can activate the old non-free driver, if iwlwifi creates problems:
+<pre>
+apt-get update
 apt-get install ipw3945d firmware-ipw3945
+update-rc.d ipw3945d start 39 S . start 36 0 6
+LANG= m-a a-i --text-mode ipw3945-source
+echo "blacklist iwlwifi" > /etc/modprobe.d/mac80211
 </pre>
 				</li>
 				<li>
@@ -518,7 +528,10 @@ apt-get install ipw3945d firmware-ipw3945
 					Placile nVidia : acceleratia  3d nu este posibila inca cu driverele free , va rugam folositi <span class= "highlight-3">get-sidux-binary-gfx</span> pentru a lua scripturile de instalare a acestor placi .
 				</li>
 				<li>
-					RaLink rt61 54 MBit/s wlan, luati de la  <a href="http://www.ralinktech.com/ralink/Home/Support/Linux.html">http://www.ralinktech.com/ralink/Home/Support/Linux.html</a>
+					RaLink rt61 54 MBit/s wlan,:
+<pre>
+apt-get install rt61-fwcutter
+</pre>
 				</li>
 				<li>
 					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan , de la  <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> si plasati in  /lib/firmware/.
@@ -526,11 +539,14 @@ apt-get install ipw3945d firmware-ipw3945
 				<li>
 					ZyDAS zd1201 11 MBit/s wlan:
 <pre>
- apt-get install zd1201-firmware
+apt-get install zd1201-firmware
 </pre>
 				</li>
 				<li>
-					ZyDAS zd1211 54 MBit/s wlan: descarcati firmware de la  <a href="http://sourceforge.net/project/showfiles.php?group_id=129083">http://sourceforge.net/project/showfiles.php?group_id=129083</a> si plasati in  /lib/firmware/.
+					ZyDAS zd1211 54 MBit/s wlan:
+<pre>
+apt-get install zd1211-firmware
+</pre>
 				</li>
 			</ul>
    					<p>Vom verifica sa vedem daca putem asigura pachete macar pentru unele dintre aceste dispozitive , dar demersurile legale nu sunt intotdeauna usoare.</p>

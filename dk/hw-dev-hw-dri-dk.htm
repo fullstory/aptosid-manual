@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.8-2007-05-12 dk lang maintainer bluewater-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.10-2007-05-16 dk lang maintainer bluewater-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Tilbage til sidux hovedmenu</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-dk.htm#welcome-gen">Officiel Manual</a></li>
 				<li><a href="welcome-dk.htm#how-to">Anvendelse af manualen</a></li>
+				<li><a href="welcome-dk.htm#table-contents">Index</a></li>
 				<li><a href="help-dk.htm#help-gen">Hvor finder du hj&#230;lp</a></li>
 				<li><a href="credits-dk.htm#cred-team">Tak til</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-dk.htm#partition">Partitioner harddiske med GParted</a></li>
 				<li><a href="part-gparted-dk.htm#ntfs">&#198;ndre st&#248;rrelse p&#229; NTFS partitioner med GParted</a></li>
+				<li><a href="part-uuid-dk.htm#uuid">Re-Building  fstab</a></li>
 				<li><a href="part-uuid-dk.htm#uuid">UUID, Partitions betegndlser og fstab</a></li>
 				<li><a href="part-cfdisk-dk.htm#partition">Partitioner harddiske med cfdisk</a></li>
 				<li><a href="part-cfdisk-dk.htm#formating">Formater partitioner efter partitionering med cfdisk</a></li>
@@ -462,7 +464,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 			<ul>
 				<li>
-					ATi Radeon graphics: 3d acceleration for ældre kort op til r35x burde virke, nyere Radeon X1xxx kort har brug for non-free drivere for accelereret ydelse, anvend <span class= "highlight-3">get-sidux-binary-gfx</span> for et hente installations scripts til disse kort
+					ATi Radeon graphics: 3d acceleration for older cards up to r35x should work, newer Radeon X1xxx cards need non-free drivers for accelerated performance which are not yet compatible with X.org 7.2.
 				</li>
 				<li>
 					Atheros/ "madwifi" wlan:
@@ -477,10 +479,7 @@ apt-get install atmel-firmware
 </pre>
 				</li>
 				<li>
-					AVM ISDN/ ADSL PCI/ USB Kort: AVM's closed source driver er ikke kompatible med kernel 2.6.19.x endnu, anvend venligst kernel 2.6.18.x (<a href="http://sidux.net/files/kernel/">http://sidux.net/files/kernel</a>) indtil videre og brug
-<pre>
- m-a a-i avm.
-</pre>
+					AVM ISDN/ ADSL PCI/ USB cards: AVM's closed source drivers are not compatible with kernel 2.6.21 yet.
 				</li>
 				<li>
 					Broadcom/ bcm43xx wlan:
@@ -495,18 +494,29 @@ apt-get install bcm43xx-fwcutter.
 					DVB firmwares for flere forskellige full featured DVB TV kort (de fleste lavpriskort kræver ikke dette): hent firmeware (check dmesg) fra <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> og placer den under /lib/firmware/.
 				</li>
 				<li>
-					hostap baserede 11 MBit/s wlan med indlæsbar firmware (e.g. D-Link DWL-520 rev. E1 og andre): <a href="http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html">http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html</a>
-				</li>
-				<li>
-					Intel ipw2100, 11 MBit/s wlan: hent firmware fra <a href="http://ipw2100.sf.net/">http://ipw2100.sf.net/</a> og placer den under /lib/firmware/.
-				</li>
-				<li>
-					Intel ipw2200, 54 MBit/s wlan: hent firmware fra <a href="http://ipw2200.sf.net/"></a> og placer den under /lib/firmware/.
-				</li>
-				<li>
-					Intel ipw3945, 54 Mbit/s wlan:
+					Intel ipw2100, 11 MBit/s wlan: 
 <pre>
+apt-get install ipw2100-firmware
+</pre>
+				</li>
+				<li>
+					Intel ipw2200, 54 MBit/s wlan: 
+<pre>
+apt-get install ipw2200-firmware
+</pre>
+				</li>
+				<li>
+				Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:
+<pre>
+apt-get install iwlwifi-ucode
+</pre>
+			You can activate the old non-free driver, if iwlwifi creates problems:
+<pre>
+apt-get update
 apt-get install ipw3945d firmware-ipw3945
+update-rc.d ipw3945d start 39 S . start 36 0 6
+LANG= m-a a-i --text-mode ipw3945-source
+echo "blacklist iwlwifi" > /etc/modprobe.d/mac80211
 </pre>
 				</li>
 				<li>
@@ -516,7 +526,10 @@ apt-get install ipw3945d firmware-ipw3945
 					nVidia graphics: 3d acceleration er endnu ikke muligt med de frie drivere, anvend <span class= "highlight-3">get-sidux-binary-gfx</span> for at hente installations script for disse kort (virker muligvis ikke i alle tilfælde med kernel 2.6.20 endnu, 2.6.19.x kernels er stadig tilgængelige på vores servere).
 				</li>
 				<li>
-					RaLink rt61 54 MBit/s wlan, hent firmware fra <a href="http://www.ralinktech.com/ralink/Home/Support/Linux.html">http://www.ralinktech.com/ralink/Home/Support/Linux.html</a>
+					RaLink rt61 54 MBit/s wlan,:
+<pre>
+apt-get install rt61-fwcutter
+</pre>
 				</li>
 				<li>
 					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan, hent firmware fra <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> og placer den under /lib/firmware/.
@@ -524,11 +537,14 @@ apt-get install ipw3945d firmware-ipw3945
 				<li>
 					ZyDAS zd1201 11 MBit/s wlan:
 <pre>
- apt-get install zd1201-firmware
+apt-get install zd1201-firmware
 </pre>
 				</li>
 				<li>
-					ZyDAS zd1211 54 MBit/s wlan: hent firmware fra <a href="http://sourceforge.net/project/showfiles.php?group_id=129083">http://sourceforge.net/project/showfiles.php?group_id=129083</a> og placer den under /lib/firmware/.
+					ZyDAS zd1211 54 MBit/s wlan:
+<pre>
+apt-get install zd1211-firmware
+</pre>
 				</li>
 			</ul>
    				<p>Vi undersøger om vi kan tilbyde pakker for i det mindste nogle af disse enheder, men den juridiske situation komplicerer dette.</p>

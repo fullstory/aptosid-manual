@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.8-2007-05-12 nl lang maintainer eislon zerby harzG-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.10-2007-05-16 nl lang maintainer eislon zerby harzG-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-nl.htm#welcome-gen">Officiele Handleiding</a></li>
 				<li><a href="welcome-nl.htm#how-to">Hoe gebruik ik deze handleiding</a></li>
+				<li><a href="welcome-nl.htm#table-contents">Index</a></li>
 				<li><a href="help-nl.htm#help-gen">Waar kan ik hulp krijgen</a></li>
 				<li><a href="credits-nl.htm#cred-team">Credits</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-nl.htm#partition">Partitioneren van je HD dmv GParted</a></li>
 				<li><a href="part-gparted-nl.htm#ntfs">NTFS partitie vergroten/verkleinen mbv GParted</a></li>
+				<li><a href="part-uuid-nl.htm#uuid">Re-Building  fstab</a></li>
 				<li><a href="part-uuid-nl.htm#uuid">UUID, Partitie Labelling en fstab</a></li>
 				<li><a href="part-cfdisk-nl.htm#partition">Partitioneren van je HD dmv cfdisk</a></li>
 				<li><a href="part-cfdisk-nl.htm#formating">Formatteren na partitioneren mbv cfdisk</a></li>
@@ -465,7 +467,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 			<ul>
 				<li>
-					ATi Radeon graphics: De 3d versnelling voor oudere kaarten tot r35x kan gewoon werken, alleen de nieuwere Radeon X1xxx kaarten hebben non-free drivers nodig. <span class="highlight-1">De non-free driver kan met het sidux script <a href="../de/hw-dev-hw-dri-de.htm#ati-3d">get-sidux-binary-gfx</a> ge&#239;nstalliert worden.</span>.
+					ATi Radeon graphics: 3d acceleration for older cards up to r35x should work, newer Radeon X1xxx cards need non-free drivers for accelerated performance which are not yet compatible with X.org 7.2.
 				</li>
 				<li>
 					Atheros/ "madwifi" wlan:
@@ -480,10 +482,7 @@ apt-get install atmel-firmware
 </pre>
 				</li>
 				<li>
-					AVM ISDN/ ADSL PCI/ USB kaarten: AVM's closed source driver zijn niet compatibel met de kernel 2.6.19.x op dit moment, download de kernel 2.6.18.x (<a href="http://sidux.net/files/kernel/">http://sidux.net/files/kernel</a>) als tussentijdse oplossing en gebruik:
-<pre>
- m-a a-i avm.
-</pre>
+					AVM ISDN/ ADSL PCI/ USB cards: AVM's closed source drivers are not compatible with kernel 2.6.21 yet.
 				</li>
 				<li>
 					Broadcom/ bcm43xx wlan:
@@ -498,18 +497,29 @@ apt-get install bcm43xx-fwcutter.
 					DVB firmware voor verschillende DVB TV kaarten (de meeste budget cards hebben dat niet nodig): download de nodige firmeware (controleer dmesg) via <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> en plaats het onder /lib/firmware/.
 				</li>
 				<li>
-					hostap based 11 MBit/s wlan met beschikbare firmware (D-Link DWL-520 rev. E1 en andere): <a href="http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html">http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html</a>
-				</li>
-				<li>
-					Intel ipw2100, 11 MBit/s wlan: download de nodige firmeware <a href="http://ipw2100.sf.net/">http://ipw2100.sf.net/</a> en plaats het onder /lib/firmware/.
-				</li>
-				<li>
-					Intel ipw2200, 54 MBit/s wlan: download de nodige firmeware <a href="http://ipw2200.sf.net/">>http://ipw2200.sf.net/</a> en plaats het onder  /lib/firmware/.
-				</li>
-				<li>
-					Intel ipw3945, 54 Mbit/s wlan:
+					Intel ipw2100, 11 MBit/s wlan: 
 <pre>
+apt-get install ipw2100-firmware
+</pre>
+				</li>
+				<li>
+					Intel ipw2200, 54 MBit/s wlan: 
+<pre>
+apt-get install ipw2200-firmware
+</pre>
+				</li>
+				<li>
+				Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:
+<pre>
+apt-get install iwlwifi-ucode
+</pre>
+			You can activate the old non-free driver, if iwlwifi creates problems:
+<pre>
+apt-get update
 apt-get install ipw3945d firmware-ipw3945
+update-rc.d ipw3945d start 39 S . start 36 0 6
+LANG= m-a a-i --text-mode ipw3945-source
+echo "blacklist iwlwifi" > /etc/modprobe.d/mac80211
 </pre>
 				</li>
 				<li>
@@ -519,7 +529,10 @@ apt-get install ipw3945d firmware-ipw3945
 					nVidia graphics: 3d acceleration is niet beschikbaar met free drivers op dit moment, gebruik a.u.b. <span class= "highlight-3">get-sidux-binary-gfx</span> en gebruik scripts voor deze kaarten (het zou kunnen dat het niet in alle gevallen werkt met kernel 2.6.20, maar 2.6.19.x kernels zijn nog beschikbaar op onze servers).
 				</li>
 				<li>
-					RaLink rt61 54 MBit/s wlan, download de nodige firmeware <a href="http://www.ralinktech.com/ralink/Home/Support/Linux.html">http://www.ralinktech.com/ralink/Home/Support/Linux.html</a>
+					RaLink rt61 54 MBit/s wlan,:
+<pre>
+apt-get install rt61-fwcutter
+</pre>
 				</li>
 				<li>
 					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan, download de nodige firmeware <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2></a> en plaats het onder /lib/firmware/.
@@ -527,11 +540,14 @@ apt-get install ipw3945d firmware-ipw3945
 				<li>
 					ZyDAS zd1201 11 MBit/s wlan:
 <pre>
- apt-get install zd1201-firmware
+apt-get install zd1201-firmware
 </pre>
 				</li>
 				<li>
-					ZyDAS zd1211 54 MBit/s wlan: download de nodige firmeware <a href="http://sourceforge.net/project/showfiles.php?group_id=129083">http://sourceforge.net/project/showfiles.php?group_id=129083</a> en plaats het onder /lib/firmware/.
+					ZyDAS zd1211 54 MBit/s wlan:
+<pre>
+apt-get install zd1211-firmware
+</pre>
 				</li>
 			</ul>
    				<p>Wij onderzoeken nog of wij sommige drivers kunnen intergeren in sidux. Helaas is de wettelijke status van deze drivers nogal ingewikkeld.</p>
@@ -552,8 +568,8 @@ To get out of the konsole type: exit
 exit
 </pre>
 			<p>Je NTFS-Volume zou nu gemount moeten zijn met <b>rw</b> permissies en je zou er nu gegevens op moeten kunnen opslaan. Maar nogmaals: wees gewaarschuwd! Het is <span class="highlight-2">experimenteel!</span></p>
-
-			<div id="rev">Content last revised UTC 21/04/2007 UTC 0700hrs</div>
+		</div>	
+	<div id="rev">Content last revised  13/04/2007 1000hrs UTC</div>
 </div>
 </div>
 </body>

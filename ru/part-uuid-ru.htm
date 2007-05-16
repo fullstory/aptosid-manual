@@ -12,8 +12,8 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.8-2007-05-12 ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.10-2007-05-16 ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Назад к основному меню sidux</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-ru.htm#welcome-gen">Официальное руководство</a></li>
 				<li><a href="welcome-ru.htm#how-to">Как пользоваться этим руководством?</a></li>
+				<li><a href="welcome-ru.htm#table-contents">Индекс</a></li>
 				<li><a href="help-ru.htm#help-gen">Где найти помощь?</a></li>
 				<li><a href="credits-ru.htm#cred-team">Благодарности</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-ru.htm#partition">Разделение с помошью GParted</a></li>
 				<li><a href="part-gparted-ru.htm#ntfs">Изменение размера NTFS-разделов с помощью GParted</a></li>
+				<li><a href="part-uuid-ru.htm#uuid">Re-Building  fstab</a></li>
 				<li><a href="part-uuid-ru.htm#uuid">UUID, названия жестких дисков и скрипт fstab</a></li>
 				<li><a href="part-cfdisk-ru.htm#partition">Разделение с помошью cfdisk</a></li>
 				<li><a href="part-cfdisk-ru.htm#formating">Разделение с помошью cfdisk</a></li>
@@ -156,7 +158,20 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Обзор: UUID, метка раздела и fstab</h2>
+			<h2 id="top-header">Re-building fstab</h2>
+					<p>Should  you change the partition layout on a installed system, then you will need to re-create the fstab, and this can be done automatically by running the following in a konsole as root:</p>
+<pre>
+rebuildfstab -Uawm 
+</pre>
+					<p>You may need to reboot for it to be come effective.</p>
+					<p>To see other options:</p>
+<pre>
+man rebuildfstab
+or
+rebuildfstab -h
+</pre>
+
+			<h2>Обзор: UUID, метка раздела и fstab</h2>
 				<p>Длительное наименование (persistent naming)&nbsp;блочных устройств стало возможным&nbsp;с внедрением udev&nbsp;и имеет несколько преимуществ по отношению к наименованию на базе Bus. В дальнейшем мы называем эту характеристику&nbsp;на подобии этого метода "длительный наименователь".</p>
 
 				<p>Совершенствование udev и&nbsp;Linux дистрибьютивов сделало более надежным обпознавание аппаратных средств, даже если с этим связаны&nbsp;изменения и новые испытания::<br /><br /> <b>1)</b> При наличии более чем одного контроллера SATA/SCSI или контроллера жестких магнитных дисков IDE является последовательность вовлечения устройств памяти теперь какая угодно или соответственно случайна. Это влечет за собой, что имена устройств после каждого процесса загрузки могут сколько угодно раз между hdX и hdY меняться. Наименователь содействует тому, чтобы об этом не возникали никакие&nbsp;мысли.<br /><br /> <b>2)</b> С внедрением &nbsp;новой библиотека libata поддержкой PATA будут все устройства памяти в будущем назваться с sdX, которые, до сих пор назывались hdX. Посредством persistent naming это является для&nbsp;пользователя, как правило, не дискуссионным,&nbsp;и это становится не заметным. <br /><br /> <b>3)</b>У компьютеров с SATA-и IDE контроллерами, это ходовая конфигурация современных SETUP аппаратных средств, называются все устройства памяти как sdX .</p>

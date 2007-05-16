@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.8-2007-05-12 ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual version may very on some pages from snap 39 to 0.10-2007-05-16 ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Назад к основному меню sidux</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-ru.htm#welcome-gen">Официальное руководство</a></li>
 				<li><a href="welcome-ru.htm#how-to">Как пользоваться этим руководством?</a></li>
+				<li><a href="welcome-ru.htm#table-contents">Индекс</a></li>
 				<li><a href="help-ru.htm#help-gen">Где найти помощь?</a></li>
 				<li><a href="credits-ru.htm#cred-team">Благодарности</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-ru.htm#partition">Разделение с помошью GParted</a></li>
 				<li><a href="part-gparted-ru.htm#ntfs">Изменение размера NTFS-разделов с помощью GParted</a></li>
+				<li><a href="part-uuid-ru.htm#uuid">Re-Building  fstab</a></li>
 				<li><a href="part-uuid-ru.htm#uuid">UUID, названия жестких дисков и скрипт fstab</a></li>
 				<li><a href="part-cfdisk-ru.htm#partition">Разделение с помошью cfdisk</a></li>
 				<li><a href="part-cfdisk-ru.htm#formating">Разделение с помошью cfdisk</a></li>
@@ -467,7 +469,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 			<ul>
 				<li>
-   				Графические карты ATI-Radeon: трехмерное ускорение для более старых карт до r35x должно функционировать, более новые Radeon карты X1xxx нуждаются в независимых модулях, чтобы функционировать с 3D-ускорением. <span class="highlight-1">Зависимый модуль может инсталлироваться с sidux скриптом <a href="../de/hw-dev-hw-dri-de.htm#ati-3d">get-sidux-binary-gfx</a>.</span>
+					ATi Radeon graphics: 3d acceleration for older cards up to r35x should work, newer Radeon X1xxx cards need non-free drivers for accelerated performance which are not yet compatible with X.org 7.2.
 				</li>
 				<li>
 					Atheros/ "madwifi" wlan: в консоли:
@@ -478,8 +480,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>apt-get install atmel-firmware</pre>
 				</li>
 				<li>
-					&nbsp;Карты AVM ISDN/ADSL PCI/USB: AVM драйверы закрытого исходного программного обеспечения являются с ядром 2.6.19.x сейчас не совместимы. Загружайте, пожалуйста, ядро 2.6.18,x (<a href="http://sidux.net/files/kernel/">http://sidux.net/files/kernel</a>) и в консоли инсталлируйте драйвер:
-<pre>m-a a-i avm</pre>
+					AVM ISDN/ ADSL PCI/ USB cards: AVM's closed source drivers are not compatible with kernel 2.6.21 yet.
 				</li>
 				<li>
 					Broadcom/bcm43xx wlan: в консоли:
@@ -492,17 +493,30 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 					&nbsp;Микропрограммное обеспечение DVB для различных карт телевидения DVB (большинство более простых карт не нуждаются в этом). Необходимое микропрограммное обеспечение (<span class="highlight-3">просмотреть dmesg</span>) на <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> загружают и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
 				</li>
 				<li>
-					hostap базирующийся 11-MBit/s.WLAN с загружаемым микропрограммным обеспечением (например, D-Link DWL-520 rev. E1 и другие): <a href="http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html">http://www.oakcourt.dyndns.org/~andrew/dwl520e1.html</a>
+					Intel ipw2100, 11 MBit/s wlan: 
+<pre>
+apt-get install ipw2100-firmware
+</pre>
 				</li>
 				<li>
-					Intel ipw2100, 11 MBit/s WLAN: микропрограммное обеспечение загружают с <a href="http://ipw2100.sf.net/">http://ipw2100.sf.net</a> и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
+					Intel ipw2200, 54 MBit/s wlan: 
+<pre>
+apt-get install ipw2200-firmware
+</pre>
 				</li>
 				<li>
-					Intel ipw2200, 54 MBit/s WLAN: микропрограммное обеспечение загружают с <a href="http://ipw2200.sf.net/">http://ipw2200.sf.net</a> и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
-				</li>
-				<li>
-					Intel ipw3945, 54 Mbit/s WLAN:
-<pre>apt-get install ipw3945d firmware-ipw3945</pre>
+				Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:
+<pre>
+apt-get install iwlwifi-ucode
+</pre>
+			You can activate the old non-free driver, if iwlwifi creates problems:
+<pre>
+apt-get update
+apt-get install ipw3945d firmware-ipw3945
+update-rc.d ipw3945d start 39 S . start 36 0 6
+LANG= m-a a-i --text-mode ipw3945-source
+echo "blacklist iwlwifi" > /etc/modprobe.d/mac80211
+</pre>
 				</li>
 				<li>
 					Intersil prism54, 54-MBit/s-WLAN: микропрограммное обеспечение загружают с <a href="http://prism54.org/firmware/">http://prism54.org/firmware/</a> и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
@@ -511,17 +525,25 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 					графические карты nVidia: До сих пор трехмерное ускорение является со свободными драйверами не возможно. Однако при применении <a href="../de/hw-dev-hw-dri-de.htm/#nvidia-3d">get-sidux-binary-gfx</a> можно инсталлировать потом зависимые драйверы.
 				</li>
 				<li>
-					RaLink rt61 54-MBit/s-WLAN: микропрограммное обеспечение загружают с <a href="http://www.ralinktech.com/ralink/Home/Support/Linux.html">http://www.ralinktech.com/ralink/Home/Support/Linux.html</a>.
+					RaLink rt61 54 MBit/s wlan,:
+<pre>
+apt-get install rt61-fwcutter
+</pre>
 				</li>
 				<li>
 					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) WLAN: микропрограммное обеспечение загружают с <a href="http://acx100.erley.org/acx_fw/acx1xx.htm">http://acx100.erley.org/acx_fw/acx1xx.htm</a> и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
 				</li>
 				<li>
-					ZyDAS zd1201 11 MBit/s-WLAN:
-<pre>apt-get install zd1201-firmware</pre>
+					ZyDAS zd1201 11 MBit/s wlan:
+<pre>
+apt-get install zd1201-firmware
+</pre>
 				</li>
 				<li>
-					ZyDAS zd1211 54 MBit/s WLAN: микропрограммное обеспечение загружают с <a href="http://sourceforge.net/project/showfiles.php?group_id=129083">http://sourceforge.net/project/showfiles.php?group_id=129083</a> и в <span class="highlight-3">/lib/firmware/</span> сохраняют.
+					ZyDAS zd1211 54 MBit/s wlan:
+<pre>
+apt-get install zd1211-firmware
+</pre>
 				</li>
 			</ul>
 
@@ -545,7 +567,7 @@ exit
 		<p>Теперь NTFS-Volume должен &nbsp;быть присоединен <b>с письменным доступом</b>, и данные могут быть там сохранены.</p> 
 		<p>Последний раз указание: <strong><i>это - экспериментальный метод, при применении нужно взвешивать риск</i>!</strong></p>
 </div>		
-	<div id="rev">Content last revised UTC 22/04/2007 06300hrs UTC</div>
+	<div id="rev">Content last revised  13/04/2007 1000hrs UTC</div>
 
 </div>
 </body>

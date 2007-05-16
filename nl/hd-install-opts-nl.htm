@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual 0.8-2007-05-12 nl lang maintainer eislon zerby harzG-->
-<!-- menu last updated by bluewater 12/05/2007 1700rs AEST 12/05/2007 0700hrs UTC -->
+<!--Welcome to the Official sidux-manual 0.10-2007-05-16 nl lang maintainer eislon zerby harzG-->
+<!-- menu last updated by bluewater 15/05/2007 1700rs AEST 15/05/2007 0900hrs UTC -->
 <img src="../lib//logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
@@ -26,6 +26,7 @@
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-nl.htm#welcome-gen">Officiele Handleiding</a></li>
 				<li><a href="welcome-nl.htm#how-to">Hoe gebruik ik deze handleiding</a></li>
+				<li><a href="welcome-nl.htm#table-contents">Index</a></li>
 				<li><a href="help-nl.htm#help-gen">Waar kan ik hulp krijgen</a></li>
 				<li><a href="credits-nl.htm#cred-team">Credits</a></li>
 			</ul>
@@ -69,6 +70,7 @@
 			<ul class="sub-menu" id="sm5">
 				<li><a href="part-gparted-nl.htm#partition">Partitioneren van je HD dmv GParted</a></li>
 				<li><a href="part-gparted-nl.htm#ntfs">NTFS partitie vergroten/verkleinen mbv GParted</a></li>
+				<li><a href="part-uuid-nl.htm#uuid">Re-Building  fstab</a></li>
 				<li><a href="part-uuid-nl.htm#uuid">UUID, Partitie Labelling en fstab</a></li>
 				<li><a href="part-cfdisk-nl.htm#partition">Partitioneren van je HD dmv cfdisk</a></li>
 				<li><a href="part-cfdisk-nl.htm#formating">Formatteren na partitioneren mbv cfdisk</a></li>
@@ -158,30 +160,30 @@
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Opstarten met "fromiso"</h2>
 
-		<p  class="highlight-2">For normal use we recommend the ext3 file system. It is the default file system for sidux and well maintained.</p>
+		<p  class="highlight-2">Voor normaal gebruik adviseren wij het ext3 bestandssysteem. Dat is het standaard bestandssysteem voor sidux en wordt goed onderhouden (maintained).</p>
 
-		<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een paritie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag, sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
+		<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
 
-		<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. . Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
+		<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
 
 		<h6>Benodigdheden:</h6>
 
 		    <p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
-			* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
-			* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
+			* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
+			* Als je het bestand sidux.ISO noemt, moeten de commandos aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
 
-		<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creeeren we een basis-directory: bijvoorbeeld /dev/hda5, creeer nu de directory "sidux" en copieer de iso-bestand hiernaar toe via:</p>
+		<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creëeren we een basis-directory: bijvoorbeeld /dev/hda5, Creëer nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
+		<p>Nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>nu copieren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
+		<p>Vervolgens kopiëren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
@@ -190,7 +192,7 @@
 
 <pre>### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz ramdisk_size=100000 init=/etc/init fromiso=/sidux/sidux.iso noprompt noeject lang=en apm=power-off nomce quiet vga=791
+kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>Bij de volgend herstart v/d pc hebben we een nieuwe menu item in grub om vanaf de iso image op te starten.</p>
@@ -199,36 +201,37 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 	<div class="divider" id="usb-hd">
 		<h2>Installatie van sidux op een USB-Stick of USB-HD</h2>
 
-		<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install now. Just follow this simple guideline.</p>
+		<p>De installatie van sidux op een USB-stick of een USB-HD is net zoo eenvoudig als de normale installatie op een harde schijf in de pc. Voer het uit conform de volgende stappen van onderstaande handleiding.</p>
 
-		<p>The recommended mininmum size of a usb stick is:<br />
-		sidux "LITE" needs 1.2gig PLUS you need data space,<br />
-		sidux "FULL" needs 2.1gig PLUS you need data space</p>
+		<p>De aanbevolen minimale grootte van een usb stick is:<br />
+		sidux "LITE" heeft 1.2GB nodig EN je hebt ruimte voor data (home/Mijn_documenten) nodig,<br />
+		sidux "FULL" needs 2.1GB nodig EN je hebt ruimte voor data nodig</p>
 
-		<p>The USB-installation (fix-usb-install.sh) has merged with the <a href="../en/hd-install-en.htm">sidux-installer</a>, so all can now be handled from within the sidux-installer.</p>
+		<p>De USB-installatie (fix-usb-install.sh) is gecombineerd met <a href="../en/hd-install-en.htm">sidux-installer</a>, nu kan dus alles geregeld worden in de sidux-installer.</p>
 
-		<p>We start with a normal installation and choose the partition on the USB-device, where sidux is to be installed - we speak of "sda1" here, but this is valid for any other partition on a USB-disk or device.</p>
+		<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux geinstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
 
-		<p><span class="highlight-2">Grub must be installed to the Partition you are installing on, not MBR !</span></p>
+		<p><span class="highlight-2">Grub moet geinstalleerd zijn op de partitie van de installatie, niet in de master boot record MBR !</span></p>
 
-		<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext3 filesystem. An existing partition will be reformatted by the installer!</p>
+		<p>De partitie moet geformatteerd zijn met een linux-bestandssysteem. Geadviseerd wordt hiervoor het ext3 bestandssysteem. Een reeds bestaande partitie wordt geformatteerd door de installer!</p>
 
-		<p class="highlight-2">All data on this partition will be lost during the reformat!</p>
+		<p class="highlight-2">Alle data op deze partitie worden dus overschreven de het formatteren!</p>
 
 
 		<p>Je kunt nu opstarten van je USB-HD/Stick. 'Boot from USB' moet in je BIOS op enabled staan.</p>
+
 	</div>
 	<div class="divider" id="qemu">
 		<h2>Installeren van sidux met QEMU</h2>
 
 		<ul>
- 			<li>1. creeer een harddiskimage voor qemu</li>
+ 			<li>1. Creëer een harddiskimage voor qemu</li>
  			<li>2. Start de iso op met qemu</li>
- 			<li>3. installeer op de image</li>
+ 			<li>3. Installeer op de image</li>
 
 		</ul>
 
- 			<h4>Het creeeren van de harddisk image</h4>
+ 			<h4>Het creëeren van de harddisk image</h4>
 
 				<p>Om qemu op te starten heb je waarschijnlijk een harddisk image nodig. Dit is een bestand welke de inhoud van de geemuleerde harddisk opslaat.</p>
 
@@ -236,7 +239,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Om het image file genaamd "sidux.qcow" te creeeren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat comprimeerd de image zo dat de lege ruimte niet aan de grote van het bestand wordt toegevoegd.</p>
+				<p>Om het image file genaamd "sidux.qcow" te creeeren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat komprimeerd de image zo dat de lege ruimte niet aan de grote van het bestand wordt toegevoegd.</p>
 
 
 			<h4>Installeren van het besturingssysteem</h4>
@@ -251,7 +254,7 @@ qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
-				<p>Installeer nu sidux alsof je een installatie uitvoert op een echte Harddisk.</p>
+				<p>Installeer nu sidux alsof je een installatie uitvoert op een echte harddisk.</p>
 
 
 			<h4>Het systeem starten</h4>
@@ -260,9 +263,9 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Het is een goed idee om overlay images te gebruiken. Op deze manier hoef je maar 1 keer een harddisk image te creeeren en vertel je Qemu om wijzigingen op te slaan in een extern bestand. Zo kom je van alle instabiliteit af, omdat je altijd terug kunt naar de vorige systeem status.</p>
+				<p>Het is een goed idee om overlay images te gebruiken. Op deze manier hoef je maar 1 keer een harddisk image te creëeren en vertel je Qemu om wijzigingen op te slaan in een extern bestand. Zo kom je van alle instabiliteit af, omdat je altijd terug kunt naar de vorige systeem status.</p>
 
-				<p>Het creeeren van een overlay image, doe je als volgt:</p>
+				<p>Het creëeren van een overlay image, doe je als volgt:</p>
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
@@ -270,12 +273,12 @@ qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 <pre>
 qemu [overlay_image]
 </pre>
-				<p>De originele image wordt hierdoor niet gebruikt. Een probleem, de base image kanniet gehernoemd of verplaatst worden, want de ovrlay onthoudt het volledige path naar de base image.</p>
+				<p>De originele image wordt hierdoor niet gebruikt. Een probleem, de base image kan niet hernoemd of verplaatst worden, want de overlay onthoudt het volledige pad naar de base image.</p>
 
 
 			<h4>Gebruik maken van een echte partitie als een enkele primaire partitie voor de hard disk image</h4>
 
-				<p>Soms , wil je een systeem partitie gebruiken met qemu (Bijvoorbeeld, als je wilt opstarten van je echte systeem of om qemu een speciale partitie te laten gebruiken als zijn root partitie). Je kunt dit doen door gebruik te maken van software RAID in lineaire mode (je hebt de linear.ko kernel driver nodig) en een loopback device: de truck is dat je dynamisch een master boot record (MBR) append aan een echte partitie welke je aan de qemu raw disk image wilt koppelen.</p>
+				<p>Soms wil je een systeem partitie gebruiken met qemu (Bijvoorbeeld, als je wilt opstarten van je echte systeem of om qemu een speciale partitie te laten gebruiken als zijn root partitie). Je kunt dit doen door gebruik te maken van software RAID in lineaire mode (je hebt de linear.ko kernel driver nodig) en een loopback device: de truck is dat je dynamisch een master boot record (MBR) append aan een echte partitie welke je aan de qemu raw disk image wilt koppelen.</p>
 
 				<p>Stel je voor dat je een unmounted /dev/hdaN partitie met een bestandssysteem hebt welke je deel wilt maken van een qemu disk image. Als eerste moet je een klein bestand aanmaken waarin de MBR komt te staan, dit doen we met het volgende commando:</p>
 <pre>
@@ -290,11 +293,11 @@ losetup -f /path/to/mbr
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
 </pre>
-				<p>De aangemaakte /dev/md0 is wat je gaat gebruiken als  qemu raw disk image (vergeet niet om de rechten goed te zetten, zodat qemu bij het bestand kan). De laatste stap (een beetje moeilijke) is het zetten van de disk configuratie (disk geometry en partitie tabellen) zo dat de primary partitie start punt in de MBR overeenkomt met de /dev/hdaN in de /dev/md0 (een offset van precies 16 * 512 = 16384 bytes in dit voorbeeld). Doe dit door gebruik te maken van fdisk op de host machine, niet in de emulator: de standaar raw disc detectie routine van qemu resulteert vaak in een niet-kilobyte afgeronde offsets (zoals 31.5 KB, zoals weer gegeven in vorige sectie) dit kan niet gemanaged worden door de software RAID code. Doe het volgende vanaf het hostsysteem:</p>
+				<p>De aangemaakte /dev/md0 is wat je gaat gebruiken als  qemu raw disk image (vergeet niet om de rechten goed te zetten, zodat qemu bij het bestand kan). De laatste stap (een beetje moeilijke) is het zetten van de disk configuratie (disk geometry en partitie tabellen) zo dat de primary partitie start punt in de MBR overeenkomt met de /dev/hdaN in de /dev/md0 (een offset van precies 16 * 512 = 16384 bytes in dit voorbeeld). Doe dit door gebruik te maken van fdisk op de host machine, niet in de emulator: de standaard raw disc detectie routine van qemu resulteert vaak in een niet-kilobyte afgeronde offsets (zoals 31.5 KB, zoals weer gegeven in vorige sectie) dit kan niet gemanaged worden door de software RAID code. Doe het volgende vanaf het hostsysteem:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Hier, creeeren we een enkele primaire partitie welke overeenkomt met /dev/hdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
+				<p>Hier creëeren we een enkele primaire partitie welke overeenkomt met /dev/hdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
@@ -304,11 +307,11 @@ losetup -f /path/to/mbr
 
 			<h4>QEMU Accelerator Module gebruiken</h4>
 
-				<p>De ontwikkelaars van qemu hebben een optionele kernel module gemaakt om qemu sneller te laten lopen, some bijna op je echte pc snelheid. Deze module moet je laden met de optie:</p>
+				<p>De ontwikkelaars van qemu hebben een optionele kernel module gemaakt om qemu sneller te laten lopen, soms bijna op je echte pc snelheid. Deze module moet je laden met de optie:</p>
 <pre>
 major=0
 </pre>
-				<p>om het automatisch creeeren van de benodigde /dev/kqemu device uit te voeren , moet je het volgende commando gebruiken:</p>
+				<p>Om het automatisch creëeren van de benodigde /dev/kqemu device uit te voeren, moet je het volgende commando gebruiken:</p>
 <pre>
 echo "options kqemu major=0" >> /etc/modprobe.conf
 </pre>
@@ -317,19 +320,18 @@ echo "options kqemu major=0" >> /etc/modprobe.conf
 <pre>
 qemu [...] -kernel-kqemu
 </pre>
-				<p>Dit enabled full virtualization en zal de snelheid behoorlijk verbeteren.</p>
+				<p>Dit activeert de full virtualization en zal de snelheid behoorlijk verbeteren.</p>
 
 			<h4>Om qemu te activeren doen we:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
-		<p><a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html">De officiele documentatie van het QEMU Project </a> </p>
+		<p><a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html">De officiële documentatie van het QEMU Project </a> </p>
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Sommige teksten voor QEMU voor het sidux-handleiding was vanaf deze site onder GNU Free Documentation License 1.2 benaderd en veranderd voor deze sidux-handleiding</a> </p>
 
 		
 	</div>
-			<div id="rev"> Inhoud het laats aangepast op UTC 08/05/2007 0600uur</div>
-</div>
+			<div id="rev"> Inhoud het laats aangepast op UTC 13/05/2007 2300uur</div>
 </div>
 </body>
 </html>

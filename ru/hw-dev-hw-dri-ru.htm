@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="menu"><!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version  01.08-2007-05-25 ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 25/05/2007 1100rs AEST 25/05/2007 0100hrs UTC -->
+<!--Welcome to the Official sidux-manual version  01.10-2007-05-26 ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 26/05/2007 1600rs AEST 26/05/2007 0600hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Назад к основному меню sidux</a></li>
@@ -90,10 +90,8 @@
 			<ul class="sub-menu" id="sm10">
 				<li><a href="hw-dev-hw-dri-ru.htm#hd-ntfs3g">Запись на NTFS в режиме LiveCD</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#mon-res">Разрешение и экран монитора</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#nvidia-3d">Коммерческий 3D-модиль nVidia</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#ati-3d">Коммерческий 3D-модиль ATI</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#native-nv">Открытый модуль nv</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#native-ati">Открытый модуль ati</a></li>
+				<li><a href="hw-dev-hw-dri-ru.htm#non-free-3d">Binary, non-free drivers for: Nvidia / ATI</a></li>
+				<li><a href="hw-dev-hw-dri-ru.htm#native-nv-ati">Free xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free">Оборудование с коммерческими требованиями фирм</a></li>
 			</ul>
 		</li>
@@ -158,10 +156,10 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="nvidia-3d">
-		<h2 id="top-header">3D-драйвер для графических карт nVidia</h2>
+	<div class="divider" id="non-free-3d">
+		<h2 id="top-header">Binary, non-free drivers for: Nvidia / ATI</h2>
 			
-			<p>Имеются 3 метода инсталлировать трехмерный драйвер nVidia</p>
+			<p>Имеются 3 метода инсталлировать трехмерный драйвер nVidia/ATI</p>
 			<ol>
 				<li>
 					<h3>install-binary-gfx</h3>
@@ -179,7 +177,7 @@ install-binary-gfx -a (Применение исходного кода из р�
 <pre>
  Usage: ./install-binary-gfx [options]
 -a | --auto            автоматический способ
--b | --build           только строительство MODs модуля (nvidia|nvidia-legacy|fglrx)
+-b | --build           только строительство MODs модуля (nvidia|nvidia-legacy|ati|ati-legacy|fglrx)
 -d | --detect          олько графическое узнавание карт
 -u | --update          скрипт модернизированной версии
 -v | --verbose         с ответом
@@ -200,12 +198,13 @@ install-binary-gfx -u (вместе с этим скрипт обновляет�
 				<li>
 					<h3>sgfxi / du-fixes-h2.sh</h3>
 <pre>
-cd /usr/local/bin ; wget -Nc http://techpatterns.com/sgfxi
-chmod +x sgfxi
+apt-get update
+apt-get install sidux-scripts
+sgfxi
 </pre>
 			<p>sgfxi поддерживает в натоящий момент ATI fglrx и nVidia драйверы. Также конверсия с или на свободные драйверы xorg поддерживается как ati, intel или nv. du-fixes-h2.sh использует sgfxi как installationsbackend для графического драйвера и добавляет несколько опций к более простому использованию.</p>
 
-			<p>sgfxi-h перечисляет все опции. Опции в течение времени дополняются. Также показываются с sgfxi-h в данный момент поддержанные драйверы также спецификации используемой системы как ядро и xorg версия. Драйвер по умолчанию инсталлируется, если никакие дальнейшие опции не указываются для инсталляции. Также скрипт автоматически определяет более старые графические карты и инсталлирует сразу драйвер Legacy.</p>
+			<p>Драйвер по умолчанию инсталлируется, если никакие дальнейшие опции не указываются для инсталляции. Также скрипт автоматически определяет более старые графические карты и инсталлирует сразу драйвер Legacy.</p>
 
 			<p>После старта скрипта и узнавания графической карты выдается, какой драйвер должен инсталлироваться. При этом имеют возможность подтверждать этот выбор и инсталлировать драйвер или отменять инсталляционный процесс и перезапускать скрипт с выбранной опцией.</p>
 
@@ -213,82 +212,94 @@ chmod +x sgfxi
 <pre>
 du-fixes-h2.sh -kiwdt
 </pre>
+								<p>sgfxi-h перечисляет все опции. Опции в течение времени дополняются. Также показываются с sgfxi-h в данный момент поддержанные драйверы также спецификации используемой системы как ядро и xorg версия.  Here are some useful sgfxi options:</p>
+<pre>
+-c Use composite mode (nVidia cards only).
+-d Remove IgnoreDisplayDevices, allow TV for example (nVidia cards only).
+-h View this help menu.
+-n Automatically installs correct native xorg nv, intel, or ati driver for your system.
+   Cleans up old binary driver stuff, updates xorg.conf with new driver information,
+   and cleans nvidia and fgrlx stuff out of xorg.conf
+-N Force install of specific xorg driver. 
+Syntax: sgfxi -N &lt;one of the drivers from the list, like -N radeon&gt;
+   Supported Xorg drivers: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Also configures xorg.conf as required. Full radeon xorg 3d configuration automatically.
+-o Override default: install a specific driver, this is an absolute override - syntax:
+   -o 9746 (for nVidia, do not use the 1.0- part) or: -o 8.32.5 (for fglrx)
+-r Remove mode lines from xorg.conf
+-t Enables dynamic twinview (nVidia only)
+</pre>
 				</li>
 				<li>
-					<h3>Приложения установки бинарного кода nVidia</h3>
+							<h3>For live-cd Binary, non-free driver install:</h3>
+
+<pre>
+sudo sgfxi
+</pre>
+							<p>this gets the latest script, then:</p>
+<pre>
+ctrl+alt+f1
+</pre>
+							<p>and run</p>
+<pre>
+sgfxi
+</pre>
+<pre>
+sgfxi -h,
+to see options
+</pre>
+							<p>X is restarted after the driver installs</p>
+				</li>
+				<li>
+					<h5>Приложения установки бинарного кода nVidia/ATI</h5>
 <pre>
 Создание из исходного кода
 </pre>
 				</li>
 			</ol>
 	</div>
-	<div class="divider" id="ati-3d">
-			<h2>3D драйвер ATI</h2>
+		<div class="divider" id="native-nv-ati">
+			<h2>Free xorg drivers for nVidia, ATI, Radeon, Intel</h2>
+					<ol>
+						<li>
+					<h3>sgfxi </h3>
 
-			<p>Имеются 3 метода инсталлировать трехмерный ATI драйвер</p>
-			<ol>
-				<li>
-					<h3>install-binary-gfx</h3>
-			<p>Новый скрипт для установки драйверов графических карты называется: <span class="highlight-1">install-binary-gfx</span>. Чтобы инсталлировать скрипт, команда get-sidux-binary-gfx должна запускаться как root в консоли.</p>
-
+						<p>You can also use sgfxi to move between free and non-free drivers or roll back to native free drivers: Key commands are:</p>
 <pre>
-get-sidux-binary-gfx
-install-binary-gfx -a (Применение исходного кода из репозитива sid)
+-n Automatically installs correct native xorg nv, intel, or ati driver for your system.
+   Cleans up old binary driver stuff, updates xorg.conf with new driver information,
+   and cleans nvidia and fgrlx stuff out of xorg.conf
+-N Force install of specific xorg driver. 
+Syntax: sgfxi -N &lt;one of the drivers from the list, like -N radeon&gt;
+ Supported Xorg drivers: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+ Also configures xorg.conf as required. Full radeon xorg 3d configuration automatically.
 </pre>
-			<p>Вместе с тем выбирается правильный драйвер для графической карты, строится и инсталлируется инсталляционный файл Debian .deb. Также автоматически приспосабливается файл конфигурации /etc/X11/xorg.conf. Чтобы новый драйвер смог активироваться, графический сервер X должен перезапускаться (с помощью комбинации Strg+Alt+клавиша возврата).</p>
-
-			<h4>Опции</h4>
-
-			<p>Следующие опции могут ставиться:</p>
+											<p>First</p>
 <pre>
- Usage: ./install-binary-gfx [options]
--a | --auto            автоматический способ
--b | --build           только строительство MODs модуля (nvidia|nvidia-legacy|fglrx)
--d | --detect          олько графическое узнавание карт
--u | --update          крипт модернизированной версии
--v | --verbose         с ответом
+apt-get update
+apt-get install sidux-scripts
+sgfxi
 </pre>
-
-			<h4>Примеры</h4>
+											<p>The to install or rollback to a native driver</p>
 <pre>
-install-binary-gfx -a (это определяет графическую карту и устанавливает автоматически необходимые драйверы из репозитива sid)
-install-binary-gfx -b nvidia (вместе с тем строится только модуль для nVidia, файл deb находится в /usr/src. Это же самое относится для fglrx (ATI) и nvidia-legacy)
-install-binary-gfx -d (это устанавливает графическую карту и выдает сведения о ней)
-install-binary-gfx -u (вместе с этим скрипт обновляется.
+sgfxi -n &lt;xorg driver&gt;
+OR
+sgfxi -N &lt;xorg driver&gt;
 </pre>
-
-			<h4>Помощь при проблемах</h4>
-			<p>Если скрипт не инсталлирует графические драйверы, может использоваться способ debug. Он производит файл регистрации /var/log/sidux-CARD-installer.log. Для получения помощи, может быть содержание этого фай­ла опубликован в форуме sidux, или его сохраняют на http://paste.debian.net и обращаются к IRC #sidux, где произведенная ссылка может указываться.</p>
-
-				</li>
-				<li>
+					</li>
+					<li>
 					<h3>sgfxi / du-fixes-h2.sh</h3>
+							<p class="highlight-3">Use sgfxi via du-fixes-h2.sh. Simply start the script using the following options and it will take you straight to the graphics installer section. If you using du-fixes you don't need to install sgfxi, as du-fixes installs it automatically.</p>
 
-<pre>
-cd /usr/local/bin ; wget -Nc http://techpatterns.com/sgfxi
-chmod +x sgfxi
-</pre>
-			<p>sgfxi поддерживает в натоящий момент ATI fglrx и nVidia драйверы. Также конверсия с или на свободные драйверы xorg поддерживается как ati, intel или nv. du-fixes-h2.sh использует sgfxi как installationsbackend для графического драйвера и добавляет несколько опций к более простому использованию.</p>
-
-			<p>sgfxi-h перечисляет все опции. Опции в течение времени дополняются. Также показываются с sgfxi-h в данный момент поддержанные драйверы также спецификации используемой системы как ядро и xorg версия. Драйвер по умолчанию инсталлируется, если никакие дальнейшие опции не указываются для инсталляции. Также скрипт автоматически определяет более старые графические карты и инсталлирует сразу драйвер Legacy.</p>
-
-			<p>После старта скрипта и узнавания графической карты выдается, какой драйвер должен инсталлироваться. При этом имеют возможность подтверждать этот выбор и инсталлировать драйвер или отменять инсталляционный процесс и перезапускать скрипт с выбранной опцией.</p>
-			<p>ИЛИ: используют h2-fixes-du.sh для установки графических драйверов: <a href="http://techpatterns.com/forums/about736.html">du-fixes-h2.sh</a>. Чтобы инсталлировать только 3D драйвер, есть команда:</p>
+										<p><a href="http://techpatterns.com/forums/about736.html">du-fixes-h2.sh homepage </a>for more information, then run this command:</p>
 <pre>
 du-fixes-h2.sh -kiwdt
 </pre>
-				</li>
-				<li>
-					<h3>Использование бинарного кода ATI</h3>
-<pre>
-Создание из исходного кода
-</pre>
-				</li>
-			</ol>
-	</div>
-	<div class="divider" id="native-nv">
-			<h2>Nativе драйвер "nv" от X.Org для графических карт nVidia</h2>
-				<p>Этот драйвер X сервера от X.Org (смотри xserver-xorg для более подробного описания) предлагает поддержку для карт nVIDIA Riva, TNT, GeForce и Quadro.</p>
+					</li>
+					<li>
+					<h3>The hard way</h3>
+
+							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2d for NVIDIA Riva, TNT, GeForce, and Quadro  cards and the ATI Mach, Rage, Radeon, and FireGLcards along with atimisc', 'r128' and 'radeon' sub-drivers. Also provides for the Intel free series in 3d</p>
 
 				<p>Он инсталлируется с:</p>
 <pre>
@@ -305,40 +316,14 @@ init 5 &amp;&amp; exit
 
 				<p>Теперь должен редактироваться <span class="highlight-3">/etc/X11/xorg.conf</span>. Вы должны былы создавать раньше резервную копию, иначе <span class="highlight-2">ошибочное редактирование <span class="highlight-3">/etc/X11/xorg.conf</span> принесет Вам много слез и потребуется много времени на отладку.</span></p>
 
-				<p>Чтобы редактировать <span class="highlight-3">/etc/X11/xorg.conf</span> , Вы можете его открыть, &nbsp;для этого нужны права root, посредством&nbsp;щелчка мышкой. В разделе <span class="highlight-1">SECTION DEVICE</span> изменяют драйвер дисплея в <span class="highlight-1">nv</span>.</p>
+				<p>Чтобы редактировать <span class="highlight-3">/etc/X11/xorg.conf</span> , Вы можете его открыть, &nbsp;для этого нужны права root, посредством&nbsp;щелчка мышкой. В разделе <span class="highlight-1">SECTION DEVICE</span> изменяют драйвер дисплея в <span class="highlight-2">nv</span> OR <span class="highlight-2">ati</span></p>
 
 				<p class="highlight-2">Редактирование xorg.conf происходит на собственный риск.</p>
 
 				<p>Большее количество сведений о <a href= "http://xorg.freedesktop.org">X.Org</a></p>
-
+					</li>
+</ol>
 	</div>
-	<div class="divider" id="native-ati">
-			<h2>Nativе драйвер "ati" от X.Org для графических карт ATI</h2>
-
-				<p>Этот драйвер сервера X от X.Org предлагает поддержку для графических серий карт Mach, Rage, Radeon и FireGL от ATI (с суб-драйверы 'atimisc', 'r128' and 'radeon').</p>
-
-				<p>Он инсталлируется с:</p>
-<pre>
-Из KDE выйти с Ctrl+Alt+F1.
-Зарегистрироваться как root.
-Затем запускать: 
-# init 3
-(Сообщение должно было показывать, что сервер X остановился)
-apt-get update
-apt-get install xserver-xorg-video-ati
-init 5 &amp;&amp; exit
-</pre>
-				<p>Примечание: Это не является бинарным драйвером ATI, который&nbsp;предлагает&nbsp;трехмерную поддержку для некоторых новых карт Radeon.</p>
-
-				<p>Теперь должен редактироваться <span class="highlight-3">/etc/X11/xorg.conf</span>. Вы должны былы создавать раньше <b>резервную копию этого файла</b>, иначе <span class="highlight-2">ошибочное редактирование <span class="highlight-3">/etc/X11/xorg.conf</span> принесет Вам много слез и потребуется много времени на отладку.</span></p>
-
-				<p>Чтобы редактировать <span class="highlight-3">/etc/X11/xorg.conf</span>, Вы можете его открыть, для этого нужны права root, посредством&nbsp;щелчка мышкой. В разделе <span class="highlight-1">SECTION DEVICE</span> зменяют драйвер дисплея в <span class="highlight-1">ati</span>.</p>
-
-				<p class="highlight-2"><b>Редактирование xorg.conf происходит на собственный риск.</b></p>
-
-				<p>Большее количество сведений о X.Org <a href= "http://xorg.freedesktop.org">здесь</a>.</p>
-</div>
-
 	<div class="divider" id="mon-res">
 					<h2>Rазмeры дисплея, экраны и шрифты</h2>
 

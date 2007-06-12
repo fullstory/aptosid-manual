@@ -9,11 +9,14 @@
 	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
 	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
 	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <![endif]-->
 </head>
 <body>
 <div id="menu"><!-- menu starts here -->
-<!--Welcome to the Official sidux-manual version  01.12-2007-06-03  ru language maintained by RoEn and koslow-->
-<!-- menu last updated by bluewater 03/06/2007 1400rs AEST 03/06/2007 0400hrs UTC -->
+<!--Welcome to the Official sidux-manual version  01.14-2007-06-11  ru language maintained by RoEn and koslow-->
+<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Назад к основному меню sidux</a></li>
@@ -153,6 +156,7 @@
 				<li><a href="sys-admin-gen-ru.htm#pw-lost">Забытый пароль root</a></li>
 				<li><a href="sys-admin-gen-ru.htm#fonts">Виды шрифтов</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#mbr-grub-boot">Загрузочный сектор переписан</a></li>
+				<li><a href="sys-admin-grub-bootman2-ru.htm#dual-boot">Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#boot-grub-floppy">Создание загрузочной дискеты</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#remove-grub">Удаление grub с загрузочного сектора</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#what-is-grub">Grub - системный загрузчик</a></li>
@@ -267,19 +271,19 @@ trinity --&gt; morpheus - станет: trinity --&gt; neo и neo --&gt; morpheu
 </pre>
 				<h5>Рабочие примеры команд rsync:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Объяснение отдельных составных частей этой команды:</p>
 <pre>
-Это источник: /путь/файл : “morpheus:/home/tartie”, целью является: “/media/hda7/SysBackups/morpheus/home”
+Это источник: /путь/файл : morpheus:/home/tartie, целью является: /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Каталог/home/tartie (включая подкаталоги) будет сохранен в /media/hda7/SysBackups/morpheus/home, что после rsync будет выглядеть таким образом:</p>
 <pre>
-“/media/hda7/SysBackups/morpheus/home/tartie”
+/media/hda7/SysBackups/morpheus/home/tartie
 </pre>
 				<p>Вышестоящая структура каталога не принимается, ПУНКТ НАЗНАЧЕНИЯ определяет вовлечеие в целевую систему, а не структуру каталогов источника. Поэтому может находиться /tartie в /home. "Источник" выбирает только, откуда прибывают данные, а не куда они переводятся. "Цель" приказывает rsync, куда данные из "источника" должны копироваться. Здесь пример:</p>
 <pre>
-rsync [...] “/home/user/data/files” “/media/hda7/SysBackups/neo”
+rsync [...] /home/user/data/files /media/hda7/SysBackups/neo
 </pre>
 				<p>Здесь будут только копироваться исходный каталог /files и все в нём находящиеся каталоги и файлы в цель папку /neo &nbsp;- а не полная структура каталогов /media/hda7/SysBackups/neo/home/user/data/files.</p>
 
@@ -314,21 +318,21 @@ rsync [...] “/home/user/data/files” “/media/hda7/SysBackups/neo”
 
 				<h5>Примерные команды:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Эта команда копирует все каталоги и файлы ниже от /home/tartie на систему "morpheus" и размещает их в этот каталог /media/hda7/SysBackups/morpheus/home. Структура каталога tartie сохраняется.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "/home/tartie" "neo:/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Это - противоположная команда первого примера. Она "двигает" каталог /home/tartie и его содержание в указанный каталог системы "neo" - должен быть отмечено, что систему рассматривают как "удаленную (remote)", если ставится “:” двоеточие перед путем.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "/home/cuddles" "/media/hda7/SysBackups/neo/home"
+rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
 </pre>
 				<p>Это - процесс резервного копирования на локальном компьютере. Здесь нужно обращать внимание на то, что никакое двоеточие не установлено. Локальный каталог /home/cuddles копируется на /media/hda7/SysBackups/neo/home на том же самом локальном компьютере.</p>
 
 				<h5>rsync с многими опциями --exclude:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" "/media/hda7/SysBackups/neo"
+rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/hda7/SysBackups/neo
 </pre>
 				<p>Эта команда копирует все из каталога root локальной системы (все каталоги и файлы) на /media/hda7/SysBackups/neo - исключенными из этого являются все файлы и каталоги, которые кончаются на “~”, “.c” или “.o”.</p>
 
@@ -336,23 +340,23 @@ rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”
 
 				<p>Первая команда установлена с методом имени хоста, второй с методом IP-адресов. Обе команды идентичны в своём выполнении:</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "192.168.1.16:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Метод имён хоста не должен применяться, но по нашему мнению он упрощает резервное копирование с rsync в сетях.</p>
 
 				<h5 class="highlight-2">Невозможная команда:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "trinity:/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie trinity:/home
 </pre>
 				
 				<p class="highlight-2">Как было уже сказано, ограничение rsync является тем, что этой командой нельзя копировать между 2 удаленными компьютерами. На это мы бы хотели в конце его Раздела еще раз определенно указать.</p>
 
 				<p>Мы надеемся, с этим маленьким руководством мы дали Вам стимулы к собственному, производительному употреблению rsync как весьма адаптивной программы для резервного копирования.</p>
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено 08/02/2007 0900 UTC</div>
+			<div id="rev">Содержание, последнее пересмотрено 12/06/2007 0400 UTC</div>
 
 
 </div>

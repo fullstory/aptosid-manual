@@ -9,11 +9,14 @@
 	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
 	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
 	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+<!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <![endif]-->
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual   01.12-2007-06-03 nl lang maintainer eislon zerby HarzG-->
-<!-- menu last updated by bluewater 03/06/2007 1400rs AEST 03/06/2007 0400hrs UTC -->
+<!--Welcome to the Official sidux-manual   01.14-2007-06-11 nl lang maintainer eislon zerby HarzG-->
+<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
@@ -153,6 +156,7 @@
 				<li><a href="sys-admin-gen-nl.htm#pw-lost">Root wachtwoord vergeten</a></li>
 				<li><a href="sys-admin-gen-nl.htm#fonts">Lettertypes</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">MBR bootsector overschreven</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#boot-grub-floppy">Aanmaken van een boot-diskette</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#remove-grub">Grub uit de MBR verwijderen</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#what-is-grub">Grub de bootmanager</a></li>
@@ -165,9 +169,9 @@
 		<h2>Een klein APT-kookboek</h2>
 
 		<h3>Wat betekent APT?</h3>
- 		<p>APT is een afkorting voor Advanced Packaging Tool en is dus een verzameling van programma's en scripts, die (de systeembeheerder) root bij de installatie en het beheer van Deb-paketten ondersteunen.</p>
+ 		<p>APT is een afkorting voor Advanced Packaging Tool en is dus een verzameling van programma's en scripts, die (de systeembeheerder) root bij de installatie en het beheer van Deb-pakketten ondersteunen.</p>
 
-		<p>Het "APT"-systeem heeft als basis hiervoor een bestand nodig /etc/apt/sources.list. Hierin staat informatie over de bronnen waaruit de paketten gehaald moeten worden. Hieronder wordt voor 1 bestand de sidux installatie uitgelegd.</p>
+		<p>Het "APT"-systeem heeft als basis hiervoor een bestand nodig /etc/apt/sources.list. Hierin staat informatie over de bronnen waaruit de pakketten gehaald moeten worden. Hieronder wordt voor 1 bestand de sidux installatie uitgelegd.</p>
 
 		<p>NB: De instelling van de servers kan als root veranderd worden, door de landen-code aan te passen zoals ftp.us, ftp.uk. In de meeste landen zijn locale Debian-mirrors beschikbaar. Hierdoor kan de gebruiker sneller downloaden en wordt tevens bandbreedte bespaard.</p>
  
@@ -192,7 +196,7 @@ deb http://ftp.nl.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free</pre>
 
-		<p>Om te kunnen beoordelen of recentere bestanden/paketten beschikbaar zijn, wordt de eigen installatie vergeleken met de recente lijst van de bestanden op de Debian-server. Het programma apt-get gebruikt deze informatie, om onderlinge verbanden/afhankelijkheden op te lossen en op deze manier te garanderen, dat de gekozen paketten werken. De actualisatie van deze datenbase wordt gedaan via het commando apt-get update.</p>
+		<p>Om te kunnen beoordelen of recentere bestanden/pakketten beschikbaar zijn, wordt de eigen installatie vergeleken met de recente lijst van de bestanden op de Debian-server. Het programma apt-get gebruikt deze informatie, om onderlinge verbanden/afhankelijkheden op te lossen en op deze manier te garanderen, dat de gekozen pakketten werken. De actualisatie van deze datenbase wordt gedaan via het commando apt-get update.</p>
  
 <pre># apt-get update
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -207,9 +211,9 @@ Get:6 http://ftp.nl.debian.org unstable Release [79.6kB]
 	</div>
  
 	<div class="divider" id="apt-install">
- 		<h2> Hoe kan ik een nieuw paket installeren?</h2>
+ 		<h2> Hoe kan ik een nieuw pakket installeren?</h2>
  
-		<p>Als de APT-databank geactualiseerd is en de naam van het paket bekend is, dan is onderstaand commando voldoende (later wordt getoond, hoe een paket te vinden is):</p>
+		<p>Als de APT-databank geactualiseerd is en de naam van het pakket bekend is, dan is onderstaand commando voldoende (later wordt getoond, hoe een pakket te vinden is):</p>
 
  
 <pre># apt-get install qemu
@@ -230,9 +234,9 @@ Do you want to continue [Y/n]? n
  
  </div>
 	<div class="divider" id="apt-delete"> 
-		<h2>Verwijderen van een paket:</h2>
+		<h2>Verwijderen van een pakket:</h2>
 
-		<p>De manier van werken komt grotendeels overeen met de installatie van een programmapaket. Verder is van belang dat bepaalde programmapaketten, die een onderling verband (afhankelijkheden) hebben, niet gewist worden. Dat wordt later bij deb-orphan uitgelegd.</p>
+		<p>De manier van werken komt grotendeels overeen met de installatie van een programmapakket. Verder is van belang dat bepaalde programmapakketten, die een onderling verband (afhankelijkheden) hebben, niet gewist worden. Dat wordt later bij deb-orphan uitgelegd.</p>
 
 <pre># apt-get remove gaim
 Reading package lists... Done
@@ -248,7 +252,7 @@ Removing gaim-irchelper ...
 Removing gaim ...
 </pre>
 
-		<p>In deze procedure blijven de configuratiebestanden staan. Deze bestanden kunnen zo later bij een herinstallatie van het programmapaket (in dit voorbeeld gaim) hergebruikt worden. Het kan zinvol zijn om de configuratiebestanden ook te verwijderen (bijv. als niet duidelijk is of het 'niet werken' aan de programma-versie of aan de configuratie ligt). Er wordt dan het volgende commando gebruikt:</p>
+		<p>In deze procedure blijven de configuratiebestanden staan. Deze bestanden kunnen zo later bij een herinstallatie van het programmapakket (in dit voorbeeld gaim) hergebruikt worden. Het kan zinvol zijn om de configuratiebestanden ook te verwijderen (bijv. als niet duidelijk is of het 'niet werken' aan de programma-versie of aan de configuratie ligt). Er wordt dan het volgende commando gebruikt:</p>
  
 <pre># apt-get remove --purge gaim
 Reading package lists... Done
@@ -264,9 +268,9 @@ Removing gaim ...
 Purging configuration files for gaim ...
 </pre>
 
-		<p>In het voorbeeld werden de configuratiebestanden met het programmapaket gaim gewist, maar niet de programmapaketten, van welke gaim afhankelijk was (er zijn paketten die door meerdere applicaties gebruikt worden - die moeten dus ook blijven staan).</p>
+		<p>In het voorbeeld werden de configuratiebestanden met het programmapakket gaim gewist, maar niet de programmapakketten, van welke gaim afhankelijk was (er zijn pakketten die door meerdere applicaties gebruikt worden - die moeten dus ook blijven staan).</p>
 
-		<p>Nadat de interne database geactualiseerd werd, kan worden onderzocht, voor welk paket een recentere versie bestaat:</p>
+		<p>Nadat de interne database geactualiseerd werd, kan worden onderzocht, voor welk pakket een recentere versie bestaat:</p>
 
 <pre># apt-show-versions -u |grep upgrade
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
@@ -279,7 +283,7 @@ sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
 libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
 unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-�2</pre>
 
-		<p>De update van een enkel paket (hier bijv. gcc-4.0) kan correct worden doorgevoerd incl. de controle van de onderlinge afhankelijkheden:</p>
+		<p>De update van een enkel pakket (hier bijv. gcc-4.0) kan correct worden doorgevoerd incl. de controle van de onderlinge afhankelijkheden:</p>
 
  
 
@@ -291,17 +295,17 @@ gcc-4.0 is already the newest version.
 </pre>
 		</div>
 	<div class="divider" id="apt-downgrade">
-						<h2>Downgrading a package</h2>
-								<p>Sometimes it may be necessary to rollback to a previous version of a package, due to a major bug with the latest version you have just installed. The steps are using <span class="highlight-3">kmahjongg</span> as an example:</p>
+						<h2>Downgrading van een pakket</h2>
+								<p>Het kan nodig zijn om terug te gaan naar een eerdere versie van een pakket (als een grote bug in de meest recente versie zit). De volgende stappen moeten bijv. voor <span class="highlight-3">kmahjongg</span> worden doorlopen:</p>
 
 							<ol>
-							<li><pre>enable/uncomment testing sources in <span class="highlight-3">/etc/apt/sources.list </span><br />(delete the #) so that it reads <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
+							<li><pre>Maak de testing sources beschikbaar in <span class="highlight-3">/etc/apt/sources.list </span><br />(verwijder de #) en daar moet dus staan <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
 							<li><pre>apt-get install -t testing kmahjongg</pre></li>
-							<li><pre>Put the newly installed package on hold with:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>comment the testing sources in /etc/apt/sources.list </pre></li>
+							<li><pre>Zet het nieuwe pakket op hold door:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
+							<li><pre>Plaats het hekje # weer voor de testing sources in /etc/apt/sources.list </pre></li>
 							</ol>
 
-							<p>When you do want to get the latest version of the package just do this:</p>
+							<p>Als je de laatste versie van een pakket wilt installeren:</p>
 <pre>
 echo kmahjongg install|dpkg --set-selections
 apt-get update
@@ -313,9 +317,9 @@ apt-get install kmahjongg
 	<div class="divider" id="apt-upgrade">
 		<h2>Upgrade/bijwerken van het ge&#239;nstalleerde systeem:</h2>
 
-		<p>Als het complete systeem bijgewerkt moet worden, dan gebeurt dat via "dist-upgrade" . Hierbij moet worden opgelet, met welke programmapaketten een upgrade uitgevoerd wordt.</p>
+		<p>Als het complete systeem bijgewerkt moet worden, dan gebeurt dat via "dist-upgrade" . Hierbij moet worden opgelet, met welke programmapakketten een upgrade uitgevoerd wordt.</p>
  
-		<p>Voor upgrades moet standaard de grafische omgeving worden verlaten. De upgrade wordt in een tekstkonsole uitgevoerd. Het is echter mogelijk, de paketten eerst te downloaden en later pas in de tekstkonsole te wisselen). Door deze kleine maatregelen kan men zich soms uren aan reparaties besparen.</p>
+		<p>Voor upgrades moet standaard de grafische omgeving worden verlaten. De upgrade wordt in een tekstkonsole uitgevoerd. Het is echter mogelijk, de pakketten eerst te downloaden en later pas in de tekstkonsole te wisselen). Door deze kleine maatregelen kan men zich soms uren aan reparaties besparen.</p>
 
 		<h2>(Alleen) downloaden:</h2>
 
@@ -356,88 +360,71 @@ The following NEW packages will be installed:
   ppp-scripts rebuildfstab rootshell scanpartitions sidux-kernelhacking
 </pre>
 
-		<p><span  class="highlight-2">A.u.b. NOOIT "apt-get dist-upgrade" of "apt-get upgrade" met een actieve grafische omgeving X uitvoeren.</span><br /><br /><span  class="highlight-4">  Voordat een upgrade wordt uitgevoerd, wordt aanbevolen de <a href="http://sidux.com">sidux-Homepage</a> te bezoeken. Hier staan misschien de recente upgrade-waarschuwingen. Deze waarschuwingen zijn door het systeem Debian sid/unstable noodzakelijk. In de bestandenlijsten worden namelijk dagelijks nieuwe programmapaketten opgenomen.<br /><br />Volgorde voor de upgrades: afmelden uit de grafische omgeving zoals de KDE desktop, met Ctrl+Alt+F1 in de tekstmodus wisselen; aanmelden als root, vervolgens "init 3" uitvoeren (zonder aanhalingstekens). Hierdoor komen wij in een omgeving zonder toeters en bellen. De volgende opdrachten zijn: apt-get update; apt-get dist-upgrade; fix-fonts. Verder kunnen de scripts voor de installatie van 3D-videokaartdrivers uitgevoerd worden (na een update van xorg en indien deze drivers gebruikt worden, is een herinstallatie van de 3D-videokaartdrivers verstandig). Na de upgrades wordt de opdracht "init 5 &amp;&amp; exit" gegeven.<br /><br />Voor de zekerheid nogmaals onze waarschuwing: a.u.b. NOOIT een dist-upgrade of upgrade met een grafisch programma zoals adept of kpackage uitvoeren!</span></p>
+		<p><span  class="highlight-2">A.u.b. NOOIT "apt-get dist-upgrade" of "apt-get upgrade" met een actieve grafische omgeving X uitvoeren.</span><br /><br /><span  class="highlight-4">  Voordat een upgrade wordt uitgevoerd, wordt aanbevolen de <a href="http://sidux.com">sidux-Homepage</a> te bezoeken. Hier staan misschien de recente upgrade-waarschuwingen. Deze waarschuwingen zijn door het systeem Debian sid/unstable noodzakelijk. In de bestandenlijsten worden namelijk dagelijks nieuwe programmapakketten opgenomen.<br /><br />Volgorde voor de upgrades: afmelden uit de grafische omgeving zoals de KDE desktop, met Ctrl+Alt+F1 in de tekstmodus wisselen; aanmelden als root, vervolgens "init 3" uitvoeren (zonder aanhalingstekens). Hierdoor komen wij in een omgeving zonder toeters en bellen. De volgende opdrachten zijn: apt-get update; apt-get dist-upgrade; fix-fonts. Verder kunnen de scripts voor de installatie van 3D-videokaartdrivers uitgevoerd worden (na een update van xorg en indien deze drivers gebruikt worden, is een herinstallatie van de 3D-videokaartdrivers verstandig). Na de upgrades wordt de opdracht "init 5 &amp;&amp; exit" gegeven.<br /><br />Voor de zekerheid nogmaals onze waarschuwing: a.u.b. NOOIT een dist-upgrade of upgrade met een grafisch programma zoals adept of kpackage uitvoeren!</span></p>
 </div>
 	<div class="divider" id="apt-cache">
-			<h2>Met apt-cache naar programmapaketten zoeken</h2>
-		<p>Een zeer zinvol commando in het APT-systeem is apt-cache. Hiermee worden de APT-databank doorzocht en informatie over de paketten opgevraagd. De lijst van alle paketten, die een "screensaver" bevatten of gebruiken, kan door het volgende commando worden verkregen:</p>
+			<h2>Met apt-cache naar programmapakketten zoeken</h2>
 
-<pre># apt-cache search screensaver
-brightside - Add reactivity to the corners and edges of your GNOME desktop
-chbg - tool for changing the desktop background image in X11
-cmatrix - Console Matrix simulates the display from "The Matrix"
-electricsheep - screensaver showing collective dream of sleeping computers
-epplets - The Epplets for the Enlightenment Window Manager
-gkrellshoot - Plugin for gkrellm to lock the screen and make screenshots
-kscreensaver - additional screen savers released with KDE
-kscreensaver-xsavers - KDE hooks for standard xscreensavers
-ktux - Tux screensaver for KDE
-lg-issue24 - Issue 24 of the Linux Gazette.
-lockvc - screensaver to lock your Linux console(s)
-rss-glx - Really Slick Screensavers GLX Port
-shermans-aquarium - Sherman's aquarium applet for GNOME 2
-wmmatrix - View The Matrix in a Window Maker dock application
-xscreensaver - Automatic screensaver for X
-xscreensaver-gl - GL(Mesa) screen hacks for xscreensaver
-ksetisaver - SETI screensaver for KDE</pre>
+			<p>Een ander commando voor het APT-systeem is apt-cache. Hiermee wordt in de APT-database gezocht en kan informatie van pakketten worden getoond. Een opdracht voor een lijst van alle pakkettendie "sidux" en "manual" bevatten:</p>
 
-	<p>Wil men meer informatie over de huidige versie van een paket, dan gebruikt men:</p>
+<pre>$ apt-cache search sidux manual
+sidux-manual-de - the official de sidux manual
+sidux-manual-ro - the official ro sidux manual
+sidux-manual-hr - the official hr sidux manual
+sidux-manual-common - the official sidux manual - common files
+sidux-manual-en - the official en sidux manual
+sidux-manual-ru - the official ru sidux manual
+sidux-manual-dk - the official dk sidux manual
+sidux-manual - the official sidux manual - all languages
+sidux-manual-nl - the official nl sidux manual
+sidux-manual-es - the official es sidux manual</pre>
 
-<pre># apt-cache show xscreensaver
-Package: xscreensaver
+		<p>Als je meer informatie van een pakket wilt zien, gebruik bijv.:</p>
+
+<pre>$ apt-cache show sidux-manual-en
+Package: sidux-manual-en
 Priority: optional
-Section: x11
-Installed-Size: 9728
-Maintainer: Ralf Hildebrandt;ralf.hildebrandt@charite.de
-Architecture: i386
-Version: 4.21-7
-Depends: libatk1.0-0 (>= 1.9.0), libc6 (>= 2.3.5-1), libglade2-0 (>= 1:2.5.1), libglib2.0-0 (>= 2.8.0), libgtk2.0-0 (>= 2.6.0), libice6 | xlibs (>> 4.1.0), libjpeg62, libpam0g (>= 0.76), libpango1.0-0 (>= 1.8.2), libsm6 | xlibs (>> 4.1.0), libx11-6 | xlibs (>> 4.1.0), libxext6 | xlibs (>> 4.1.0), libxinerama1, libxml2 (>= 2.6.21), libxmu6 | xlibs (>> 4.1.0), libxpm4 | xlibs (>> 4.1.0), libxrandr2 | xlibs (>> 4.3.0), libxrender1 (>> 1:0.9.0-1), libxt6 | xlibs (>> 4.1.0), libxxf86misc1, libxxf86vm1, zlib1g (>= 1:1.2.1)
-Recommends: xli | xloadimage, libjpeg-progs, perl5, miscfiles | wordlist
-Suggests: netpbm, xdaliclock, xscreensaver-gl, fortune, www-browser, qcam | streamer
-Conflicts: funny-manpages ( 1.3-1), suidmanager ( 0.50), xscreensaver-gnome ( 4.09-2), xscreensaver-nognome ( 4.09-2), gnome-control-center ( 1:2)
-Filename: pool/main/x/xscreensaver/xscreensaver_4.21-7_i386.deb
-Size: 3747878
-MD5sum: ae0650bafe4834f9c6459d75544d1ddb
-Description: Automatic screensaver for X
-The purpose of xscreensaver is to display pretty pictures on your screen
-when it is not in use, in keeping with the philosophy that unattended
-monitors should always be doing something interesting, just like they do
-in the movies.</pre>
+Section: doc
+Installed-Size: 1088
+Maintainer: Kel Modderman &lt;kel@otaku42.de&gt;
+Architecture: all
+Source: sidux-manual
+Version: 01.12.2007.06.03-1
+Depends: sidux-manual-common
+Filename: pool/main/s/sidux-manual/sidux-manual-en_01.12.2007.06.03-1_all.deb
+Size: 391222
+MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
+SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
+SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
+Description: the official en sidux manual
+ This manual is divided into common sections, for example, a subject pertaining
+ to partitioning is found in Partitioning your Hard Drive, and topics regarding
+ the Internet/WIFI are grouped in Internet and Networking. There are some
+ topics that cannot be grouped or require stand-alone status.
+ .
+ As with any new documentation there will be errors/mistakes/typos, although we
+ hope otherwise regarding errors and mistakes (typos we can live with) please
+ forgive us.
+ .
+ As the body of work grows, more documentation will be added and we at sidux are
+ sure that this will prove to be a very valuable resource for you and we thank
+ you for being a part of sidux.</pre>
 
-<pre>The benefit that this program has over the combination of the xlock and xautolock programs is the ease with which new graphics hacks can be installed: you don't need to recompile this program to add a new display mode, you just change some resource settings. Any program which can be invoked in such a way that it draws on the root window of the screen can now be used as a screensaver without modification. The programs that are being run as screensavers don't need to have any special knowledge about what it means to be a screensaver.</pre>
+		<p>Alle beschikbare versies van een pakket (afhankelijk van je sources.list) kunnen getoond worden via bijv.:</p>
 
-<pre>Tag: interface::x11, uitoolkit::gtk, x11::screensaver
-Task: gnome-desktop
-Package: xscreensaver
-Priority: optional
-Section: x11
-Installed-Size: 10032
-Maintainer: Ralf Hildebrandt ralf.hildebrandt@charite.de
-Architecture: i386
-Version: 4.21-5
-Depends: libatk1.0-0 (>= 1.9.0), libc6 (>= 2.3.2.ds1-21), libglade2-0 (>= 1:2.5.1), libglib2.0-0 (>= 2.6.0), libgtk2.0-0 (>= 2.6.0), libice6 | xlibs (>> 4.1.0), libjpeg62, libpam0g (>= 0.76), libpango1.0-0 (>= 1.8.1), libsm6 | xlibs (>> 4.1.0), libx11-6 | xlibs (>> 4.1.0), libxext6 | xlibs (>> 4.1.0), libxml2 (>= 2.6.16), libxmu6 | xlibs (>> 4.1.0), libxpm4 | xlibs (>> 4.1.0), libxrandr2 | xlibs (>> 4.3.0), libxrender1, libxt6 | xlibs (>> 4.1.0), zlib1g (>= 1:1.2.1)
-Recommends: xli | xloadimage, netpbm, libjpeg-progs, perl5, miscfiles | wordlist
-Suggests: xdaliclock, xscreensaver-gl, fortune, www-browser, qcam | streamer
-Conflicts: xscreensaver-gnome ( 4.09-2), xscreensaver-nognome ( 4.09-2), gnome-control-center ( 1:2)
-Filename: pool/main/x/xscreensaver/xscreensaver_4.21-5_i386.deb
-Size: 3850212
-MD5sum: 4c4d20ef312359cf836f3164a6eac293</pre>
+<pre>$ apt-cache policy sidux-manual-en
+sidux-manual-en:
+  Installed: (none)
+  Candidate:01.12.2007.06.03-1
+  Version table:
+     01.12.2007.06.03-1 0
+        500 http://sidux.com sid/main Packages</pre>
 
-<pre>Description: Automatic screensaver for X
-The purpose of xscreensaver is to display pretty pictures on your screen when it is not in use, in keeping with the philosophy that unattended monitors should always be doing something interesting, just like they do in the movies.</pre>
-
-<pre>The benefit that this program has over the combination of the xlock and xautolock programs is the ease with which new graphics hacks can be installed: you don't need to recompile this program to add a new display mode, you just change some resource settings. Any program which can be invoked in such a way that it draws on the root window of the screen can now be used as a screensaver without modification. The programs that are being run as screensavers don't need to have any special knowledge about what it means to be a screensaver.</pre>
-
-<pre>Tag: interface::x11, uitoolkit::gtk, x11::screensaver
-Task: gnome-desktop</pre>
- 
- 
-<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Een volledige beschrijving van het APT-systeem is te vinden in de APT-HOWTO.</a> </p>
+			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Een volledige omschrijving van het APT-System staat in de APT-HOWTO.</a> </p>
 
 	</div>
+			<div id="rev">Page last revised 10/06/2007 1700 UTC</div>
 
-
-	<div id="rev">Content last revised UTC 18/02/2007 2330hrs UTC </div>
 </div>
 </body>
 </html>

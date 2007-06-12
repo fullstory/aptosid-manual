@@ -9,11 +9,14 @@
 	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
 	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
 	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <![endif]-->
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.12-2007-06-03 en lang maintainer bluewater-->
-<!-- menu last updated by bluewater 03/06/2007 1400rs AEST 03/06/2007 0400hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.14-2007-06-011 en lang maintainer bluewater-->
+<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Back to main sidux menu</a></li>
@@ -116,7 +119,7 @@
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="internet-connecting-en.htm">Internet and Networking</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="ntp-server-en.htm#ntp-server">Timeserver Setup</a></li>
-				<li><a href="internet-connecting-en.htm#firewalls">Mini-Firewall</a></li>
+				<li><a href="internet-connecting-en.htm#firewalls">Firewall</a></li>
 				<li><a href="samba-en.htm#configure">Configuring SAMBA (Windows)</a></li>
 				<li><a href="samba-en.htm#setup">Samba-Server Setup</a></li>
 				<li><a href="ssh-en.htm#ssh-fs">SSH Remote Mounting</a></li>
@@ -153,6 +156,7 @@
 				<li><a href="sys-admin-gen-en.htm#pw-lost">Lost root passwords</a></li>
 				<li><a href="sys-admin-gen-en.htm#fonts">Fonts</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#boot-grub-floppy">Creating a Boot-Floppy</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#what-is-grub">Grub the boot manager</a></li>
@@ -392,16 +396,36 @@ title floppy
 chainloader (fd0)+1
 </pre>
 
+	</div>
+	<div class="divider" id="dual-boot">
+			<h2>Dual and Multiple Booting</h2>
+
+			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
-			<h3>Dual and Multiple Booting</h3>
+<pre>
+### MS Windows XP (TM)
+title Windows 2K/XP/2003 (hda1)
+chainloader (hd0,0)+1
 
-			<p>Some people need/want several Windows-Installations. Windows always wants to boot from disk 1. We will have to hide one partition and activate another. The following commands should be entered in the GRUB-Commandline and, if successfull, copied to the menu.lst. This should be done for every Windows-partition. Don't forget to do a Backup! ;-)</p>
+### Debian etch
+title Debian etch
+kernel (hd0,3)debian/vmlinuz root=/dev/hda4 ro (or whatever)
+initrd (hd0,3)/debian/miniroot.gz (or (whatever)
+
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,5)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,5)/sidux/miniroot.gz
+</pre>
+
+
+			<p>Some people need/want several MS Windows (TM)Installations. MS Windows (TM) always wants to boot from disk 1. We will have to hide one partition and activate another. The following commands should be entered in the GRUB-Commandline and, if successfull, copied to the menu.lst. This should be done for every Windows-partition. Don't forget to do a Backup:</p>
 
 <pre>hide (hd0,0) # hidden partition 1 of disk 1
 unhide (hd0,1) # makes partition 2 of disk 1 visible
 rootnoverify (hd0,1) # makes partition 2 of disk 1 the Root-FS
-makeactive # makes partition 2 of disk 1 aktiv
+makeactive # makes partition 2 of disk 1 active
 chainloader +1 # points to the first sector of the start-partition
 boot # boots the operating system</pre>
 

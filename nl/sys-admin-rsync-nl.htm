@@ -9,11 +9,14 @@
 	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
 	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
 	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <![endif]-->
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual   01.12-2007-06-03 nl lang maintainer eislon zerby HarzG-->
-<!-- menu last updated by bluewater 03/06/2007 1400rs AEST 03/06/2007 0400hrs UTC -->
+<!--Welcome to the Official sidux-manual   01.14-2007-06-11 nl lang maintainer eislon zerby HarzG-->
+<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
@@ -153,6 +156,7 @@
 				<li><a href="sys-admin-gen-nl.htm#pw-lost">Root wachtwoord vergeten</a></li>
 				<li><a href="sys-admin-gen-nl.htm#fonts">Lettertypes</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">MBR bootsector overschreven</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#boot-grub-floppy">Aanmaken van een boot-diskette</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#remove-grub">Grub uit de MBR verwijderen</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#what-is-grub">Grub de bootmanager</a></li>
@@ -275,20 +279,20 @@ trinity --> morpheus – wordt: trinity --> neo &amp; neo --> morpheus
 </pre>
 				<h5>Werkende voorbeelden van rsync commando's:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Laten we enkele delen van dit commando nader bekijken:</p>
 <pre>
-het bron pad/bestand is: “morpheus:/home/tartie”
-en her doel is: “/media/hda7/SysBackups/morpheus/home”
+het bron pad/bestand is: morpheus:/home/tartie
+en her doel is: /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>alles van /home/tartie... zal gebackupped worden onder /media/hda7/SysBackups/morpheus/home dit zal eruit zien als:</p>
 <pre>
-“/media/hda7/SysBackups/morpheus/home/tartie...”
+/media/hda7/SysBackups/morpheus/home/tartie...
 </pre>
 				<p>Het moet opgemerkt worden dat de enige reden is dat /tartie onder /home komt is , omdat dit door de doelverwijzing komt, en NIET door de bronverwijzing. De “bron” selecteert alleen waar de bestanden vandaan komen, maar niet waar ze geplaatst worden. Het “doel” verteld aan rsync waar deze de bestanden , die van de bron komen, geplaatst moeten worden. Bekijk het volgende voorbeeld:</p>
 <pre>
-rsync [...] “/home/user/data/files” “/media/hda7/SysBackups/neo”
+rsync [...] /home/user/data/files” “/media/hda7/SysBackups/neo
 </pre>
 				<p>In het bovenstaande commando. wordt alleen het bron folder /files, en wat er beneden ligt geplaatst onder de doel-folder /neo – en dit is niet /media/hda7/SysBackups/neo/home/user/data/files</p>
 
@@ -323,27 +327,27 @@ rsync [...] “/home/user/data/files” “/media/hda7/SysBackups/neo”
 
 				<h5>Voorbeeld commando's:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Dit commando zal alle bestanden en alle folders onder /home/tartie backuppen op het systeem met de naam “morpheus”, en plaatst deze in de /media/hda7/SysBackups/morpheus/home folder – de directory structuur blijft bewaard van de tartie folder.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "/home/tartie" "neo:/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Dit commando doet precies het omgekeerd als het commando die hierboven beschreven is, het zal de /home/tartie folder "duwen (push)" , zijn inhoud, en sub-folders naar het systeem met de naam  neo in dezelfde folder – bemerk dat een systeem gezien wordt als een remote systeem doormiddel van het “:” (colon) symbool welke vooraan in het pad staat.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "/home/cuddles" "/media/hda7/SysBackups/neo/home"
+rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
 </pre>
 				<p>Dit commando voert een lokale naar lokale backup uit, bemerk dat er geen "colon" aanwezig is in zowel de bron- als doel locaties. Dit commando zal lokaal de /home/cuddles omgeving backuppen naar hetzelfde systemen /media/hda7/SysBackups/neo/home locatie.</p>
 
 				<p>Laten we nu een meervoudige "exclude" rsync commando bekijken:</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" "/media/hda7/SysBackups/neo"
+rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/hda7/SysBackups/neo
 </pre>
 				<p>Het bovenstaande commando zal ALLES backuppen vanaf de root van het lokale systeem en al zijn bestanden/folders, en worden dan geplaatst op de doellocatie /media/hda7/SysBackups/neo – maar nu zal het alle bestanden of folder overslaan welke eindigen op een  “~”, of een “.c”, of een “.o”</p>
 
 				<p class="highlight-2">Hieronder is een voorbeeld van een rsync commando welke of fout zou moten gaan, of gemijd moet worden wanneer het maar kan. Het is een voorbeeld van een remote systeem naar een remote systeem rsync commando:</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "trinity:/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie trinity:/home
 </pre>
 				<p class="highlight-2">Zoals eerder genoemd in dit document, is dit een beperking van het rsync commando.</p>
 
@@ -351,16 +355,16 @@ rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "trinity:
 
 				<p>Het eerste commando is op de “naam” methode, en bij het tweede commando, precies gelijk, wordt gebruikt gemaakt van IP Adressen.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "192.168.1.16:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Zoals al eerder gezegd is, hoef je niet de vertaalde namen te gebruiken, zoals in voorbeeld 1, maar je kunt het wel beter begrijp wat er uitgevoerd gaat worden dan in het 2e voorbeeld.</p>
 
 				<p>Je moet nu in staat zijn om een simpel commando te ontwerpen, vanuit de voorbeelden of het mixen van de commando's die je gezien hebt.</p>
 	</div>
-			<div id="rev">Pagina het laatst gewijzigd op 24/02/2007 0900 UTC</div>
+			<div id="rev">Pagina het laatst gewijzigd op 12/06/2007 0400 UTC</div>
 
 
 </div>

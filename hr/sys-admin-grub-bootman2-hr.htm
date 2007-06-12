@@ -9,11 +9,14 @@
 	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
 	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
 	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <![endif]-->
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.12-2007-06-03 hr lang maintainer cobra-->
-<!-- menu last updated by bluewater 03/06/2007 1400rs AEST 03/06/2007 0400hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.14-2007-06-11 hr lang maintainer cobra-->
+<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Natrag u glavni sidux meni</a></li>
@@ -153,6 +156,7 @@
 				<li><a href="sys-admin-gen-hr.htm#pw-lost">Izgubljena root lozinka</a></li>
 				<li><a href="sys-admin-gen-hr.htm#fonts">Pisma u sidux</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#mbr-grub-boot">Prepisati MBR bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-hr.htm#dual-boot">Dual i Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#boot-grub-floppy">Izraditi Boot-Floppy</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#remove-grub">Brisanje grub-a sa MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#what-is-grub">Boot-Menadžer Grub</a></li>
@@ -423,8 +427,28 @@ chainloader (fd0)+1
 </pre>
 
 
-
+	</div>
+	<div class="divider" id="dual-boot">
 			<h3>Dual i Multiple Booting</h3>
+
+			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+
+
+<pre>
+### MS Windows XP (TM)
+title Windows 2K/XP/2003 (hda1)
+chainloader (hd0,0)+1
+
+### Debian etch
+title Debian etch
+kernel (hd0,3)debian/vmlinuz root=/dev/hda4 ro (or whatever)
+initrd (hd0,3)/debian/miniroot.gz (or (whatever)
+
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,5)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,5)/sidux/miniroot.gz
+</pre>
 
 			<p>Nekim ljudima trebaju različite Windows-instalacije. Windows hoće uvijek da startuje sa 1. Zato moramo jednu particiju sakriti i aktivirati drugu. Sljedeće naredbe bi trebali biti upisane u GRUB-naredbenu crtu i, ako su uspješne, kopirajte ih u menu.lst. To trebate obaviti za svaku Windows particiju. Ne zaboravite obaviti sigurnosnu kopiju! ;-)</p>
 

@@ -5,18 +5,21 @@
 	<title>sidux Manuals - Upgrading sidux</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
-	<style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
-	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
-	<link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
-	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
+        <style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
+        <link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
+        <script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+        <!--[if lt IE 8]>
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-7_override.css">
+        <![endif]-->
         <!--[if lt IE 7]>
-        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_override.css">
+        <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
 <body>
 <div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual   01.14-2007-06-11 nl lang maintainer eislon zerby HarzG-->
-<!-- menu last updated by bluewater 11/06/2007 1800rs AEST 11/06/2007 0800hrs UTC -->
+<!--Welcome to the Official sidux-manual   01.15-2007-06-16 nl lang maintainer zerby  HarzG-->
+<!-- menu last updated by bluewater 16/06/2007 1500rs AEST 16/06/2007 0500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
@@ -119,7 +122,9 @@
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="internet-connecting-nl.htm">Internet en Netwerken</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="ntp-server-nl.htm#ntp-server">Tijdserver instellen</a></li>
-				<li><a href="internet-connecting-nl.htm#firewalls">Mini-Firewall</a></li>
+				<li><a href="tor-privoxy-nl.htm#tor">Tor</a></li>
+				<li><a href="tor-privoxy-nl.htm#privoxy">Privoxy</a></li>
+				<li><a href="internet-connecting-nl.htm#firewalls">Firewalls</a></li>
 				<li><a href="samba-nl.htm#configure">Configureren van SAMBA (Windows)</a></li>
 				<li><a href="samba-nl.htm#setup">Samba-Server instellen</a></li>
 				<li><a href="ssh-nl.htm#ssh-fs">SSH Remote mounten</a></li>
@@ -166,31 +171,44 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="live-cd-upgrade">
-		<h2 id="top-header">Live-cd upgrade</h2>
-			<p>The facility to "live-cd' upgrade a sidux installation does not exist. Before proceeding with installing sidux <span class="highlight-2">BACK-UP YOUR DATA! including your bookmarks and emails.</span></p>
+        <h2 id="top-header">Live-cd upgrade</h2>
+            <p>Er bestaat geen mogelijkheid om de "live-cd' te gebruiken voor een upgrade van een sidux installatie.</p><p>Voordat je de installatie van sidux begint, <span class="highlight-2">maak een BACK-UP VAN JE DATA! incl. van favorieten/bladwijzers en e-mails.</span></p>
 
-			 <p class="highlight-3">It is highly recommended that you have a separate data partition. The benefits in terms of disaster recovery, stability of your data are unmeasurable.</p>
+             <p class="highlight-3">Het is verstandig om een aparte data partitie te hebben of aan te leggen. Hierdoor kan dataverlies worden voorkomen (als door een fout de systeempartitie beschadigd is) en is de stabiliteit van je data gewaarborgd.</p>
 
-			<p>Therefore your $HOME becomes a place where basic application configurations are kept. or to put it another way, a container for applications to store their settings.</p>
+            <p>In je $HOME map of partitie worden de basisinstellingen voor de verschillende applicatie bewaard. De applicaties plaatsen daar de voorkeursinstellingen zoals kleuren, lettertypes, standaardmappen etc.</p>
 
-			<p class="highlight-2">ALWAYS BACK-UP YOUR DATA including your bookmarks and emails!</p>
-			
+           
+           
 
-	</div>
-	<div class="divider" id="hd-upgrade">
-		<h2>Hard Disk Installed Dist-Upgrade</h2>
+    </div>
+    <div class="divider" id="hd-upgrade">
+        <h2>Dist-Upgrade na de installatie</h2>
 
-			<p>You have upgraded your install with the latest sidux Live Cd and now you want to ensure that you have the latest versions of packages and security updates from here on in.</p>
-			<p>With sidux its called 'dist-upgrade' and is done over the net</p>
-			<p class="highlight-3"><b>The only supported method to dist-upgrade is as follows:</b></p>
+            <p>Je hebt sidux op je harde schijf ge&#239;nstalleerd met de laatste sidux live-cd en je wilt nu de laatste versie van pakketten en veiligheids-updates installeren.</p>
+            <p>In sidux heet dat 'dist-upgrade' en wordt via een internetverbinding gedaan. Dat gaat prima met een ADSL-verbinding. Via een inbel-modemverbinding is dat ook mogelijk, maar dat kan langer duren.</p>
+            <p class="highlight-3"><b>De enige ondersteunde methode voor een dist-upgrade is hieronder beschreven:</b></p>
 
-			<div class="box block">
-			<div class="highlight-2">NEVER EVER do a dist-upgrade nor upgrade whilst in X</div><div class="highlight-4"> Always check Current Warnings on the <a href="http://sidux.com">sidux</a> main web site. These warnings are there for a reason because of the nature of unstable and updated on a daily basis.  Log out of KDE. Go to Textmode by doing Ctrl+Alt+F1 ; logon as root, and then in type init 3 ; apt-get update ; apt-get dist-upgrade ;run fix-fonts ; run fglrx or nvidia script if xorg updated and you have such a graphics adapter  otherwise do ;  init 5 &amp;&amp; exit [NEVER DIST-UPGRADE [or UPGRADE] with adept, synaptic or aptitude <a href="sys-admin-apt-en.htm#apt-upgrade"> SEE Upgrade of an Installed System</a> ] There is one exception!! <a href=" http://techpatterns.com/forums/about736.html - du-fixes-h2.sh">du-fixes-h2</a> </div>
-		
-	</div>
-			<p><a href="http://techpatterns.com/forums/about736.html">For new users, the !h2 d-u-fixes script may provide help by semi-automating the dist-upgrade process</a>.</p>
-			<div class="spacer05"></div>
-	<div id="rev">Content last revised UTC 31/01/2007 1500hrs UTC </div>
+            <div class="box block">
+            <div class="highlight-2">Pleeg a.u.b. NOOIT een dist-upgrade of upgrade in in de grafische X omgeving.<div class="highlight-4"> Controleer altijd voorafgaand de actuele waarschuwingen en adviezen op de <a href=" http://sidux.com">sidux website</a>. Deze waarschuwingen staan daar omdat zij nodig zijn voor een Debian sid/unstable-systeem waarin dagelijks verschillende pakketten geactualiseerd of nieuwe pakketten toegevoegd worden.</div>
+<pre># Verlaat de grafische omgeving KDE via Ctrl+Alt+F1 
+# meld je aan als root, type 
+init 3 
+apt-get update 
+apt-get dist-upgrade 
+fix-fonts 
+#  hierna worden de grafische drivers nieuw installeerd 
+get-sidux-binary-gfx
+# terug naar de grafische omgeving via
+init 5 &amp;&amp; exit 
+</pre>
+[Probeer nooit een DIST-UPGRADE [of UPGRADE] met adept, synaptic of aptitude uit te voeren. <a href=" sys-admin-apt-nl.htm#apt-upgrade">Kijk hier voor meer infomatie.</a> Er is 1 uitzondering, het h2-script! <a href=" http://techpatterns.com/forums/about736.html - du-fixes-h2.sh">du-fixes-h2</a>.</div>
+
+    </div>
+            <p><a href="http://techpatterns.com/forums/about736.html ">Voor nieuwe users: het script !h2 d-u-fixes kan je helpen bij een semi-automatische dist-upgrade, je wordt hiermee stap voor stap door de upgrade geloodst.</a></p>
+
+<div class="spacer02"></div>
+	<div id="rev">Content last revised UTC 13/06/2007 2100hrs UTC </div>
 </div>
 </div>
 </body>

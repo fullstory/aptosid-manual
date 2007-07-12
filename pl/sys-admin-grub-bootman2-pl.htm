@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body>
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 pl lang maintainer maslot-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here pl lang maintainer maslot-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Powrót do głównego menu</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-pl.htm">Witamy w instrukcji siduksa</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-pl.htm">OS instrukcji siduksa</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-pl.htm#welcome-gen">Witamy w instrukcji siduksa</a></li>
+				<li><a href="welcome-pl.htm#welcome-gen">OS instrukcji siduksa</a></li>
 				<li><a href="welcome-pl.htm#how-to">Jak korzystać z tej instrukcji</a></li>
 				<li><a href="welcome-pl.htm#table-contents">Spis treści</a></li>
 				<li><a href="help-pl.htm#help-gen">Gdzie otrzymać pomoc</a></li>
@@ -131,6 +132,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-pl.htm">Administracja systemem</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-pl.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-pl.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-upgrade">Aktualizacja systemu</a></li>
 				<li><a href="sys-admin-upgrade-pl.htm#live-cd-upgrade">Aktualizacja przy użyciu Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-pl.htm#kern-upgrade">Aktualizacja kernela</a></li>
@@ -140,6 +143,7 @@
 				<li><a href="sys-admin-gen-pl.htm#start-services">Włączanie usług </a></li>
 				<li><a href="sys-admin-gen-pl.htm#pw-lost">Utrata hasła roota</a></li>
 				<li><a href="sys-admin-gen-pl.htm#fonts">Fonty</a></li>
+				<li><a href="sys-admin-gen-pl.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Nadpisanie MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#boot-grub-floppy">Tworzenie dyskietki startowej</a></li>
@@ -189,48 +193,66 @@
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Tworzenie dyskietki startowej</h2>
 
-			<p>Podczas instalacji siduksa na twardym dysku możesz utworzyć dyskietkę startową. Teraz zobaczysz, jak to zrobić później. Musisz wykonać następujące kroki:</p>
+							<p><a href="http://www.sidux.com/files/misc/grubboot.zip">Pobierz obraz dyskietki gruba</a>. (ok. 580 kB) i poeksperymentuj. Na dyskietce znajdziesz również działający  FreeDOS i edytor. Jeśli usuniesz blokadę zapisu z dysku, możesz edytować menu.lst na dyskietce stosownie do twoich potrzeb.</p>
 
-			<p>1. Sformatuj dyskietkę</p>
-<pre>fdformat /dev/fd0</pre>
+							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+			
+						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
 
-			<p>2. Stwórz system plików na dyskietce (zaleca się użycie ext2 lub vfat)</p>
-<pre>mkfs -t ext2 -c /dev/fd0u1440 lub
-mkfs.vfat /dev/fd0u1440</pre>
-
-			<p>3. Zamontuj dyskietkę</p>
-<pre># mount /dev/fd0 /floppy</pre>
-
-			<p>4. Stwórz drzewo katalogów na dyskietce</p>
-<pre>mkdir -p /floppy/boot/grub</pre>
-
-			<p>5. Skopiuj potrzebne pliki na dyskietkę</p>
-<pre>cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub</pre>
-
-			<p>6. Aby móc uruchomić właściwy system operacyjny (sidux) z właściwej partycji, musisz wykonać następujące instrukcje:</p>
-
-			<p>7. Skopiuj plik "menu.lst", który został zapisany przez siduksa w katalogu /boot partycji siduksa na dyskietkę</p>
-<pre>cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>8. Odmontuj dyskietkę (zwróć uwagę na poprawne wpisanie polecenia)</p>
-<pre>umount /dev/fd0</pre>
-
-			<p>9. Uruchom Grub-Shell, aby zakończyć reinstalację Gruba. Aby to zrobić, wpisz:</p>
-<pre>grub grub> root (fd0) grub> setup (fd0) grub> quit</pre>
-
-			<p>Teraz stworzyliśmy dyskietkę startową, z której możemy uruchomić siduksa.</p>
-			<p>Jeśli chcesz stworzyć dyskietkę z uruchomionego Live-CD, procedura jest trochę inna. Załóżmy, że sidux jest zainstalowany na partycji /dev/hda5, musisz w dodatkowo zamiast kroku 7.</p>
-
-			<p>10. Zamontuj partycję siduksa</p>
-<pre>mount /dev/hda5 /media/hda5</pre>
-
-			<p>11. Skopiuj plik "menu.lst", który został zapisany przez siduksa w katalogu /boot partycji siduksa na dyskietkę</p>
-<pre>cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>12. Odmontuj partycję siduksa (zwróć uwagę na poprawne wprowadzenie polecenia)</p>
-<pre>umount /dev/hda5</pre>
-			<p>Dalej postępuj jak w punktach 8 i 9.</p>
+							<p>1. Format a floppy</p>
+<pre>
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
+</pre>
+							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+<pre>
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
+</pre>
+							<p>3. Mount the floppy</p>
+<pre>
+# mount -t minix /dev/fd0 /mnt
+</pre>
+							<p>4.Next run the grub-install script</p>
+<pre>
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
+</pre>
+							<p>5. Last Steps</p>
+<pre>
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
+</pre>
+					
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Usuwanie gruba z MBR</h2>
@@ -452,8 +474,6 @@ LINUX: # chmod a -w ./stage2
 
 
 			<h3>Dalsze informacje</h3>
-
-			<p><a href="http://www.sidux.com/files/misc/grubboot.zip">Pobierz obraz dyskietki gruba</a>. (ok. 580 kB) i poeksperymentuj. Na dyskietce znajdziesz również działający  FreeDOS i edytor. Jeśli usuniesz blokadę zapisu z dysku, możesz edytować menu.lst na dyskietce stosownie do twoich potrzeb.</p>
 
 			<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">Oficjalny FAQ dla Gruba</a>.</p>
 

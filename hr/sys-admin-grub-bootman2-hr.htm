@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body id="welcome">
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 hr lang maintainer cobra-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here hr lang maintainer cobra-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Natrag u glavni sidux meni</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Izaberite drugi jezik" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-hr.htm">Dobro došli kod Sidux</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-hr.htm">sidux OS Priručnik</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-hr.htm#welcome-gen">Oficijalni priručnik</a></li>
+				<li><a href="welcome-hr.htm#welcome-gen">sidux OS Priručnik</a></li>
 				<li><a href="welcome-hr.htm#how-to">Kako koristiti ovaj priručnik</a></li>
 				<li><a href="welcome-hr.htm#table-contents">Indeks</a></li>
 				<li><a href="help-hr.htm#help-gen">Gdje možete dobiti pomoć</a></li>
@@ -151,6 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-hr.htm">Sistem administracija</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-hr.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-hr.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Upgrade instaliranog sistema</a></li>
 				<li><a href="sys-admin-upgrade-hr.htm#live-cd-upgrade">Upgrade koristeći Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-hr.htm#kern-upgrade">Upgrade kernela</a></li>
@@ -160,6 +163,7 @@
 				<li><a href="sys-admin-gen-hr.htm#start-services">Aktiviranje servisa u sidux</a></li>
 				<li><a href="sys-admin-gen-hr.htm#pw-lost">Izgubljena root lozinka</a></li>
 				<li><a href="sys-admin-gen-hr.htm#fonts">Pisma u sidux</a></li>
+				<li><a href="sys-admin-gen-hr.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#mbr-grub-boot">Prepisati MBR bootsector</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#dual-boot">Dual i Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#boot-grub-floppy">Izraditi Boot-Floppy</a></li>
@@ -194,62 +198,67 @@ grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Kreiranje boot Floppy-Diska</h2>
 
-			<p>Tijekom HD-Instalacije siduxa možete kreirati Boot-Disk. Ovdje će te vidjeti što trebate obaviti poslije. Sad vam trebaju sljedeći koraci:</p>
 
-			<p>1. Formatirajte floppy</p>
-<pre>fdformat /dev/fd0</pre>
+							<p><a href="http://www.sidux.com/dummy/grubboot.zip">Dobiti Grub-Floppy-Image</a>. (ca. 580 kB) i igrajte se malo. Na floppy će te isto naći FreeDOS i editor. Ako uklonite osiguranje pisanja za disk, možete editirati menu.lst na floppy prema vašim potrebama.</p>
 
-			<p>2. Kreirajte file-sistem na floppy disku (preporučeno je ext2 ili vfat)</p>
-<pre>mkfs -t ext2 -c /dev/fd0u1440 ili
-mkfs.vfat /dev/fd0u1440</pre>
+							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+			
+						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
 
-			<p>3. Mountajte floppy</p>
-<pre># mount /dev/fd0 /floppy</pre>
-
-			<p>4. Kreirajte strukturu direktorija na floppy</p>
-<pre>mkdir -p /floppy/boot/grub</pre>
-
-			<p>5. Kopirajte potrebne datoteke na floppy</p>
+							<p>1. Format a floppy</p>
 <pre>
-cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
 </pre>
-
-			<p>6. Da vam je moguće da startujete ispravan OS (sidux) sa ispravne particije, konačno morate obaviti sljedeće:</p>
-
-			<p>7. Kopirajte "menu.lst" datoteku, koju je napisao sidux u /boot-direktorij sidux-particije, na floppy</p>
+							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
 <pre>
-cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
 </pre>
-
-			<p>8. Unmountajte floppy (pazite dobro na syntax naredbe)</p>
+							<p>3. Mount the floppy</p>
 <pre>
-umount /dev/fd0
+# mount -t minix /dev/fd0 /mnt
 </pre>
-
-			<p>9. Startujte Grub-Shell da završite re-instalaciju Gruba. Da to obavite, pišite:</p>
+							<p>4.Next run the grub-install script</p>
 <pre>
-grub grub&gt; root (fd0) grub&gt; setup (fd0) grub&gt; quit
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
 </pre>
-
-			<p>Sad smo kreirali boot floppy, sa koje sad možemo lagano da startujemo sidux.</p>
-			<p>Ako hoćete da kreirate sa Live-CD, procedura je malo drugačija. Pretpostavljamo, da je sidux instaliran na particiji /dev/hda5, i onda dodatno još morate obaviti umjesto 7.</p>
-
-			<p>10. Mountajte sidux particiju</p>
+							<p>5. Last Steps</p>
 <pre>
-mount /dev/hda5 /media/hda5
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
 </pre>
-
-			<p>11. Kopirajte "menu.lst" datoteku, koju je napisao sidux u /boot-direktorij sidux-particije, na floppy</p>
-<pre>
-cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst
-</pre>
-
-			<p>12. Unmountajte sidux-particiju (pazite dobro na syntax naredbe)</p>
-<pre>
-umount /dev/hda5
-</pre>
-			<p>Rest je isto kao 8. i 9. u prvom slučaju.</p>
+					
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Brisanje Gruba sa MBR</h2>
@@ -483,8 +492,6 @@ LINUX: # chmod a -w ./stage2
 
 
 			<h3>Gdje možete naći više</h3>
-
-			<p><a href="http://www.sidux.com/dummy/grubboot.zip">Dobiti Grub-Floppy-Image</a>. (ca. 580 kB) i igrajte se malo. Na floppy će te isto naći FreeDOS i editor. Ako uklonite osiguranje pisanja za disk, možete editirati menu.lst na floppy prema vašim potrebama.</p>
 
 			<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">Oficijalni FAQ za Grub</a>.</p>
 

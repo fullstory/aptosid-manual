@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body>
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 en lang maintainer bluewater-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here dk lang maintainer TBA -->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Tilbage til sidux hovedmenu</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-dk.htm">Velkommen til sidux</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-dk.htm">sidux OS Manual</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-dk.htm#welcome-gen">Officiel Manual</a></li>
+				<li><a href="welcome-dk.htm#welcome-gen">sidux OS Manual</a></li>
 				<li><a href="welcome-dk.htm#how-to">Anvendelse af manualen</a></li>
 				<li><a href="welcome-dk.htm#table-contents">Index</a></li>
 				<li><a href="help-dk.htm#help-gen">Hvor finder du hj&#230;lp</a></li>
@@ -139,8 +140,8 @@
 				<li><a href="internet-connecting-dk.htm#netcardconfig">Kom Online</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-dk.htm">Installere nye pakker/Afinstallere pakker</a>
-			<ul class="sub-menu" id="sm14">
+		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-dk.htm">Installere nye pakker/Afinstallere pakker</a>
+			<ul class="sub-menu" id="sm13">
 				<li><a href="sys-admin-apt-dk.htm#apt-cook">APT-Guide og Sources List</a></li>
 				<li><a href="sys-admin-meta-dk.htm#meta-pack">Installere Meta-Pakker </a></li>
 				<li><a href="sys-admin-meta-dk.htm#meta-proxy">Meta Pakker and Proxies</a></li>
@@ -149,9 +150,10 @@
 				<li><a href="sys-admin-apt-dk.htm#apt-downgrade">Downgrading a package</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="sys-admin-apt-dk.htm">System Administration</a>
-			<ul class="sub-menu" id="sm15">
-
+		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-dk.htm">System Administration</a>
+			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-dk.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-dk.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-dk.htm#apt-upgrade">Opgradering af Systemet</a></li>
 				<li><a href="sys-admin-upgrade-dk.htm#live-cd-upgrade">Opgradering med Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-dk.htm#kern-upgrade">Opgradere kernel</a></li>
@@ -161,6 +163,7 @@
 				<li><a href="sys-admin-gen-dk.htm#start-services">Ops&#230;tning af tjenester i sidux</a></li>
 				<li><a href="sys-admin-gen-dk.htm#pw-lost">Mistet root password</a></li>
 				<li><a href="sys-admin-gen-dk.htm#fonts">Fonts</a></li>
+				<li><a href="sys-admin-gen-dk.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-dk.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
 				<li><a href="sys-admin-grub-bootman2-dk.htm#dual-boot">Dual og Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-dk.htm#boot-grub-floppy">Skriv en Boot-Floppy</a></li>
@@ -192,57 +195,77 @@ grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
 	</div>
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Opret en opstarts-diskette</h2>
+							<p><a href="http://www.sidux.com/dummy/grubboot.zip">Hent et Grub-Floppy-Image</a>. (ca. 580 kB) og leg med det. Der er også en version af en fungerende FreeDos på disketten og en editor. Hvis du fjerner skrive-beskyttelsen kan du redigere menu.lst på disketten sådan at den passer til lige dine behov.</p>
 
-			<p>Under installationen af sidux bliver du spurgt om du vil oprette en diskette til opstart (boot-diskette). Her er hvordan du opretter en sådan hvis du ikke fik det gjort under installationen: :</p>
+							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD</a></p>
+			
+							<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
 
-			<p>1. Formater en diskette</p>
-<pre>fdformat /dev/fd0</pre>
+							<p>1. Format a floppy</p>
+<pre>
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
+</pre>
+							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+<pre>
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
+</pre>
+							<p>3. Mount the floppy</p>
+<pre>
+# mount -t minix /dev/fd0 /mnt
+</pre>
+							<p>4.Next run the grub-install script</p>
+<pre>
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
+</pre>
+							<p>5. Last Steps</p>
+<pre>
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
+</pre>
 
-			<p>2. Opret et filsystem på disketten (ext2 eller vfat anbefales):</p>
-<pre>mkfs -t ext2 -c /dev/fd0u1440 eller
-mkfs.vfat /dev/fd0u1440</pre>
-
-			<p>3. Monter disketten:</p>
-<pre># mount /dev/fd0 /floppy</pre>
-
-			<p>4. Opret mappe-hierakiet på disketten:</p>
-<pre>mkdir -p /floppy/boot/grub</pre>
-
-			<p>5. Kopier de nødvendige filer til disketten:</p>
-<pre>cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub</pre>
-
-			<p>6. For at starte det rigtige OS fra den rigtige partition skal du afslutte med dette:</p>
-
-			<p>7. Kopier "menu.lst" filen (som sidux har skrevet til /boot mappen på boot partitionen) til floppy disketten:</p>
-<pre>cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>8. Afmonter disketten (OBS: vær opmærksom på stavemetoden af denne kommando):</p>
-<pre>umount /dev/fd0</pre>
-
-			<p>9. Start Grub-Shell for at færdiggøre re-installationen af Grub:</p>
-<pre>grub grub> root (fd0) grub> setup (fd0) grub> quit</pre>
-
-			<p>Nu har vi oprettet en boot-diskette, med hvilken Sidux kan opstartes.</p>
-			<p>Hvis du vil oprette en diskette fra en kørende Live-CD session, så er proceduren lidt anderledes. Lad os antage at sidux er installeret på partitionen /dev/hda5, du skal så udskifte punkt 7 med punkt 10 - 12.</p>
-
-			<p>10. Monter sidux partitionen</p>
-<pre>mount /dev/hda5 /media/hda5</pre>
-
-			<p>11. Kopier "menu.lst"-filen, der blev skrevet af sidux til /boot-mappen på sidux partitionen, over på disketten</p>
-<pre>cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>12. Afmonter sidux partitionen (OBS: vær opmærksom på stavemetoden af denne kommando)</p>
-<pre>umount /dev/hda5</pre>
-			<p>Du udfører herefter trin 8 og 9 som beskrevet foroven.</p>
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Fjerne Grub fra MBR</h2>
 
-<p>Meget nemt: som root skriver du</p>
-<pre>lilo -M /dev/hda -s /dev/null</pre>
+							<p>Meget nemt: som root skriver du</p>
+<pre>
+lilo -M /dev/hda -s /dev/null
+</pre>
 
-			<p>i en terminal.</p>
+							<p>i en terminal.</p>
+
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>GRUB bootmanageren - hvad er det for en fætter?</h2>
@@ -457,7 +480,7 @@ LINUX: # chmod a -w ./stage2
 
 			<h3>Find ud af mere</h3>
 
-			<p><a href="http://www.sidux.com/dummy/grubboot.zip">Hent et Grub-Floppy-Image</a>. (ca. 580 kB) og leg med det. Der er også en version af en fungerende FreeDos på disketten og en editor. Hvis du fjerner skrive-beskyttelsen kan du redigere menu.lst på disketten sådan at den passer til lige dine behov.</p>
+
 
 			<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">Den oficielle Grub-FAQ</a>.</p>
 

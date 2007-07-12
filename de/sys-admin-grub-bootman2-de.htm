@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 de lang maintainer hubi Zophod-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here de lang maintainer hubi Zophod-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Zurück zum sidux Hauptmenü</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Wählen Sie eine andere Sprache" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-de.htm">Willkommen bei sidux</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-de.htm">sidux OS Handbuch</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-de.htm#welcome-gen">Offizielles Handbuch</a></li>
+				<li><a href="welcome-de.htm#welcome-gen">sidux OS Handbuch</a></li>
 				<li><a href="welcome-de.htm#how-to">Tipps zum Handbuch</a></li>
 				<li><a href="welcome-de.htm#table-contents">Index</a></li>
 				<li><a href="help-de.htm#help-gen">Wo es Hilfe gibt</a></li>
@@ -151,6 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-de.htm">Systemadministration</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-de.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-de.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Upgrade eines installierten Systems</a></li>
 				<li><a href="sys-admin-upgrade-de.htm#live-cd-upgrade">Upgrade durch die Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-de.htm#kern-upgrade">Upgrade des Kernels</a></li>
@@ -160,6 +163,7 @@
 				<li><a href="sys-admin-gen-de.htm#start-services">Einen Dienst in sidux starten</a></li>
 				<li><a href="sys-admin-gen-de.htm#pw-lost">Rootpasswort vergessen</a></li>
 				<li><a href="sys-admin-gen-de.htm#fonts">Schriftarten</a></li>
+				<li><a href="sys-admin-gen-de.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#mbr-grub-boot">MBR-Bootsektor überschrieben</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#dual-boot">Dual und Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#boot-grub-floppy">Eine Boot-Floppy erstellen</a></li>
@@ -193,68 +197,77 @@ sudo su
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Erstellen einer bootfähigen Diskette (Floppy)</h2>
 
-		<p>Während der Festplatteninstallation von sidux kann man eine
-                 Boot-Diskette erstellen. Hier wird gezeigt, wie man diese
-                 nachträglich machen kann. Dafür sind von Dir folgende Schritte auszuführen:</p>
+							<p>Lade Dir ein <a href="http://sidux.com/files/misc/grubboot.zip">Grub-Disketten-Image</a>(ca. 580 kB) und probiere damit ein wenig herum. Auf der Diskette ist auch ein funktionierendes FreeDOS und ein Editor. Wenn Du den Schreibschutz der Diskette entfernst, kannst Du die menu.lst der Diskette editieren und an deine Gegebenheiten anpassen.</p>
 
-		<p>1.Formatiere eine Floppy</p>
-		<pre>fdformat /dev/fd0</pre>
+							<p>Eine andere Möglichkeit, eine bootfähigen Diskette zu erstellen, bieten die Tools der <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD</a></p>
+			
+							<h5>Um eine Grub-Boot-Diskette zu erstellen, sind folgende Schritte notwendig:</h5>
 
-		<p>2.Filesystem auf der Diskette erzeugen (es empfehlt sich hier
-                 ext2 oder vfat zu nehmen)</p>
-		<pre>mkfs -t ext2 -c /dev/fd0u1440 or mkfs.vfat /dev/fd0u1440</pre>
 
-		<p>3. Mounte die Floppy</p>
-		<pre># mount /dev/fd0 /floppy</pre>
+							<p>1. Formatiere eine Diskette</p>
+<pre>
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
+</pre>
+							<p>2. Erstelle auf ihr ein Dateisystem (es wird empfohlen ext2, minix(fs) oder vfat zu benutzen)</p>
+<pre>
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
+</pre>
+							<p>3. Mounte die Diskette</p>
+<pre>
+# mount -t minix /dev/fd0 /mnt
+</pre>
+							<p>4. Benutze anschließend das grub-install-Skript</p>
+<pre>
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
+</pre>
+							<p>5. Letzte Schritte</p>
+<pre>
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
+</pre>
 
-		<p>4. Verzeichnisstruktur auf der Diskette erzeugen</p>
-		<pre>mkdir -p /floppy/boot/grub</pre>
-
-		<p>5. Benötigte Dateien auf die Diskette kopieren</p>
-<pre>cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub</pre>
-
-		<p>6. Damit von Diskette das richtige OS (sidux) auch von der
-                 richtigen Partition starten kann, musst Du abschließend
-                 noch folgendes machen:</p>
-
-		<p>7. Kopieren der "menu.lst"-Datei, die von sidux in das
-                 /boot-Verzeichnis der sidux-Partition geschrieben wurde, auf die
-                 Diskette</p>
-		<pre>cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-		<p>8. Unmounte die Diskette</p>
-		<pre>umount /dev/fd0</pre>
-
-		<p>9. Aufrufen der Grub-Shell, um die Einrichtung abzuschließen.
-                 Hier gibst Du folgendes ein:</p>
-		<pre>grub grub> root (fd0) grub> setup (fd0) grub> quit</pre>
-
-		<p>Damit haben wir uns eine bootbare Diskette erstellt, mit der sidux
-                 zuverlässig gebootet werden kann.</p>
-		<p>Muss man die Diskette aus einer gestarteten Live-CD erzeugen,
-                 ist der Ablauf ein bisschen anders. Nehmen wir an, sidux ist auf der /dev/hda5 Partition installiert, dann muss folgendes zusätzlich gemacht werden anstelle von
-                 Punkt 7</p>
-
-		<p>10. Mounte die sidux Partition</p>
-		<pre>mount /dev/hda5 /media/hda5</pre>
-
-		<p>11. Kopieren der "menu.lst"-Datei, die von sidux in das
-                 /boot-Verzeichnis der sidux-Partition geschrieben wurde, auf die
-                 Diskette</p>
-		<pre>cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-		<p>12. Unmounte die sidux Partition</p>
-		<pre>umount /dev/hda5</pre>
-		<p>Der Rest ist analog zu den Punkten 8 und 9 im ersten Fall.</p>
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Grub aus dem MBR entfernen</h2>
 
-		<p>Dies ist sehr einfach: als Root</p>
-		<pre>lilo -M /dev/hda -s /dev/null</pre>
+							<p>Dies ist sehr einfach: als Root</p>
+<pre>
+lilo -M /dev/hda -s /dev/null
+</pre>
+							<p>in eine Konsole eingeben.</p>
 
-		<p>in eine Konsole eingeben.</p>
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>GRUB-Bootmanager - was ist das?</h2>
@@ -546,11 +559,7 @@ LINUX: # chmod a -w ./stage2
 
 		<h3>Wo kann ich mehr erfahren?</h3>
 
-		<p>Lade Dir ein <a href="http://sidux.com/files/misc/grubboot.zip">Grub-Disketten-Image</a>
-		(ca. 580 kB) und probiere damit ein wenig herum. Auf der Diskette ist
-		auch ein funktionierendes FreeDOS und ein Editor. Wenn Du den
-		Schreibschutz der Diskette entfernst, kannst Du die menu.lst der
-		Diskette editieren und an deine Gegebenheiten anpassen.</p>
+
 
 		<p>Du kannst auch die <a href="http://www.gnu.org/software/grub/grub-faq.de.html">offizielle
 		FAQ zu Grub</a> nachlesen..</p>
@@ -564,7 +573,7 @@ LINUX: # chmod a -w ./stage2
 		
 
 	</div>
-	<div id="rev">Content last revised UTC 16/06/2007 1350hrs UTC </div>
+	<div id="rev">Content last revised UTC 03/07/2007 1505hrs UTC </div>
 
 </div>
 </body>

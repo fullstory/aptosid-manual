@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body>
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 ro lang maintainer ladepa-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here ro lang maintainer ladepa-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Înapoi la meniul principal sidux</a></li>
+		<li><a href="http://sidux.com/">La sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Alege o altă limbă străină" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ro.htm">Bine aţi venit la manualul oficial  Sidux</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ro.htm">sidux OS Manual</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-ro.htm#welcome-gen">Manual Oficial </a></li>
+				<li><a href="welcome-ro.htm#welcome-gen">sidux OS Manual</a></li>
 				<li><a href="welcome-ro.htm#how-to">Folosirea acestui manual</a></li>
 				<li><a href="welcome-ro.htm#table-contents">Index</a></li>
 				<li><a href="help-ro.htm#help-gen">De unde primiţi ajutor</a></li>
@@ -151,6 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ro.htm">Administrarea Sistemului</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-ro.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-ro.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-ro.htm#apt-upgrade">Upgrade de Sistem instalat</a></li>
 				<li><a href="sys-admin-upgrade-ro.htm#live-cd-upgrade">Upgrade-ul folosind Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-ro.htm#kern-upgrade">Upgrade-ul de kernel</a></li>
@@ -160,6 +163,7 @@
 				<li><a href="sys-admin-gen-ro.htm#start-services">Activarea serviciilor</a></li>
 				<li><a href="sys-admin-gen-ro.htm#pw-lost">Parolele de root pierdute</a></li>
 				<li><a href="sys-admin-gen-ro.htm#fonts">Fonturi </a></li>
+				<li><a href="sys-admin-gen-ro.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#mbr-grub-boot">Suprascrierea sectorului de boot din MBR </a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#dual-boot">Booting Dual şi Multiplu </a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#boot-grub-floppy">Crearea unei dischete de Boot </a></li>
@@ -188,48 +192,66 @@
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Crearea unei dischete de boot</h2>
 
-			<p>În timpul instalării pe hard a sidux puteţi crea o dischetă de boot . Aici veţi vedea cum se face aceasta după instalare . Executaţi următorii paşi : </p>
+							<p><a href="http://www.sidux.com/dummy/grubboot.zip/">Descărcaţi Grub-Floppy-Image</a>. (ca. 580 kB) şi faceţi câteva încercări . Pe floppy veţi găsi de asemeni un FreeDOS funcţional şi un editor. Dacă înlăturati protecţia la scriere a dischetei , puteţi edita menu.lst de pe floppy în funcţie de necesităţile dumneavoastră .</p>
 
-			<p>1. Formataţi discheta </p>
-<pre>fdformat /dev/fd0</pre>
+							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+			
+						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
 
-			<p>2. Creaţi un sistem de fişiere pe aceasta (de preferinţă folosiţi ext2 sau vfat)</p>
-<pre>mkfs -t ext2 -c /dev/fd0u1440 or
-mkfs.vfat /dev/fd0u1440</pre>
-
-			<p>3. Montaţi discheta </p>
-<pre># mount /dev/fd0 /floppy</pre>
-
-			<p>4. Creaţi arborele de directori pe dischetă </p>
-<pre>mkdir -p /floppy/boot/grub</pre>
-
-			<p>5. Copiaţi fişierele necesare </p>
-<pre>cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub</pre>
-
-			<p>6. Pentru a putea porni sistemul de operare potrivit  (sidux) de pe partiţia corespunzătoare , trebuie să urmaţi acestea :</p>
-
-			<p>7. Copiaţi fişierul  "menu.lst" , care a fost scris de sidux în directorul  /boot al partiţiei , pe dischetă </p>
-<pre>cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>8. De-montaţi discheta (scrieţi foarte atent comanda)</p>
-<pre>umount /dev/fd0</pre>
-
-			<p>9. Porniţi consola Grub pentru a finaliza re-instalarea Grub . Pentru asta , tastaţi :</p>
-<pre>grub grub> root (fd0) grub> setup (fd0) grub> quit</pre>
-
-			<p>Am creat acum o dischetă de boot de pe care puteţi porni sidux.</p>
-			<p>Dacă e nevoie să creati această dischetă de pe Live CD procedura este un pic diferită . Presupunând că sidux este instalat pe partiţia /dev/hda5 , atunci ,în plus , va trebui să faceţi în loc de pasul 7 :</p>
-
-			<p>10. Montaţi partiţia  sidux </p>
-<pre>mount /dev/hda5 /media/hda5</pre>
-
-			<p>11. Copiaţi fişierul "menu.lst" , ce a fost scris de sidux în directorul /boot de pe partiţia sidux pe dischetă</p>
-<pre>cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-			<p>12. De-montaţi partiţia sidux (aveţi grijă la scrierea corectă a comenzii)</p>
-<pre>umount /dev/hda5</pre>
-			<p>Restul este similar paşilor 8 şi 9 din primul caz .</p>
+							<p>1. Format a floppy</p>
+<pre>
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
+</pre>
+							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+<pre>
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
+</pre>
+							<p>3. Mount the floppy</p>
+<pre>
+# mount -t minix /dev/fd0 /mnt
+</pre>
+							<p>4.Next run the grub-install script</p>
+<pre>
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
+</pre>
+							<p>5. Last Steps</p>
+<pre>
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
+</pre>
+					
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Ştergerea programului grub din MBR</h2>
@@ -238,6 +260,7 @@ cp /boot/grub/stage2 /floppy/boot/grub</pre>
 <pre>lilo -M /dev/hda -s /dev/null</pre>
 
 			<p>într-un terminal.</p>
+
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>Managerul de Boot GRUB  - ce este </h2>
@@ -406,7 +429,7 @@ chainloader (fd0)+1
 
 			<h3>Booting Dual şi Multiplu </h3>
 
-			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+			<p>Este foarte simplu de activat  bootarea multiplă dacă se utilizează chainloading . Dacă , de exemplu , doriţi să rulaţi ,  MS Windows (TM)  şi Debian etch OS alături de sidux  'fromiso'  , va trebui să personalizaţi grub puţin .Pentru aceasta editaţi fişierul <span class="highlight-3">/boot/grub/menu.lst </span> şi adăugaţi următoarele linii după  <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -424,7 +447,7 @@ title sidux 32bit from ISO
 kernel (hd0,5)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,5)/sidux/miniroot.gz
 </pre>
-			<p>Unele persoane au nevoie / doresc mai multe sisteme windows instalate . Windows întotdeauna vrea să porneasca de pe disc 1. Va trebui să ascundem o partiţie şi să activăm alta . Comenzile următoare trebuiesc introduse în linia de comanda GRUB şi dacă sunt executate cu succes copiate în  menu.lst . Acest lucru va trebui făcut pentru fiecare partiţie Windows . Nu uitaţi să faceţi un Backup! ;-)</p>
+			<p>Unele persoane au nevoie / doresc mai multe sisteme windows instalate . Windows întotdeauna vrea să porneasca de pe disc 1. Va trebui să ascundem o partiţie şi să activăm alta . Comenzile următoare trebuiesc introduse în linia de comanda GRUB şi dacă sunt executate cu succes copiate în  menu.lst . Acest lucru va trebui făcut pentru fiecare partiţie Windows . Nu uitaţi să faceţi un Backup ! ;-)</p>
 
 <pre>hide (hd0,0) # hidden partition 1 of disk 1
 unhide (hd0,1) # makes partition 2 of disk 1 visible
@@ -449,8 +472,6 @@ LINUX: # chmod a -w ./stage2
 
 
 			<h3>Unde aflaţi mai multe</h3>
-
-			<p><a href="http://www.sidux.com/dummy/grubboot.zip/">Descărcaţi Grub-Floppy-Image</a>. (ca. 580 kB) şi faceţi câteva încercări . Pe floppy veţi găsi de asemeni un FreeDOS funcţional şi un editor. Dacă înlăturati protecţia la scriere a dischetei , puteţi edita menu.lst de pe floppy în funcţie de necesităţile dumneavoastră .</p>
 
 			<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">The official FAQ for Grub</a>.</p>
 

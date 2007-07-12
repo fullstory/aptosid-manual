@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual  01.16-2007-06-30 es lang maintainer Richard-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here es lang maintainer Richard-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">Regresa al menú principal de sidux</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Seleccione otra idioma." alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-es.htm">Bienvenido al Manual Oficial de sidux</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-es.htm">sidux OS Manual</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-es.htm#welcome-gen">Manual Oficial</a></li>
+				<li><a href="welcome-es.htm#welcome-gen">sidux OS Manual</a></li>
 				<li><a href="welcome-es.htm#how-to">¿Cómo utilizar el manual?</a></li>
 				<li><a href="welcome-es.htm#table-contents">Indice</a></li>
 				<li><a href="help-es.htm#help-gen">¿Dónde conseguir ayuda?</a></li>
@@ -151,6 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-es.htm">Administración del Sistema</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-es.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-es.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar Sistema Instalado</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
@@ -160,6 +163,7 @@
 				<li><a href="sys-admin-gen-es.htm#start-services">Activar servicios</a></li>
 				<li><a href="sys-admin-gen-es.htm#pw-lost">Clave root perdida</a></li>
 				<li><a href="sys-admin-gen-es.htm#fonts"> Fuentes</a></li>
+				<li><a href="sys-admin-gen-es.htm#cups"> CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#mbr-grub-boot">Sobre-escribir el MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Arrancada Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#boot-grub-floppy">Floppy del Sistema</a></li>
@@ -197,13 +201,21 @@ cd kernel-2.6.21.3-slh-up-2
 
 			<p>Ahora, rearranca el computador. El nuevo kernel será preseleccionada para arrancar. <span class="highlight-3">Si este nuevo presenta problemas, rearrancará y seleccione un kernel más viejo. </span></p>
 
-			<p class="highlight-4">IMPORTANTE: Si necesita modulos de drivers particulares, por ejemplo, para wlan, tendra que instalar el paquete deb apropiado. Si está usando el madwifi, tendra que instalar el paquete para madwifi: # dpkg -i madwifi-modules*.deb</p>
+			<p class="highlight-4">IMPORTANTE: Si necesita modulos de drivers particulares, por ejemplo, para wlan, tendra que instalar el paquete deb apropiado. Si está usando el madwifi, tendra que instalar el paquete para madwifi: </p>
+<pre>
+dpkg -i madwifi-modules*.deb 
+</pre>
+							<p>See also <a href="internet-connecting-es.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-es.htm">for WIFI</a></p>
 
-			<p>La actualización del kernel ya esta realizado. Si se requiere, puede agregar el driver de graficos más actualizado <a href="hw-dev-hw-dri-es.htm"> que puede ser instalado según los drivers de 3D drivers.</a> Si tiene una tarjeta ATI o NVIDIA, el primer arranque con el nuevo kernel debe ser a nivel 3 (runlevel 3 este se realiza agregando <b>3</b> a la línea de comando de GRUB)</p>
+							<p>La actualización del kernel ya esta realizado. Si se requiere, puede agregar el driver de graficos más actualizado <a href="hw-dev-hw-dri-es.htm"> que puede ser instalado según los drivers de 3D drivers.</a> Si tiene una tarjeta ATI o NVIDIA, el primer arranque con el nuevo kernel debe ser a nivel 3 (runlevel 3 este se realiza agregando <b>3</b> a la línea de comando de GRUB)</p>
 			
 
-			<h6> <a href="http://techpatterns.com/forums/about736.html"> La manera semi-automatica de instalar kernels es con el uso del script, du-fixes-h2.sh:</a></h6>
-
+					<h6> <a href="http://techpatterns.com/forums/about736.html"> La manera semi-automatica de instalar kernels es con el uso del script, du-fixes-h2.sh:</a>now called <span class="highlight-3">sm, which is short for sidux-maintenance</span>:</h6>
+<pre>
+apt-get update
+apt-get install sidux-scripts
+sm
+</pre>
 			<h4>Remover kernels viejos</h4>
 
 			<p>Depués de una instalación exitoso de un nuevo kernel, el kernel.zip (y los archivos del kernel) puede ser borrados, aunque, esta recomendado que espera algunas días, por si acaso tiene problemas; y así puede arrancar con un kernel más viejo, como esta listado en la pantalla del GRUB al inicio.</p>
@@ -211,7 +223,7 @@ cd kernel-2.6.21.3-slh-up-2
 			<p>Los kernels viejos puede ser removido del sistema. Para realizarlo, puedo usar el script <span class="highlight-3">kernel-remover</span> lo cual esta en la paquete, sidux-kernelhacking<span class="highlight-3">.  Este script permite que puede seleccionar los kernels que deseas remover.</span></p>
 
 			
-	<div id="rev">Contenido modificado el 10/04/2007 1800hrs UTC </div>
+	<div id="rev">Contenido modificado el 30/06/2007 0700hrs UTC </div>
 </div>
 </div>
 </body>

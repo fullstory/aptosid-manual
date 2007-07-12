@@ -17,20 +17,21 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<div id="menu"> <!-- menu starts here -->
-<!--Welcome to the Official sidux-manual   01.16-2007-06-30 nl lang maintainer  HarzG-->
-<!-- menu last updated by bluewater 30/06/2007 2200rs AEST 30/06/2007 1200hrs UTC -->
+<div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
+<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">sidux hoofdmenu</a></li>
+		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Kies een andere taal" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-nl.htm">Welkom bij de offici&#235;le sidux handleiding</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-nl.htm"> sidux  OS Handleiding</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-nl.htm#welcome-gen">Offici&#235;le handleiding</a></li>
+				<li><a href="welcome-nl.htm#welcome-gen">sidux  OS Handleiding</a></li>
 				<li><a href="welcome-nl.htm#how-to">Hoe je deze handleiding kunt gebruiken</a></li>
 				<li><a href="welcome-nl.htm#table-contents">Index</a></li>
 				<li><a href="help-nl.htm#help-gen">Waar je hulp kunt krijgen</a></li>
@@ -151,6 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-nl.htm">Systeembeheer</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="sm-siduxcc-nl.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-nl.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-nl.htm#apt-upgrade">Upgraden van een ge&#239;nstalleerd systeem</a></li>
 				<li><a href="sys-admin-upgrade-nl.htm#live-cd-upgrade">Upgraden dmv je Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-nl.htm#kern-upgrade">Upgraden van de kernel</a></li>
@@ -160,6 +163,7 @@
 				<li><a href="sys-admin-gen-nl.htm#start-services">Een service starten</a></li>
 				<li><a href="sys-admin-gen-nl.htm#pw-lost">Root wachtwoord vergeten</a></li>
 				<li><a href="sys-admin-gen-nl.htm#fonts">Lettertypes</a></li>
+				<li><a href="sys-admin-gen-nl.htm#cups">CUPS</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">MBR bootsector overschreven</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Dual- en multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#boot-grub-floppy">Aanmaken van een boot-diskette</a></li>
@@ -190,55 +194,66 @@
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Maken van een boot-diskette</h2>
 
-		<p>Tijdens de installatie van sidux kan een
-                 boot-diskette gemaakt worden. Hieronder wordt uitgelegd, hoe deze boot-diskette ook achteraf gemaakt kan worden. Hiervoor moeten de volgende stappen uitgevoerd worden:</p>
+							<p>Ga wat experimenteren  met <a href="files/fix/grubboot.zip">Grub-Disketten-Image</a>(ca. 580 kB). Op de diskette is ook een goed werkend FreeDOS en een editor. Als de schrijfbeveiliging van de diskette wordt verwijderd, kan het bestand menu.lst op de diskette aangepast worden.</p>
 
-		<p>1. Formatteer een diskette</p>
-		<pre>fdformat /dev/fd0</pre>
+							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+			
+						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
 
-		<p>2. Het bestandssysteem op de diskette aanleggen (geadviseerd wordt hiervoor 
-                 ext2 of vfat te gebruiken).</p>
-		<pre>mkfs -t ext2 -c /dev/fd0u1440</pre> 
-                <pre>of</pre>
-                <pre>mkfs.vfat /dev/fd0u1440</pre>
-
-		<p>3. Mount de diskette</p>
-		<pre>mount /dev/fd0 /floppy</pre>
-
-		<p>4. Het bestandssysteem op de diskette aanleggen:</p>
-		<pre>mkdir -p /floppy/boot/grub</pre>
-
-		<p>5. De benodigde bestanden naar de diskette kopi&#235;ren</p>
-<pre>cp /boot/grub/stage1 /floppy/boot/grub
-cp /boot/grub/stage2 /floppy/boot/grub</pre>
-
-		<p>6. Om van de diskette het juiste besturingssysteem (sidux) ook van de correcte partitie te kunnen starten, moet het volgende gedaan worden:</p>
-
-		<p>7. PLaats een kopie van het bestand "menu.lst" op de diskette. Het bestan is te vinden in de /boot-map van de sidux-(root)partitie.</p>
-		<pre>cp /boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-		<p>8. Unmount de diskette</p>
-		<pre>umount /dev/fd0</pre>
-
-		<p>9. Ga naar de grub-Shell, om grub in de bootsector van de diskette te schrijven.
-                 In een konsole wordt eerst grub gestart:</p>
-		<pre>grub 
-grub> root (fd0) grub> setup (fd0) grub> quit</pre>
-
-		<p>Hiermee is een boot-diskette gemaakt, waarmee sidux
-                 betrouwbaar gestart kan worden.</p>
-		<p>Als de diskette met een gestartete Live-CD gemaakt wordt,
-                 zijn de handelingen iets anders. Als sidux bijv. in de /dev/hda5 partitie staat, dan moet i.p.v. punt 7 het volgende gedaan worden:</p>
-
-		<p>10. Mount de sidux partitie</p>
-		<pre>mount /dev/hda5 /media/hda5</pre>
-
-		<p>11. Plaats een kopie van het bestand "menu.lst" op de diskette</p>
-		<pre>cp /mnt/hda5/boot/grub/menu.lst /floppy/boot/grub/menu.lst</pre>
-
-		<p>12. Unmount de sidux partitie</p>
-		<pre>umount /dev/hda5</pre>
-		<p>De punten 8 en 9 zijn zoals in het eerste geval.</p>
+							<p>1. Format a floppy</p>
+<pre>
+# fdformat /dev/fd0
+Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Formatting ... done
+Verifying ... done
+</pre>
+							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+<pre>
+# mkfs -t minix /dev/fd0
+480 inodes
+1440 blocks
+Firstdatazone=19 (19)
+Zonesize=1024
+Maxsize=268966912
+</pre>
+							<p>3. Mount the floppy</p>
+<pre>
+# mount -t minix /dev/fd0 /mnt
+</pre>
+							<p>4.Next run the grub-install script</p>
+<pre>
+# grub-install --recheck --root-directory=/mnt /dev/fd0
+Probing devices to guess BIOS drives. This may take a long time.
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Unknown partition table signature
+Due to a bug in xfs_freeze, the following command might produce a segmentation
+fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
+can be ignored.
+xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
+Unknown partition table signature
+Installation finished. No error reported.
+This is the contents of the device map /mnt/boot/grub/device.map.
+Check if this is correct or not. If any of the lines is incorrect,
+fix it and re-run the script `grub-install'.
+ 
+(fd0)   /dev/fd0
+(hd0)   /dev/sda
+</pre>
+							<p>5. Last Steps</p>
+<pre>
+# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
+# cp -L /boot/message /mnt/boot/
+# umount /mnt
+</pre>
+	
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Grub uit de MBR verwijderen</h2>
@@ -247,6 +262,7 @@ grub> root (fd0) grub> setup (fd0) grub> quit</pre>
 		<pre>lilo -M /dev/hda -s /dev/null</pre>
 
 		<p>in een Konsole typen.</p>
+				
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>GRUB-Bootmanager - wat is dat?</h2>
@@ -445,7 +461,7 @@ chainloader (fd0)+1
 	<div class="divider" id="dual-boot">
 			<h2>Dual and Multiple Booting</h2>
 
-			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+							<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -465,7 +481,7 @@ initrd (hd0,5)/sidux/miniroot.gz
 </pre>
 
 
-		<p>Er zijn situatie dat meerdere Windows-systemen worden aangemaakt op 1 of meerdere harde schijven. Windows wil in principe van de 1e harde schijf starten. Hierbij kan grub helpen en 1 partitie verbergen en de andere activeren. De onderstaande regels kunnen worden getest aan een grub-prompt. Als alles zo goed werkt kan dat zo worden vastgelegd in het bestand menu.lst. Backup niet vergeten! ;-)</p>
+							<p>Er zijn situatie dat meerdere Windows-systemen worden aangemaakt op 1 of meerdere harde schijven. Windows wil in principe van de 1e harde schijf starten. Hierbij kan grub helpen en 1 partitie verbergen en de andere activeren. De onderstaande regels kunnen worden getest aan een grub-prompt. Als alles zo goed werkt kan dat zo worden vastgelegd in het bestand menu.lst. Backup niet vergeten! ;-)</p>
 
 <pre>hide (hd0,0) # verstopt partition 1 van disk 1
 unhide (hd0,1) # maakt partition 2 van disk 1 zichtbaar
@@ -474,36 +490,29 @@ makeactive # maakt de partitie 2 van de disk 1 actief
 chainloader +1 # gaat naar de eerste sector van de start-partitie
 boot # boot het besturingssysteem</pre>
 
-		<p>Als men van de 2e disk een 2e Windows-versie wil starten, dan kan grub 
-		virtueel disk 1 en 2 ruilen. Hierdoor 'ziet' Windows dat het op de 1e disk 
-		staat:</p>
+							<p>Als men van de 2e disk een 2e Windows-versie wil starten, dan kan grub  virtueel disk 1 en 2 ruilen. Hierdoor 'ziet' Windows dat het op de 1e disk  staat:</p>
 <pre>map (hd0) (hd1)
 map (hd1) (hd0)
 </pre>
 
 
-		<h3>Voorkomende foutjes</h3>
+					<h3>Voorkomende foutjes</h3>
 
-		<p>Grub geen cylindergrens bij 1024 en kan dus systemen boven de 1024 cylinders booten, <b>maar</b> /boot/grub/stage2
-		dat moet ook voor de BIOS bereikbaar zijn (dus daarvoor liggen).
-		stage2 mag na een installatie niet verschoven worden (dat kan onbedoeld door Windows-Defrag gebeuren). Het is dus zinvol om stage2 te beschermen via een schrijfbeveiliging.
-		Hiervoor moet men in de map van grub staan:</p>
-<pre>met Dos: attrib +r +s stage2
+							<p>Grub geen cylindergrens bij 1024 en kan dus systemen boven de 1024 cylinders booten, <b>maar</b> /boot/grub/stage2 dat moet ook voor de BIOS bereikbaar zijn (dus daarvoor liggen). stage2 mag na een installatie niet verschoven worden (dat kan onbedoeld door Windows-Defrag gebeuren). Het is dus zinvol om stage2 te beschermen via een schrijfbeveiliging. Hiervoor moet men in de map van grub staan:</p>
+
+<pre>
+met Dos: attrib +r +s stage2
 met LINUX: # chmod a -w ./stage2
 </pre>
 
 
 		<h3>Meer informatie?</h3>
 
-		<p>Ga wat experimenteren  met <a href="files/fix/grubboot.zip">Grub-Disketten-Image</a>
-		(ca. 580 kB). Op de diskette is ook een goed werkend FreeDOS en een editor. Als de schrijfbeveiliging van de diskette wordt verwijderd, kan het bestand menu.lst op de 
-		diskette aangepast worden.</p>
+							<p>Er staat meer op <a href="http://www.gnu.org/software/grub/grub-faq.en.html">de offici&#235;le  FAQ voor grub</a>.</p>
 
-		<p>Er staat meer op <a href="http://www.gnu.org/software/grub/grub-faq.en.html">de offici&#235;le 
-		FAQ voor grub</a>.</p>
+							<p>Als de netwerkcard dat toelaat kan grub ook een systeem van een netwerk booten. </p>
 
-		<p>Als de netwerkcard dat toelaat kan grub ook een systeem van een netwerk booten. </p>
-<p><a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Een bijbehorende boot-diskette kan hier worden verkregen (met een oudere versie van grub)</a>.</p>
+							<p><a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Een bijbehorende boot-diskette kan hier worden verkregen (met een oudere versie van grub)</a>.</p>
 				
 	</div>
 

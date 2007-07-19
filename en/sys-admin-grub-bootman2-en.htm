@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -35,6 +35,7 @@
 				<li><a href="welcome-en.htm#how-to">How to use this manual</a></li>
 				<li><a href="welcome-en.htm#table-contents">Table of Contents</a></li>
 				<li><a href="help-en.htm#help-gen">Where to get Help</a></li>
+				<li><a href="help-en.htm#paste">IRC !paste</a></li>
 				<li><a href="credits-en.htm#cred-team">Credits</a></li>
 			</ul>
 		</li>
@@ -175,18 +176,37 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Bootsector overwritten by Windows MBR</h2>
-			<p>We assume there are 2 hard disks in the PC: windows is installed on the first hard-disk, and sidux is installed on a partition on the second hd, e.g. on hdb5.</p>
+		<h2 id="top-header">Bootsector overwritten by Windows MBR and /or to recover grub</h2>
 
-			<p>Now boot the Live-CD: Open a Terminal and become root with</p>
-<pre>sudo su</pre>
+							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a sidux live-cd.</p>
 
-			<p>Mount the partition where sidux is installed (in our example hdb5)</p>
-<pre>mount /media/hdb5</pre>
-			<p>Now rewrite Grub to MBR:</p>
+						<h5 class="highlight-3">Grub recovery  for kernels 2.6.22 and up:</h5>
 
-<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda</pre>
+							<p>Open a terminal and mount the partition where sidux is installed : (replace sdxx with sda2 or whatever partition you installed to):</p>
+<pre>
+sudo mount /media/sdxx
+</pre>
+							<p>Now rewrite Grub to MBR:</p>
 
+<pre>
+sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+</pre>
+
+						<h5 class="highlight-3">Grub recovery  for kernels prior to 2.6.22:</h5>
+
+							<p>Now boot the Live-CD: Open a Terminal and become root with</p>
+<pre>
+sudo su
+</pre>
+							<p>Mount the partition where sidux is installed (in our example hdb5)</p>
+<pre>
+mount /media/hdb5
+</pre>
+							<p>Now rewrite Grub to MBR:</p>
+
+<pre>
+grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+</pre>
 
 	</div>
 	<div class="divider" id="boot-grub-floppy">

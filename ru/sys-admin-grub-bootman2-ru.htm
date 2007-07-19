@@ -17,21 +17,21 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
+<div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
+<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">To sidux.com</a></li>
-		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
+		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">Мета-пакеты sidux</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Выбор языка" alt="Переключение языка" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ru.htm">sidux OS Manual</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ru.htm">Руководство sidux</a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-ru.htm#welcome-gen">sidux OS Manual</a></li>
+				<li><a href="welcome-ru.htm#welcome-gen">Добро пожаловать!</a></li>
 				<li><a href="welcome-ru.htm#how-to">Об использовании</a></li>
 				<li><a href="welcome-ru.htm#table-contents">Содержание</a></li>
 				<li><a href="help-ru.htm#help-gen">Где получить помощь</a></li>
@@ -152,8 +152,8 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Системное администрирование</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-ru.htm#sm">sm Syntax Command Sets</a></li>
-				<li><a href="sm-siduxcc-ru.htm#siduxcc">siduxcc</a></li>
+				<li><a href="sm-siduxcc-ru.htm#sm">Описание и опции команды sm</a></li>
+				<li><a href="sm-siduxcc-ru.htm#siduxcc">Управление siduxcc</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-ru.htm#kern-upgrade">Обновление ядра</a></li>
@@ -175,20 +175,36 @@
 	<!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Windows переписал мой загрузочный сектор. Как я могу теперь восстановить grub ?</h2>
+		<h2 id="top-header">Windows переписал мой загрузочный сектор. and /or to recover grub</h2>
 
-		<p>В дальнейшем мы исходим из того, что на компьютере имеется 2 диска. На первом диске инсталлирован Windows, а на одном из разделов второго диска установлен sidux, например на hdb5.</p>
+							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a sidux live-cd.</p>
 
-		<p>Загружаемся с Live-CD. Открываем терминал и становимся root'ом(суперпользователем) с помощью команды:</p>
+						<h5 class="highlight-3">Grub recovery  for kernels 2.6.22 and up:</h5>
+
+							<p>Open a terminal and mount the partition where sidux is installed : (replace sdxx with sda2 or whatever partition you installed to):</p>
+<pre>
+sudo mount /media/sdxx
+</pre>
+							<p>Now rewrite Grub to MBR:</p>
+
+<pre>
+sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+</pre>
+
+						<h5 class="highlight-3">Grub recovery  for kernels prior to 2.6.22:</h5>
+
+							<p>Загружаемся с Live-CD. Открываем терминал и становимся root'ом(суперпользователем) с помощью команды:</p>
 <pre>
 sudo su
 </pre>
-
-		<p>Монтируем раздел на котором установлен sidux, в нашем примере hdb5</p>
-		<pre>mount /media/hdb5</pre>
-		<p>Затем записываем grub в MBR (загрузочный сектор) первого диска:</p>
-
-		<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda</pre>
+							<p>Монтируем раздел на котором установлен sidux, в нашем примере hdb5</p>
+<pre>
+mount /media/hdb5
+</pre>
+							<p>Затем записываем grub в MBR (загрузочный сектор) первого диска:</p>
+<pre>
+grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+</pre>
 		
 	</div>
 	<div class="spacer05"></div>

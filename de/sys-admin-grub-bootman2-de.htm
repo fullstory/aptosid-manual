@@ -16,10 +16,10 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="sys-admin">
+<body>
 <div id="menu"> <!-- menu starts here de lang maintainer hubi Zophod-->
-<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -35,6 +35,7 @@
 				<li><a href="welcome-de.htm#how-to">Tipps zum Handbuch</a></li>
 				<li><a href="welcome-de.htm#table-contents">Index</a></li>
 				<li><a href="help-de.htm#help-gen">Wo es Hilfe gibt</a></li>
+				<li><a href="help-de.htm#paste">IRC !paste</a></li>
 				<li><a href="credits-de.htm#cred-team">Danksagung</a></li>
 			</ul>
 		</li>
@@ -175,25 +176,39 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Windows hat meinen Bootsektor überschrieben. Wie kann ich Grub wiederherstellen</h2>
+		<h2 id="top-header">Windows hat meinen Bootsektor überschrieben: Wiederherstellung von grub</h2>
 
-		<p>Im folgenden gehen wir davon aus, dass zwei Festplatten im PC sind.
-                 Auf der ersten Platte ist Windows installiert, und in einer Partition
-                 dieser Platte ist sidux installiert, z. B. hdb5</p>
+							<p>Um grub neu in den MBR zu schreiben oder grub generell wieder herzustellen, muss von der sidux Live-CD gebootet werden.</p>
 
-		<p>Jetzt boote die Live-Cd, öffne eine Konsole und werde Root mit:</p>
+						<h5 class="highlight-3">Wiederherstellung von Grub für Kernel 2.6.22 und höher:</h5>
+
+							<p>Öffnen eines Terminals und Mounten der sidux Installationspartition (sdxx muss dabei mit der richtigen Nummer der sidux-Partition ersetzt werden, z. B. mit sda2):</p>
+<pre>
+sudo mount /media/sdxx
+</pre>
+							<p>Nun kann grub neu in den MBR geschrieben werden:</p>
+
+<pre>
+sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+</pre>
+
+						<h5 class="highlight-3">Wiederherstellung von Grub für Kernel vor 2.6.22:</h5>
+
+							<p>Booten in die Live-CD, öffnen einer Konsole und als root anmelden mit:</p>
 <pre>
 sudo su
 </pre>
 
-		<p>Mounte die Partition, wo sidux installiert ist (in unserem Beispiel hdb5)</p>
-		<pre>mount /media/hdb5</pre>
-		<p>Jetzt Grub wieder in den MBR schreiben lassen:</p>
+							<p>Mounte die Partition, wo sidux installiert ist (in unserem Beispiel hdb5)</p>
+<pre>
+mount /media/hdb5
+</pre>
+							<p>Jetzt Grub wieder in den MBR schreiben lassen:</p>
 
-		<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda</pre>
+<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+</pre>
 		
 	</div>
-	<div class="spacer05"></div>
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Erstellen einer bootfähigen Diskette (Floppy)</h2>
 

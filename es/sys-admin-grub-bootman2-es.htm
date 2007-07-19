@@ -18,11 +18,11 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">To sidux.com</a></li>
+		<li><a href="http://sidux.com/">A sidux.com</a></li>
 		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
@@ -140,19 +140,19 @@
 				<li><a href="internet-connecting-es.htm#netcardconfig">Conectándose en línea</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-es.htm">Instalar/ Remover/ Revertir un paquete</a>
+		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-es.htm">Instalar/ Quitar/ Revertir un paquete</a>
 			<ul class="sub-menu" id="sm13">
 				<li><a href="sys-admin-apt-es.htm#apt-cook">APT y sources.list</a></li>
 				<li><a href="sys-admin-meta-es.htm#meta-pack">Meta-Paquetes</a></li>
 				<li><a href="sys-admin-meta-es.htm#meta-proxy">Meta-Instalador y Proxies</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-install">Instalar paquete</a></li>
-				<li><a href="sys-admin-apt-es.htm#apt-delete">Remover paquete</a></li>
+				<li><a href="sys-admin-apt-es.htm#apt-delete">Quitar paquete</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-downgrade">Revertir un paquete</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-es.htm">Administración del Sistema</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-es.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-es.htm#sm">sm: sintaxis de comandos</a></li>
 				<li><a href="sm-siduxcc-es.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar Sistema Instalado</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con Live-CD</a></li>
@@ -167,7 +167,7 @@
 				<li><a href="sys-admin-grub-bootman2-es.htm#mbr-grub-boot">Sobre-escribir el MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Arrancada Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#boot-grub-floppy">Floppy del Sistema</a></li>
-				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Remover Grub del MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Quitar Grub del MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#what-is-grub">Grub: Inicializador</a></li>
 			</ul>
 		</li>
@@ -175,37 +175,56 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">El sector de arranque (MBR) fue sobre-escrito por Windows</h2>
-			<p>Asumimos que hay 2 Discos Duros en el PC: Windows instalado en la primera, y sidux en una partición de la segunda, por ejemplo, el hdb5.</p>
+		<h2 id="top-header">El sector de arranque (MBR) fue sobre-escrito por Windows/o como recuperar el GRUB</h2>
 
-			<p>Arranca con el LiveCD: Abrí una consola y volver a root con:</p>
-<pre>sudo su</pre>
+							<p>Para reescribir GRUB en el MBR o recuperar el GRUB en general, se necesita arrancar con el sidux liveCD.</p>
 
-			<p>Monta la partición donde sidux esta instalada (en nuestro ejemplo, hdb5):</p>
-<pre>mount /media/hdb5</pre>
-			<p>Re-escribir Grub al MBR:</p>
+						<h5 class="highlight-3">Recuperación de Grub para kernels 2.6.22 y después:</h5>
 
-<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda</pre>
+							<p>Abre una consola y montar la partición donde sidux está instalada: (reemplazar el 'sdxx' con sda2 ó la indicador de la partición donde esta instalada):</p>
+<pre>
+sudo mount /media/sdxx
+</pre>
+							<p>Ahora, reescribir GRUB al MBR:</p>
+
+<pre>
+sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+</pre>
+
+						<h5 class="highlight-3">Recuperación de GRUB para kernels antes del 2.6.22:</h5>
+
+							<p>Arranca con el LiveCD: Abrí una consola y volver a root con:</p>
+<pre>
+sudo su
+</pre>
+							<p>Monta la partición donde sidux esta instalada (en nuestro ejemplo, hdb5):</p>
+<pre>
+mount /media/hdb5
+</pre>
+							<p>Re-escribir Grub al MBR:</p>
+<pre>
+grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+</pre>
 
 
 	</div>
 	<div class="divider" id="boot-grub-floppy">
-		<h2>Crea un floppy de arranque de sistema</h2>
+		<h2>Crear un floppy de arranque del sistema</h2>
 
 							<p><a href="http://www.sidux.com/dummy/grubboot.zip">Bajare un imagen del Grub-Floppy</a>. (cerca  580 kB) y jugar un poco con el. En el floppy se encuentras un FreeDOS, completamente funcional y un editor. Si quitas la protección de escritura del disco, puedes editar el "menu.lst" en el floppy de acuerdo con su necesidades.</p>
 
-							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+							<p>Otra opción es hacerse un floppy del sistema con las herramientas provista en <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
 			
-						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
+						<h5>Para hacer un floppy con GRUB para arranque, los siguientes pasos son necesaria:</h5>
 
-							<p>1. Format a floppy</p>
+							<p>1. Formatera un floppy</p>
 <pre>
 # fdformat /dev/fd0
-Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
+Double-lado, 80 pistas, 18 sectores/pista. Capacidad Total 1440 kB.
 Formatting ... done
 Verifying ... done
 </pre>
-							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+							<p>2. Crear un sistema de archivos en el floppy (se recomienda el uso del ext2, minix(fs) o vfat)</p>
 <pre>
 # mkfs -t minix /dev/fd0
 480 inodes
@@ -214,14 +233,14 @@ Firstdatazone=19 (19)
 Zonesize=1024
 Maxsize=268966912
 </pre>
-							<p>3. Mount the floppy</p>
+							<p>3. Montar el floppy</p>
 <pre>
 # mount -t minix /dev/fd0 /mnt
 </pre>
-							<p>4.Next run the grub-install script</p>
+							<p>4. Ejecutar el script de instalación, grub-install</p>
 <pre>
 # grub-install --recheck --root-directory=/mnt /dev/fd0
-Probing devices to guess BIOS drives. This may take a long time.
+Probando dispositivos para divinar los del BIOS. Puede llevar bastante tiempo.
 Unknown partition table signature
 Unknown partition table signature
 Unknown partition table signature
@@ -232,20 +251,19 @@ Unknown partition table signature
 Unknown partition table signature
 Unknown partition table signature
 Unknown partition table signature
-Due to a bug in xfs_freeze, the following command might produce a segmentation
-fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
-can be ignored.
-xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
-Unknown partition table signature
-Installation finished. No error reported.
-This is the contents of the device map /mnt/boot/grub/device.map.
-Check if this is correct or not. If any of the lines is incorrect,
-fix it and re-run the script `grub-install'.
+Debido a un error en el xfs_freeze, el siguiente comando puede producir una fallo
+de segmentación cuando /mnt/boot/grub no es una sistema de archivos XFS. Este error es inocuo y puede ser ignorado.
+xfs_freeze: archivo especificado ["/mnt/boot/grub"] no es una sistema de archivos XFS
+Firma de la tabla de particiones desconocido
+Instalación completado. Ningun errores reportado.
+Este es el contenido de la mapa de dispositivos: /mnt/boot/grub/device.map.
+Verificar si es correcto o no. Si alguna de los líneas estan incorrecto,
+corregirlo y ejecutar `grub-install' de nuevo.
  
 (fd0)   /dev/fd0
 (hd0)   /dev/sda
 </pre>
-							<p>5. Last Steps</p>
+							<p>5. Los últimos pasos</p>
 <pre>
 # sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
 # cp -L /boot/message /mnt/boot/
@@ -254,7 +272,7 @@ fix it and re-run the script `grub-install'.
 					
 	</div>
 	<div class="divider" id="remove-grub">
-		<h2>Remover el Grub desde el MBR</h2>
+		<h2>Quitar el Grub desde el MBR</h2>
 
 							<p>Es muy simple: como root entra:</p>
 <pre>
@@ -320,7 +338,7 @@ kernel /boot/vmlinuz root=/dev/hda4</pre>
 
 			<p>Una característica muy cómodo es el Modo de Comando de Grub. Se le entra, tecleando el "c", y abre el modo de comando de Grub. Este permita buscar y arrancar diferentes sistemas y archivos (p.e., Kernel) aún con una menu.lst con errores o faltas.</p>
 
-			<p>Para hacer un poco de investigación, puede ejecutar Grub de una sistema ejecutando, desde una consola-raíz, con "grub". En el modo de comando Grub puede ver todos los posibles comandos con "help". Ayuda en detalla para cada comando es disponible con <span class="highlight-3">help command</span>. Entonces, regresa a la consola con "quit" (modo de comando Grub es terminado). En el modo de comando Grub la tecla Tab tiene una función similar a la de bash, lo cual es un gran ayuda a los dedos. Comandos, nombres de discos y nombres de archivos puede ser autocompletado con la tecla Tabulador.</p>
+			<p>Para hacer un poco de investigación, puede ejecutar Grub de una sistema ejecutando, desde una consola-raíz, con "grub". En el modo de comando Grub puede ver todos los posibles comandos con "help". Ayuda en detalla para cada comando es disponible con <span class="highlight-3">help comando</span>. Entonces, regresa a la consola con "quit" (modo de comando Grub es terminado). En el modo de comando Grub la tecla Tab tiene una función similar a la de bash, lo cual es un gran ayuda a los dedos. Comandos, nombres de discos y nombres de archivos puede ser autocompletado con la tecla Tabulador.</p>
 
 			<p>Grub le da una oportunidad de ubicar el Kernel antes del arranque actual con el "find" , por ejemplo, con el siguiente comando:</p>
 <pre>find /boot/vmlinuz</pre>
@@ -386,7 +404,7 @@ default 0
 # es arrancada, cuando falla el arranque del pre-seleccionada 
 fallback 1
 # fija colores de letras/fondo 
-# opciones: intermintente fondo rojo: azul
+# opciones: intermitente fondo rojo: azul
 color white/blue blink-red/blue
 # entrada 1 es preseleccionada 0 y arranca e.a.. Windows 98
 #################
@@ -407,15 +425,15 @@ title Suse-Linux
 root (hd1,5)
 kernel /boot/vmlinuz
 root=/dev/hdb6 read-only
-# other parameters are possible i.e.:
+# otras parametros estan posibles, i.e.:
 # kernel /boot/vmlinuz root=/dev/hdb6 single kernel /boot/vmlinuz root=/dev/hdb6 vga=ask
 # entrada 4 es preseleccionada 3 y arranca Debian
 ##################
-title GNU/Debian (first extended partition o?n disk 2)
+title GNU/Debian (primer partición extendida en el disco 2)
 root (hd1,4)
 kernel /boot/vmlinuz
 root=/dev/hdb5 read-only
-# entry 5 is default 4 und boots DOS from disk
+# entrada 5 es preseleccionada 4 y arranca DOS del disco
 ##################
 title DOS (partition 3 o?n disk 1)
 root (hd0,2)
@@ -431,7 +449,7 @@ chainloader (fd0)+1
 	<div class="divider" id="dual-boot">
 			<h3>Arrancada Dual y Múltiple</h3>
 
-			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+			<p>Para habilitar GRUB para arrancar multiples sistemas operativos en muy sencilla con el uso de chainloading. Si por ejemplo, desea ejecutar MS Windows (TM), Debian etch junta con un sidux 'fromiso', necesita ajustar el GRUB un poco. Entonces, editar el archivo <span class="highlight-3">/boot/grub/menu.lst </span>y agregue los siguientes líneas después de la línea <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -449,7 +467,7 @@ title sidux 32bit from ISO
 kernel (hd0,5)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,5)/sidux/miniroot.gz
 </pre>
-			<p>Algunas necesita/desea varios instalaciones de Windows. Windows siempre quiere arrancar desde el disco 1. Tendremos que esconder una partición y activar otra. Los siguientes comandos debe ser entrada en el modo de comandos Grub y, si tiene éxito, copiarlos al "menu.lst". Este debe ser realizado por cada partición-Windows. No olvido de hacer un respaldo! ;-)</p>
+			<p>Algunas necesitan/desean varios instalaciones de Windows. Windows siempre quiere arrancar desde el disco 1. Tendremos que esconder una partición y activar otra. Los siguientes comandos debe ser entrada en el modo de comandos Grub y, si tiene éxito, copiarlos al "menu.lst". Este debe ser realizado por cada partición-Windows. No olvido de hacer un respaldo! ;-)</p>
 
 <pre>hide (hd0,0) # partición escondido 1 del disco 1
 unhide (hd0,1) # hace partición 2 del disco 1 visible
@@ -482,7 +500,7 @@ LINUX: # chmod a -w ./stage2
 	</div>
 	<div class="spacer05"></div>
 
-			<div id="rev">Contenido modificado el 24/02/2007 2300 UTC</div>
+			<div id="rev">Contenido modificado el 14/07/2007 2300 UTC</div>
 </div>
 </body>
 </html>

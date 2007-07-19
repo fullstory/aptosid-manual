@@ -18,20 +18,20 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here ro lang maintainer ladepa-->
-<!--Welcome to the Official sidux-manual  01.18-2007-07-08 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 02/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
+<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
-		<li><a href="http://sidux.com/">La sidux.com</a></li>
+		<li><a href="http://sidux.com/">La pagina sidux.com</a></li>
 		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-50.png" title="Alege o altă limbă străină" alt="lang-switch" /></a>
 	</div>
 	<ul>
-		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ro.htm">sidux OS Manual</a>
+		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ro.htm">Manualul SO sidux </a>
 			<ul class="sub-menu" id="sm1">
-				<li><a href="welcome-ro.htm#welcome-gen">sidux OS Manual</a></li>
+				<li><a href="welcome-ro.htm#welcome-gen">Manualul SO sidux </a></li>
 				<li><a href="welcome-ro.htm#how-to">Folosirea acestui manual</a></li>
 				<li><a href="welcome-ro.htm#table-contents">Index</a></li>
 				<li><a href="help-ro.htm#help-gen">De unde primiţi ajutor</a></li>
@@ -55,7 +55,7 @@
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ro.htm">Live Mode</a>
 			<ul class="sub-menu" id="sm4">
-				<li><a href="live-mode-ro.htm#rootpw">Parola de root pe sidux-LiveCD</a></li>
+				<li><a href="live-mode-ro.htm#rootpw">Parola de root pe sidux-Live CD</a></li>
 				<li><a href="live-mode-ro.htm#live-cd-installsoft">Instalarea de software în timpul lucrului de pe Live-CD</a></li>
 				<li><a href="live-mode-ro.htm#ntfs-3g">Scrierea pe partiţii  NTFS cu ntfs-3g</a></li>
 			</ul>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ro.htm">Administrarea Sistemului</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-ro.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-ro.htm#sm">Sintaxa Setului de Comenzi din sm </a></li>
 				<li><a href="sm-siduxcc-ro.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-ro.htm#apt-upgrade">Upgrade de Sistem instalat</a></li>
 				<li><a href="sys-admin-upgrade-ro.htm#live-cd-upgrade">Upgrade-ul folosind Live-CD</a></li>
@@ -175,18 +175,36 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Bootsector suprascris de Windows MBR</h2>
-			<p>Presupunem că sunt două hard discuri în PC : windows este instalat pe primul hard-disk , şi sidux este instalat pe o partiţie de pe al doilea hard disc , ex. pe hdb5.</p>
+		<h2 id="top-header">Bootsector suprascris de Windows MBR and /or to recover grub</h2>
 
-			<p>Pornim cu Live-CD : Deschidem un terminal şi devenim root cu :</p>
-<pre>sudo su</pre>
+							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a sidux live-cd.</p>
 
-			<p>Montăm partiţia unde sidux este instalat (în exemplul nostru hdb5)</p>
-<pre>mount /media/hdb5</pre>
-			<p>Acum rescriem Grub în MBR :</p>
+						<h5 class="highlight-3">Grub recovery  for kernels 2.6.22 and up:</h5>
 
-<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda</pre>
+							<p>Open a terminal and mount the partition where sidux is installed : (replace sdxx with sda2 or whatever partition you installed to):</p>
+<pre>
+sudo mount /media/sdxx
+</pre>
+							<p>Now rewrite Grub to MBR:</p>
 
+<pre>
+sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+</pre>
+
+						<h5 class="highlight-3">Grub recovery  for kernels prior to 2.6.22:</h5>
+
+							<p>Pornim cu Live-CD : Deschidem un terminal şi devenim root cu :</p>
+<pre>
+sudo su
+</pre>
+							<p>Montăm partiţia unde sidux este instalat (în exemplul nostru hdb5)</p>
+<pre>
+mount /media/hdb5
+</pre>
+							<p>Acum rescriem Grub în MBR :</p>
+<pre>
+grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+</pre>
 
 	</div>
 	<div class="divider" id="boot-grub-floppy">
@@ -194,18 +212,18 @@
 
 							<p><a href="http://www.sidux.com/dummy/grubboot.zip/">Descărcaţi Grub-Floppy-Image</a>. (ca. 580 kB) şi faceţi câteva încercări . Pe floppy veţi găsi de asemeni un FreeDOS funcţional şi un editor. Dacă înlăturati protecţia la scriere a dischetei , puteţi edita menu.lst de pe floppy în funcţie de necesităţile dumneavoastră .</p>
 
-							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+							<p>Altă posibilitate de a crea un boot floppy este să folosiţi  <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
 			
-						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
+						<h5>Pentu a face un boot-grub floppy respectaţi următorii paşi :</h5>
 
-							<p>1. Format a floppy</p>
+							<p>1. Formataţi discheta </p>
 <pre>
 # fdformat /dev/fd0
 Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
 Formatting ... done
 Verifying ... done
 </pre>
-							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+							<p>2. Creaţi un filesystem pe floppy (este recomandat să folosiţi ext2, minix(fs) sau vfat)</p>
 <pre>
 # mkfs -t minix /dev/fd0
 480 inodes
@@ -214,11 +232,11 @@ Firstdatazone=19 (19)
 Zonesize=1024
 Maxsize=268966912
 </pre>
-							<p>3. Mount the floppy</p>
+							<p>3. Montaţi discheta </p>
 <pre>
 # mount -t minix /dev/fd0 /mnt
 </pre>
-							<p>4.Next run the grub-install script</p>
+							<p>4.Rulaţi grub-install script</p>
 <pre>
 # grub-install --recheck --root-directory=/mnt /dev/fd0
 Probing devices to guess BIOS drives. This may take a long time.
@@ -245,7 +263,7 @@ fix it and re-run the script `grub-install'.
 (fd0)   /dev/fd0
 (hd0)   /dev/sda
 </pre>
-							<p>5. Last Steps</p>
+							<p>5. Ultimii paşi :</p>
 <pre>
 # sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
 # cp -L /boot/message /mnt/boot/

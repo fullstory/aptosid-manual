@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Системное администрирование</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-ru.htm#sm">Описание и опции команды sm</a></li>
+				<li><a href="sm-siduxcc-ru.htm#sm">Описание и опции команды smxi</a></li>
 				<li><a href="sm-siduxcc-ru.htm#siduxcc">Управление siduxcc</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с Live-CD</a></li>
@@ -177,41 +177,77 @@
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Установка "fromiso"</h2>
 
-		<p  class="highlight-2">Для обычного употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
+							<p  class="highlight-2">Для обычного употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
 		
-		<p>В данном случае для загрузки используется ISO-образ на жестком диске. Это намного быстрее чем чем установка с CD (в случае "fromiso"&nbsp;все происходит гораздо быстрее, по некоторым утверждениям менее 4х минут, но даже 6-8 минуты -тоже &nbsp;быстро).</p>
+							<p>В данном случае для загрузки используется ISO-образ на жестком диске. Это намного быстрее чем чем установка с CD (в случае "fromiso"&nbsp;все происходит гораздо быстрее, по некоторым утверждениям менее 4х минут, но даже 6-8 минуты -тоже &nbsp;быстро).</p>
 
-		<p>Это конечно гораздо быстрее, чем с CD, и дисковод остается в полном распоряжение. Альтернативно можно использовать также <a href="hd-install-opts-ru.htm">QEMU</a>.</p>
+							<p>Это конечно гораздо быстрее, чем с CD, и дисковод остается в полном распоряжение. Альтернативно можно использовать также <a href="hd-install-opts-ru.htm">QEMU</a>.</p>
 
-		<h5>Предполагаемые условия</h5>
+				<h5>Предполагаемые условия</h5>
 
-			<p>* Функционирующая установка с Grub (на Floppy, установка на жестких дисках или LiveCD)<br /> * ISO-образ sidux.iso и файловая система как ext2/3 <br /> * Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний нижний регистр имен.</p>
+							<p>* Функционирующая установка с Grub (на Floppy, установка на жестких дисках или LiveCD)<br /> 
+							* ISO-образ sidux.iso и файловая система как ext2/3 <br /> 
+							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний нижний регистр имен.</p>
 
-		<p>Сначала определим расположение файла ISO Чтобы получить короткие спецификации пути, создаем базовый каталог по имени sidux, например, на /dev/hda5, и копируем ISO внутрь:</p>
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Сначала определим расположение файла ISO Чтобы получить короткие спецификации пути, создаем базовый каталог по имени sidux, например, на /dev/hda5, и копируем ISO внутрь:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>Мы подсоединяем ISO:</p>
+							<p>Мы подсоединяем ISO:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>Копируем файлы miniroot.gz и vmlinuz из подсоединённого ISO:</p>
+							<p>Копируем файлы miniroot.gz и vmlinuz из подсоединённого ISO:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-		<p>Настройка GRUB: открываем <span class="highlight-3">/boot/grub/menu.lst</span> и добавляем следующие строки после<span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Внимание: использование регулярных выражений в конфигурации grub недопустимо!</span></p>
+							<p>Настройка GRUB: открываем <span class="highlight-3">/boot/grub/menu.lst</span> и добавляем следующие строки после<span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Внимание: использование регулярных выражений в конфигурации grub недопустимо!</span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-		<p>При следующей загрузке в меню Grub появляется  новый выбор: "sidux 32bit fromISO".</p>
-	</div>
+							<p>При следующей загрузке в меню Grub появляется  новый выбор: "sidux 32bit fromISO".</p>
 
+	</div>
 	<div class="divider" id="usb-hd"> 
 		
 		<h2>Установка sidux на USB-Stick или на USB жесткий&nbsp;диск</h2>
@@ -232,6 +268,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Установка sidux с QEMU</h2>
 
@@ -344,7 +381,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 	</div>
 	<div class="spacer05"></div>
 	<div id="rev">Содержание, последнее пересмотрено 08/05/2007 0500 UTC</div>
-</div>
+
 </div>
 </body>
 </html>

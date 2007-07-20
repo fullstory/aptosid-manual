@@ -18,8 +18,8 @@
 </head>
 <body id="sys-admin">
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Системное администрирование</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-ru.htm#sm">Описание и опции команды sm</a></li>
+				<li><a href="sm-siduxcc-ru.htm#sm">Описание и опции команды smxi</a></li>
 				<li><a href="sm-siduxcc-ru.htm#siduxcc">Управление siduxcc</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с Live-CD</a></li>
@@ -282,7 +282,13 @@ fix it and re-run the script `grub-install'.
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>Менеджер загрузки grub</h2>
-
+<pre>
+<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
+and the line
+initrd (hd0,x)/sidux/miniroot.gz
+has changed to:
+initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
+</pre>
 		<h3>Введение</h3>
 
 		<p>grub - это менеджер загрузки, который может загружать операционные системы с различных разделов. grub не зависит от блочных списков (blocklists), используемых для поиска файлов, необходимых для запуска системы. Менеджер загрузки поддерживает большое число файловых систем: ext2?, ext3?, reiserfs... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix и многие другие.</p>
@@ -443,10 +449,17 @@ chainloader (fd0)+1
 
 	</div>
 	<div class="divider" id="dual-boot">
-			<h2>Mehrere Systeme in Grub eintragen (Dual- und Multi-Boot)</h2>
-			<h2>Mehrere Systeme in Grub eintragen (Dual- und Multi-Boot)</h2>
+			<h2>Dual and Multiple Booting</h2>
 
-			<p>Mit Hilfe von "chainloading" ist sehr einfach, das Grub-Auswahlmenü mit anderen Betriebssystemen zu erweitern. Wenn man zum Beispiel die Möglichkeit haben möchte, die Systeme MS Windows (TM) und Debian etch zusammen mit einer sidux 'fromiso'-Installation zu starten, muss man Grub nur wenig anpassen. Hierzu öffnet man die Datei <span class="highlight-3">/boot/grub/menu.lst </span>als Root mit einem Editor und fügt die folgenden Zeilen nach dem Hinweis <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu:</p>
+<pre>
+<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
+and the line
+initrd (hd0,x)/sidux/miniroot.gz
+has changed to:
+initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
+</pre>
+
+			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -456,8 +469,8 @@ chainloader (hd0,0)+1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)debian/vmlinuz root=/dev/hda4 ro	(Oder was auch immer)
-initrd (hd0,3)/debian/miniroot.gz		(hier stehen soll)
+kernel (hd0,3)debian/vmlinuz root=/dev/hda4 ro (or whatever)
+initrd (hd0,3)/debian/miniroot.gz (or (whatever)
 
 ### ISO boot
 title sidux 32bit from ISO

@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -153,7 +153,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-en.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-en.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-en.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-en.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System</a></li>
 				<li><a href="sys-admin-upgrade-en.htm#live-cd-upgrade">Upgrading by Live-CD</a></li>
@@ -285,11 +285,19 @@ fix it and re-run the script `grub-install'.
 		<h2>GRUB the Boot Manager - what it is</h2>
 
 			<h3>General</h3>
+<pre>
+<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
+and the line
+initrd (hd0,x)/sidux/miniroot.gz
+has changed to:
+initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
+</pre>
+							<p>Grub is a boot manager that can boot operating systems from different partitions. Grub does not rely on block lists to find the needed files for a system to start up, and it can read a bunch of file-systems by default: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix and many others.</p>
 
-			<p>Grub is a boot manager that can boot operating systems from different partitions. Grub does not rely on block lists to find the needed files for a system to start up, and it can read a bunch of file-systems by default: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix and many others.</p>
+							<p>Grub knows BIOS-extensions (meaning it can boot partitions above 8 GByte!) and has no 1024-cylinder-barrier. Grub doesn't really care, where the kernel physically resides, all it needs is the declaration of the partition and the path to the kernel it's supposed to boot (this can even be a symlink). After a change in the configuration (i.e. the menu.lst) it doesn't need a program-call like Lilo does, the new configuration is applied at next boot.</p>
 
-			<p>Grub knows BIOS-extensions (meaning it can boot partitions above 8 GByte!) and has no 1024-cylinder-barrier. Grub doesn't really care, where the kernel physically resides, all it needs is the declaration of the partition and the path to the kernel it's supposed to boot (this can even be a symlink). After a change in the configuration (i.e. the menu.lst) it doesn't need a program-call like Lilo does, the new configuration is applied at next boot.</p>
-			<p>sidux uses Grub to boot from CD, and when installing to harddisk, Grub is used by default. Nonetheless Grub can be installed afterwards without a problem. Grub is installed to the MBR from a root-shell with the following command:</p>
+							<p>sidux uses Grub to boot from CD, and when installing to harddisk, Grub is used by default. Nonetheless Grub can be installed afterwards without a problem. Grub is installed to the MBR from a root-shell with the following command:</p>
+
 
 <pre>grub-install --root-directory=/media/hdaX /dev/hdY</pre>
 
@@ -437,7 +445,7 @@ root=/dev/hdb5 read-only
 title DOS (partition 3 o?n disk 1)
 root (hd0,2)
 makeactive chainloader +1
-# entry 6 is default 5 und boots from floppy
+# entry 6 is default 5 and boots from floppy
 ##################
 title floppy
 chainloader (fd0)+1
@@ -446,6 +454,14 @@ chainloader (fd0)+1
 	</div>
 	<div class="divider" id="dual-boot">
 			<h2>Dual and Multiple Booting</h2>
+
+<pre>
+<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
+and the line
+initrd (hd0,x)/sidux/miniroot.gz
+has changed to:
+initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
+</pre>
 
 			<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 

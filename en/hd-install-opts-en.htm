@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -153,7 +153,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-en.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-en.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-en.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-en.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System</a></li>
 				<li><a href="sys-admin-upgrade-en.htm#live-cd-upgrade">Upgrading by Live-CD</a></li>
@@ -177,34 +177,74 @@
 <div id="main-page">
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Booting with "fromiso"</h2>
-		<p  class="highlight-2">For normal use we recommend the ext3 file system. It is the default file system for sidux and well maintained.</p>
+							<p  class="highlight-2">For normal use we recommend the ext3 file system. It is the default file system for sidux and well maintained.</p>
 
-		<p>With this cheatcode you can start from an iso out of a partition ,(ext2/3), which is much faster then from a CD (HD installations with "fromiso" only takes a fraction of time,).</p>
-		<p>'fromiso' is of course much faster then from the CD- /DVD-drive and keeps the drive available. As an alternative you could use QEMU as well.</p>
+							<p>With this cheatcode you can start from an iso out of a partition ,(ext2/3), which is much faster then from a CD (HD installations with "fromiso" only takes a fraction of time,).</p>
 
-		<h6>Requirements:</h6>
+							<p>'fromiso' is of course much faster then from the CD- /DVD-drive and keeps the drive available. As an alternative you could use QEMU as well.</p>
 
-			<p>* a functioning grub (on a floppy, a HD-Installation or the Live-CD)<br />
-			* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
-			* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
+				<h5>Requirements:</h5>
 
+							<p>* a functioning grub (on a floppy, a HD-Installation or the Live-CD)<br />
+							* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
+							* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
-		<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example /dev/hda5, create the directory "sidux" and copy the iso into it:</p>
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
 
-<pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
 
-		<p>now we move to that directory and mount the ISO image:</p>
+							<p>now we move to that directory and mount the ISO image:</p>
 
-<pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
 
-		<p>Now copy the files miniroot.gz and vmlinuz from the mounted iso image to our directory:</p>
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
 
-<pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
 
-		<p>Next you have to customise grub a bit, Therefore  edit the file /boot/grub/menu.lst and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example /dev/hda5, create the directory "sidux" and copy the iso into it:</p>
+
+<pre>
+# mkdir /media/hda5/sidux
+# mv sidux.iso /media/hda5/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the files miniroot.gz and vmlinuz from the mounted iso image to the directory:</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
+# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub a bit, Therefore  edit the file /boot/grub/menu.lst and add the following lines AFTER the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
 
 <pre>
 ### ISO boot
@@ -214,8 +254,8 @@ initrd (hd0,4)/sidux/miniroot.gz
 </pre>
 
 		<p>With next boot you have a new menu item in grub to start the iso image.</p>
-	</div>
 
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installing sidux on a USB-Stick or to a USB-HD</h2>
 
@@ -238,6 +278,7 @@ initrd (hd0,4)/sidux/miniroot.gz
 
 		<p>Now you can boot from your USB-HD. 'Boot from USB' must be enabled in your BIOS.</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Installing sidux with QEMU</h2>
 
@@ -351,8 +392,8 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Content last revised 08/05/2007 0500 UTC</div>
-</div>
+	<div id="rev">Page last revised 18/07/2007 0900 UTC</div>
+
 </div>
 </body>
 </html>

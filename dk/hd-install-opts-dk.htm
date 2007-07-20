@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here dk lang maintainer TBA -->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-dk.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-dk.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-dk.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-dk.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-dk.htm#apt-upgrade">Opgradering af Systemet</a></li>
 				<li><a href="sys-admin-upgrade-dk.htm#live-cd-upgrade">Opgradering med Live-CD</a></li>
@@ -186,32 +186,65 @@
 			* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
 			* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
 
-		<p>Først skal vi vælge et sted at placere ISO-filen. For at få så korte filnavne som muligt vælger vi at placere denne 'basis-mappe' i for eksempel /dev/hda5. opret mappen "sidux"  her og kopier ISO-filen dertil:</p>
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+					<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Først skal vi vælge et sted at placere ISO-filen. For at få så korte filnavne som muligt vælger vi at placere denne 'basis-mappe' i for eksempel /dev/hda5. opret mappen "sidux"  her og kopier ISO-filen dertil:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>Montér ISO-filen:</p>
+							<p>Montér ISO-filen:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>Nu kopierer vi filerne miniroot.gz og vmlinuz fra den monterede ISO-fil til vores mappe:</p>
+							<p>Nu kopierer vi filerne miniroot.gz og vmlinuz fra den monterede ISO-fil til vores mappe:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-		<p>Nu skal GRUB modificeres. Derfor redigerer vi filen /boot/grub/menu.lst og tilføjer følgende linier: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Nu skal GRUB modificeres. Derfor redigerer vi filen /boot/grub/menu.lst og tilføjer følgende linier: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-		<p>Ved den næste opstart er der et nyt menupunkt i GRUB til at starte fra ISO-Image: "Sidux 32bit from ISO".</p>
-	</div>
+							<p>Ved den næste opstart er der et nyt menupunkt i GRUB til at starte fra ISO-Image: "Sidux 32bit from ISO".</p>
 
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installer sidux på en usb-nøgle/ usb-harddisk</h2>
 
@@ -234,6 +267,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>du kan nu boote fra din usb-enhed. 'Boot fra USB' skal være aktiveret i din BIOS.</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Installing sidux with QEMU</h2>
 
@@ -345,7 +379,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 			<div id="rev"> Content last revised UTC 05/02/2007 2127hrs</div>
-</div>
+
 </div>
 </body>
 </html>

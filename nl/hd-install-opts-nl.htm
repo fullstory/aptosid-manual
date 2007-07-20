@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Naar sidux.com</a></li>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-nl.htm">Systeembeheer</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-nl.htm#sm">sm Syntax commando sets</a></li>
+				<li><a href="sm-siduxcc-nl.htm#sm">smxi Syntax commando sets</a></li>
 				<li><a href="sm-siduxcc-nl.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-nl.htm#apt-upgrade">Upgraden van een ge&#239;nstalleerd systeem</a></li>
 				<li><a href="sys-admin-upgrade-nl.htm#live-cd-upgrade">Upgraden dmv je Live-CD</a></li>
@@ -177,44 +177,77 @@
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Opstarten met "fromiso"</h2>
 
-		<p  class="highlight-2">Voor normaal gebruik adviseren wij het ext3 bestandssysteem. Dat is het standaard bestandssysteem voor sidux en wordt goed onderhouden (maintained).</p>
+							<p  class="highlight-2">Voor normaal gebruik adviseren wij het ext3 bestandssysteem. Dat is het standaard bestandssysteem voor sidux en wordt goed onderhouden (maintained).</p>
 
-		<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
+							<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
 
-		<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
+							<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
 
-		<h6>Benodigdheden:</h6>
+				<h6>Benodigdheden:</h6>
 
-		    <p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
-			* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
-			* Als je het bestand sidux.ISO noemt, moeten de commandos aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
+		   					<p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
+							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
+							* Als je het bestand sidux.ISO noemt, moeten de commandos aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
 
-		<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creëeren we een basis-directory: bijvoorbeeld /dev/hda5, Creëer nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creëeren we een basis-directory: bijvoorbeeld /dev/hda5, Creëer nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>Nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
+							<p>Nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>Vervolgens kopiëren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
+							<p>Vervolgens kopiëren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-		<p>We moeten nu grub een beetje aanpassen, hiervoor moeten we het bestand /boot/grub/menu.lst  wijzigen en wel door de volgende regels toe te voegen: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>We moeten nu grub een beetje aanpassen, hiervoor moeten we het bestand /boot/grub/menu.lst  wijzigen en wel door de volgende regels toe te voegen: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-		<p>Bij de volgend herstart v/d pc hebben we een nieuwe menu item in grub om vanaf de iso image op te starten.</p>
-	</div>
+							<p>Bij de volgend herstart v/d pc hebben we een nieuwe menu item in grub om vanaf de iso image op te starten.</p>
 
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installatie van sidux op een USB-Stick of USB-HD</h2>
 

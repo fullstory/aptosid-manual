@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -152,7 +152,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-hr.htm">Sistem administracija</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-hr.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-hr.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-hr.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Upgrade instaliranog sistema</a></li>
 				<li><a href="sys-admin-upgrade-hr.htm#live-cd-upgrade">Upgrade koristeći Live-CD</a></li>
@@ -176,40 +176,74 @@
 <div id="main-page">
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Boot sa 'fromiso'</h2>
-		<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 file-sistem, to je glavni file-sistem za sidux i dobro podržavan.</p>
+							<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 file-sistem, to je glavni file-sistem za sidux i dobro podržavan.</p>
 
-		<p>Sa tim cheatcode možete startati sa ISO-datoteke na particiji, što je puno brže nego s CD (hard-disk instalacija s "fromiso" samo treba nekoliko minuta).</p>
-		<p>'fromiso' je naravno brže nego sa CD CD-/DVD-uređaja i ostavi dostupan CD-uređaj. Kao alternativu možete koristiti QEMU.</p>
+							<p>Sa tim cheatcode možete startati sa ISO-datoteke na particiji, što je puno brže nego s CD (hard-disk instalacija s "fromiso" samo treba nekoliko minuta).</p>
 
-		<h6>Potrebe:</h6>
+							<p>'fromiso' je naravno brže nego sa CD CD-/DVD-uređaja i ostavi dostupan CD-uređaj. Kao alternativu možete koristiti QEMU.</p>
 
-		     <p>* grub (na Floppy, hard-disk-instalacija ili Live-CD)<br /> 
-			* sidux ISO-datoteka: sidux.iso i linux file-sistem kao ext2/3 <br />
-			* Ako date datoteci drugo ime na primjer sidux.ISO morate isto promjeniti naredbe, zato što pod sistemom za imenovanje unix-datoteka morate paziti da li pišete malo ili veliko.</p>
+				<h6>Potrebe:</h6>
 
+		    					 <p>* grub (na Floppy, hard-disk-instalacija ili Live-CD)<br /> 
+								* sidux ISO-datoteka: sidux.iso i linux file-sistem kao ext2/3 <br />
+								* Ako date datoteci drugo ime na primjer sidux.ISO morate isto promjeniti naredbe, zato što pod sistemom za imenovanje unix-datoteka morate paziti da li pišete malo ili veliko.</p>
 
-		<p>Prvo izaberemo mjesto za ISO-datoteku i 2 datoteke koje su nam dodatno potrebne, da dobijemo kraća imena. Sad kreiramo base-direktorij: na primjer na /dev/hda5, kreirate direktorij "sidux" i kopirajte ISO-datoteku unutra:</p>
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Prvo izaberemo mjesto za ISO-datoteku i 2 datoteke koje su nam dodatno potrebne, da dobijemo kraća imena. Sad kreiramo base-direktorij: na primjer na /dev/hda5, kreirate direktorij "sidux" i kopirajte ISO-datoteku unutra:</p>
 
 <pre>
 # mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux
 </pre>
 
-		<p>sad idemo u taj direktorij i mountujemo iso-datoteku:</p>
+							<p>sad idemo u taj direktorij i mountujemo iso-datoteku:</p>
 
 <pre>
 # mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test
 </pre>
 
-		<p>sad kopiramo datoteke miniroot.gz i vmlinuz s mountanom ISO-datotekom u vaš direktorij:</p>
+							<p>sad kopiramo datoteke miniroot.gz i vmlinuz s mountanom ISO-datotekom u vaš direktorij:</p>
 
 <pre>
 # cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/
 </pre>
 
-		<p>Sad moramo malo preraditi grub, zato editiramo datoteku /boot/grub/menu.lst i upišemo sljedeće: poslje <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA: wildcards na grub liniji imena datoteka nisu dopuštene! </span></p>
+							<p>Sad moramo malo preraditi grub, zato editiramo datoteku /boot/grub/menu.lst i upišemo sljedeće: poslje <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA: wildcards na grub liniji imena datoteka nisu dopuštene! </span></p>
 
 <pre>
 ### ISO boot
@@ -218,9 +252,9 @@ kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz
 </pre>
 
-		<p>Sa idućim startom imamo novi meni-stavak u grub da startate ISO-datoteku.</p>
-	</div>
+							<p>Sa idućim startom imamo novi meni-stavak u grub da startate ISO-datoteku.</p>
 
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Instalirati sidux na USB-Stick ili na USB-hard-disk</h2>
 
@@ -243,6 +277,7 @@ initrd (hd0,4)/sidux/miniroot.gz
 
 		<p>Sad možete startati sa USB-hard-diska. 'Boot from USB' mora biti aktivirano u BIOS.</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Instalirati sidux s QEMU</h2>
 
@@ -354,7 +389,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 			<div id="rev"> Content last revised UTC 16/05/2007 1000hrs</div>
-</div>
+
 </div>
 </body>
 </html>

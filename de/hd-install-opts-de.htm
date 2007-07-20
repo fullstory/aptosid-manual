@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here de lang maintainer hubi Zophod-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -153,7 +153,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-de.htm">Systemadministration</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-de.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-de.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-de.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Upgrade eines installierten Systems</a></li>
 				<li><a href="sys-admin-upgrade-de.htm#live-cd-upgrade">Upgrade durch die Live-CD</a></li>
@@ -190,31 +190,65 @@
 			* eine Imagedatei sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
 			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO) müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
-		<p>Zuerst suchen wir einen Ort für die ISO-Datei. Um kurze Pfadnamen zu erhalten, erstellen wir ein Basis-Verzeichnis namens sidux, z. B. auf /dev/hda5, und kopieren das ISO hinein:</p>
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+		<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Zuerst suchen wir einen Ort für die ISO-Datei. Um kurze Pfadnamen zu erhalten, erstellen wir ein Basis-Verzeichnis namens sidux, z. B. auf /dev/hda5, und kopieren das ISO hinein:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>Wir mounten das ISO:</p>
+							<p>Wir mounten das ISO:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>Wir kopieren die Dateien miniroot.gz und vmlinuz aus dem gemounteten ISO:</p>
+							<p>Wir kopieren die Dateien miniroot.gz und vmlinuz aus dem gemounteten ISO:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-		<p>Nun muss Grub noch angepasst werden. Dazu editieren wir die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügen folgendes hinzu: nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Anmerkung: keine "wildcards" in der Grubzeile für Dateinamem erlaubt! </span></p>
+							<p>Nun muss Grub noch angepasst werden. Dazu editieren wir die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügen folgendes hinzu: nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Anmerkung: keine "wildcards" in der Grubzeile für Dateinamem erlaubt! </span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-		<p>Beim nächsten Booten ist eine neue Auswahl im Grub-Menü: "sidux 32bit from ISO".</p>
-	</div>
+							<p>Beim nächsten Booten ist eine neue Auswahl im Grub-Menü: "sidux 32bit from ISO".</p>
 
+	</div>
 	<div class="divider" id="usb-hd"> 
 		
 		<h2>sidux auf einen USB-Stick oder eine USB-Festplatte installieren</h2>
@@ -238,6 +272,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>Man kann nun von seiner USB-Installation booten. Hierzu muss "Boot from USB" im BIOS aktiviert sein.</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>sidux installieren mit QEMU</h2>
 
@@ -350,7 +385,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 	</div>
 	<div class="spacer05"></div>
 	<div id="rev">Content last revised 08/05/2007 0500 UTC</div>
-</div>
+
 </div>
 </body>
 </html>

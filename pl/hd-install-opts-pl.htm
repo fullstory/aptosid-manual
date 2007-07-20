@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here pl lang maintainer maslot-->
-<!--Welcome to the Official sidux-manual  01.19-2007-07-17 -->
-<!-- menu last updated by bluewater 08/07/2007 1300rs AEST 08/07/2007 0300hrs UTC -->
+<!--Welcome to the Official sidux-manual  01.21-2007-07-20 -->
+<!-- menu last updated by bluewater 20/07/2007 1300rs AEST 20/07/2007 0300hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -132,7 +132,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-pl.htm">Administracja systemem</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="sm-siduxcc-pl.htm#sm">sm Syntax Command Sets</a></li>
+				<li><a href="sm-siduxcc-pl.htm#sm">smxi Syntax Command Sets</a></li>
 				<li><a href="sm-siduxcc-pl.htm#siduxcc">siduxcc</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-upgrade">Aktualizacja systemu</a></li>
 				<li><a href="sys-admin-upgrade-pl.htm#live-cd-upgrade">Aktualizacja przy użyciu Live-CD</a></li>
@@ -177,70 +177,99 @@
 <div id="main-page">
 	<div class="divider" id="fromiso">
 		<h2>Uruchamianie z opcją "fromiso"</h2>
-		<p  class="highlight-2">Dla zwykłego użytku zalecamy stosowanie systemu plików ext3. Jest to domyślny system plików i posiada bardzo dobre wsparcie techniczne.</p>
+							<p  class="highlight-2">Dla zwykłego użytku zalecamy stosowanie systemu plików ext3. Jest to domyślny system plików i posiada bardzo dobre wsparcie techniczne.</p>
 
-		<p>Przy pomocy tej opcji startowej możesz uruchomić system z obrazu iso na partycji, co jest znacznie szybsze niż z CD (instalacje na twardym dysku z "fromiso" zajmują ułamek czasu instalacji z CD).</p>
-		<p>'fromiso' jest oczywiście znacznie szybszy niż start z napędu CD/DVD i pozostawia dostępny napęd. Jako alternatywę możesz również wykorzystać QEMU.</p>
+							<p>Przy pomocy tej opcji startowej możesz uruchomić system z obrazu iso na partycji, co jest znacznie szybsze niż z CD (instalacje na twardym dysku z "fromiso" zajmują ułamek czasu instalacji z CD).</p>
 
-		<h6>Wymagania:</h6>
+							<p>'fromiso' jest oczywiście znacznie szybszy niż start z napędu CD/DVD i pozostawia dostępny napęd. Jako alternatywę możesz również wykorzystać QEMU.</p>
 
-		    <p>* działający grub (na dyskietce, twardym dysku lub Live-CD)<br />
-			* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
-			* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
+				<h6>Wymagania:</h6>
 
+		  					  <p>* działający grub (na dyskietce, twardym dysku lub Live-CD)<br />
+							* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
+							* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
-		<p>
-          Najpierw wybieramy miejsce dla iso i dwóch plików, które potrzebujemy. Tworzymy więc katalog bazowy: np. /dev/hda5, w nim katalog "sidux" i kopiujemy iso do niego:
-        </p>
+				<h4 class="highlight-3">Gaia Live-cd:</h4>
+							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+
+<pre>
+# mkdir /media/sdax/sidux
+# mv sidux.iso /media/sdax/sidux
+</pre>
+
+							<p>now we move to that directory and mount the ISO image:</p>
+
+<pre>
+# mkdir -p /mnt/test
+# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+</pre>
+
+							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+
+<pre>
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+</pre>
+
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+
+<pre>
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
+</pre>
+
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+
+				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
+							<p>Najpierw wybieramy miejsce dla iso i dwóch plików, które potrzebujemy. Tworzymy więc katalog bazowy: np. /dev/hda5, w nim katalog "sidux" i kopiujemy iso do niego:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-		<p>Teraz przenosimy ten katalog i montujemy obraz iso:</p>
+							<p>Teraz przenosimy ten katalog i montujemy obraz iso:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-		<p>kopiujemy pliki miniroot.gz i vmlinuz z zamontowanego obrazu iso to twojego katalogu:</p>
+							<p>kopiujemy pliki miniroot.gz i vmlinuz z zamontowanego obrazu iso to twojego katalogu:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-		<p>Teraz musimy nieco dostosować gruba. Edytujemy więc plik /boot/grub/menu.lst i po linii <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> dodajemy: <span class="highlight-2">UWAGA nie są dozwolone symbole wieloznaczne! </span></p>
+							<p>Teraz musimy nieco dostosować gruba. Edytujemy więc plik /boot/grub/menu.lst i po linii <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> dodajemy: <span class="highlight-2">UWAGA nie są dozwolone symbole wieloznaczne! </span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-		<p>Przy następnym starcie systemu mamy nowy element menu w grubie do startu z obrazu iso.</p>
+						<p>Przy następnym starcie systemu mamy nowy element menu w grubie do startu z obrazu iso.</p>
+
 	</div>
-
 	<div class="divider" id="usb-hd">
-		<h2>
-          Instalacja siduksa w pamięci flash lub na USB-HD
-        </h2>
+		<h2>Instalacja siduksa w pamięci flash lub na USB-HD </h2>
 
-		<p>
-          Instalacja siduksa w pamięci flash lub twardym dysku USB jest teraz równie łatwa jak zwykła instalacja na twardym dysku. Po prostu postępuj według tych instrukcji.
-        </p>
+							<p>Instalacja siduksa w pamięci flash lub twardym dysku USB jest teraz równie łatwa jak zwykła instalacja na twardym dysku. Po prostu postępuj według tych instrukcji.</p>
 
-<p>Rekomendowane minimum rozmiaru klucza usb:<br />
-		sidux "LITE" potrzebuje 1.2 GB PLUS dodatkowe miejsce na twoje dane,<br />
-		sidux "FULL" potrzebuje 2.1 GB PLUS dodatkowe miejsce na twoej dane</p>
+							<p>Rekomendowane minimum rozmiaru klucza usb:<br />
+							sidux "LITE" potrzebuje 1.2 GB PLUS dodatkowe miejsce na twoje dane,<br />
+							sidux "FULL" potrzebuje 2.1 GB PLUS dodatkowe miejsce na twoej dane</p>
 		
-		<p>Instalacja USB (fix-usb-install.sh) została połączona z <a href="../en/hd-install-en.htm">instalatorem siduksa</a>, dlatego wszystko teraz może zostać zrobione z instalatora.</p>
+							<p>Instalacja USB (fix-usb-install.sh) została połączona z <a href="../en/hd-install-en.htm">instalatorem siduksa</a>, dlatego wszystko teraz może zostać zrobione z instalatora.</p>
 
-		<p>Rozpoczynamy normalną instalację i wybieramy partycję na urządzeniu USB, gdzie sidux ma zostać zainstalowany - będziemy mówić tu o "sda1", ale można użyć każdej innej partycji na urządzeniu USB.</p>
+							<p>Rozpoczynamy normalną instalację i wybieramy partycję na urządzeniu USB, gdzie sidux ma zostać zainstalowany - będziemy mówić tu o "sda1", ale można użyć każdej innej partycji na urządzeniu USB.</p>
 
-		<p><span class="highlight-2">Grub musi być zainstalowany w sektorze startowym partycji(sda1), a nie na MBR!</span></p>
+							<p><span class="highlight-2">Grub musi być zainstalowany w sektorze startowym partycji(sda1), a nie na MBR!</span></p>
 
-		<p>Partycja musi być sformatowana linuksowym systemem plików. Rekomendowany jest ext3. Istniejąca partycja będzie reformatowana przez instalatora!</p>
+							<p>Partycja musi być sformatowana linuksowym systemem plików. Rekomendowany jest ext3. Istniejąca partycja będzie reformatowana przez instalatora!</p>
 
-		<p class="highlight-2">Wszystkie dane na tej partycji zostaną utracone w trakcie formatowania!</p>
+							<p class="highlight-2">Wszystkie dane na tej partycji zostaną utracone w trakcie formatowania!</p>
 
-			<p>Teraz możesz startować system z dysku USB. Opcja 'Boot from USB' musi być uaktywniona w BIOS.</p>
+							<p>Teraz możesz startować system z dysku USB. Opcja 'Boot from USB' musi być uaktywniona w BIOS.</p>
 
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Instalacja siduksa przy pomocy QEMU</h2>
 
@@ -358,7 +387,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 			<div id="rev">Strona ostatnio modyfikowana 21/06/2007 1800 UTC</div>
-</div>
+
 </div>
 </body>
 </html>

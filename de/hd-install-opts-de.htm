@@ -190,29 +190,29 @@
 			* eine Imagedatei sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
 			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO) müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd:</h4>
-							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+				<h4 class="highlight-3">Gaia Live-CD:</h4>
+							<p>Zuerst wählt man einen Platz für das iso und zwei Dateien, die wir brauchen, aus, der einfach zu erreichen ist. Hierfür erstellt man einen Basisordner "sidux" auf dem Laufwerk "/media/sdax" (z. B. sda1, oder sda2, oder 5, oder 6, oder ...) und kopiert die iso-Datei in ihn:</p>
 
 <pre>
 # mkdir /media/sdax/sidux
 # mv sidux.iso /media/sdax/sidux
 </pre>
 
-							<p>now we move to that directory and mount the ISO image:</p>
+							<p>Nun mountet man das iso-Image aus dem eben erstellten Ordner:</p>
 
 <pre>
 # mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+							<p>und kopiert anschließend die Dateien vmlinuz und initrd.img von dem eingebundenen iso-Image in den sidux-Ordner (wobei das "x" an die jeweilige Kernelversion und "sdax" an das entsprechende Laufwerk angepasst werden müssen, sie sind Variablen):</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sdax/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sdax/sidux/
 </pre>
 
-							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Als nächstes muss man grub anpassen.  Deshalb editiert man die Datei<span class="highlight-3"> /boot/grub/menu.lst </span> und fügt ihr die folgenden Zeilen hinzu <span class="highlight-3"> (NACH dem ### END DEBIAN AUTOMAGIC KERNELS LIST)</span>: <span class="highlight-2">Anmerkung: Es sind keine Wildcards/Variablen in der grub-Zeile für Dateinahmen erlaubt! </span></p>
 
 <pre>
 ### ISO boot
@@ -221,7 +221,7 @@ kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/
 initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
 </pre>
 
-		<p>With next boot you have a new menu item in grub to start the iso image.</p>
+		<p>Mit dem nächsten Boot hat man einen neuen Menü-Eintrag in grub zum Starten des iso-Images.</p>
 
 				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
 							<p>Zuerst suchen wir einen Ort für die ISO-Datei. Um kurze Pfadnamen zu erhalten, erstellen wir ein Basis-Verzeichnis namens sidux, z. B. auf /dev/hda5, und kopieren das ISO hinein:</p>

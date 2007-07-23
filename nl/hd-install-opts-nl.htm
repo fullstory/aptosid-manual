@@ -187,31 +187,31 @@
 
 		   					<p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
-							* Als je het bestand sidux.ISO noemt, moeten de commandos aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
+							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
 				<h4 class="highlight-3">Gaia Live-cd:</h4>
-							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+							<p>Eerst kiezen we een plek voor het iso-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het iso-bestand daarin:</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+# mkdir /media/sda6/sidux
+# mv sidux.iso /media/sda6/sidux
 </pre>
 
-							<p>now we move to that directory and mount the ISO image:</p>
+							<p>Dan gaan we naar de map en mounten het ISO image-bestand (een tussenstap via /mnt/test):</p>
 
 <pre>
 # mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+							<p>Nu kopi&#235;ren we de vmlinuz en intrid,img bestanden van de gemounte iso image naar de map (met x voor de kernel variables:</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda5/sidux/
+# cp /mnt/test/boot/vmlinuz-2.6.22.x-slh-smp-x  /media/sda6/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.22.x-slh-smp-x /media/sda6/sidux/
 </pre>
 
-							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span></p>
 
 <pre>
 ### ISO boot
@@ -220,32 +220,32 @@ kernel (hd0,4)/sidux/vmlinuz-2.6.22.x-slh-smp-x boot=fll quiet vga=791 fromiso=/
 initrd (hd0,4)/sidux/initrd.img-2.6.22.x-slh-smp-x
 </pre>
 
-							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+							<p>Bij de volgende hebben we een nieuw menu item in grub om de de iso image te starten.</p>
 
 				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
-							<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor creëeren we een basis-directory: bijvoorbeeld /dev/hda5, Creëer nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
+							<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor cre&#235;eren we een basis-directory: bijvoorbeeld /dev/hda7, Cre&#235;er nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
 
-<pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
+<pre># mkdir /media/hda7/sidux
+# mv sidux.iso /media/hda7/sidux</pre>
 
-							<p>Nu verplaatsen we ons naar die directory en mounten we de iso image als volgt:</p>
+							<p>Nu gaan we naar die directory en mounten we de iso image als volgt:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-							<p>Vervolgens kopiëren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
+							<p>Vervolgens kopi&#235;ren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-							<p>We moeten nu grub een beetje aanpassen, hiervoor moeten we het bestand /boot/grub/menu.lst  wijzigen en wel door de volgende regels toe te voegen: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>We moeten nu grub een beetje aanpassen, hiervoor moeten we het bestand /boot/grub/menu.lst  wijzigen en wel door de volgende regels toe te voegen: after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen!</span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-							<p>Bij de volgend herstart v/d pc hebben we een nieuwe menu item in grub om vanaf de iso image op te starten.</p>
+							<p>Bij de volgend herstart v/d pc hebben we een nieuw menu item in grub om de iso image te booten.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -259,9 +259,9 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 		<p>De USB-installatie (fix-usb-install.sh) is gecombineerd met <a href="../en/hd-install-en.htm">sidux-installer</a>, nu kan dus alles geregeld worden in de sidux-installer.</p>
 
-		<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux geinstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
+		<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux ge&#239;nstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
 
-		<p><span class="highlight-2">Grub moet geinstalleerd zijn op de partitie van de installatie, niet in de master boot record MBR !</span></p>
+		<p><span class="highlight-2">Grub moet ge&#239;nstalleerd zijn op de partitie van de installatie, niet in de master boot record MBR !</span></p>
 
 		<p>De partitie moet geformatteerd zijn met een linux-bestandssysteem. Geadviseerd wordt hiervoor het ext3 bestandssysteem. Een reeds bestaande partitie wordt geformatteerd door de installer!</p>
 
@@ -275,21 +275,21 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 		<h2>Installeren van sidux met QEMU</h2>
 
 		<ul>
- 			<li>1. Creëer een harddiskimage voor qemu</li>
+ 			<li>1. Cre&#235;er een harddiskimage voor qemu</li>
  			<li>2. Start de iso op met qemu</li>
  			<li>3. Installeer op de image</li>
 
 		</ul>
 
- 			<h4>Het creëeren van de harddisk image</h4>
+ 			<h4>Het cre&#235;eren van de harddisk image</h4>
 
-				<p>Om qemu op te starten heb je waarschijnlijk een harddisk image nodig. Dit is een bestand welke de inhoud van de geemuleerde harddisk opslaat.</p>
+				<p>Om qemu op te starten heb je waarschijnlijk een harddisk image nodig. Dit is een bestand welke de inhoud van de ge&#235;muleerde harddisk opslaat.</p>
 
 				<p>Gebruik het volgende commando:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Om het image file genaamd "sidux.qcow" te creeeren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat komprimeerd de image zo dat de lege ruimte niet aan de grote van het bestand wordt toegevoegd.</p>
+				<p>Om het image file genaamd "sidux.qcow" te cre&#235;eren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat komprimeerd de image zo dat de lege ruimte niet aan de grote van het bestand wordt toegevoegd.</p>
 
 
 			<h4>Installeren van het besturingssysteem</h4>
@@ -313,7 +313,7 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Het is een goed idee om overlay images te gebruiken. Op deze manier hoef je maar 1 keer een harddisk image te creëeren en vertel je Qemu om wijzigingen op te slaan in een extern bestand. Zo kom je van alle instabiliteit af, omdat je altijd terug kunt naar de vorige systeem status.</p>
+				<p>Het is een goed idee om overlay images te gebruiken. Op deze manier hoef je maar 1 keer een harddisk image te cre&#235;eren en vertel je Qemu om wijzigingen op te slaan in een extern bestand. Zo kom je van alle instabiliteit af, omdat je altijd terug kunt naar de vorige systeem status.</p>
 
 				<p>Het creëeren van een overlay image, doe je als volgt:</p>
 <pre>
@@ -347,7 +347,7 @@ losetup -f /path/to/mbr
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Hier creëeren we een enkele primaire partitie welke overeenkomt met /dev/hdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
+				<p>Hier cre&#235;eren we een enkele primaire partitie welke overeenkomt met /dev/hdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
@@ -361,7 +361,7 @@ losetup -f /path/to/mbr
 <pre>
 major=0
 </pre>
-				<p>Om het automatisch creëeren van de benodigde /dev/kqemu device uit te voeren, moet je het volgende commando gebruiken:</p>
+				<p>Om het automatisch cre&#235;eren van de benodigde /dev/kqemu device uit te voeren, moet je het volgende commando gebruiken:</p>
 <pre>
 echo "options kqemu major=0" >> /etc/modprobe.conf
 </pre>
@@ -381,7 +381,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laats aangepast op UTC 13/05/2007 2300uur</div>
+			<div id="rev"> Inhoud het laatst aangepast op UTC 22/07/2007 2000uur</div>
 </div>
 </body>
 </html>

@@ -175,23 +175,23 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Windows heeft mijn bootsector overschreven and /or to recover grub</h2>
+		<h2 id="top-header">Windows heeft mijn bootsector overschreven en/of herstel grub</h2>
 
-							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a sidux live-cd.</p>
+							<p> Om grub opnieuw in de MBR te plaatsen en/of om grub te herstellen, moet je booten met de sidux live-cd.</p>
 
-						<h5 class="highlight-3">Grub recovery  for kernels 2.6.22 and up:</h5>
+						<h5 class="highlight-3">Grub herstel voor kernels 2.6.22 en hoger:</h5>
 
-							<p>Open a terminal and mount the partition where sidux is installed : (replace sdxx with sda2 or whatever partition you installed to):</p>
+							<p>Open een terminal en mount de partitie waar sidux is ge&#239;nstalleerd (vervang sdxx met sda2 of wat dan ook de partitie is waarin je wilt installeren):</p>
 <pre>
 sudo mount /media/sdxx
 </pre>
-							<p>Now rewrite Grub to MBR:</p>
+							<p>Herschrijf Grub in de MBR:</p>
 
 <pre>
 sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
 </pre>
 
-						<h5 class="highlight-3">Grub recovery  for kernels prior to 2.6.22:</h5>
+						<h5 class="highlight-3">Grub herstel voor kernels eerder dan 2.6.22:</h5>
 
 							<p>Boot met de Live-Cd, open een Konsole en login als root met:</p>
 <pre>
@@ -213,20 +213,20 @@ grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Maken van een boot-diskette</h2>
 
-							<p>Ga wat experimenteren  met <a href="files/fix/grubboot.zip">Grub-Disketten-Image</a>(ca. 580 kB). Op de diskette is ook een goed werkend FreeDOS en een editor. Als de schrijfbeveiliging van de diskette wordt verwijderd, kan het bestand menu.lst op de diskette aangepast worden.</p>
+							<p>Ga wat experimenteren met <a href="files/fix/grubboot.zip">Grub-Disketten-Image</a> (ca. 580 kB). Op de diskette is ook een goed werkend FreeDOS en een editor. Als de schrijfbeveiliging van de diskette wordt verwijderd, kan het bestand menu.lst op de diskette aangepast worden.</p>
 
-							<p>Another option to making yourself a boot floppy is to use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+							<p>Een andere mogelijkheid om een boot floppy/cd te maken is de <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD).</a></p>
 			
-						<h5>To make a boot-grub floppy, you need to do the following steps:</h5>
+						<h5>Om een boot-grub floppy te maken, moeten de volgende stappen uitgevoerd worden:</h5>
 
-							<p>1. Format a floppy</p>
+							<p>1. Formatteren van de floppy</p>
 <pre>
 # fdformat /dev/fd0
 Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
 Formatting ... done
 Verifying ... done
 </pre>
-							<p>2. Create a filesystem on the floppy (it is advisable to use ext2, minix(fs) or vfat)</p>
+							<p>2. Maken van een bestandssysteem op de floppy (geadviseerd wordt om ext2, minix(fs) of vfat te gebruiken)</p>
 <pre>
 # mkfs -t minix /dev/fd0
 480 inodes
@@ -235,11 +235,11 @@ Firstdatazone=19 (19)
 Zonesize=1024
 Maxsize=268966912
 </pre>
-							<p>3. Mount the floppy</p>
+							<p>3. Mounten van de floppy</p>
 <pre>
 # mount -t minix /dev/fd0 /mnt
 </pre>
-							<p>4.Next run the grub-install script</p>
+							<p>4. Start de grub-install script</p>
 <pre>
 # grub-install --recheck --root-directory=/mnt /dev/fd0
 Probing devices to guess BIOS drives. This may take a long time.
@@ -266,7 +266,7 @@ fix it and re-run the script `grub-install'.
 (fd0)   /dev/fd0
 (hd0)   /dev/sda
 </pre>
-							<p>5. Last Steps</p>
+							<p>5. Laatste stappen</p>
 <pre>
 # sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
 # cp -L /boot/message /mnt/boot/
@@ -286,10 +286,10 @@ fix it and re-run the script `grub-install'.
 	<div class="divider" id="what-is-grub">
 		<h2>GRUB-Bootmanager - wat is dat?</h2>
 <pre>
-<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
-and the line
+<span class="highlight-3">LET OP Grub voor kernels 2.6.22 en later gebruikt sdax i.p.v. hdax
+en de regel
 initrd (hd0,x)/sidux/miniroot.gz
-has changed to:
+is veranderd in:
 initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
 </pre>
 		<h3>Allgemeen</h3>
@@ -305,15 +305,15 @@ initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
                  het pad van de te booten kernel is voldoende (dit kan overigens ook een zog. symlink zijn). Na de aanpassing van de configuratie (die staat in de menu.lst) is het starten van het programma, zoals bij Lilo, niet nodig. De nieuwe configuratie wordt bij het volgende
                  booten gewoon ingelezen.</p>
 
-                <p>sidux gebruikt grub bij het booten van de cd. en ook bij installties op de harde schijf. Grub kan ook zonder problemen later ge&#239;nstalleerd worden. Grub wordt met 
-                 het volgende commando (in een root-shell) in de MBR ge&#239;nstalleerd:</p>
+                <p>sidux gebruikt grub bij het booten van de cd en ook bij booten van installaties op de harde schijf. Grub kan ook zonder problemen later ge&#239;nstalleerd worden. Grub wordt met 
+                 het volgende commando's (in een root-shell) in de MBR ge&#239;nstalleerd:</p>
 
 		<pre>grub-install --root-directory=/media/hdaX /dev/hdY</pre>
 
 		<p>/media/hdaX is hierbij de gemounte partitie, waar in de map <i>/boot/grub</i>
 de benodigde bestanden staan (stage2, stage1_5xxx).<br />
-Het configurationbestand menu.lst moet ook in deze map staan. /dev/hdY
-is in normale situaties de eerste harde schijf. In de MBR van deze eerste harde schijf wordt Grub standaard ge&#239;nstalleerd /dev/hda.</p>
+Het configurationbestand menu.lst moet ook in deze map staan. De /dev/hdY
+is dus in normale situaties de eerste harde schijf. In de MBR van deze eerste harde schijf wordt Grub standaard ge&#239;nstalleerd.</p>
 
 		<h3>Aanduidingen voor harde schijven/device-namen</h3>
 
@@ -484,15 +484,15 @@ chainloader (fd0)+1
 
 	</div>
 	<div class="divider" id="dual-boot">
-			<h2>Dual and Multiple Booting</h2>
+			<h2>Dual en Multiple Booting</h2>
 <pre>
-<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
-and the line
+<span class="highlight-3">LET OP Grub voor kernels 2.6.22 en later sdax gebruiken i.p.v. hdax
+en de regel
 initrd (hd0,x)/sidux/miniroot.gz
-has changed to:
+is veranderd in:
 initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
 </pre>
-							<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+							<p>Het gebruiken van multiple grub OS booting is eenvoudig met chainloading. Als je bijvoorbeeld MS Windows (TM) en Debian etch OS naast een sidux 'fromiso' installation wilt gebruiken, dan moet grub een beetje aangepast worden. Hiervoor wordt het bestand <span class="highlight-3">/boot/grub/menu.lst </span> geopend en de volgende regels toegevoegd worden na <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -502,7 +502,7 @@ chainloader (hd0,0)+1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)debian/vmlinuz root=/dev/hda4 ro (or whatever)
+kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro (or whatever)
 initrd (hd0,3)/debian/miniroot.gz (or (whatever)
 
 ### ISO boot
@@ -512,7 +512,7 @@ initrd (hd0,5)/sidux/miniroot.gz
 </pre>
 
 
-							<p>Er zijn situatie dat meerdere Windows-systemen worden aangemaakt op 1 of meerdere harde schijven. Windows wil in principe van de 1e harde schijf starten. Hierbij kan grub helpen en 1 partitie verbergen en de andere activeren. De onderstaande regels kunnen worden getest aan een grub-prompt. Als alles zo goed werkt kan dat zo worden vastgelegd in het bestand menu.lst. Backup niet vergeten! ;-)</p>
+							<p>Er zijn situaties dat meerdere Windows-systemen worden aangemaakt op 1 of meerdere harde schijven. Windows wil in principe van de 1e harde schijf starten. Hierbij kan grub helpen en 1 partitie verbergen en de andere activeren. De onderstaande regels kunnen worden getest aan een grub-prompt. Als alles zo goed werkt kan dat zo worden vastgelegd in het bestand menu.lst. Backup niet vergeten! ;-)</p>
 
 <pre>hide (hd0,0) # verstopt partition 1 van disk 1
 unhide (hd0,1) # maakt partition 2 van disk 1 zichtbaar
@@ -546,8 +546,7 @@ met LINUX: # chmod a -w ./stage2
 							<p><a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Een bijbehorende boot-diskette kan hier worden verkregen (met een oudere versie van grub)</a>.</p>
 				
 	</div>
-
-
+			<div id="rev">Page last revised UTC 22/07/2007 1600hrs</div>	
 </div>
 </body>
 </html>

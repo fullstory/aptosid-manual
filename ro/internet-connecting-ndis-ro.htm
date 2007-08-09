@@ -18,8 +18,8 @@
 </head>
 <body id="internet-samba">
 <div id="menu"> <!-- menu starts here ro lang maintainer ladepa-->
-<!--Welcome to the  sidux-manual Operating System version 01.30-2007-08-04 -->
-<!-- menu last updated by bluewater 04/08/2007 1100rs AEST 04/08/2007 0100hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.31-2007-08-09 -->
+<!-- menu last updated by bluewater 09/08/2007 1800rs AEST 09/08/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">La pagina sidux.com</a></li>
@@ -135,7 +135,7 @@
 				<li><a href="ssh-ro.htm#ssh">SSH şi Securitatea</a></li>
 				<li><a href="internet-connecting-ro.htm#dial-mod">Modemuri 56k </a></li>
 				<li><a href="internet-connecting-ndis-ro.htm#ndiswrapper-basic">Activarea Ndiswrapper</a></li>
-				<li><a href="internet-connecting-ndis-ro.htm#ndiswrapper-advanced">Activarea Ndiswrapper -  Advanced</a></li>
+				<li><a href="internet-connecting-ndis-ro.htm#ndiswrapper-advanced">Activarea Ndiswrapper -  Avansat</a></li>
 				<li><a href="internet-connecting-wpa-ro.htm#wpa">WIFI-WLAN</a></li>
 				<li><a href="internet-connecting-ro.htm#internetsharing">Internet Sharing</a></li>
 				<li><a href="internet-connecting-ro.htm#netcardconfig">Conectarea Online</a></li>
@@ -186,6 +186,16 @@
 ndiswrapper -i driver.inf
 </pre>
 
+							<p>To check if installation went ok, check it with -l:</p>
+
+<pre >
+root@blubb:/folder/with/driver# ndiswrapper -l
+installed drivers:
+net5416 : driver installed
+ device (168C:0024) present 
+</pre>
+							<p>It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg),  because if the output is wrong here you won't get a wlan connection.</p>
+
 							<p>încărcaţi modulul ndiswrapper :</p>
 <pre >
 modprobe ndiswrapper
@@ -222,17 +232,17 @@ grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 
 	</div>
 	<div class="divider" id="ndiswrapper-advanced">
-				<h2>Ndiswrapper Advanced</h2>
- 							<p>The ndiswrapper is a module that enables Linux to use Windows WLAN drivers. This is necessary as some wlan-card producers do not offer an open source or free driver, thus making the implementation of the card in Linux difficult. Ndiswrapper works around this problem "wrapping" the Windows driver and translating output and input from card and Linux.</p>
+				<h2>Ndiswrapper - Avansat</h2>
+ 							<p> ndiswrapper este un modul care-i permite sistemului de operare Linux să folosească drivere  WLAN din Windows . Acesta este necesar deoarece unii producători de plăci wlan nu oferă şi un driver free sau  open source ceea ce face utilizarea acelei plăci în Linux dificilă. Ndiswrapper rezolvă această problemă "wrapping" driverul Windows şi traducând intrarile şi ieşirile din placă pentru Linux.</p>
  
  
-					<h5>Identify required driver</h5>
+					<h5>Identificarea driverului necesar</h5>
 
- 							<p>First of all you need a proper windows driver for your WLAN card.  WLAN cards have numerous  different chip sets for one model and the only way to identify your card accurately is by the device id (USBID/PCIID). </p>
+ 							<p>Mai întâi aveţi nevoie de un driver de Windows potrivit pentru placa dumneavoastră WLAN .  Plăcile WLAN au multe şi diferite chip sets chiar la acelaşi model şi singura cale de a identifica corect placa este după device id (USBID/PCIID). </p>
  
- 							<p>To get this 'id' open a terminal:</p>
+ 							<p>Pentru a obţine acest 'id' deschideţi un terminal :</p>
  
- 					<h5>For a USB WLAN adaptor</h5>
+ 					<h5>Pentru un adaptor USB WLAN </h5>
 <pre>
 bla@blubb:~$ lsusb
 Bus 004 Device 002: ID 2001:3700 D-Link Corp. [hex] DWL-122 802.11b
@@ -240,9 +250,9 @@ Bus 001 Device 001: ID 0000:0000
 Bus 002 Device 003: ID 0db0:6982 Micro Star International Medion Flash XL V2.7A Card Reader
 bla@blubb:~$
 </pre>
- 							<p>As you see in the example above ,the USBID for the D-Link Corp. [hex] DWL-122 adaptor is 2001:3700.</p>
+ 							<p>Cum vedeţi în exemplul de mai sus  , USBID pentru adaptorul D-Link Corp. [hex] DWL-122  este  2001:3700.</p>
  
- 					<h5>For a (mini) PCI / PCMCIA WLAN adaptor</h5>
+ 					<h5>Pentru un adaptor (mini) PCI / PCMCIA WLAN </h5>
  <pre>
 bla@blubb:~$ lspci -nn
 00:1f.3 SMBus [0c05]: Intel Corporation 82801G (ICH7 Family) SMBus Controller [8086:27da] (rev 02)
@@ -251,16 +261,16 @@ bla@blubb:~$ lspci -nn
 03:03.0 FireWire (IEEE 1394) [0c00]: Agere Systems FW323 [11c1:5811] (rev 61)
 </pre>
 
- 							<p>This 'id' has the scheme vendor:device as well, here 168c:0024 for the Atheros card.</p>
+ 							<p>Acest 'id' are schema vendor:device deasemeni , aici 168c:0024 pentru placa Atheros .</p>
  
- 							<p>Now search: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  for an entry with that 'id', If you're lucky you'll find an corresponding entry and  a recommendation for a driver. </p>
+ 							<p>Acum căutaţi la : <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  o intrare  cu acel 'id' , iar dacă sunteţi norocoşi veţi găsi o intrare corespondentă şi o recomandare de driver. </p>
  
- 							<p>You need the INF and SYS files from that driver. At the best you got a ZIP file which you can extract with unzip. If you get an EXE file it is an self-extracting archive (use wine to extract) or a CAB (extract with cabextract). Easiest way now is to store all files in a new folder in your home.</p>
+ 							<p>Aveţi nevoie de fişierele  INF şi SYS pentru acel driver. Cel mai bine veţi găsi o arhivă ZIP pe care s-o despachetaţi cu unzip. Dacă găsiţi un fişier EXE este o arhivă auto-extractivă (folosiţi wine pentru extracţie) sau un CAB (extrageţi cu cabextract). Cea mai uşoară cale este să stocaţi fişierele într-un director nou în  home.</p>
  
  
-					<h5>Activate Ndiswrapper and install driver</h5>
+					<h5>Activarea Ndiswrapper şi instalarea driverului</h5>
 
- 							<p>Now change to the directory with the windows driver files:</p>
+ 							<p>Schimbaţi în directorul cu fişierele driverului de  windows :</p>
  <pre>
 bla@blubb:~$cd /folder/with/driver
 bla@blubb:~$su
@@ -271,15 +281,15 @@ installed drivers:
 net5416 : driver installed
  device (168C:0024) present 
 </pre>
- 							<p class="highlight-3">It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg).</p>
+ 							<p class="highlight-3">Este foarte important să aveţi "driver installed" şi "device present" în ieşirea de după -l. Dacă nu aveţi aceste două înseamnă că ceva a mers prost (verificaţi mesajele de eroare de la  -i şi/sau dmesg),  because if the output is wrong here, the steps won't work.</p>
  
- 							<p>Now load the kernel module: </p>
+ 							<p>Acum încărcaţi kernel module: </p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
- 							<p>If you don't get an output here everything went fine, if you get an output check dmesg for further information.</p>
+ 							<p>Dacă nu primiţi nici un mesaj aici înseamnă că totul e în regula , dacă primiţi ceva verificaţi dmesg pentru informaţii suplimentare .</p>
  
- 							<p> "iwconfig" should now print a wireless device:</p>
+ 							<p> "iwconfig" ar trebui acum să vă arate un dispozitiv wireless :</p>
 <pre>
 root@blubb:~# iwconfig
 lo        no wireless extensions.
@@ -299,33 +309,33 @@ wlan0     IEEE 802.11b  ESSID:"ConnectionPoint"
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:0   Missed beacon:0
 </pre>
-							<p> If you want ndiswrappper to load at start up just write ndiswrapper to <span class="highlight-3">/etc/modules, </span>either by hand or use: </p>
+							<p> Dacă doriţi ca ndiswrapper să se încarce la start up trebuie să scrieţi ndiswrapper în <span class="highlight-3">/etc/modules, </span>fie manual , fie folosind : </p>
  <pre>
 root@blubb:~# grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
  
  
-					<h5>Reinstall Ndiswrapper after kernel update</h5>
+					<h5>Reinstalarea Ndiswrapper după kernel update</h5>
 
- 							<p> After A kernel update you have to reinstall the ndiswrapper kernel module. The deb file is located at /usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,. So. for example for kernel , 2.6.21.5-slh-smp-2,  you have to do:</p>
+ 							<p> După kernel update va trebui să reinstalaţi ndiswrapper kernel module. Fişierul deb este localizat la  /usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,. Deci, de exemplu , pentru kernelul  2.6.21.5-slh-smp-2,  va trebui să faceţi :</p>
  <pre>
 dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.5-slh-smp-2_1.46-0+c0.sidux.1+1_i386.deb
 </pre>
 
- 							<p>After installing, load it with:</p>
+ 							<p>După instalare încărcaţi-l cu :</p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
- 							<p>You don't have to reinstall the windows drivers as the driver part is separated from the kernel module.</p>
+ 							<p>Nu va trebui să reinstalaţi driverul de windows deoarece acesta este separat de kernel module.</p>
 
-					<h5>General information</h5>
- 							<p>To configure your new device use netcardconfig or sidux-networkconfig. A detailed how-to can be found here <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">here </a>.</p>
+					<h5>Informaţii Generale </h5>
+ 							<p>Pentru configurarea noului dispozitiv folosiţi netcardconfig sau sidux-networkconfig. Un how-to detaliat poate fi găsit  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">aici </a>.</p>
  							
-							<p>If you find another/newer driver please test this one as well. This can cause problems, a kernel panic in worst case but you can help the ndiswrapper project and other users to benefit from the best drivers for the different cards. Please don't forget to update/complete the ndiswrapper  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">list</a> after a successful test.</p>
+							<p>Dacă găsiţi  un alt/mai nou driver vă rugăm testaţi-l şi pe acela. Acesta poate cauza probleme , un kernel panic în cel mai rău caz , dar ajutaţi astfel proiectul  ndiswrapper şi alţi utilizatori să beneficieze de cel mai bun driver pentru diferite plăci . Nu uitaţi deasemeni să completaţi/updataţi   <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">lista</a> ndiswrapper după un test cu succes.</p>
 
-							<p>See also <a  href=" http://sidux.com/index.php?module=pnWikka&amp;tag=NetworkNdiswrapperHowTo ">more on the wiki</a></p>
+							<p>Mai vedeţi <a  href=" http://sidux.com/index.php?module=pnWikka&amp;tag=NetworkNdiswrapperHowTo ">mai multe în  wiki</a></p>
 	</div>
-			<div id="rev"> Page last revised UTC 03/08/2007 1300hrs</div>
+			<div id="rev"> Page last revised UTC 04/08/2007 2100hrs</div>
 </div>
 </body>
 </html>

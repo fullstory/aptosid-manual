@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-br">
 <head>
-	<title>sidux Manuals - Generic-Server-Apache</title>
+	<title>Manuais do sidux - Servidor-Apache - Genérico</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-pt-br.htm#partition">Particionando seu HD com o GParted</a></li>
 				<li><a href="part-gparted-pt-br.htm#ntfs">Redimensionando a Partição NTFS com o GParted</a></li>
 				<li><a href="part-uuid-pt-br.htm#uuid">UUID, Nomeando Partições e fstab</a></li>
+				<li><a href="part-cfdisk-pt-br.htm#disknames">Nomes dos Discos in brief</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#partition">Particionando seu HD com o cfdisk</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#formating">Formatando com o cfdisk, Após Particionamento</a></li>
 				<li><a href="part-size-examp-pt-br.htm#part-example">Exemplos de Tamanhos de Partições</a></li>
@@ -178,29 +179,29 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 <div class="divider" id="serv-apache">
-			<h2 id="top-header">sidux LAMP Stack</h2>
+			<h2 id="top-header">LAMP no sidux</h2>
 		
-				<p>The acronym LAMP refers to a set of free software programs commonly used together to run dynamic Web sites or servers<br />
-				Linux, the operating system<br />
-				Apache, the Web server<br />
-				MySQL, the database management system (or database server)<br />
-				Perl, PHP, and/or Python, scripting languages</p>
+				<p>O acrônimo LAMP refere-se a um conjunto de softwares livres usados em servidores ou sites dinâmicos da Web. São eles:<br />
+				Linux, o sistema operacional<br />
+				Apache, o servidor Web<br />
+				MySQL, o sistema gerenciador de banco de dados (ou, simplesmente, servidor de banco de dados)<br />
+				Perl, PHP e/ou Python, linguagens usadas nos scripts</p>
 
-				<h5 class="highlight-2">WARNING: Never use your day-to-day PC to act as an internet web  server! Use a dedicated PC to be an internet web server and let it do nothing else!</h5>
+				<h5 class="highlight-2">ATENÇÃO: Nunca use seu computador pessoal como servidor Web! Use um PC dedicado para fazer exclusivamente esse papel e nada mais!!</h5>
 
-				<p>Server uses:<br />
-				a) <span class="highlight-3">a local test server for web designers without internet connectivity which is the scope of this topic;</span><br />
-				b) a private "closet" server connected to the net;<br />
-				c) a private web server fully propagated to the internet<br />
-				d) a commercial web server which is beyond the scope of this manual</p>
+				<p>Tipos de servidores:<br />
+				a) <span class="highlight-3">servidor de testes local para 'web designers', sem conexão com a Internet (será tratado no presente tópico);</span><br />
+				b) servidor privado "fechado", conectado com a Internet;<br />
+				c) servidor privado aberto, com total propagação pela Internet;<br />
+				d) servidor web comercial (está além da cobertura deste tópico).</p>
 
 
-			<h5>Minimum Requirements</h5>
-				<p>At least 256MB of RAM available. Anything less than this minimum ram will cause lot of problems since running a server with mysql  requires lot of RAM to run properly. Mysql will error of "cannot connect to mysql.sock" if you dont have enough memory in your server.</p>
+			<h5>Requisitos Mínimos</h5>
+				<p>256MB de RAM; menos que isso irá causar uma série de problemas, pois um servidor com mysql exige uma grande quantidade de RAM para rodar a contento. O Mysql emitirá mensagens de erro como "impossível conectar com mysql.sock" se seu servidor não tiver memória suficiente.</p>
 
-			<h4>The sidux Generic_Server Package</h4>
+			<h4>O Pacote Genérico do sidux para Servidores</h4>
 				
-				<p>The sidux Generic_server consists of a prepackaged installation via the meta-package installer The apps that will be installed are:</p>
+				<p>O pacote 'Generic_server' do sidux consiste de vários programas empacotados juntos e instalados via instalador do Meta-Package. Os aplicativos são os seguintes:</p>
 <pre>
 apache2
 apache2-utils
@@ -212,15 +213,15 @@ libapache2-mod-php5
 php5-mysql
 phpmyadmin
 </pre>
-				<p class="highlight-2">WARNING </p>
+				<p class="highlight-2">ATENÇÃO:</p>
 <pre>
 apt-get remove --purge splashy
 </pre>
-				<p class="highlight-2">As splashy always breaks mysql</p>
+				<p class="highlight-2">...porque a splashy sempre corrompe o mysql</p>
 
-					<p>The Apache configuration file is located at:<span class="highlight-3">/etc/apache2/apache2.conf</span>  and your web folder is <span class="highlight-3">/var/www</span> </p>
+					<p>O arquivo de configuração do Apache fica em: <span class="highlight-3">/etc/apache2/apache2.conf</span>  e sua pasta web é <span class="highlight-3">/var/www</span> </p>
 
-					<p>To check whether php is installed and running properly, just create a test.php in your /var/www folder with phpinfo() function exactly as shown below.</p>
+					<p>Para confirmar que o php está instalado e rodando de forma apropriada, crie o arquivo 'test.php' em sua pasta /var/www com a função phpinfo(), exatamente como mostrado abaixo:</p>
 <pre>
 mcedit /var/www/test.php
 
@@ -228,70 +229,70 @@ mcedit /var/www/test.php
 
 &lt;?php phpinfo(); ? &gt;
 </pre>
-					<p>Point your browser to:</p>
+					<p>Aponte seu navegador para:</p>
 <pre>
 http://localhost 
 or 
 http://yourip:80
 </pre>
-					<p>This should show all your php configuration and default settings.</p>
+					<p>Isso deve mostrar toda a configuração de seu php.</p>
 
-					<p>You can edit necessary values or setup virtual domains using apache configuration file.</p>
+					<p>Você pode editar valores necessários ou criar domínios virtuais usando o arquivo de configuração do Apache.</p>
 
 
-					<p>If you want to test your installation go to your browser and type the following</p>
+					<p>Se quiser testar sua instalação, digite o seguinte no navegador:</p>
 <pre>
-http://youripaddress/apache2-default/
+http://seu_endereço_IP/apache2-default/
 </pre>
-					<p>This should display welcome message then your installation is correct.</p>
+					<p>Se você vir uma mensagem de boas-vindas, então a instalação está correta.</p>
 
-					<p>Default document root directory for apache2 is <span class="highlight-3">/var/www</span> Change this to: </p>
+					<p>O diretório de documentos padrão do Apache2 é <span class="highlight-3">/var/www</span>. Digite os comandos abaixo para mudá-lo: </p>
 <pre>
-mkdir /home/myself/www
-ln -s /home/myself/www /var/www
+mkdir /home/seu_nome_de_usuário/www
+ln -s /home/seu_nome_de_usuário/www /var/www
 </pre>
-					<p>By doing the above commands you can now edit your web site inside your home as normal user.</p>
+					<p>Agora, você já pode editar seu site dentro de sua pasta /home, como usuário comum.</p>
 					
 	</div>
 <div class="divider" id="serv-ftp">
-			<h2>FTP Clients</h2>
-				<p>Use SSH and read carefully the <a href="ssh-en.htm">SSH topic</a> , also sidux has another built in FTP client in the form of Konqueror to enable you to upload your files.</p>
+			<h2>Clientes FTP</h2>
+				<p>Use SSH e leia atentamente o <a href="ssh-pt-br.htm">tópico sobre o SSH</a> . O sidux também possui outro cliente FTP incorporado, usando o Konqueror, que lhe permite transmitir (upload) seus arquivos.</p>
 
 
 	</div>
 <div class="divider" id="serv-sec">
-			<h2>Enabling good security protocols for Web Servers</h2>
+			<h2>Habilitando bons protocolos de segurança em servidores Web</h2>
 
 				<h3>Firewalls</h3>
-				<p><span class="highlight-2">Without a firewall there is absolutely no  security for your server. Remember block EVERYTHING until you need it, then reblock it!</span>.</p>
+				<p><span class="highlight-2">Sem um firewall, seu servidor fica absolutamente sem segurança. Lembre-se de bloquear TUDO, desbloquear momentaneamente o que precisar e voltar a BLOQUEAR logo em seguida!</span>.</p>
 <pre>
 21 (ftp)
 22 (SSH)
 25 110 (email)
-443 (SSL http or https)
-993 (imap ssl)
-995 (pop3 ssl)
+443 (SSL, http ou https)
+993 (imap, ssl)
+995 (pop3, ssl)
 80 (http)
-and any other port going!
+... e quaisquer outras portas!
 </pre>
 
-				<h3>Protect Server Files by Default</h3>
+				<h3>Proteja Arquivos de Servidores</h3>
 
-					<p>One aspect of Apache which is occasionally misunderstood is the feature of default access. That is, unless you take steps to change it, if the server can find its way to a file through normal URL mapping rules, therefore it can serve it to clients.</p>
+					<p>Um aspecto do Apache que às vezes é mal-entendido é seu 'default access' (acesso padrão). Funciona assim: a menos que você altere o padrão de comportamento, se o servidor conseguir encontrar um arquivo pelas regras normais de mapeamento de URL, ele poderá disponibilizá-lo para os clientes.</p>
 
-					<p>For instance, consider the following example:</p>
+					<p>Para ilustrar, veja o seguinte exemplo:</p>
 <pre>
  1. # cd /; ln -s / public_html
  2. Accessing http://localhost/~root/
 </pre>
-					<p class="highlight-2">This would allow clients to walk through the entire filesystem! To work around this, add the following block to your server's configuration:</p>
+					<p class="highlight-2">Isso permite aos clientes navegar por o todo o sistema de arquivos! Para impedir isso, adicione o seguinte bloqueio à configuração de seu servidor:</p>
 <pre>
 &lt;Directory /&gt;
    Order Deny,Allow
    Deny from all
 &lt;/Directory&gt;
 </pre>
-				<p>This will forbid default access to filesystem locations. Add appropriate &lt;Directory&gt; blocks to allow access only in those areas you wish. For example,</p>
+				<p>Com isso fica proibido o acesso padrão ao sistema de arquivos. Adicione bloqueios aos &lt;Directory&gt; (Diretórios) apropriados, de forma a permitir o acesso somente àquelas áreas que você desejar. Por exemplo:</p>
 <pre>
 &lt;Directory /usr/users/*/public_html&gt;
     Order Deny,Allow
@@ -302,9 +303,9 @@ and any other port going!
     Allow from all
  &lt;/Directory&gt;
 </pre>
-				<p>Pay particular attention to the interactions of &lt;Location&gt; and &lt;Directory&gt; directives; for instance, even if &lt;Directory /&gt; denies access, a &lt;Location /&gt; directive might overturn it.</p>
+				<p>Preste atenção, particularmente, à interação entre as diretivas &lt;Location&gt; (Local) e &lt;Directory&gt; (Diretório); por exemplo, ainda que &lt;Directory /&gt; negue acesso, uma diretiva &lt;Location /&gt; se sobreporá a ele.</p>
 
-				<p>Also be wary of playing games with the UserDir directive; setting it to something like "./" would have the same effect, for root, as the first example above. If you are using Apache 1.3 or above, we strongly recommend that you include the following line in your server configuration files:</p>
+				<p>Cuidado também ao brincar com a diretiva UserDir; configurando-a para algo do tipo "./" terá o mesmo efeito, para o root, do primeiro exemplo acima. Se você estiver usando o Apache 1.3 ou superior, recomendamos que inclua a seguinte linha no arquivo de configuração do servidor:</p>
 <pre>
 UserDir disabled root 
 </pre>
@@ -313,11 +314,11 @@ UserDir disabled root
 <div class="divider" id="serv-ssl">
 			<h2>SSL</h2>
 
- 				<p>Run the script “apache2-ssl-certificate”</p>
+ 				<p>Rode o script “apache2-ssl-certificate”</p>
 <pre>
 # apache2-ssl-certificate
 </pre>
-				<p>The following  screen will appear or you to  enter all the required information.</p>
+				<p>Aparece a seguinte tela, onde você deverá fornecer todas as informações solicitadas (para deixar um campo em branco, digite ".", sem as aspas):</p>
 <pre>
 Creating self-signed certificate
 replace it with one signed by a certification authority (CA) enter your ServerName at the Common Name prompt. If you want your certificate to expire after x days call this programm
@@ -334,79 +335,79 @@ What you are about to enter is what is called a Distinguished Name or a DN. Ther
 If you enter '.', the field will be left blank.
 </pre>
 <pre>
-Country Name (2 letter code) [GB]:
+Country Name (2 letter code) [GB]:    [Nome do país, com 2 letras]
 
-State or Province Name (full name) [Some-State]:
+State or Province Name (full name) [Some-State]:    [Nome do estado, por extenso]
 
-Locality Name (eg, city) []:
+Locality Name (eg, city) []:    [Nome da cidade]
 
-Organization Name (eg, company; recommended) []:
+Organization Name (eg, company; recommended) []:    [Nome da empresa]
 
-Organizational Unit Name (eg, section) []:
+Organizational Unit Name (eg, section) []:    [Nome da Unidade Organizacional]
 
-server name (eg. ssl.domain.tld; required!!!) []:
+server name (eg. ssl.domain.tld; required!!!) []:    [Nome do servidor; obrigatório]
 
-Email Address []:
+Email Address []:    [Endereço de email]
 </pre>
 
-					<p>Run the script “a2enmod ssl”  i.e</p>
+					<p>Rode o script “a2enmod ssl”:</p>
 <pre>
  # a2enmod ssl
 </pre>
- 					<p>This  Will automatically generates a symbolic link between mods- available and mods – enabled </p>
+ 					<p>Ele vai gerar, automaticamente, um link simbólico entre mods- available e mods – enabled </p>
 
-					<p>Make a copy of '/etc/apache2/sites-available/default' in the /etc/apache2/sites-available/default file - call it 'ssl'</p>
+					<p>Faça uma cópia de '/etc/apache2/sites-available/default' no arquivo /etc/apache2/sites-available/default  e chame-o de 'ssl':</p>
 <pre>
 # cp /etc/apache2/sites-available/default /etc/apache2/sites-available/ssl
 </pre>
-					<p>Make a sym-link to this new site configuration for this use</p>
+					<p>Faça um link simbólico para essa novo arquivo de configuração:</p>
 <pre>
 #  ln -s /etc/apache2/sites-available/ssl /etc/apache2/sites-enabled/                     
-(or)
+OU
 #a2ensite ssl
 </pre>
- 					<p>If you want to change the any basic configuration settings change in /etc/apache2/apache2.conf and if you want to change the default document root change in /etc/apache2/sites-available/default file and restart the apache server.</p>
+ 					<p>Se você quiser mudar qualquer coisa na configuração básica, faça-o no arquivo /etc/apache2/apache2.conf e se quiser mudar o documento root padrão, edite o arquivo /etc/apache2/sites-available/default; em seguida, reinicie o servidor Apache.</p>
 
- 					<p>To Restart Apache server use the following command</p>
+ 					<p>Para reiniciar o servidor Apache, digite o comando:</p>
 <pre>
 #/etc/init.d/apache2 restart
 </pre>
- 					<p>Now we need to change the port address in /etc/apache2/ports.conf by default it will listen port 80 and now we are installing with SSL we need to change port 443 to listen</p>
+ 					<p>Agora precisamos alterar o endereço da porta no arquivo /etc/apache2/ports.conf. O padrão é escutar na porta 80, mas como estamos instalando o SSL, teremos de mudar para a porta 443:</p>
 <pre>
  Listen 443
 </pre>
-					<p>Edit /etc/apache2/sites-available/ssl (or whatever you called your new ssl site's config) and change port 80 in the name of the site to 443.</p>
+					<p>Edite o arquivo /etc/apache2/sites-available/ssl (ou qualquer que seja o nome do arquivo de configuração de seu novo site SSL) e altere a porta 80 no nome do site para 443.</p>
 
-					<p>Add below two lines some where in /etc/apache2/apache2.conf file</p>
+					<p>Adicione as linhas seguintes no final do arquivo /etc/apache2/apache2.conf:</p>
 <pre>
   SSLEngine On
 
   SSLCertificateFile /etc/apache2/ssl/apache.pem
 </pre>
-					<p>Edit SSLCertificateFile /etc/apache2/ssl/apache.pem and enter the locations of certificate file and certificate key file .Below one is the example</p>
+					<p>Edite o arquivo SSLCertificateFile /etc/apache2/ssl/apache.pem e entre com os locais do arquivo de certificado e do arquivo com a chave .Um exemplo:</p>
 <pre>
 SSLCertificateFile /etc/apache2/ssl/online.test.net.crt
 SSLCertificateKeyFile /etc/apache2/ssl/online.test.net.key
 </pre>
-					<p>Set ServerSignature off, follow these steps edit the /etc/apache2/apache2.conf  file and add these two lines</p>
+					<p>Agora, edite o arquivo /etc/apache2/apache2.conf para configurar ServerSignature para 'off' (desabilitado):</p>
 <pre>
   ServerSignature Off
  ServerTokens ProductOnly
 </pre>
 
- 					<p>If you want to allow the different index files types check for the following line in /etc/apache2/apache2.conf file</p>
+ 					<p>Se você quiser permitir os diferentes tipos de arquivos de índice, confirme que existe a seguinte linha no arquivo /etc/apache2/apache2.conf:</p>
 <pre>
  DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.shtml
 </pre>
- 					<p>Restart the apache server</p>
+ 					<p>Reinicie o Apache:</p>
 <pre>
  /etc/init.d/apache2 restart
 </pre>
 
-					<p>You should now have a test server sandbox, should you want to connect to the interent, with it, <span class="highlight-2">DONT!... Use another PC purely dedicated to being an internet  web server!</span></p>
+					<p>Agora você já deve ter um servidor para testes. Se desejar conectá-lo com a Internet, <span class="highlight-2">NÃO O FAÇA!... Use outro PC, dedicado a ser apenas e tão somente seu servidor Web!</span></p>
 
 	</div>
-					<p>Sources:</p>
+					<p>Fontes::</p>
 					
 					<p><a href="http://www.mysql-apache-php.com/"> http://www.mysql-apache-php.com</a></p>
 					<p><a href="http://httpd.apache.org/docs/1.3/misc/security_tips.html"> http://httpd.apache.org/docs/1.3/misc/security_tips.html</a></p>				

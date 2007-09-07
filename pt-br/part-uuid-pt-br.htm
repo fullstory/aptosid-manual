@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-br">
 <head>
-	<title>sidux Manuals - UUID</title>
+	<title>Manuais do sidux - UUID</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-pt-br.htm#partition">Particionando seu HD com o GParted</a></li>
 				<li><a href="part-gparted-pt-br.htm#ntfs">Redimensionando a Partição NTFS com o GParted</a></li>
 				<li><a href="part-uuid-pt-br.htm#uuid">UUID, Nomeando Partições e fstab</a></li>
+				<li><a href="part-cfdisk-pt-br.htm#disknames">Nomes dos Discos in brief</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#partition">Particionando seu HD com o cfdisk</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#formating">Formatando com o cfdisk, Após Particionamento</a></li>
 				<li><a href="part-size-examp-pt-br.htm#part-example">Exemplos de Tamanhos de Partições</a></li>
@@ -178,15 +179,15 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Re Building fstab</h2>
+			<h2 id="top-header">Reconstruindo a fstab</h2>
 
-									<p>To show a newly created partition (say hda6 or sdb7), that does not appear in fstab or want to be mounted, in a konsole as user ($), type the following command:</p>
+									<p>Para mostrar uma nova partição (digamos hda6 ou sdb7), que não aparece na fstab ou não quer ser montada, abra o terminal e digite o seguinte, como usuário ($):</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
 </pre>
 
-									<p>It will output like this (bold is for example purposes only):</p>
+									<p>Você verá uma saída como esta (o negrito é somente para fins de exemplo):</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
@@ -196,12 +197,12 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
 </pre>
 
-									<p>In this example <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> is the missing entry. The next step is to enter the UUID partition to your etc/fstab. To add it to your fstab file use a text editor (like kate or kwrite) with root privileges:</p>
+									<p>Nesse exemplo, <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> é o item faltante. O próximo passo é colocar os dados UUID dessa partição no arquivo etc/fstab. Para isso, abra-o em um editor de texto (como kate ou kwrite), com privilégios de root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
 </pre>
-									<p>Another example:</p>
+									<p>Outro exemplo:</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-28 13:18 30ebb8eb-8f22-460c-b8dd-59140274829d -> ../../sdb8
@@ -217,7 +218,7 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 
-									<p>In this case <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> is the missing entry and is added to the etc/fstab:</p>
+									<p>No caso acima, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> é a partição a ser colocada na fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
@@ -225,23 +226,23 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 	<div class="divider" id="uuid-fstab">
-			<h2>Overview: UUID, Partition Labelling and fstab</h2>
-				<p>Persistent block device naming has been made possible by the introduction of udev and has some advantages over bus-based naming.</p>
+			<h2>Uma Visão Geral: UUID, Rotulando Partições e a fstab</h2>
+				<p>A nomeação persistente de dispositivos tornou-se possível com a introdução do 'udev' e possui algumas vantagens sobre o método anterior, baseado no 'bus'.</p>
 
-				<p>While Linux distributions and udev are evolving and hardware detection is becoming more reliable, there are also a number of new problems and changes:<br />
-				    <b>1)</b> If you have more than one sata/scsi or ide disk controller, the order in which they are added is random. This may result in device names like hdX and hdY switching around randomly on each boot. The same goes for sdX and sdY. Persistent naming allows you not to worry about this at all.<br />
-				    <b>2)</b> With the introduction of the new libata pata support, all your ide hdX devices will become sdX devices at some point in the future. Again, with persistent naming, you won't even notice.<br />
-				    <b>3)</b> Machines with both sata and ide controllers are quite common these days. With the libata changes mentioned above, the first problem will become even more common, as sata and ide hard drives will both have sdX names.</p>
+				<p>Enquanto as distribuições Linux e o udev evoluem e a detecção de hardware tem se tornado mais confiável, há um novo número de problemas e mudanças:<br />
+				    <b>1)</b> Se você tiver mais de um controlador de discos SATA/SCSI ou IDE, eles são adicionados em ordem aleatória. Isso pode resultar em nomes como hdX e hdY fazendo rodízio a cada boot. O mesmo vale para sdX e sdY. A nomeação persistente permite que você nunca mais se preocupe com isso.<br />
+				    <b>2)</b> Com a introdução do suporte à nova biblioteca libata pata, todos os seus dispositivos IDE 'hdX' tornar-se-ão 'sdX' num futuro próximo. Por causa da nomeação persisitente, você nem vai notar.<br />
+				    <b>3)</b> Máquinas com controladores tanto IDE quanto SATA são bastante comuns hoje em dia. Com as mudanças na libata mencionadas acima, o primeiro problema tornar-se-á ainda mais comum, porque tanto os HDs de um como do outro serão chamados de sdX.</p>
 
-				<p class="highlight-3">By default sidux will use uuid in your fstab when you install</p>
+				<p class="highlight-3">O padrão do sidux, ao ser instalado, é usar UUID na fstab</p>
 
-				<p>There are more reasons, but these are the most critical ones now and in the near future. That's why sidux encourages you to change your setup to persistent naming schemes.</p>
+				<p>Há outros motivos, mas esses são os principais hoje e no futuro próximo. Porisso, o sidux encoraja-o a usar a persistência em suas configurações.</p>
 
-			<h2>The four different schemes for persistent naming:</h2>
+			<h2>Os quatro diferentes esquemas de nomeação persistente:</h2>
 
-			<h4>1. Persistent Naming by UUID</h4>
+			<h4>1. Pelo UUID</h4>
 
-				<p>UUID stands for Universally Unique Identifier and is a mechanism to give each filesystem a unique identifier. It is designed so that collisions are unlikely. All Linux filesystems (including swap) support UUID. FAT and NTFS filesystems don't support UUID, but are still listed in by-uuid with a unique identifier:</p>
+				<p>UUID significa Universally Unique Identifier (Identificador Único Universal) e é um mecanismo para dar a cada sistema de arquivos um identificador único. Ele foi planejado para que colisões sejam improváveis. Todos os sistemas de arquivos Linux, inclusive a swap, aceitam UUID. Já NTFS e FAT não aceitam; porém, ainda assim, elas são listadas na fstab no formato UUID, ou seja "by-uuid", com um identificador único, caracteristicamente com menos caracteres:</p>
 <pre>
 $ /bin/ls -lF /dev/disk/by-uuid/
 total 0
@@ -253,11 +254,11 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
-				<p>As you can see, the fat and ntfs partitions (fat and windows labels above) have shorter names, but are still listed. The advantage about using the uuid method is that it is less likely that you have name collisions than with labels; the disadvantage is that they are more difficult to memorise.</p>
+				<p>Como você pode ver, as partições FAT e NTFS (rótulos fat e windows acima) possuem nomes menores, mas mesmo assim estão na fstab. A vantagem de usar o método UUID é que, ao contrário do sistema de rotulação anterior, é muito menos provável que aconteçam colisões; a desvantagem é que os identificadores são mais difíceis de serem memorizados.</p>
 
-			<h4>2. Persistent Naming by LABEL</h4>
+			<h4>2. Pelo Rótulo (LABEL)</h4>
 
-				<p>Almost every filesystem type can have a label. All your partitions that have one are listed in the /dev/disk/by-label directory:</p>
+				<p>Praticamente todo tipo de sistema de arquivos pode ter um rótulo. Todas as suas partições que possuem um são listadas no diretório /dev/disk/by-label directory:</p>
 <pre>
 $ ls -lF /dev/disk/by-label
 total 0
@@ -269,79 +270,80 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-				<p>You can change the labels of your filesystems using these commands:</p>
+				<p>Você pode mudar os rótulos usando estes comandos:</p>
 <pre>
-* swap: Create a new swapspace like this: mkswap -L &lt;label&gt; /dev/XXX
-* ext2/ext3: e2label /dev/XXX &lt;label&gt;
-* reiserfs: reiserfstune -l &lt;label&gt; /dev/XXX
-* jfs: jfs_tune -L &lt;label&gt; /dev/XXX
-* xfs: xfs_admin -L &lt;label&gt; /dev/XXX
-* fat/vfat: There is no tool to change the label using Linux, 
-but when you create the filesystem, use mkdosfs -n &lt;label&gt; &lt;other options&gt;. 
-You may also change the label of an existing filesystem using Windows.
-* ntfs: ntfslabel /dev/XXX &lt;label&lt; or change it using Windows. 
+* swap: Crie uma nova partição swap com: mkswap -L &lt;rótulo&gt; /dev/XXX
+* ext2/ext3: e2label /dev/XXX &lt;rótulo&gt;
+* reiserfs: reiserfstune -l &lt;rótulo&gt; /dev/XXX
+* jfs: jfs_tune -L &lt;rótulo&gt; /dev/XXX
+* xfs: xfs_admin -L &lt;rótulo&gt; /dev/XXX
+* fat/vfat: Ainda não há aplicativo que faça isso no Linux...
+mas quando criar o sistema de arquivos, use mkdosfs -n &lt;rótulo&gt; &lt;outras opções&gt;. 
+Você também pode mudar o rótulo no Windows.
+* ntfs: ntfslabel /dev/XXX &lt;rótulo&lt; ou mude pelo Windows. 
 </pre>
-				<p class="highlight-3">Be careful: The labels have to be unique to make this work", it applies equally to USB/firewire sticks and to harddisks. The LABEL=/ UUID= syntax is preferred over /dev/disk/by-*/ for UN*X partitions</p>
+				<p class="highlight-3">Tenha cuidado: Para que isso funcione corretamente, os rótulos têm de ser únicos! Isso vale ao mesmo tempo para dispositivos USB/firewire, como pendrives, e para discos rígidos. A sintaxe LABEL=/ UUID= é preferível sobre /dev/disk/by-*/ para partições UN*X.</p>
 
 
 
-			<h4>3. Persistent Naming by id </h4>
+			<h4>3. Pelo id </h4>
 
-				<p>by-id creates a unique name depending on the hardware serial number.</p>
-			<h4>4. Persistent Naming by path</h4>
-				<p>by-path creates a unique name depending on the shortest physical path (according to sysfs). Both contain strings to indicate which subsystem they belong to and thus are not suitable for solving the problems mentioned in the beginning of this article. They won't be discussed any further here.</p>
+				<p>'by-id' cria um nome único baseado no número serial do hardware.</p>
+			<h4>4. Pelo path</h4>
+				<p>'by-path' cria um nome único baseado na rota física mais curta (de acordo com o sysfs). Tanto "by-id" quanto "by-path" contêm strings que indicam a qual subsistema eles pertencem e assim não estão habilitados para resolver os problemas mencionados no início deste tópico. Não trataremos mais deles aqui.</p>
 
-			<h4>Enabling persistent naming</h4>
+			<h4>Ativando a Nomeação Persistente</h4>
 
-				<p>Having chosen which naming method you'd like to use, let's now enable persistent naming for your system:</p>
+				<p>Tendo escolhido o método de nomeação que você deseja usar, vamos agora ativar a persistência em seu sistema:</p>
 
-			<h4>In fstab</h4>
+			<h4>Na fstab</h4>
 
-				<p>Enabling persistent naming in /etc/fstab is easy;  just replace the device name in the first column by the new persistent name. In my example I would replace /dev/sda7 by one of the following:</p>
+				<p>Habilitar persistência no arquivo /etc/fstab é fácil; simplesmente substitua o nome do dispositivo na primeira coluna pelo nome persistente. No exemplo abaixo, vamos substituir /dev/sda7 por um dos seguintes:</p>
 <pre>
-/dev/disk/by-label/home or
+/dev/disk/by-label/home ou
 /dev/disk/by-uuid/31f8eb0d-612b-4805-835e-0e6d8b8c5591 
 </pre>
-				<p>Do so for all the partitions in your fstab file.</p>
+				<p>Faça deste mesmo jeito para todas as partições em sua fstab.</p>
 
-				<p>Instead of giving the device explicitly, one may indicate the filesystem that is to be mounted by its UUID or volume label, writing LABEL=&lt;label&gt; or UUID=&lt;uuid&gt;, for example:</p>
+				<p>Ao invés de citar o dispositivo explicitamente, pode-se indicar o sistema de arquivos a ser montado por UUID ou pelo seu rótulo do volume, escrevendo LABEL=&lt;rótulo&gt; ou UUID=&lt;uuid&gt;. Por exemplo:</p>
 <pre>
 LABEL=Boot
-</pre>				<p>or</p>
+</pre>				<p>ou</p>
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-			<h4>Persistent Naming in the boot manager</h4>
+			<h4>Persistência no Gerenciador de Boot</h4>
 
-				<p>To use persistent names in your boot manager, all of  the following prerequisites have to be met:<br />
+				<p>Para usar nomes persistentes no gerenciador de boot, são necessários todos estes pré-requisitos:<br />
 
-				<b>1)</b> You are using a mkinitcpio initramfs image<br />
-				<b>2)</b> You have udev enabled in /etc/mkinitcpio.conf<br />
-				<b>3)</b> When your initramfs image was generated, version 101-3 or greater of klibc-udev was installed (persistent naming is broken in any earlier version). If you are updating klibc-udev from an earlier version and want to use persistent naming, regenerate your initramfs image before you reboot.</p>
+				<b>1)</b> estar utilizando uma imagem mkinitcpio initramfs<br />
+				<b>2)</b> ter udev ativado em /etc/mkinitcpio.conf<br />
+				<b>3)</b> quando a imagem initramfs é gerada, a versão 101-3 ou superior da klibc-udev é instalada (persistência em quaisquer das versões anteriores não funciona). Se você estiver atualizando a klibc-udev a partir de uma versão anterior e quiser usar nomeação persistente, gere novamente a imagem do initramfs antes de reinicializar seu computador.</p>
 
-				<p>In the above example, /dev/sda1 is the root partition. In the grub menu.lst file, the kernel line looks like this:</p>
+				<p>No exemplo acima, /dev/sda1 é a partição root. No arquivo /boot/grub/menu.lst, a linha referente ao kernel é parecida com esta:</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
 </pre>
-				<p>Depending on which naming scheme you prefer, change it to one of the following:</p>
+				<p>Dependendo do esquema de nomeação que você preferir, mude-a para uma das seguintes:</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 </pre>
-				<p>or</p>
+				<p>ou</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-				<p>There is an alternative way to use the label embedded in the filesystem. For example if (as above) the filesystem in /dev/hda1 is labelled "root", you would give this line to grub:</p>
+				<p>Há uma maneira alternativa de usar o rótulo incorporado ao sistema de arquivos. Por exemplo, se o sistema de arquivos em /dev/hda1 for rotulado "root", a linha no arquivo 'menu.lst' fica assim:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
-				<p>Source: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  who used <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Content from wiki.archlinux.org available under GNU Free Documentation License 1.2 and has been re-edited for sidux-manuals</p>
+				<p>Fonte: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> que usou <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. O conteúdo de wiki.archlinux.org é disponibilizado sob a GNU Free Documentation License 1.2 e foi re-editado para o Manual do sidux.</p>
 				
-				<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">There is more on labeling here at lissot.net</a> </p>
+				<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Mais sobre rotulação ('labelling') pode ser encontrado em lissot.net</a> </p>
 
 	</div>
 			<div id="rev">Page last revised UTC 27/06/2007 1200hrs</div>
+</div>
 </div>
 </body>
 </html>

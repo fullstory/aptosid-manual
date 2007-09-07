@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here de lang maintainer hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-de.htm#partition">mit GParted</a></li>
 				<li><a href="part-gparted-de.htm#ntfs">NTFS-Partitionen mit GParted ändern</a></li>
 				<li><a href="part-uuid-de.htm#uuid">UUID, Partitionsbezeichnung und fstab</a></li>
+				<li><a href="part-cfdisk-de.htm#disknames">Namen der Festplatten in brief</a></li>
 				<li><a href="part-cfdisk-de.htm#partition">Partitionieren mit cfdisk</a></li>
 				<li><a href="part-cfdisk-de.htm#formating">Formatieren mit cfdisk</a></li>
 				<li><a href="part-size-examp-de.htm#part-example">Beispiele für Partitionsgrößen</a></li>
@@ -377,26 +378,26 @@ apt-get install kmahjongg
 
 		<p>Wenn das Gesamtsystem aktualisiert werden soll, dann ist dies durch ein "dist-upgrade" zu machen. Bitte immer genau beachten, welche Programmpakete ein Upgrade erfahren.</p>
  
-		<p>Für Upgrades soll grundsätzlich die graphische Oberfläche verlassen und die Aktualisierung in einer Textkonsole durchgeführt werden. Es ist möglich, die Pakete zuerst herunterzuladen und im Anschluss in die Textkonsole zu wechseln). Diese kleine Vorsichtsmaßnahme kann unter Umständen Stunden an Rekonfigurationsarbeit ersparen.</p>
+		<p>Für Upgrades soll grundsätzlich die graphische Oberfläche verlassen und die Aktualisierung in einer Textkonsole durchgeführt werden. Es ist möglich, die Pakete zuerst herunterzuladen und im Anschluss in die Textkonsole zu wechseln. Diese kleine Vorsichtsmaßnahme kann unter Umständen Stunden an Rekonfigurationsarbeit ersparen.</p>
 
 		<h2>(Nur) Downloaden:</h2>
 
 <pre>
 # apt-get dist-upgrade -d
 </pre>
-							<p>The -d allows you to download the dist-upgrade without installing it whilst in X from the konsole and allows you to do the dist-upgrade in init 3 at a later time. It wisely gives you the option to proceed or abort like this</p>
+							<p>Die Option -d ermöglicht den Download der neuen Pakete eines dist-upgrade, ohne sie zu installieren, in der Konsole, während man sich in X befindet, und eine spätere Installation außerhalb von X in init 3. Auch wird einem die Option gegeben, den Prozess abzubrechen, was wie folgt aussieht:</p>
 
 <pre>
 apt-get dist-upgrade -d
-xxx upgraded, 30 newly installed, 25 to remove and 2 not upgraded.
-Need to get 342MB of archives.
-After unpacking 3916kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-Y
-(Y will download the upgraded packages without touching the installed system)
+83 aktualisiert, 5 neu installiert, 0 zu entfernen und 0 nicht aktualisiert.
+Es müssen noch 71,3MB von 71,3MB Archiven geholt werden.
+Nach dem Auspacken werden 72,8MB Plattenplatz zusätzlich benutzt.
+Möchten Sie fortfahren [J/n]?
+J
+(J lädt die zu aktualisierenden bzw. neu zu installierenden Pakete, ohne das installierte System zu verändern)
 </pre>
 
-							<p>After the 'dist-upgrade -d' has downloaded, and wish to complete the dist-upgrade,  immediately or at a later time,  please follow these instructions:</p>
+							<p>Nach dem Download der Pakete mittels 'dist-upgrade -d' können diese jederzeit nach folgendem Muster installiert werden:</p>
 
 <div class="box block">
 			<div class="highlight-2">Bitte NIEMALS "apt-get dist-upgrade" oder "apt-get upgrade" in der graphischen Umgebung X durchführen.<div class="highlight-4">  Besuchen Sie vor einem Upgrade die <a href="http://sidux.com">sidux-Homepage</a>, um eventuelle Upgradewarnungen in Erfahrung zu bringen. Diese Warnungen sind wegen der Struktur von Debian sid/unstable notwendig, welches täglich neue Programmpakete in seine Repositorien aufnimmt.</div>
@@ -412,7 +413,7 @@ get-sidux-binary-gfx # Neuinstallation der benötigten Grafiktreiber, wenn xorg 
 init 5 &amp;&amp; exit 
 </pre>
 
-		<div class="highlight-2">Und nochmal unsere Warnung: Bitte NIEMALS ein dist-upgrade oder upgrade mit einem graphischen Programm wie synaptic, adept, aptitude oder kpackage durchführen!</div> Ausgenommen ist das korrekt kodierte Skript <a href="http://techpatterns.com/forums/about736.html">du-fixes-h2</a>, das nun <span>smxi heißt, eine Abkürzung für sidux-maintenance</span>:</div>
+		<div class="highlight-2">Und nochmal unsere Warnung: Bitte NIEMALS ein dist-upgrade oder upgrade mit einem graphischen Programm wie synaptic, adept, aptitude oder kpackage durchführen!</div> Ausgenommen ist das korrekt kodierte Skript <a href="http://techpatterns.com/forums/about736.html">smxi</a> (<span>sidux-maintenance-Skript, früher du-fixes-h2)</span>:</div>
 <pre>
 apt-get update
 apt-get install sidux-scripts
@@ -421,7 +422,7 @@ smxi
 	</div>
 	</div>
 <div class="spacer02"></div>
-		<h4><a href="http://techpatterns.com/forums/about736.html">Für neue Nutzer von sidux, kann das Skript !h2 smxi eine große Hilfe bedeuten, da es den Prozess eines dist-upgrades halbautomatisiert.</a></h4>
+		<h4><a href="http://techpatterns.com/forums/about736.html">Für neue Nutzer von sidux, kann das Skript smxi eine große Hilfe bedeuten, da es den Prozess eines dist-upgrades halbautomatisiert.</a></h4>
 
 			<p class="highlight-2">Und nochmal unser Warnhinweis: Ein dist-upgrade, das nicht im Runlevel 3 (init 3) durchgeführt wird, kann zu großen, nicht unterstützbaren Problemen führen!</p>
 
@@ -500,7 +501,7 @@ sidux-manual-de:
 			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Eine vollständige Beschreibung des APT-Systems findet man im APT-HOWTO</a> </p>
 
 	</div>
-	<div id="rev">Content last revised UTC 26/06/2007 0600hrs UTC </div>
+	<div id="rev">Content last revised UTC 01/09/2007 2330hrs UTC </div>
 
 </div>
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-br">
 <head>
 	<title>Manuais do sidux - cfdisk</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-pt-br.htm#partition">Particionando seu HD com o GParted</a></li>
 				<li><a href="part-gparted-pt-br.htm#ntfs">Redimensionando a Partição NTFS com o GParted</a></li>
 				<li><a href="part-uuid-pt-br.htm#uuid">UUID, Nomeando Partições e fstab</a></li>
+				<li><a href="part-cfdisk-pt-br.htm#disknames">Nomes dos Discos in brief</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#partition">Particionando seu HD com o cfdisk</a></li>
 				<li><a href="part-cfdisk-pt-br.htm#formating">Formatando com o cfdisk, Após Particionamento</a></li>
 				<li><a href="part-size-examp-pt-br.htm#part-example">Exemplos de Tamanhos de Partições</a></li>
@@ -180,14 +181,41 @@
 	<div class="divider" id="disknames">
 		<h2 id="top-header">Nomes dos Discos</h2>
 			<h5><span class="highlight-2">AVISO: Sobre nomes dos discos</span><a href="part-uuid-pt-br.htm"> favor ver UUID, Nomeando Partições e fstab, pois o padrão no sidux agora é UUID</a></h5>
-		<h5>nomes de HDs IDE</h5>
-		<p>HDs IDE são chamados de <b>hda</b>, <b>hdb</b>, <b>hdc</b> etc, dependendo do controlador onde o disco rígido está conectado; <b>hda</b> é o disco Master no primeiro controlador, <b>hdb</b> é o Slave ('escravo') no primeiro controlador, <b>hdc</b> é o Master no segundo controlador e assim por diante.</p>
 
-		<h5>nomes de HDs SCSI ou SATA</h5>
-		<p>HDs SATA ou SCSI são chamados de <b>sd<i>x</i></b>, onde <i>x</i> é uma letra representando o disco. O HD com o SCSI ID mais baixo no primeiro controlador será <b>sda</b>, o próximo logo acima será <b>sdb</b> etc. Um HD SATA é identificado pelo lugar onde está plugado no controlador e é chamado de <b>sda</b> quando conectado ao primeiro controlador e assim por diante</p>
+			<h4>Current naming practices</h4>
 
-		<h5>nomes das Partições</h5>
-		<p>Um HD pode ter até quatro partições PRIMÁRIAS. Se você precisar de mais, você tem de mudar umas dessas para partição ESTENDIDA, onde você pode colocar várias partições lógicas. O nome de cada partição é composto pelo nome do HD a que ela pertence (ver acima) e um número. A primeira partição primária no primeiro HD IDE é <b>hda1</b>, a segunda partição primária é <b>hda2</b> e assim por diante. A primeira e a segunda partições lógicas, dentro de uma partição estendida no primeiro HD IDE, são <b>hda5</b> e <b>hda6</b> e assim por diante. A mesma sistemática aplica-se para os HDs SATA/SCSI.</p>
+			<h5>For Disks</h5>
+
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
+
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
+
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
+
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+
+							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
 
 	<div class="divider" id="partition">
 		<h2>Particionando seu HD com o cfdisk</h2>
@@ -221,7 +249,7 @@ cfdisk /dev/hda</pre>
 		<div class="screenshot"><img src="../lib/images-pt-br/cfdisk-pt-br/cfdisk3-pt-br.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Tornar uma partição capaz de dar a partida no computador (Bootable Partition)</h5>
-		<p>Não há nenhuma necessidade de fazer esse tipo de partição no Linux, mas há sistemas operacionais que precisam disso. Basta marcar a partição e selecionar o comando. Nota: se estiver a fazer um instalação num HD externo deve tornar uma partição capaz de dar a partida no computador (Bootable Partition):</p>
+		<p>Não há nenhuma necessidade de fazer esse tipo de partição no Linux, mas há sistemas operacionais que precisam disso. Basta marcar a partição e selecionar o comando. Nota: se a instalação for feita em um HD externo, então uma partição tem de ser do tipo 'Bootable':</p>
 		<pre >Bootable</pre> 
 
 		<h5>Salvar o resultado no disco</h5>
@@ -293,7 +321,7 @@ mkfs -t ext3 /dev/hdb1
 
 		<p>Pronto, agora você pode começar a instalação do sidux.</p>
 
-			<div id="rev">Content last revised UTC 12/02/2007 0200hrs</div>
+			<div id="rev">Content last revised UTC 07/09/2007 0500hrs UTC</div>
 </div>
 </div>
 </div>

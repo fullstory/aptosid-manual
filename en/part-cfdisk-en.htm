@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-en.htm#partition">Partitioning your HD using GParted</a></li>
 				<li><a href="part-gparted-en.htm#ntfs">NTFS partition Resizing using GParted</a></li>
 				<li><a href="part-uuid-en.htm#uuid">UUID, Partition Labelling and fstab</a></li>
+				<li><a href="part-cfdisk-en.htm#disknames">Disk Naming in brief</a></li>
 				<li><a href="part-cfdisk-en.htm#partition">Partitioning  your HD using cfdisk</a></li>
 				<li><a href="part-cfdisk-en.htm#formating">Formatting after partitioning with cfdisk</a></li>
 				<li><a href="part-size-examp-en.htm#part-example">Partition Size Examples</a></li>
@@ -178,16 +179,43 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="disknames">
-		<h2 id="top-header">Disk Naming</h2>
-				<h5><span class="highlight-2">WARNING: for disk naming</span><a href="part-uuid-en.htm"> Please refer to UUID, Partition Labelling and fstab, as by default sidux now uses UUID</a></h5>
-				<h5>IDE-harddisk names</h5>
-							<p>IDE harddisks are called <b>hda</b>, <b>hdb</b>, <b>hdc</b>, and so on depending on which controller the harddisk is connected. <b>hda</b> is the master disk on the first controller, <b>hdb</b> is the slave disk on the first controller, <b>hdc</b> is the master disk on the second controller, and so on.</p>
+		<h2 id="top-header">Disk and Partition Naming</h2>
+				<h5><span class="highlight-2">WARNING: For disk and partition naming </span><a href="part-uuid-en.htm"> Please refer to UUID, Partition Labelling and fstab, as by default sidux now uses UUID</a></h5>
 
-				<h5>SCSI or SATA-harddisk names</h5>
-							<p>SATA or SCSI harddisks are named with <b>sd<i>x</i></b>, where <i>x</i> is a harddisk letter. The disk with the lowest SCSI ID on the first controller will become <b>sda</b>, the next higher <b>sdb</b>, an so on. A SATA harddisk will be identified by the place where it is plugged-in on the controller and is named <b>sda</b> when plugged-in on the first, and so on.</p>
+			<h4>Current naming practices</h4>
 
-				<h5>Partitions names</h5>
-							<p>A harddisk can have up to four primary partitions. If you want more, you have to make one of these an extended partition where you can make several logical partitions. The partitions are named with the disk they belong to, and a number. The first primary partition on the first IDE disk is <b>hda1</b>, the second primary partition is <b>hda2</b>, and so on. The first and second logical partition on an extended partition on the first IDE disk is <b>hda5</b> and <b>hda6</b>, and so on. Similarly for SATA/SCSI disks.</p>
+			<h5>For Disks</h5>
+
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
+
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
+
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
+
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+
+							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
 
 	<div class="divider" id="partition">
 		<h2>Partitioning your HD using cfdisk</h2>
@@ -196,7 +224,7 @@
 							<p>Open a konsole/xterm, get root and start cfdisk:
 							<i>(if you are on HD-install you'll have to enter your root password)</i></p>
 <pre >su
-cfdisk /dev/hda
+cfdisk /dev/sda
 </pre>
 
 				<h5>The user interface</h5>
@@ -260,17 +288,17 @@ Return
 							<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and is well maintained.</p>
 
 			<h5>Formatting</h5>
-							<p>After closing down <b>cfdisk</b> we return to console. For formatting you need to be root. For formatting the root- and/or home partition, in this example <b>hdb1</b>, we enter: <i>(if you are on HD-install you'll have to enter your root password here)</i></p>
+							<p>After closing down <b>cfdisk</b> we return to console. For formatting you need to be root. For formatting the root- and/or home partition, in this example <b>sdb1</b>, we enter: <i>(if you are on HD-install you'll have to enter your root password here)</i></p>
 <pre >
 su
-mkfs -t ext3 /dev/hdb1
+mkfs -t ext3 /dev/sdb1
 </pre>
 
 							<p>There will be a question, that you answer with yes if you are sure, that you have chosen the right partition.</p>
 
-							<p>When the command is done, you will get notice, that ext3 formatting was successfully written to disk. If you don't get that, something probably went wrong with partitioning in cfdisk, or hdb1 is not a linux partition. In this case you can check with</p>
+							<p>When the command is done, you will get notice, that ext3 formatting was successfully written to disk. If you don't get that, something probably went wrong with partitioning in cfdisk, or sdb1 is not a linux partition. In this case you can check with</p>
 <pre >
-fdisk -l /dev/hdb
+fdisk -l /dev/sdb
 </pre>
 
 							<p>If something is wrong and maybe partition again.</p>
@@ -279,13 +307,13 @@ fdisk -l /dev/hdb
 
 							<p>Last we format the swap partition, in this example hdb3:</p>
 <pre >
-mkswap /dev/hdb3
+mkswap /dev/sdb3
 </pre>
 
 							<p>after that a:</p>
 
 <pre >
-swapon /dev/hdb3
+swapon /dev/sdb3
 </pre>
 
 							<p>Then we check, if swap is recognized, by entering in console:</p>
@@ -304,7 +332,7 @@ swapon -s
 				<th>Priority</th>
 			</tr>
 			<tr>
-				<td>/dev/hdb3</td>
+				<td>/dev/sdb3</td>
 				<td>partition</td>
 				<td>995988</td>
 				<td>248632</td>
@@ -322,7 +350,7 @@ swapoff -a
 
 							<p>You are now ready to start installation.</p>
 
-			<div id="rev">Content last revised UTC 25/08/2007 0900hrs</div>
+			<div id="rev">Content last revised  07/09/2007 0500hrs UTC</div>
 </div>
 </div>
 </div>

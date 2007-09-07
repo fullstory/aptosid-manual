@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -79,6 +79,7 @@
 				<li><a href="part-gparted-ru.htm#partition">Разметка диска: GParted</a></li>
 				<li><a href="part-gparted-ru.htm#ntfs">Разделы NTFS: GParted</a></li>
 				<li><a href="part-uuid-ru.htm#uuid">UUID и метки раздела: fstab </a></li>
+				<li><a href="part-cfdisk-ru.htm#disknames">Имена жестких&nbsp;дисков in brief</a></li>
 				<li><a href="part-cfdisk-ru.htm#partition">Разметка диска: cfdisk</a></li>
 				<li><a href="part-cfdisk-ru.htm#formating">Форматирование разделов</a></li>
 				<li><a href="part-size-examp-ru.htm#part-example">Примеры разметки диска</a></li>
@@ -180,17 +181,41 @@
 		<h2 id="top-header">Имена жестких&nbsp;дисков</h2>
 				<h5><span class="highlight-2">Пожалуйста, обратите внимание: В отношении наименования устройств накопления, </span><a href="part-uuid-ru.htm"> пожалуйста, прочитайте главу о UUID, обозначение разделов и fstab, так как sidux в своих основных установках использует наименование по UUID.</a></h5>
 
-				<h5>Обозначатель IDE-дискa</h5>
+			<h4>Current naming practices</h4>
 
-							<p>Жесткие диски IDE называются <b>hda</b>, <b>hdb</b>, <b>hdc</b>, и так далее, в зависимо от того,&nbsp;на каком контроллере висит IDE-диск. <b>hda</b> является мастером на первом контроллере, <b>hdb</b> является подчиненным компонентом на первом контроллере, <b>hdc</b> является мастером на втором  контроллере, и так дальше.</p>
+			<h5>For Disks</h5>
 
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
 
-				<h5>Обозначатель SCSI- или SATA-диска</h5>
-							<p>SATA или SCSI жесткие диски обозначаются следующим образом: <b>sd<i>x</i></b>, причем <i>x</i> указывает на&nbsp;соответствующий SCSI или SATA-диск. SCSI-Диск&nbsp;с самым низким SCSI-ID на первом контроллере станет <b>sda</b>,  следующий <b>sdb</b>, и так далее. SATA-диск идентифицируется по месту на контроллере&nbsp;и станет <b>sda</b> на первом месте, и так далее.</p>
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
 
-				<h5>Имена раздела</h5>
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
 
-							<p>Жесткий диск может управлять до 4 первоначальных разделов. Если Вам нужно больше, один из них Вы должны сделать&nbsp;расширенным разделом, где Вы тогда&nbsp;можете создавать много логических разделов. Разделы получают обозначение принадлежащего диска и число. Первый  первоначальный раздел на первом IDE-диске является <b>hda1</b>, второй первоначальный раздел на том же самом IDE-диске&nbsp;является <b>hda2</b>, и так далее. Первый и второй разделы в расширенном разделе на первом IDE-диске являются <b>hda5</b> и <b>hda6</b>, и так далее. Аналогично этому и&nbsp;с дисками SATA/SCSI.</p>
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+
+							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
+
 	</div>
 	<div class="divider" id="partition">
 		<h2>Разбиение с Cfdisk</h2>
@@ -332,7 +357,7 @@ swapoff -a
 
 							<p>Теперь установка может начинаться.</p>
 
-			<div id="rev">Содержание, последнее пересмотрено UTC 25/08/2007 0900hrs</div>
+			<div id="rev">Содержание, последнее пересмотрено 07/09/2007 0500hrs UTC</div>
 
 </div>
 

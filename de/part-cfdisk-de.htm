@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
 <head>
 	<title>sidux Manuals - Partitioning-CFDISK-de</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here de lang maintainer hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-de.htm#partition">mit GParted</a></li>
 				<li><a href="part-gparted-de.htm#ntfs">NTFS-Partitionen mit GParted ändern</a></li>
 				<li><a href="part-uuid-de.htm#uuid">UUID, Partitionsbezeichnung und fstab</a></li>
+				<li><a href="part-cfdisk-de.htm#disknames">Namen der Festplatten in brief</a></li>
 				<li><a href="part-cfdisk-de.htm#partition">Partitionieren mit cfdisk</a></li>
 				<li><a href="part-cfdisk-de.htm#formating">Formatieren mit cfdisk</a></li>
 				<li><a href="part-size-examp-de.htm#part-example">Beispiele für Partitionsgrößen</a></li>
@@ -181,87 +182,111 @@
 		<h2 id="top-header">Namen der Festplatten</h2>
 			<h5><span class="highlight-2">Bitte BEACHTEN: bezüglich der Benennung von Speichergeräten</span><a href="part-uuid-de.htm"> bitte das Kapitel zu UUID, Partitionsbezeichnung und fstab zu Rate ziehen, da sidux in der Grundeinstellung Benennung nach UUID verwendet.</a></h5>
 
-		<h5>IDE-Festplattenbezeichner</h5>
+			<h4>Current naming practices</h4>
 
-		<p>IDE-Festplatten heißen <b>hda</b>, <b>hdb</b>, <b>hdc</b>, und so weiter, abhängig davon, an welchem Controller die Platte hängt. <b>hda</b> ist Master am ersten Controller, <b>hdb</b> ist Slave am ersten Controller, <b>hdc</b> ist Master am zweiten Controller, und so weiter.</p>
+			<h5>For Disks</h5>
 
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
 
-		<h5>SCSI oder SATA-Festplattenbezeichner</h5>
-		<p>SATA oder SCSI-Festplatten werden folgendermaßen bezeichnet: <b>sd<i>x</i></b>, wobei <i>x</i> die jeweilige Platte ist. Die Platte mit der niedrigsten SCSI-ID am ersten Controller wird <b>sda</b>, die nächste  <b>sdb</b>, und so weiter. Eine SATA-Platte wird durch den Platz am Controller identifiziert und wird <b>sda</b> auf dem ersten Platz, und so weiter</p>
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
 
-		<h5>Partitionsnamen</h5>
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
 
-		<p>Eine Festplatte kann bis zu 4 primäre Partitionen verwalten. Wenn Du mehr brauchst, muss Du eine von diesen zu einer erweiterten Partition machen, worin Du dann viele logische Partitionen erstellen kannst. Die Partitionen erhalten die Bezeichnung der zugehörigen Platte und eine Zahl. Die erste primäre Partition auf der ersten IDE-Platte ist <b>hda1</b>, die zweite primäre Partition auf der selben Platte ist <b>hda2</b>, und so weiter. Die erste und zweite Partition in einer erweiterten Partition auf der ersten IDE-Platte sind <b>hda5</b> und <b>hda6</b>, und so weiter. Analog verhält es sich mit SATA/SCSI-Platten.</p>
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+
+							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
+
 	</div>
 	<div class="divider" id="partition">
 		<h2>Partitionieren mit Cfdisk</h2>
 
 		<p class="highlight-2">Für normalen Gebrauch empfehlen wir, das Dateisystem ext3 zu benutzen. Ext3 ist das Standard-Dateisystem von sidux und gut gewartet (bzw. maintained).</p>
 
-		<p>Öffne eine Konsole, werde root, was Eingabe des Root-Passworts auf einer Festplatteninstallation erfordert, und starte cfdisk:</p>
+		<p>In einer Konsole wird cfdisk als root gestartet (nach "su" ist die Eingabe des root-Passworts gefordert):</p>
 
 <pre>su
 cfdisk /dev/hda
 </pre>
 
 		<h5>Die Bedienoberfläche</h5>
-		<p>Im ersten Bildschirm zeigt cfdisk die aktuelle Partitionstabelle mit den Namen und einigen Informationen zu jeder Partition. Am unteren Ende des Screens sind einige Befehlsschalter. Um oben zwischen den Partitionen zu wechseln, benutzt man die Pfeiltasten auf, ab. Um unten Befehle auszuwählen, benutzt man die Pfeiltasten rechts, links.</p>
+		<p>Im ersten Bildschirm zeigt cfdisk die aktuelle Partitionstabelle mit den Namen und einigen Informationen zu jeder Partition. Am unteren Ende des Fensters sind einige Befehlsschalter. Um oben zwischen den Partitionen zu wechseln, benutzt man die Pfeiltasten auf, ab. Um unten Befehle auszuwählen, benutzt man die Pfeiltasten rechts, links.</p>
 		<div class="screenshot"><img src="../lib/images-de/cfdisk-de/cfdisk0-de.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Löschen einer Partition</h5>
-		<p>Um eine Partition zu löschen, markiere sie mit den auf-ab-Tasten, wähle den Befehl</p>
+		<p>Um eine Partition zu löschen, wird sie mit den auf-ab-Tasten markiert und folgender Befehl gewählt (auszuwählen mit den Pfeiltasten links-rechts):</p>
 <pre>
 Löschen
 </pre>
-		<p>mit links-rechts und bestätige mit</p>
+		<p>und bestätigt mit</p>
 <pre>
 Enter
 </pre>
 		<div class="screenshot"><img src="../lib/images-de/cfdisk-de/cfdisk1-de.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Erstellen einer neuen Partition</h5>
-		<p>Zum Erstellen einer neuen Partition benutze den Befehl</p>
+		<p>Zum Erstellen einer neuen Partition wird folgender Befehl gewählt (auszuwählen mit den Pfeiltasten links-rechts):</p>
 <pre>
 Neue
 </pre>
-		<p>(auszuwählen mit den Pfeiltasten links-rechts), und drücke Enter. Du musst Dich zwischen einer <b>primären</b> oder einer <b>logischen</b> Partition entscheiden. Wenn Du eine logische Partition erstellen willst, erstellt cfdisk automatisch eine erweiterte Partition, die dann die logische Partition enthält. Dann musst Du die Größe der Partition bestimmen (in MB). Wenn Du keine MB-Angaben machen kannst, kehre mit ESC zum Hauptschirm zurück und wähle MB mit dem Befehl:</p>
+		<p>und mit der Entertaste bestätigt. Es muss dabei zwischen einer <b>primären</b> oder einer <b>logischen</b> Partition entschieden werden. Wenn eine logische Partition erstellt werden soll, erstellt cfdisk automatisch eine erweiterte Partition, die dann die logische Partition enthält. Danach muss die Größe der Partition festgelegt werden (in MB). Wenn keine MB-Angaben gemacht werden können, kehrt man mit der ESC-Taste zum Hauptmenü zurück und wählt MB mit dem Befehl:</p>
 <pre>
 Einheiten
 </pre>
 		<div class="screenshot"><img src="../lib/images-de/cfdisk-de/cfdisk2-de.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Partitionstyp</h5>
-		<p>Um den Partitionstyp festzulegen, für <b>Linux swap</b> oder <b>Linux</b>, markiere die entsprechende Partition und benutze den Befehl:</p>
+		<p>Um den Partitionstyp festzulegen, für <b>Linux swap</b> oder <b>Linux</b>, wird die entsprechende Partition gewählt und folgender Befehl gewählt:</p>
 <pre>
 Typ
 </pre>
 
-		<p>Du bekommst nun eine Liste mit Typen. Drücke Space, und es erscheint der Rest auf einer zweiten Seite. Finde den benötigten Typ (<b>Linux swap</b> ist Typ <b>82</b>, <b>Linux</b> bekommt Typ <b>83</b>)</p>
+		<p>Nun wird eine Liste mit Partitionstypen ausgegeben. Durch Drücken der Leertaste erhält man weitere Partitionstypen auf einer zweiten Seite. Man wählt nun den Hexadezimal-Code des benötigten Partitionsyps (<b>Linux swap</b> ist Typ <b>82</b>, <b>Linux</b> ist Typ <b>83</b>).</p>
 		<div class="screenshot"><img src="../lib/images-de/cfdisk-de/cfdisk3-de.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Eine Partition bootfähig machen</h5>
-		<p>Für Linux besteht kein Grund, eine Partition bootbar zu machen, aber einige andere Betriebssysteme brauchen das. Markiere die entsprechende Partition und benutze den Befehl. Note: When installing on a external HD then  one partition must be bootable:</p>
+		<p>Für Linux besteht kein Grund, eine Partition bootbar zu machen, aber einige andere Betriebssysteme brauchen das. Dabei wird die entsprechende Partition markiert und folgender Befehl gewählt (Anmerkung: Bei Installation auf eine externe Festplatte muss eine Partition bootfähig gemacht werden):</p>
 <pre>
 Bootbar
 </pre>
 
 		<h5>Das Ergebnis auf die Platte schreiben</h5>
-		<p>Wenn alles fertig partitioniert ist, können wir das Resultat auf die Platte schreiben mit dem Befehl <b>Schreiben</b>. Die Partitionstabelle wird jetzt auf die Platte geschrieben. Einen Fehler bezüglich <b>Dos</b> könnt Ihr dabei ignorieren.</p>
-		<p><b>Da damit alle Daten auf der entsprechenden Partition gelöscht werden</b>, solltest Du Dir absolut sicher sein, vor dem:</p>
+		<p>Wenn alles fertig partitioniert ist, können wir das Resultat mit dem Befehl <b>"Schreiben"</b> sichern. Die Partitionstabelle wird jetzt auf die Platte geschrieben. Ein Fehler bezüglich <b>Dos</b> kann dabei ignoriert werden.</p>
+		<p><b>Da damit alle Daten auf der entsprechenden Partition gelöscht werden</b>, sollte man sich seiner Sache wirklich sicher sein, bevor man mit der Entertaste bestätigt:</p>
 <pre>
 Enter
 </pre>
 		<div class="screenshot"><img src="../lib/images-de/cfdisk-de/cfdisk4-de.png" alt="The cfdisk user interface" /></div>
 
 		<h5>Beenden</h5>
-		<p>Um das Programm nun zu verlassen, benutze den Befehl <b>Ende</b>. Nach Beendigung von <b>cfdisk</b>, vor der Installation, sollte man auf jeden Fall rebooten, um die Partitionstabelle neu einzulesen</p>
+		<p>Um das Programm nun zu verlassen, wird der Befehl <b>Ende</b> benutzt. Nach Beendigung von <b>cfdisk</b> und vor der Installation sollte man auf jeden Fall rebooten, um die Partitionstabelle neu einlesen zu lassen.</p>
 	</div>
 
 	<div class="divider" id="formating">
 		<h2>Formatieren von Partitionen mit Cfdisk</h2>
 
 		<h5>Grundlagen</h5>
-		<p>Es gibt für Linux verschiedene Filesysteme, die man benutzen kann. Da wären <b>ReiserFs</b>, <b>Ext2</b>, <b>Ext3</b>, und für erfahrenere Anwender <b>XFS</b> und <b>JFS</b>. ext2 kann von Interesse sein, wenn man von Windows aus zugreifen möchte, da es Windows-Treiber für dieses Dateisystem gibt. Für normalen Gebrauch empfehlen wir das Dateisystem ext3. Ext3 ist das Standard-Dateisystem von sidux und gut gewartet (maintained).</p>
+		<p>Es gibt für Linux verschiedene Filesysteme, die man benutzen kann. Da wären <b>ReiserFs</b>, <b>Ext2</b>, <b>Ext3</b>, und für erfahrenere Anwender <b>XFS</b> und <b>JFS</b>. ext2 kann von Interesse sein, wenn man von Windows aus zugreifen möchte, da es Windows-Treiber für dieses Dateisystem gibt. Für normalen Gebrauch empfehlen wir das Dateisystem ext3. Ext3 ist das Standard-Dateisystem von sidux und gut gewartet.</p>
 
 		<h5>Formatieren</h5>
 		<p>Wenn wir cfdisk geschlossen haben, kehren wir zur Konsole zurück. Die Formatierung erfordert <b>Rootrechte</b>. Benutzen wir die Live-CD, dann werden wir mit <b>sudo su</b> root. Aus einer HD-Installation reicht <b>su</b> (in diesem Fall wird nach dem Rootpasswort gefragt) aus.</p>
@@ -273,7 +298,7 @@ mkfs -t ext3 /dev/hdb1
 
 		<p>Es folgt eine Abfrage, die wir mit <b>ja</b> beantworten, wenn wir sicher sind, dass wir die richtige Partition formatieren. Also lieber noch mal prüfen.</p>
 
-		<p>Daraufhin muss die Meldung erfolgen, dass das ReiserFS erfolgreich geschrieben wurde. Ist das nicht der Fall, ist bei der Partitionierung etwas schiefgelaufen oder <b>hdb1</b> ist keine Linux-Partition. Wir überprüfen mit:</p>
+		<p>Daraufhin muss die Meldung erfolgen, dass ext3 erfolgreich geschrieben wurde. Ist das nicht der Fall, ist bei der Partitionierung etwas schiefgelaufen oder <b>hdb1</b> ist keine Linux-Partition. Wir überprüfen mit:</p>
 
 <pre>
 fdisk -l /dev/hdb
@@ -330,7 +355,7 @@ swapon -s
 
 		<p>Jetzt kann die Installation beginnen.</p>
 
-			<div id="rev">Content last revised UTC 12/02/2007 0200hrs</div>
+			<div id="rev">Content last revised 07/09/2007 0500hrs UTC</div>
 
 </div>
 

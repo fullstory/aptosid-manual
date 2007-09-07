@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -80,6 +80,7 @@
 				<li><a href="part-gparted-en.htm#partition">Partitioning your HD using GParted</a></li>
 				<li><a href="part-gparted-en.htm#ntfs">NTFS partition Resizing using GParted</a></li>
 				<li><a href="part-uuid-en.htm#uuid">UUID, Partition Labelling and fstab</a></li>
+				<li><a href="part-cfdisk-en.htm#disknames">Disk Naming in brief</a></li>
 				<li><a href="part-cfdisk-en.htm#partition">Partitioning  your HD using cfdisk</a></li>
 				<li><a href="part-cfdisk-en.htm#formating">Formatting after partitioning with cfdisk</a></li>
 				<li><a href="part-size-examp-en.htm#part-example">Partition Size Examples</a></li>
@@ -180,56 +181,70 @@
 	<div class="divider" id="configure">
 		<h2 id="top-header">Configuring sidux to use SAMBA (Windows) Shares from Remote Machines</h2>
 		
-		<p>Do all commands as <b>root</b> (in a Terminal or Konsole)
-		Put the URL in Konqueror (run Konqueror as normal user).</p>
+							<p>Do all commands as <b>root</b> (in a Terminal or Konsole) Put the URL in Konqueror (run Konqueror as normal user).</p>
 		
-		<p class="highlight-1">server = servername or IP of the Windows Machine<br />
-		<span class="highlight-1">share = name of the share</span></p>
+							<p class="highlight-1">server = servername or IP of the Windows Machine<br />
+							<span class="highlight-1">share = name of the share</span></p>
 		
-		<p>In KDE - Konqueror put in the URL <span class="highlight-3">smb://server</span> or the complete URL <span class="highlight-3">smb://server/share</span></p>
+							<p>In KDE - Konqueror put in the URL <span class="highlight-3">smb://server</span> or the complete URL <span class="highlight-3">smb://server/share</span></p>
 		
-		<p>In a konsole you can see the shares located on a server by:</p>
-<pre>smbclient -L server</pre>
+							<p>In a konsole you can see the shares located on a server by:</p>
+<pre>
+smbclient -L server
+</pre>
 		
-		<p>To mount a share in a directory -(with full access for ALL Users) remember this:
-		Mountpoint must exist. If it does not, you must first create directory like this (Name is arbitrary):</p>
-<pre>mkdir -p /mnt/server_share</pre>
+							<p>To mount a share in a directory -(with full access for ALL Users) remember this: Mountpoint must exist. If it does not, you must first create directory like this (Name is arbitrary):</p>
+
+<pre>
+mkdir -p /mnt/server_share
+</pre>
 		
-		<p>Then mount the share - remote filesystem VFAT:</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share</pre>
+							<p>Then mount the share - remote filesystem VFAT:</p>
+<pre>
+mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share
+</pre>
 		
-		<p>or remote filesystem NTFS:</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share</pre>
+							<p>or remote filesystem NTFS:</p>
+<pre>
+mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share
+</pre>
 		
-		<p>To terminate the connection, use:</p>
-<pre>umount /mnt/server_share</pre>
+							<p>To terminate the connection, use:</p>
+<pre>
+umount /mnt/server_share
+</pre>
 		
-		<p>If you want to put an entry in <i>/etc/fstab</i> to make the mount easier then insert the following line  on that file:</p>
-<pre>//server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0</pre>
+							<p>If you want to put an entry in <i>/etc/fstab</i> to make the mount easier then insert the following line  on that file:</p>
+<pre>
+//server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0
+</pre>
 	</div>
 	<div class="divider" id="setup">
 		<h2>How to set up sidux as Samba-Server</h2>
 		
-		<p>As samba is not on the sidux live-cd. you will need to do the following to have samba access:</p>
+							<p>As samba is not on the sidux live-cd. you will need to do the following to have samba access:</p>
 <pre>
 su
-fix-unionfs
+apt-get update
 apt-get install samba
 </pre>
 
 		<h5>HD installations:</h5>
-		<p>As samba is not pre-installed you will need to do the following to have samba access:</p>
+							<p>As samba is not pre-installed you will need to do the following to have samba access:</p>
 <pre>
+sux
+apt-get update
 apt-get install samba
 </pre>
 		
-		<p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>
+							<p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>
 		
-		<p>To adjust the samba-configuration you do as follows:</p>
+							<p>To adjust the samba-configuration you do as follows:</p>
 		
-		<p>you open the file <span class="highlight-3">/etc/samba/smb.conf</span> in an editor (e.g. kedit or kwrite) and enter this:</p>
+							<p>you open the file <span class="highlight-3">/etc/samba/smb.conf</span> in an editor (e.g. kedit or kwrite) and enter this:</p>
 		
-<pre># Globale Changes - Proposal everything simple as
+<pre>
+# Globale Changes - Proposal everything simple as
 #possible - no passwords, perform like Windows 9x
 
 [global]
@@ -253,25 +268,31 @@ comment = Data Partition (first extended Partition)
 browseable = yes
 writable = yes
 path = /media/hda5
-public = yes</pre>
+public = yes
+</pre>
 	
-		<p>Dont forget to save. You can now start/stop samba with</p>
-<pre>/etc/init.d/samba start</pre>
-		<p>and</p>
-<pre>/etc/init.d/samba stop</pre>
+							<p>Dont forget to save. You can now start/stop samba with</p>
+<pre>
+/etc/init.d/samba start
+</pre>
+							<p>and</p>
+<pre>
+/etc/init.d/samba stop
+</pre>
 		
-		<p>You can also start/stop samba automaticaly at boot-time. Issue this call:</p>
+							<p>You can also start/stop samba automaticaly at boot-time. Issue this call:</p>
 		
 <pre>
 update.rc.d samba defaults
 </pre>
 		
-		<p>Now samba starts when you boot and stops when you shutdown.</p>
-		<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba inforamtion here as well.</a>.</p>
+							<p>Now samba starts when you boot and stops when you shutdown.</p>
+
+							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba inforamtion here as well.</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 27/02/2007 0545 UTC</div>
-	<div class="spacer05"></div>
+			<div id="rev">Page last revised 04/09/2007 1300hrs UTC</div>
+
 </div>
 </body>
 </html>

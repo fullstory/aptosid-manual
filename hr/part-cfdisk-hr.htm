@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="hr">
 <head>
 	<title>Sidux priručnik - cfdisk</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -18,8 +18,8 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra-->
-<!--Welcome to the  sidux-manual Operating System version 01.34-2007-08-29 -->
-<!-- menu last updated by bluewater 29/08/2007 1200rs AEST 29/08/2007 0200hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
+<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -79,6 +79,7 @@
 				<li><a href="part-gparted-hr.htm#partition">Particijonirati vaš HD koristeći GParted</a></li>
 				<li><a href="part-gparted-hr.htm#ntfs">Mijenjanje veličine NTFS particija koristeći GParted</a></li>
 				<li><a href="part-uuid-hr.htm#uuid">UUID, označivanje particija i fstab</a></li>
+				<li><a href="part-cfdisk-hr.htm#disknames">Namjestiti HD ime in brief</a></li>
 				<li><a href="part-cfdisk-hr.htm#partition">Particijonirati vaš HD koristeći cfdisk</a></li>
 				<li><a href="part-cfdisk-hr.htm#formating">Formatiranje particija poslije particijoniranjem sa cfdisk</a></li>
 				<li><a href="part-size-examp-hr.htm#part-example">Primjeri particijskih veličina</a></li>
@@ -179,14 +180,41 @@
 	<div class="divider" id="disknames">
 		<h2 id="top-header">Namjestiti HD ime</h2>
 			<h5><span class="highlight-2">POZOR: Da namjestite HD ime </span><a href="part-uuid-hr.htm">Molimo vas da se odnosite na UUID, označivanje particija i fstab, standardno sidux koristi UUID</a></h5>
-		<h5>IDE-harddisk imena</h5>
-		<p>IDE harddisks su zvane <b>hda</b>, <b>hdb</b>, <b>hdc</b>, ovisno na kojem kontroleru su priključene. <b>hda</b> je master disk na prvom kontroleru, <b>hdb</b> je slave disk na prvom kontroleru, <b>hdc</b> je master disk na drugom kontroleru, i tako dalje.</p>
 
-		<h5>SCSI ili SATA-harddisk imena</h5>
-		<p>SATA ili SCSI harddisks su zvana sa <b>sd<i>x</i></b>, gde je <i>x</i> harddisk slovo. Disk sa najmanjoj SCSI ID na prvom kontroleru če postati <b>sda</b>, druga sa večom ID <b>sdb</b>, i tako dalje. SATA harddisk če biti identificirana čim je priključite na kontroler i zvana je <b>sda</b> ako je priključena na prvi, i tako dalje.</p>
+			<h4>Current naming practices</h4>
 
-		<h5>Imena particija</h5>
-		<p>Harddisk može imati do 4 primary particija. Ako hoćete više, morate jednu od njih promijeniti u extended particiju. U njoj možete stvoriti različite logical particije. Particije su zvane po disku na kojemu su, i sa jednim brojem. Prva primary particija na prvoj IDE disk je <b>hda1</b>, druga primary particija je <b>hda2</b>,  i tako dalje. Prva i druga logical particija na extended particiji na prvom IDE disku je <b>hda5</b> i <b>hda6</b>, i tako dalje. Slično kao i za SATA/SCSI disks.</p>
+			<h5>For Disks</h5>
+
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
+
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
+
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
+
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+
+							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
 
 	<div class="divider" id="partition">
 		<h2>Particijonirati vaš HD koristeći cfdisk</h2>
@@ -308,7 +336,7 @@ mkfs -t ext3 /dev/hdb1
 
 
 		<p>Sad možete startovati instalaciju.</p>
-				<div id="rev">Content last revised UTC 25/08/2007 0900hrs</div>
+				<div id="rev">Content last revised 07/09/2007 0500hrs UTC</div>
 
 </div>
 </div>

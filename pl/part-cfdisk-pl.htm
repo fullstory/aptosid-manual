@@ -92,6 +92,7 @@
 				<li><a href="hd-install-pl.htm#first-hd-boot">Pierwsze uruchomienie systemu</a></li>
 				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso'</a></li>
 				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na USB-HD</a></li>
+				<li><a href="hd-install-opts-pl.htm#vtbox">Instalacja poprzez VirtualBox</a></li>
 				<li><a href="hd-install-opts-pl.htm#qemu">Instalacja poprzez QEMU</a></li>
 			</ul>
 		</li>
@@ -129,6 +130,8 @@
 				<li><a href="sys-admin-apt-pl.htm#apt-install">Instalowanie nowych pakietów</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-delete">Usuwanie pakietu</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-downgrade">Instalowanie starszej wersji pakietu/Hold</a></li>
+				<li><a href="sys-admin-apt-pl.htm#apt-cache">Szukanie pakietu przy pomocy apt-cache</a></li>
+				<li><a href="sys-admin-apt-pl.htm#apt-kio">Szukanie pakietu przy pomocy kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-pl.htm">Administracja systemem</a>
@@ -181,14 +184,41 @@
 	<div class="divider" id="disknames">
 		<h2 id="top-header">Nazewnictwo dysków</h2>
 				<h5><span class="highlight-2">UWAGA: w sprawie nazywania partycji patrz </span><a href="part-uuid-pl.htm"> UUID, Nazywanie partycji i fstab, ponieważ teraz sidux domyślnie używa UUID</a></h5>
-				<h5>Nazwy dysków twardych IDE</h5>
-							<p>Dyski IDE nazywane są <b>hda</b>, <b>hdb</b>, <b>hdc</b>, itp. zależnie od kontrolera, do którego podłączony jest twardy dysk. <b>hda</b> to dysk pracujący w trybie master na pierwszym kontrolerze, <b>hdb</b> jest dyskiem slave na pierwszym kontrolerze, <b>hdc</b> jest dyskiem master na drugim kontrolerze itp.</p>
 
-				<h5>Nazwy dysków twardych SCSI lub SATA</h5>
-							<p>Dyski SATA lub SCSI nazywane są <b>sd<i>x</i></b>, gdzie <i>x</i> jest literą dysku. Dysk z najniższym SCSI ID na pierwszym kontrolerze zostanie <b>sda</b>, następne w kolejności <b>sdb</b>, itp. Dysk SATA będzie identyfikowany przez miejsce, w ktorym jest podłączony do kontrolera - <b>sda</b>, jeśli podłączony do pierwszego, itp.</p>
+			<h4>Current naming practices</h4>
 
-				<h5>Nazwy partycji</h5>
-							<p>Twardy dysk może mieć do czterech partycji podstawowych, jeśli chcesz więcej, musisz jedną z nich uczynić partycją rozszerzoną, gdzie możesz utworzyć wiele dysków logicznych. Partycje dziedziczą nazwy po dyskach, na których się znajdują. Pierwsza partycja podstawowa na pierwszym dysku IDE to <b>hda1</b>, druga podstawowa partycja to <b>hda2</b>, itp. Pierwszy i drugi dysk logiczny na partycji rozszerzonej na pierwszym dysku IDE to <b>hda5</b> i <b>hda6</b>, itp. Podobnie dla dysków SATA/SCSI.</p>
+			<h5>For Disks</h5>
+
+							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
+
+							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
+
+							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
+
+							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+
+							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+<pre>
+# added by sidux [<b>/dev/sdd1</b>, no label]
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+</pre>
+				<h5>For partitions</h5>
+
+							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+
+							<p>There are the following partition types: primary, extended and logical where the logical are contained in the extended. There are maximum 4 primary or 3 primary and 1 extended. The extended can contain up to 11 logical partitions. </p>
+
+							<p>Primary or extended have a name between sda1 and sda4. Logical partitions are always contiguous and part of an extended partition. You can define (with libata) maximum 11 such partitions and their designation begins at number 5 (e.g. sda5).and ends with 15 (sda15)</p>
+
+				<h5>Some examples for application</h5>
+
+							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+
+							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+
+				<h4>Former and now obsolete designation for IDE devices</h4>
+
+							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
 
 	<div class="divider" id="partition">
 		<h2>Partycjonowanie dysku twardego przy pomocy cfdisk</h2>
@@ -322,7 +352,7 @@ swapoff -a
 
 						<p>Teraz jesteśmy gotowi do rozpoczęcia instalacji.</p>
 
-			<div id="rev">Strona ostatnio modyfikowana 07/09/2007 0500hrs UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 07/09/2007 2300hrs UTC</div>
 </div>
 </div>
 </div>

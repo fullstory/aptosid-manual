@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - cfdisk</title>
+	<title>Manuel de sidux - cfdisk</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -186,13 +189,13 @@
 
 				<h5>Les disques</h5>
 
-							<p>Depuis l'adoption de udev et de l'IDENTIFICATION UNIVERSELLE UUID, et avec l'arrivée des derniers noyaux Linux, tous vos disques durs et partitions utilisent une dénomination <b>sda</b>, pour les disques <b>sda</b>X pour les partitions.</p>
+							<p>Depuis l'adoption de udev et de l'IDENTIFICATION UNIVERSELLE UUID, et avec l'arrivée des derniers noyaux Linux, tous vos disques durs et partitions utilisent une dénomination <b>sd</b>x, pour les disques <b>sd</b>xX pour les partitions.</p>
 
-							<p>Pour les disques, aussi bien PATA (IDE), SATA (Serial ATA), comme SCSI, les distinctions lisibles se résument désormais à la troisième lettre de l'identifiant : /dev/sd<b>a</b>, /dev/sd<b>b</b>, /dev/sd<b>c</b>, /dev/sd<b>d</b>, etc., qui distinguent chacun de vos périphériques matériels.</p>
+							<p>Pour les disques, aussi bien PATA (IDE), SATA (Serial ATA) que SCSI, les distinctions lisibles se résument désormais à la troisième lettre de l'identifiant : /dev/sd<b>a</b>, /dev/sd<b>b</b>, /dev/sd<b>c</b>, /dev/sd<b>d</b>, etc., qui distinguent chacun de vos périphériques matériels.</p>
 
 							<p>Les répertoires de montage créés par le Live-Cd, ainsi que l'information accessible dans les infobulles apparaissant au survol des icônes de partitions incluses dans répertoire "Supports de stockage", vous permettent d'identifier vos partitions dans cette syntaxe.</p>
 
-							<p><span class="highlight-3">Il vous est vivement conseillé de construire un tableau sur papier et/ou support numérique, récapitulant les caractériques et identifiants de vos disques et de vos partitions.</span> Cette opération certes barbante, peut vous permettre dans l'avenir de gagner beaucoup de temps.</p>
+							<p><span class="highlight-3">Il vous est vivement conseillé de construire un tableau sur papier et/ou support numérique, récapitulant les caractéristiques et identifiants de vos disques et de vos partitions.</span> Cette opération certes barbante, peut vous permettre dans l'avenir de gagner beaucoup de temps.</p>
 
 							<p>Le fichier /etc/fstab de sidux comporte des lignes de commentaires vous permettant de différencier les partitions de vos disques en utilisant cette méthode (les caractères gras sont ici utilisés au seul titre de l'exemple).</p>
 
@@ -203,49 +206,50 @@ UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a	/	ext3	defaults,errors=remount-ro,noat
 
 				<h5>Les partitions</h5>
 
-							<p>Les partitions sont identifiées par un numéro suivant l'identité du périphérique sur lesquelles elles se trouvent.</p>
+<p>Les partitions sont identifiées par <span class="highlight-3">/dev/disque</span> un numéro suivant l'identité du périphérique sur lesquelles elles se trouvent.</p>
 
-							<p>Les <b>partitions primaires</b> et partitions étendues, limitées à un maximum de 4 par disque (1 seule partition étendue par disque), sont identifiées par des numéros allant <b>seulement de 1 à 4</b>.</p> 
+<p>Voici quels sont les types possibles de partitions : primaire, étendue et logique, les partitions logiques étant toujours comprises dans une partition étendue. Un même disque ne peut contenir qu'au maximum 4 partitions primaires ou 3 partitions primaires et une partition étendue. Une partition étendue ne peut contenir au maximum que 11 partitions logiques.</p>
 
-							<p>Les <b>partitions logiques</b>, doivent toujours être contiguës et comprises dans une partition étendue ; leur nombre est illimité (n'en abusez pas quand même !) ; leur désignation commence <b>à partir du chiffre 5</b>.</p>
+<p>Les partitions primaires et étendues portent un numéro entre 1 et 4 (ex: /dev/sda1). Les partitions logiques sont toujours contigues et comprises dans une partition étendue. Vous pouvez en définir 11 (avec libata) et leur désignation commence à partir du chiffre 5 (ex: /dev/sda5) et se termine à 15 (ex: /dev/sde15).</p> 
+
 
 				<h5>Quelques exemples d'application</h5>
 
-							<p>/dev/<b>sda5</b> : ne peut désigner qu'une partition logique, qui a de grandes chances de se trouver soit sur le premier disque SATA soit sur le premier disque IDE de votre ordinateur (ceci dépend du paramétrage de votre BIOS.</p>
+<p>/dev/<b>sda5</b> : ne peut désigner qu'une partition logique (la première du disque, étant donné son numéro), qui a de grandes chances de se trouver soit sur le premier disque SATA soit sur le premier disque IDE de votre ordinateur (ceci dépend du paramétrage de votre BIOS.</p>
 
-							<p>/dev/<b>sdb3</b> : peut désigner soit une partition primaire, soit une partition étendue ; en raison de la différence de lettre de lecteur, cette partition ne peut en aucun cas se trouver sur le même disque dur que la partition désignée dans l'exemple précédent.</p>
+<p>/dev/<b>sdb3</b> : peut désigner soit une partition primaire, soit une partition étendue ; en raison de la différence de lettre de lecteur, cette partition ne peut en aucun cas se trouver sur le même disque dur que la partition désignée dans l'exemple précédent.</p>
 
 			<h4>Dénominations antérieures</h4>
 
 				<h5>Désignation révolue des disques durs IDE</h5>
 
-							<p>Dans les systèmes plus anciens, les disques durs IDE (PATA) étaient différenciés des autres par une dénomination <b>hda</b>X en lieu et place de  <b>sda</b>X, désormais généralisée.</p>
+<p>Dans les systèmes plus anciens, les disques durs IDE (PATA) étaient différenciés des autres par une dénomination <b>hd</b>xX en lieu et place de  <b>sd</b>xX, désormais généralisée.</p>
 
 	<div class="divider" id="partition">
 		<h2>Partitionner votre disque dur en utilisant cfdisk</h2>
 
-							<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
+<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
 
-							<p>Ouvrez une console/terminal, devenez root plus lancez cfdisk:
+<p>Ouvrez une console/terminal, devenez root plus lancez cfdisk:
 
-								<i>(si vous utilisez une version de sidux installée sur disque dur, il vous faudra entrer votre mot-de-passe d'administrateur)</i></p>
+<i>(si vous utilisez une version de sidux installée sur disque dur, il vous faudra entrer votre mot-de-passe d'administrateur)</i></p>
 
 <pre >su
 cfdisk /dev/sda
 </pre>
 
-								<p>Note : si vous ne précisez pas sur quel périphérique vous voulez utiliser cfdisk, il se lancera sur le premier disque qu'il trouvera sur votre machine.</p>
+<p>Note : si vous ne précisez pas sur quel périphérique vous voulez utiliser cfdisk, il se lancera sur le premier disque qu'il trouvera sur votre machine.</p>
 
 				<h5>L'interface utilisateur</h5>
 
-							<p>Sur le premier panneau affiché cfdisk liste la table des partition du disque dur courant, en indiquant un certain nombre d'informations pour chacune d'entre elles. Au bas de l'écran figurent des boutons de commande. Pour sélectionner vos partitions utilisez les touches <b>haut</b> et <b>bas</b> du pavé fléché de votre clavier. Pour sélectionner les commandes, utilisez les touches <b>gauche</b> et <b>droite</b> du pavé fléché de votre clavier.</p>  
+<p>Sur le premier panneau affiché cfdisk liste la table des partition du disque dur courant, en indiquant un certain nombre d'informations pour chacune d'entre elles. Au bas de l'écran, figurent des boutons de commande. Pour sélectionner vos partitions utilisez les touches <b>haut</b> et <b>bas</b> du pavé fléché de votre clavier. Pour sélectionner les commandes, utilisez les touches <b>gauche</b> et <b>droite</b> du pavé fléché de votre clavier.</p>  
 
 
 		<div class="screenshot"><img src="../lib/images-fr/cfdisk-fr/cfdisk0-fr.png" alt="L'interface de cfdisk" /></div>
 
 				<h5>Effacer une partition</h5>
 
-							<p>Pour effacer une partition, avec les touches <b>gauche</b> et <b>droite</b> du pavé fléché de votre clavier, faites se surligner en blanc la commande</p> 
+<p>Pour effacer une partition, avec les touches <b>gauche</b> et <b>droite</b> du pavé fléché de votre clavier, faites se surligner en blanc la commande</p> 
 
 <pre >
 Delete
@@ -257,17 +261,17 @@ Delete
 Entrée
 </pre>.
 
-<div class="screenshot"><img src="../lib/images-fr/cfdisk-fr/cfdisk1-fr.png" alt="The cfdisk user interface" /></div>
+<div class="screenshot"><img src="../lib/images-fr/cfdisk-fr/cfdisk1-fr.png" alt="L'interface de cfdisk" /></div>
 
 			<h5>Créer une nouvelle partition</h5>
 
-							<p>Pour créer une nouvelle partition, utilisez la commande:</p> 
+<p>Pour créer une nouvelle partition, utilisez la commande:</p> 
 
 <pre >
 New
 </pre> 
 
-							<p>(avec les touches <b>gauche</b> et <b>droite</b> du pavé fléché), et pressez "Entrée". Vous devrez déterminer si vous voulez que cette partition soit <b>primaire</b> ou <b>logique</b>. Si vous créez un partition logique, le programme l'encapsulera automatiquement dans une partition étendue créée à la volée. Vous devrez ensuite choisir la taille de votre partition (en MB). Si vous n'avez pas accès à la détermination de MB de la taille de cette partition, alors retournez à l'écran principal en utilisant la touche d'échappement (ESC) et sélectionnez MB via la commande</p>
+<p>(avec les touches <b>gauche</b> et <b>droite</b> du pavé fléché), et pressez "Entrée". Vous devrez déterminer si vous voulez que cette partition soit <b>primaire</b> ou <b>logique</b>. Si vous créez une partition logique, le programme l'encapsulera automatiquement dans une partition étendue créée à la volée. Vous devrez ensuite choisir la taille de votre partition (en MB). Si vous n'avez pas accès à la détermination de MB de la taille de cette partition, alors retournez à l'écran principal en utilisant la touche d'échappement (ESC) et sélectionnez MB via la commande</p>
 
 <pre >
 Units
@@ -277,22 +281,22 @@ Units
 
 			<h5>Type de la partition</h5>
 
-							<p>Pour fixer son type à la partition que vous créez, pour un <b>swap Linux</b> ou une partition <b>Linux</b>, surlignez la partition en cours et utilisez la commande :</p>
+<p>Pour fixer son type à la partition que vous créez, pour un <b>swap Linux</b> ou une partition <b>Linux</b>, surlignez la partition en cours et utilisez la commande :</p>
 
 <pre >
 Type
 </pre> . 
 
 
-							<p>S'affichera alors une liste complète des différents types possibles. Si vous appuyez sur la barre espace, il s'en affichera encore d'autres. Trouvez le type qui vous convient, et entrez son numéro de code dans la ligne de commande.. (<b>Linux swap</b> correspond au Type <b>82</b>, et les systèmes de fichiers <b>Linux</b> doivent être de type <b>83</b>)</p>
+<p>S'affichera alors une liste complète des différents types possibles. Si vous appuyez sur la barre espace, il s'en affichera encore d'autres. Trouvez le type qui vous convient, et entrez son numéro de code dans la ligne de commande.. (<b>Linux swap</b> correspond au Type <b>82</b>, et les systèmes de fichiers <b>Linux</b> doivent être de type <b>83</b>)</p>
 
 <div class="screenshot"><img src="../lib/images-fr/cfdisk-fr/cfdisk3-fr.png" alt="The cfdisk user interface" /></div>
 
 <!-- 			<h5>Rendre une partition bootable</h5> -->
 
-							<p>Aucun besoin d'indicateur qu'elle est bootable pour une partition Linux, mais cependant d'autres systèmes d'exploitation en ont besoin.</p>
+<p>Aucun besoin d'indicateur qu'elle est bootable pour une partition Linux, mais cependant d'autres systèmes d'exploitation en ont besoin.</p>
 
-							<p><b>Ceci dit, attention !</b> si vous projetez d'installer sur un disque dur externe, alors oui, il y faudra qu'une partition soit déclarée bootable :</p>
+<p><b>Ceci dit, attention !</b> si vous projetez d'installer sur un disque dur externe, alors oui, il y faudra qu'une partition soit déclarée bootable :</p>
 
 
 <pre >
@@ -301,20 +305,20 @@ Bootable
 
 			<h5>Écrire la table résultante sur le disque</h5>
 
-							<p>Vos opérations de programmation achevées pour le disque concerné, il va vous falloir écrire (Write) sur le disque dur, sa nouvelle table de partitions. (Si vous voyez s'afficher une erreur concernant DOS, vous n'avez pas à vous en soucier). Étant donné que cfdisk s'apprête par le changement de table, à détruire toutes les données des partitions que vous venez peut-être d'effacer, vous devez bien entendu y réflechir à deux fois avant de sélectionner </p>
+<p>Vos opérations de programmation achevées pour le disque concerné, il va vous falloir écrire (Write) sur le disque dur, sa nouvelle table de partitions. (Si vous voyez s'afficher une erreur concernant DOS, vous n'avez pas à vous en soucier). Étant donné que cfdisk s'apprête par le changement de table, à détruire toutes les données des partitions que vous venez peut-être d'effacer, vous devez bien entendu y réflechir à deux fois avant de sélectionner :</p>
 
 <pre >
 Write
 </pre>
 
-...							<p>et d'appuyer sur "Entrée.</p>
+<p>et d'appuyer sur "Entrée.</p>
 
 
 <div class="screenshot"><img src="../lib/images-fr/cfdisk-fr/cfdisk4-fr.png" alt="The cfdisk user interface" /></div>
 
 			<h5>Quitter</h5>
 
-							<p>Pour quitter cfdisk, sélectionnez "Quit". Mais avant d'engager les opérations de formatage des partitions nouvellement crées, vous devez redémarrer sidux, afin de rendre le système en mesure d'identifier la nouvelle structure de partitions du disque.</p>
+<p>Pour quitter cfdisk, sélectionnez "Quit". Mais avant d'engager les opérations de formatage des partitions nouvellement créées, vous devez redémarrer sidux, afin de rendre le système en mesure d'identifier la nouvelle structure de partitions du disque.</p>
 	</div>
 
 	<div class="spacer05"></div>
@@ -323,50 +327,50 @@ Write
 
 				<h5>Généralités</h5>
 
-							<p>Une partition, pour pouvoir stocker des données, doit être équipée d'un système de fichiers. Linux en gère et utilise un certain nombre. Il existe ReiserFS, Ext3, et pour les usages spécialisés d'utilisateurs expérimentés XFS et JFS. Ext2 peut être pratique pour du simple stockage partagé de fichiers, depuis qu'un pilote windows est disponible pour ce système de fichiers.</p>
+<p>Une partition, pour pouvoir stocker des données, doit être équipée d'un système de fichiers. Linux en gère et utilise un certain nombre. Il existe ReiserFS, Ext3, et pour les usages spécialisés d'utilisateurs expérimentés XFS et JFS. Ext2 peut être pratique pour du simple stockage partagé de fichiers, depuis qu'un pilote windows est disponible pour ce système de fichiers.</p>
 
-							<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
+<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
 
 				<h5>Formater</h5>
 
-							<p>Pour formater en mode console une partition, vous devez être root. Donc, si c'est depuis une installation sur disque dur que vous opérez, il vous faudra entrer votre mot-de-passe root. Pour vous préparer une partition racine et/ou une partition /home, ici pour l'exemple <b>sdb1</b>, on entre :</p>
+<p>Pour formater en mode console une partition, vous devez être root. Donc, si c'est depuis une installation sur disque dur que vous opérez, il vous faudra entrer votre mot-de-passe root. Pour vous préparer une partition racine et/ou une partition /home, ici pour l'exemple <b>sdb1</b>, on entre :</p>
 
 <pre >
 su
 mkfs.ext3 -t /dev/sdb1
 </pre>
 
-							<p>Vous serez invité à confirmer votre souhait de créer sur la partition un nouveau système de fichier. Après vérification qu'il s'agisse de la bonne partition, vous pourrez répondre "yes" pour confirmer.</p>
+<p>Vous serez invité à confirmer votre souhait de créer sur la partition un nouveau système de fichier. Après vérification qu'il s'agisse de la bonne partition, vous pourrez répondre "yes" pour confirmer.</p>
 
-							<p>La commande une fois exécutée, un récapitulatif du formatage ext3 vous est affiché à l'écran. Si ceci n'a pas lieu, alors c'est que quelque chose d'anormal s'est produit. Cela peut venir d'un partitionnement incorrect avec cfdisk ou du fait que /dev/sdb1 ne puisse être identifiée comme partition GNU/Linux. Si cela se produisait entrez pour vérification la commande :</p>
+<p>La commande une fois exécutée, un récapitulatif du formatage ext3 vous est affiché à l'écran. Si ceci n'a pas lieu, alors c'est que quelque chose d'anormal s'est produit. Cela peut venir d'un partitionnement incorrect avec cfdisk ou du fait que /dev/sdb1 ne puisse être identifiée comme partition GNU/Linux. Si cela se produisait entrez pour vérification la commande :</p>
 
 <pre >
 fdisk -l /dev/sdb
 </pre>
 
-							<p>Si quelque chose cloche, un nouveau partitionnement est peut-être nécessaire.</p>
+<p>Si quelque chose cloche, un nouveau partitionnement est peut-être nécessaire.</p>
 
-							<p>Di votre formatage est un succès, alors il est peut-être temps d'utiliser la même procédure pour votre partition /home, au cas où comme c'est souhaitable, vous en désireriez une.</p>
+<p>Si votre formatage est un succès, alors il est peut-être temps d'utiliser la même procédure pour votre partition /home, au cas où comme c'est souhaitable, vous en désireriez une.</p>
 
-							<p>Pour finir, voici la commande qui vous permet de formater une partition de swap (l'exemple ici est pour /dev/sdb3) :</p>
+<p>Pour finir, voici la commande qui vous permet de formater une partition de swap (l'exemple ici est pour /dev/sdb3) :</p>
 
 <pre >
 mkswap /dev/sdb3
 </pre>
 
-							<p>Après quoi, vous pourrez activer cette partition de swap au moyen de:</p>
+<p>Après quoi, vous pourrez activer cette partition de swap au moyen de:</p>
 
 <pre >
 swapon /dev/sdb3
 </pre>
 
-							<p>Puis pour vérification que ce swap soit effectivement reconnu comme tel, entrez dans une console :</p>
+<p>Puis pour vérification que ce swap soit effectivement reconnu comme tel, entrez dans une console :</p>
 
 <pre >
 swapon -s
 </pre>
 
-							<p>la nouvelle partition de swap devrait être reconnue, dans notre exemple, comme ceci:</p>
+<p>la nouvelle partition de swap devrait être reconnue, dans notre exemple, comme ceci:</p>
 
 <table class="center">
 		<tbody>
@@ -381,25 +385,25 @@ swapon -s
 				<td>/dev/sdb3</td>
 				<td>partition</td>
 				<td>995988</td>
-				<td>248632</td>
+				<td>24d</td>
 				<td>-1</td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="spacer02"></div>
 
-							<p>Si le swap est reconnu sans aucun problème, alors on peut entrer</p>
+<p>Si le swap est reconnu sans aucun problème, alors on peut entrer</p>
 
 <pre >
 swapoff -a
 </pre>
 
-							<p>et rédémarrer.</p>
+<p>et rédémarrer.</p>
 
 
-							<p>On est à present prêt pour démarrer l'installation de sidux sur disque dur.</p>
+<p>On est à present prêt pour démarrer l'installation de sidux sur disque dur.</p>
 
-			<div id="rev">Dernière actualisation le 04/08/2007 à 14H UTC</div>
+<div id="rev">Dernière actualisation le 08/09/2007 19H47 UTC</div>
 </div>
 </div>
 </div>

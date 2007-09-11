@@ -92,6 +92,7 @@
 				<li><a href="hd-install-ru.htm#first-hd-boot">Первая загрузка</a></li>
 				<li><a href="hd-install-opts-ru.htm#fromiso">Загрузка: 'fromiso'</a></li>
 				<li><a href="hd-install-opts-ru.htm#usb-hd">Инсталяция на  USB-HD</a></li>
+				<li><a href="hd-install-opts-ru.htm#vtbox">Инсталяция в VirtualBox</a></li>
 				<li><a href="hd-install-opts-ru.htm#qemu">Инсталяция в QEMU</a></li>
 			</ul>
 		</li>
@@ -150,6 +151,8 @@
 				<li><a href="sys-admin-apt-ru.htm#apt-install">Установка</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-delete">Удаление</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-downgrade">Понижение версии</a></li>
+				<li><a href="sys-admin-apt-ru.htm#apt-cache">Поиск информации о пакете</a></li>
+				<li><a href="sys-admin-apt-ru.htm#apt-kio">Поиск информации о пакете kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Системное администрирование</a>
@@ -272,6 +275,61 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 		<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
 
 	</div>
+	<div class="divider" id="vtbox">
+		<h2>Installing sidux with VirtualBox</h2>
+							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+						<ul>
+ 							<li>1. create a harddiskimage for VirtualBox</li>
+ 							<li>2. boot the iso with VirtualBox</li>
+ 							<li>3. install on the image</li>
+						</ul>
+
+				<h4>Requirements</h4>
+							<p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>
+
+							<p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size..</p>
+
+							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any externel module) </p>
+
+						<h4>The mechanism:</h4>
+<pre>
+Install the virtualbox package
+Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
+Make a VM, put a Operating System-CD into your CD drive and install.and reboot
+</pre>
+
+				<!--<h3>Automated installation with svmi</h3>
+							<p>You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'.</p>
+<pre>
+as root #
+wget -Nc techpatterns.com/svmi
+chmod +x svmi
+svmi
+</pre>
+-->
+				<h3>Installation:</h3>
+<pre>
+apt-get update
+apt-get install virtualbox-ose 
+m-a a-i virtualbox-ose
+</pre>
+
+							<p>Then you store the information identifying the current operating system in the structure:</p> 
+	<!-- echo virtualbox-ose-module-$(uname -r) -->
+<pre>
+virtualbox-ose-module-$(uname -r)
+</pre>
+							<p class="highlight-3">You will need to do the following:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+
+					<h3>Installing sidux to the virtual machine</h3>
+							<p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>
+
+							<p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p>
+
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Установка sidux с QEMU</h2>
 
@@ -382,8 +440,8 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div class="spacer05"></div>
-	<div id="rev">Содержание, последнее пересмотрено 25/08/2007 0300 UTC/div>
+
+	<div id="rev">Содержание, последнее пересмотрено 10/09/2007 1200 UTC</div>
 
 </div>
 </body>

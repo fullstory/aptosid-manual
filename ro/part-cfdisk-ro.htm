@@ -92,6 +92,7 @@
 				<li><a href="hd-install-ro.htm#first-hd-boot">Prima Pornire</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso">Pornirea 'fromiso'</a></li>
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc</a></li>
+				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
 				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
 			</ul>
 		</li>
@@ -150,6 +151,8 @@
 				<li><a href="sys-admin-apt-ro.htm#apt-install">Instalarea unui  pachet nou</a></li>
 				<li><a href="sys-admin-apt-ro.htm#apt-delete">Ştergerea unui pachet</a></li>
 				<li><a href="sys-admin-apt-ro.htm#apt-downgrade">Downgrading de pachet</a></li>
+				<li><a href="sys-admin-apt-ro.htm#apt-cache">Căutarea unui pachet cu apt-cache</a></li>
+				<li><a href="sys-admin-apt-ro.htm#apt-kio">Căutarea unui pachet cu kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-ro.htm">Administrarea Sistemului</a>
@@ -181,40 +184,40 @@
 		<h2 id="top-header">Numirea Discurilor</h2>
 				<h5><span class="highlight-2">ATENŢIE : pentru numirea discurilor</span><a href="part-uuid-ro.htm"> Consultaţi UUID, Etichetarea Partiţiilor şi fstab , pentru că implicit sidux acum foloseste UUID</a></h5>
 
-			<h4>Current naming practices</h4>
+			<h4>Practicile curente de numire</h4>
 
-			<h5>For Disks</h5>
+			<h5>Pentru Discuri</h5>
 
-							<p>Since the adoption by udev, of Universal Unique Identifier's (UUID), and the arrival of latest linux kernels, all  block devices use a three letter designation and number scheme based on <span class="highlight-3">sda</span> for disk devices and <span class="highlight-3">sdaX</span> for hard disk partitions.</p>
+							<p>De când a fost adoptat  udev şi Universal Unique Identifier's (UUID) ,şi odată cu sosirea ultimelor kerneluri , toate dispozitivele utilizează o schemă de denumire din trei litere bazată pe  <span class="highlight-3">sda</span> pentru discuri şi pe <span class="highlight-3">sdaX</span> pentru partiţiile discurilor.</p>
 
-							<p>Whatever standard they use, PATA (IDE), SATA (Serial ATA), or SCSI, the only way to differentiate one disk from another in your machine, is by now the third letter of the device  <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
+							<p>Indiferent de standardul utilizat , PATA (IDE), SATA (Serial ATA), sau SCSI , singura cale de a diferenţia un disc de altul într-un computer este acum cea de-a treia literă a dispozitivului    <span class="highlight-3"> /dev/sda1, /dev/sdb1, /dev/sdc1, /dev/sdd1</span>:, etc.</p>
 
-							<p>You see your devices listed  this way, using the pop-ups shown when running your mouse above the media icons on the desktop of sidux live-cd.and HD install.</p>
+							<p>Vedeţi dispozitivul listat în acest fel în momentul când treceţi cu mouse-ul peste iconul său de pe ecran fie în sidux live-cd fie într-o instalare pe HD .</p>
 
-							<p>You are strongly encouraged to build yourself a table, whether by hand or with computer tools, in which you will capture the details for all block devices available in your computer. Although certainly boring, the operation might save you lots of time and trouble in the future.</p>
+							<p>Este recomandat să construiţi o tabelă , ori de mână ori prin uneltele oferite de computer în care să vă treceţi toate detaliile despre dispozitivele block disponibile în computer. Chiar dacă este plictisitoare , operaţiunea vă poate salva de o mulţime de probleme şi de la a pierde o grămadă de timp ulterior .</p>
 
-							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
+							<p>Fişierul <span class="highlight-3"> /etc/fstab</span> din sidux  live-cd sau instalat pe HD , ţine informaţiile despre  <span class="highlight-3"> /dev/ sdaX</span>  între paranteze pătrate pentru fiecare dispozitiv . De exemplu (literele îngroşate sunt doar ca exemplu). </p>
+
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
 UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
 </pre>
-				<h5>For partitions</h5>
+				<h5>Pentru partiţii</h5>
 
-							<p>As you see above, for partitions the <span class="highlight-3">/dev/disk</span> identifier is completed by a number. </p>
+							<p>Cum a-ţi văzut mai sus , pentru partiţii , identificatorul <span class="highlight-3">/dev/disk</span>  este completat de un număr . </p>
+							<p>Există următoarele tipuri de partiţii : primară , extinsă şi logică , iar cele logice sunt conţinute în cele extinse . Sunt maximum 4 partiţii primare , sau 3 primare şi 1 extinsă. Partiţia extinsă poate conţine până la 11 partiţii logice. </p>
 
-							<p>Primary partitions and extended, at the most 4 per disk (and one one single extended partition per disk), are only and naturally designated by numbers from 1 to 4.</p>
+							<p>Partiţiile primare sau extinse au numele de la sda1 la sda4. Partiţiile logice sunt întotdeauna continui , şi fac parte dintr-o partiţie extinsă . Puteţi defini (cu libata) maximum 11 asemenea partiţii iar desemnarea lor începe cu numărul  5 (ex. sda5) şi se termină cu 15 (sda15)</p>
 
-							<p>Logical partitions should always be contiguous and part of an extended partition. Their number is unlimited (do not over do it though), and their designation begins at number 5.</p>
+				<h5>Câteva exemple pentru aplicat</h5>
 
-				<h5>Some examples for application</h5>
+							<p><span class="highlight-3">/dev/sda5</span> : poate fi doar o partiţie logică (în acest caz , prima de pe discul său ), probabil localizată pe primul disc SATA sau pe primul disc IDE  din computer  (depinde de cum este setat în BIOS ).</p>
 
-							<p><span class="highlight-3">/dev/sda5</span> : may only be a logical partition (in this case, the first one on its disk device), probably located whether on the first SATA or on the first IDE disk of your computer (it depends on how your BIOS is set).</p>
+							<p><span class="highlight-3">/dev/sdb3</span> poate fi doar o partiţie primară sau una extinsă ; litera de disc fiind diferită de cea din primul exemplu putem spune doar că această partiţie nu se află nici într-un caz pe acelaşi disc .</p>
 
-							<p><span class="highlight-3">/dev/sdb3</span> may only be a primary partition or an extended partition ; the disk letter being different than the one in the first example, we may only state that this partition might in no case be located on the same device.</p>
+				<h4>Fostele , dar acum nu mai sunt valabile ,  denumiri de dispozitive IDE </h4>
 
-				<h4>Former and now obsolete designation for IDE devices</h4>
-
-							<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by a <span class="highlight-3">hdaX </span> name instead of sdaX,</p>
+							<p>Pe sistemele linux mai vechi , dispozitivele de disc IDE  (PATA) erau diferenţiate de cele folosite la ora actuală prin <span class="highlight-3">hdaX </span> în loc de  <span class="highlight-3">sdaX .</span></p>
 	<div class="divider" id="partition">
 		<h2>Partiţionarea Hard Discului folosind cfdisk</h2>
 							<p  class="highlight-2">Pentru uzul zilnic recomandăm tipul de fişiere ext3 , este tipul implicit în sidux şi este foarte bine întreţinut .</p>
@@ -345,7 +348,7 @@ swapoff -a
 
 		<p>Acum sunteţi gata de instalare .</p>
 
-			<div id="rev">Content last revised UTC 07/09/2007 0500hrs UTC</div>
+			<div id="rev">Content last revised 10/09/2007 1900hrs UTC</div>
 </div>
 </div>
 </div>

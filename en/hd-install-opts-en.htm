@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -94,6 +94,8 @@
 				<li><a href="hd-install-opts-en.htm#fromiso">Booting 'fromiso'</a></li>
 				<li><a href="hd-install-opts-en.htm#usb-hd">Installing on a USB-HD</a></li>
 				<li><a href="hd-install-opts-en.htm#qemu">Installing by QEMU</a></li>
+				<li><a href="hd-install-opts-en.htm#vtbox">Installing sidux with VirtualBox</a></li>
+				<li><a href="hd-install-opts-en.htm#qemu">Installing sidux with QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-en.htm">Graphic Cards, Hardware Devices and Drivers</a>
@@ -151,6 +153,8 @@
 				<li><a href="sys-admin-apt-en.htm#apt-install">Installing a new package</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-delete">Deleting a package</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-downgrade">Downgrade/Hold a package</a></li>
+				<li><a href="sys-admin-apt-en.htm#apt-cache">Package searching with apt-cache</a></li>
+				<li><a href="sys-admin-apt-en.htm#apt-kio">Package searching with kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-en.htm">System Administration</a>
@@ -256,38 +260,94 @@ kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz
 </pre>
 
-		<p>With next boot you have a new menu item in grub to start the iso image.</p>
+							<p>With next boot you have a new menu item in grub to start the iso image.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installing sidux on a USB-Stick or to a USB-HD</h2>
 
-		<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install now. Just follow this simple guideline.</p>
+							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install now. Just follow this simple guideline.</p>
 
-		<p>The recommended mininmum size of a usb stick is:<br />
-		sidux "LITE" needs 1.2gig PLUS you need data space,<br />
-		sidux "FULL" needs 2.1gig PLUS you need data space</p>
+							<p>The recommended mininmum size of a usb stick is:<br />
+							sidux "LITE" needs 1.2gig PLUS you need data space,<br />
+							sidux "FULL" needs 2.1gig PLUS you need data space</p>
 
-		<p>The USB-installation (fix-usb-install.sh) has merged with the <a href="../en/hd-install-en.htm">sidux-installer</a>, so all can now be handled from within the sidux-installer.</p>
+							<p>The USB-installation (fix-usb-install.sh) has merged with the <a href="../en/hd-install-en.htm">sidux-installer</a>, so all can now be handled from within the sidux-installer.</p>
 
-		<p>We start with a normal installation and choose the partition on the USB-device, where sidux is to be installed - we speak of "sda1" here, but this is valid for any other partition on a USB-disk or device.</p>
+							<p>We start with a normal installation and choose the partition on the USB-device, where sidux is to be installed - we speak of "sda1" here, but this is valid for any other partition on a USB-disk or device.</p>
 
-		<p><span class="highlight-2">Grub must be installed to the Partition you are installing on, not MBR !</span></p>
+							<p><span class="highlight-2">Grub must be installed to the Partition you are installing on, not MBR !</span></p>
 
-		<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext3 filesystem. An existing partition will be reformatted by the installer!</p>
+							<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext3 filesystem. An existing partition will be reformatted by the installer!</p>
 
-		<p class="highlight-2">All data on this partition will be lost during the reformat!</p>
+							<p class="highlight-2">All data on this partition will be lost during the reformat!</p>
 
 
-		<p>Now you can boot from your USB-HD. 'Boot from USB' must be enabled in your BIOS.</p>
+							<p>Now you can boot from your USB-HD. 'Boot from USB' must be enabled in your BIOS.</p>
+
+	</div>
+	<div class="divider" id="vtbox">
+		<h2>Installing sidux with VirtualBox</h2>
+							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+						<ul>
+ 							<li>1. create a harddiskimage for VirtualBox</li>
+ 							<li>2. boot the iso with VirtualBox</li>
+ 							<li>3. install on the image</li>
+						</ul>
+
+				<h4>Requirements</h4>
+							<p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>
+
+							<p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size..</p>
+
+							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any externel module) </p>
+
+						<h4>The mechanism:</h4>
+<pre>
+Install the virtualbox package
+Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
+Make a VM, put a Operating System-CD into your CD drive and install.and reboot
+</pre>
+
+				<!--<h3>Automated installation with svmi</h3>
+							<p>You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'.</p>
+<pre>
+as root #
+wget -Nc techpatterns.com/svmi
+chmod +x svmi
+svmi
+</pre>
+-->
+				<h3>Installation:</h3>
+<pre>
+apt-get update
+apt-get install virtualbox-ose 
+m-a a-i virtualbox-ose
+</pre>
+
+							<p>Then you store the information identifying the current operating system in the structure:</p> 
+	<!-- echo virtualbox-ose-module-$(uname -r) -->
+<pre>
+virtualbox-ose-module-$(uname -r)
+</pre>
+							<p class="highlight-3">You will need to do the following:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+
+					<h3>Installing sidux to the virtual machine</h3>
+							<p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>
+
+							<p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p>
+
 
 	</div>
 	<div class="divider" id="qemu">
 		<h2>Installing sidux with QEMU</h2>
 
 		<ul>
- 			<li>1. create a harddiskimage for qemu</li>
- 			<li>2. boot the iso with qemu</li>
+ 			<li>1. create a harddiskimage for QEMU</li>
+ 			<li>2. boot the iso with QEMU</li>
  			<li>3. install on the image</li>
 
 		</ul>
@@ -395,7 +455,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 25/08/2007 0300 UTC</div>
+	<div id="rev">Page last revised 10/09/2007 1200 UTC</div>
 
 </div>
 </body>

@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - APT-Guide</title>
+	<title>Manuel de sidux - Guide pour APT</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="sys-admin">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -188,14 +191,14 @@
 			<h2>Liste de Sources</h2>
 							<p>Le système "APT" a besoin d'un fichier de configuration : <span class="highlight-3">/etc/apt/sources.list</span>, qui contient l'information concernant les adresses locales ou distantes, auxquelles se trouvent les paquets (de logiciels) installables ou ceux qu'il est possible de mettre-à-jour.</p>
 
- 							<p>Toutes les images ISO de sidux utilisent par défaut la lisye de sources suivante:</p>
+ 							<p>Toutes les images ISO de sidux utilisent par défaut la liste de sources suivante:</p>
 
 <pre>
 deb http://ftp.de.debian.org/debian unstable main
 deb http://sidux.com/debian/ sid main fix.main
 </pre>
 
-							<p>Des entrées additionnelles pour la récupération d'outils non-libres, sont disponibles sur <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>, et mises-à-jour régulièrement.  Par exemple au 27/02/2007 à 0800 h UTC elles sont :</p>
+							<p>Des entrées additionnelles pour la récupération d'outils non-libres, sont disponibles sur <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>, et mises-à-jour régulièrement.  Par exemple au 27/02/2007 à 08H00 UTC elles sont :</p>
 <pre>
 # Reportez-vous à sources.list(5) pour plus d'information, et
 # Souvenez-vous que ne vous pouvez utiliser ici que http, ftp ou URIs de fichiers
@@ -217,7 +220,7 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
-							<p>NOTE: Dans cet exemple, ftp.de indique le recours à des miroirs allemands. Vous pouvez éditer votre fichier, afin d'utiliser des miroirs plus proches de vous, en changeant simplement l'abréviation de pays, par exemple en remplaçant ftp.de par ftp.fr ou ftp.ca. Il existe des miroirs debian dans de très nombreux pays. Ainsi la bande passante est utilisée de manière intelligente et la vitesse améliorée.</p>
+							<p>NOTE: Dans cet exemple, ftp.de indique le recours à des miroirs allemands. Vous pouvez éditer votre fichier, afin d'utiliser des miroirs plus proches de vous, en changeant simplement l'abréviation de pays, par exemple en remplaçant ftp.de par ftp.fr ou ftp.ca. Il existe des miroirs debian dans de très nombreux pays. Ainsi la bande passante sera utilisée de manière intelligente et la vitesse améliorée.</p>
 
 							<p>Pour actualiser son information relative aux paquets disponibles dans des version à jour, APT utilise une base de données. Cette base de données stocke l'information sur chaque paquet (paquets et paquetages sont utilisés indifférament), mais également celle se rapportant à d'autres paquetages pouvant se révéler indispensables pour que tel ou tel paquet fonctionne (on appelle ceci les dépendances). Le programme apt-get consulte cette base de données lorsqu'il installe un paquet à votre demande ; il en identifie grâce à elle les dépendances, vous assurant ainsi que le paquet logiciel choisi fonctionne. La mise-à-jour de la base de données s'opère par la commande apt-get update.</p>
  
@@ -238,7 +241,7 @@ Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 	<div class="divider" id="apt-install">
  		<h2>Installer un nouveau paquet</h2>
  
-							<p>On suppose qu'en vertu de ce qui est dit au paragraphe précédent, votre base de données APT est à jour et que le nom du paquet est connu. Dans ce cas, la commande suivante va servir à installer par exemple, le paquet qemu, ainsi que ese dépendances : (nous verrons plus loin comment rechercher et trouver des paquets.)</p>
+							<p>On suppose qu'en vertu de ce qui est dit au paragraphe précédent, votre base de données APT est à jour et que le nom du paquet est connu. Dans ce cas, la commande suivante va servir à installer par exemple, le paquet qemu, ainsi que ses dépendances : (nous verrons plus loin comment rechercher et trouver des paquets.)</p>
 
  
 <pre># apt-get install qemu
@@ -260,7 +263,7 @@ Voulez-vous continuer [O/n]? n
  
 	<div class="divider" id="apt-delete"> 
 		<h2>Désinstaller un paquet</h2>
-							<p>Dans la même logique on comprendra l'exemple de désinstallation qui suit, mais qui toutefois ne désinstallera pas toutes les dépendances, dont le cas sera traité plus loin dans le section consacrée à deb-orphan </p>
+							<p>Dans la même logique on comprendra l'exemple de désinstallation qui suit, mais qui toutefois ne désinstallera pas toutes les dépendances, dont le cas sera traité plus loin dans une section consacrée à deb-orphan </p>
 
 <pre># apt-get remove exemple
 apt-get remove gaim
@@ -296,7 +299,7 @@ Suppression de gaim ...
 Purge des fichiers de configuration de gaim...
 </pre>
 
-							<p>Là, non seulement les fichiers situés dans le répertoire /etc/gaim ont été effacés, mais également tous les fichiers de configuration. Si toutefois des fichiers ne seraient pas effacés, il s'agirait d'objets n'ayant pas été crée durant la période où le paquet était installé, ou créés depuis une autre source que logiciel concerné.</p>
+							<p>Là, non seulement les fichiers situés dans le répertoire /etc/gaim ont été effacés, mais également tous les fichiers de configuration. Si toutefois des fichiers n'étaient pas effacés, il s'agirait d'objets n'ayant pas été créés durant la période où le paquet était installé, ou créés depuis une autre source que logiciel concerné.</p>
 
 							<p>Après la mise-à-jour de la base de données par apt-get update, il est possible de lister les logiciels nouveaux et ceux pour lesquels une mise-à-jour est disponible:</p>
 
@@ -340,6 +343,7 @@ gcc-4.0 est déjà la version la plus récente.
 
 						<ol>
 							<li><pre>activez/décommentez les sources testing dans <span class="highlight-3">/etc/apt/sources.list </span><br />(en enlevant le #) de manière à pouvoir accéder à <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
+<li><pre>apt-get update</pre></li>
 							<li><pre>apt-get install -t testing kmahjongg</pre></li>
 							<li><pre>Puis commandez le gel en l'état du logiciel nouvellment installé avec :<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
 							<li><pre>Re-commentez la ligne de sources testing dans /etc/apt/sources.list </pre></li>
@@ -356,9 +360,9 @@ apt-get install kmahjongg
 	<div class="divider" id="apt-upgrade">
 		<h2>Mise-à-niveau de toute une installation</h2>
 
-							<p>Si ce que vous désirez c'est de mettre tout votre système à niveau, il vous faut utiliser la commande "dist-upgrade". Mais il est fondamental que vous vous vérifiez avant d'y procéder, quels paquets précisément seront mis-à-niveau.</p>
+							<p>Si ce que vous désirez c'est mettre tout votre système à niveau, il vous faut utiliser la commande "dist-upgrade". Mais il est fondamental que vous vous vérifiez avant d'y procéder, quels paquets précisément seront mis-à-niveau.</p>
 
-							<p>La mise-à-niveau (upgrade) s'effectue toujours en dehors de l'environnement fenêtré, dans ce qu'on appelle, le mode console. Ici nous allons télécharger les paquets de mise-à-jour en mode graphique, puis nous en sortirons afin d'installer ces paquets par la suite. Prendre la précaution de sortir de l'environnement graphique peut vous épargner des heures et des heures de réglages et beaucoup de soucis.</p>
+							<p>La mise-à-niveau (upgrade) s'effectue toujours en dehors de l'environnement fenêtré, dans ce qu'on appelle, le mode console. Ici nous allons télécharger les paquets de mise-à-jour en mode graphique, puis nous en sortirons afin d'installer ces paquets par la suite. Prendre la précaution de sortir de l'environnement graphique peut vous épargner des heures et des heures de réglages et de soucis.</p>
 
 		<h4>Simple téléchargement</h4>
 
@@ -381,7 +385,7 @@ Voulez-vous continuer [O/n]?
 							<p>Après l'achèvement des téléchargements répondant à la commande 'dist-upgrade -d', si vous désirez achever aussitôt ou plus pard la mise-à-jour (dist-upgrade) de votre installation, suivez les instructions qui suivent :</p>
 
 <div class="box block">
-		<div class="highlight-2">ENCORE UN FOIS ! JAMAIS ET EN AUCUN CAS, IL NE FAUT PROCÉDER À UN UPGRADE OU DIST-UPGRADE EN ÉTANT CONNECTÉ DANS L'ENVIRONNEMENT GRAPHIQUE X !<div class="highlight-4"> ET D'AUTRE PART CONSULTEZ TOUJOURS LES AVERTISSEMENTS POUVANT ÊTRE PUBLIÉS SUR LE SITE DE <a href="http://sidux.com">SIDUX</a>. Ces avertissements sont fréquents, destinés à prévenir de mises-à-jours à des périodes où les miroirs seraient incomplets, ou quand des évolutions drastiques empêchent pour quelques jours, des blocs entiers de logiciels d'être opérationnels après leur mise-à-niveau. Ceci est lié à la vocation de Debian SID (Still In Development), aussi appelée Debian Unstable, dont les paquets évoluent sur une base quotidenne.</div>
+		<div class="highlight-2">ENCORE UNE FOIS ! JAMAIS ET EN AUCUN CAS, IL NE FAUT PROCÉDER À UN UPGRADE OU DIST-UPGRADE EN ÉTANT CONNECTÉ DANS L'ENVIRONNEMENT GRAPHIQUE X !<div class="highlight-4"> ET D'AUTRE PART CONSULTEZ TOUJOURS LES AVERTISSEMENTS POUVANT ÊTRE PUBLIÉS SUR LE SITE DE <a href="http://sidux.com">SIDUX</a>. Ces avertissements sont fréquents, destinés à prévenir de mises-à-jours à des périodes où les miroirs seraient incomplets, ou quand des évolutions drastiques empêchent pour quelques jours, des blocs entiers de logiciels d'être opérationnels après leur mise-à-niveau. Ceci est lié à la vocation de Debian SID (Still In Development), aussi appelée Debian Unstable, dont les paquets évoluent sur une base quotidenne.</div>
 <pre>
 Sortez de KDE (Menu K > Déconnexion > Terminer la session)
 Passez en mode console en entrant au clavier Ctrl+Alt+F1
@@ -410,11 +414,11 @@ smxi
 
 							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage ne sont pas toujours capables d'intégrer certains changements radicaux et brutaux qui se produisent fréquemment dans les développements de SID (changements de dépendances, de noms de paquets, de scripts de maintenance, etc.). Ceci n'est pas dû à des erreurs des développeurs de ces outils, ce sont des outils bien pratiques et utile à la branche stable de Debian ; c'est juste qu'ils ne sont pas adaptés à la branche SID (unstable).</p>
 
-							<p>Utilisez ce que vous voudrez pour rechercher des paquetages, mais tenez-vous en à apt-get pour tout ce qui touche à l'installation, la désinstallation et à la mise-à-niveau de paquetages ou d'installation.</p>
+							<p>Utilisez ce que vous voudrez pour rechercher des paquetages, mais tenez-vous en à apt-get pour tout ce qui touche à l'installation, à la désinstallation et à la mise-à-niveau de paquetages ou d'installation.</p>
 
-							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage présentent des limitations face à la sélection complexe de paquetages ; ajoûtez celà au contexte extrêmement changeant des cibles Sid, pire encore à celui de miroirs externes dont la qualité se discute souvent (nous ne les recommandons pas ni n'en utilisons, mais supposons qu'ils correspondent à une réalité sur votre machine) et vous avez tout risque ed'obtenir un désastre. L'autre point c'est bien sûr que fonctionnant pour beaucoup en mode graphique, soit init 5 et/ou X, vous risquiez d'endommager votre système de manière irrémédiable en les utilsant à un upgrade ou dist-upgrade...</p>
+							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage présentent des limitations face à la sélection complexe de paquetages ; ajoûtez celà au contexte extrêmement changeant des cibles Sid, pire encore à celui de miroirs externes dont la qualité se discute souvent (nous ne les recommandons pas ni n'en utilisons, mais supposons qu'ils correspondent à une réalité sur votre machine) et vous avez tout risque d'obtenir un désastre. L'autre point c'est bien sûr que fonctionnant pour beaucoup en mode graphique, soit init 5 et/ou X, vous risquiez d'endommager votre système de manière irrémédiable en les utilisant à un upgrade ou dist-upgrade...</p>
 
-							<p>D'un autre côté on notera qu'apt-get effectue mot-pour-mot ce que vous lui demandez ; c'est-à-dire que si un problème se pose, il vous en avertit, vous pouvez l'identifier et y remédier dans de nombraux cas. Si apt-get vous propose de désinstaller la moitié de votre système (par exemple lors de la transition radicale de librairies), c'est à vous, l'administrateur, d'y prêter l'attention nécessaire.</p>
+							<p>D'un autre côté, on notera qu'apt-get effectue mot-pour-mot ce que vous lui demandez ; c'est-à-dire que si un problème se pose, il vous en avertit, vous pouvez l'identifier et y remédier dans de nombreux cas. Si apt-get vous propose de désinstaller la moitié de votre système (par exemple lors de la transition radicale de librairies), c'est à vous, l'administrateur, d'y prêter l'attention nécessaire.</p>
 
 							<p>C'est pourquoi les habitués de Debian utilisent apt-get et non d'autres outils de gestion des paquetages.</p>
 
@@ -424,7 +428,7 @@ smxi
 	<div class="divider" id="apt-cache">
 		<h2>Chercher un paquetage avec apt-cache</h2>
 
-							<p>Une commande vraiment très utile du système APT est apt-cache; celle-ci parcourt la bases de données APT et vous fournit en retour des informations sur les paquets. Ainsi par exemple si vous souhaitez connaître le nom de paquets contenant dans leur nom ou leur description les termes "sidux" et "manual" , faites:</p>
+							<p>Une commande vraiment très utile du système APT est apt-cache; celle-ci parcourt la base de données APT et vous fournit en retour des informations sur les paquets. Ainsi par exemple, si vous souhaitez connaître le nom de paquets contenant dans leur nom ou leur description les termes "sidux" et "manual" , faites:</p>
 
 <pre>$ apt-cache search sidux manual
 sidux-manual-de - the official de sidux manual
@@ -486,9 +490,42 @@ sidux-manual-en:
 </pre>
 
 							<p>Vous trouverez l'intégralité de l'information sur le système APT à la page <a href= "http://www.debian.org/doc/user-manuals#apt-howto">APT-HOWTO</a> ou en installant le paquet apt-howto-fr, disponible en version texte ou html.</p>
+	</div>
+	<div class="divider" id="apt-kio">
+			<h2>Searching for a package with kio-apt</h2>
+
+							<p>kio-apt as a stand alone application, provides a non-dangerous way of using a <span class="highlight-3">GUI via konqueror </span>. It is a search-GUI for packages without any install or upgrade options for APT</p>
+
+							<p class="highlight-3">This is a good alternative to other package managers like adept, aptitude, synaptic and kpackage,  so you don't get tempted to upgrade/install stuff in X or using tools that are not suited for Debian sid.</p>
+
+ 							<p>You can search the package database <span class="highlight-3">both on and offline</span> and it also makes a  good summary of the pages with the information from apt-cache policy and apt-cache show.   </p>
+		
+							<p>It provides:</p>
+ 						<ul>
+							<li><span class="highlight-3">apt:/search? expression:</span>searches the package databse for 'expression'. Like apt-cache? search</li>
+							<li><span class="highlight-3">apt:/show? package:</span> shows detailed information about 'package'. Like apt-cache show. It prints the policy too.</li>
+							<li><span class="highlight-3">apt:/policy? package:</span> shows the policy for 'package'. Like apt-cache policy.</li>
+							<li><span class="highlight-3">apt:/list? package:</span> lists the files in 'package'.</li>
+						</ul>
+ 
+		<div class="screenshot"><img src="../lib/images-fr/kioapt-fr/kioapt1-fr.png" alt="kio-apt-1" /></div>
+
+ 		<div class="screenshot"><img src="../lib/images-fr/kioapt-efr/kioapt2-fr.png" alt="kio-apt-2" /></div>
+ 
+							<h3>Installation</h3>
+<pre>
+sux
+apt-get update &amp;&amp; apt-get install kio-apt
+</pre>
+ 							<p>Then konqueror and type in:</p>
+<pre>
+apt:/
+</pre>
+ 							<p>and hit the enter key. See description for all possible options which include searching with a compact form or  an extended form..</p>
 
 	</div>
-			<div id="rev">Dernière révision le 3/09/2007 à 10H CEST PARIS</div>
+			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
+			<div id="rev">Page last revised 10/09/2007 1300 UTC </div>
 
 </div>
 </div>

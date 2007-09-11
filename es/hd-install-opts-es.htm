@@ -18,8 +18,8 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">A sidux.com</a></li>
@@ -92,7 +92,8 @@
 				<li><a href="hd-install-es.htm#first-hd-boot">Primer Arranque</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso">Arrancando "fromiso"</a></li>
 				<li><a href="hd-install-opts-es.htm#usb-hd">Instalando en un USB-DD</a></li>
-				<li><a href="hd-install-opts-es.htm#qemu">Instalando a través de QEMU</a></li>
+				<li><a href="hd-install-opts-es.htm#vtbox">Instalando sidux a través de VirtualBox</a></li>
+				<li><a href="hd-install-opts-es.htm#qemu">Instalando sidux a través de QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-es.htm">Tarjetas Gráficas, Hardware y Drivers</a>
@@ -150,6 +151,8 @@
 				<li><a href="sys-admin-apt-es.htm#apt-install">Instalar paquete</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-delete">Quitar paquete</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-downgrade">Revertir un paquete</a></li>
+				<li><a href="sys-admin-apt-es.htm#apt-cache">Buscando un paquete con el apt-cache</a></li>
+				<li><a href="sys-admin-apt-es.htm#apt-kio">Buscando un paquete con el kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-es.htm">Administración del Sistema</a>
@@ -282,6 +285,61 @@ initrd (hd0,4)/sidux/miniroot.gz
 		<p>Ahora, puede arrancar desde el DD-USB. "Arranque desde USB" (Boot from USB) tiene que ser activado en el BIOS del computador.</p>
 
 	</div>
+	<div class="divider" id="vtbox">
+		<h2>Installing sidux with VirtualBox</h2>
+							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+						<ul>
+ 							<li>1. create a harddiskimage for VirtualBox</li>
+ 							<li>2. boot the iso with VirtualBox</li>
+ 							<li>3. install on the image</li>
+						</ul>
+
+				<h4>Requirements</h4>
+							<p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>
+
+							<p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size..</p>
+
+							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any externel module) </p>
+
+						<h4>The mechanism:</h4>
+<pre>
+Install the virtualbox package
+Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
+Make a VM, put a Operating System-CD into your CD drive and install.and reboot
+</pre>
+
+				<!--<h3>Automated installation with svmi</h3>
+							<p>You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'.</p>
+<pre>
+as root #
+wget -Nc techpatterns.com/svmi
+chmod +x svmi
+svmi
+</pre>
+-->
+				<h3>Installation:</h3>
+<pre>
+apt-get update
+apt-get install virtualbox-ose 
+m-a a-i virtualbox-ose
+</pre>
+
+							<p>Then you store the information identifying the current operating system in the structure:</p> 
+	<!-- echo virtualbox-ose-module-$(uname -r) -->
+<pre>
+virtualbox-ose-module-$(uname -r)
+</pre>
+							<p class="highlight-3">You will need to do the following:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+
+					<h3>Installing sidux to the virtual machine</h3>
+							<p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>
+
+							<p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p>
+
+	</div>
 	<div class="divider" id="qemu">
 		<h2>Instalando sidux con QEMU</h2>
 		<ol>
@@ -397,7 +455,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 		
 	</div>
 		<div class="spacer05"></div> 
-	<div id="rev">Contenido revisado el 25/08/2007 0300 UTC</div>
+	<div id="rev">Contenido revisado el 10/09/2007 1200 UTC</div>
 
 </div>
 </body>

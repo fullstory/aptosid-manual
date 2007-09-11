@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - Gparted</title>
+	<title>Manuel de sidux - Gparted</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -180,8 +183,8 @@
 <div id="main-page">
 	<div class="divider" id="partition">
 		<h2 id="top-header">Partitionner votre disque dur en utilisant  GParted</h2>
-			<h5><span class="highlight-2">ATTENTION: pour désigner les partitions</span><a href="part-uuid-fr.htm"> Veuillez vous référer désormais à UUID, Labels de Partitions et fstab, puisque sidux utilise à present UUID par défaut.</a></h5>
-							<p><b>Les outils de partitionnement nécessitent de disposer de permissions d'administrateur (root). Si aucun mot-de-passe root n'est configuré, appuyez juste sur 'entrée'. Reportez-vous pour plus d'info, à la section : <a href="live-mode-fr.htm" >Mode Live Mode</a></b></p>
+			<h5><span class="highlight-2">ATTENTION: pour désigner les partitions dans les fichiers de configuration</span>,<a href="part-uuid-fr.htm"> veuillez vous référer désormais à UUID, Labels de Partitions et fstab, puisque sidux utilise à present UUID par défaut.</a></h5>
+							<p><b>Les outils de partitionnement nécessitent de disposer de permissions d'administrateur (root). Si aucun mot-de-passe root n'est configuré, appuyez juste sur 'Entrée'. Reportez-vous pour plus d'info, à la section : <a href="live-mode-fr.htm" >Mode Live</a></b></p>
 		
 		<h3>Les bases</h3>
 
@@ -191,12 +194,12 @@
 
 							<p>La version de GParted documentée ici est la 0.3.1.1.. Extraite du manuel officiel de GParted, l'information que vous trouverez ici a été modifiée afin de constituer un guide pour utiliser GParted dans sidux. Elle ne doit donc pas être interprêtée comme un guide absolu d'utilisation.</p>
 
-							<p>Vous trouverez la documentation intégrale existant pour GParted sur <a href="http://gparted.sourceforge.net">la section GParted de Sourceforge.net.</a></p>
+							<p>Vous trouverez la documentation intégrale existant pour GParted à <a href="http://gparted.sourceforge.net">la section GParted de Sourceforge.net.</a></p>
 		
 				
 		<h3>Utilisation de GParted</h3>
 
-							<p>Créer et gérer des partition ne sont pas des fonctionnalités appelées quotidiennement. Dans ces conditions, il est sage de lire ce guide une première fois, afin de se familiariser avec les concepts et l'érgonomie qu'il aborde.</p>
+							<p>Créer et gérer des partition ne sont pas des fonctionnalités utilisées quotidiennement. Dans cette mesure, il est sage de lire ce guide une première fois, afin de se familiariser avec les concepts et l'ergonomie qu'il aborde.</p>
 		
 		<ul>
 			<li>
@@ -204,13 +207,13 @@
 
 							<p>Au lancement de GParted, une fenêtre s'ouvre et la détection de vos disques durs démarre. Elle peut prendre un certain temps. Soyez patients.</p>
 		
-							<p>Si vous cliquez sur le bouton GParted, situé en haut à gauche, il se déroule et vous pouvez par exemple, y demander le rafraichissement des informations affichées sur les disques de votre système. Vous noterez qu'un raccourci-clavier Control+R soit également susceptible de commander la même fonction. La deuxième option de ce menu vous permet de choisir quel disque dur vous désirez modifier ; c'est utile quand vous en avez plus d'un. La troisième option vous affiche, sous forme de tableau, les opérations qu'il est possible d'effectuer à l'aide de GParted, en fonction du type d'élément que vous désirez modifier, et du type de modification souhaitée.</p>
+							<p>Si vous cliquez sur le menu GParted, situé en haut à gauche, il se déroule et vous pouvez par exemple, y demander le rafraîchissement des informations affichées sur les disques de votre système. Vous noterez qu'un raccourci-clavier Control+R donne accès à la même fonction. La deuxième option de ce menu vous permet de choisir quel disque dur vous désirez modifier ; c'est utile quand vous en avez plus d'un. La troisième option vous affiche, sous forme de tableau, les opérations qu'il est possible d'effectuer à l'aide de GParted, en fonction du type d'élément que vous désirez modifier, et du type de modification souhaitée.</p>
 
 							<p class="warning-box">Seules peuvent être modifiées les partitions non-montées, les partitions de swap inactives, les tables de partitions dont aucun lecteur ou volume de swap ne se trouverait en cours d'utilisation.</p>
 
 							<p>En règle générale, le statut actif d'un volume est signalé par GParted par l'affichage d'une icône de verrou dans la ligne lui correspondant.</p>
 		
-		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-01-devices-fr.png" alt="gparted" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-01-devices-fr.png" alt="vue des disques" /></div>
 			</li>
 			<li>
 		<h3>Édition</h3>
@@ -225,13 +228,13 @@
 		<li>
 		<h4>Device Information</h4>
 
-							<p>Le panneau <b>Device Information</b> vous ouvre en détail un onglet permettant d'accéder à tout un ensemble d'informations se rapportant au matériel sélectionné, comme son modèle, sa taille, etc. c'est un panneau particulièrement utile pour un ordinateur équipe de plusieurs disques durs, notamment pour vous assurez que vous travaillez sur celui que vous voulez effectivement modifier !</p>
+							<p>Le panneau <b>Device Information</b> vous ouvre en détail un onglet permettant d'accéder à tout un ensemble d'informations se rapportant au matériel sélectionné, comme son modèle, sa taille, etc. c'est un panneau particulièrement utile pour un ordinateur équipé de plusieurs disques durs, notamment pour vous assurez que vous travaillez sur celui que vous voulez effectivement modifier !</p>
 					</li>
 					<li>
 		<h4>Opérations en Attente (Pending Operations)</h4>
 
 							<p>Ce choix vous ouvre en bas de l'interface, une fenêtre récapitulant les opérations déjà programmées.</p>
-		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-02-pending_ops-fr.png" alt="vue des opérations" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-02-pending_ops-fr.png" alt="opérations en attente" /></div>
 					</li>
 				</ul>
 			</li>
@@ -244,7 +247,7 @@
 
 		<h3>Le menu Partition</h3>
 
-							<p>C'est au menu Partition que vous accédez aux options modificatives à proprement parler. Notez que certaines présentent des risques, aussi utilisez celles que vous voulez avec circonspection en les vérifiant toujours avant de commander leur exécution à partir du menu Édition ou de l'icône de la commande.</p>
+							<p>C'est au menu Partition que vous accédez aux options modificatives à proprement parler. Notez que certaines présentent des risques, aussi utilisez celles que vous voulez avec circonspection, en les vérifiant toujours avant de commander leur exécution, à partir du menu Édition ou de l'icône de la commande.</p>
 
 							<p>La commande modificative s'applique à un objet dès lors qu'il est sélectionné. Cette sélection s'opère par simple clic en mode graphique, avec la souris, sur le cadre ou rectangle représentant l'objet à modifier.</p>
 
@@ -252,7 +255,7 @@
 
 							<p><b>Unmount/swapoff</b> En fonction du type de partition en cours de sélection, il vous est possible de démonter une partition de données ou de désactiver une partition de swap en cours d'utilisation avec GParted. L'opération implique chaque fois la re-détection complète des disques par GParted, qui peut prendre un certain temps à s'effectuer. L'opération est indispensable si la structure complète de la table de partition du disque doit être ré-écrite (changement de tailles ou de structure du partitionnement).</p>
 
-		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-03-umount_swapoff-fr.png" alt="vue des opérations" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-03-umount_swapoff-fr.png" alt="unmount swapoff" /></div>
 
 							<p>Notez que dans l'image ci-dessus, l'action sur la partition est commandée à partir d'un clic-droit à la souris sur le volume concerné, celui-ci donnant accès au menu contextuel correspondant à la partition sélectionnée.</p> 
 
@@ -268,7 +271,7 @@
 
 							<p>Le bouton <b>"Nouveau"</b> à l'extrême gauche de la barre d'icônes, comme le choix "Nouveau" du menu de Partition, vous permet de créer une nouvelle partition, toujours dans un espace libre préalablement sélectionné. Son activation provoque l'ouverture d'une fenêtre de dialogues où vous pouvez alors choisir le type de partition, primaire, étendue ou logique, sa taille, ainsi que le système de fichier dont elle sera équipée.</p>
 
-		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-05-file_sys-fr.png" alt="file system" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-05-file_sys-fr.png" alt="systèmes de fichiers" /></div>
 			</li>
 			<li>
 		<h3>En cas d'erreur</h3>
@@ -280,11 +283,11 @@
 			<li>
 		<h3>Redimensionner/Déplacer</h3>
 
-							<p>Quand vous choississez de <b>Redimensionner/Déplacer</b> une partition sélectionnée, une fenêtre s'ouvre. Utilisez alors votre souris pour réduire ou augmenter l'expace occupé par la partition. Pour des réglages plus fins, l'utilisation des flèches entourant les paramètres est également possible.</p>
+							<p>Quand vous choississez de <b>Redimensionner/Déplacer</b> une partition sélectionnée, une fenêtre s'ouvre. Utilisez alors votre souris pour réduire ou augmenter l'espace occupé par la partition. Pour des réglages plus fins, l'utilisation des flèches entourant les paramètres est également possible.</p>
 
 		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-07-resize_move-fr.png" alt="redimensionner/déplacer" /></div>
 
-							<p>Comme pour toutes vos commandes, il faudra demander d'effectuer réellement l'opération à partir du menu d'Edition ou l'icône ad hoc, pour qu'elle soit réalisée.</p>
+							<p>Comme pour toutes vos commandes, il faudra demander d'effectuer réellement l'opération à partir du menu d'Édition ou l'icône ad hoc, pour qu'elle soit réalisée.</p>
 
 							<p>La durée des opérations dépendra de la taille des partitions et de leur nombre.</p>
 					
@@ -310,7 +313,7 @@
 		
 							<p><b>La documentation complète de GParted : </b> pour la découvrir et lire aussi comment copier des partitions avec GParted, consultez <a href="http://gparted.sourceforge.net">la section GParted de Sourceforge.net.</a></p>
 	</div>
-				<div id="rev">Dernière actualisation de cette page le 03/09/2007 à 12H12 CEST PARIS</div>
+				<div id="rev">Dernière actualisation le 08/09/2007 à 20H10 UTC</div>
 
 </div>
 </body>

@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - Hard Disk Istallation</title>
+	<title>Manuel de sidux - installation sur disque dur</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -182,7 +185,7 @@
 		<h2 id="top-header">Préparation de l'installation sur disque dur</h2>
 							<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
 
-							<p><span class="highlight-3">Avant de procéder à l'installation, veuillez déconnecter soigneusement tout périphérique USB et que clé, disque amovible, caméra, etc.</span>. <a href="hd-install-opts-fr.htm">L'installation sur un périphérique USB nécessite des étapes particulières additionnelles.</a> Le fichier d'installation est éditable, c'est : <span class="highlight-3">~/.sidconf</span>, et son édition vous permet de choisir un système de fichiers alternatif, ou de répartir votre installation sur plusieurs partitions, par exemple pour un  /home séparé et/ou boot et/ou var et/ou/ tmp.</p>
+							<p><span class="highlight-3">Avant de procéder à l'installation, veuillez déconnecter soigneusement tout périphérique USB tel que clé, disque amovible, caméra, etc.</span>. <a href="hd-install-opts-fr.htm">L'installation sur un périphérique USB nécessite des étapes particulières additionnelles.</a> Le fichier d'installation est éditable, c'est : <span class="highlight-3">~/.sidconf</span>, et son édition vous permet de choisir un système de fichiers alternatif, ou de répartir votre installation sur plusieurs partitions, par exemple pour un  /home séparé et/ou boot et/ou var et/ou/ tmp.</p>
 
 							<p class="highlight-3">Vous êtes particulièrement encouragés à recourir à une partition /home séparée. L'intérêt en terme de préservation des données et de prévention des désastres en est substantiel.</p>
 
@@ -202,8 +205,8 @@
 
 			<h6><span class="highlight-3">Installations dans des langues déterminées</span></h6>
 						<ol>
-							<li>Sur le Live-CD sidux, Grub utilise F4 pour choisir une langue particulière (par exemple pl, es, fr, etc.)</li>
-							<li> Démarrez l'installation et installez les métapaquets de votre choix si ceux correspondant à vos besoins existent.</li>
+							<li>Sur le Live-CD sidux, Grub utilise F4 pour choisir une langue particulière (par exemple pl, es, fr, etc.).</li>
+							<li> Démarrez l'installation et installez les métapaquets de votre choix, si ceux correspondant à vos besoins existent.</li>
 							<li>Achevez votre installation et redémarrez</li>
 							<li>Désinstallez les langues inutiles si vous le souhaitez. Puis installez ce qui correspond à vos besoins linguistiques à l'aide d'apt-get, si aucun métapaquet pour ce faire n'est disponible.</li>
 						</ol>
@@ -218,13 +221,13 @@
 <pre>
 su-me install-gui
 </pre>
-		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer1-fr.png" alt="sidux-Installer1" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer1-fr.png" alt="l'installeur de sidux - 1" /></div>
 	<div class="spacer02"></div>
 						<p><b>2.</b> Après avoir lu et compris le texte d'avertissement, passez à la section suivante pour choisir les partitions. </p>
 
-		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer2-fr.png" alt="sidux-Installer2" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer2-fr.png" alt="l'installeur de sidux - 2" /></div>
 
-							<p>Dans cette section, vous pouvez choisir l'endroit où s'établira votre installation en déterminant en partie haute, la partition racine, et en partie bases ses points de montage spécifiques (pour /home ou autres, notamment. Attention ! l'installeur ne formate pas d'autre partition que la racine ! vus devrez avoir préparé vos partition additionnelles avant de lancer l'installeur !). La partition de swap sera montée automatiquement au lancement du système.</p>
+							<p>Dans cette section, vous pouvez choisir l'endroit où s'établira votre installation en déterminant en partie haute, la partition racine, et en partie bases ses points de montage spécifiques (pour /home ou autres, notamment. Attention ! l'installeur ne formate pas d'autre partition que la racine ! vous devrez avoir préparé vos partitions additionnelles avant de lancer l'installeur !). La partition de swap sera montée automatiquement au lancement du système.</p>
 
 							<p>Toutes les partitions non-système seront montées dans le répertoire  <span class="highlight-3">/media/ </span> partition.  C'est au moment où vous avez déterminé quelle partition utiliser pour la racine du système sidux ("/"), qu'il est possible d'en choisir, <span class="highlight-3">notamment pour vos données</span> (/home).</p>
 
@@ -242,36 +245,36 @@ cfdisk
 </pre>
 	<div class="spacer02"></div>
 
-							<p><b>3.</b> Sidux utilise GRUB comme utilitaire de démarrage, et par défaut l'option <b>Grub sur le MBR</b>! Si vous désirez autre chose, vous devez savoir ce que vous faites. Vous devrez alors configurer les autres chargeurs de démarrage manuellement, afin de les pouvoir utiliser.</p>
+							<p><b>3.</b> Sidux utilise GRUB comme utilitaire de démarrage, et par défaut l'option <b>Grub sur le MBR</b>! Si vous désirez autre chose, vous devez savoir ce que vous faites. Vous devrez alors configurer les autres chargeurs de démarrage manuellement, afin de pouvoir les  utiliser.</p>
 
-							<p>Grub identifie les autres système d'exploitation déjà installés (comme Windows) et les ajoûte automatiquement au menui de démarrage.</p>
+							<p>Grub identifie les autres système d'exploitation déjà installés (comme Windows) et les ajoûte automatiquement à son  menu de démarrage.</p>
 
 							<p>Sur ce panneau vous pouvez également si besoin est, modifier le fuseau horaire qu'utilisera votre système.</p>
 
 		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer3-fr.png" alt="grub-to-mbr" /></div>
 	<div class="spacer02"></div>
 
-							<p><b>4.</b> Au panneau suivant nous allons déterminer les identités et mots de passe d'utilisateur/utilisatrice et administratrice/administrateur (il va sans dire que vous ayez grand iontérêt à vous en souvenir !!!) Veillez à ne pas recourir  à mots-de-passe trop facile à deviner. Si vous souhaitez utilizser cette machine à plusieurs personnes, vous pourrez facilement créer de nous veaux utilisateurs après l'installation, à l'aide de l'outil graphique KDE <span class="highlight-3">kuser</span>.</p>
+							<p><b>4.</b> Au panneau suivant nous allons déterminer les identités et mots de passe d'utilisateur/utilisatrice et administratrice/administrateur (il va sans dire que vous ayez grand intérêt à vous en souvenir !!!) Veillez à ne pas recourir  à mots-de-passe trop facile à deviner. Si vous souhaitez utiliser cette machine à plusieurs personnes, vous pourrez facilement créer de nouveaux utilisateurs après l'installation, à l'aide de l'outil graphique KDE <span class="highlight-3">kuser</span>.</p>
 
-		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer4-fr.png" alt="choosing-pw" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer4-fr.png" alt="Choix de mot-de-passe" /></div>
 	<div class="spacer02"></div>
 
-							<p><b>5.</b> Vous allez maintenant pouvoir donner un nom d'hôte à votre ordinateur (choisissez ce que vous voulez, du moment que le mot est composé d'une chaîne initerrompue de chiffres et de lettres sans caractère spécial ou accentué, et ne commençant pas par un chiffre).</p>
+							<p><b>5.</b> Vous allez maintenant pouvoir donner un nom d'hôte à votre ordinateur (choisissez ce que vous voulez, du moment que le mot est composé d'une chaîne ininterrompue de chiffres et de lettres sans caractère spécial ou accentué, et ne commençant pas par un chiffre).</p>
 
 							<p>Déterminez ensuite si vous souhaitez ou non activer automatiquement les démons cupsys (serveur pour les imprimantes) et/ou ssh (démon de sécurisation de connexions réseau) au démarrage.</p>
 
-		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer5-fr.png" alt="hostname" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer5-fr.png" alt="nom d'hôte" /></div>
 		<div class="spacer02"></div>
 
-							<p><b>6.</b> Arrivé au dernier panneau il vous reste une dernière chance pour vérifier scrupuleusement si toutes les options choisies jusque là correspondent à vos souhaits. Il est conseillé de le vérifier attentivement !  À partir du lancement, le processus va durer de 5 à 60 minutes en fonction de votre matériel (en utilisant certaines options, part exemple <span class="highlight-1">toram</span> cela peut aller beaucoup plus vite, et dans certains cas prendre même moins de 4 minutes!).</p>
+							<p><b>6.</b> Arrivé au dernier panneau, il vous reste une dernière chance pour vérifier scrupuleusement si toutes les options choisies jusque là correspondent à vos souhaits. Il est conseillé de le vérifier attentivement !  À partir du lancement, le processus va durer de 5 à 60 minutes en fonction de votre matériel (en utilisant certaines options, par exemple <span class="highlight-1">toram</span> cela peut aller beaucoup plus vite, et dans certains cas prendre même moins de 4 minutes!).</p>
 
-		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer6-fr.png" alt="installation-config" /></div>
+		<div class="screenshot"><img src="../lib/images-fr/installer-fr/installer6-fr.png" alt="configuration de l'installation" /></div>
 
 							<p>Les autres menus disponibles dans l'installeur sont destinés à des personnes familiarisées avec GNU/Linux, et qui voudraient opérer des modifications d'ordre avancé à leur fichier <span class="highlight-3">~/.sidconf</span> ou utiliser des paramétrages et schémas de partitionnement spécifiques, dont le rejet automatique au moment du diagnostic final de l'installeur, pourrait provoquer la suspension du processus.</p>
 
 							<p>Si vous constatez un arrêt prolongé de la barre de progression au cours de l'installation, n'abandonnez pas, mais patientez, il faut parfois pas mal de temps.</p>
 
-							<p>La fin du processus d'installation vous sera confirmée pâr un message apparaîssant à l'écran.</p>
+							<p>La fin du processus d'installation vous sera confirmée par un message apparaîssant à l'écran.</p>
 
 							<p>Rédémarrez alors. Retirez le CD de son tiroir. C'est terminé ! au redémarrage vous allez découvrir votre toute nouvelle installation, sur disque dur !</p>
 		
@@ -296,7 +299,7 @@ cfdisk
 sux 
 </pre>			
 	</div>
-	<div id="rev">Dernière actualisation de la page le 02/09/2007 à 9H48 CEST PARIS</div>
+	<div id="rev">Dernière actualisation de la page le 08/09/2007 à 11H17 UTC</div>
 
 </div>
 </body>

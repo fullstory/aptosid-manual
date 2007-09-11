@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - Other Installation Options</title>
+	<title>Manuel de sidux - Autres types d'installations</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -195,7 +198,7 @@
 
 		<h4 class="highlight-3">Le Live-cd Gaia:</h4>
 	
-							<p>Dans un premier temps on choisit l'endroit où copier les trois fichiers nécessaires, l'image iso et les deux autres, en raccourcissant leurs noms. On créer un répertoire "sidux" pour les mettre, par exemple dans "/media/sdax", (sda1 ou 2, ou 5, ou 6, ou autre) pour y copier l'image iso en utilisant cette syntaxe :</p>
+							<p>Dans un premier temps on choisit l'endroit où copier les trois fichiers nécessaires, l'image iso et les deux autres, en raccourcissant leurs noms. On crée un répertoire "sidux" pour les mettre, par exemple dans "/media/sdax", (sda1 ou 2, ou 5, ou 6, ou autre) pour y copier l'image iso en utilisant cette syntaxe :</p>
 
 <pre>
 # mkdir /media/sdax/sidux
@@ -267,13 +270,13 @@ initrd (hd0,4)/sidux/miniroot.gz
 
 							<p>désormais installer sidux sur une clé ou un disque dur USB est aussi facile que sur un disque dur interne. Il vous suffit de suivre les quelques conseils qui vont suivre.</p>
 
-							<p>L'espace disque minimal recommandé pour votre clé sub sera:<br />
+							<p>L'espace disque minimal recommandé pour votre clé usb sera:<br />
 							Pour sidux "LITE", 1.2 Go PLUS l'espace voulu pour vos données,<br />
 							Pour sidux "FULL", 2.1 Go PLUS l'espace voulu pour vos données</p>
 
 							<p>L'installation-USB (fix-usb-install.sh) a fusionné avec <a href="../fr/hd-install-fr.htm">l'installeur sidux</a>, et peut donc s'opérer depuis celui-ci.</p>
 
-							<p>Nous démarrons donc comme pour une installation ordinaire, et choisissons une installation sur la partition correpondant à notre périphérique USB - ici nous parlons de sda1 mais c'est bien entendu un exemple, à adapter au cas de figure correspondant à votre matériel.</p>
+							<p>Nous démarrons donc comme pour une installation ordinaire, et choisissons une installation sur la partition correspondant à notre périphérique USB - ici nous parlons de sda1 mais c'est bien entendu un exemple, à adapter au cas de figure correspondant à votre matériel.</p>
 
 							<p><span class="highlight-2">Attention GRUB va devoir être installé sur la partition racine de votre installation et non sur le MBR !</span></p>
 
@@ -283,6 +286,61 @@ initrd (hd0,4)/sidux/miniroot.gz
 
 
 							<p>L'installation achevée vous pouvez démarrer depuis votre périphérique USB. "Démarrage depuis USB" ou si absent "Autre périphérique" se doivent d'être activés dans votre BIOS pour que cela fonctionne.</p>
+
+	</div>
+	<div class="divider" id="vtbox">
+		<h2>Installing sidux with VirtualBox</h2>
+							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+						<ul>
+ 							<li>1. create a harddiskimage for VirtualBox</li>
+ 							<li>2. boot the iso with VirtualBox</li>
+ 							<li>3. install on the image</li>
+						</ul>
+
+				<h4>Requirements</h4>
+							<p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>
+
+							<p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size..</p>
+
+							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any externel module) </p>
+
+						<h4>The mechanism:</h4>
+<pre>
+Install the virtualbox package
+Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
+Make a VM, put a Operating System-CD into your CD drive and install.and reboot
+</pre>
+
+				<!--<h3>Automated installation with svmi</h3>
+							<p>You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'.</p>
+<pre>
+as root #
+wget -Nc techpatterns.com/svmi
+chmod +x svmi
+svmi
+</pre>
+-->
+				<h3>Installation:</h3>
+<pre>
+apt-get update
+apt-get install virtualbox-ose 
+m-a a-i virtualbox-ose
+</pre>
+
+							<p>Then you store the information identifying the current operating system in the structure:</p> 
+	<!-- echo virtualbox-ose-module-$(uname -r) -->
+<pre>
+virtualbox-ose-module-$(uname -r)
+</pre>
+							<p class="highlight-3">You will need to do the following:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+
+					<h3>Installing sidux to the virtual machine</h3>
+							<p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>
+
+							<p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p>
 
 	</div>
 	<div class="divider" id="qemu">
@@ -304,12 +362,12 @@ initrd (hd0,4)/sidux/miniroot.gz
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-							<p>Elle crée un fichier image appelé "sidux.qcow". Le paramètre "3G" spécifie sa taille, qui est de 3 Go. Vous pouvez également uriliser le paramètre M pour les mégaoctets (par exemple "800M". Vous n'avez pas trop à vous inquiéter de la taille du disque, car le format qcow compresse l'image de sorte qu'elle n'occupe pas plus d'espace que ce qui est effectivement occupé par les données une fois compressées.</p>
+							<p>Elle crée un fichier image appelé "sidux.qcow". Le paramètre "3G" spécifie sa taille, qui est de 3 Go. Vous pouvez également utiliser le paramètre M pour les mégaoctets (par exemple "800M". Vous n'avez pas trop à vous inquiéter de la taille du disque, car le format qcow compresse l'image de sorte qu'elle n'occupe pas plus d'espace que ce qui est effectivement occupé par les données une fois compressées.</p>
 
 
 			<h4>Installer le système d'exploitation.</h4>
 
-							<p>C'est la première fois que vous utilisez cet émulateur. <span class="highlight-3">Une bonne chose à savoir, c'est que quand vous cliquez dans le fenêtre de qemu, il préempte le pointeur de la souris. pour le libérer vous n'avez qu'à presser sur votre clavier la combinaison :</span></p>
+							<p>C'est la première fois que vous utilisez cet émulateur. <span class="highlight-3">Une bonne chose à savoir, c'est que quand vous cliquez dans la fenêtre de qemu, il préempte le pointeur de la souris. pour le libérer vous n'avez qu'à presser sur votre clavier la combinaison :</span></p>
 <pre>
 Ctrl+Alt
 </pre>
@@ -346,9 +404,9 @@ qemu [image_de_recouvrement]
 
 				<h4>Utiliser une partition réelle quelconque en tant que partition primaire unique d'une image disque</h4>
 
-							<p>Il peut être requis parfois d'utiliser qemu à l'émulation d'une de ses partitions systèmes réelle (par exemple, pour démarrer en même temps votre système réel ou qemu utilisant une partition spécifique comme racine). Vous pouvez y parvenir en utilsant le RAID logiciel en mode linéaire (il vous faudra le pilote de noyau linear.ko) ainsi qu'un périphérique loopback : l'astuce consiste à préempter dynamiquement un master boot record (MBR) sur la partition que vous souhaitez intégrer à une image disque qemu brute.</p>
+							<p>Il peut être requis parfois d'utiliser qemu à l'émulation d'une de ses partitions systèmes réelles (par exemple, pour démarrer en même temps votre système réel ou qemu utilisant une partition spécifique comme racine). Vous pouvez y parvenir en utilisant le RAID logiciel en mode linéaire (il vous faudra le pilote de noyau linear.ko) ainsi qu'un périphérique loopback : l'astuce consiste à préempter dynamiquement un master boot record (MBR) sur la partition que vous souhaitez intégrer à une image disque qemu brute.</p>
 
-							<p>Supposons que vous disposez d'une partition non-montée /dev/hdaN dont vous voudriez faire du système de fichier une partie de votre image disque qemu. Vous commencerez par créer un petit fichier pour stocker le MBR:</p>
+							<p>Supposons que vous disposez d'une partition non-montée /dev/hdaN dont vous voudriez faire du système de fichiers, une partie de votre image disque qemu. Vous commencerez par créer un petit fichier pour stocker le MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -356,20 +414,20 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /chemin/du/mbr
 </pre>
-							<p>Admettons qu'au résultat le périphérique obtenu soit /dev/loop0, car nous n'utiliserions jusque là aucun autre loopback. L'étape suivante passen par la création de l'image disque "mélangée" MBR + /dev/hdaN en utilisant le RAIS logiciel:</p>
+							<p>Admettons qu'au résultat le périphérique obtenu soit /dev/loop0, car nous n'utiliserions jusque là aucun autre loopback. L'étape suivante passe par la création de l'image disque "mélangée" MBR + /dev/hdaN en utilisant le RAID logiciel:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-							<p>Le résultat /dev/md0 est ce que vous allez utiliser comme disque image qemu (n'oubliez pas de fixer les permissions de sorte que l'émulateur puisse y avoir accès). La dernière (et peut-être la plus perverse) des étapes consiste à régler la configuration du disque (géométrie et table des partitions) en sorte que le point d'origine du MBR coincide avec celui de /dev/md0 (un offset d'exactement 16*512 = 16384 octets dans cet exemple). Réalisez cette étape en utilisant fdisk sur la machine hôte, et non depuis l'émulateur : la routine détection brute des disques utilisée par qemu produit en effet souvent des offset non-arrondis au kilooctet (de type 31.5 KB, comme dans le section précédente) et qui ne seraient pas gérables par le RAID logiciel. Ainsi, depuis la machine hôte: </p>
+							<p>Le résultat /dev/md0 est ce que vous allez utiliser comme disque image qemu (n'oubliez pas de fixer les permissions de sorte que l'émulateur puisse y avoir accès). La dernière (et peut-être la plus perverse) des étapes consiste à régler la configuration du disque (géométrie et table des partitions) en sorte que le point d'origine du MBR coincide avec celui de /dev/md0 (un offset d'exactement 16*512 = 16384 octets dans cet exemple). Réalisez cette étape en utilisant fdisk sur la machine hôte, et non depuis l'émulateur : la routine détection brute des disques utilisée par qemu produit en effet souvent des offset non-arrondis au kilooctet (de type 31.5 KB, comme dans la section précédente) et qui ne seraient pas gérables par le RAID logiciel. Ainsi, depuis la machine hôte: </p>
 <pre>
  fdisk /dev/md0
 </pre>
-							<p>Puis, créez un partition primaire unique correspondant ) /dev/hdaN, et manipulez la commande 's'ector du menu e'x'pertThere, en sorte que le premier cylindre (où cette première partition est sensée démarrer), coincide avec la taille du MBR. Quand finalement vous activez la fonction 'w' pour sauver votre réglage dans un fichier, l'opération est terminée. Vous disposez d'une partition que vous pouvez monter directement depuis votre machine hôte, et qui fait également partie d'une image disque qemu :</p>
+							<p>Puis, créez une partition primaire unique correspondant à /dev/sdaN, et manipulez la commande 's'ector du menu e'x'pert, en sorte que le premier cylindre (où cette première partition est sensée démarrer), coincide avec la taille du MBR. Quand finalement vous activez la fonction 'w' pour sauver votre réglage dans un fichier, l'opération est terminée. Vous disposez d'une partition que vous pouvez monter directement depuis votre machine hôte, et qui fait également partie d'une image disque qemu :</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-							<p>Évidemment vous pouvez sans problème configurer un chargeur de démarrage sur votre image disque en utilisant qemu, du moment où le répertoire /hdaN/boot de la partition originale est équipée des outils nécessaires.</p>
+							<p>Évidemment vous pouvez sans problème configurer un chargeur de démarrage sur votre image disque en utilisant qemu, du moment que le répertoire /sdaN/boot de la partition originale est équipée des outils nécessaires.</p>
 
 			<h4>Activer le module d'accélaration de QEMU</h4>
 
@@ -392,13 +450,13 @@ qemu [...] -kernel-kqemu
 <pre>
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
-							<p><a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html">Le documentation officielle du projet QEMU </a> </p>
+							<p><a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html">La documentation officielle du projet QEMU </a> </p>
 
 							<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Certains contenus se rapportant à QEMU pour le Manuel de Sidux sont extraits de documents extérieurs sous licence GNU Free Documentation License 1.2 et ont été adaptés pour le Manuel de Sidux.</a> </p>
 
 		
 	</div>
-	<div id="rev">Dernière révision le 3/09/2007 à 8H00 CEST PARIS</div>
+	<div id="rev">Dernière révision le 10/09/2007 à 1200hrs UTC</div>
 
 </div>
 </body>

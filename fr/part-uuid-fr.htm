@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - UUID</title>
+	<title>Manuel de sidux - UUID</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -182,7 +185,7 @@
 			<h2 id="top-header">Reconstruire son fstab</h2>
 
 
-							<p>Pour exploiter une partition nouvellement crée (par exemple sda6 ou sdd7), et qui n'apparaît pas dans le fichier de configuration /etc/fstab ou que vous voudriez voir montée au démarrage, commencez par entrer dans un terminal/console en tant qu'utilisateur la commande suivante:</p>
+							<p>Pour exploiter une partition nouvellement créée (par exemple /dev/sda6 ou /dev/sdd7), et qui n'apparaît pas dans le fichier de configuration /etc/fstab ou que vous voudriez voir montée au démarrage, commencez par entrer dans un terminal/console en tant qu'utilisateur la commande suivante:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,7 +208,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 <b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
 </pre>
 
-							<p>Autre exemple:</p>
+<p>Autre exemple:</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-28 13:18 30ebb8eb-8f22-460c-b8dd-59140274829d -> ../../sdb8
@@ -219,7 +222,7 @@ lrwxrwxrwx 1 root root 10 2007-05-28 13:18 f855c263-2521-48d3-8ec9-d2d2b69b6635 
 rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> -> ../../sdb7
 </pre>
 
-							<p>Dans ce cas là, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> est l'entrée manquante à ajoûter au fichier /etc/fstab: </p>
+<p>Dans ce cas là, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> est l'entrée manquante à ajoûter au fichier /etc/fstab: </p>
 
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
@@ -231,9 +234,9 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 	<h2>Aperçu général : UUID, label de partition et fstab</h2>
 
-							<p>La possibilité d'attribuer un identifiant permanent aux périphériques blocs a été rendue possible par l'introduction d'udev. Elle présente certains avantages par rapport à la dénomination par bus.</p>
+<p>La possibilité d'attribuer un identifiant permanent aux périphériques blocs a été rendue possible par l'introduction d'udev. Elle présente certains avantages par rapport à la dénomination par bus.</p>
 
-							<p>A mesure que les distributions de GNU/Linux et qu'udev évoluent, et que la détection des matériels devient plus fiable, se posent cependant de nouveaux problèmes, et se produisent de changements :<br />
+<p>À mesure que les distributions de GNU/Linux et qu'udev évoluent, et que la détection des matériels devient plus fiable, se posent cependant de nouveaux problèmes, et se produisent de changements :<br />
 
 							<b>1)</b> Si l'ordinateur est équipé de plus d'un contrôleur SATA/SCSI ou IDE, l'ordre dans lequels ils sont identifiés devient aléatoire. Ceci peut conduire l'identifiant d'un périphérique à pouvoir changer de hdX à hdY suivant le moment du démarrage. L'attribution d'identifiant permanent vous permet de ne pas avoir à vous en soucier.<br />
 

@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>sidux Manuals - NTP Time Server</title>
+	<title>Manuel de sidux - Serveurs d'horloge NTP</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.37-2007-09-11   -->
+<!-- menu last updated by bluewater 11/09/2007 1200 hrs AEST 11/09/2007 0200hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Vers sidux.com</a></li>
@@ -93,7 +93,8 @@
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage  'fromiso'</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un DDur USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer avec QEMU</a></li>
+				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
+				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
@@ -130,6 +131,8 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-install">Installer un nouveau paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-delete">Désinstaller un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-kio">Chercher un paquetage avec kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-fr.htm">Internet et Réseau</a>
@@ -179,45 +182,54 @@
 <!-- menu ends here --></div>
 <div id="main-page">
 	<div class="divider" id="ntp-server">
-			<h2 id="top-header">Timeserver Setup</h2>
+			<h2 id="top-header">Configuration d'un serveur de mise-à-l'heure</h2>
 
+<p>Le serveur de temps est très utile ; il vous permet de synchroniser
+vos ordinateurs à des horloges atomiques pour rendre cohérentes entre
+elles toutes vos connexions réseau, et autres tâches de production.</p>
 
-							<p>First in console as root</p>
+<p>Pour l'installer ouvrez une console d'administration et entrez-y :</p>				
 <pre>
 apt-cache search ntp
 apt-get update &amp;&amp; apt-get install  ntp ntp-doc
 update-rc.d -f ntp defaults
-run update-rc.d later,after doing some configgering
+run update-rc.d se fait plus tard, après la configuration
 </pre>
 
-							<p>Find the docs on your system at</p>
+<p>Prenez connaissance de la documentation installée dans votre système à l'adresse :</p>
+
 <pre>
 /usr/share/doc/ntp-doc/html/index.html 
-and bookmark it!
 </pre>
 
 
-							<p>It is a large document,and not all of it applies, as it is comprehensive.</p>
+<p>et faites pointer vers celle-ci un marque-page de Konqueror, afin de
+la consulter aisément. Cette documentation est volumineuse, en anglais
+et pas complètement à jour, mais tout ce dont vous aurez besoin y
+figure.</p>
 
-							<p>ntp will not activate until you reboot, but you should set your time as accurately as possible before rebooting.</p>
+<p>Ntp ne s'activera pas avant que vous redémarriez, mais vous devez
+absolument régler votre horloge système le plus précisément possible
+avant d'effectuer ce redémarrage.</p>
 
-							<p>As ntp is run as service .. ntpdate is already present on sidux. To check if ntp is activated on your box:</p>
-<pre>
-sux
-rcconf
-(use the arrow keys on your keyboard
-to move through the list, and the
-space-bar to place an * to choose the
-service)
+<p>Comme ntp est lancé comme un service...ntpdate est déjà actif dans sidux. Pour le vérifier faites :</p>
+				
+<pre>$ sux
+# rcconf
 </pre>
-							<p>ntp will get its time from the list of servers in /etc/ntp.conf, which is the main file to edit.</p>
 
-							<p>Both the ntpdate and the ntpd daemon [called ntp] poll the list of timeservers near the top of /etc/ntp.conf.. here is a list as an example:</p>
+<p><i>(utilisez les flèches du clavier pour vous déplacer dans la liste, et la barre espace pour disposer une * astérisque face au service demandé).</i></p>
+
+<p>Ntp récupérera l'heure d'une liste de serveurs située à l'adresse <b>/etc/ntp.conf</b> en laquelle consiste son principal fichier de configuration.</p>
+
+<p>Ntpdate et le démon ntpd invoquent la liste de serveurs située pratiquement au début de <b>/etc/ntp.conf</b>...voici une liste réglée pour exemple :</p>
+
 
 <pre>
- pool.ntp.org maps to more than 100 low-stratum NTP servers.
-# Your server will pick a different set every time it starts up.
-#  *** Please consider joining the pool! ***
+ pool.ntp.org se fice sur plus de 100 serveur NTP low-stratum.
+# Votre serveur en utilisera un groupe différent à chacun 
+# de ses démarrages.
+#  *** SVP, envisagez de rejoindre le pool! ***
 #  ***  <a href="http://www.pool.ntp.org/#join">http://www.pool.ntp.org/#join</a>  ***
 server 192.168.3.24
 server ntp.blueyonder.co.uk
@@ -229,58 +241,51 @@ server 1.europe.pool.ntp.org
 server 2.europe.pool.ntp.org
 </pre>
 
+<p>Le premier est une machine du même réseau, utilisant également ntp, [dans l'exemple c'est le 'serveur 192.168.3.1]</p>
 
+<p>Le deuxième est le serveur d'horloge de votre FAI.</p>
 
-							<p>The first one is the other box on the same network, also running ntp [on there it is 'server 192.168.3.1']</p>
-
-							<p>The second is the timeserver of the ISP you are connected to.</p>
-
-							<p>Next are some of the uk.pool.ntp.org, then a few europeans for good luck By the way , your own isp-nameservers are often also timeservers,  you can check this by running:</p>
+<p>Les suivants sont des machines diverses de uk.pool.ntp.org, et
+d'autres. De toute manière, les serveurs de noms de domaines de votre
+FAI sont souvent également serveurs de temps. Vous pouvez vérifier tout
+ça en entrant :</p>
 
 <pre>
 ntpdate -v
 </pre>
 
+<p>Cela ne servira pas à grand chose, mais retournera une information se présentant dans ce style :</p>
 
-							<p>This will not which change anything, but will return a time-result,something like:</p>
-<pre>
-# ntpdate -v 192.168.3.24
+<pre># ntpdate -v 192.168.3.24
 19 Sep 19:09:27 ntpdate[13329]: ntpdate 4.2.2@1.1532-o Wed Aug  9 12:08:54 UTC 2006 (1)
 </pre>
 
+<p>Vous pouvez y permettre l'accès à toutes vos machines locales :</p>
 
-							<p>Then you want to allow access to your local boxes</p>
-<pre>
-# Local users may interrogate the ntp server more closely.
+<pre># Local users may interrogate the ntp server more closely.
 restrict 127.0.0.1 nomodify
 restrict 192.168.24
 </pre>
 
+<p>Vous pouvez aussi diffuser l'heure (broadcast) à tout votre réseau :</p>
 
-							<p>Now you want to broadcast:</p>
-<pre>
-# If you want to provide time to your local subnet, change the next line.
-# (Again, the address is an example only.)
+<pre># Pour fournir une heure de référence à tout votre sous-réseau local, modifiez la ligne suivante.
+# (Là encore, l'IP mentionnée n'est qu'un exemple.)
 broadcast 192.168.3.255
 </pre>
 
+<p>Le fichier de configuration ntp.conf est lui aussi un peu archaïque,
+et traité comme diff si vous ne faites que cliquer dessus. Avant de
+lancer ntp, vous devez mettre votre ordinateur à l'heure, par exemple
+comme ceci :</p>
 
-							<p>The ntp.conf file itself is a bit odd, its treated as a diff if you just click on it. Before you start ntp, you must set the time, ie</p>
-<pre>
-# ntpdate -u -b uk.pool.ntp.org
+<pre># ntpdate -u -b uk.pool.ntp.org
 19 Sep 19:19:33 ntpdate[15641]: step time server 62.3.200.116 offset 0.001523 sec
 </pre>
 
+<p>si tout est allé comme sur des roulettes, vous devriez obtenir quelque chose ressemblant à ceci :</p>
 
-							<p>Then start ntp, as a service,to start at every boot [ie, reboot] after ntp has run for a few, do:</p>
-<pre>
-ntpq -pn
-</pre>
-
-
-							<p>If all has gone well, you should see something like:</p>
-<pre>
-# ntpq -pn
+<pre># ntpq -pn
 remote           refid      st t when poll reach   delay   offset  jitter
 ----------------------------------------------------------------------------
 192.168.3.24    .INIT.          16 u    - 1024    0    0.000    0.000   0.000
@@ -295,16 +300,20 @@ remote           refid      st t when poll reach   delay   offset  jitter
  192.168.3.255   .BCST.          16 u    -   64    0    0.000    0.000   0.001
 </pre>
 
+<p>L'astérisque dans la troisième ligne dans l'exemple *82.219.3.1,
+montre le serveur de temps actif le plus précis. Cela signifie que vous
+utilisez une horloge fiable utilisant le port 123. Un exemple pour
+iptables sera :</p>
 
-							<p>That asterisk on the 3rd line in this example: *82.219.3.1, is showing the active timeserver, that is deemed most worthy. It means you are now keeping good time, and it uses port 123  An example of an iptables line is:</p>
-<pre>
-# Network Time Protocol (NTP) Server
+<pre># Network Time Protocol (NTP) Server
 $IPT -A udp_inbound -p UDP -s 0/0 --destination-port 123 -j ACCEPT
 $IPT -A INPUT -j ACCEPT -p tcp --dport 123
 </pre>
 
+
 	</div>
-			<div id="rev">Content last revised UTC 25/08/2007 0900hrs</div>
+
+<div id="rev">Dernière Révision le 08/09/2007 à 13H02 UTC</div>
 
 </div>
 </body>

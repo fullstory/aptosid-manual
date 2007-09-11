@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-br">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - rdiff</title>
+	<title>Manuais do sidux - rdiff</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -93,6 +93,7 @@
 				<li><a href="hd-install-pt-br.htm#first-hd-boot">Primeira inicialização</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso">Inicializando com 'fromiso'</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB</a></li>
+				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
 			</ul>
 		</li>
@@ -151,6 +152,8 @@
 				<li><a href="sys-admin-apt-pt-br.htm#apt-install">Instalando um Novo Pacote</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-delete">Apagando um Pacote</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-downgrade">Rebaixando um Pacote</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#apt-cache">Procurando pacotes com o apt-cache</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#apt-kio">Procurando pacotes com o kio-apt</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-apt-pt-br.htm">Administração do Sistema</a>
@@ -177,207 +180,208 @@
 		</li>
 	</ul>
 <!-- menu ends here --> </div>
+
 <div id="main-page">
 	<div class="divider" id="rdiff">
-			<h2 id="top-header">Backing-Up the System with rdiff-backup</h2>
-				<p>rdiff-backup is a tool used to backup your files. (It can be run on a variety of *nix ports).<br />
-				The wonderful situation with sidux is you have choices how to initiate the proccess, DIY or scripted</p>
+			<h2 id="top-header">Fazendo Back-up do Sistema com o rdiff-backup</h2>
+				<p>rdiff-backup é uma ferramenta usada para fazer back-ups (cópias) de seus arquivos. Ele roda em diversos sistemas *nix.<br />
+				O diferencial do sidux é que você pode escolher como iniciar o processo: por conta própria ou com um script.</p>
 
-				<h3><a href="http://techpatterns.com/forums/about831.html">This is the scripted version by h2</a></h3>
+				<h3><a href="http://techpatterns.com/forums/about831.html">Esta é a versão do script desenvolvido por h2.</a></h3>
 	<div class="spacer02"></div>
 
-			<h5>What follows from here is the DIY version</h5>
+			<h5>O que se segue é a versão DIY - Do It Yourself ('Faça Você Mesmo')</h5>
 
 			<h6>rdiff-backup</h6>
 
-				<p class="highlight-2">Run the commands in  as root in konsole, unless told otherwise</p>
+				<p class="highlight-2">Rode os comandos como root no terminal/console, a menos que se diga outra coisa.</p>
 
-				<p>*great for recovering messed up dist-upgrades, kernel upgrades etc (and also just for restoring individual files).<br />
-				*only backs up what's changed like rsync does (so each backup doesn't take long).<br />
-				*keeps a history of changes (which means that you can restore a file you deleted three weeks ago!)<br />
-				*does secure backups over a network (using ssh).<br />
-				*backups up partitions while they are mounted (so it's easy to automate a daily backup ... no unmounting necessary).<br />
-				*can restore everything if your hard drive goes belly-up and you have to buy a new one.<br />
-				*scales to backup large networks (linux is fine, windows is more difficult) and is used by businesses.<br />
-				*is a command-line-driven app, so it's great for those who like to do things like automate backups in a powerful way (ie a bash script which is called by cron).<br />
-				*remembers and deals with file ownerships and permissions, and also deals with symbolic links (and all that sort of stuff) so when you restore, you get things exactly as they were.</p>
+				<p>*ótimo para recuperar dist-upgrades e atualizações do kernel que falharam etc (e também para restaurar arquivos individuais).<br />
+				*só faz back-ups do que tiver sofrido alterações, como faz o rsync (donde cada back-up não demorar muito).<br />
+				*mantém um histórico das mudanças (portanto, você pode recuperar um arquivo que você apagou três semanas atrás!)<br />
+				*faz back-ups seguros pela rede (usando ssh).<br />
+				*faz back-ups de partições enquanto estão montadasd (portanto, é fácil automatizar back-ups diários... não há necessidade de desmontar).<br />
+				*pode restaurar tudo se seu HD morrer e você tiver de comprar um novo.<br />
+				*reconfigura-se para fazer back-ups de grandes redes (fácil no Linux, no Windows é mais complicado) e é usado em negócios.<br />
+				*é um aplicativo de linha de comando, portanto é ótimo para quem gosta de fazer coisas como automatizar back-ups (usando um script chamado pelo cron).<br />
+				*lembra e lida bem com donos de arquivos e permissões e também com links simbólicos (e todo esse tipo de coisa); assim, após uma restauração, tudo fica exatamente como era antes.</p>
 
-			<h6>What you'll need</h6>
-				<p>rdiff-backup keeps an entire (uncompressed) copy of the files you are backing up, and it also keeps a history (incremental backups), so this means that your backup space needs to be larger than what you're backing up. If you are backing up 100 gigs of space, you may need 120 gigs of space (on a separate hard drive preferably!).</p>
+			<h6>Do que você vai precisar</h6>
+				<p>rdiff-backup mantém uma cópia inteira (não comprimida) dos arquivos objeto do back-up e guarda, igualmente, um histórico (back-ups incrementais), o que significa que você vai precisar de um espaço maior do que aquele que está sendo copiado. Por exemplo, se você vai fazer um back-up de 100GB de espaço, você vai precisar de 120GB (de preferência, em um HD separado!).</p>
 
-			<h6>How to set it up</h6>
-				<p>Let's say that your pc has the following:<br />
-				* a 100 gig hard drive (hda) which is in use, with mounts hda1 used for the root partition, and hda5 used for storing music and other files, and hda6 for swap.<br />
-				* a spare 200 gig hard drive (hdb) which is not in use, with one mount hdb1 ... we'll use this one for our backups.<br />
-				* IP address 192.168.0.1</p>
+			<h6>Como configurá-lo</h6>
+				<p>Digamos que seu computador tenha:<br />
+				* um HD de 100GB (hda), com hda1 usada como partição root, hda5 para guardar músicas e outros arquivos e hda6 como partição swap.<br />
+				* outro HD de 200GB (hdb), não utilizado no momento, apenas com a partição hdb1...use-a para seus back-ups.<br />
+				* endereço IP 192.168.0.1</p>
 
-				<p>The first thing to do is to install rdiff-backup:</p>
+				<p>A primeira coisa a fazer é instalar rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Now although you can backup any directory, this assumption is to back up entire partitions ... we want to back up hda1 and hda5 (we don't want to backup hda6), and so we make some directories to store the data:</p>
+				<p>Embora você possa fazer cópia de qualquer diretório, nosso exemplo é para back-ups de partições inteiras...queremos fazer back-up das partições hda1 e hda5; vamos, então, criar alguns diretórios para armazenar os dados:</p>
 <pre>
 # mkdir /media/hdb1/rdiff-backups/192.168.0.1/root
 # mkdir /media/hdb1/rdiff-backups/192.168.0.1/hda5
 </pre>
-				<p>You need the IP address distinguished because if you wish to use this computer to also backup another one (covered later on).</p>
+				<p>Você precisa do endereço IP bem especificado para o caso de usar esta máquina para fazer o back-up de outra (assunto coberto mais tarde).</p>
 
-			<h6>Backing up</h6>
+			<h6>Fazendo o back-up</h6>
 
-				<p>rdiff-backup uses the syntax <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. Note: always specify directory names, not file names.</p>
+				<p>rdiff-backup usa a sintaxe <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. Nota: especifique sempre os nomes dos diretórios, não os nomes dos arquivos.</p>
 
-				<p>To back up hda5, run:</p>
+				<p>Para fazer cópia de hda5, execute:</p>
 <pre>
 # rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
 </pre>
-				<p>And to back up the root partition, run:</p>
+				<p>e para a partição root:</p>
 <pre>
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Any "AF_UNIX path too long" errors can be ignored. This may take a while as it's the first time the partition has been backed up, so rdiff-backup will have to back up the entire partition (not just the differences). Notice that we don't want to back up /tmp as this always changes, nor /proc or /sys as these don't contain real files, and also we don't want to back up mounts. If you did back up mounts, then you would be backing up hdb1, and could get into an infinite loop! One way around this is to backup the mounts separately.</p>
+				<p>Qualquer mensagem de erro "AF_UNIX path too long" pode ser ignorada. Isso vai demorar um pouco, porque é a primeira vez que você faz um back-up dessa partição e, assim, o rdiff-backup terá de fazer cópia de tudo (e não apenas das diferenças). Note que não queremos fazer back-up do diretório /tmp, pois ele sempre muda, nem de /proc ou /sys, que não contêm arquivos reais, e nem de pontos de montagem.. Se você fizer back-up dos pontos de montagem, então você estará copiando hdb1 e você poderá cair em um loop (círculo vicioso) infinito! Uma maneira de evitar isso é fazer back-up dos pontos de montagem separadamente.</p>
 
-				<p>Now the reason you put '/proc/*' instead of just '/proc' is that this will cunningly still backup the directory name /proc, but will ignore everything inside. The same is true to /tmp, /sys, and even more cunningly all the mount point names.</p>
+				<p>A razão de você ter colocado '/proc/*' e não apenas '/proc' é que o nome do diretório /proc fará parte do back-up, mas seu conteúdo será ignorado. O mesmo vale para /tmp, /sys e todos os nomes dos pontos de montagem.</p>
 
-				 <p>This way, if you destroy your root partition and do a full restore, /tmp, /proc, /sysand the mount points names will be created (just as they should). If /tmp doesn't exist when X starts up, it may complain )See the man page for more on --exclude and --include).</p>
+				 <p>Desse jeito, se você destruir sua partição /root e restaurá-la, /tmp, /proc, /sys e os nomes dos pontos de montagem serão criados (como deve ser). Se /tmp não existir quando o X for iniciado, ele vai reclamar. Veja as páginas de manual para saber mais sobre --exclude e --include).</p>
 
-			<h6>Restoring directories from backups</h6>
+			<h6>Restaurando diretórios a partir de back-ups</h6>
 
-				<p>rdiff-backup uses the syntax:</p>
+				<p>rdiff-backup usa a sintaxe:</p>
 <pre>
-rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
+rdiff-backup -r &lt;de-quando&gt; &lt;dir-fonte&gt; &lt;dir-destino&gt;
 </pre>
-				<p>Now if you were to accidentally delete the directory /media/hda7/photos, you can restore it by doing:</p>
+				<p>Se você deletar acidentalmente o diretório /media/hda7/fotos, você pode restaurá-lo com:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/fotos /media/hda5/fotos
 </pre>
-				<p>The "-r now" option means restore from the latest backup. If you have been backing everything up periodically (via crontab, say), and didn't realise that the photos directory were missing until a few days later, you would need to restore from a backup from a few days ago (and not "now", as the latest backup says that the photos directory doesn't exist). Or perhaps you just want to get back to a previous version of something.</p>
+				<p>A opção "-r now" significa que é para restaurar a partir do último back-up. Se você tem feito cópias regularmente de tudo (via crontab, p. ex.) e só reparou dias depois que o diretório de fotos foi apagado, você terá de fazer o back-up a partir de alguns dias atrás (e não 'now' - agora -). Ou talvez você apenas queira voltar a uma versão anterior de alguma coisa.</p>
 
-				<p>If you want to restore from three days ago, then use the "-r 3D" ... but, as the man page says, note:</p>
+				<p>Se você quiser restaurar a partir de 3 dias atrás, então use "-r 3D" ... mas, como diz as páginas de manual, note o seguinte:</p>
 
-				<p class="highlight-1">"3D" refers to the instant 72 hours before the present, and if there was no backup made at that time, rdiff-backup restores the state recorded for the previous backup. For instance, in the above case, if "3D" is used, and there are only backups from 2 days and 4 days ago, the directory would be restored as it was 4 days ago (so you have to think about it before you restore).</p>
+				<p class="highlight-1">"3D" se refere a 72 horas antes do presente e se não houver backup daquele dia, o rdiff-backup restaura a partir da data imediatamente anterior. No caso acima, por exemplo, se "3D" for usado e somente existir back-ups de 2 e 4 dias atrás, o diretório será restaurado a seu estado de 4 dias atrás. (portanto, você terá de pensar um pouco antes de restaurar).</p>
 
-				<p>Using the following will list the date and times of when the backups were made for hda5:</p>
+				<p>Usando o seguinte, você terá datas e horas dos back-ups de hda5:</p>
 <pre>
 # rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
 </pre>
-			<h5>Restoring partitions</h5>
+			<h5>Restaurando partições</h5>
 
-				<p>You can also restore whole partitions (mounts), after all, a mount point is really just a directory.</p>
+				<p>Você pode também restaurar partições inteiras (mounts), pois um ponto de montagem nada mais é que um diretório.</p>
 
-				<p class="highlight-2">WARNING: Don't restore the root partition while you are booted up into it! With one command you will lose all the files on all your partitions, including all the backups on a separate hard drive!! rdiff-backup does exactly what it was instructed to do ... if the the backup for the root partition has empty mount points, thus in order to restore to how the backup is, it deletes everything in the mounts to make everything like the backup.</p>
+				<p class="highlight-2">ATENÇÃO: Não restaure a partição root, se ela está em uso!!! Com apenas um comando, você perderá todos os arquivos em todas as partições, inclusive todos seus back-ups, mesmo que estiverem em HDs separados!! o rdiff-backup segue exatamente as instruções que recebeu...se o back-up para a partição root tiver pontos de montagens vazios, então para restaurar ao estado do back-up, ele deleta tudo nos pontos de montagem, para que tudo fique igual ao back-up.</p>
 
-				<p>To restore hda5 from the latest backup, we simply do:</p>
+				<p>Para restaurar hda5 para o último back-up, faça isto:</p>
 <pre>
 # rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
 </pre>
-			<h5>Restoring the root partition</h5>
+			<h5>Restaurando a partição root</h5>
 
-				<p>But to restore the root partition, it's not so simple. Don't restore the root partition while it's mounted (see the above warning). It's really useful to be able to restore the root partition, as then if you mess up things when installing/upgrading, or mess up installing a new kernel (etc), you have piece of mind that you can roll things back to how you had them, and it'll only take 20 minutes.</p>
+				<p>Restaurar a partição root não é tão simples. Não a restaure enquanto ela estiver montada (veja o aviso acima). É realmente útil poder restaurar a partição root, porque se você bagunçar tudo quando estiver instalando/atualizando ou quando estiver instalando um novo kernel etc, você tem a tranqüilidade de saber que tudo pode voltar a ser como era antes em apenas 20 minutos.</p>
 
-				<p>One way to restore the root partition is to boot into a spare linux partition if you have one on your hard disk. Then since you will be able to restore the partition you want, as it won't be mounted as root. After you restore the partition, boot up into it and it will be exactly has it was when it was backed up ... exactly! This is by far the easiest method.</p>
+				<p>Um modo de restaurar a partição root é dar o boot em outra distribuição Linux que por acaso você tiver instalado. Assim, você será capaz de restaurar a partição root que você quer porque ela não está montada. Após restaurá-la, dê o boot por ela e perceba que as coisas estão exatamente como eram quando você fez o back-up. Este é de longe o jeito mais fácil.</p>
 
-				<p>Another way to restore the root partition is to boot up the sidux-live cd live cd and do the restore from there. rdiff-backup is included in sidux.  In case the sidux live-cd version you have doest not include rdiff, you can type in the grub (Bootoptions, (Cheatcodes)) the cheatcode "unionfs" and that will mean you can install applications on the  live cd. Just boot up and do the following commands:</p>
+				<p>Outra maneira de restaurar a partição root é dar o boot pelo LiveCd do sidux e restaurar a partir dele, pois o rdiff-backup está incluido no CD. Se acaso ele não estiver na sua versão do LiveCD, digite no Grub (Bootoptions, Cheatcodes) a "cheatcode" 'unionfs' para ser capaz de instalar aplicações no modo LiveCD. Simplesmente carregue o sidux e digite no terminal:</p>
 <pre>
 $ sudo su
 # wget -O /etc/apt/sources.list http://sidux.com/files/misc/sources.list
 # apt-get update
 # apt-get install rdiff-backup
 </pre>
-				<h6>Now let's do the restore:</h6>
+				<h6>Agora, vamos restaurar:</h6>
 <pre>
 # mount /dev/hda1 /media/hda1
 # mount /dev/hdb1 /media/hdb1
 # rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
 </pre>
 
-				<p>Note: If you don't have a sidux CD and your Live-CD is supported by klik you can install rdiff-backup using the Klik and calling:</p>
+				<p>Nota: Se você não tiver um CD do sidux, mas se o LiveCD que você estiver usando tiver suporte do Klik, você pode instalar o rdiff-backup por ele e chamando:</p>
 <pre>
 $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
 </pre>
 
-				<p>It is recommended that anyone backing up their root partition (with the intention of restoring from it if they have to) should test the restoring process. Nothing worse than thinking everything will be fine, and then coming across something unexpected during an emergency.</p>
+				<p>É recomendável que todos que fizerem back-ups da partição root (com a intenção de restaurá-la) testem o processo de restauração. Nada pior que pensar que tudo está correto e só descobrir algo inesperado numa emergência.</p>
 
-			<h5>Backing up other pc's</h5>
+			<h5>Fazendo back-ups de outros PCs</h5>
 
-				<p>You can back up other pc's onto the local pc, as long as our local pc can ssh to the other pc's (and as long as you have room on your hard drive). The ssh server (sshd) needs to be running on remote pc. The other pc's don't have to be in your local lan, they could be anywhere in the world.</p>
+				<p>Você pode fazer back-ups de outros PCs a partir de sua máquina local, desde que seja possível a conexão de sua máquina com as outras, através do ssh (e desde que você tenha espaço sobrando em seu HD). O servidor ssh (sshd) precisa estar rodando em um PC remoto. Os outros PCs não precisam estar em sua rede local, eles podem estar em qualquer lugar do mundo.</p>
 
-				<p>Let's assume that your remote pc has the following:<br />
-				1) a 100 gig hard drive (hda) which is in use, with only mounts,<br />
-				2) hda1 used for the root partition,<br />
-				3) hda5 that we are storing some temporary files that we don't want backed up,<br />
-				4) and hda6 for swap <br />
-				5) IP address 192.168.0.2</p>
+				<p>Vamos assumir que seu PC remoto tenha as seguintes características:<br />
+				1) um HD de 100GB (hda1), em uso, somente com pontos de montagem<br />
+				2) hda1 usado para a partição root<br />
+				3) hda5 onde guardamos alguns arquivos temporários, que não serão objeto do back-up<br />
+				4) hda6 para swap <br />
+				5) endereço IP 192.168.0.2</p>
 
-				<p>Note: both 100 gig drives cannot usually be backed up on the 200 gig drive using rdiff-backup (since there would be no room for incremental files), but since you aren't backing up hda5 on the remote pc (and since hard drives aren't usually 100% full anyway, although don't rely on this) then you may calculate that you have enough room. Every time rdiff-backup performs another backup, more incremental files are created, and this takes up more and more room.</p>
+				<p>Nota: ambos HDs de 100GB não podem, geralmente, ser copiados em um HD de 200GB com o rdiff-backup (porque não há espaço para os arquivos incrementais),mas já que você não vai fazer back-up da partição hda5 em seu PC remoto (e tendo em vista que HDs raramente estão 100% cheios, mas não confie tanto nisso), então você pode concluir que, sim, você tem espaço suficiente. Toda vez que o rdiff-backup fizer um back-up, mais arquivos incrementais serão criados, ocupando mais e mais espaço.</p>
 
-				<p>You can tell rdiff-backup only to keep a max of 1 months backups (this command is shown later on), and this would take up less room than telling rdiff-backup to keep a years worth of data. And of course if you want a years worth of data backed up, then you have to have the hard drive space to store a years worth of incremental files.</p>
+				<p>Você pode pedir ao rdiff-backup para manter apenas os back-ups do último mês; assim seu HD estará menos cheio do que se o rdiff-backup guardar dados de um ano inteiro. Naturalmente, você pode guardar dados de um ano, mas você terá de comprar outro HD.</p>
 
-				<p>The first thing you have to do is to install rdiff-backup on the remote pc as well (every computer that you want to backup including the backup server must have rdiff-backup installed).</p>
+				<p>Antes de mais nada, instale o rdiff-backup no PC remoto também (todos os computadores cujos back-ups você deseja fazer e também o servidor de back-up precisam do rdiff-backup instalado).</p>
 
-				<p>To back the remote pc up onto the local pc, run on the local pc (ie 192.168.0.1): <span class="highlight-4">Note the use of the double colons :: </span></p>
+				<p>Para copiar o PC remoto em seu PC local, rode neste (IP 192.168.0.1): <span class="highlight-4">Note o use de duplos dois pontos --> :: </span></p>
 <pre>
 # mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
 </pre>
-				<p>Now if you want to restore a directory on the remote pc, initiate the restore on either the local pc, or the remote pc.</p>
+				<p>Se você quiser restaurar um diretório no PC remoto, a restauração pode ser iniciada tanto no PC remoto quanto no PC local.</p>
 
-				<p>This is how you would restore the directory /usr/local/games on the remote pc, by initiating it from the remote pc:</p>
+				<p>Por exemplo, para restaurar o diretório /usr/local/games no PC remoto, iniciando o processo nele mesmo:</p>
 <pre>
 # rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
-				<p>This is how you would restore the directory /usr/local/games on the remote pc, by initiating it from the local pc:</p>
+				<p>Para restaurar o diretório /usr/local/games no PC remoto, iniciando o proceso no PC local:</p>
 <pre>
 # rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
-				<p>Use the same sort of syntax when restoring your root partition from a live cd (where the remote pc has been booted up via live cd ... see above).</p>
+				<p>Use a mesma sintaxe quando for restaurar a partição root a partir do LiveCD (onde o boot do PC remoto foi feito via LiveCD... veja mais acima).</p>
 
-			<h5>Automating backups:</h5>
+			<h5>Automatizando os back-ups:</h5>
 
-				<p>If you are backing up other pc's onto your local pc first thing to do is enable password-less ssh logins using ssh keys. <span class="highlight-2">Note that this is talking about password-less ssh logins as root. This can be tied down so that only rdiff-backup commands are performed, but this is outside the scope of this topic Please refer to <a href="samba-en.htm#ssh-s">SSH Configuration</a> </span>  We are going to assume complete trust, and we are going to set up the simplest way of achieving password-less logins.</p>
+				<p>Se você estiver fazendo back-ups de outros PCs em sua máquina local, a primeira coisa a fazer é ativar logins sem senha no ssh, usando chaves ssh. <span class="highlight-2">Note que estamos falando de logins como root. Você pode limitar o rdiff-backup de forma que apenas seus comandos sejam executados, mas isso está fora do escopo deste tópico. Favor ver <a href="samba-pt-br.htm#ssh-s">Configuração do SSH</a> </span>. Vamos configurar a maneira mais simples de fazer logins sem senha.</p>
 
-				<p>From the local pc, do the following:</p>
+				<p>No PC local, faça o seguinte:</p>
 <pre>
 # [ -f /root/.ssh/id_rsa ] || ssh-keygen -t rsa -f /root/.ssh/id_rsa
 </pre>
-				<p>And press enter twice for blank passwords. Then do:</p>
+				<p>E pressione [ENTER] duas vezes para senhas em branco. Então digite:</p>
 <pre>
 # cat /root/.ssh/id_rsa.pub | ssh 192.168.0.2 'mkdir -p /root/.ssh;\<!--dunno if this is wrong-->
 > cat - >>/root/.ssh/authorized_keys2'
 </pre>
-				<p>You will be prompted for your root password.</p>
+				<p>O sistema vai pedir sua senha de root.</p>
 
-				<p>Now you can ssh to the remote pc as root without having to type a password, and rdiff-backup can be automated.</p>
+				<p>Agora você pode se conectar com o PC remoto pelo ssh, sem precisar de digitar uma senha, e o back-up do diff-backup passa a ser automatizado.</p>
 
-				<p>Next, create a bash script that contains all the rdiff-backup commands. Our bash script may look something like this:</p>
+				<p>A seguir, crie um script que contenha todos os comandos do rdiff-backup. Esse script terá mais ou menos essa feição:</p>
 
 
 <pre>
 #!/bin/bash
 RDIFF=/usr/bin/rdiff-backup
 echo
-echo "=======Backing up 192.168.0.1 root======="
+echo "=======Back-up de 192.168.0.1 root======="
 ${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
-echo "(and purge increments older than 1 month)"
+echo "(e purgue incrementos mais antigos que 1 mês)"
 ${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
+echo "=======Back-up de 192.168.0.1 partição hda5======="
 ${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
-echo "(and purge increments older than 1 months)"
+echo "(e purgue incrementos mais antigos que 1 mês)"
 ${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
 echo
-echo "=======Backing up 192.168.0.2 root======="
+echo "=======Back-up de 192.168.0.2 root======="
 ${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
-echo "(and purge increments older than 1 months)"
+echo "(e purgue incrementos mais antigos que 1 mês)"
 ${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 
-				<p>Now you can name this bash script "myrdiff-backups.bash" and put it in /usr/local/bin on our local (backup server) machine, and change it to an executable. Run the bash script and make sure it works.</p>
+				<p>Dê o nome de "myrdiff-backups.bash" a esse script, coloque-o no diretório /usr/local/bin de seu PC local (servidor de back-up), e torne-o executável. Rode o script para ter certeza de que funciona.</p>
 
-				<p>And lastly you can get cron to call it every night at 8pm. The following line in root's crontab will do the trick, call</p>
+				<p>Por fim, vamos pedir ao cron para rodá-lo todas as noites, às 20:00h. Insira a linha abaixo no crontab,como root, para fazer isso:</p>
 <pre>
 # crontab -e
-and insert the following line
+e insira a seguinte linha:
 0 20 * * * /usr/local/bin/myrdiff-backups.bash
 </pre>
 

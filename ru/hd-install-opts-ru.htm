@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.38-2007-09-12   -->
+<!-- menu last updated by bluewater 12/09/2007 1800 hrs AEST 12/09/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -185,39 +185,39 @@
 
 							<p  class="highlight-2">Для обычного употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
 		
-							<p>В данном случае для загрузки используется ISO-образ на жестком диске. Это намного быстрее чем чем установка с CD (в случае "fromiso"&nbsp;все происходит гораздо быстрее, по некоторым утверждениям менее 4х минут, но даже 6-8 минуты -тоже &nbsp;быстро).</p>
+							<p>В данном случае для загрузки используется ISO-образ на жестком диске. Это намного быстрее чем чем установка с CD (в случае "fromiso"&nbsp;все происходит гораздо быстрее, по некоторым утверждениям менее 4х минут, но даже 6-8 минут -тоже &nbsp;быстро).</p>
 
-							<p>Это,конечно, гораздо быстрее, чем с CD, и дисковод остается в полном распоряжение. Альтернативно можно использовать также <a href="hd-install-opts-ru.htm">QEMU</a>.</p>
+							<p>Это,конечно, гораздо быстрее, чем с CD, плюс остается в полном распоряжении дисковод. Альтернативно можно использовать <a href="hd-install-opts-ru.htm">QEMU</a>.</p>
 
 				<h5>Предполагаемые условия</h5>
 
-							<p>* Функционирующая установка с Grub (на Floppy, установка на жестких дисках или LiveCD)<br /> 
-							* ISO-образ sidux.iso и файловая система как ext2/3 <br /> 
-							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний нижний регистр имен.</p>
+							<p>* Функционирующая установка с boot-менеджером Grub (на Floppy, установка на жестких дисках или LiveCD)<br /> 
+							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
+							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
 				<h4 class="highlight-3">Gaia Live-cd:</h4>
-							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+							<p>Сперва выделим пространство для iso-образа и двух дополнительных файлов.Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
 
 <pre>
 # mkdir /media/sdax/sidux
 # mv sidux.iso /media/sdax/sidux
 </pre>
 
-							<p>now we move to that directory and mount the ISO image:</p>
+							<p>Переходим в каталог, содержащий ISO-образ, и монтируем его:</p>
 
 <pre>
 # mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Now copy the  vmlinuz and intrid,img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+							<p>Теперь копируем файлы vmlinuz и intrid.img  из смонтированного образа в дирректорию sidux (версия kernel должна быть известна, а родительский каталог для "sidux" мы выбирали выше:</p>
 
 <pre>
 # cp /mnt/test/boot/vmlinuz-2.6.22.3-rc1-slh-smp-2  /media/sda5/sidux/
 # cp /mnt/test/boot/initrd.img-2.6.22.3-rc1-slh-smp-2 /media/sda5/sidux/
 </pre>
 
-							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Следующим шагом настроим grub.  Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него следующие строки <span class="highlight-3"> после строки ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ЗАМЕЧАНИЕ: не используйте регулярные выражения в конфигурационном файле grub! </span></p>
 
 <pre>
 ### ISO boot
@@ -226,76 +226,76 @@ kernel (hd0,4)/sidux/vmlinuz-2.6.22.3-rc1-slh-smp-2 boot=fll quiet vga=791 fromi
 initrd (hd0,4)/sidux/initrd.img-2.6.22.3-rc1-slh-smp-2
 </pre>
 
-							<p>With next boot you have a new menu item in grub to start the iso image.</p>
+							<p>При следующей загрузке в меню grub станет доступен пункт запуска iso-образа.</p>
 
-				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
-							<p>Сначала определим расположение файла ISO Чтобы получить короткие спецификации пути, создаем базовый каталог по имени sidux, например, на /dev/hda5, и копируем ISO внутрь:</p>
+				<h6 class="highlight-3">Tartaros и Chaos Live-cds:</h6>
+							<p>Также, как выше, чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax", в ней каталог по имени sidux, например и копируем ISO внутрь:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-							<p>Мы подсоединяем ISO:</p>
+							<p>Монтируем ISO:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-							<p>Копируем файлы miniroot.gz и vmlinuz из подсоединённого ISO:</p>
+							<p>Копируем файлы miniroot.gz и vmlinuz из смонтированного ISO:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-							<p>Настройка GRUB: открываем <span class="highlight-3">/boot/grub/menu.lst</span> и добавляем следующие строки после<span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Внимание: использование регулярных выражений в конфигурации grub недопустимо!</span></p>
+							<p>Для настройки GRUB открываем <span class="highlight-3">/boot/grub/menu.lst</span> и добавляем следующие строки после<span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Внимание: использование регулярных выражений в конфигурации grub недопустимо!</span></p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-							<p>При следующей загрузке в меню Grub появляется  новый выбор: "sidux 32bit fromISO".</p>
+							<p>При следующей загрузке в меню Grub появляется  новый пункт: "sidux 32bit fromISO".</p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 
 		
 		<h2>Установка sidux на USB-Stick или на USB жесткий&nbsp;диск</h2>
 
-		<p>Установка &nbsp;sidux на USB-Stick или USB-жесткий&nbsp;диск теперь так же проста как нормальная установка на жесткий диск. Просто следуйте этому руководству.</p>
+		<p>Установка &nbsp;sidux на USB-Stick или USB-жесткий&nbsp;диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
 
-		<p>Рекомендованная минимальная величина для установки на USB-Stick является:<br /><br /> для sidux "Lite" 1.2 ГБ. К этому добавляется еще место для данных.<br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+		<p>Рекомендованной минимальной величиной для установки на USB-Stick является:<br /><br /> 1.2 ГБ для sidux "Lite". К этому добавляется место, необходимое для данных;<br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
 
 		<p>Теперь установка USB является частью <a href="../ru/hd-install-ru.htm">sidux-installers</a> и может быть выполнена непосредственно из него.</p>
 
-		<p>Начните нормальную установку и выберите раздел на диске USB, на который должен устанавливаться sidux - мы говорим в последующем о "sda1", но это же верно для любого другого раздела жесткого диска USB.</p>
+		<p>Начните нормальную установку и выберите раздел на диске USBдля установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB.</p>
 
-		<p><span class="highlight-2">Grub должен устанавливаться в разделе установки (а не в MBR)</span></p>
+		<p><span class="highlight-2">Grub должен устанавливаться в разделе диска, а не в MBR!</span></p>
 
-		<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел форматирует sidux-installer&nbsp;заново.</p>
+		<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел sidux-installer&nbsp; форматирует заново.</p>
 
-		<p class="highlight-2">Все данные на этом разделе будут удалены!</p>
+		<p class="highlight-2">Все прежние данные на этом разделе при форматировании будут удалены!</p>
 
 		<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
 
 	</div>
 	<div class="divider" id="vtbox">
-		<h2>Installing sidux with VirtualBox</h2>
-							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+		<h2>Инсталляция sidux в VirtualBox</h2>
+							<p>VirtualBox идеален для 32bit машин. Для версии 64bit используйте QEMU.</p>
 						<ul>
- 							<li>1. create a harddiskimage for VirtualBox</li>
- 							<li>2. boot the iso with VirtualBox</li>
- 							<li>3. install on the image</li>
+ 							<li>1. Создайте целевой жесткий диск средствами VirtualBox</li>
+ 							<li>2. Осуществите загрузку VirtualBox с iso-образа</li>
+ 							<li>3. Произведите инсталляцию на созданный жесткий диск</li>
 						</ul>
 
-				<h4>Requirements</h4>
-							<p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>
+				<h4>Требования</h4>
+							<p><span class="highlight-3">Рекомендованный обьем ram: 1 gig </span>: Идеально 512 MB для гостевой ОС и 512 MB для базового хоста. (допустим и меньший обьем, но с потерей производительности).</p>
 
-							<p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size..</p>
+							<p><span class="highlight-3">Обьем жесткого диска:</span> Сам по себе VirtualBox занимает незначительные обьемы (типичная инсталляция- около 30MB на жестком диске), но виртуальная машина для собственных данных потребует гораздо большего пространства на жестком диске. Так для инсталляции MS Windows XP (TM), например, Вам потребуется использовать до нескольких GB дискового пространства..</p>
 
-							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any externel module) </p>
+							<p class="highlight-3">После обновления ядра до инсталляции модулей виртуальной машины должен быть выполнен dist-upgrade, или получите ошибку gcc с невозможностью создать модуль.(Этоже применимо к любым внешним модулям) </p>
 
-						<h4>The mechanism:</h4>
+						<h4>Как это работает:</h4>
 <pre>
-Install the virtualbox package
-Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Make a VM, put a Operating System-CD into your CD drive and install.and reboot
+Установка ппакета virtualbox 
+В меню KDE последовательно выбираем: Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
+Создаем образ виртуальной машины, загружаемся с установочного диска Операционной системы, осуществляем инсталляцию и перегружаемся ( имеется ввиду гостевая ОС -прим.пер.)
 </pre>
 
 				<!--<h3>Automated installation with svmi</h3>
@@ -307,53 +307,53 @@ chmod +x svmi
 svmi
 </pre>
 -->
-				<h3>Installation:</h3>
+				<h3>Установка:</h3>
 <pre>
 apt-get update
 apt-get install virtualbox-ose 
 m-a a-i virtualbox-ose
 </pre>
 
-							<p>Then you store the information identifying the current operating system in the structure:</p> 
+							<p>Теперь сохраняем информацию о текущей операционной системе:</p> 
 	<!-- echo virtualbox-ose-module-$(uname -r) -->
 <pre>
 virtualbox-ose-module-$(uname -r)
 </pre>
-							<p class="highlight-3">You will need to do the following:</p>
+							<p class="highlight-3">Также необходимо выполнить следующие действия:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
 
-					<h3>Installing sidux to the virtual machine</h3>
-							<p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>
+					<h3>Инсталляция sidux в виртуальную машину</h3>
+							<p>Встроенными средствами (wizard) virtualbox создайте новую виртуальную машину для sidux, а далее пользуйтесь инструкцией для обычной установки sidux.</p>
 
-							<p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p>
+							<p><a href="http://www.virtualbox.org/">VirtualBox имеет полноценный Help в формате PDF, который вы можете загрузить</a> </p>
 
 	</div>
 	<div class="divider" id="qemu">
-		<h2>Установка sidux с QEMU</h2>
+		<h2>Установка sidux в QEMU</h2>
 
 		<ul>
- 			<li>1. Создание имиджа жестких дисков (iso) для qemu</li>
+ 			<li>1. Создание виртуального жесткого диска (iso) для qemu</li>
  			<li>2. Загрузка iso с qemu</li>
- 			<li>3. Инсталляция на имидже</li>
+ 			<li>3. Инсталляция</li>
 
 		</ul>
 
- 			<h4>Создание имиджа жестких дисков (iso)</h4>
+ 			<h4>Создание виртуальных жестких дисков (iso)</h4>
 
-				<p>Чтобы работал qemu, он нуждается в имидже жестких дисков. Это файл, который несет содержание эмулируемого жесткого диска.</p>
+				<p>Чтобы qemu работал, он нуждается в имидже жестких дисков. Это файл, который несет содержание эмулируемого жесткого диска.</p>
 
 				<p>Используют команду:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Этим создают файл имиджа с именем "sidux.qcow". Параметр "3G" указывает величину диска, в данном случае 3 ГБ. Суффикс М используется для мегабайт (например "256M"). Не беспокоиться о величине диска - формат qcow архивирует имидж, так что неиспользованное место не прибавляется к величине файла.</p>
+				<p>Этим создается файл имиджа с именем "sidux.qcow". Параметр "3G" указывает величину диска, в данном случае 3 ГБ. Суффикс М используется для мегабайт (например "256M"). Не беспокоитесь о величине диска - формат qcow архивирует имидж, так что неиспользованное место не прибавляется к величине файла.</p>
 
 
 			<h4>Инсталляция операционной системы</h4>
 
-				<p>Теперь эмулятор запускается первый раз. Обратите внимание: Eсли щелкнуть мышью в пределах окна qemu произойдет захват указателя. Для освобождения используется комбинация клавиш Ctrl+Alt.</p>
+				<p>Теперь в первый раз запускается эмулятор. Обратите внимание: Eсли щелкнуть мышью в пределах окна qemu произойдет захват указателя. Для освобождения используется комбинация клавиш Ctrl+Alt.</p>
 
 				<p>При необходимости в загрузочной дискете, qemu запускается таким образом:</p>
 <pre>
@@ -372,32 +372,32 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Хорошей идеей является применение т.н. "напластованных имиджей " (overlay images). Таким образом, имидж должен создается только один раз и  все изменения qemu сохраняет вне этого имиджа. Cистема становится более стабильной, а кроме того появляется возможность просто возвратится на предыдущее инсталляционное состояние .</p>
+				<p>Хорошей идеей является применение т.н. "напластованных имиджей " (overlay images). Таким образом, имидж должен создается только один раз, а  все изменения qemu сохраняет вне этого имиджа. Cистема становится более стабильной, кроме того появляется возможность просто возвратится к предыдущему состоянию инсталляции.</p>
 
 				<p>Для создания "напластованного имиджа" (overlay image), вводят:</p>
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
-				<p>Теперь имидж жестких дисков заменяет базовый имидж (base_image), в нашем случае win.qcow). Затем можно запускаться qemu следующим способом:</p>
+				<p>Теперь имидж жестких дисков заменяет базовый имидж (base_image), в нашем случае win.qcow), и qemu можно запускать следующим способом:</p>
 <pre>
 qemu [overlay_image]
 </pre>
 				<p>Оригинальный имидж остается неприкосновенным. Однако необходимо обратить внимание на то, что этот базовый имидж не может ни переименовываться, ни перемещаться, так как оверлей нуждается&nbsp;в точном, абсолютном пути базового имиджа.</p>
 
 
-			<h4>Как каждый настоящий раздел может использоваться как первоначальный раздел имиджа жестких дисков.</h4>
+			<h4>Использование физического раздела как первоначального раздела имиджа жестких дисков.</h4>
 
-				<p>Иногда хотелось бы использовать системный раздел из qemu (например, как настоящую, так и виртуальную инсталляцию qemu запускать с данного раздела как root). Это происходит посредством Software-RAID в линейном режиме (для этого необходим модуль ядра linear.ko) и устройство Loopback: При этом фокус состоит в том, что Master Boot Record (MBR)&nbsp;ставят динамично в начале реального раздела, который должен встраиваться в qemu имидж Raw Disk.</p>
+				<p>Иногда хотелось бы использовать системный раздел из qemu (например, как настоящую, так и виртуальную инсталляцию qemu запускать с данного раздела как root). Это возможно посредством Software-RAID в линейном режиме (для этого необходим модуль ядра linear.ko) и устройство Loopback: При этом фокус состоит в том, что Master Boot Record (MBR)&nbsp;ставят динамично в начале реального раздела, который должен встраиваться в qemu имидж Raw Disk.</p>
 
 				<p>Предположим, имеют простой, не включенный раздел /dev/hdaN с файловой системой, который должен&nbsp;стать частью имиджа жестких дисков qemu. Сперва создают маленький файл, который должен содержать MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
-				<p>Этим создаётся файл размером 16 KB (32 * 512 bytes). Важно, не создавать этот файл слишком маленьким (даже если MBR нуждается только в одном блоке размером 512 байтов), так как Chunk-Size программного RAID устройства будет тем меньше, чем меньше этот файл, и что окажет влияние на производительность. Затем можно присоединять к файлу MBR устройство Loopback:</p>
+				<p>Этим создаётся файл размером 16 KB (32 * 512 bytes). Важно не создавать этот файл слишком маленьким (даже если MBR нуждается только в одном блоке размером 512 байтов), так как Chunk-Size программного RAID устройства будет тем меньше, чем меньше этот файл, и это окажет влияние на производительность. Затем можно присоединить к файлу MBR устройство Loopback:</p>
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Мы исходим из того, что устройство  называется /dev/loop0, так как еще никакого следующего Loopback не существует. Следующий шаг - это составление соединенного&nbsp;"merged" имиджа с MBR +/dev/hdaN при использовании Software-RAIDS:</p>
+				<p>Мы исходим из того, что устройство  называется /dev/loop0, так как еще никакого иного Loopback не существует. Следующий шаг - это объединение&nbsp;"merged" имиджа с MBR +/dev/hdaN при использовании Software-RAIDS:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
@@ -410,7 +410,7 @@ losetup -f /path/to/mbr
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Конечно, можно использовать любой загрузчик для имиджа жестких дисков с qemu, который поддерживается содержащим необходимые приложения  оригинальным разделом&nbsp;/boot/hdaN.</p>
+				<p>Конечно, можно использовать любой загрузчик для имиджа жестких дисков с qemu, который поддерживается оригинальным разделом, содержащим необходимые приложения, &nbsp;/boot/hdaN.</p>
 
 
 

@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.38-2007-09-12   -->
+<!-- menu last updated by bluewater 12/09/2007 1800 hrs AEST 12/09/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -181,58 +181,56 @@
 	<!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="configure">
-		<h2 id="top-header">Samba конфигурация, чтобы можно с sidux по сети&nbsp;работать с данными Windows
+		<h2 id="top-header">Использование Samba для работы с ресурсами Windows
 </h2>
 
 		<ul>
-			<li><p>Все команды в терминале или консоли запускают как <b>root</b>.</p></li>
+			<li><p>Все команды в терминале или консоли выполняют как <b>root</b>.</p></li>
 
-			<li><p>URL в Konqueror выполняют как <b>нормальный пользователь</b>.</p>
-			<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя разрешения</p></li>
+			<li><p>URL в Konqueror открывают от имени <b>обычного пользователя</b>.</p>
+			<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя расшаренного файла</p></li>
 		</ul>
 
 		<p>В менеджере файлов KDE Konqueror вводят URL: <span class="highlight-3">smb://server</span> или весь путь: <span class="highlight-3">smb://server/share</span></p>
 
-		<p>В консоли Вы можете видеть разрешения на сервере с:</p>
+		<p>В консоли для просмотра ресурсов, предоставляемых Windows, выполните:</p>
 		<pre>smbclient -L server</pre>
 
-		<p>Чтобы видеть разрешения в директории (с доступом для всех пользователей), не забывают : должен существовать пункт монтирования. Если нет, Вы должны создать директорию (имя любое):</p>
+		<p>Чтобы получить возможность работать в директории (с доступом для всех пользователей)используем существующую точку монтирования. или создаем заново, если таковая отсутствует (имя любое):</p>
 		<pre>mkdir -p /media/server_share</pre>
 
-		<p>Затем монтируйте разрешение (файловая система-VFAT):</p>
+		<p>Затем монтируем ресурс (файловая система-VFAT):</p>
 		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /media/server_share</pre>
 
-		<p>или при NTFS:</p>
+		<p>или NTFS:</p>
 		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /media/server_share</pre>
 
-		<p>Чтобы окончить связь:</p>
+		<p>Чтобы отмонтировать windows-ресурс:</p>
 		<pre>umount /media/server_share</pre>
 
-		<p>Если бы Вы хотели запись в <span class="highlight-3">/etc/fstab</span>, чтобы упрощать монтирование, тогда дополняйте fstab строкой например:</p>
+		<p>Для упрощения процедуры монтирования дополните fstab такой строкой:</p>
 		<pre>//server/share /media/server_share smbfs defaults,username=dein_username,password=**********,fmask=777,dmask=777  0   0</pre>
 	</div>
 	<div class="divider" id="setup">
-		<h2>sidux используют как сервер Samba</h2>
+		<h2>sidux как сервер Samba</h2>
 
-		<p>Samba не находится на LiveCD, поэтому необходимы следующие шаги, чтобы получать доступ к сети&nbsp;через Samba:</p>
+		<p>Пакет samba не содержится на LiveCD, поэтому необходимы следующие шаги, чтобы получать доступ к сети&nbsp;через Samba:</p>
 <pre>
 su
-apt-get update
+fix-unionfs
 apt-get install samba
 </pre>
 
 		<h5>Инсталляция на&nbsp;жестком диске:</h5>
 <pre>
-sux
-apt-get update
 apt-get install samba
 </pre>
 		
-		<p>На инсталляции жестких дисков конфигурация Samba должна приспосабливаться. В дальнейшем мы даем простой пример. Больше к использованию сервера Samba под Linux находят на <a href="http://de4.samba.org/samba/">страницах документации Samba.</a>.</p>
+		<p>При существующей инсталляции (sidux) на жестком диске необходимо изменить конфигурацию Samba. Здесь будет рассмотрен простой пример. Больше об использовании сервера Samba под Linux можно найти на <a href="http://de4.samba.org/samba/">страницах документации Samba.</a>.</p>
 		
-		<p>Конфигурация Samba приспосабливается как указано ниже:</p>
+		<p>Конфигурация Samba должна быть изменена следующим образом:</p>
 		
-		<p>Как root файл <span class="highlight-3">/etc/samba/smb.conf</span> открывается в редакторе таких как kedit или kwrite:</p>
+		<p>Как root открываем файл <span class="highlight-3">/etc/samba/smb.conf</span> в одном из редакторов, таких как kedit или kwrite:</p>
 
 		<pre># Globale Changes - Proposal everything simple as possible - no passwords, perform like Windows 9x
 
@@ -240,7 +238,7 @@ apt-get install samba
 security = share
 workgroup = WORKGROUP
 
-# Разрешение без письменных прав - важно, если разрешаются NTFS разделы!
+# Создание ресурса без права на запись - важно, если используются разделы NTFS !
 
 [WINDOWS]
 comment = Windows Partition
@@ -249,8 +247,8 @@ writable = no
 path = /media/XXXX # &lt;-- приспособьте это к Вашему разделу
 public = yes
 
-# Разрешение раздела с письменными правами - &nbsp;раздел должен быть подмонтирован
-# пишущийся &nbsp;делает смысл, например, с Fat32
+# Создание ресурса с правом записи - &nbsp;раздел должен быть смонтирован
+# с разрешением на запись &nbsp;, что имеет смысл в случае, например, с Fat32
 
 [DATA]
 comment = Data Partition (first extended Partition)
@@ -259,12 +257,12 @@ writable = yes
 path = /media/hda5
 public = yes</pre>
 
-		<p>Не забывайте сохранить изменений. Samba запускается и останавливается с:</p>
+		<p>Не забывайте сохранить изменения. (Samba должна быть запущена и остановлена):</p>
 		<pre>/etc/init.d/samba start</pre>
 		<p>или</p>
 		<pre>/etc/init.d/samba stop</pre>
 
-		<p>Samba может запускаться также автоматически при загрузке:</p>
+		<p>Samba может запускаться автоматически при загрузке:</p>
 <pre>
 update.rc.d samba defaults
 </pre>
@@ -272,7 +270,7 @@ update.rc.d samba defaults
 		<p>Теперь Samba стартует при загрузке.</p>
 
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено 04/09/2007 1300hrs UTC</div>
+			<div id="rev">Содержание, последнее пересмотрено 24/02/2007 1500 UTC</div>
 
 </div>
 </body>

@@ -18,8 +18,8 @@
 </head>
 <body id="internet-samba">
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn and koslow von-selbst-->
-<!--Welcome to the  sidux-manual Operating System version 01.36-2007-09-08   -->
-<!-- menu last updated by bluewater 08/09/2007 0100rs AEST 07/09/2007 1500hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.38-2007-09-12   -->
+<!-- menu last updated by bluewater 12/09/2007 1800 hrs AEST 12/09/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -191,7 +191,7 @@
 ndiswrapper -i /pfad/zu/driver.inf
 </pre>
 
-							<p>To check if installation went ok, check it with -l:</p>
+							<p>для проверки успешности инсталляции используйте опцию -l:</p>
 
 <pre >
 root@blubb:/folder/with/driver# ndiswrapper -l
@@ -199,7 +199,7 @@ installed drivers:
 net5416 : driver installed
  device (168C:0024) present 
 </pre>
-							<p>It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg),  because if the output is wrong here you won't get a wlan connection.</p>
+							<p>Отсутствие строк (или одной из) "driver installed" и "device present" в приведенном выводе говорит о произошедшей ошибке и невозможности установить соединение wlan.</p>
 
 							<p>Загрузка модуля Ndiswrapper:</p>
 <pre>
@@ -216,7 +216,7 @@ iwconfig
 iwlist wlan0 scan
 </pre>
 
-							<p>Затем Вы можно приступить к конфигурированию устройства (Device) с:</p>
+							<p>Затем Вы можно приступить к конфигурированию устройства (Device):</p>
 <pre>
 /usr/sbin/netcardconfig
 </pre>
@@ -228,7 +228,7 @@ dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.
 <pre>
 modprobe ndiswrapper
 </pre>
-							<p>Переустанавливать You windows-драйвер нет необходимости, т.к. он не является модулем ядра.</p>
+							<p>Переустанавливать windows-драйвер нет необходимости, т.к. он не является модулем ядра.</p>
 
 							<p>Для автоматической загрузки модуля ndiswrapper при старте системы необходимо внести в /etc/modules следующие изменения:</p>
 <pre>
@@ -238,16 +238,16 @@ grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 	</div>
 	<div class="divider" id="ndiswrapper-advanced">
 				<h2>Ndiswrapper Advanced</h2>
- 							<p>The ndiswrapper is a module that enables Linux to use Windows WLAN drivers. This is necessary as some wlan-card producers do not offer an open source or free driver, thus making the implementation of the card in Linux difficult. Ndiswrapper works around this problem "wrapping" the Windows driver and translating output and input from card and Linux.</p>
+ 							<p>Ndiswrapper - это модуль, который позволяет Linux использовать Windows WLAN-драйвера.The ndiswrapper is a module that enables Linux to use Windows WLAN drivers. Это необходимо, поскольку некоторые производители не предоставляют исходный код или сам драйвер для Linux, что крайне осложняет использование соответствующей карты. Ndiswrapper предоставляет обертку ("wrapping") к Windows драйверу и транслирует ввод-вывод между картой и Linux.</p>
  
  
-					<h5>Identify required driver</h5>
+					<h5>Определение необходимых драйверов</h5>
 
- 							<p>First of all you need a proper windows driver for your WLAN card.  WLAN cards have numerous  different chip sets for one model and the only way to identify your card accurately is by the device id (USBID/PCIID). </p>
+ 							<p>Прежде всего, вам потребуется надлежащее windows драйвера для вашей карты WLAN.  WLAN карточки имеют множество различных наборов микросхем для одной модели и единственный способ определить вашу карту точно является id-идентификатор устройства (USBID/PCIID). </p>
  
- 							<p>To get this 'id' open a terminal:</p>
+ 							<p>Откройте терминал:</p>
  
- 					<h5>For a USB WLAN adaptor</h5>
+ 					<h5>Для адаптора USB WLAN</h5>
 <pre>
 bla@blubb:~$ lsusb
 Bus 004 Device 002: ID 2001:3700 D-Link Corp. [hex] DWL-122 802.11b
@@ -255,9 +255,9 @@ Bus 001 Device 001: ID 0000:0000
 Bus 002 Device 003: ID 0db0:6982 Micro Star International Medion Flash XL V2.7A Card Reader
 bla@blubb:~$
 </pre>
- 							<p>As you see in the example above ,the USBID for the D-Link Corp. [hex] DWL-122 adaptor is 2001:3700.</p>
+ 							<p>Как Вы можете видеть здесь, USBID для D-Link Corp. [hex] DWL-122 адаптора имеет номер 2001:3700.</p>
  
- 					<h5>For a (mini) PCI / PCMCIA WLAN adaptor</h5>
+ 					<h5>Для (mini) PCI / PCMCIA WLAN адаптора</h5>
  <pre>
 bla@blubb:~$ lspci -nn
 00:1f.3 SMBus [0c05]: Intel Corporation 82801G (ICH7 Family) SMBus Controller [8086:27da] (rev 02)
@@ -266,16 +266,16 @@ bla@blubb:~$ lspci -nn
 03:03.0 FireWire (IEEE 1394) [0c00]: Agere Systems FW323 [11c1:5811] (rev 61)
 </pre>
 
- 							<p>This 'id' has the scheme vendor:device as well, here 168c:0024 for the Atheros card.</p>
+ 							<p>Этот 'id' имеет обозначение, соответственно схеме производитель:устройство, конкретно в примере 168c:0024 для карты Atheros.</p>
  
- 							<p>Now search: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  for an entry with that 'id', If you're lucky you'll find an corresponding entry and  a recommendation for a driver. </p>
+ 							<p>Займемся поиском: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  записи для соответствующего 'id', если повезет, Вы найдете соответствующую запись и рекомендации для драйвера. </p>
  
- 							<p>You need the INF and SYS files from that driver. At the best you got a ZIP file which you can extract with unzip. If you get an EXE file it is an self-extracting archive (use wine to extract) or a CAB (extract with cabextract). Easiest way now is to store all files in a new folder in your home.</p>
+ 							<p>От данного драйвера Вам потребуются INF и SYS файлы. В идеальном случае Вы получили ZIP файл, который можно извлечь с unzip. Если файл будет с расширением EXE - самораспаковывающийся архив - используйте wine, в случае с файлом CAB распаковывайте с cabextract. Самый простой способ заключается в том, чтобы сохранить все файлы в новую папку в Вашем home.</p>
  
  
-					<h5>Activate Ndiswrapper and install driver</h5>
+					<h5>Активизация Ndiswrapper и инсталляция драйвера</h5>
 
- 							<p>Now change to the directory with the windows driver files:</p>
+ 							<p>Теперь перейдем в дирректорию, содержащую файлы windows драйвера:</p>
  <pre>
 bla@blubb:~$cd /folder/with/driver
 bla@blubb:~$su
@@ -286,15 +286,15 @@ installed drivers:
 net5416 : driver installed
  device (168C:0024) present 
 </pre>
- 							<p class="highlight-3">It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg),  because if the output is wrong here, the steps won't work.</p>
+ 							<p class="highlight-3">Отсутствие строк (или одной из) "driver installed" и "device present" в приведенном выводе говорит о произошедшей ошибке и невозможности установить соединение wlan.</p>
  
- 							<p>Now load the kernel module: </p>
+ 							<p>Загружаем модуль ядра: </p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
- 							<p>If you don't get an output here everything went fine, if you get an output check dmesg for further information.</p>
+ 							<p>Если вы не получите здесь вывода,все прошло хорошо, если же будут выведены какието сообщения, используйте dmesg для получения дополнительной информации.</p>
  
- 							<p> "iwconfig" should now print a wireless device:</p>
+ 							<p> "iwconfig" теперь выведет список устройств wireless:</p>
 <pre>
 root@blubb:~# iwconfig
 lo        no wireless extensions.
@@ -314,29 +314,29 @@ wlan0     IEEE 802.11b  ESSID:"ConnectionPoint"
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:0   Missed beacon:0
 </pre>
-							<p> If you want ndiswrappper to load at start up just write ndiswrapper to <span class="highlight-3">/etc/modules, </span>either by hand or use: </p>
+							<p> Если необходимо стартовать ndiswrapper при загрузке, просто впишите ndiswrapper в <span class="highlight-3">/etc/modules, </span>руками или с помощью: </p>
  <pre>
 root@blubb:~# grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
  
  
-					<h5>Reinstall Ndiswrapper after kernel update</h5>
+					<h5>переустановка Ndiswrapper после обновления ядра</h5>
 
- 							<p> After A kernel update you have to reinstall the ndiswrapper kernel module. The deb file is located at /usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,. So. for example for kernel , 2.6.21.5-slh-smp-2,  you have to do:</p>
+ 							<p> После обновления ядра необходимо переустановить и модуль ndiswrapper. Файл .deb размещен в /usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,. So. например для ядра , 2.6.21.5-slh-smp-2,  выдолжны выполнить:</p>
  <pre>
 dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.5-slh-smp-2_1.46-0+c0.sidux.1+1_i386.deb
 </pre>
 
- 							<p>After installing, load it with:</p>
+ 							<p>После инсталляции загрузите модуль:</p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
- 							<p>You don't have to reinstall the windows drivers as the driver part is separated from the kernel module.</p>
+ 							<p>Драйвер windows не нуждается в переустановке, т.к. не является модулем ядра.</p>
 
-					<h5>General information</h5>
- 							<p>To configure your new device use netcardconfig or sidux-networkconfig. A detailed how-to can be found here <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">here </a>.</p>
+					<h5>Общая информация</h5>
+ 							<p>Для конфигурации новых устройств используйте netcardconfig или sidux-networkconfig. Подробное how-to можно найти здесь <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">here </a>.</p>
  							
-							<p>If you find another/newer driver please test this one as well. This can cause problems, a kernel panic in worst case but you can help the ndiswrapper project and other users to benefit from the best drivers for the different cards. Please don't forget to update/complete the ndiswrapper  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">list</a> after a successful test.</p>
+							<p>Если вы найдете другой / новый драйвер пожалуйста протестируйте его тщательным образом. Это может вызвать проблемы, kernel panic в худшем случае, но этим вы можете помочь проекту ndiswrapper и другим пользователям воспользоваться лучшим драйверами для различных карт. Пожалуйста не забывайте обновить/дополнить ndiswrapper  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">list</a> after a successful test.</p>
 
 							<p>Дополнительная информация <a  href=" http://sidux.com/index.php?module=pnWikka&amp;tag=NetworkNdiswrapperHowTo ">на wiki</a></p>
 	</div>

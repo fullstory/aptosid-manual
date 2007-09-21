@@ -16,10 +16,10 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="cheatcodes">
+<body>
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.38-2007-09-12   -->
-<!-- menu last updated by bluewater 12/09/2007 1800 hrs AEST 12/09/2007 0800hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.39-2007-09-20   -->
+<!-- menu last updated by bluewater 20/09/2007 1800 hrs AEST 20/09/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -46,7 +46,7 @@
 		</li>
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-en.htm">CD Downloading and Burning</a>
 			<ul class="sub-menu" id="sm3">
-				<li><a href="cd-dl-burning-en.htm#download-sidux">CD Downloading and Burning</a></li>
+				<li><a href="cd-dl-burning-en.htm#download-sidux">sidux Mirrors, Downloading and Burning</a></li>
 				<li><a href="cd-dl-burning-en.htm#md5">md5 Checksum</a></li>
 				<li><a href="cd-dl-burning-en.htm#burn-nero">Burning in Windows</a></li>
 				<li><a href="cd-dl-burning-en.htm#burn-linux">Burning in Linux</a></li>
@@ -219,9 +219,8 @@
 	</div>	
 
 	
-		<h3>Table of supported drivers</h3>
+		<h3>Supported drivers</h3>
 
-			<p>A summary of supported drivers follows:</p>
 
 	<div>
 		<table>
@@ -231,36 +230,8 @@
 					<th>Description</th>
 				</tr>
 				<tr>
-					<td>hostap</td>
-					<td>Host AP driver (Intersil Prism2/2.5/3)</td>
-				</tr>
-				<tr>
-					<td>madwifi</td>
-					<td>MADWIFI 802.11 support (Atheros, etc.)</td>
-				</tr>
-				<tr>
-					<td>atmel</td>
-					<td>ATMEL AT76C5XXx (USB, PCMCIA)</td>
-				</tr>
-				<tr>
 					<td>wext</td>
 					<td>Linux wireless extensions (generic)</td>
-				</tr>
-				<tr>
-					<td>ndiswrapper</td>
-					<td> Linux ndiswrapper</td>
-				</tr>
-				<tr>
-					<td>ipw</td>
-					<td>Intel ipw2100/2200 driver</td>
-				</tr>
-				<tr>
-					<td>wired</td>
-					<td>wired Ethernet driver</td>
-				</tr>
-				<tr>
-					<td>test</td>
-					<td>test driver</td>
 				</tr>
 			</tbody>
 		</table>
@@ -294,7 +265,11 @@ NOTE: the 'wpa-psk' value is only valid if:
    1. It is a plaintext (ascii) string between 8 and 63 characters in length
    2. It is a hexadecimal string of 64 characters 
 
-# Connect to access point of ssid 'NETBEER' with an encryption type of # WPA-PSK/WPA2-PSK. It assumes the driver will use the 'wext' driver backend # of wpa_supplicant because no wpa-driver option has been specified. # The passphrase is given as a ASCII (plaintext) string. DHCP is used to # obtain a network address.
+# Connect to access point of ssid 'NETBEER' with an encryption type of 
+# WPA-PSK/WPA2-PSK. It assumes the driver will use the 'wext' driver backend 
+# of wpa_supplicant because no wpa-driver option has been specified. 
+# The passphrase is given as a ASCII (plaintext) string. DHCP is used to 
+# obtain a network address.
 #
 iface wlan0 inet dhcp
 
@@ -302,16 +277,22 @@ iface wlan0 inet dhcp
         # plaintext passphrase
         wpa-psk PlainTextSecret
 
-# Connect to access point of ssid 'homezone' with an encryption type of # WPA-PSK/WPA2-PSK, using the 'wext' driver backend of wpa_supplicant. # The psk is given as an encoded hexadecimal string. DHCP is used to obtain # a network address.
+# Connect to access point of ssid 'homezone' with an encryption type of 
+# WPA-PSK/WPA2-PSK, using the 'wext' driver backend of wpa_supplicant. 
+# The psk is given as an encoded hexadecimal string. DHCP is used to obtain 
+# a network address.
 #
 iface wlan0 inet dhcp
+wpa-driver wext
+wpa-ssid homezone
+# hexadecimal psk is encoded from a plaintext passphrase
+wpa-psk 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
 
-        wpa-driver wext
-        wpa-ssid homezone
-        # hexadecimal psk is encoded from a plaintext passphrase
-        wpa-psk 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
-
-# Connect to access point of ssid 'HotSpot1' and bssid of '00:1a:2b:3c:4d:5e' # with an encryption type of WPA-PSK/WPA2-PSK, using the the 'madwifi' driver # backend of wpa_supplicant. The passphrase is given as a plaintext string. # A static network address assignment is used. #
+# Connect to access point of ssid 'HotSpot1' and bssid of '00:1a:2b:3c:4d:5e' 
+# with an encryption type of WPA-PSK/WPA2-PSK, using the the 'madwifi' driver 
+# backend of wpa_supplicant. The passphrase is given as a plaintext string. 
+# A static network address assignment is used. 
+#
 iface ath0 inet static
 
         wpa-driver madwifi
@@ -330,7 +311,10 @@ iface ath0 inet static
         broadcast 192.168.0.255
         gateway 192.168.0.1
 
-# User supplied wpa_supplicant.conf is used for eth1. All network information # is contained within the user supplied wpa_supplicant.conf. No wpa-driver type # is specified, so wext is used. DHCP is used to obtain a network address. #
+# User supplied wpa_supplicant.conf is used for eth1. All network information 
+# is contained within the user supplied wpa_supplicant.conf. No wpa-driver type 
+# is specified, so wext is used. DHCP is used to obtain a network address. 
+#
 iface eth1 inet dhcp
 
 wpa-conf /path/to/wpa_supplicant.conf
@@ -393,7 +377,9 @@ wpa-ap-scan     0 or 1 or 2             adjusts the scanning logic of
 
 			<p>The script that does all the work is located at:</p>
 
-<pre> /etc/wpa_supplicant/ifupdown.sh</pre>
+<pre>
+ /etc/wpa_supplicant/ifupdown.sh
+</pre>
 
 			<p>It is executed by run-parts, which in turn is invoked by ifupdown during the 'pre-up', 'pre-down' and 'post-down' phases.</p>
 
@@ -420,8 +406,9 @@ iface eth1 inet manual
 
 			<p>Two daemons are spawned from the above example; wpa_supplicant and wpa_cli. It is required to provide a wpa_supplicant.conf. A good starting point is provided by an example configuration file:</p>
 
-<pre>cp /usr/share/doc/wpasupplicant/examples/wpa_supplicant.conf.template \
-        /etc/wpa_supplicant/wpa_supplicant.conf
+<pre>
+cp /usr/share/doc/wpasupplicant/examples/wpa_supplicant.conf.template \
+/etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
 
 
@@ -432,7 +419,8 @@ iface eth1 inet manual
 			<p>So what does all this mean? Lets illustrate it with a small example taken from the wpa_action(8) manpage.</p>
 
 		<h6>wpa_supplicant.conf example</h6>			
-<pre>wpa_supplicant.conf example:
+<pre>
+wpa_supplicant.conf example:
 network={
 
         ssid="foo"
@@ -462,7 +450,8 @@ network={
 </div>
 	<div class="divider" id="wpa2">
 		<h6>/etc/network/interfaces example</h6>
-<pre>/etc/network/interfaces example:
+<pre>
+/etc/network/interfaces example:
 # the roaming interface MUST use the manual inet method
 # 'allow-hotplug' or 'auto' ensures the daemon starts automatically
 allow-hotplug eth1
@@ -498,12 +487,16 @@ iface home_static inet static
 
 			<p>Once the roaming daemon is started, it assumes control of ifupdown. That is; wpa_cli calls ifup when wpa_supplicant has successfully associated with an access point, and calls ifdown when the connection is lost or terminated. While the roaming daemon is active, ifupdown should not be controlled directly by manually issued commands, rather /sbin/wpa_action is supplied to stop and reload the roaming daemon. For example, to stop the romaing daemon on the device 'eth1':</p>
 
-<pre>wpa_action eth1 stop</pre>
+<pre>
+wpa_action eth1 stop
+</pre>
 
 
 			<p>When it is required to update the roaming daemon with  a new networks details, it can be done without stopping it. Edit the wpa_supplicant.conf file that is being used by the daemon with the new networks details, add optional network settings to /etc/network/interfaces that are specific to the new network (linked by the 'id_str') and then 'reload' the daemon like so:</p>
 
-<pre>wpa_action eth1 reload</pre>
+<pre>
+wpa_action eth1 reload
+</pre>
 
 			<p>For the complete technical details of what wpa_action can do, read the wpa_action(8) manpage.</p>
 
@@ -629,7 +622,7 @@ iface eth1 inet dhcp
 wpa-conf managed
 wpa-ap-scan 1
 wpa-scan-ssid 1
-# ... additional options for your setup
+# additional options for your setup
 </pre>
 
 			<p>According to #368770, association can take a very long time to associate to WEP  secured networks. In some cases, setting the parameter 'ap_scan=2' in the config file, (or using a 'wpa-ap-scan 2' stanza, which is equivalent) can greatly help to speed up association.</p>
@@ -649,7 +642,7 @@ chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 
 
 	</div>
-	<div id="rev">Page last revised   Content last revised UTC 05/05/2007 0500 UTC</div>
+	<div id="rev">Page last revised   Content last revised 14/09/2007 1500 UTC</div>
 </div>
 </div>
 </div>

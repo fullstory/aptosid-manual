@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here de lang maintainers hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System version 01.38-2007-09-12   -->
-<!-- menu last updated by bluewater 12/09/2007 1800 hrs AEST 12/09/2007 0800hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.39-2007-09-20   -->
+<!-- menu last updated by bluewater 20/09/2007 1800 hrs AEST 20/09/2007 0800hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -46,7 +46,7 @@
 		</li>
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-de.htm">CD Herunterladen &amp; Brennen</a>
 			<ul class="sub-menu" id="sm3">
-				<li><a href="cd-dl-burning-de.htm#download-sidux">CD herunterladen</a></li>
+				<li><a href="cd-dl-burning-de.htm#download-sidux">Spiegelserver, CD herunterladen</a></li>
 				<li><a href="cd-dl-burning-de.htm#md5">md5-Prüfsummen</a></li>
 				<li><a href="cd-dl-burning-de.htm#burn-nero">Brennen in Windows</a></li>
 				<li><a href="cd-dl-burning-de.htm#burn-linux">Brennen in Linux</a></li>
@@ -220,7 +220,6 @@
 	
 		<h4>Tabelle der unterstützten Treiber</h4>
 
-			<p>Eine Zusammenfassung folgt weiter unten</p>
 
 	<div>
 		<table>
@@ -229,38 +228,12 @@
 					<th>Treiber</th>
 					<th>Beschreibung</th>
 				</tr>
-				<tr>
-					<td>hostap</td>
-					<td>Host AP driver (Intersil Prism2/2.5/3)</td>
-				</tr>
-				<tr>
-					<td>madwifi</td>
-					<td>MADWIFI 802.11 support (Atheros, etc.)</td>
-				</tr>
-				<tr>
-					<td>atmel</td>
-					<td>ATMEL AT76C5XXx (USB, PCMCIA)</td>
-				</tr>
+
 				<tr>
 					<td>wext</td>
 					<td>Linux wireless extensions (generic)</td>
 				</tr>
-				<tr>
-					<td>ndiswrapper</td>
-					<td> Linux ndiswrapper</td>
-				</tr>
-				<tr>
-					<td>ipw</td>
-					<td>Intel ipw2100/2200 driver</td>
-				</tr>
-				<tr>
-					<td>wired</td>
-					<td>wired Ethernet driver</td>
-				</tr>
-				<tr>
-					<td>test</td>
-					<td>Test-Treiber</td>
-				</tr>
+
 			</tbody>
 		</table>
 	</div>
@@ -289,7 +262,8 @@ iface eth0 inet dhcp
 			<p>Dieser Modus bietet die Möglichkeit, über das 'wpa_supplicant' Verbindung zu einem bekannten Netzwerk herzustellen. Dies funktioniert ähnlich wie mit dem Paket 'wireless tools'. Jedes Element, das benötigt wird, um eine Verbindung herzustellen, wird mit dem Präfix 'wpa-' in der <span class="highligh-3">/etc/network/interfaces</span> angeführt. </p>
 
 		<h6>Beispiel einer 'wpa.conf' für 'Managed Mode' - Beispiel 1</h6>
-<pre># Beispiel einer Mode #1 wpa.conf Datei - Beispiel 1.
+<pre>
+# Beispiel einer Mode #1 wpa.conf Datei - Beispiel 1.
 # ACHTUNG: der Wert 'wpa-psk' ist nur gültig, wenn:
 
 #   1. er Klartext (ascii) und zwischen 8 und 63 Buchstaben oder
@@ -422,7 +396,9 @@ wpa-ap-scan     0 or 1 or 2             Einstellen der wpa_supplicant-Scannerlog
 
 			<p>Das Skript, welches all dies macht, ist hier:</p>
 
-<pre> /etc/wpa_supplicant/ifupdown.sh</pre>
+<pre>
+ /etc/wpa_supplicant/ifupdown.sh
+</pre>
 
 			<p>Es wird von run-parts ausgeführt, welches selbst von ifupdown während der Phasen 'pre-up', 'pre-down' und 'post-down' aufgerufen wird.</p>
 
@@ -451,7 +427,7 @@ iface eth1 inet manual
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa_supplicant.conf.template \
-        /etc/wpa_supplicant/wpa_supplicant.conf
+/etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
 
 
@@ -492,7 +468,8 @@ network={
 </div>
 	<div class="divider" id="wpa2">
 		<h6><span class="highlight-3">/etc/network/interfaces</span> Beispiel</h6>
-<pre>/etc/network/interfaces (Beispiel):
+<pre>
+/etc/network/interfaces (Beispiel):
 # das roaming-interface muss die manuelle inet-Methode nutzen
 # 'allow-hotplug' oder 'auto' stellt sicher, dass der Daemon automatisch startet
 allow-hotplug eth1
@@ -528,12 +505,16 @@ iface home_static inet static
 
 			<p>Ist der roaming daemon gestartet, geht er von der Kontrolle von ifupdown aus. Das heißt, wpa_cli ruft ifup auf, wenn wpa_supplicant sich erfolgreich mit einem Access-Point verbunden hat, und ruft ifdown auf, wenn die Verbindung getrennt wurde oder verloren ging. Solange der roaming-daemon aktiv ist, sollte ifupdown nicht direkt über manuelle Befehle angesprochen werden, sondern /sbin/wpa_action sollte verwendet werden, um den roaming-daemon zu stoppen oder neu zu laden. Um den roaming-daemon auf der Netzwerkkarte eth1 zu stoppen, wird folgender Befehl verwendet:</p>
 
-<pre>wpa_action eth1 stop</pre>
+<pre>
+wpa_action eth1 stop
+</pre>
 
 
 			<p>Wenn der roaming-daemon mit neuen Netzwerkinformationen versorgt wird, muss er nicht angehalten werden. Dazu wird die Datei wpa_supplicant.conf editiert, welche der roaming-daemon nutzt, und die neuen Netzwerkdaten werden in diese Datei eingegeben. Optionale Netzwerkeinstellungen, welche für das hinzugefügte Netzwerk spezifisch sind (gelinkt durch den 'id_str'), werden in /etc/network/interfaces eingetragen. Im Anschluss kann der roaming-daemon wie folgt neu geladen werden:</p>
 
-<pre>wpa_action eth1 reload</pre>
+<pre>
+wpa_action eth1 reload
+</pre>
 
 			<p>Umfassende technische Einzelheiten, also wozu wpa_action fähig ist, findet man auf der manpage wpa_action(8).</p>
 
@@ -593,7 +574,8 @@ iface wlan0 inet manual
 			<p>Es folgt ein ausführliches Beispiel, welches guessnet-ifupdown als externes Mapping-Script verwendet.</p>
 
 		<h6>/etc/network/interfaces mit externem Mapping-Beispiel</h6>
-<pre>/etc/network/interfaces mit externem Mapping-Beispiel:
+<pre>
+/etc/network/interfaces mit externem Mapping-Beispiel:
 allow-hotplug wlan0
 iface wlan0 inet manual
 
@@ -679,7 +661,7 @@ chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 
 
 	</div>
-	<div id="rev">Page last revised   Content last revised UTC 05/05/2007 0500 UTC</div>
+	<div id="rev">Page last revised   Content last revised 14/09/2007 1500 UTC</div>
 </div>
 </div>
 

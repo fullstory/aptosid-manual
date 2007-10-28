@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision 23/09/2007 1214 UTC-->
 <div id="menu"> <!-- menu starts here dk lang maintainer zonker -->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -94,6 +95,7 @@
 				<li><a href="hd-install-da.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-da.htm#first-hd-boot">F&#248;rste opstart</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso'</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
 				<li><a href="hd-install-opts-da.htm#qemu">Installering af sidux med QEMU</a></li>
@@ -196,7 +198,7 @@
 							* Et sidux ISO Image e.g.: sidux.iso og et linux filsystem, som for eksempel ext2/3 <br />
 							* Hvis du omdøber din ISO-fil til for eksempel sidux.ISO skal du ændre kommandoerne i det følgende tilsvarende eftersom unix fil-navngivningssystemet skelner mellem store og små bogstaver.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd'en:</h4>
+				<h4 class="highlight-3">Eros and Gaia Live-cd'en:</h4>
 							<p>Først skal der vælges et sted til ISO-filen og de to filer vi skal bruge, således at vi får kortere navne. Derfor opretter vi en mappe. Du kan placere den i for eksempel "/media/sdax" (sda1 eller 2, 5, 6 -eller hvad end du bruger). Opret mappen "sidux" her og kopier ISO-filen til denne mappe:</p>
 
 <pre>
@@ -263,6 +265,36 @@ initrd (hd0,4)/sidux/miniroot.gz
 							<p>Ved den næste opstart er der et nyt menupunkt i GRUB til at starte fra ISO-Image: "Sidux 32bit from ISO".</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installer sidux på en usb-nøgle/ usb-harddisk</h2>
 
@@ -272,12 +304,7 @@ initrd (hd0,4)/sidux/miniroot.gz
 							sidux "LITE" kræver ca. 1.2gig PLUS plads til ekstra data,<br />
 							sidux "FULL" kræver ca. 2.1gig PLUS plads til ekstra data</p>
 
-
-							<p>USB-installationen (fix-usb-install.sh) er smeltet sammen med <a href="../en/hd-install-en.htm">sidux-installer</a>, så alt kan nu administreres fra denne.</p>
-
 							<p>Start som med en normal installation og vælg den partition på usb-enheden hvortil sidux skal installeres - vi kalder den "sda1" her, men det gælder for enhver anden partition på en usb-disk eller usb-enhed.</p>
-
-							<p><span class="highlight-2">Grub skal installeres til partitionen (sda1), ikke MBR !</span></p>
 
 							<p>Partitionen skal formatteres med et linux-filsystem. Vi anbefaler ext3-filesystemet. En eksisterende partition vil blive reformatteret af installationsprogrammet!</p>
 
@@ -448,7 +475,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 23/09/2007 1214 UTC</div>
+			<div id="rev"> Content last revised 28/10/2007 0230 UTC</div>
 
 </div>
 </body>

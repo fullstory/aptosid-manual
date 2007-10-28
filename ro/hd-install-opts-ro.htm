@@ -17,10 +17,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="hd">
+<body>
+<!-- Last translation revision 21/09/2007 0830 UTC-->
 <div id="menu"> <!-- menu starts here ro lang maintainer ladepa Adriana-->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">La pagina sidux.com</a></li>
@@ -73,8 +74,8 @@
 		</li>
 		<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="cheatcodes-ro.htm">CheatCodes</a>
 			<ul class="sub-menu" id="sm6">
-				<li><a href="cheatcodes-ro.htm#cheatcodes">sidux specific Live-CD Cheatcodes</a></li>
-				<li><a href="cheatcodes-ro.htm#cheatcodes-linux">Linux generic Cheatcodes</a></li>
+				<li><a href="cheatcodes-ro.htm#cheatcodes">cheatcode-uri specifice lui sidux (numai in Live-cd)</a></li>
+				<li><a href="cheatcodes-ro.htm#cheatcodes-linux">Cheatcodes generice in Linux</a></li>
 				<li><a href="cheatcodes-vga-ro.htm#vga"> Coduri VGA </a></li>
 			</ul>
 		</li>
@@ -95,6 +96,7 @@
 				<li><a href="hd-install-ro.htm#Installation">Instalarea pe  Hard Disc</a></li>
 				<li><a href="hd-install-ro.htm#first-hd-boot">Prima Pornire</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso">Pornirea 'fromiso'</a></li>
+				<li><a href="hd-install-opts-ro.htm#fromiso-persist">fromiso şi persist</a></li>
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc</a></li>
 				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
 				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
@@ -200,7 +202,7 @@
 							* o imagine ISO de sidux - ex.: sidux.iso - şi o partiţie linux de tipul ext2/3 <br />
 							* Dacă ve-ţi redenumi imaginea ISO in sidux.iso va trebui să modificaţi toate comenzile ca atare , deoarece sistemul de numire a fişierelor în unix este case sensitive.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd:</h4>
+				<h4 class="highlight-3">Eros şi Gaia Live-cd:</h4>
 							<p>Mai întâi alegem un loc pentru imaginea iso şi cele 2 fişiere necesare , vom folosi nume scurte . Pentru aceasta creăm un director de bază : de examplu  "/media/sdax", (sda1 sau , 2, sau 5, sau 6, oricare, ca examplu) creăm  directorul "sidux" şi copiem imasginea iso în el :</p>
 
 <pre>
@@ -259,26 +261,52 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 							<p>La următoarea pornire a sistemului vom avea o nouă linie în programul grub , anume să porneşti de pe imaginea ISO .</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Instalarea sidux pe un cartuş de memorie USB sau un Hard Disc USB </h2>
 
-		<p>Instalarea sidux pe o memorie USB sau un Hard Disc USB este acum la fel de uşoară ca instalarea pe un Hard Disc normal . Doar urmaţi aceste simple instrucţiuni .</p>
+							<p>Instalarea sidux pe o memorie USB sau un Hard Disc USB este acum la fel de uşoară ca instalarea pe un Hard Disc normal . Doar urmaţi aceste simple instrucţiuni .</p>
 
-		<p>Mărimea minimă recomandată a  unui stick USB este :<br />
-		sidux "LITE" necesită 1.2 giga PLUS spaţiu de date ,<br />
-		sidux "FULL" necesită 2.1 giga PLUS spaţiu pentru date</p>
+							<p>Mărimea minimă recomandată a  unui stick USB este :<br />
+							sidux "LITE" necesită 1.2 giga PLUS spaţiu de date ,<br />
+							sidux "FULL" necesită 2.1 giga PLUS spaţiu pentru date</p>
 
-		<p>Instalarea pe USB  (fix-usb-install.sh) a fost alipită cu <a href="../ro/hd-install-ro.htm">sidux-installer</a>, aşa că totul acum poate fi manevrat din interiorul sidux-installer.</p>
+							<p>Vom incepe ca o instalare normală şi vom alege partiţia de pe dispozitivul USB , cel pe care dorim să instalăm sidux - va primi numele "sda1" aici , dar aceasta este valabil pentru orice disc sau dispozitiv USB .</p>
 
-		<p>Vom incepe ca o instalare normală şi vom alege partiţia de pe dispozitivul USB , cel pe care dorim să instalăm sidux - va primi numele "sda1" aici , dar aceasta este valabil pentru orice disc sau dispozitiv USB .</p>
+							<p> Partiţia trebuie formatată cu un sistem de fişiere linux . Recomandat este sistemul de fişiere ext3 . O partiţie existentă va fi reformatată de către installer !</p>
 
-		<p><span class="highlight-2">Grub trebuie instalat in aceaşi partiţie , nu in  MBR !</span></p>
+							<p class="highlight-2">Toate datele de pe această partiţie vor fi pierdute în timpul reformatării !</p>
 
-		<p> Partiţia trebuie formatată cu un sistem de fişiere linux . Recomandat este sistemul de fişiere ext3 . O partiţie existentă va fi reformatată de către installer !</p>
-
-		<p class="highlight-2">Toate datele de pe această partiţie vor fi pierdute în timpul reformatării !</p>
-
-		<p>Acum puteţi porni sistemul de pe Hard Discul USB .Optiunea 'Boot from USB' trebuie să fie activată în BIOS .</p>
+							<p>Acum puteţi porni sistemul de pe Hard Discul USB .Optiunea 'Boot from USB' trebuie să fie activată în BIOS .</p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -454,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Page last revised UTC 21/09/2007 0830 UTC</div>
+			<div id="rev"> Page last revised 28/10/2007 0300 UTC</div>
 
 </div>
 </body>

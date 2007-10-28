@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="hd">
+<body>
+<!-- Last translation revision 10/09/2007 1200 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -94,6 +95,7 @@
 				<li><a href="hd-install-pt-br.htm#Installation">Instalando no HD</a></li>
 				<li><a href="hd-install-pt-br.htm#first-hd-boot">Primeira inicialização</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso">Inicializando com 'fromiso'</a></li>
+				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">fromiso e persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
@@ -197,7 +199,7 @@
 							* uma imagem ISO do sidux (p. ex., sidux.iso) e um sistema de arquivos Linux, como ext2/3<br />
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
-				<h4 class="highlight-3">Live-CD do Gaia:</h4>
+				<h4 class="highlight-3">Live-CD do Eros e Gaia:</h4>
 							<p> Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a iso neste último:</p>
 
 <pre>
@@ -264,27 +266,52 @@ initrd (hd0,4)/sidux/miniroot.gz
 		<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Instalando o sidux em dispositivos USB ou em em HD-USB</h2>
 
-		<p>Instalar o sidux em dispositivos USB (pendrives etc) ou num HD-USB é tão fácil quando instalar em HDs comums. Simplesmente, atente para estas regras e observações:</p>
+							<p>Instalar o sidux em dispositivos USB (pendrives etc) ou num HD-USB é tão fácil quando instalar em HDs comums. Simplesmente, atente para estas regras e observações:</p>
 
-		<p>Tamanho recomendado do dispositivo USB:<br />
-		sidux "LITE" precisa de 1.2GB MAIS o espaço para seus dados<br />
-		sidux "FULL" precisa de 2.1GB MAIS o espaço para seus dados</p>
+							<p>Tamanho recomendado do dispositivo USB:<br />
+							sidux "LITE" precisa de 1.2GB MAIS o espaço para seus dados<br />
+							sidux "FULL" precisa de 2.1GB MAIS o espaço para seus dados</p>
 
-		<p>O antigo instalador USB (fix-usb-install.sh) fundiu-se com o instalador-padrão <a href="../en/hd-install-en.htm">sidux-installer</a>; portanto, todo o processo é feito usando este último.</p>
+							<p>Comece a instalação normalmente e então marque a partição referente a seu dispositivo USB onde o sidux ficará. Essa partição provavelmente será "sda1", mas não importa se for outra, desde que seja válida.</p>
 
-		<p>Comece a instalação normalmente e então marque a partição referente a seu dispositivo USB onde o sidux ficará. Essa partição provavelmente será "sda1", mas não importa se for outra, desde que seja válida.</p>
+							<p>A Partição tem de ser formatada com um sistema de arquivos do Linux. Recomendamos ext3. Uma partição já existente será reformatada pelo instalador!</p>
 
-		<p><span class="highlight-2">O GRUB tem de ser colocado na Partição onde você está instalando o sidux, não na MBR !</span></p>
+							<p class="highlight-2">Todos os dados dessa partição serão perdidos!!</p>
 
-		<p>A Partição tem de ser formatada com um sistema de arquivos do Linux. Recomendamos ext3. Uma partição já existente será reformatada pelo instalador!</p>
-
-		<p class="highlight-2">Todos os dados dessa partição serão perdidos!!</p>
-
-
-		<p>Agora, você pode dar a partida pelo seu dispositivo USB. 'Boot from USB' precisa estar habilitado na BIOS.</p>
+							<p>Agora, você pode dar a partida pelo seu dispositivo USB. 'Boot from USB' precisa estar habilitado na BIOS.</p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -455,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 10/09/2007 1200 UTC</div>
+	<div id="rev">Page last revised 28/10/2007 0300 UTC</div>
 
 </div>
 </body>

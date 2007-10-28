@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision 10/09/2007 1200 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Naar sidux.com</a></li>
@@ -94,6 +95,7 @@
 				<li><a href="hd-install-nl.htm#Installation">Installeren naar je HD</a></li>
 				<li><a href="hd-install-nl.htm#first-hd-boot">De eerste keer opstarten</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso'</a></li>
+				<li><a href="hd-install-opts-nl.htm#fromiso-persist">fromiso en persist</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
 				<li><a href="hd-install-opts-nl.htm#vtbox">Installeren sidux met VirtualBox</a></li>
 				<li><a href="hd-install-opts-nl.htm#qemu">Installeren sidux met QEMU</a></li>
@@ -198,7 +200,7 @@
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd:</h4>
+				<h4 class="highlight-3">Eros en Gaia Live-cd:</h4>
 							<p>Eerst kiezen we een plek voor het iso-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het iso-bestand daarin:</p>
 
 <pre>
@@ -257,27 +259,53 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 							<p>Bij de volgend herstart v/d pc hebben we een nieuw menu item in grub om de iso image te booten.</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installatie van sidux op een USB-Stick of USB-HD</h2>
 
-		<p>De installatie van sidux op een USB-stick of een USB-HD is net zoo eenvoudig als de normale installatie op een harde schijf in de pc. Voer het uit conform de volgende stappen van onderstaande handleiding.</p>
+							<p>De installatie van sidux op een USB-stick of een USB-HD is net zoo eenvoudig als de normale installatie op een harde schijf in de pc. Voer het uit conform de volgende stappen van onderstaande handleiding.</p>
 
-		<p>De aanbevolen minimale grootte van een usb stick is:<br />
-		sidux "LITE" heeft 1.2GB nodig EN je hebt ruimte voor data (home/Mijn_documenten) nodig,<br />
-		sidux "FULL" needs 2.1GB nodig EN je hebt ruimte voor data nodig</p>
+							<p>De aanbevolen minimale grootte van een usb stick is:<br />
+							sidux "LITE" heeft 1.2GB nodig EN je hebt ruimte voor data (home/Mijn_documenten) nodig,<br />
+							sidux "FULL" needs 2.1GB nodig EN je hebt ruimte voor data nodig</p>
 
-		<p>De USB-installatie (fix-usb-install.sh) is gecombineerd met <a href="../nl/hd-install-nl.htm">sidux-installer</a>, nu kan dus alles geregeld worden in de sidux-installer.</p>
+							<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux ge&#239;nstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
 
-		<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux ge&#239;nstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
+							<p>De partitie moet geformatteerd zijn met een linux-bestandssysteem. Geadviseerd wordt hiervoor het ext3 bestandssysteem. Een reeds bestaande partitie wordt geformatteerd door de installer!</p>
 
-		<p><span class="highlight-2">Grub moet ge&#239;nstalleerd zijn op de partitie van de installatie, niet in de master boot record MBR !</span></p>
-
-		<p>De partitie moet geformatteerd zijn met een linux-bestandssysteem. Geadviseerd wordt hiervoor het ext3 bestandssysteem. Een reeds bestaande partitie wordt geformatteerd door de installer!</p>
-
-		<p class="highlight-2">Alle data op deze partitie worden dus overschreven de het formatteren!</p>
+							<p class="highlight-2">Alle data op deze partitie worden dus overschreven de het formatteren!</p>
 
 
-		<p>Je kunt nu opstarten van je USB-HD/Stick. 'Boot from USB' moet in je BIOS op enabled staan.</p>
+							<p>Je kunt nu opstarten van je USB-HD/Stick. 'Boot from USB' moet in je BIOS op enabled staan.</p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -444,7 +472,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 10/09/2007 1200 UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 28/10/2007 0230 UTC</div>
 </div>
 </body>
 </html>

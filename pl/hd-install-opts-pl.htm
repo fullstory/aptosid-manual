@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="hd">
+<body>
+<!-- Last translation revision 15/10/2007 1800 UTC-->
 <div id="menu"> <!-- menu starts here pl lang maintainer maslot-->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Do sidux.com</a></li>
@@ -94,6 +95,7 @@
 				<li><a href="hd-install-pl.htm#Installation">Instalacja na twardy dysk</a></li>
 				<li><a href="hd-install-pl.htm#first-hd-boot">Pierwsze uruchomienie systemu</a></li>
 				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso'</a></li>
+				<li><a href="hd-install-opts-pl.htm#fromiso-persist">fromiso i persist</a></li>
 				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na USB-HD</a></li>
 				<li><a href="hd-install-opts-pl.htm#vtbox">Instalacja poprzez VirtualBox</a></li>
 				<li><a href="hd-install-opts-pl.htm#qemu">Instalacja poprzez QEMU</a></li>
@@ -198,7 +200,7 @@
 							* obraz ISO siduksa np.: sidux.iso i system plików linuksa taki jak ext2/3 <br />
 							* jeśli zmienisz nazwę obrazu na sidux.ISO, będziesz musiał zmienić odpowiednio polecenia, ponieważ system nazw uniksa uwzględnia wielkość liter.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd:</h4>
+				<h4 class="highlight-3">Eros i Gaia Live-cd:</h4>
 							<p>Najpierw wybieramy miejsce na ISO i 2 pliki, które będziemy potrzebować. Dlatego tworzymy katalog: np. w "/media/sdax", (sda1 lub 2 lub 5 lub 6, itp.) utwórz katalog "sidux" i skopiuj ISO do niego:</p>
 
 <pre>
@@ -257,6 +259,36 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 						<p>Przy następnym starcie systemu mamy nowy element menu w grubie do startu z obrazu iso.</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Instalacja siduksa w pamięci flash lub na USB-HD </h2>
 
@@ -265,12 +297,8 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 							<p>Rekomendowane minimum rozmiaru klucza usb:<br />
 							sidux "LITE" potrzebuje 1.2 GB PLUS dodatkowe miejsce na twoje dane,<br />
 							sidux "FULL" potrzebuje 2.1 GB PLUS dodatkowe miejsce na twoje dane</p>
-		
-							<p>Instalacja USB (fix-usb-install.sh) została połączona z <a href="../en/hd-install-en.htm">instalatorem siduksa</a>, dlatego wszystko teraz może zostać zrobione z instalatora.</p>
 
 							<p>Rozpoczynamy normalną instalację i wybieramy partycję na urządzeniu USB, gdzie sidux ma zostać zainstalowany - będziemy mówić tu o "sda1", ale można użyć każdej innej partycji na urządzeniu USB.</p>
-
-							<p><span class="highlight-2">Grub musi być zainstalowany w sektorze startowym partycji(sda1), a nie na MBR!</span></p>
 
 							<p>Partycja musi być sformatowana linuksowym systemem plików. Rekomendowany jest ext3. Istniejąca partycja będzie reformatowana przez instalatora!</p>
 
@@ -450,7 +478,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 15/10/2007 1800 UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 28/10/2007 0300 UTC</div>
 
 </div>
 </body>

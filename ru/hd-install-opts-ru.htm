@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="hd">
+<body>
+<!-- Last translation revision 10/09/2007 1200 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn, koslow and von-Selbst-->
-<!--Welcome to the  sidux-manual Operating System version 01.45.2007.10.19  -->
-<!-- menu last updated by bluewater 19/10/2007 2230 hrs AEST 19/10/2007 1230 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Главная страница sidux.com</a></li>
@@ -94,6 +95,7 @@
 				<li><a href="hd-install-ru.htm#Installation">Инсталяция на HD</a></li>
 				<li><a href="hd-install-ru.htm#first-hd-boot">Первая загрузка</a></li>
 				<li><a href="hd-install-opts-ru.htm#fromiso">Инсталляция 'fromiso'</a></li>
+				<li><a href="hd-install-opts-ru.htm#fromiso-persist">fromiso and persist</a></li>
 				<li><a href="hd-install-opts-ru.htm#usb-hd">Инсталяция на  USB-HD</a></li>
 				<li><a href="hd-install-opts-ru.htm#vtbox">Инсталяция в VirtualBox</a></li>
 				<li><a href="hd-install-opts-ru.htm#qemu">Инсталяция в QEMU</a></li>
@@ -198,7 +200,7 @@
 							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
-				<h4 class="highlight-3">Gaia Live-cd:</h4>
+				<h4 class="highlight-3">Eros и Gaia Live-cd:</h4>
 							<p>Сперва выделим пространство для iso-образа и двух дополнительных файлов.Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
 
 <pre>
@@ -257,25 +259,52 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 							<p>При следующей загрузке в меню Grub появляется  новый пункт: "sidux 32bit fromISO".</p>
 
 	</div>
+	<div class="divider" id="fromiso-persist">
+		<h2>fromiso and persist (eros)</h2>
+
+							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+
+							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+
+							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+
+							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+
+							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+<pre>
+Code:
+disc="/media/sdb1"
+size=1024
+dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+</pre>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+
+	</div>
 	<div class="divider" id="usb-hd"> 
 		
 		<h2>Установка sidux на USB-Stick или на USB жесткий&nbsp;диск</h2>
 
-		<p>Установка &nbsp;sidux на USB-Stick или USB-жесткий&nbsp;диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
+							<p>Установка &nbsp;sidux на USB-Stick или USB-жесткий&nbsp;диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
 
-		<p>Рекомендованной минимальной величиной для установки на USB-Stick является:<br /><br /> 1.2 ГБ для sidux "Lite". К этому добавляется место, необходимое для данных;<br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+							<p>Рекомендованной минимальной величиной для установки на USB-Stick является:<br /><br /> 1.2 ГБ для sidux "Lite". К этому добавляется место, необходимое для данных;<br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
 
-		<p>Теперь установка USB является частью <a href="../ru/hd-install-ru.htm">sidux-installers</a> и может быть выполнена непосредственно из него.</p>
 
-		<p>Начните нормальную установку и выберите раздел на диске USBдля установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB.</p>
+							<p>Начните нормальную установку и выберите раздел на диске USBдля установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB.</p>
 
-		<p><span class="highlight-2">Grub должен устанавливаться в разделе диска, а не в MBR!</span></p>
+							<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел sidux-installer&nbsp; форматирует заново.</p>
 
-		<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел sidux-installer&nbsp; форматирует заново.</p>
+							<p class="highlight-2">Все прежние данные на этом разделе при форматировании будут удалены!</p>
 
-		<p class="highlight-2">Все прежние данные на этом разделе при форматировании будут удалены!</p>
-
-		<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
+							<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -444,7 +473,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 10/09/2007 1200 UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено 28/10/2007 0300 UTC</div>
 
 </div>
 </body>

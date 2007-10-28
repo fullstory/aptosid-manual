@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body id="hd">
-<!-- Last translation revision 20/09/2007 1340 UTC -->
+<!-- Last translation revision 28/10/2007 1430 UTC -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi Zophod-->
 <!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
 <!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
@@ -259,25 +259,23 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 							<p>Beim nächsten Booten ist eine neue Auswahl im Grub-Menü: "sidux 32bit from ISO".</p>
 
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso und persist (ab Eros)</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>Mit sidux (ab Eros) kann ein dauerhaftes (persistentes) Live-System auf einer beschreibbaren Partition eingerichtet werden, indem die Bootoptionen 'fromiso' und 'persist' kombiniert werden.</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>sidux nutzt aufs, um mittels "copy on write" neue oder veränderte Daten im RAM zu speichern. Mit der Bootoption <span class="highlight-3">persist</span> können diese Daten auf derjenigen Partition gespeichert werden, auf welcher sich das fromiso-CD-Abbild befindet.</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p><span class="highlight-3">persist</span> verhilft zu einem Live-System, welches alle automatisierten Routinen der sidux-Live-CD enthält (zum Beispiel Hardwarekonfiguration), gleichzeitig aber mit persönlichen Daten und Einstellungen gebootet werden kann.</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des graphischen Servers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, sondern nur die persönlichen Daten und Einstellungen.Somit ist es ideal, um es auf mehr als einem Computer zu nutzen.</span>.</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>persist ist ideal in Kombination mit install-usb-gui, um einen bootbaren USB-Stick mit eigenen Daten und selbstgewählter Software zu erstellen.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Die persönlichen Daten werden in einem Unterverzeichnis der fromiso-Partition gespeichert. Wenn dieses Unterverzeichnis noch nicht vorhanden ist, wird es automatisch erstellt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam benutzt werden.</p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (vorformatiert auf den meisten Flash-Speichern) benötigt eine große Datei, die als Loop-Gerät benutzt wird. Diese Datei muss formatiert werden (<span class="highlight-3">empfohlen ist ext3</span>).</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
-
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis der FAT-Partition (des mit FAT formatierten Flash-Speichers) platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutzte Partition zu fungieren, werden folgende Befehle genutzt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
 <pre>
 Code:
 disc="/media/sdb1"
@@ -285,7 +283,7 @@ size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP/Vista (TM)) können NICHT mit der Bootoption persist benutzt werden.</p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 
@@ -475,6 +473,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 	<div class="spacer05"></div>
 	<div id="rev">Content last revised 28/10/2007 0200 UTC</div>
 
+</div>
 </div>
 </body>
 </html>

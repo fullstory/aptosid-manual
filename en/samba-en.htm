@@ -18,7 +18,7 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
+<!--Welcome to the  sidux-manual Operating System version 01.47.2007.11.01  -->
 <!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
@@ -224,6 +224,9 @@ umount /mnt/server_share
 <pre>
 //server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0
 </pre>
+
+
+
 	</div>
 	<div class="divider" id="setup">
 		<h2>How to set up sidux as Samba-Server</h2>
@@ -276,12 +279,59 @@ writable = yes
 path = /media/hda5
 public = yes
 </pre>
-	
-							<p>Dont forget to save. You can now start/stop samba with</p>
+
+				<h6>Checking the shares in samba</h6>
+							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
+
+							<p>Set folder and its content at least -rwxr-xr-x:</p>
+
+<pre>
+ls -la pathTo/dirShareName/*
+</pre>
+
+							<p>If not, do:</p>
+
+
+<pre>
+chmod -R 755 pathTo/dirShareName
+</pre>
+
+							<p>If you want it to be writable:</p>
+
+
+<pre>
+chmod -R 777 dirShareName
+</pre>
+
+							<p>A way to make sure your share is working: ( do not forget to start the server):</p>
+
+
+<pre>
+smbclient -L localhost
+</pre>
+
+							<p>You should see something like:</p>
+
+<pre>
+ smbclient -L localhost
+Password:
+Domain=[HOME] OS=[Unix] Server=[Samba 3.0.26a]
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        IPC$            IPC       IPC Service (3.0.26a)
+        MaShare         Disk      comment
+        print$          Disk      Printer Drivers
+Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
+</pre>
+
+							<p>If you did not set a password, just press ENTER</p>
+
+							<p>Do not forget to save. You can now start/stop samba with:</p>
 <pre>
 /etc/init.d/samba start
 </pre>
-							<p>and</p>
+							<p>and:</p>
 <pre>
 /etc/init.d/samba stop
 </pre>
@@ -291,13 +341,12 @@ public = yes
 <pre>
 update.rc.d samba defaults
 </pre>
-		
 							<p>Now samba starts when you boot and stops when you shutdown.</p>
 
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba information here as well.</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 04/09/2007 1300hrs UTC</div>
+			<div id="rev">Page last revised 01/10/2007 1200hrs UTC</div>
 
 </div>
 </body>

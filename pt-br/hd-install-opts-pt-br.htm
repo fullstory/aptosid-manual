@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 10/09/2007 1200 UTC-->
+<!-- Last translation revision 29/10/2007 1500 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System version 01.46.2007.10.28  -->
-<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.47.2007.11.01  -->
+<!-- menu last updated by bluewater 02/11/2007 1800 hrs AEST 02/11/2007 0700 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -95,7 +95,7 @@
 				<li><a href="hd-install-pt-br.htm#Installation">Instalando no HD</a></li>
 				<li><a href="hd-install-pt-br.htm#first-hd-boot">Primeira inicialização</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso">Inicializando com 'fromiso'</a></li>
-				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">fromiso e persist</a></li>
+				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">Fromiso e Persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
@@ -200,7 +200,7 @@
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
 				<h4 class="highlight-3">Live-CD do Eros e Gaia:</h4>
-							<p> Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a iso neste último:</p>
+							<p> Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
 
 <pre>
 # mkdir /media/sda5/sidux
@@ -217,8 +217,8 @@
 							<p>Copie os arquivos vmlinuz e initrd.img da imagem recém-montada para o diretório 'sidux':</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.22.3-rc1-slh-smp-2  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.22.3-rc1-slh-smp-2 /media/sda5/sidux/
+# cp /mnt/test/boot/vmlinuz-2.6.23.1-slh-smp-19  /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.23.1-slh-smp-19 /media/sda5/sidux/
 </pre>
 
 							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span></p>
@@ -226,14 +226,14 @@
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.22.3-rc1-slh-smp-2 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.22.3-rc1-slh-smp-2
+kernel (hd0,4)/sidux/vmlinuz-2.6.23.1-slh-smp-19 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.23.1-slh-smp-19
 </pre>
 
 							<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
 
 				<h6 class="highlight-3">Live-CDs do Tartaros e Chaos:</h6>
-							<p>Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base (p. ex., /dev/hda5) e também o diretório "sidux". Em seguida, coloque a iso neste último:</p>
+							<p>Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base (p. ex., /dev/hda5) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
 
 <pre>
 # mkdir /media/hda5/sidux
@@ -267,25 +267,25 @@ initrd (hd0,4)/sidux/miniroot.gz
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso e persist (eros)</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>Com eros, você tem um sistema "live" persistente ao combinar o "fromiso" com o cheatcode "persist".</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>O sidux usa o unificador "aufs" para habilitar em seu CD o que é conhecido como "copiar na escrita", permitindo que você escreva novos arquivos/pastas e atualize os existentes. Isso é possível porque os novos arquivos ficam na memória. Com o cheatcode <span class="highlight-3">persist</span> o eros guardará os novos arquivos na mesma partição que você usa para guardar sua imagem "fromiso".</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>Usando o <span class="highlight-3">persist</span> dá a você um sistema "live" com todas as características do LiveCD do sidux. Assim, você pode fazer coisas como configurar o hardware automaticamente, por exemplo, mas significa também que serão recriados os mesmos arquivos cada vez que você iniciar sua máquina.</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Por exemplo, não serão armazenados nem a configuração do X (placa de vídeo, teclado e mouse) nem o arquivo das interfaces de rede (ideal para usar em mais de um computador), </span> mas o eros será útil se você quiser configurar algumas dessas características.</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Talvez o melhor uso para a persistência seja em conjunto com a nova ferramenta "install-usb-gui" (interface gráfica de instalação USB) para criar seu próprio dispositivo flash inicializável, com os arquivos e softwares que você necessitar.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Seus arquivos serão guardados em uma sub-pasta em seu drive. Essa sub-pasta somente será criada se ela ainda não existir quando os cheatcodes <span class="highlight-3">fromiso </span> e <span class="highlight-3">persist</span> tiverem sido usados juntos.</p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p>Se você for usar o <span class="highlight-3">persist</span> em um sistema de arquivos FAT, comum no DOS/Windows 9x e (normalmente) padrão em dispositivos flash, você terá de criar, e em seguida formatar, um único (e bem grande) arquivo, que será usado como dispositivo de "loop".</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Como sempre, o sidux recomenda que você use o sistema de arquivos ext3 para armazenar sua ISO e todos os outros arquivos.</span></p>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Este arquivo grande deve ter o nome <span class="highlight-3">sidux-rw </span> e ser colocado no diretório raiz de seu dispositivo com FAT. Assumindo-se que esse dispositivo está montado com permissão de escrita em /media/sdb1 e que você deseja criar um arquivo de 1GB para usar como seu drive persistente, você pode usar os seguintes comandos, como usuário:</p>
 <pre>
 Code:
 disc="/media/sdb1"
@@ -293,7 +293,7 @@ size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Partições NTFS, presentes geralmente no Windows NT/2000/XP/Vista (TM), NÂO PODEM SER USADAS de forma alguma para persistência.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -482,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 28/10/2007 0300 UTC</div>
+	<div id="rev">Page last revised 30/10/2007 0300 UTC</div>
 
 </div>
 </body>

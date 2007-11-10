@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision 02/11/2007 1500 UTC-->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System version 01.47.2007.11.01  -->
-<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System version 01.49.2007.11.10  -->
+<!-- menu last updated by hubi 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -188,30 +189,30 @@
 		<h2 id="top-header">SAMBA Konfiguration, um mit sidux über das Netzwerk auf Windows-Freigaben zugreifen zu können</h2>
 
 		<ul>
-			<li><p>Alle Befehle in einem Terminal oder einer Konsole als <b>root</b> ausführen.</p></li>
+			<li><p>Alle Befehle werden in einem Terminal oder einer Konsole als <b>root</b> ausgeführt.</p></li>
 
-			<li><p>Die URL in Konqueror als <b>normaler User aufrufen</b>.</p>
-			<p class="data">server = servername oder IP der Windows Maschine<br />share = Name der Freigabe</p></li>
+			<li><p>Die URL wird in Konqueror als <b>normaler User aufgerufen</b>.</p>
+			<p class="data">server = Servername oder IP der Windows-Maschine<br />share = Name der Freigabe</p></li>
 		</ul>
 
-		<p>Im KDE-Dateimanager Konqueror die URL eingeben: <span class="highlight-3">smb://server</span> oder den gesamten Pfad: <span class="highlight-3">smb://server/share</span></p>
+		<p>Im KDE-Dateimanager Konqueror wird die URL folgendermaßen eingeben: <span class="highlight-3">smb://server</span> oder mit dem gesamten Pfad: <span class="highlight-3">smb://server/share</span></p>
 
-		<p>In einer Konsole kannst Du die Freigaben auf einem Server sehen mit:</p>
+		<p>In einer Konsole können die Freigaben auf einem Server damit gesehen werden:</p>
 		<pre>smbclient -L server</pre>
 
-		<p>Um eine Freigabe in einem Verzeichnis zu sehen (mit Zugriff für ALLE User), nicht vergessen: Der Mountpoint muss existieren. Wenn nicht, musst Du erst das Verzeichnis erstellen (der Name ist beliebig):</p>
+		<p>Um eine Freigabe in einem Verzeichnis sehen zu können (mit Zugriff für ALLE User), muss ein Einhängeort (Mountpoint) existieren. Wenn nicht, musst ein Verzeichnis als Einhängepunkt erstellt werden (der Name ist beliebig):</p>
 		<pre>mkdir -p /media/server_share</pre>
 
-		<p>Dann mounte die Freigabe (Dateisystem ist VFAT):</p>
+		<p>Eine Freigabe mit VFAT wird mit diesem Befehl eingehängt:</p>
 		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /media/server_share</pre>
 
-		<p>oder bei NTFS:</p>
+		<p>Eine Freigabe mit NTFS wird mit diesem Befehl eingehängt:</p>
 		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /media/server_share</pre>
 
-		<p>Um die Verbindung zu beenden:</p>
+		<p>Eine Verbindung wird mit diesem Befehl beendet:</p>
 		<pre>umount /media/server_share</pre>
 
-		<p>Wenn Du einen Eintrag in der <span class="highlight-3">/etc/fstab</span> möchtest, um das Mounten zu vereinfachen, dann ergänze fstab um eine Zeile wie:</p>
+		<p>Um einen Samba-Share automatisch einzubinden kann die Datei <span class="highlight-3">/etc/fstab</span> nach folgendem Muster ergänzt werden:</p>
 		<pre>//server/share /media/server_share smbfs defaults,username=dein_username,password=**********,fmask=777,dmask=777  0   0</pre>
 	</div>
 	<div class="divider" id="setup">
@@ -262,38 +263,39 @@ writable = yes
 path = /media/hda5
 public = yes
 </pre>
+							<p>Sichern nicht vergessen.</p>
 
-				<h6>Checking the shares in samba</h6>
-							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
+				<h6>Überprüfen von Samba-Freigaben</h6>
+							<p>Freigaben ohne Sicherheitsbeschränkungen (zum Beispiel für ein LAN) werden folgendermaßen gesetzt.</p>
 
-							<p>Set folder and its content at least -rwxr-xr-x:</p>
-
-<pre>
-ls -la pathTo/dirShareName/*
-</pre>
-
-							<p>If not, do:</p>
-
+							<p>Das Verzeichnis und sein Inhalt muss zumindest die Rechtevergabe -rwxr-xr-x haben, dies wird geprüft mit:</p>
 
 <pre>
-chmod -R 755 pathTo/dirShareName
+ls -la Pfad/zum/Sambaverzeichnis/*
 </pre>
 
-							<p>If you want it to be writable:</p>
+							<p>Die Rechte können so gesetzt werden:</p>
 
 
 <pre>
-chmod -R 777 dirShareName
+chmod -R 755 Pfad/zum/Sambaverzeichnis
 </pre>
 
-							<p>A way to make sure your share is working: ( do not forget to start the server):</p>
+							<p>Um ein Verzeichnis für alle Nutzer schreibbar zu setzen:</p>
+
+
+<pre>
+chmod -R 777 Pfad/zum/Sambaverzeichnis
+</pre>
+
+							<p>Nach einem Neustart des Samba-Servers kann geteste werden, ob alles funktioniert:</p>
 
 
 <pre>
 smbclient -L localhost
 </pre>
 
-							<p>You should see something like:</p>
+							<p>Die Ausgabe sollte in etwa so aussehen:</p>
 
 <pre>
  smbclient -L localhost
@@ -308,8 +310,8 @@ Domain=[HOME] OS=[Unix] Server=[Samba 3.0.26a]
 Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 </pre>
 
-							<p>If you did not set a password, just press ENTER</p>
-		<p>Sichern nicht vergessen. Samba wird gestartet und gestoppt mit:</p>
+							<p>Falls kein Passwort gesetzt wurde, wird bei der Passwortanfrage die Taste ENTER gedrückt.</p>
+		<p> Samba wird gestartet und gestoppt mit:</p>
 		<pre>/etc/init.d/samba start</pre>
 		<p>oder</p>
 		<pre>/etc/init.d/samba stop</pre>
@@ -323,6 +325,5 @@ update.rc.d samba defaults
 
 	</div>
 			<div id="rev">Page last revised 01/10/2007 1200hrs UTC</div></div>
-</div>
 </body>
 </html>

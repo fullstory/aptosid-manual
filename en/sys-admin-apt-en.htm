@@ -18,8 +18,8 @@
 </head>
 <body id="sys-admin">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System version 01.50.2007.11.14  -->
-<!-- menu last updated by bluewater 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual  -->
+<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -143,7 +143,6 @@
 				<li><a href="internet-connecting-ndis-en.htm#ndiswrapper-basic">Activating Ndiswrapper</a></li>
 				<li><a href="internet-connecting-ndis-en.htm#ndiswrapper-advanced">Activating Ndiswrapper -  Advanced</a></li>
 				<li><a href="internet-connecting-wpa-en.htm#wpa">WIFI-WLAN</a></li>
-				<li><a href="internet-connecting-en.htm#internetsharing">Internet Sharing</a></li>
 				<li><a href="internet-connecting-en.htm#netcardconfig">Getting Online</a></li>
 			</ul>
 		</li>
@@ -192,6 +191,7 @@
 	</div>
 	<div class="divider" id="sources-list">
 			<h2>Sources List</h2>
+							<p>The "APT" -system needs a config-file that contains information about the locations of the installable and upgradeable packages and is commonly referred to as a <span class="highlight-3">sources.list</span>.</p>
 
 					<h3>Eros-pre2 installations forward</h3>
 							<p> Eros-pre2 installations forward deals with /etc/apt/sources.list differently, namely it is empty. In its place is a directory or folder named: <br />
@@ -205,17 +205,17 @@
 
 							<p>You can also add your own <span class="highlight-3">/etc/apt/sources.list.d/*.list </span>files</p>
 
-					<h3>Eros-pre1, Gaia and Chaos installations </h3>
-							<p>The "APT" -system needs a config-file: <span class="highlight-3">/etc/apt/sources.list</span> and it contains the information about the locations of the installable and upgradeable packages.</p>
+					<h5>Eros-pre1, Gaia Tartaros and Chaos installations </h5>
+							<p>The sources list is found in<span class="highlight-3">/etc/apt/sources.list</span></p>
 
- 							<p>All sidux ISOs already use the following sources.list as default:</p>
+ 			<h3>All sidux ISOs use the following sources as default:</h3>
 
 <pre>
 deb http://ftp.de.debian.org/debian unstable main
 deb http://sidux.com/debian/ sid main fix.main
 </pre>
 
-				<p>Further entries for non-free needs can be found in our always updated <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>  As at 27/02/2007 0800 hrs UTC they are:</p>
+							<p>Further entries for non-free needs can be found in our always updated <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>  As at 27/02/2007 0800 hrs UTC they are:</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
@@ -239,11 +239,12 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
-				<p>NOTE: In this example ftp.de indicates its using german repositories.You may edit this file, as root, to use the repositories closest to you, simply by changing the country,ie change ftp.de to ftp.us, or ftp.uk. Most countries have local mirrors.Bandwidth is conserved; speeds improved.</p>
+							<p>NOTE: In this example ftp.de indicates its using german repositories.You may edit this file, as root, to use the repositories closest to you, simply by changing the country, that is, change ftp.de to ftp.us, or ftp.uk. Most countries have local mirrors, thus bandwidth is conserved; speeds improved.</p>
 
-			<p>To be able to obtain updated information on the packages APT uses a database.  This database contains the packages but also which other packages are needed for that package to work (called dependencies). The program apt-get uses this database when installing your chosen packages to resolve all the dependencies and thereby to guarantee that the chosen packages will work. The updating of this database is done by the command apt-get update.</p>
+							<p>To be able to obtain updated information on the packages APT uses a database.  This database contains the packages but also which other packages are needed for that package to work (called dependencies). The program apt-get uses this database when installing your chosen packages to resolve all the dependencies and thereby to guarantee that the chosen packages will work. The updating of this database is done by the command apt-get update.</p>
  
 <pre># apt-get update
+	(which returns )
 Get:1 http://sidux.com sid Release.gpg [189B]
 Get:2 http://sidux.com sid Release.gpg [189B]
 Get:3 http://sidux.com sid Release.gpg [189B]
@@ -369,10 +370,12 @@ echo package install|dpkg --set-selections
 							<p>The steps are using <span class="highlight-3">kmahjongg</span> as an example:</p>
 
 							<ol>
-							<li><pre>enable/uncomment testing sources in <span class="highlight-3">/etc/apt/sources.list </span><br />(delete the #) so that it reads <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
+							<li><pre>enable/uncomment testing sources in <span class="highlight-3">/etc/apt/sources.list </span><br />(delete the #) so that it reads <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>							
+							<li><pre>apt-get update</pre></li>
 							<li><pre>apt-get install -t testing kmahjongg</pre></li>
 							<li><pre>Put the newly installed package on hold with:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
 							<li><pre>comment the testing sources in /etc/apt/sources.list </pre></li>
+							<li><pre>apt-get update</pre></li>
 							</ol>
 
 							<p>When you do want to get the latest version of the package just do this:</p>
@@ -424,7 +427,7 @@ run get-sidux-binary-gfx to reinstall grahpics drivers if xorg updated and you h
 otherwise do
 init 5 &amp;&amp; exit 
 </pre>
-			<div class="highlight-2">NEVER DIST-UPGRADE [or UPGRADE] with adept, synaptic or aptitude <a href="sys-admin-apt-en.htm#apt-upgrade"> SEE Upgrade of an Installed System</a> ] There is one exception!! <a href="  http://techpatterns.com/forums/about736.html">smxi</a>  which is short for sidux-maintenance</div>
+			<div class="highlight-2">NEVER DIST-UPGRADE [or UPGRADE] with adept, synaptic or aptitude <a href="sys-admin-apt-en.htm#apt-upgrade"> Read 'Upgrade of an Installed System' </a>  There is one exception!! <a href="  http://techpatterns.com/forums/about736.html">smxi</a>  which is short for sidux-maintenance</div>
 <pre>
 apt-get update
 apt-get install sidux-scripts
@@ -549,7 +552,7 @@ apt:/
 	</div>
 			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 10/11/2007 0300 UTC  </div>
+			<div id="rev">Page last revised 26/11/2007 0800 UTC  </div>
 
 </div>
 </div>

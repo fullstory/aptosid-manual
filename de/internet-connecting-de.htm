@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision by hubi xx/11/2007 1530 UTC -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System version 01.50.2007.11.14  -->
-<!-- menu last updated by hubi 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual  -->
+<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -143,7 +144,6 @@
 				<li><a href="internet-connecting-ndis-de.htm#ndiswrapper-basic">Ndiswrapper aktivieren</a></li>
 				<li><a href="internet-connecting-ndis-de.htm#ndiswrapper-advanced">Ndiswrapper aktivieren (ausführlicher)</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa">WIFI - WLAN</a></li>
-				<li><a href="internet-connecting-de.htm#internetsharing">Geteilte Internetverbindungen</a></li>
 				<li><a href="internet-connecting-de.htm#netcardconfig">Internet &amp; Netzwerk</a></li>
 			</ul>
 		</li>
@@ -206,72 +206,6 @@ netcardconfig
 							<p>und folgt dann den Anweisungen.</p>
 
 	</div>
-	<div class="divider" id="internetsharing">
-		<h2>PC mit zwei Netzwerkkarten, Internetsharing</h2>
-
-		<p>Wie konfiguriere ich den PC, um mit dem Notebook (oder einem anderen PC) ins Internet zu kommen (Internetsharing)? Wir zeigen hier eine einfache minimale Lösung:</p>
-
-				<ul>
-					<li>
-						<p>Man öffnet eine Konsole und wird  mit "sux" root, um die folgenden Schritte auszuführen:</p>
-					</li>
-					<li>
-						<p>Die erste Karte wird konfiguriert mit:</p>
-<pre>
-/usr/sbin/netcardconfig
-</pre>
-						</li>
-						<li>
-							<p>Für die zweite Karte wählen wir eine feste IP-Adresse in einer privaten Domain, z. B. 192.168.1.1, und konfigurieren auch diese:</p>
-<pre>
-/usr/sbin/netcardconfig
-</pre>
-
-							<p>Achtung: Die IP muss im gleichen Subnetz sein wie die IPs, die per DHCP zugeteilt werden. Wenn fälschlicherweise ein Gateway während der Konfiguration festgelegt wurde, muss folgendes Script ausgeführt werden:</p>
-<pre>
-remove-gateway
-</pre>
-					</li>	
-					<li>
-						<p>Einrichten von DHCP/DNS:</p>
-<pre >
-apt-get install dnsmasq 
-</pre>
-
-						<p>Danach editiert man die Datei <b>/etc/dnsmasq.conf</b> durch Hinzufügen einer Zeile wie</p>
-<pre>
-dhcp-range=192.168.1.50,192.168.1.150
-</pre>
-
-						<p>Der Rest der Datei bleibt so, wie er ist.</p>
-					</li>
-					<li>
-						<p>Der DHCP-Server des Desktop-PCs kann jetzt gestartet werden. Wenn die Clients jetzt auf DHCP eingestellt sind, wird automatisch eine IP-Adresse zugeteilt.</p>
-<pre>
-/etc/init.d/dnsmasq start
-</pre>
-					</li>
-					<li>
-						<p>Um die Anfrage des Clients ins Netz zu routen, muss folgendes Script ausgeführt werden:</p>
-<pre>
-/usr/sbin/masquerade
-</pre>
-						<p>Danach sollte jeder Client ins Internet kommen.</p>
-					</li>
-					<li>
-						<p>Um diese Konfiguration beim Booten des Desktop-PCs zu laden, soll <b>dnsmasq</b> im Bootprozess aktiviert werden mit:</p>
-<pre>
-update-rc.d -f dnsmasq defaults
-</pre>
-					</li>
-					<li>
-						<p>Dann das Masquerade-Script ausführen:</p>
-<pre>
-echo "/usr/sbin/masquerade" >> /etc/init.d/bootmisc.sh
-</pre>
-					</li>
-			</ul>
-	</div>
 	<div class="divider" id="dial-mod">
 			<h2>Internetverbindung mit einem 56k Einwahlmodem</h2>
 
@@ -293,7 +227,7 @@ apt-get install firestarter
 					<p><a href="http://www.fs-security.com/">Firestarter - Eine Open-Source-Firewall mit grafischer Benutzeroberfläche für Linux.</a> [Hinweis: Wenn man die grafische Oberfläche verlässt, bleibt die Firewall im Hintergrund weiterhin aktiv.] </p>
 
 	</div>
-			<div id="rev"> Page last revised UTC 04/08/2007 0910hrs</div>
+			<div id="rev"> Page last revised 30/11/2007 1300 UTC</div>
 </div>
 </body>
 </html>

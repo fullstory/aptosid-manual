@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 11/11/2007 11.11 UTC-->
+<!-- Last translation revision 26/11/2007 1120 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
-<!--Welcome to the  sidux-manual Operating System version 01.50.2007.11.14  -->
-<!-- menu last updated by harzG 28/10/2007 1600 hrs AEST 28/10/2007 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual  -->
+<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Naar sidux.com</a></li>
@@ -144,7 +144,6 @@
 				<li><a href="internet-connecting-ndis-nl.htm#ndiswrapper-basic">Activeren van Ndiswrapper</a></li>
 				<li><a href="internet-connecting-ndis-nl.htm#ndiswrapper-advanced">Activeren van Ndiswrapper -  Advanced</a></li>
 				<li><a href="internet-connecting-wpa-nl.htm#wpa">WIFI-WLAN</a></li>
-				<li><a href="internet-connecting-nl.htm#internetsharing">Internet delen</a></li>
 				<li><a href="internet-connecting-nl.htm#netcardconfig">Online komen</a></li>
 			</ul>
 		</li>
@@ -189,11 +188,13 @@
 		<h2>Een klein APT-kookboek</h2>
 
 		<h3>Wat betekent APT?</h3>
- 		<p>APT is een afkorting voor Advanced Packaging Tool en is dus een verzameling van programma's en scripts, die (de systeembeheerder) root bij de installatie en het beheer van Deb-pakketten ondersteunen.</p>
+ 							<p>APT is een afkorting voor Advanced Packaging Tool en is dus een verzameling van programma's en scripts, die (de systeembeheerder) root bij de installatie en het beheer van Deb-pakketten ondersteunen.</p>
 
 	</div>
 	<div class="divider" id="sources-list">
-			<h2>Sources List</h2>
+			<h2>Sources Lijst</h2>
+							<p>Het "APT"-systeem heeft een configuratiebestand (config-file) nodig hetwelke informatie bevat over de lokaties van de installeerbare en bij te werken pakketten, er wordt gewoonlijk naar verwezen als een<span class="highlight-3">sources.list</span>.</p>
+
 					<h3>Eros-pre2 installatie (let op)</h3>
 							<p>De Eros-pre2 installatie werkt niet meer met de /etc/apt/sources.list, het bestand is leeg. In de nieuwe situatie is een directory/map aangemaakt: <br />
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
@@ -206,10 +207,10 @@
 
 							<p>Je kan ook je eigen lijst toevoegen aan de <span class="highlight-3">/etc/apt/sources.list.d/*.list </span>bestanden</p>
 
-					<h3>Eros-pre1, Gaia en Chaos installaties</h3>
-							<p>Het "APT"-systeem heeft als basis hiervoor een bestand nodig /etc/apt/sources.list. Hierin staat informatie over de bronnen waaruit de pakketten gehaald moeten worden. Hieronder wordt voor 1 bestand de sidux installatie uitgelegd.</p>
+					<h5>Eros-pre1, Gaia, Tartaros en Chaos installaties</h5>
+							<p>De sources lijst vindt men in <span class="highlight-3">/etc/apt/sources.list</span></p>
 
-							<p>NB: De instelling van de servers kan als root veranderd worden, door de landen-code aan te passen zoals ftp.us, ftp.uk. In de meeste landen zijn locale Debian-mirrors beschikbaar. Hierdoor kan de gebruiker sneller downloaden en wordt tevens bandbreedte bespaard.</p>
+ 			<h3>Alle sidux ISOs gebruiken de volgende bronnen (sources) als standaard:</h3>
  
 <pre>
 # See sources.list(5) for more information, especially
@@ -234,9 +235,13 @@ deb http://ftp.nl.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free</pre>
 
-		<p>Om te kunnen beoordelen of recentere bestanden/pakketten beschikbaar zijn, wordt de eigen installatie vergeleken met de recente lijst van de bestanden op de Debian-server. Het programma apt-get gebruikt deze informatie, om onderlinge verbanden/afhankelijkheden op te lossen en op deze manier te garanderen, dat de gekozen pakketten werken. De actualisatie van deze datenbase wordt gedaan via het commando apt-get update.</p>
+							<p>NB: De instelling van de servers kan als root veranderd worden, door de landen-code aan te passen zoals ftp.us, ftp.uk. In de meeste landen zijn locale Debian-mirrors beschikbaar. Hierdoor kan de gebruiker sneller downloaden en wordt tevens bandbreedte bespaard.</p>
+
+							<p>Om te kunnen beoordelen of recentere bestanden/pakketten beschikbaar zijn, wordt de eigen installatie vergeleken met de recente lijst van de bestanden op de Debian-server. Het programma apt-get gebruikt deze informatie, om onderlinge verbanden/afhankelijkheden op te lossen en op deze manier te garanderen, dat de gekozen pakketten werken. De actualisatie van deze datenbase wordt gedaan via het commando apt-get update.</p>
+
  
 <pre># apt-get update
+	(which returns)
 Get:1 http://sidux.com sid Release.gpg [189B]
 Get:2 http://sidux.com sid Release.gpg [189B]
 Get:3 http://sidux.com sid Release.gpg [189B]
@@ -306,9 +311,9 @@ Removing gaim ...
 Purging configuration files for gaim ...
 </pre>
 
-		<p>In het voorbeeld werden de configuratiebestanden met het programmapakket gaim gewist, maar niet de programmapakketten, van welke gaim afhankelijk was (er zijn pakketten die door meerdere applicaties gebruikt worden - die moeten dus ook blijven staan).</p>
+		<p>In het voorbeeld werden de configuratiebestanden met het programmapakket gaim gewist, maar niet de programmapakketten, van welke gaim afhankelijk was (er zijn pakketten die door meerdere toepassingen gebruikt worden - die moeten dus ook blijven staan).</p>
 
-		<p>Nadat de interne database geactualiseerd werd, kan worden onderzocht, voor welk pakket een recentere versie bestaat: (first install apt-show-versions)</p>
+		<p>Nadat de interne databank geactualiseerd werd, kan worden onderzocht, voor welk pakket een recentere versie bestaat: (first install apt-show-versions)</p>
 
 <pre># apt-show-versions -u |grep upgrade
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
@@ -334,13 +339,14 @@ gcc-4.0 is already the newest version.
 		</div>
 	<div class="divider" id="apt-downgrade">
 						<h2>Downgrading/Hold van een pakket</h2>
-								<p>Het kan nodig zijn om terug te gaan naar een eerdere versie van een pakket (als een grote bug in de meest recente versie zit). </p>
+								<p>Het kan nodig zijn om terug te gaan naar een eerdere versie van een pakket of de huidige versie te behouden (als er bijvoorbeeld een grote 'bug' in de meest recente versie zit). </p>
 
 					<h3>Hold</h3>
 <pre>
 echo package hold|dpkg --set-selections
 </pre>
-							<p>To take a package off Hold</p>
+							<p>Om een pakket uit de wacht (Hold) te halen</p>
+
 <pre>
 echo package install|dpkg --set-selections
 </pre>
@@ -350,9 +356,11 @@ echo package install|dpkg --set-selections
 
 							<ol>
 							<li><pre>Maak de testing sources beschikbaar in <span class="highlight-3">/etc/apt/sources.list </span><br />(verwijder de #) en daar moet dus staan <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
+							<li><pre>apt-get update</pre></li>
 							<li><pre>apt-get install -t testing kmahjongg</pre></li>
 							<li><pre>Zet het nieuwe pakket op hold door:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
 							<li><pre>Plaats het hekje # weer voor de testing sources in /etc/apt/sources.list </pre></li>
+							<li><pre>apt-get update</pre></li>
 							</ol>
 
 							<p>Als je de laatste versie van een pakket wilt installeren:</p>
@@ -365,7 +373,7 @@ apt-get install kmahjongg
 		</div>
 
 	<div class="divider" id="apt-upgrade">
-				<h2>Upgrade/bijwerken van het ge&#239;nstalleerde systeem:</h2>
+				<h2>Upgrade/bijwerken van het geinstalleerde systeem:</h2>
 
 							<p>Als het complete systeem bijgewerkt moet worden, dan gebeurt dat via "dist-upgrade" . Hierbij moet worden opgelet, met welke programmapakketten een upgrade uitgevoerd wordt.</p>
  
@@ -409,7 +417,7 @@ smxi
 
 							<p>Probleem 1: Pakket managers zoals adept, aptitude, synaptic en kpackage zijn 'non-deterministic' voor complexe pakketten. Als in het dagelijks geactualiseerde aanbod van Debian Sid en in verschillende externe  bronnen van verschillende qualiteit (wij gebruiken of adviseren deze niet, maar zij zijn wel de realiteit op een groot aantal user systemen) grafische pakket managers gebruikt worden, kunnen problemen ontstaan die niet eenvoudig gerepareerd kunnen worden. Probleem 2: Deze grafische package managers gebruiken runlevel 5 (init 5) en/of werken in X. Als je dus een dist-upgrade in init 5 en/of X uitvoert (ook een 'upgrade' wordt niet aanbevolen), kunnen problemen voor je systeem ontstaan, misschien niet vandaag of morgen, maar de problemen komen vrijwel zeker op je systeem.</p>
 
-							<p>Apt-get doet eenvoudig wat het behoort te doen. Als er tijdens de installatie een probleem ontstaat (afhankelijkheden, ontbrekende pakketten), dan wordt je ge&#239;nformeerd voordat de installatie doorgaat. Als apt-get de helft van je systeem wil verwijderen dan moet de administrator (jezelf dus) er serieus naar kijken voordat je 'y' en enter gebruikt.</p>
+							<p>Apt-get doet eenvoudig wat het behoort te doen. Als er tijdens de installatie een probleem ontstaat (afhankelijkheden, ontbrekende pakketten), dan wordt je geinformeerd voordat de installatie doorgaat. Als apt-get de helft van je systeem wil verwijderen dan moet de administrator (jezelf dus) er serieus naar kijken voordat je 'y' en enter gebruikt.</p>
 
 							<p>Dat is de reden waarom Debian builds apt-get gebruiken en geen andere package managers.</p>
 
@@ -512,7 +520,7 @@ apt:/
 	</div>
 			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Een uitgebreide beschrijving van het APT-System is te zien in de APT-HOWTO</a> </p>
 
-			<div id="rev">Inhoud het laatst bijgewerkt op 10/11/2007 0130 UTC   </div>
+			<div id="rev">Inhoud het laatst bijgewerkt op 26/11/2007 0800 UTC    </div>
 
 </div>
 </body>

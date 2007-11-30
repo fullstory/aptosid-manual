@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision 13/11/2007 0100 UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System version 01.50.2007.11.14  -->
-<!-- menu last updated by Richard 04/11/2007 1500 hrs AEDST 04/11/2007 0400 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual  -->
+<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">ir a sidux.com</a></li>
@@ -144,7 +144,6 @@
 				<li><a href="internet-connecting-ndis-es.htm#ndiswrapper-basic">Activar Ndiswrapper</a></li>
 				<li><a href="internet-connecting-ndis-es.htm#ndiswrapper-advanced">Activar Ndiswrapper - Avanzado</a></li>
 				<li><a href="internet-connecting-wpa-es.htm#wpa">WIFI-WLAN</a></li>
-				<li><a href="internet-connecting-es.htm#internetsharing">Compartir Internet</a></li>
 				<li><a href="internet-connecting-es.htm#netcardconfig">Conectár en-línea</a></li>
 			</ul>
 		</li>
@@ -193,6 +192,7 @@
 	</div>
 	<div class="divider" id="sources-list">
 			<h2>sources.list</h2>
+							<p>The "APT" -system needs a config-file that contains information about the locations of the installable and upgradeable packages and is commonly referred to as a <span class="highlight-3">sources.list</span>.</p>
 
 					<h3>Eros-pre2 instalaciones, hacia adelante</h3>
 							<p>...se trata el /etc/apt/sources.list diferentemente, actualmente, es vacio. En su lugar, es un directorio o carpeta nombrada así:<br />
@@ -206,17 +206,17 @@
 
 							<p>También, puede agregar su propios <span class="highlight-3">/etc/apt/sources.list.d/*.list </span> archivos</p>
 
-					<h3>Eros-pre1, Gaia y Chaos instalaciones </h3>
-							<p>Por eso, el sistema "APT" necesita un archivo-config:<span class="highlight-3"> /etc/apt/sources.list</span>, que contiene información acerca de las locaciones de paquetes instalable y actualizable. Un ejemplo de tal archivo desde una instalación típica de sidux es como lo siguiente:</p>
+					<h5>Eros-pre1, Gaia, Tartaros y Chaos instalaciones </h5>
+							<p>The sources list is found in<span class="highlight-3">/etc/apt/sources.list</span></p>
 
- 							<p>Todos los ISOs de sidux tienen los siguientes repositorios pre-seleccionado:</p>
+ 					<h3>Todos los ISOs de sidux tienen los siguientes repositorios pre-seleccionado:</h3>
 
 <pre>
 deb http://ftp.de.debian.org/debian unstable main
 deb http://sidux.com/debian/ sid main fix.main
 </pre>
 
-				<p>Entradas adicionales para necesidades no-libres siempre puede ser encontrado en nuestro, siempre actualizado <a href="http://sidux.com/files/misc/sources.list">sources.list.</a> Desde el 27/02/2007 0800 hrs UTC, están estos:</p>
+							<p>Entradas adicionales para necesidades no-libres siempre puede ser encontrado en nuestro, siempre actualizado <a href="http://sidux.com/files/misc/sources.list">sources.list.</a> Desde el 27/02/2007 0800 hrs UTC, están estos:</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
@@ -240,11 +240,12 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
-				<p>NOTA: En este ejemplo, el ftp.de, indica que esta usando los repositorios Alemanes. Puede editar este archivo, como raíz, para usar repositorios más cerca físicamente a usted, simplemente por cambiar el país, por ejemplo, cambia ftp.de.* a ftp.es.* ó ftp.ar.*. Muchos países tiene reflejos locales que ayudan a conservar el ancha de banda (bandwidth) y mejorar velocidades.</p>
+								<p>NOTA: En este ejemplo, el ftp.de, indica que esta usando los repositorios Alemanes. Puede editar este archivo, como raíz, para usar repositorios más cerca físicamente a usted, simplemente por cambiar el país, por ejemplo, cambia ftp.de.* a ftp.es.* ó ftp.ar.*. Muchos países tiene reflejos locales que ayudan a conservar el ancha de banda (bandwidth) y mejorar velocidades.</p>
 
-			<p>Para poder conseguir información actualizada sobre los paquetes, el APT utiliza un base de datos. Esta base de datos contiene el paquete pero también los demás paquetes que este requiere para poder funcionar (llamada dependencias). El programa apt-get usa esta base de datos cuando instala los paquetes escogido para resolver todos las dependencias, y así, garantiza que el paquete escogido funciona. La actualización de este base de datos se realiza con el comando: apt-get update.</p>
+							<p>Para poder conseguir información actualizada sobre los paquetes, el APT utiliza un base de datos. Esta base de datos contiene el paquete pero también los demás paquetes que este requiere para poder funcionar (llamada dependencias). El programa apt-get usa esta base de datos cuando instala los paquetes escogido para resolver todos las dependencias, y así, garantiza que el paquete escogido funciona. La actualización de este base de datos se realiza con el comando: apt-get update.</p>
 
 <pre># apt-get update
+	(which returns)
 Get:1 http://sidux.com sid Release.gpg [189B]
 Get:2 http://sidux.com sid Release.gpg [189B]
 Get:3 http://sidux.com sid Release.gpg [189B]
@@ -372,9 +373,11 @@ echo package install|dpkg --set-selections
 							<ol>
 
 							<li><pre>activar los fuentes de "testing" en <span class="highlight-3">/etc/apt/sources.list </span><br />(borrar el #) para que parece <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
+							<li><pre>apt-get update</pre></li>
 							<li><pre>entonces,<br /># apt-get install -t testing kmahjongg</pre></li>
 							<li><pre>Ponga la paquete nuevamente instalado en "hold" con:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
 							<li><pre>entonces, comentar la fuente de "testing" en el /etc/apt/sources.list </pre></li>
+							<li><pre>apt-get update</pre></li>
 							</ol>
 
 							<p>Cuando desea actualizar a la versión más reciente, haga esto:</p>
@@ -539,7 +542,7 @@ apt:/
 	</div>
 			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Una descripción completa del APT-System puede encontrarse en el APT-HOWTO</a> </p>
 
-			<div id="rev">Última modificación  10/11/2007 0130 UTC    </div>
+			<div id="rev">Última modificación  26/11/2007 0800 UTC   </div>
 
 </div>
 </div>

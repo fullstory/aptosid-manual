@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision by zonker 26/11/2007 1515 UTC -->
 <div id="menu"> <!-- menu starts here dk lang maintainer zonker -->
-<!--Welcome to the  sidux-manual Operating System Manual  -->
-<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
+<!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -125,11 +125,11 @@
 				<li><a href="lamp-apache-da.htm#serv-ssl">SSL</a></li>
 				<li><a href="lamp-sql-da.htm#serv-mysql">MySQL Opsætning</a></li>
 				<li><a href="lamp-ppp-da.htm#serv-php">PHP i Apache</a></li>
+				<li><a href="ntp-server-da.htm#ntp-server">Ops&#230;tning af Timeserver</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide(12 );" onmouseout="startTime();" ><a href="internet-connecting-da.htm">Internet og Netv&#230;rk</a>
 			<ul class="sub-menu" id="sm12">
-				<li><a href="ntp-server-da.htm#ntp-server">Ops&#230;tning af Timeserver</a></li>
 				<li><a href="tor-privoxy-da.htm#tor">Tor</a></li>
 				<li><a href="tor-privoxy-da.htm#privoxy">Privoxy</a></li>
 				<li><a href="internet-connecting-da.htm#firewalls">Firewalls</a></li>
@@ -169,7 +169,7 @@
 				<li><a href="sys-admin-rdiff-da.htm#rdiff">Sikkerhedskopiering med rdiff</a></li>
 				<li><a href="sys-admin-rsync-da.htm#rsync">Sikkerhedskopiering med rsync</a></li>
 				<li><a href="vir-rkits-da.htm#virus-rkits">Virus og Rootkit skannere</a></li>
-				<li><a href="sys-admin-gen-da.htm#start-services">Ops&#230;tning af tjenester i sidux</a></li>
+				<li><a href="sys-admin-gen-da.htm#start-services">Services enable/disable</a></li>
 				<li><a href="sys-admin-gen-da.htm#pw-lost">Mistet root password</a></li>
 				<li><a href="sys-admin-gen-da.htm#fonts">Fonte</a></li>
 				<li><a href="sys-admin-gen-da.htm#cups">CUPS</a></li>
@@ -187,12 +187,12 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Opsætning af tjenester i Sidux</h2>
 
-			<p>Sidux starter som standard følgende tjenester: <span class="highlight-1">cpid, cron, dbus, hotkey-setup, kdm, klogd, sysklogd</span> og de bliver opdaterede hver gang en dist-upgrade udføres. Vær særligt opmærksom på at alle <b>installerede men ikke aktiverede tjenester vil blive sat som aktive efter en dist-upgrade.</b></p>
+							<p>Services get updated whenever a dist-upgrade is done. Any other services that were disabled pre dist-upgrade will also become enabled.</p>
 
-			<p>For at starte en tjeneste for denne session kun, brug:</p>
+							<p>To start a service for a session use, or to manage what services are enabled and disabled at startup.</p>
 
 <pre>
-/etc/init.d/service start
+invoke-rc.d service start
 </pre>
 			<p>eller</p>
 <pre>
@@ -200,7 +200,30 @@ rcconf
 </pre>
 			<p>for at starte tjenesten op ved hver opstart</p>
 
-		<p class="highlight-3">Anvendelse af rcconf: Brug pile til at navigere op/ ned, mellemrum til at vælge/ afvælge eselect, tabulatoren til at markere, ok eller cancel, "retur"-tasten for at bekræfte og udføre ændringer</p>
+						<p class="highlight-3">Anvendelse af rcconf: Brug pile til at navigere op/ ned, mellemrum til at vælge/ afvælge eselect, tabulatoren til at markere, ok eller cancel, "retur"-tasten for at bekræfte og udføre ændringer</p>
+
+			<h2>Killing a service or process</h2>
+						<p><span class="highlight-3">pkill</span> is very useful as its human readable and can work in both user and root mode in the terminal or at tty</p>
+<pre>
+pkill -n service
+</pre>
+						<p>If you are not sure of the correct spelling of the process or service you wish to kill <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> will provide a list </p>
+
+						<p>htop is also good a alternative. (killall -9 is your last alternative).</p>
+	</div>
+	<div class="divider" id="init">
+			<h2>sidux runlevels - init</h2>
+							<p>Dette er listen over sidux operativ systemets runlevels, bemærk venligst at de adskiller sig fra debain stable runlevels:</p>
+
+							<ul>
+								<li><span class="highlight-3">init 0 </span>Slukker maskinen</li>
+								<li><span class="highlight-3">init 1 </span>Single user mode</li>
+								<li><span class="highlight-3">init 2 </span>Multi-User mode uden netværk, og stopper/ starter ikke X</li>
+								<li><span class="highlight-3">init 3 </span>Multi-User mode med netværk, uden X-windows system, og stopper/ starter ikke X</li>
+								<li><span class="highlight-3">init 4 </span>Stopper/ starter ikke X</li>
+								<li><span class="highlight-3">init 5 </span> Multi-User mode med netværk og X-windows system, starter X</li>
+								<li><span class="highlight-3">init 6 </span>Genstarter</li>
+							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Mistet root passwords</h2>
@@ -293,21 +316,8 @@ localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">der er mere information i sidux forummet.</a></p>
 	</div>
-	<div class="divider" id="init">
-			<h2>sidux runlevels - init</h2>
-							<p>Dette er listen over sidux operativ systemets runlevels, bemærk venligst at de adskiller sig fra debain stable runlevels:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span>Slukker maskinen</li>
-								<li><span class="highlight-3">init 1 </span>Single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode uden netværk, og stopper/ starter ikke X</li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode med netværk, uden X-windows system, og stopper/ starter ikke X</li>
-								<li><span class="highlight-3">init 4 </span>Stopper/ starter ikke X</li>
-								<li><span class="highlight-3">init 5 </span> Multi-User mode med netværk og X-windows system, starter X</li>
-								<li><span class="highlight-3">init 6 </span>Genstarter</li>
-							</ul>
-	</div>
-			<div id="rev">Page last revised  24/08/2007 1940hrs UTC</div>	
+			<div id="rev">Content last revised 05/12/2007 1300hrs UTC</div>	
 
 </div>
 </body>

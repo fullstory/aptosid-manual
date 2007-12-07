@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="sys-admin">
+<body>
+<!-- Last translation revision by XXXX xx/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual  -->
-<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
+<!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Ir para sidux.com</a></li>
@@ -124,11 +125,11 @@
 				<li><a href="lamp-apache-pt-br.htm#serv-ssl">SSL</a></li>
 				<li><a href="lamp-sql-pt-br.htm#serv-mysql">Configuração do MySQL</a></li>
 				<li><a href="lamp-ppp-pt-br.htm#serv-php">PHP no Apache</a></li>
+				<li><a href="ntp-server-pt-br.htm#ntp-server">Configuração do Serviço NTP</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-pt-br.htm">Internet e Rede</a>
 			<ul class="sub-menu" id="sm12">
-				<li><a href="ntp-server-pt-br.htm#ntp-server">Configuração do Serviço NTP</a></li>
 				<li><a href="tor-privoxy-pt-br.htm#tor">Tor</a></li>
 				<li><a href="tor-privoxy-pt-br.htm#privoxy">Privoxy</a></li>
 				<li><a href="internet-connecting-pt-br.htm#firewalls">Firewalls</a></li>
@@ -168,7 +169,7 @@
 				<li><a href="sys-admin-rdiff-pt-br.htm#rdiff">Backups com o rdiff</a></li>
 				<li><a href="sys-admin-rsync-pt-br.htm#rsync">Backups com o rsync</a></li>
 				<li><a href="vir-rkits-pt-br.htm#virus-rkits">Antivírus e Caçadores de Rootkits</a></li>
-				<li><a href="sys-admin-gen-pt-br.htm#start-services">Habilitando Serviços no sidux</a></li>
+				<li><a href="sys-admin-gen-pt-br.htm#start-services">Services enable/disable</a></li>
 				<li><a href="sys-admin-gen-pt-br.htm#pw-lost">Perda de Senhas root</a></li>
 				<li><a href="sys-admin-gen-pt-br.htm#fonts">Fontes</a></li>
 				<li><a href="sys-admin-gen-pt-br.htm#cups">CUPS</a></li>
@@ -185,27 +186,43 @@
 <div id="main-page">
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Habilitando serviços no sidux</h2>
+							<p>Services get updated whenever a dist-upgrade is done. Any other services that were disabled pre dist-upgrade will also become enabled.</p>
 
-			<p>O sidux roda os seguintes serviços, por padrão: <span class="highlight-1">cpid, cron, dbus, hotkey-setup, kdm, klogd, sysklogd</span>; eles são atualizados a cada dist-upgrade. Quaisquer outros serviços instalados após um dist-upgrade também ficam ativados.</p>
-
-			<p>Para iniciar um serviço em uma sessão, use:</p>
+							<p>To start a service for a session use, or to manage what services are enabled and disabled at startup.</p>
 
 <pre>
-/etc/init.d/service start
+invoke-rc.d service start
 </pre>
-			<p>Para ativar serviços na inicialização do sistema:</p>
+							<p>or</p>
 <pre>
 rcconf
 </pre>
-			<p>Veja a observação a seguir:</p>
 
 		<p class="highlight-3">Nota sobre o rcconf: Use as setas direcionais para mover-se para cima/para baixo, Espaço para marcar/desmarcar, Tab para OK ou Cancelar e ENTER para aplicar as mudanças</p>
 
-			<p>Uma alternativa para o rcconf é:</p>
+			<h2>Killing a service or process</h2>
+						<p><span class="highlight-3">pkill</span> is very useful as its human readable and can work in both user and root mode in the terminal or at tty</p>
 <pre>
-update-rc.d service defaults
+pkill -n service
 </pre>
+						<p>If you are not sure of the correct spelling of the process or service you wish to kill <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> will provide a list </p>
 
+						<p>htop is also good a alternative. (killall -9 is your last alternative).</p>
+
+	</div>
+	<div class="divider" id="init">
+			<h2>Runlevels (níveis de execução) no sidux - init</h2>
+							<p>Esta é a lista dos runlevels do sidux; note-se que ela difere da lista do Debian stable:</p>
+
+							<ul>
+								<li><span class="highlight-3">init 0 </span> desligar o PC</li>
+								<li><span class="highlight-3">init 1</span> modo single user (usuário único)</li>
+								<li><span class="highlight-3">init 2 </span>modo múlti-usuário sem rede e/ou fechar ou não entrar no X</li>
+								<li><span class="highlight-3">init 3 </span>modo múlti-usuário com rede não rodando o servidor gráfico X e/ou fechar ou não entrar no X</li>
+								<li><span class="highlight-3">init 4 </span>fechar ou não entrar no X</li>
+								<li><span class="highlight-3">init 5 </span>modo múlti-usuário com rede rodando o servidor gráfico X  e/ou iniciar o X</li>
+								<li><span class="highlight-3">init 6 </span>reiniciar o PC</li>
+							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Perda de senha root</h2>
@@ -297,21 +314,8 @@ localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">... e há mais no Fórum do sidux.</a></p>
 	</div>
-	<div class="divider" id="init">
-			<h2>Runlevels (níveis de execução) no sidux - init</h2>
-							<p>Esta é a lista dos runlevels do sidux; note-se que ela difere da lista do Debian stable:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> desligar o PC</li>
-								<li><span class="highlight-3">init 1</span> modo single user (usuário único)</li>
-								<li><span class="highlight-3">init 2 </span>modo múlti-usuário sem rede e/ou fechar ou não entrar no X</li>
-								<li><span class="highlight-3">init 3 </span>modo múlti-usuário com rede não rodando o servidor gráfico X e/ou fechar ou não entrar no X</li>
-								<li><span class="highlight-3">init 4 </span>fechar ou não entrar no X</li>
-								<li><span class="highlight-3">init 5 </span>modo múlti-usuário com rede rodando o servidor gráfico X  e/ou iniciar o X</li>
-								<li><span class="highlight-3">init 6 </span>reiniciar o PC</li>
-							</ul>
-	</div>
-			<div id="rev">Page last revised 22/08/2007 0300hrs UTC </div>	
+			<div id="rev">Content last revised 05/12/2007 1300hrs UTC </div>	
 
 </div>
 </body>

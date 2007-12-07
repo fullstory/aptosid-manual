@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="sys-admin">
+<body>
+<!-- Last translation revision by bluewater 05/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual  -->
-<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
+<!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">To sidux.com</a></li>
@@ -106,7 +107,7 @@
 				<li><a href="hw-dev-hw-dri-en.htm#mon-res">Screen Resolution and Monitors</a></li>
 				<li><a href="hw-dev-hw-dri-en.htm#non-free-3d">Binary, non-free drivers for: Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-en.htm#native-nv-ati">Free xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
-				<li><a href="hw-dev-hw-dri-en.htm#non-free">Hardware with non-free needs</a></li>
+				<li><a href="hw-dev-hw-dri-en.htm#non-free">Hardware needing non-free drivers</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="wm-kde-en.htm">Window Managers</a>
@@ -124,11 +125,11 @@
 				<li><a href="lamp-apache-en.htm#serv-ssl">SSL</a></li>
 				<li><a href="lamp-sql-en.htm#serv-mysql">MySQL Setup</a></li>
 				<li><a href="lamp-ppp-en.htm#serv-php">PHP in Apache</a></li>
+				<li><a href="ntp-server-en.htm#ntp-server">Timeserver Setup</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-en.htm">Internet and Networking</a>
 			<ul class="sub-menu" id="sm12">
-				<li><a href="ntp-server-en.htm#ntp-server">Timeserver Setup</a></li>
 				<li><a href="tor-privoxy-en.htm#tor">Tor</a></li>
 				<li><a href="tor-privoxy-en.htm#privoxy">Privoxy</a></li>
 				<li><a href="internet-connecting-en.htm#firewalls">Firewalls</a></li>
@@ -168,7 +169,7 @@
 				<li><a href="sys-admin-rdiff-en.htm#rdiff">Back-Up with rdiff</a></li>
 				<li><a href="sys-admin-rsync-en.htm#rsync">Back-Up with rsync</a></li>
 				<li><a href="vir-rkits-en.htm#virus-rkits">Virus and Rootkit Scanners</a></li>
-				<li><a href="sys-admin-gen-en.htm#start-services">Enabling services in sidux</a></li>
+				<li><a href="sys-admin-gen-en.htm#start-services">Services enable/disable</a></li>
 				<li><a href="sys-admin-gen-en.htm#pw-lost">Lost root passwords</a></li>
 				<li><a href="sys-admin-gen-en.htm#fonts">Fonts</a></li>
 				<li><a href="sys-admin-gen-en.htm#cups">CUPS</a></li>
@@ -186,84 +187,110 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Enabling services in sidux</h2>
 
-			<p>sidux by default runs the following services: <span class="highlight-1">cpid, cron, dbus, hotkey-setup, kdm, klogd, sysklogd</span> and they get updated whenever a dist-upgrade is done. Any other services that were upgraded in a dist-upgrade will also become enabled.</p>
+							<p>Services get updated whenever a dist-upgrade is done. Any other services that were disabled pre dist-upgrade will also become enabled.</p>
 
-			<p>To start a service for a session use </p>
+							<p>To start a service for a session use, or to manage what services are enabled and disabled at startup.</p>
 
 <pre>
-/etc/init.d/service start
+invoke-rc.d service start
 </pre>
-			<p>or</p>
+							<p>or</p>
 <pre>
 rcconf
 </pre>
-			<p>to enable service at startup</p>
+							<p class="highlight-3">Note on using rcconf: Use: arrows to move up/down, space to select/deselect, tab to highlight, ok or cancel, `enter` to apply changes</p>
 
-		<p class="highlight-3">Note on using rcconf: Use: arrows to move up/down, space to select/deselect, tab to highlight, ok or cancel, `enter` to apply changes</p>
 
-			<p>An alternative to rcconf is:</p>
+			<h2>Killing a service or process</h2>
+						<p><span class="highlight-3">pkill</span> is very useful as its human readable and can work in both user and root mode in the terminal or at tty</p>
 <pre>
-update-rc.d service defaults
+pkill -n service
 </pre>
+						<p>If you are not sure of the correct spelling of the process or service you wish to kill <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> will provide a list </p>
 
+						<p>htop is also good a alternative. (killall -9 is your last alternative).</p>
+
+	</div>
+	<div class="divider" id="init">
+			<h2>sidux runlevels - init</h2>
+							<p>This is the list for the sidux operating system runlevels, please note that it does differ from debian stable runlevels:</p>
+
+							<ul>
+								<li><span class="highlight-3">init 0 </span> powers off the PC</li>
+								<li><span class="highlight-3">init 1</span> single user mode</li>
+								<li><span class="highlight-3">init 2 </span>Multi-User mode without network, and/or to stop or not enter X,  </li>
+								<li><span class="highlight-3">init 3 </span>Multi-User mode with network not running the X-windows system, and/or to stop or not enter X</li>
+								<li><span class="highlight-3">init 4 </span>to stop or not enter X</li>
+								<li><span class="highlight-3">init 5</span> Multi-User mode with network running the X-windows system, and/or to start X</li>
+								<li><span class="highlight-3">init 6 </span>reboot</li>
+							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Lost root passwords</h2>
 
-			<p>You cannot recover the lost password but you can set a new one.</p>
+							<p>You cannot recover the lost password but you can set a new one.</p>
 
-			<p>First boot from the Live-CD.</p>
+							<p>First boot from the Live-CD.</p>
 
-			<p>As root mount your root partition (for example /dev/hdb2)</p>
+							<p>As root mount your root partition (for example /dev/hdb2)</p>
 
-<pre># mount /dev/hdb2
+<pre>
+# mount /dev/hdb2
 Now chroot into your old root-Partition with
 # chroot /media/hdb2
 and use the passwd command to set a new password:
-# passwd</pre>
+# passwd
+</pre>
 
 	</div>
 	<div class="divider" id="fonts">
 			<h2>Fonts in sidux</h2>
 				<h5>Correct dpi settings - Basic Philosophy</h5>
 
-				<p>DPI settings are problematic to guess, but are actually perfectly done by X, if DisplaySize provides physical screen dimensions in /etc/X11/xorg.conf "Monitor Section".</p>
+							<p>DPI settings are problematic to guess, but are actually perfectly done by X, if DisplaySize provides physical screen dimensions in /etc/X11/xorg.conf "Monitor Section".</p>
 
 				<h5>Correct resolutions and refresh rates</h5>
 
-				<p>Every monitor has its own perfect settings combination, but unfortunately not all of them report the right DCC values, and sometimes it is in need of a manual overwride.</p>
+							<p>Every monitor has its own perfect settings combination, but unfortunately not all of them report the right DCC values, and sometimes it is in need of a manual overwride.</p>
 
 				<h5>Correct graphics adapter drivers</h5>
 
-				<p>Some newer ATI and Nvidia cards simply don't play well with the free Xorg drivers, and the only reasonable solution in such case are the commercial closed source drivers. sidux will not  pre-install those for legal reasons, <a href="hw-dev-hw-dri-en.htm"> The solutions can be found here. </a></p>
+							<p>Some newer ATI and Nvidia cards simply don't play well with the free Xorg drivers, and the only reasonable solution in such case are the commercial closed source drivers. sidux will not  pre-install those for legal reasons, <a href="hw-dev-hw-dri-en.htm"> The solutions can be found here. </a></p>
 
 				<h5>Default Font selections, rendering and sizes</h5>
 
-				<p>sidux uses (Debian) pre-selected free fonts which have proved to be very balanced, your own fonts selection can/may deteriorate the quality of rendering. But there are a few powerful options in Debian (apart from settings in kcontrol) that can help providing spotless rendering with other fonts as well. But please be aware that every font has just a few real perfect sizes, other sizes may not play well.</p>
+							<p>sidux uses (Debian) pre-selected free fonts which have proved to be very balanced, your own fonts selection can/may deteriorate the quality of rendering. But there are a few powerful options in Debian (apart from settings in kcontrol) that can help providing spotless rendering with other fonts as well. But please be aware that every font has just a few real perfect sizes, other sizes may not play well.</p>
 
-				<p>Playing with the dpi size with the command may also be of assistance:</p>
+							<p>Playing with the dpi size with the command may also be of assistance:</p>
 <pre>
 fix-dpi-kdm
 </pre>
-				<p>It should show the DPI for your screensize, but you can play with that as well.You will need to go to init 3 and back to init 5 to make it work or do a reboot.</p>
+							<p>It should show the DPI for your screensize, but you can play with that as well.You will need to go to init 3 and back to init 5 to make it work or do a reboot.</p>
 
-				<p> After having changed font type or DPI (in X or Firefox/Iceweasel), you might need some readjustments to get results to your liking, especially. after a change from Bitmap Fonts to True Type Fonts or the other way round through:</p>		
+							<p> After having changed font type or DPI (in X or Firefox/Iceweasel), you might need some readjustments to get results to your liking, especially. after a change from Bitmap Fonts to True Type Fonts or the other way round through:</p>		
 <pre>
 dpkg-reconfigure fontconfig-config
 </pre>
-					<p>Choose native and autohinter on automatic. Otherwise play around with it.</p>
-					<p>If that does not work you might need to redo your fonts cache by:</p>
+							<p>Choose native and autohinter on automatic. Otherwise play around with it.</p>
+
+							<p>Should you need to rebuild your font cache:</p>
+<pre>
+fc-cache -f -vv
+</pre>
+							<p>If that does not work you might need to reinstall the package with a default config file of your fonts cache by:</p>
+
 <pre>
 apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::Options::=--force-confnew fontconfig fontconfig-config
 </pre>
+
 				<h5>GTK based applications like Firefox/Icewasel</h5>
-				<p>GTK-based apps in general are problematic with KDE defaults. This could be solved by this:</p>
+							<p>GTK-based apps in general are problematic with KDE defaults. This could be solved by this:</p>
 <pre>
 apt-get install gtk2-engines gtk-qt-engine
 </pre>
-				<p>In the control center you will have a new gtk menu item, set it to use clearlooks and have the fonts set to use KDE fonts.</p>
+							<p>In the control center you will have a new gtk menu item, set it to use clearlooks and have the fonts set to use KDE fonts.</p>
 
-				<p>In case of stability problems which occured in the past, but not since 2006 please remove or purge gtk-qt-engine, the settings are are kept in $HOME , and there are no dependencies which could be removed by it:</p>
+							<p>In case of stability problems which occured in the past, but not since 2006 please remove or purge gtk-qt-engine, the settings are are kept in $HOME , and there are no dependencies which could be removed by it:</p>
 
 <pre>
 apt-get remove gtk-qt-engine
@@ -271,7 +298,7 @@ or
 apt-get remove --purge gtk-qt-engine
 </pre>
 
-				<p>This MAY fix your font rendering in gtk apps</p>
+							<p>This MAY fix your font rendering in gtk apps</p>
 
 	</div>
 	<div class="divider" id="cups">
@@ -296,21 +323,8 @@ localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">and there is more on the sidux forums.</a></p>
 	</div>
-	<div class="divider" id="init">
-			<h2>sidux runlevels - init</h2>
-							<p>This is the list for the sidux operating system runlevels, please note that it does differ from debian stable runlevels:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> powers off the PC</li>
-								<li><span class="highlight-3">init 1</span> single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode without network, and/or to stop or not enter X,  </li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode with network not running the X-windows system, and/or to stop or not enter X</li>
-								<li><span class="highlight-3">init 4 </span>to stop or not enter X</li>
-								<li><span class="highlight-3">init 5</span> Multi-User mode with network running the X-windows system, and/or to start X</li>
-								<li><span class="highlight-3">init 6 </span>reboot</li>
-							</ul>
-	</div>
-			<div id="rev">Page last revised 21/08/2007 1600hrs UTC </div>	
+			<div id="rev">Content last revised 05/12/2007 1300hrs UTC </div>	
 
 </div>
 </body>

@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision by hubi xx/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi Zophod-->
-<!--Welcome to the  sidux-manual Operating System Manual  -->
-<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
+<!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">Zu sidux.com</a></li>
@@ -124,11 +125,11 @@
 				<li><a href="lamp-apache-de.htm#serv-ssl">SSL</a></li>
 				<li><a href="lamp-sql-de.htm#serv-mysql">MySQL-Setup</a></li>
 				<li><a href="lamp-ppp-de.htm#serv-php">PHP in Apache</a></li>
+				<li><a href="ntp-server-de.htm#ntp-server">Zeitserver-Setup</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-de.htm">Internet und Netzwerk</a>
 			<ul class="sub-menu" id="sm12">
-				<li><a href="ntp-server-de.htm#ntp-server">Zeitserver-Setup</a></li>
 				<li><a href="tor-privoxy-de.htm#tor">Tor</a></li>
 				<li><a href="tor-privoxy-de.htm#privoxy">Privoxy</a></li>
 				<li><a href="internet-connecting-de.htm#firewalls">Firewalls</a></li>
@@ -168,7 +169,7 @@
 				<li><a href="sys-admin-rdiff-de.htm#rdiff">Backup mit rdiff</a></li>
 				<li><a href="sys-admin-rsync-de.htm#rsync">Backup mit rsync</a></li>
 				<li><a href="vir-rkits-de.htm#virus-rkits">Virus- und Rootkitscanner</a></li>
-				<li><a href="sys-admin-gen-de.htm#start-services">Einen Dienst in sidux starten</a></li>
+				<li><a href="sys-admin-gen-de.htm#start-services">Services enable/disable</a></li>
 				<li><a href="sys-admin-gen-de.htm#pw-lost">Rootpasswort vergessen</a></li>
 				<li><a href="sys-admin-gen-de.htm#fonts">Schriftarten</a></li>
 				<li><a href="sys-admin-gen-de.htm#cups">CUPS</a></li>
@@ -186,27 +187,42 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Dienste starten in sidux</h2>
 
-			<p>Folgende Dienste sind bei sidux in der Grundeinstellung gestartet:<span class="highlight-1"> cpid, cron, dbus, hotkey-setup, kdm, klogd, sysklogd</span>. Sie werden aktualisiert, wann immer ein dist-upgrade durchgeführt wird.</p>
+							<p>Dienste werden gemeinsam mit einem dist-upgrade aktualisiert. Falls sie vor dem dist-upgrade vom Nutzer deaktiviert waren, werden sie durch das dist-upgrade aktiviert.</p>
 
-			<p>Zu beachten ist, dass Dienste, die während des dist-upgrade durch neue Versionen aktualisiert werden, danach aktiviert sind!</p>
-
-			<p>Um einen Dienst während einer Sitzung zu starten, wird folgender Befehl ausgeführt:</p>
+							<p>Um einen Dienst für eine Sitzung zu aktivieren, wird dieser Befehl verwendet:</p>
 
 <pre>
-/etc/init.d/service start
+invoke-rc.d Dienstname start
 </pre>
-			<p>oder</p>
+			<p>Zur Aktivierung eines Dienstes während des Bootvorgangs verwendet man den Befehl</p>
 <pre>
 rcconf
 </pre>
-			<p>um einen Dienst während des Bootvorgangs zu aktivieren.</p>
 
-		<p class="highlight-3">Anmerkung zu rcconf: man verwendet die Pfeiltasten zum Scrollen (auf/ab), die Leertaste zur Auswahl, den Tabulator zum Markieren von "Ok" oder "Abbrechen", die Enter-Taste um "Ok" oder "Abbrechen" auszuführen.</p>
+						<p class="highlight-3">Anmerkung zu rcconf: man verwendet die Pfeiltasten zum Scrollen (auf/ab), die Leertaste zur Auswahl, den Tabulator zum Markieren von "Ok" oder "Abbrechen", die Enter-Taste um "Ok" oder "Abbrechen" auszuführen.</p>
 
-			<p>Eine Alternative zu rcconf ist:</p>
+				<h2>Beenden eines Dienstes oder Prozesses</h2>
+						<p><span class="highlight-3">pkill</span> ist ein sehr nützlicher Befehl ist, da er in für Menschen lesbarer Form kommuniziert. Er kann sowohl mit Benutzer- als auch Root-Rechten in einer Konsole oder TTY ausgeführt werden:</p>
 <pre>
-update-rc.d service defaults
+pkill -n Prozessname
 </pre>
+						<p>Falls man den genauen Namen des Dienstes oder Prozesses nicht kennt, kann man ihn so ermitteln: <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span>. Eine Liste der Prozesse wird ausgegeben.</p>
+
+						<p>htop ist eine gute Alternative. 'killall -9' stellt den letzten Rettungsanker dar.</p>
+	</div>
+	<div class="divider" id="init">
+			<h2>sidux-Runlevel - init</h2>
+							<p>Dies hier ist eine Liste der Runlevel, wie sie im Betriebssystem sidux festgelegt sind. Es ist zu beachten, dass sie sich von den Runlevels in Debian 'Stable' unterscheiden:</p>
+
+							<ul>
+								<li><span class="highlight-3">init 0</span> schaltet den PC aus</li>
+								<li><span class="highlight-3">init 1</span> Single User Mode (kein Mehrbenutzersystem)</li>
+								<li><span class="highlight-3">init 2</span> Mehrbenutzersystem ohne Netzwerkfähigkeit und ohne X. Der Grafikserver X kann mit diesem Befehl beendet werden.</li>
+								<li><span class="highlight-3">init 3</span> Mehrbenutzersystem mit Netzwerkfähigkeit und ohne X. Der Grafikserver X kann mit diesem Befehl beendet werden.</li>
+								<li><span class="highlight-3">init 4</span> beendet den Grafikserver X bzw. man kann booten, ohne X zu starten.</li>
+								<li><span class="highlight-3">init 5</span> Mehrbenutzersystem mit Netzwerkfähigkeit und X. Der Grafikserver X kann mit diesem Befehl gestartet werden.</li>
+								<li><span class="highlight-3">init 6</span> Reboot</li>
+							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Vergessenes Rootpasswort</h2>
@@ -294,27 +310,14 @@ apt-get install cupsys cupsys-driver-gutenprint hplip
 localhost:631
 </pre>
 
-							<p>Make sure CUPS is running <span class="highlight-3">/etc/init.d/cups restart</span></p>
+							<p>CUPS wird nun neu gestartet: <span class="highlight-3">/etc/init.d/cups restart</span></p>
 
-							<p>Another gotcha is when setting up cups via the GUI method, is that it brings up a dialog box asking for you to put in your password, however the dialog box has your user name, prefilled, so when you put in your user password, it does not work, What is really wants is for you to change the user name to <span class="highlight-2">root</span> and put in your <span class="highlight-2">root password</span>.</p>
+							<p>Ein kleines Problem ist, wenn CUPS mit einer grafischen Oberfläche eingerichtet wird, dass die Dialog-Box den Benutzernamen bereits eingesetzt hat und ein Passwort erwartet. Die Eingabe des Benutzerpassworts ist jedoch nicht zielführend. Es geht nichts. Die Lösung ist, den Benutzernamen in <span class="highlight-2">root</span> zu ändern und das <span class="highlight-2">Root-Passwort</span> einzugeben.</p>
 
 							<p>Mehr dazu <a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">im sidux-Forum</a>.</p>
 	</div>
-	<div class="divider" id="init">
-			<h2>sidux-Runlevels - init</h2>
-							<p>Dies hier ist eine Liste der Runlevel, wie sie im Betriebssystem sidux festgelegt sind. Es ist zu beachten, dass sie sich von den Runlevels in Debian 'Stable' unterscheiden:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> powers off the PC</li>
-								<li><span class="highlight-3">init 1</span> single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode without network, and/or to stop or not enter X,  </li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode with network not running the X-windows system, and/or to stop or not enter X</li>
-								<li><span class="highlight-3">init 4 </span>to stop or not enter X</li>
-								<li><span class="highlight-3">init 5</span> Multi-User mode with network running the X-windows system, and/or to start X</li>
-								<li><span class="highlight-3">init 6 </span>reboot</li>
-							</ul>
-	</div>
-			<div id="rev">Page last revised 04/08/2007 0930hrs UTC </div>	
+			<div id="rev">Content last revised 05/12/2007 1300hrs UTC </div>	
 
 </div>
 </body>

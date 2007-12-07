@@ -16,10 +16,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="sys-admin">
+<body>
+<!-- Last translation revision by XXXX xx/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer ladepa Adriana-->
-<!--Welcome to the  sidux-manual Operating System Manual  -->
-<!-- menu last updated by bluewater 30/11/2007 1700 hrs AEST 30/11/2007 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
+<!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
 <img src="../lib/logos/sidux-logo.png" alt="logo" id="menu-header" />
 	<ul id="top-list">
 		<li><a href="http://sidux.com/">La pagina sidux.com</a></li>
@@ -124,11 +125,11 @@
 				<li><a href="lamp-apache-ro.htm#serv-ssl">SSL</a></li>
 				<li><a href="lamp-sql-ro.htm#serv-mysql">Setarea MySQL </a></li>
 				<li><a href="lamp-ppp-ro.htm#serv-php">PHP în Apache</a></li>
+				<li><a href="ntp-server-ro.htm#ntp-server">Setarea Timeserver-ului </a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-ro.htm">Internet şi Networking</a>
 			<ul class="sub-menu" id="sm12">
-				<li><a href="ntp-server-ro.htm#ntp-server">Setarea Timeserver-ului </a></li>
 				<li><a href="tor-privoxy-ro.htm#tor">Tor</a></li>
 				<li><a href="tor-privoxy-ro.htm#privoxy">Privoxy</a></li>
 				<li><a href="internet-connecting-ro.htm#firewalls">Firewalls</a></li>
@@ -168,7 +169,7 @@
 				<li><a href="sys-admin-rdiff-ro.htm#rdiff">Salvările cu rdiff</a></li>
 				<li><a href="sys-admin-rsync-ro.htm#rsync">Salvările cu rsync</a></li>
 				<li><a href="vir-rkits-ro.htm#virus-rkits">Scanerele Antivirus şi Rootkit </a></li>
-				<li><a href="sys-admin-gen-ro.htm#start-services">Activarea serviciilor</a></li>
+				<li><a href="sys-admin-gen-ro.htm#start-services">Services enable/disable</a></li>
 				<li><a href="sys-admin-gen-ro.htm#pw-lost">Parolele de root pierdute</a></li>
 				<li><a href="sys-admin-gen-ro.htm#fonts">Fonturi </a></li>
 				<li><a href="sys-admin-gen-ro.htm#cups">CUPS</a></li>
@@ -186,23 +187,43 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Activarea serviciilor în sidux</h2>
 
-			<p>sidux , implicit , rulează următoarele servicii : <span class="highlight-1">cpid, cron, dbus, hotkey-setup, kdm, klogd, sysklogd</span> şi li se va face update ori de câte ori se face dist-upgrade .Toate serviciile care sunt instalate dar inactive vor deveni active după dist-upgrade.</p>
+							<p>Services get updated whenever a dist-upgrade is done. Any other services that were disabled pre dist-upgrade will also become enabled.</p>
 
-			<p>Pentru a porni o sesiune a unui serviciu : </p>
+							<p>To start a service for a session use, or to manage what services are enabled and disabled at startup.</p>
 
 <pre>
-/etc/init.d/service start
+invoke-rc.d service start
 </pre>
-			<p>sau</p>
+							<p>or</p>
 <pre>
 rcconf
 </pre>
-			<p>pentru a activa un serviciu la startup :</p>
 
-		<p class="highlight-3">Specificaţii rcconf : Folosiţi : săgeţile pentru a muta sus/jos , space pentru select/deselect , tab pentru inserat , ok sau cancel , `enter` aplică schimbările</p><p>O alternativă la rcconf este:</p>
+		<p class="highlight-3">Specificaţii rcconf : Folosiţi : săgeţile pentru a muta sus/jos , space pentru select/deselect , tab pentru inserat , ok sau cancel , `enter` aplică schimbările</p>
+
+			<h2>Killing a service or process</h2>
+						<p><span class="highlight-3">pkill</span> is very useful as its human readable and can work in both user and root mode in the terminal or at tty</p>
 <pre>
-update-rc.d service defaults
+pkill -n service
 </pre>
+						<p>If you are not sure of the correct spelling of the process or service you wish to kill <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> will provide a list </p>
+
+						<p>htop is also good a alternative. (killall -9 is your last alternative).</p>
+
+	</div>
+	<div class="divider" id="init">
+			<h2>sidux runlevels - init</h2>
+							<p>Aceasta este lista din sistemul de operare sidux pentru runlevels, observaţi că acestea diferă de runlevels din debain stable :</p>
+
+							<ul>
+								<li><span class="highlight-3">init 0 </span> opreşte PC-ul</li>
+								<li><span class="highlight-3">init 1</span> single user mode</li>
+								<li><span class="highlight-3">init 2 </span>Multi-User mode fără  network, şi/sau  pentru a opri sau a nu porni X,  </li>
+								<li><span class="highlight-3">init 3 </span>Multi-User mode cu network fără X-windows system, şi/sau pentru a opri sau a nu porni  X</li>
+								<li><span class="highlight-3">init 4 </span>pentru a opri sau a nu porni  X</li>
+								<li><span class="highlight-3">init 5</span> Multi-User mode cu network rulând X-windows system, şi/sau pentru a porni  X</li>
+								<li><span class="highlight-3">init 6 </span>reboot</li>
+							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Parolele de root pierdute</h2>
@@ -294,21 +315,8 @@ localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">aici mai multe din sidux forums.</a></p>
 	</div>
-	<div class="divider" id="init">
-			<h2>sidux runlevels - init</h2>
-							<p>Aceasta este lista din sistemul de operare sidux pentru runlevels, observaţi că acestea diferă de runlevels din debain stable :</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> opreşte PC-ul</li>
-								<li><span class="highlight-3">init 1</span> single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode fără  network, şi/sau  pentru a opri sau a nu porni X,  </li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode cu network fără X-windows system, şi/sau pentru a opri sau a nu porni  X</li>
-								<li><span class="highlight-3">init 4 </span>pentru a opri sau a nu porni  X</li>
-								<li><span class="highlight-3">init 5</span> Multi-User mode cu network rulând X-windows system, şi/sau pentru a porni  X</li>
-								<li><span class="highlight-3">init 6 </span>reboot</li>
-							</ul>
-	</div>
-			<div id="rev">Page last revised 24/08/2007 1100hrs UTC </div>
+			<div id="rev">Content last revised 05/12/2007 1300hrs UTC</div>
 
 </div>
 </body>

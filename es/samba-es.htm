@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 03/11/2007 0130 UTC-->
+<!-- Last translation revision by Richard 18/12/2007 2100hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
 <!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
@@ -186,34 +186,34 @@
 <div id="main-page">
 	<div class="divider" id="configure">
 		<h2 id="top-header">Configurando sidux para utilizar SAMBA (Windows) Directorios Compartidos desde máquinas remotos</h2>
-		
+
 		<p>Haga todos los comandos como <b>root</b> (en un Terminal o Consola) y los URLs en Konqueror (ejecuta Konqueror como usuario normal).</p>
-		
+
 		<p class="highlight-1">servidor = nombre del servidor o el IP de la máquina Windows<br /> <span class="highlight-1">share = nombre del carpeta siendo compartido</span></p>
-		
+
 		<p>En KDE - entra el URL en Konqueror <span class="highlight-3">smb://server</span> o el URL completo:  <span class="highlight-3">smb://server/share</span></p>
-		
+
 		<p>En una consola puede ver los shares (compartidos) ubicado en el servidor ejecutando:</p>
 <pre>smbclient -L server</pre>
-		
+
 		<p>Para montar una dirección compartido, un share, en un directorio -(con pleno acceso para TODOS los usuarios) recuerdan eso: El punto de montaje tiene que existir. Si no lo existe, primero tiene que crear n directorio así (el Nombre es arbitrario):</p>
 <pre>mkdir -p /mnt/server_share</pre>
-		
+
 		<p>Entonces, monta el share - sistema de archivos remoto VFAT:</p>
 <pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share</pre>
-		
+
 		<p>o una sistema de archivos NTFS:</p>
 <pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share</pre>
-		
+
 		<p>Para terminar la conexión, utiliza:</p>
 <pre>umount /mnt/server_share</pre>
-		
+
 		<p>Si deseas hacer un entrada en <i>/etc/fstab</i> para hacer la montura más fácil, entonces inserta la siguiente linea en aquel archivo:</p>
 <pre>//server/share  /mnt/server_share  smbfs  defaults,username=su_nombre_usuario,password=******,fmask=777,dmask=777   0   0</pre>
 	</div>
 	<div class="divider" id="setup">
 		<h2>Como configurar sidux como un servidor de Samba</h2>
-		
+
 		<p>En vista de que Samba no esta en el LiveCD, necesitará hacer lo siguiente para tener acesco a samba:</p>
 <pre>
 su
@@ -228,14 +228,14 @@ sux
 apt-get update
 apt-get install samba
 </pre>
-		
+
 		<p>En una instalación al Disco Duro, es necesario ajustar la configuración de Samba. Aquí esta un ejemplo sencillo. Si deseas saber más sobre el uso de Samba y la configuración de un servidor Samba en Linux, <a href="http://us5.samba.org/samba/"> se recomiendo lea la documentación de Samba.</a>.</p>
-		
+
 		<p>Para ajustar la configuración de samba, haga los siguiente:</p>
-		
+
 		<p>Abra el archivo:  <span class="highlight-3">/etc/samba/smb.conf</span> en un editor (por ejemplo,  kedit) y entre esto:</p>
-		
-<pre># Cambios globales - Propuesto con todo tan sencillo 
+
+<pre># Cambios globales - Propuesto con todo tan sencillo
 #como posible, sin claves, funciona como el Windows 9x
 
 [global]
@@ -255,17 +255,17 @@ public = yes
 # writable (escribirle) - que tiene sentido con el FAT32.
 
 [DATA]
-comment = Data Partition (primer partición extendido)
-browseable = yes
-writable = yes
+comment = Partición de Data (primer partición extendido)
+browseable = si
+writable = si
 path = /media/hda5
-public = yes
+public = si
 </pre>
 
 				<h6>Revisando las comparticiones de Samba</h6>
-							<p>Para fijar las comparticiones sin tomar en cuenta la seguridad en Samba, haga los siguientes comandos (por ejemplo para una configuración en LAN):</p>
+						<p>Para fijar las comparticiones sin tomar en cuenta la seguridad en Samba, haga los siguientes comandos (por ejemplo para una configuración en LAN):</p>
 
-							<p>Fijar el directorio y su contenido, por lo menos: -rwxr-xr-x:</p>
+						<p>Fijar el directorio y su contenido, por lo menos: -rwxr-xr-x:</p>
 
 <pre>
 ls -la pathTo/dirShareName/*
@@ -301,9 +301,9 @@ Domain=[HOME] OS=[Unix] Server=[Samba 3.0.26a]
 
         Sharename       Type      Comment
         ---------       ----      -------
-        IPC$            IPC       IPC Service (3.0.26a)
-        MaShare         Disk      comment
-        print$          Disk      Printer Drivers
+        IPC$            IPC       Servicio IPC (3.0.26a)
+        MaShare         Disk      commentario
+        print$          Disk      Drivers de impresoras
 Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 </pre>
 
@@ -312,15 +312,15 @@ Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 <pre>/etc/init.d/samba start</pre>
 		<br />
 <pre>/etc/init.d/samba stop</pre>
-		
+
 		<p>Además, puede iniciar/detener Samba al arranque: Ejecuta estos comandos:</p>
-		
+
 <pre>
 update.rc.d samba defaults
 </pre>
-		
+
 		<p>Ahora Samba se iniciar cuando el computador se arranque y se para cuando el computador se apague normalmente.</p>
-		
+
 	</div>
 			<div id="rev">Página modificado el 01/10/2007 1200hrs UTC</div>
 </div>

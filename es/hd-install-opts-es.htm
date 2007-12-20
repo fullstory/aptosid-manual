@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 03/11/2007 0130 UTC-->
+<!-- Last translation revision by Richard 18/12/2007 2100hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
 <!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
@@ -268,23 +268,23 @@ initrd (hd0,4)/sidux/miniroot.gz
 	<div class="divider" id="fromiso-persist">
 		<h2>fromiso and persist (eros)</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>Con eros puede tener un sistema en vivo y persistente en un disco escribible, combinando una instalación "fromiso" con el cheatcode, "persist".</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>sidux usa el aufs para proporcionar lo que conoce como "copiar al escribir" sobre el CD para permitir escribir nuevos archivos, directorios y actualizar los existentes a través de guardar los nuevos en memoria. Con el cheatcode <span class="highlight-3">persist</span>, eros guarda los archivos nuevos en el mismo disco duro donde esta guardado el "fromiso" imagen del CD.</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>Utilizando el cheatcode <span class="highlight-3">persist</span> proporciona un sistema en vivo que tiene todos los caracteristicas automáticas como el sidux liveCD. Este tiene el beneficio de hacer cosas como configurar el hardware, pero significa que se crear de nuevo los mismos archivos cada vez que lo arrancas.</p>
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Por ejemplo, no almacena la configuración de X (tarjeta video, teclado, ratón) ni del archivo de interfaz de la red, lo cual hace ideal para usar en más de una computador, </span>pero puede interferir cuando desea configurar algunas de estos caracteristicas.</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Quizás, el uso ideal de persistencia es en conjunto con la nueva herramienta, install-usb-gui, para crear su propio unidad flash arrancable con los archivos y el software que necesita.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Sus archivos seran almacenados en un directorio en el medio. Este directorio será creado si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes estan usados conjuntamente. </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">persist</span> en un sistema de archivos FAT, comunmente usado para instalaciones dos/Windows 9x, y usualmente preseleccionada en dispositivos flash, se requiere la creación de una archivo largo y grande par uso como dispositivo en bucle, entonces dar formato a este archivo.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Como siempre, sidux recomienda usar una partición ext3 para almacenar el iso y todos los demás archivos.</span></p>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Este archivo debe ser nombrado <span class="highlight-3">sidux-rw </span>y colocado en el directorio raíz de su dispositivo FAT. Asumiendo que el disco a usar esta montado y escribible en /media/sdb1 y si deseas crear un archivo de 1GB para uso como un drive persistente, puede utilizar los siguientes comandos (no necesita ser root para escribir en el archivo).</p>
 <pre>
 Code:
 disc="/media/sdb1"
@@ -292,7 +292,7 @@ size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Particiones NTFS, comunmente usado para  instalaciones de Windows NT/2000/XP (TM), NO PUEDE SER USADO para persistencia.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -418,7 +418,7 @@ qemu [hd_image]
 qemu-img create -b [[base''image]]  \
 -f qcow [[overlay''image]]
 </pre>
-				<p>Sustituye el imagen del disco duro para el imagen_base (en nuestro caso, con win.qcow). Después, puede ejecutar el qemu con:</p>
+				<p>Sustituye el imagen del disco duro para el imagen_base (en nuestro caso, con sidux.qcow). Después, puede ejecutar el qemu con:</p>
 <pre>
 qemu [overlay_image]
 </pre>
@@ -437,7 +437,7 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Asumimos que la dispositiva es /dev/loop0, porque no estuvimos usando otros loopbacks. Próximo, crear el imagen del disco unido ("merged") MBR + /dev/hdaN utilizando software RAID:</p>
+				<p>Asumimos que el dispositivo es /dev/loop0, porque no estuvimos usando otros loopbacks. Próximo, crear el imagen del disco unido ("merged") MBR + /dev/hdaN utilizando software RAID:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16  \

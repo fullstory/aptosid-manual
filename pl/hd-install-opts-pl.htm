@@ -259,32 +259,32 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso i persist (eros)</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>Od wydania eros możesz utworzyć trwały system typu live na zapisywalnym nośniku poprzez kombinację konfiguracji fromiso i opcji startowej persist.</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>sidux używa aufs, aby udostępnić funkcję nazywaną "copy on write", która pozwala zapisywać nowe pliki i katalogi oraz uaktualniać już istniejące poprzez przechowywanie ich w pamięci. Przy pomocy opcji startowej <span class="highlight-3">persist</span> eros będzie przechowywać nowe pliki na tym samym twardym dysku, na którym przechowujesz obraz fromiso.</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>Użycie <span class="highlight-3">persist</span> udostępnia ci system live, który wykonuje wszystkie funkcje live cd siduksa. Oferuje to takie korzyści jak automatyczną konfigurację sprzętu, ale oznacza także ponowne tworzenie tych samych plików za każdym startem systemu.</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Na przykład nie zostanie zachowana twoja konfiguracja X (karta graficzna, klawiatura, mysz) lub plik z interfejsami sieciowymi, co czyni funkcję persist idealną do stosowania na więcej niż jednym komputerze, </span> ale może stanowić utrudnienie, gdy musisz skonfigurować wspomniane wcześniej urządzenia</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Być może idealnym użyciem funkcji persist w połączeniu nowym narzędziem install-usb-gui jest stworzenie twojego własnego bootowalnego napędu flash z własnymi plikami i oprogramowaniem.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Twoje pliki będą przechowywane w podkatalogu na dysku. Ten podkatalog jest tworzony, jeśli nie istnieje, gdy opcje <span class="highlight-3">fromiso </span> i <span class="highlight-3">persist</span> są użyte razem. </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">persist</span> na systemie plików FAT, tak popularny na instalacjach dos/Windows 9x i zwykle dostępny domyślnie na urządzeniach flash, wymaga utworzenia jednego wielkiego pliku do użycia jako urządzenie loop, następnie musisz sformatować ten plik.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Jak zwykle sidux zaleca użycie partycji ext3 do przechowywania iso i wszystkich innych plików.</span></p>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Plik ten powinien zostać nazwany <span class="highlight-3">sidux-rw </span>i zostać umieszczony w katalogu głównym twojego napędu z FAT. Zakładając, że dysk, który chcesz użyć, jest zamontowany i zapisywalny na /media/sdb1 i chcesz stworzyć plik 1GB, aby użyć go jako twój trwały dysk, możesz użyć następujących poleceń (nie ma potrzeby stosować uprawnień roota, jeśli możesz pisać do pliku).</p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Partycje NTFS powszechnie używane dla Windows NT/2000/XP (TM), NIE MOGĄ  być użyte dla celów persist.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -412,7 +412,7 @@ qemu [hd_image]
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
-				<p>Zastąp obraz twardego dysku dla base_image (w naszym przypadku win.qcow). Potem możesz uruchomić qemu:</p>
+				<p>Zastąp obraz twardego dysku dla base_image (w naszym przypadku sidux.qcow). Potem możesz uruchomić qemu:</p>
 <pre>
 qemu [overlay_image]
 </pre>
@@ -476,7 +476,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 21/11/2007 0700hrs UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 17/12/2007 18:00 UTC</div>
 
 </div>
 </body>

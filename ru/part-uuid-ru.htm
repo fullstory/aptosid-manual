@@ -16,7 +16,8 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<body id="welcome">
+<body>
+<!-- Last translation revision by RoEn 04/01/2008 0300 UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn, koslow and von_Selbst-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
 <!-- menu last updated by Roen 11/12/2007 2000 hrs AEST 11/12/2007 0900 hrs UTC -->
@@ -202,7 +203,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
 </pre>
 
-									<p>В этом примере строка, содержащая  <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> отсутствует в fstab.Следующим шагом станет добавление соответствующей данному UUID строки в файл /etc/fstab. Для этого подойдет любой текстовый редактор (такой как kate или kwrite), запущенный от имени суперпользователя root:</p>
+									<p>В этом примере строка, содержащая  <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> отсутствует в fstab. Следующим шагом станет добавление соответствующей данному UUID строки в файл /etc/fstab. Для этого подойдет любой текстовый редактор (такой как kate или kwrite), запущенный от имени суперпользователя root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
@@ -228,6 +229,9 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
 </pre>
+
+					<h5 class="highlight-3">замечание: Точки монтирования (в fstab) должны быть существуюшие папки, sidux создает эти папки в течение установки под /media, и назвываются sda1, sda2 ... disk0, disk1.<br />
+					Точки монтирования для разделения, созданных после установки должны быть созданы и добавлены вручно в fstab.</h5>
 
 	<div class="divider" id="uuid-fstab">
 			<h2>Обзор: UUID, метка раздела и fstab</h2>
@@ -282,7 +286,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -&gt; ../../sdb1
 Изменение метки FAT разделов может быть проведено в Windows.
 * ntfs: ntfslabel /dev/XXX &lt;label&gt; изменение метки в Windows. 
 </pre>
-				<p class="highlight-3">ВНИМАНИЕ:Чтобы при подключении функционировать, метки должны иметь уникальное обозначение. Это относится и к внешним устройствам (жесткие диски, Sticks, и т.д.), которые включаются через USB или FIrewire. Синтаксис LABEL =/UUID = для разделов UN*X предпочтительнее, чем /dev/disk/by-*/.</p>
+				<p class="highlight-3">ВНИМАНИЕ: Чтобы при подключении функционировать, метки должны иметь уникальное обозначение. Это относится и к внешним устройствам (жесткие диски, Sticks, и т.д.), которые включаются через USB или FIrewire. Синтаксис LABEL =/UUID = для разделов UN*X предпочтительнее, чем /dev/disk/by-*/.</p>
 
 
 
@@ -290,11 +294,11 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -&gt; ../../sdb1
 
 				<p>Метод by-id  создает единственное обозначение на основе серийного номера аппаратных средств.</p>
 			<h4>4. Посредством Path</h4>
-				<p>by-path создает единственное обозначение на основе самого короткого физического пути (по sysfs).<br /><br />Оба вышеупомянутых метода содержат строки символов, которые снимают показания, к какой подсистеме они принадлежат, и таким образом не подходят, для решения&nbsp;выше упомянутых проблем и здесь в дальнейшем&nbsp;не обсуждаются.</p>
+				<p>by-path создает единственное обозначение на основе самого короткого физического пути (по sysfs).<br /><br />Оба вышеупомянутых метода содержат строки символов, которые снимают показания, к какой подсистеме они принадлежат, и таким образом не подходят, для решения выше упомянутых проблем и здесь в дальнейшем не обсуждаются.</p>
 
 			<h4>Использование длинных наименований</h4>
 
-				<p>Здесь&nbsp;пример включения длинных наименований в fstab.</p>
+				<p>Здесь пример включения длинных наименований в fstab.</p>
 
 			<h4>В fstab</h4>
 
@@ -334,10 +338,10 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
 				<p>Источники: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> ссылаясь на <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. Содержание&nbsp;wiki.archlinux.org является&nbsp;засвидетельствованным как под GNU Free Documentation License 1.2. Редактировано и соответственно переведено для sidux руководствa.</p>
-				<p>Больше о метках:<a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
+				<p>Больше о метках: <a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено UTC 09/07/2007 1500</div>
+			<div id="rev">Content last revised UTC 30/12/2007 1300hrs</div>
 </div>
 </div>
 </body>

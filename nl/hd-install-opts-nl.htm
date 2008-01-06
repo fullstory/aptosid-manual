@@ -263,28 +263,28 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 							<p>Met eros kun je een blijvend live systeem op een CDRW schijf hebben door een combinatie van een fromiso opstelling met de blijvende cheatcode.</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>sidux gebruikt aufs om "copy on write" op je cd mogelijk te maken, dit om het je toe testaan om nieuwe bestanden en folders te schrijven en bestaande te updaten in het geheugen. Met de <span class="highlight-3">persist</span> cheatcode, kan eros je nieuwe bestanden opslaan op dezelfde harddisk partitie waar je ook je fromiso image staat.</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>Gebruikmakend van<span class="highlight-3">persist</span> geeft je een live systeem met alle automatische features van de sidux live cd. Dit heeft als voordeel dat alle hardware automatisch geconfigueerd wordt, maar betekend ook dat de bestanden bij elke nieuwe boot opnieuw aangemaakt worden..</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Als voorbeeld worden je instellingen voor X (videokaart, toetsenbord, muis) en je netwerk interface bestanden niet bewaard, het kan wel op elke pc gebruikt worden, maar het is lastig als je specifiek een configuratit van je netwerk moet hebben, want dit moet elke keer weer ingesteld worden.</span> </p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Misschien is de ideale gebruik van de "persistence mode" in samenhang met de nieuwe install-usb-gui tool om je eigen bootable flash drive met je eigen bestanden en software te maken.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Je bestanden worden dan in een subfolder op de drive opgeslagen. Deze subfolder wordt aangemaakt als deze niet bestaat wanneer de <span class="highlight-3">fromiso </span> en <span class="highlight-3">persist</span> cheatcodes gebruikt worden. </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">persist</span> op een FAT filesysteem, meestal gebruikt voor dos/Windows 9x installatie's en meestal standaard op flash devices gevonden, eisen van je om 1 enkele grote bestand aan te maken als een loop device, je moet deze bestand dan formatteren.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Zoals gewend raadt sidux aan om een ext3 partitie te gebruiken om je iso en andere bestanden op te slaan..</span></p>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Het bestand moet de volgende naam hebben <span class="highlight-3">sidux-rw </span> en geplaatst worden in de root directory van je FAT drive. Uitgaande van het feit dat je de gebruikte disc mount als een schrijfbare disc op /media/sdb1 en je wil een 1GB groot bestand creeeren als je persistent drive dan kun je de volgende commando's gebruiken om dit uit te voeren (geen root rechten nodig als je naar het bestand kan schrijven).</p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">NTFS partitie's, normaal gebruikt bij Windows NT/2000/XP (TM)  installatie's, kunnen NIET gebruikt worden voor de persistence mode.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">

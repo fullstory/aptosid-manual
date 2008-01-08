@@ -213,7 +213,7 @@ ListenAddress 192.168.2.134
 </pre>
 				<p>Hierna - protocol 2 is standaard debian default, maar voor de zekerheid gaan wij even kijken wat daar staat:</p>
 
- 				<p><span class="highlight-3">LoginGraceTime &lt;seconds to allow for login&gt;:</span> Hier staat een vreemde default-waarde van 600 seconden. Ook als je slechts met twee vingers kan typen, heb je nooit 10 minuten nodig om je user name en password op te geven, dus maken wij hiervan:</p>
+ 				<p><span class="highlight-3">LoginGraceTime &lt;toegestane tijd om aan te loggen in seconden&gt;:</span> Hier staat een vreemde default-waarde van 600 seconden. Ook als je slechts met twee vingers kan typen, heb je nooit 10 minuten nodig om je user name en password op te geven, dus maken wij hiervan:</p>
 <pre>
 LoginGraceTime 45
 </pre>
@@ -234,13 +234,13 @@ MaxAuthTries 2
 </pre>
  				<p>Als onderstaande items niet voorkomen, kunnen deze worden toegevoegd (of aangepast):</p>
 <pre>
-AllowUsers &lt;geef user namen op, met spaties ertussen, die via ssh mogen inloggen&gt;
+AllowUsers &lt;geef gebruikersnamen op, met spaties ertussen, die via ssh mogen inloggen&gt;
 </pre>
- 				<p><span class="highlight-3">AllowUsers &lt;xxx&gt;:</span> Maak voor de zekerheid een aparte ssh only user aan met beperkte (user, niet root)rechten. Gebruik hiervoor adduser om deze user aan te maken en plaats de naam hier, zoals:</p>
+ 				<p><span class="highlight-3">AllowUsers &lt;xxx&gt;:</span> Maak voor de zekerheid een aparte ssh only user aan met beperkte (user, niet root)rechten. Gebruik hiervoor adduser om deze gebruiker aan te maken en plaats de naam hier, zoals:</p>
 <pre>
 AllowUsers weesvoorzichtig
 </pre>
- 				<p><span class="highlight-3">PermitEmptyPasswords &lt;xxx&gt;:</span> Geef deze user een mooi lang password dat ook in een millioen jaren niet te raden is en sta alleen deze user toe om ssh te gebruiken. Als je een keer in de andere pc zit, kan je met su ook root worden. Sta dus nooit een leeg password toe:</p>
+ 				<p><span class="highlight-3">PermitEmptyPasswords &lt;xxx&gt;:</span> Geef deze gebruiker een mooi lang password dat ook in een millioen jaren niet te raden is en sta alleen deze user toe om ssh te gebruiken. Als je een keer in de andere pc zit, kan je met su ook root worden. Sta dus nooit een leeg password toe:</p>
 <pre>
 PermitEmptyPasswords no
 </pre>
@@ -269,9 +269,9 @@ PasswordAuthentication yes [unless using keys]
 
 			<p>Op de remote computer moet in <span class="highlight-3">/etc/hosts.allow</span> een extra regel worden opgenomen om rechten voor een ssh toegang vast te leggen: </p>
 <pre>
-ssh sshd : 192.168.1.0/24 : ALLOW # sta de local area network adresses (allen) toe om de server te benaderen:code:
+ssh sshd : 192.168.1.0/24 : ALLOW # sta lokale netwerk adressen (allen) toe om de server te benaderen:code:
 </pre>
-			<p>Op de local computer, wordt een konsole geopend en een commando gegeven om de ssh connection met X-Forwarding te activeren:</p>
+			<p>Op de lokale computer, wordt een konsole geopend en een commando gegeven om de ssh connection met X-Forwarding te activeren:</p>
 <pre>
 ssh -X username@xxx.xxx.xxx.xxx (or IP)
 (type je ssh password in als dat gevraagd wordt, 
@@ -304,17 +304,17 @@ ssh -X username@xxx.xxx.xxx.xxx
 
 			<p>Belangrijk: hosts.allow moet een regel bevatten waarin wordt toegestaan dat pc's van andere netwerken toegang kunnen verkrijgen. Als je via een NAT-Firewall of een router zit, moet je hiervoor controleren dat poort 22 wordt 'forwarded' naar de Linux-pc.</p>
 
-							<p class="highlight-3">NOTE: If you have set the ssh port to to use another port, other than the default of 22, you need to specify the port that sftp/fish is to use:</p>
+							<p class="highlight-3">NOTITIE: Als je de ssh poort op een andere poort hebt gezet , dan de standaard poort 22, dan moet je deze poort specificeren bij het gebruik van sftp/fish:</p>
 <pre>
 sftp://user@ip:port
 </pre>
-							<p>'user@ip:port' is standard sytax for many programs like sftp, smb, fish</p>
+							<p>'user@ip:port' is de standaard sytax voor veel programmas zoals sftp, smb, fish</p>
 
 	</div>
 		<div class="divider" id="ssh-f">
 			<h2>SSH met Konqueror</h2>
 
-							<p>Konqueror en Krusader zijn beiden in staat om remote data te benaderen, door het using <span class="highlight-3">sftp://</span> and uses the ssh protocol.</p>
+							<p>Konqueror en Krusader zijn beiden in staat om remote data te benaderen, door het gebruik vang <span class="highlight-3">sftp://</span> en gebruikt het ssh protocol.</p>
 
 
 							<p>Hoe werkt het:<br />
@@ -336,7 +336,7 @@ sftp://username:password@ssh-server.com
 							<p>Voor een LAN-situatie:</p>
 <pre>
 sftp://username@10.x.x.x or 198.x.x.x.x
-(Note: A popup opens that asks for your ssh password, enter it and click OK)
+(Notitie: Een popup opend en vraagt je om je ssh wachtwoord, vul deze in en klik op OK)
 </pre>
 							<p>De KonquerorSSH verbinding is nu gemaakt. In het Konqueror venster, kunnen bestanden op de SSH server bewerkt worden (bijv. copy/view) net alsof deze op de eigen pc zouden staan.</p>
 		
@@ -346,7 +346,7 @@ sftp://username@10.x.x.x or 198.x.x.x.x
 			<h2>SSHFS - mounten/remote van een bestandssysteem</h2>
 							<p>SSFS is een eenvoudige, snelle en veilige methode die gebruik maakt van FUSE om een bestandssysteem op afstand te mounten. Het enige dat hiervoor aan de server-kant nodig is, is een ssh daemon.</p>
 
-							<p>On client side you propably have to install sshfs: <span class="highlight-1">installing fuse and groups is not necessary on sidux eros forward as it is installed by default:</span></p>
+							<p>Op de client moet je waarschijnlijk sshfs installeren: <span class="highlight-1">het installeren van fuse en groups is niet nodig bij sidux eros forward omdat het standaard geinstalleerd is:</span></p>
 
 							<p>Aan de client-kant (pc op afstand) moet waarschijnlijk eerst sshfs ge&#239;nstalleerd worden:	</p>
 <pre>
@@ -389,7 +389,7 @@ cat /etc/group | grep fuse
 fuse:x:117: &lt;username&gt;
 </pre>
 
-							<p>Als je username niet voorkomt, gebruikt het adduser commando als root:</p>
+							<p>Als je gebruikersnaam niet voorkomt, gebruikt het adduser commando als root:</p>
 <pre>
 adduser &lt;username&gt; fuse
 </pre>
@@ -405,7 +405,7 @@ umount local_mount_point
 </pre>
 
 	</div>
-			<div id="rev">Content last revised 05/01/2008 2300 UTC</div>
+			<div id="rev">Inhoud het laatst gewijzigd op 05/01/2008 2300 UTC</div>
 
 </div>
 </body>

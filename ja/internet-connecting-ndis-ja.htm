@@ -17,6 +17,7 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision by muchan 05/Jan/2008 1230 UTC-->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.57.2007.12.07 -->
 <!-- menu last updated by bluewater 07/12/2007 2000 hrs AEST 07/12/2007 0900 hrs UTC -->
@@ -184,16 +185,28 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="ndiswrapper-basic">
+		<!--- ####
 		<h2>Activating Ndiswrapper</h2>
+		#### -->
+		<h2>Ndiswrapperの有効化</h2>
 
+							<!--- ####
 							<p>sidux has all needed packages installed already: the kernel module and the ndiswrapper-utils.</p>
+							#### -->
+							<p>siduxにはすでに必要なパッケージがすべてインストールされています: カーネルモジュールとndiswrapper-utils.</p>
 
+							<!--- ####
 							<p>You need a "Windows" inf-file for the driver, find it and then load it:</p>
+							#### -->
+							<p>必要なのはそのドライバーの"Windows"用のinfファイルです. どこかで見つけてきてロードします:</p>
 <pre >
 ndiswrapper -i driver.inf
 </pre>
 
+							<!--- ####
 							<p>To check if installation went ok, check it with -l:</p>
+							#### -->
+							<p>インストールがうまくいったかをチェックするには-lオプションを使います:</p>
 
 <pre >
 root@blubb:/folder/with/driver# ndiswrapper -l
@@ -201,55 +214,96 @@ installed drivers:
 net5416 : driver installed
  device (168C:0024) present 
 </pre>
+							<!--- ####
 							<p>It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg),  because if the output is wrong here you won't get a wlan connection.</p>
+							#### -->
+							<p>ここで-lの出力に"driver installed"と"device present"が表示されているのを確認するのが大切です. この両方が表示されていなければ何かがうまくいかなかったということです. (-iオプションとdmesgをチェックします)、ここでの表示がうまくいかなければwlan接続はできません.</p>
 
+							<!--- ####
 							<p>Load the ndiswrapper-module:</p>
+							#### -->
+							<p>ndiswrapper-moduleのロード:</p>
 <pre >
 modprobe ndiswrapper
 </pre>
 
+							<!--- ####
 							<p>To check if a wifi device was created type::</p>
+							#### -->
+							<p>wifiデバイスが作成されたのを確かめるには::</p>
 <pre >
 iwconfig
 </pre>
 
+							<!--- ####
 							<p>To check if the access-point was found:</p>
+							#### -->
+							<p>アクセスポイントが見つかったかを確かめるには:</p>
 <pre >
 iwlist wlan0 scan
 </pre>
 
+							<!--- ####
 							<p>then you can configure the card with:</p>
+							#### -->
+							<p>そしてカードの設定をするには:</p>
 <pre >
 /usr/sbin/netcardconfig
 </pre>
+							<!--- ####
 							<p class="highlight-3">Should you update your kernel, you will need to reinstall it. Change the kernel number to suit your current kernel:</p>
+							#### -->
+							<p class="highlight-3">カーネルをアップデートするごとにndiswrapperを再インストールする必要があります. カーネルの番号を新しいカーネルのものに変えて実行してください:</p>
 <pre >
 dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.5-slh-smp-2_1.46-0+c0.sidux.1+1_i386.deb
 </pre>
+							<!--- ####
 							<p>Then load it with modprobe:</p>
+							#### -->
+							<p>そしてmodprobeでロードします:</p>
 <pre>
 modprobe ndiswrapper
 </pre>
+							<!--- ####
 							<p>You don't have to reinstall the windows drivers as the windows driver part is seperate from the kernel module.</p>
+							#### -->
+							<p>Windowsのドライバーはカーネルモジュールと一緒ではないので改めてインストールする必要はありません.</p>
 
+							<!--- ####
 							<p>You can also  write ndiswrapper to /etc/modules to load ndiswrapper at startup</p>
+							#### -->
+							<p>/etc/modulesにndiswrapperと書いておけば起動の際自動的にロードされます</p>
 <pre>
 grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
 
 	</div>
 	<div class="divider" id="ndiswrapper-advanced">
+				<!--- ####
 				<h2>Ndiswrapper Advanced</h2>
+				#### -->
+				<h2>Ndiswrapper上級編</h2>
+								<!--- ####
  							<p>The ndiswrapper is a module that enables Linux to use Windows WLAN drivers. This is necessary as some wlan-card producers do not offer an open source or free driver, thus making the implementation of the card in Linux difficult. Ndiswrapper works around this problem "wrapping" the Windows driver and translating output and input from card and Linux.</p>
+								#### -->
+ 							<p>ndiswrapperとはLinuxでWindowsのWLANドライバーが使えるようにするモジュールです. これが必要になるのはいくつかのWLANカードのメーカーがオープンソースまたはフリーのドライバーを提供せず、Linux用のドライバーの実現を難かしくしているためです. Ndiswrapperはこの問題をWindows用のドライバを"wrapping"して、カードのLinuxの間の入出力を変換することによって解消しています.</p>
  
- 
+					<!--- ####
 					<h5>Identify required driver</h5>
+					#### -->
+					<h5>必要なドライバーの識別</h5>
 
+								<!--- ####
  							<p>First of all you need a proper windows driver for your WLAN card.  WLAN cards have numerous  different chip sets for one model and the only way to identify your card accurately is by the device id (USBID/PCIID). </p>
+								#### -->
+ 							<p>まず第一にWLANカードに合った正しいWindows用のドライバーが必要です. WLANカードには同じ名のモデルでも様々なチップセットが使われているため、正確に識別できるただ一つの方法はデバイスID(USBID/PCIID)を確認することです.</p>
  
- 							<p>To get this 'id' open a terminal:</p>
+ 							<p>この'ID'を得るためにはターミナルから:</p>
  
+						<!--- ####
  					<h5>For a USB WLAN adaptor</h5>
+						#### -->
+ 					<h5>USBのWLANアダプターの場合</h5>
 <pre>
 bla@blubb:~$ lsusb
 Bus 004 Device 002: ID 2001:3700 D-Link Corp. [hex] DWL-122 802.11b
@@ -257,9 +311,15 @@ Bus 001 Device 001: ID 0000:0000
 Bus 002 Device 003: ID 0db0:6982 Micro Star International Medion Flash XL V2.7A Card Reader
 bla@blubb:~$
 </pre>
+								<!--- ####
  							<p>As you see in the example above ,the USBID for the D-Link Corp. [hex] DWL-122 adaptor is 2001:3700.</p>
+								#### -->
+ 							<p>この例のD-Link Corp. [hex] DWL-122アダプターのIDは2001:3700です.</p>
  
+						<!--- ####
  					<h5>For a (mini) PCI / PCMCIA WLAN adaptor</h5>
+						#### -->
+ 					<h5>(mini)PCIまたはPCMCIAのWLANアダプターの場合</h5>
  <pre>
 bla@blubb:~$ lspci -nn
 00:1f.3 SMBus [0c05]: Intel Corporation 82801G (ICH7 Family) SMBus Controller [8086:27da] (rev 02)
@@ -268,23 +328,41 @@ bla@blubb:~$ lspci -nn
 03:03.0 FireWire (IEEE 1394) [0c00]: Agere Systems FW323 [11c1:5811] (rev 61)
 </pre>
 
+								<!--- ####
  							<p>This 'id' has the scheme vendor:device as well, here 168c:0024 for the Atheros card.</p>
+								#### -->
+ 							<p>ここでは'ID'はメーカー:デバイスの形をとっています. 上の例では168c:0024がAtherosカードのIDです.</p>
  
+								<!--- ####
  							<p>Now search: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  for an entry with that 'id', If you're lucky you'll find an corresponding entry and  a recommendation for a driver. </p>
+								#### -->
+ 							<p>そして次に <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a> の中からこの'ID'の項目を探します, 運がよければちょうどぴったりの項目と、このカードのために推薦されるドライバーが見つかるでしょう.</p>
  
+								<!--- ####
  							<p>You need the INF and SYS files from that driver. At the best you got a ZIP file which you can extract with unzip. If you get an EXE file it is an self-extracting archive (use wine to extract) or a CAB (extract with cabextract). Easiest way now is to store all files in a new folder in your home.</p>
+								#### -->
+ 							<p>このドライバーのinfファイルとsysファイルが必要です. もしくはzipファイルを入手してそこからunzipで展開します. 自己解凍型のEXEファイル(WINEを使って解凍）またはCABファイル(cabextractを使って解凍)を入手した場合はホームディレクトリの下に新しいディレクトリを作ってすべてのファイルをそこに置くのがいいでしょう.</p>
  
  
+					<!--- ####
 					<h5>Activate Ndiswrapper and install driver</h5>
+					#### -->
+					<h5>Ndiswrapperの有効化とドライバーのインストール</h5>
 
+								<!--- ####
  							<p>Now change to the directory with the windows driver files:</p>
+								#### -->
+ 							<p>まずWindowsのドライバーファイルのあるディレクトリに移ります:</p>
  <pre>
 bla@blubb:~$cd /folder/with/driver
 bla@blubb:~$su
 root@blubb:/folder/with/driver# ndiswrapper -i &lt;driver.inf&gt;
 installing net5416 
 </pre>
+							<!--- ####
 							<p>To check if installation went ok, check it with -l:</p>
+							#### -->
+							<p>インストールがうまくいったかをチェックするには-lオプションで:</p>
 <pre>
 root@blubb:/folder/with/driver# ndiswrapper -l
 installed drivers:
@@ -292,15 +370,24 @@ net5416 : driver installed
  device (168C:0024) present 
 </pre>
 
+								<!--- ####
  							<p class="highlight-3">It is important that you see "driver installed" and "device present" in the output of -l. If you don't see both then something went wrong (check error message from -i and/or dmesg),  because if the output is wrong here, the steps won't work.</p>
+								#### -->
+							<p>ここで-lの出力に"driver installed"と"device present"が表示されているのを確認するのが大切です. この両方が表示されていなければ何かがうまくいかなかったということです. (-iオプションとdmesgをチェックします)、ここでの表示がうまくいかなければwlan接続はできません.</p>
  
- 							<p>Now load the kernel module: </p>
+ 							<p>カーネルモジュールをロードするには: </p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
+								<!--- ####
  							<p>If you don't get an output here everything went fine, if you get an output check dmesg for further information.</p>
+								#### -->
+ 							<p>すべてが順調の時はなにも表示されません. なにか出力があったときはdmesgをチェックして詳しい情報を探します.</p>
  
+								<!--- ####
  							<p> "iwconfig" should now print a wireless device:</p>
+								#### -->
+ 							<p>iwconfigのコマンドでワイアレスデバイスが表示されるはずです:</p>
 <pre>
 root@blubb:~# iwconfig
 lo        no wireless extensions.
@@ -320,31 +407,57 @@ wlan0     IEEE 802.11b  ESSID:"ConnectionPoint"
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:0   Missed beacon:0
 </pre>
+							<!--- ####
 							<p> If you want ndiswrappper to load at start up just write ndiswrapper to <span class="highlight-3">/etc/modules, </span>either by hand or use: </p>
+							#### -->
+							<p> ndiswrappperをシステム起動時に自動的にロードしたい場合は<span class="highlight-3">/etc/modules</span>にndiswrapperを加えます. エディタで書き込むかまたは次のコマンドを使います: </p>
  <pre>
 root@blubb:~# grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
  
- 
+					<!--- ####
 					<h5>Reinstall Ndiswrapper after kernel update</h5>
+					#### -->
+					<h5>カーネルアップデート後のndiswrapperを再インストール</h5>
 
+								<!--- ####
  							<p> After A kernel update you have to reinstall the ndiswrapper kernel module. The deb file is located at /usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,. So. for example for kernel , 2.6.21.5-slh-smp-2,  you have to do:</p>
+								#### -->
+ 							<p>カーネルをアップデートしたときはndiswrapperのカーネルモジュールを再インストールしなければなりません. 必要なdebファイルは　/usr/src/kernel-downloads/ &lt;kernel-version &gt;/ndiswrapper-modules- &lt;version &gt;.deb,です. 例として2.6.21.5-slh-smp-2のカーネルの場合は次のようなコマンドを使います:</p>
  <pre>
 dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.5-slh-smp-2_1.46-0+c0.sidux.1+1_i386.deb
 </pre>
 
+								<!--- ####
  							<p>After installing, load it with:</p>
+								#### -->
+ 							<p>インストールが終わったらこのコマンドでロード:</p>
  <pre>
 root@blubb:/some/folder# modprobe ndiswrapper
 </pre>
+								<!--- ####
  							<p>You don't have to reinstall the windows drivers as the driver part is separated from the kernel module.</p>
+								#### -->
+							<p>Windowsのドライバーはカーネルモジュールと一緒ではないので改めてインストールする必要はありません.</p>
 
+					<!--- ####
 					<h5>General information</h5>
+					#### -->
+					<h5>ついでに</h5>
+								<!--- ####
  							<p>To configure your new device use netcardconfig or sidux-networkconfig. A detailed how-to can be found here <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">here </a>.</p>
+								#### -->
+ 							<p>新しいデバイスを設定するにはnetcardconfigまたはsidux-networkconfigを使います.<br /> ndiswrapperについての詳しい説明は <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">こちらに </a>.</p>
  							
+							<!--- ####
 							<p>If you find another/newer driver please test this one as well. This can cause problems, a kernel panic in worst case but you can help the ndiswrapper project and other users to benefit from the best drivers for the different cards. Please don't forget to update/complete the ndiswrapper  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">list</a> after a successful test.</p>
+							#### -->
+							<p>新しいドライバー、または別のドライバーを見つけたときはぜひそれもテストしてください. なにか問題が(最悪の場合カーネルパニックが)起きるかもしれませんが、こういったことの積み重ねで様々なカードに最適のドライバーを選べるようになりdiswrapperプロジェクトに役立ちます. テストがうまくいったときは<a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">リスト</a> の追加/補完も忘れないように.</p>
 
+							<!--- ####
 							<p>See also <a  href=" http://sidux.com/index.php?module=pnWikka&amp;tag=NetworkNdiswrapperHowTo ">more on the wiki</a></p>
+							#### -->
+							<p>もっと詳しいことは<a  href=" http://sidux.com/index.php?module=pnWikka&amp;tag=NetworkNdiswrapperHowTo ">ndiswrapper wiki</a>を参照してください</p>
 	</div>
 			<div id="rev"> Page last revised UTC 03/08/2007 1300hrs</div>
 </div>

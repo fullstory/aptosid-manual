@@ -9,9 +9,28 @@ common-binary-fixup-indep::
 	# fix permissions
 	find debian/*/usr/share/sidux-manual -type f -exec chmod 0644 {} \;
 
-install/sidux-manual-common::
-	mkdir -p debian/sidux-manual-common/usr/share/pixmaps
-	convert menu/icons/hicolor/32x32/sidux-book.png \
-		debian/sidux-manual-common/usr/share/pixmaps/sidux-manual.xpm
-	convert menu/icons/hicolor/16x16/sidux-book.png \
-		debian/sidux-manual-common/usr/share/pixmaps/sidux-manual-16.xpm
+create-icons::
+	# requires inkscape and imagemagick to be installed
+	@if [ ! -x /usr/bin/convert ]; then \
+		echo "ERROR: imagemagick not installed!" ; \
+		false ; \
+	fi
+	@if [ ! -x /usr/bin/inkscape ]; then \
+		echo "ERROR: inkscape not installed!" ; \
+		false ; \
+	fi
+	
+	# create XDG compatible icons from SVG
+	for i in 16 22 32 48 64 128; do \
+		mkdir -p "menu/icons/hicolor/$${i}x$${i}/apps" ; \
+		inkscape --export-width=$${i} \
+			 --export-height=$${i} \
+			 --export-png="$(CURDIR)/menu/icons/hicolor/$${i}x$${i}/apps/sidux-manual.png" \
+				$(CURDIR)/menu/icons/sidux-manual.svg ; \
+	done
+	
+	# create XPM icons for the debian menu system
+	mkdir -p menu/icons/pixmaps
+	convert menu/icons/hicolor/32x32/apps/sidux-manual.png menu/icons/pixmaps/sidux-manual.xpm
+	convert menu/icons/hicolor/16x16/apps/sidux-manual.png menu/icons/pixmaps/sidux-manual-16.xpm
+

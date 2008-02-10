@@ -195,53 +195,149 @@
 		#### -->
 		<h2 id="top-header">grubの復旧 または MBRがWindowsのブートローダーに上書きされてしまったとき</h2>
 
-							<!--- ####
-							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a sidux live-cd.</p>
-							#### -->
-							<p> MBRにgrubを書き直したり、または一般にgrubを復旧するのには, siduxのライブCDから起動する必要があります。</p>
-
-						<!--- ####
-						<h5 class="highlight-3">Grub recovery  for kernels 2.6.22 and up:</h5>
-						#### -->
-						<h5 class="highlight-3">2.6.22以降のカーネルのgrubの復旧:</h5>
-
-							<p>ターミナルを開き、siduxがインストールされているパーティションをマウントします。(sdxxのかわりにsda2など実際にインストールされているパーティション名を使います):</p>
+							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a <span class="highlight-3">sidux live-cd</span>, first:</p>
+						<ol>
+							<li>To identify and confirm your partitions (e.g. [h,s]d[a..]X) all the following actions need root privileges, so to get root (#):
 <pre>
-sudo mount /media/sdxx
+$ sux
 </pre>
-							<!--- ####
-							<p>Now rewrite Grub to MBR:</p>
-							#### -->
-							<p>MBRにgrubを書くには:</p>
-
+							</li>
+							<li>When in root type in:
 <pre>
-sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+fdisk -l
+cat /etc/fstab
+</pre>
+							This is to get the correct names.
+							</li>							
+							<li>When you have acertained the correct partition, create the mount point:
+<pre>
+mkdir -p /media/[hdxx,sdxx,diskx]
+</pre>				
+							</li>
+							<li>Mount it:
+<pre>
+mount /media/xdxx
+</pre>
+							</li>
+
+							<li>Now rewrite Grub to MBR of the first harddisk (generic):
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/xdxx /dev/sda
+</pre>
+							</li>
+						</ol>
+
+					<h6>Example</h6>
+<pre>
+root@sidux:/home/sidux# fdisk -l
+# fdisk -l
+Disk /dev/sda: 115.9 GB, 115989736960 bytes
+255 heads, 63 sectors/track, 14101 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x40444044
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1        3673    29503341    7  HPFS/NTFS
+/dev/sda2            3674       14101    83762910    5  Extended
+/dev/sda5            3674        7239    28641784+  83  Linux
+/dev/sda6            7239       10842    28934104+  83  Linux
+/dev/sda7           10843       14101    26177886    b  W95 FAT32
+Disk /dev/sdb: 120.0 GB, 120034123776 bytes
+255 heads, 63 sectors/track, 14593 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0xa41e667f
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1        3574    28708123+  83  Linux
+/dev/sdb2            3575        7247    29503372+  83  Linux
+/dev/sdb3            7248       10845    28900935   83  Linux
+/dev/sdb4           10846       14593    30105810    5  Extended
+/dev/sdb5   *       10846       14338    28057491   83  Linux
+/dev/sdb6           14339       14593     2048256   82  Linux swap / Solaris
+Disk /dev/sdc: 250.0 GB, 250059350016 bytes
+255 heads, 63 sectors/track, 30401 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x00077541
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdc1               1       30401   244196001   83  Linux
+Disk /dev/sdd: 250.0 GB, 250059350016 bytes
+255 heads, 63 sectors/track, 30401 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x1c01ad92
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdd1               1       30401   244196001   83  Linux
+
+root@sidux:/home/sidux# cat /etc/fstab
+# /etc/fstab - static information about the filesystems - fstab(5)
+#
+# /etc/fstab is only read by programs, and not written; it is the duty of the
+# system administrator to properly maintain this file.
+#
+# Instead  of giving the device explicitly, one may indicate the filesystem
+# that is to be mounted by its UUID or VOLUME label. This will make the
+# system more robust: adding or removing a disk changes the disk device name
+# but not the filesystem UUID or VOLUME label.
+
+# automatically added, ST3120026A-3LJ093B4-part1
+/dev/sda1       /media/disk0    ntfs    noauto,users,exec,ro,dmask=0022,fmask=0133      0       0
+
+# automatically added, ST3120026A-3LJ093B4-part5
+/dev/sda5       /media/disk1    jfs     noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ093B4-part6
+/dev/sda6       /media/disk2    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ093B4-part7
+/dev/sda7       /media/disk3    vfat    noauto,users,exec,shortname=lower,quiet,umask=000       0       0
+
+# automatically added, ST3120026A-3LJ09RBF-part1
+/dev/sdb1       /media/disk4    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part2
+/dev/sdb2       /media/disk5    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part3
+/dev/sdb3       /media/disk6    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part5
+/dev/sdb5       /media/disk7    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part6
+/dev/sdb6       none    swap    sw      0       0
+
+# automatically added, ST3250824AS-4ND1V199-part1
+/dev/sdc1       /media/disk9    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3250620AS-9QE13XVF-part1
+/dev/sdd1       /media/disk10   ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, _NEC_DVD_RW_ND-4550A
+/dev/cdrom      /media/cdrom    udf,iso9660     user,noauto     0       0
+
+# automatically added, ASUS_DVD-ROM_DVD-E616P_0104
+/dev/cdrom1     /media/cdrom1   udf,iso9660     user,noauto     0       0
+
+# automatically added
+/dev/fd0        /media/fd0      auto    rw,user,noauto  0       0
+
+# temporary filesystem in virtual memory
+#tmpfs  /tmp    tmpfs   defaults        0       0
+</pre>
+<pre>
+root partition is /dev/sdb1  and your MBR goes on sda
+mkdir -p /media/sdb1
+mount /dev/sdb1 /media/sdb1
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdb1 /dev/sda
 </pre>
 
-						<!--- ####
-						<h5 class="highlight-3">Grub recovery  for kernels prior to 2.6.22:</h5>
-						#### -->
-						<h5 class="highlight-3">2.6.22以前のカーネルのgrubの復旧:</h5>
 
-							<p>ライブCDから起動し、ターミナルを開きrootになります</p>
-<pre>
-sudo su
-</pre>
-							<!--- ####
-							<p>Mount the partition where sidux is installed (in our example hdb5)</p>
-							#### -->
-							<p>siduxがインストールされているパーティションをマウントします。 (ここでは例として hdb5 とします)</p>
-<pre>
-mount /media/hdb5
-</pre>
-							<!--- ####
-							<p>Now rewrite Grub to MBR:</p>
-							#### -->
-							<p>MBRにgrubを書くには:</p>
+						<p>On older linux systems, the IDE disks devices (PATA) were differentiated from those using current standard by an <span class="highlight-3">hdaX</span> name instead of<span class="highlight-3"> sdaX</span></p>
 
+					<h4>To rewrite Grub</h4>
+						<p>To only re-write grub to MBR from the hard drive, ie due to a newer grub-version:</p> 
 <pre>
-grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+/usr/sbin/grub-install --recheck --no-floppy /dev/sda
 </pre>
+						<p>This line may need to be run more than once, until its convinced you really mean it.</p>
+
 
 	</div>
 	<div class="divider" id="boot-grub-floppy">
@@ -815,7 +911,7 @@ LINUX: # chmod a -w ./stage2
 							<p>Grubがサポートしているネットワークカードがあれば、ネットワークを通じて起動することもできます。<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> (古いバージョンのGrub用ですが)起動ディスクはこちらから入手できます</a>。</p>
 				
 	</div>
-	<div id="rev">Content last revised 09/01/2008 0700 UTC</div>
+	<div id="rev">Content last revised 06/02/2008 1200 UTC</div>
 
 </div>
 </body>

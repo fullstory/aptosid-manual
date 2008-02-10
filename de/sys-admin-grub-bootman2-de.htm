@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi xx/xx/2008 0750 UTC -->
+<!-- Last translation revision by hubi 08/02/2008 1940 UTC -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
 <!-- menu last updated by bluewater 21/01/2008 1801 hrs AEST 21/01/2008 0701 hrs UTC -->
@@ -187,37 +187,149 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-		<h2 id="top-header">Windows hat meinen Bootsektor überschrieben: Wiederherstellung von grub</h2>
+		<h2 id="top-header">Windows hat meinen Bootsektor überschrieben: Wiederherstellung von Grub</h2>
 
-							<p>Um grub neu in den MBR zu schreiben oder grub generell wieder herzustellen, muss von der sidux Live-CD gebootet werden.</p>
-
-						<h5 class="highlight-3">Wiederherstellung von Grub für Kernel 2.6.22 und höher:</h5>
-
-							<p>Öffnen eines Terminals und Mounten der sidux Installationspartition (sdxx muss dabei mit der richtigen Nummer der sidux-Partition ersetzt werden, z. B. mit sda2):</p>
+							<p>Um Grub neu in den MBR zu schreiben oder Grub generell wieder herzustellen, muss von der <span class="highlight-3">sidux Live-CD</span> gebootet werden.</p>
+						<ol>
+							<li>Um zu ermitteln, welche Partitionen vorhanden sind (zum Beispiel [h,s]d[a..]X), benötigt man root-Privilegien (#), die man so erhält:
 <pre>
-sudo mount /media/sdxx
+$ sux
 </pre>
-							<p>Nun kann grub neu in den MBR geschrieben werden:</p>
-
+							</li>
+							<li>Nun verwendet man folgende zwei Befehle, um die korrekten Bezeichnungen zu erhalten:
 <pre>
-sudo /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdxx /dev/sda
+fdisk -l
+cat /etc/fstab
 </pre>
-
-						<h5 class="highlight-3">Wiederherstellung von Grub für Kernel vor 2.6.22:</h5>
-
-							<p>Booten in die Live-CD, öffnen einer Konsole und als root anmelden mit:</p>
+							</li>		
+							<li>Nach Ermittlung der Partitionsbezeichnungen, legt man einen Einhängepunkt (Mount-Point) an
 <pre>
-sudo su
-</pre>
-
-							<p>Mounte die Partition, wo sidux installiert ist (in unserem Beispiel hdb5)</p>
+mkdir -p /media/[hdxx,sdxx,diskx]
+</pre>				
+							</li>
+							<li>und bindet die Partition ins Filesystem ein:
 <pre>
-mount /media/hdb5
+mount /media/xdxx
 </pre>
-							<p>Jetzt Grub wieder in den MBR schreiben lassen:</p>
+							</li>
 
-<pre>grub-install --recheck --no-floppy --root-directory=/media/hdb5 /dev/hda
+							<li>Nun kann Grub in den MBR der ersten (generischen) Festplatte geschrieben werden:
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/xdxx /dev/sda
 </pre>
+							</li>
+						</ol>
+
+					<h6>Beispiel:</h6>
+<pre>
+root@sidux:/home/sidux# fdisk -l
+# fdisk -l
+Disk /dev/sda: 115.9 GB, 115989736960 bytes
+255 heads, 63 sectors/track, 14101 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x40444044
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1        3673    29503341    7  HPFS/NTFS
+/dev/sda2            3674       14101    83762910    5  Extended
+/dev/sda5            3674        7239    28641784+  83  Linux
+/dev/sda6            7239       10842    28934104+  83  Linux
+/dev/sda7           10843       14101    26177886    b  W95 FAT32
+Disk /dev/sdb: 120.0 GB, 120034123776 bytes
+255 heads, 63 sectors/track, 14593 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0xa41e667f
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1        3574    28708123+  83  Linux
+/dev/sdb2            3575        7247    29503372+  83  Linux
+/dev/sdb3            7248       10845    28900935   83  Linux
+/dev/sdb4           10846       14593    30105810    5  Extended
+/dev/sdb5   *       10846       14338    28057491   83  Linux
+/dev/sdb6           14339       14593     2048256   82  Linux swap / Solaris
+Disk /dev/sdc: 250.0 GB, 250059350016 bytes
+255 heads, 63 sectors/track, 30401 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x00077541
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdc1               1       30401   244196001   83  Linux
+Disk /dev/sdd: 250.0 GB, 250059350016 bytes
+255 heads, 63 sectors/track, 30401 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x1c01ad92
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdd1               1       30401   244196001   83  Linux
+
+root@sidux:/home/sidux# cat /etc/fstab
+# /etc/fstab - static information about the filesystems - fstab(5)
+#
+# /etc/fstab is only read by programs, and not written; it is the duty of the
+# system administrator to properly maintain this file.
+#
+# Instead  of giving the device explicitly, one may indicate the filesystem
+# that is to be mounted by its UUID or VOLUME label. This will make the
+# system more robust: adding or removing a disk changes the disk device name
+# but not the filesystem UUID or VOLUME label.
+
+# automatically added, ST3120026A-3LJ093B4-part1
+/dev/sda1       /media/disk0    ntfs    noauto,users,exec,ro,dmask=0022,fmask=0133      0       0
+
+# automatically added, ST3120026A-3LJ093B4-part5
+/dev/sda5       /media/disk1    jfs     noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ093B4-part6
+/dev/sda6       /media/disk2    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ093B4-part7
+/dev/sda7       /media/disk3    vfat    noauto,users,exec,shortname=lower,quiet,umask=000       0       0
+
+# automatically added, ST3120026A-3LJ09RBF-part1
+/dev/sdb1       /media/disk4    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part2
+/dev/sdb2       /media/disk5    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part3
+/dev/sdb3       /media/disk6    reiserfs        noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part5
+/dev/sdb5       /media/disk7    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3120026A-3LJ09RBF-part6
+/dev/sdb6       none    swap    sw      0       0
+
+# automatically added, ST3250824AS-4ND1V199-part1
+/dev/sdc1       /media/disk9    ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, ST3250620AS-9QE13XVF-part1
+/dev/sdd1       /media/disk10   ext3    noauto,users,exec,noatime       0       2
+
+# automatically added, _NEC_DVD_RW_ND-4550A
+/dev/cdrom      /media/cdrom    udf,iso9660     user,noauto     0       0
+
+# automatically added, ASUS_DVD-ROM_DVD-E616P_0104
+/dev/cdrom1     /media/cdrom1   udf,iso9660     user,noauto     0       0
+
+# automatically added
+/dev/fd0        /media/fd0      auto    rw,user,noauto  0       0
+
+# temporary filesystem in virtual memory
+#tmpfs  /tmp    tmpfs   defaults        0       0
+</pre>
+						<p>Somit ist die Root-Partition /dev/sdb1 und der MBR geht nach sda. Diese drei Befehle werden ausgeführt:</p>
+<pre>
+mkdir -p /media/sdb1
+mount /dev/sdb1 /media/sdb1
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdb1 /dev/sda
+</pre>
+
+
+						<p>Auf älteren Linux-Systemen wurden IDE-Festplatten (PATA) mit der Bezeichnung <span class="highlight-3">hdaX</span> anstelle der modernen <span class="highlight-3"> sdaX</span> versehen.</p>
+
+					<h4>Ersetzen einer Grub-Installation</h4>
+						<p>Wenn Grub im MBR nur aktualisiert werden soll (mit einer neueren Version), wird dieser Befehl eingegeben:</p> 
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy /dev/sda
+</pre>
+						<p>Eine Sicherheitsabfrage kann verlangen, dass dieser Befehl wiederholt wird.</p>
 		
 	</div>
 	<div class="divider" id="boot-grub-floppy">
@@ -644,7 +756,7 @@ LINUX: # chmod a -w ./stage2
 							<p>Sofern man eine unterstützte Netzwerkkarte besitzt, kann Grub auch über das Netzwerk booten. Eine entsprechende <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Boot-Disk kann man sich hier</a> erstellen lassen und anschließend downloaden (allerdings mit einer älteren Version von Grub).</p>
 		
 	</div>
-	<div id="rev">Content last revised 09/01/2008 0700 UTC</div>
+	<div id="rev">Content last revised 06/02/2008 1200 UTC</div>
 
 </div>
 </body>

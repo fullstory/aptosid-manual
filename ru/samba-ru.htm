@@ -189,32 +189,45 @@
 		<h2 id="top-header">Использование Samba для работы с ресурсами Windows
 </h2>
 
-		<ul>
-			<li><p>Все команды в терминале или консоли выполняют как <b>root</b>.</p></li>
+						<ul>
+							<li><p>Все команды в терминале или консоли выполняют как <b>root</b>.</p></li>
 
-			<li><p>URL в Konqueror открывают от имени <b>обычного пользователя</b>.</p>
-			<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя расшаренного файла</p></li>
-		</ul>
+							<li><p>URL в Konqueror открывают от имени <b>обычного пользователя</b>.</p>
+							<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя расшаренного файла</p></li>
+						</ul>
 
-		<p>В менеджере файлов KDE Konqueror вводят URL: <span class="highlight-3">smb://server</span> или весь путь: <span class="highlight-3">smb://server/share</span></p>
+							<p>В менеджере файлов KDE Konqueror вводят URL: <span class="highlight-3">smb://server</span> или весь путь: <span class="highlight-3">smb://server/share</span></p>
 
-		<p>В консоли для просмотра ресурсов, предоставляемых Windows, выполните:</p>
-		<pre>smbclient -L server</pre>
+							<p>В консоли для просмотра ресурсов, предоставляемых Windows, выполните:</p>
+<pre>
+smbclient -L server
+</pre>
 
-		<p>Чтобы получить возможность работать в директории (с доступом для всех пользователей)используем существующую точку монтирования. или создаем заново, если таковая отсутствует (имя любое):</p>
-		<pre>mkdir -p /media/server_share</pre>
+							<p>Чтобы получить возможность работать в директории (с доступом для всех пользователей)используем существующую точку монтирования. или создаем заново, если таковая отсутствует (имя любое):</p>
+<pre>
+mkdir -p /media/server_share
+</pre>
 
-		<p>Затем монтируем ресурс (файловая система-VFAT):</p>
-		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /media/server_share</pre>
+							<p>Затем монтируем ресурс (файловая система-VFAT):</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/share /mnt/server_share
+</pre>
 
-		<p>или NTFS:</p>
-		<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /media/server_share</pre>
+							<p>или NTFS:</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
+</pre>
 
-		<p>Чтобы отмонтировать windows-ресурс:</p>
-		<pre>umount /media/server_share</pre>
+							<p>Чтобы отмонтировать windows-ресурс:</p>
+<pre>
+umount /media/server_share
+</pre>
 
-		<p>Для упрощения процедуры монтирования дополните fstab такой строкой:</p>
-		<pre>//server/share /media/server_share smbfs defaults,username=dein_username,password=**********,fmask=777,dmask=777  0   0</pre>
+							<p>Для упрощения процедуры монтирования дополните fstab такой строкой:</p>
+<pre>
+//server/share  /mnt/server_share       cifs  defaults,username=your_username,password=**********,file_mode=0777,dir_mode=0777   0   0
+</pre>
+
 	</div>
 	<div class="divider" id="setup">
 		<h2>sidux как сервер Samba</h2>
@@ -322,7 +335,7 @@ update.rc.d samba defaults
 		<p>Теперь Samba стартует при загрузке.</p>
 
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено 01/10/2007 1200hrs UTC</div>
+			<div id="rev">Содержание, последнее пересмотрено 12/02/2008 1200hrs UTC</div>
 
 </div>
 </body>

@@ -18,12 +18,12 @@
 </head>
 <body>
 <!-- Last translation revision xxxx xx/xx/2007 1900 UTC -->
-<div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
+<div id="menu"> <!-- menu starts here nl lang maintainer  HarzG eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 21/01/2008 1800 hrs AEST 21/01/2008 0700 hrs UTC -->
+<!-- menu last updated by bluewater 19/02/2008 1500 hrs AEDST 19/02/2008 0400 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
-		<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Guide</a></li>
+		<li><a href="wel-quickstart-nl.htm#welcome-quick">Quick Start Handleiding</a></li>
 		<li><a href="http://manual.sidux.com/meta-manual">Naar sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
@@ -38,7 +38,7 @@
 				<li><a href="help-nl.htm#help-gen">Waar je hulp kunt krijgen</a></li>
 				<li><a href="help-nl.htm#paste">IRC !paste</a></li>
 				<li><a href="credits-nl.htm#cred-team">Credits</a></li>
-				<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Guide</a></li>
+				<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Handleiding</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-nl.htm">CD inhoud</a>
@@ -191,41 +191,57 @@
 			<h2>Nieuwe kernels installeren</h2>
 					<h4>De sidux kernels zijn hier te vinden. Gebruik de dichtstbijzijnde locatie:</h4>
 <pre>
+Main Mirrors
 <a href="http://debian.tu-bs.de/project/sidux/kernel/">http://debian.tu-bs.de/project/sidux//kernel</a> Germany
 <a href="http://sidux.com/files/kernel/">http://sidux.com/files//kernel</a> Germany
 <a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> Germany
+<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Germany
+
+These mirrors can be as much as 24 hours behind the main mirrors
 <a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernel</a> United Kingdom
 <a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> Ireland
 <a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel</a>  TN, USA
-<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Germany
-<a href="http://lug01.eecs.wsu.edu/sidux/kernel/">http://lug01.eecs.wsu.edu/sidux/kernel</a> Pullman WA, USA
-<a href="http://sidux.2wl.ru/downloads/kernel/">http://sidux.2wl.ru/downloads/kernel</a> Russia
+<a href="http://ftp-mirror.internap.com/pub/sidux/kernel">http://ftp-mirror.internap.com/pub/sidux/kernel</a>  GA. USA
 <a href="http://ftp.tw.debian.org/pub/Sidux/kernel/">http://ftp.tw.debian.org/pub/Sidux//kernel</a> Asia
 <a href="http://mirror.aarnet.edu.au/pub/sidux/kernel/ ">http://mirror.aarnet.edu.au/pub/sidux/kernel</a> Australia
 <a href="http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel/">http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel</a> South Africa
-<a href="ftp://debian.co.nz/Sidux/kernel/">ftp://debian.co.nz/Sidux/kernel</a> New Zealand
 </pre>
 							<p>De kernels zijn in de volgende versies beschikbaar:</p>
 			
 						<ul>
-  							<li><b>smp</b> - Kernel voor de i686 Processor Family met single/dual core of meer CPUs</li>
-  							<li><b>64-smp</b> - Kernel voor de AMD64- Processor Family, als je 64 bit sidux gebruikt</li>
+  							<li><b>sidux-686</b> - Kernel voor de i686 Processor Familie met single/dual core of meer CPUs</li>
+  							<li><b>sidux-amd64</b> - Kernel voor de AMD64- Processor Familie, als je 64 bit sidux gebruikt</li>
 						</ul>
 
-							<p>Het is verstandig om de kernel naam die je nodig hebt voor je processor op te schrijven (we noemen hem voor de eenvoud kernel.zip, maar de echte namen luiden zoals: kernel-2.6.22.3-rc1-slh-smp-2.zip), schrijf de geschikte versie voor je pc op.</p>
-
-				<h5> Er zijn maar 6 regels opdrachten in de konsole nodig, de installatie als begint als normale user:</h6>
+					<h6>Het kan in 4 stappen handmatige via konsole uitgevoerd worden:</h6>
 
 <pre>
-mkdir /home/username/kernel-downloads/
-cd ~/kernel-downloads
-wget -Nc http://sidux.com/files/kernel/kernel-2.6.22.3-rc1-slh-smp-2.zip
-unzip kernel-2.6.22.3-rc1-slh-smp-2.zip -d kernel-2.6.22.3-rc1-slh-smp-2
-cd kernel-2.6.22.3-rc1-slh-smp-2
-./install-kernel-sidux.sh (het installatie-script vraagt dan het root password)
+apt-get update
+</pre>
+
+ 							<p>1. Verkrijg de laatste kernel versie:</p>
+ <pre>
+wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
+</pre>
+
+ 							<p>2. Zoek uit welke modules je nodig hebt. Het volgende commando geeft je een lijst van de huidige beschikbare modules :</p>
+<pre>
+apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+</pre>
+							<p>Voor een volledige beschrijving van elke module voer je het volgende commando uit:</p>
+<pre>
+apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+</pre>
+
+ 							<p>3. Om de kernel, headers en de benodigde modules (bijvoorbeeld virtual-ose, en qc-usb) te installeren voer je het volgende uit:</p>
+ 
+ <pre>
+apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
 </pre>
 	
-							<p>Hierna is een herstart van je computer nodig. De nieuwe kernel wordt bij het booten als standaard gebruikt. <span class="highlight-3">Als met de nieuwe kernel probleme optreden, kan je rebooten en een oudere kernel gebruiken (deze staat dan onder der nieuwe kernel in het grub-menu)</span></p>
+							<p>4 Hierna is een herstart van je computer nodig. De nieuwe kernel wordt bij het booten als standaard gebruikt. <span class="highlight-3">Als met de nieuwe kernel probleme optreden, kan je rebooten en een oudere kernel gebruiken (deze staat dan onder der nieuwe kernel in het grub-menu)</span></p>
 
 							<p>De geladen modules in de kernel kunnen zo opgevraagd worden:</p>
 <pre>
@@ -234,9 +250,9 @@ of
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">Belangrijk: als er bepaalde drivers nodig zijn, bijv. voor wlan, moet je de .deb packages gebruiken. De driveres staan in de uitgepakte map van de kernel.zip. Voorbeeld: als je madwifi nodig hebt. Hiervoor moet de .deb package voor madwifi ge&#239;nstalleerd worden:  </p>
+							<p class="highlight-4">Belangrijk: als er bepaalde drivers nodig zijn, bijv. voor wlan, moet je de .deb packages gebruiken. De driveres staan in de uitgepakte map van de kernel.zip. Voorbeeld: als je madwifi nodig hebt. As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
 <pre>
-dpkg -i madwifi-modules*.deb 
+dpkg -i gspca-modules*.deb 
 </pre>
 							<p>Zie ook <a href="internet-connecting-nl.htm">Online komen en Activeren van Ndiswrapper</a> en <a href="internet-connecting-wpa-nl.htm">voor WIFI</a></p>
 
@@ -249,7 +265,7 @@ apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
-							<p><a href="siduxcc-nl.htm">You can also do this with the GUI control centre siduxcc in KDE-Start-Menu</a></p>
+							<p><a href="siduxcc-nl.htm">Je kunt dit ook doen via de grafische control centre siduxcc tool in KDE-Start-Menu</a></p>
 
 			<h4>Oude kernels verwijderen</h4>
 
@@ -258,7 +274,7 @@ smxi
 						<p>Oudere kernels kunnen via een script uit het systeem verwijderd worden. Hiervoor kan een script gebruikt worden <span class="highlight-3">kernel-remover</span> dat in de package sidux-kernelhacking staat! <span class="highlight-3">Het script laat je de kernels zien die verwijderd kunnen worden.</span></p>
 
 			
-	<div id="rev">Content last revised 08/01/2008 2200 UTC</div>
+	<div id="rev">Pagina het laatst gewijzigd op 17/02/2008 0100 UTC</div>
 
 </div>
 </div>

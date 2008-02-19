@@ -17,12 +17,12 @@
         <![endif]-->
 </head>
 <body>
-<div id="menu"> <!-- menu starts here nl lang maintainer  HarzG-->
+<div id="menu"> <!-- menu starts here nl lang maintainer  HarzG eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 21/01/2008 1800 hrs AEST 21/01/2008 0700 hrs UTC -->
+<!-- menu last updated by bluewater 19/02/2008 1500 hrs AEDST 19/02/2008 0400 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
-		<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Guide</a></li>
+		<li><a href="wel-quickstart-nl.htm#welcome-quick">Quick Start Handleiding</a></li>
 		<li><a href="http://manual.sidux.com/meta-manual">Naar sidux Meta-Manual</a></li>
 	</ul>
 	<div id="flags-2">
@@ -37,7 +37,7 @@
 				<li><a href="help-nl.htm#help-gen">Waar je hulp kunt krijgen</a></li>
 				<li><a href="help-nl.htm#paste">IRC !paste</a></li>
 				<li><a href="credits-nl.htm#cred-team">Credits</a></li>
-				<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Guide</a></li>
+				<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Quick Start Handleiding</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-nl.htm">CD inhoud</a>
@@ -207,12 +207,12 @@ mkdir -p /mnt/server_share
 		
 							<p>Mount dan de share - remote bestandssysteem VFAT:</p>
 <pre>
-mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/share /mnt/server_share
 </pre>
 		
 							<p>of remote bestandsysteem NTFS:</p>
 <pre>
-mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
 </pre>
 		
 							<p>Om de verbinding te beeindigen voer je het volgende commando uit:</p>
@@ -222,7 +222,7 @@ umount /mnt/server_share
 		
 							<p>Als je een regel in het bestand <i>/etc/fstab</i> wilt zetten om het mounten makkelijker te maken, voeg dan de volgende regel aan dit bestand toe:</p>
 <pre>
-//server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0
+//server/share  /mnt/server_share       cifs  defaults,username=your_username,password=**********,file_mode=0777,dir_mode=0777   0   0
 </pre>
 	</div>
 	<div class="divider" id="setup">
@@ -235,8 +235,8 @@ apt-get update
 apt-get install samba
 </pre>
 
-				<h5>HD installations:</h5>
-							<p>As samba is not pre-installed you will need to do the following to have samba access:</p>
+				<h5>HD installaties:</h5>
+							<p>samba is niet standaard geinstalleerd. Wil je samba installeren, dan moet je het volgende uitvoeren:</p>
 <pre>
 sux
 apt-get update
@@ -277,37 +277,37 @@ path = /media/hda5
 public = yes
 </pre>
 
-				<h6>Checking the shares in samba</h6>
-							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
+				<h6>Controle van de samba shares</h6>
+							<p>Om de samba-shares zo in te stellen zonder acht te nemen op de beveiliging, voer je het volgend uit (dit geld voor een LAN setup):</p>
 
-							<p>Set folder and its content at least -rwxr-xr-x:</p>
+							<p>Set de directory en zijn inhoud tenminste op -rwxr-xr-x:</p>
 
 <pre>
 ls -la pathTo/dirShareName/*
 </pre>
 
-							<p>If not, do:</p>
+							<p>Staat deze niet zo, voer dan het volgende uit:</p>
 
 
 <pre>
 chmod -R 755 pathTo/dirShareName
 </pre>
 
-							<p>If you want it to be writable:</p>
+							<p>Als je in de directory wilt kunnen schrijven voer je het volgende commando uit:</p>
 
 
 <pre>
 chmod -R 777 dirShareName
 </pre>
 
-							<p>A way to make sure your share is working: ( do not forget to start the server):</p>
+							<p>Een manier om te kijken of je share ook werkt is: ( vergeet niet om de samba-server te starten):</p>
 
 
 <pre>
 smbclient -L localhost
 </pre>
 
-							<p>You should see something like:</p>
+							<p>Je zult ongeveer het volgende te zien krijgen:</p>
 
 <pre>
  smbclient -L localhost
@@ -322,7 +322,7 @@ Domain=[HOME] OS=[Unix] Server=[Samba 3.0.26a]
 Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 </pre>
 
-							<p>If you did not set a password, just press ENTER</p>
+							<p>Als je geen wachtwoord ingesteld hebt, kun je gewoon op ENTER drukken.</p>
 							<p>Vergeet niet het bestand op te slaan. Je kunt nu de samba service starten/stoppen mbv:</p>
 <pre>
 /etc/init.d/samba start
@@ -341,7 +341,7 @@ update.rc.d samba defaults
 		<p>Nu start samba op wanneer je je machine start en stopt samba bij het uitzetten van je machine.</p>
 	</div>
 
-			<div id="rev">Pagina het laast bijgewerkt op 01/10/2007 1200hrs UTC</div>
+			<div id="rev">Pagina het laast bijgewerkt op 12/02/2008 1200hrs UTC</div>
 
 </div>
 </body>

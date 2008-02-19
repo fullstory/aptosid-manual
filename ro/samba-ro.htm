@@ -188,32 +188,42 @@
 	<div class="divider" id="configure">
 		<h2 id="top-header">Configurarea sidux să folosească SAMBA (Windows) Shares de la Remote Machines</h2>
 		
-		<p>Executaţi toate comenzile ca <b>root</b> (într-un Terminal sau Konsolă)
-		Scrieţi adresa în Konqueror (rulaţi Konqueror ca utilizator normal).</p>
+							<p>Executaţi toate comenzile ca <b>root</b> (într-un Terminal sau Konsolă) Scrieţi adresa în Konqueror (rulaţi Konqueror ca utilizator normal).</p>
 		
-		<p class="highlight-1">server = nume server sau IP-ul computerului Windows <br />
-		<span class="highlight-1">share = nume director share</span></p>
+							<p class="highlight-1">server = nume server sau IP-ul computerului Windows <br />
+							<span class="highlight-1">share = nume director share</span></p>
 		
-		<p>În KDE - Konqueror scrieţi la adresa :<span class="highlight-3">smb://server</span> sau adresa completă :<span class="highlight-3">smb://server/share</span></p>
+							<p>În KDE - Konqueror scrieţi la adresa :<span class="highlight-3">smb://server</span> sau adresa completă :<span class="highlight-3">smb://server/share</span></p>
 		
-		<p>Într-o consolă puteţi vedea directorul share dintr-un server cu :</p>
-<pre>smbclient -L server</pre>
+							<p>Într-o consolă puteţi vedea directorul share dintr-un server cu :</p>
+<pre>
+smbclient -L server
+</pre>
 		
-		<p>Pentru a face un director să fie share -(cu acces total pentru TOŢI utilizatorii) ţineţi minte :
-		Mountpoint trebuie să existe . Dacă nu există trebuie întâi creat acest director aşa (numele e arbitrar):</p>
-<pre>mkdir -p /mnt/server_share</pre>
+							<p>Pentru a face un director să fie share -(cu acces total pentru TOŢI utilizatorii) ţineţi minte : Mountpoint trebuie să existe . Dacă nu există trebuie întâi creat acest director aşa (numele e arbitrar):</p>
+<pre>
+mkdir -p /mnt/server_share
+</pre>
 		
-		<p>Apoi montaţi directorul share - sistem de fişiere VFAT-remote :</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share</pre>
+							<p>Apoi montaţi directorul share - sistem de fişiere VFAT-remote :</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/share /mnt/server_share
+</pre>
 		
-		<p>sau sistem de fişiere NTFS-remote:</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share</pre>
+							<p>sau sistem de fişiere NTFS-remote:</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
+</pre>
 		
-		<p>Pentru a închide conexiunea folosiţi :</p>
-<pre>umount /mnt/server_share</pre>
+							<p>Pentru a închide conexiunea folosiţi :</p>
+<pre>
+umount /mnt/server_share
+</pre>
 		
-		<p>dacă vreţi să introduceti o linie în <i>/etc/fstab</i> pentru a face montarea mai uşoară introduceţi următoarea linie în fişier :</p>
-<pre>//server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0</pre>
+							<p>dacă vreţi să introduceti o linie în <i>/etc/fstab</i> pentru a face montarea mai uşoară introduceţi următoarea linie în fişier :</p>
+<pre>
+//server/share  /mnt/server_share       cifs  defaults,username=your_username,password=**********,file_mode=0777,dir_mode=0777   0   0
+</pre>
 	</div>
 	<div class="divider" id="setup">
 		<h2>Setarea sidux ca Server Samba</h2>
@@ -325,7 +335,7 @@ freeze-rc.d</pre>
 		<p>Acum Samba va porni şi se va opri odată cu calculatorul .</p>
 	</div>
 
-			<div id="rev">Page last revised 01/10/2007 1200hrs UTC</div>
+			<div id="rev">Page last revised 12/02/2008 1200hrs UTC</div>
 
 </div>
 </body>

@@ -190,41 +190,56 @@
 			<h2 id="top-header">Instalirati novi kernel</h2>
 					<h4>The sidux kernels reside here.  Please choose your closest mirror:</h4>
 <pre>
+Main Mirrors
 <a href="http://debian.tu-bs.de/project/sidux/kernel/">http://debian.tu-bs.de/project/sidux//kernel</a> Germany
 <a href="http://sidux.com/files/kernel/">http://sidux.com/files//kernel</a> Germany
 <a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> Germany
+<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Germany
+
+These mirrors can be as much as 24 hours behind the main mirrors
 <a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernel</a> United Kingdom
 <a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> Ireland
 <a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel</a>  TN, USA
-<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Germany
-<a href="http://lug01.eecs.wsu.edu/sidux/kernel/">http://lug01.eecs.wsu.edu/sidux/kernel</a> Pullman WA, USA
-<a href="http://sidux.2wl.ru/downloads/kernel/">http://sidux.2wl.ru/downloads/kernel</a> Russia
+<a href="http://ftp-mirror.internap.com/pub/sidux/kernel">http://ftp-mirror.internap.com/pub/sidux/kernel</a>  GA. USA
 <a href="http://ftp.tw.debian.org/pub/Sidux/kernel/">http://ftp.tw.debian.org/pub/Sidux//kernel</a> Asia
 <a href="http://mirror.aarnet.edu.au/pub/sidux/kernel/ ">http://mirror.aarnet.edu.au/pub/sidux/kernel</a> Australia
 <a href="http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel/">http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel</a> South Africa
-<a href="ftp://debian.co.nz/Sidux/kernel/">ftp://debian.co.nz/Sidux/kernel</a> New Zealand
 </pre>
 							<p>The kernels  are available in the following forms:</p>
-			
 						<ul>
-  							<li><b>smp</b> - Kernel za i686 procesor familiju sa single/dual core ili više CPUs</li>
-  							<li><b>64-smp</b> - Kernel za AMD64- procesor familiju, kad koristite 64 bit sidux</li>
+  							<li><b>sidux-686</b> - Kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+  							<li><b>sidux-amd64</b> - Kernel for the AMD64- Processor Family, when using 64 bit sidux </li>
 						</ul>
 
-							<p>Napišite si kernel ime za vaš procesor (mi zovemo taj arhiv kernel.zip, ali dobiti će ime kao ovo: kernel-2.6.22.3-rc1-slh-smp-2.zip), napišite si, i onda:</p>
+					<h6>Its 4 steps to do it manually in a konsole:</h6>
 
-					<h5> Potrebne su 6 linija da to izvodite manualno u konzoli: Instaliranje sa korisničkim privilegijama</h5>
 <pre>
-mkdir /home/username/kernel-downloads/
-cd ~/kernel-downloads
-wget -Nc http://sidux.com/files/kernel/kernel-2.6.22.3-rc1-slh-smp-2.zip
-unzip kernel-2.6.22.3-rc1-slh-smp-2.zip -d kernel-2.6.22.3-rc1-slh-smp-2
-cd kernel-2.6.22.3-rc1-slh-smp-2
-./install-kernel-sidux.sh  (pitati će vas za root lozinku)
+apt-get update
 </pre>
 
-			
-							<p>Sad restartujte vaše računalo. Novi kernel će startovati kao standard. <span class="highlight-3">Ako budete imali problema sa novim kernelima, možete restartovati, i izabrati stariji kernel, i pokušati ponovo</span></p>
+ 							<p>1. Get the last version kernel:</p>
+ <pre>
+wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
+</pre>
+
+ 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+<pre>
+apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+</pre>
+							<p>To get a full description of each module:</p>
+<pre>
+apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+</pre>
+
+ 							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
+ 
+ <pre>
+apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+</pre>
+
+							<p>4. Sad restartujte vaše računalo. Novi kernel će startovati kao standard. <span class="highlight-3">Ako budete imali problema sa novim kernelima, možete restartovati, i izabrati stariji kernel, i pokušati ponovo</span></p>
 
 							<p>To check the modules loaded into the kernel:</p>
 <pre>
@@ -233,9 +248,9 @@ or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">VAŽNO: ako vam trebaju neki pogonitelji, kao za WLAN, morate instalirati .deb paket da ih možete koristiti, kao, kad koristite madwifi, morate instalirati .deb paket za madwifi:  </p>
+							<p class="highlight-4">VAŽNO: ako vam trebaju neki pogonitelji, kao za WLAN, morate instalirati .deb paket da ih možete koristiti, kao, kad koristite madwifi.As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
 <pre>
-dpkg -i madwifi-modules*.deb 
+dpkg -i gspca-modules*.deb 
 </pre>
 							<p>See also <a href="internet-connecting-hr.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-hr.htm">for WIFI</a></p>
 
@@ -258,7 +273,7 @@ smxi
 							<p>Stare kernele možete brisati sa sistema. Da to izvodite, možete koristiti skript <span class="highlight-3">kernel-remover</span> koji je u paketu sidux-kernelhacking! <span class="highlight-3">Taj skript omogućava da izaberete kernele koje hoćete da izbrišete.</span></p>
 
 			
-	<div id="rev">Page last revised 08/01/2008 2200 UTC</div>
+	<div id="rev">Page last revised 17/02/2008 0100 UTC</div>
 </div>
 </div>
 </body>

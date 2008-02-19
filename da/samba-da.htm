@@ -187,34 +187,44 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="configure">
-		<h2 id="top-header">Konfigurer sidux til at anvende SAMBA (Windows) fildeling med fjern-maskiner</h2>
+							<h2 id="top-header">Konfigurer sidux til at anvende SAMBA (Windows) fildeling med fjern-maskiner</h2>
 		
-		<p>Udfør alle kommandoer som <b>root</b> (i en terminal eller konsol)
-		Smid URL'erne i Konqueror (start Konqueror som normal bruger).</p>
+							<p>Udfør alle kommandoer som <b>root</b> (i en terminal eller konsol) Smid URL'erne i Konqueror (start Konqueror som normal bruger).</p>
 		
-		<p class="highlight-1">server = servername eller Windows maskinens IP<br />
-		<span class="highlight-1">"share" = navnet på mappen/ filerne der skal deles</span></p>
+							<p class="highlight-1">server = servername eller Windows maskinens IP<br />
+							<span class="highlight-1">"share" = navnet på mappen/ filerne der skal deles</span></p>
 		
-		<p>I KDE - Konqueror åbner du URL'en <span class="highlight-3">smb://server</span> eller den fuldstændige URL <span class="highlight-3">smb://server/share</span></p>
+							<p>I KDE - Konqueror åbner du URL'en <span class="highlight-3">smb://server</span> eller den fuldstændige URL <span class="highlight-3">smb://server/share</span></p>
 		
-		<p>I en konsol kan du se de forskellige shares på en given server med kommandoen:</p>
-<pre>smbclient -L server</pre>
+							<p>I en konsol kan du se de forskellige shares på en given server med kommandoen:</p>
+<pre>
+smbclient -L server
+</pre>
 		
-		<p>For at montere en share i en mappe (med fuld adgang for ALLE brugere), husk dette:
-		Monteringspunktet skel eksistere. Hvis ikke det eksisterer skal du først oprette mappen på denne måde:</p>
-<pre>mkdir -p /mnt/server_share</pre>
+							<p>For at montere en share i en mappe (med fuld adgang for ALLE brugere), husk dette: Monteringspunktet skel eksistere. Hvis ikke det eksisterer skal du først oprette mappen på denne måde:</p>
+<pre>
+mkdir -p /mnt/server_share
+</pre>
 		
-		<p>Monter så share med(hvis fjern-filsystemet er vfat):</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777 //server/share /mnt/server_share</pre>
+							<p>Monter så share med(hvis fjern-filsystemet er vfat):</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/share /mnt/server_share
+</pre>
 		
-		<p>eller hvis fjern-filsystemet er NFTS:</p>
-<pre>mount -t smbfs -o username=Administrator,fmask=777,dmask=777,lfs //server/share /mnt/server_share</pre>
+							<p>eller hvis fjern-filsystemet er NFTS:</p>
+<pre>
+mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
+</pre>
 		
-		<p>For at afbryde forbindelsen, skriv:</p>
-<pre>umount /mnt/server_share</pre>
+							<p>For at afbryde forbindelsen, skriv:</p>
+<pre>
+umount /mnt/server_share
+</pre>
 		
-		<p>Hvis du gerne vil have gøre det nemmere at montere shares kan du tiljøje en linie til <i>/etc/fstab</i>, du kan indsætte den følgende linie (rediger den så den passer til dig):</p>
-<pre>//server/share  /mnt/server_share       smbfs  defaults,username=your_username,password=**********,fmask=777,dmask=777   0   0</pre>
+							<p>Hvis du gerne vil have gøre det nemmere at montere shares kan du tiljøje en linie til <i>/etc/fstab</i>, du kan indsætte den følgende linie (rediger den så den passer til dig):</p>
+<pre>
+//server/share  /mnt/server_share       cifs  defaults,username=your_username,password=**********,file_mode=0777,dir_mode=0777   0   0
+</pre>
 	</div>
 	<div class="divider" id="setup">
 		<h2>Opsætning af Sidux som Samba-Server</h2>
@@ -330,7 +340,7 @@ update.rc.d samba defaults
 		<p>Nu starter Samba når du booter, og lukker ned når du lukker maskinen.</p>
 	</div>
 
-			<div id="rev">Page last revised 01/10/2007 1200hrs UTC</div>
+			<div id="rev">Page last revised 12/02/2008 1200hrs UTC</div>
 </div>
 </body>
 </html>

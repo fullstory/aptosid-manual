@@ -226,21 +226,22 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+ 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>To get a full description of each module:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 
 							<p>4 Redémarrez votre ordinateur une fois l'opération terminée. Le nouveau noyau sera utilisé lors du nouveau démarrage par défaut. <span class="highlight-3">Celui-ci poserait-il problème, vous n'auriez qu'à redémarrer en choisissant un noyau antérieur, et recommencer l'opération.</span></p>
@@ -252,10 +253,11 @@ or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT: si votre configuration a besoin de certains modules de pilotes spécifiques (par exemple pour le wifi) vous devrez installer les paquet .deb qui leurs sont appropriés. As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">IMPORTANT: si votre configuration a besoin de certains modules de pilotes spécifiques (par exemple pour le wifi) vous devrez installer les paquet .deb qui leurs sont appropriés. As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
 
 							<p>Reportez-vous également à <a href="internet-connecting-fr.htm">se connecter à internet et ndiswrapper</a> ainsi qu'à <a href="internet-connecting-wpa-fr.htm"> WIFI</a></p>
 
@@ -282,7 +284,12 @@ smxi
 
 							<p>Ces noyaux anciens peuvent être désinstallés du système. Vous pouvez y procéder en utilisant le script <span class="highlight-3"> kernel-remover</span> intégré au paquetage sidux-kernelhacking!  <span class="highlight-3">Ce script permet de déterminer quels noyaux vous souhaitez désinstaller.</span></p>
 
-	<div id="rev">Dernière actualisation le 17/02/2008 0100 UTC</div>
+<pre>
+kernel-remover
+</pre>
+
+			
+	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

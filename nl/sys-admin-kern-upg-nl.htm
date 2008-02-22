@@ -224,21 +224,21 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Zoek uit welke modules je nodig hebt. Het volgende commando geeft je een lijst van de huidige beschikbare modules :</p>
+ 							<p>2. Zoek uit welke modules je nodig hebt. Het volgende commando geeft je een lijst van de huidige beschikbare modules, copy this line to your console/terminal::</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>Voor een volledige beschrijving van elke module voer je het volgende commando uit:</p>
+							<p>Voor een volledige beschrijving van elke module voer je het volgende commando uit, copy this line to your console/terminal::</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. Om de kernel, headers en de benodigde modules (bijvoorbeeld virtual-ose, en qc-usb) te installeren voer je het volgende uit:</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 	
 							<p>4 Hierna is een herstart van je computer nodig. De nieuwe kernel wordt bij het booten als standaard gebruikt. <span class="highlight-3">Als met de nieuwe kernel probleme optreden, kan je rebooten en een oudere kernel gebruiken (deze staat dan onder der nieuwe kernel in het grub-menu)</span></p>
@@ -250,10 +250,12 @@ of
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">Belangrijk: als er bepaalde drivers nodig zijn, bijv. voor wlan, moet je de .deb packages gebruiken. De driveres staan in de uitgepakte map van de kernel.zip. Voorbeeld: als je madwifi nodig hebt. As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">Belangrijk: als er bepaalde drivers nodig zijn, bijv. voor wlan, moet je de .deb packages gebruiken. De driveres staan in de uitgepakte map van de kernel.zip. Voorbeeld: als je madwifi nodig hebt. As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> wordt alleen gebruikt wanneer je de debs lokaal beschikbaar hebt, maar zelfs in dit geval, als ze in apt-cachce staan is, <span class="highlight-3">apt-get</span> een betere optie.</p>
+
 							<p>Zie ook <a href="internet-connecting-nl.htm">Online komen en Activeren van Ndiswrapper</a> en <a href="internet-connecting-wpa-nl.htm">voor WIFI</a></p>
 
 							<p>De kernel-update is nu klaar. <a href="hw-dev-hw-dri-nl.htm"> Als er 3D-drivers nodig zijn,</a> voor grafische kaarten van ATI of NVIDIA, moet je eerst rebooten en de nieuwe kernel starten met runlevel 3. Hiervoor kan je <b>3</b> de Grub-Boot-Line veranderen en een 3 aan het einde toevoegen. Let op: als je grub in de grafische modus start, kan je deze door escape verlaten. Hierna kan elk item in het menu vie de lettertoets 'e' (edit) aangepast worden.</p>
@@ -273,8 +275,12 @@ smxi
 
 						<p>Oudere kernels kunnen via een script uit het systeem verwijderd worden. Hiervoor kan een script gebruikt worden <span class="highlight-3">kernel-remover</span> dat in de package sidux-kernelhacking staat! <span class="highlight-3">Het script laat je de kernels zien die verwijderd kunnen worden.</span></p>
 
+<pre>
+kernel-remover
+</pre>
+
 			
-	<div id="rev">Pagina het laatst gewijzigd op 17/02/2008 0100 UTC</div>
+	<div id="rev">Inhoud het laatst gewijzigd op 20/02/2008 0600 UTC</div>
 
 </div>
 </div>

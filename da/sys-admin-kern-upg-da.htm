@@ -223,24 +223,25 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+ 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>To get a full description of each module:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 
-							<p>Genstart nu din PC. Den nye kernel vil blive anvendt som standard. <span class="highlight-3">Skulle den nye kernel give problemer, kan du genstarte og vælge at boote en af dine forrige kernels, og dernæst prøve dette igen.</span></p>
+							<p>4. Genstart nu din PC. Den nye kernel vil blive anvendt som standard. <span class="highlight-3">Skulle den nye kernel give problemer, kan du genstarte og vælge at boote en af dine forrige kernels, og dernæst prøve dette igen.</span></p>
 
 							<p>For at se hvilke moduler der indlæses med din kernel:</p>
 <pre>
@@ -249,10 +250,12 @@ eller
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">VIGTIGT: hvis du skal anvende specifikke kernel modules, for eksempel til wlan, skal du installere de rigtige .deb pakker for dem; hvis du for eksempel bruger madwifi.As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">VIGTIGT: hvis du skal anvende specifikke kernel modules, for eksempel til wlan, skal du installere de rigtige .deb pakker for dem; hvis du for eksempel bruger madwifi.As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+
 							<p>Se også <a href="internet-connecting-da.htm">kom online og ndiswrapper</a> samt <a href="internet-connecting-wpa-da.htm">angående WIFI</a></p>
 
 							<p>Kernel er nu opdateret.  <a href="hw-dev-hw-dri-da.htm"> Hvis du har brug for dem kan du nu installere 3D drivere til dit grafikkort.</a> Hvis du har et ATI eller et NVIDIA kort skal din første genstart med den nye kernel gøres til runlevel 3 (dette gøres ved at tilføje et <b>3</b> til Grub-Boot-Line)</p>
@@ -267,8 +270,12 @@ dpkg -i gspca-modules*.deb
 
 							<p>Ældre kernels kan fjernes fra systemet. Til at gøre dette kan du anvende script'et <span class="highlight-3">kernel-remover</span> som findes i pakken sidux-kernelhacking! <span class="highlight-3">Script'et giver dig mulighed for at vælge hvilke kernels du gerne vil fjerne.</span></p>
 
+<pre>
+kernel-remover
+</pre>
+
 			
-	<div id="rev">Content last revised 17/02/2008 0100 UTC</div>
+	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

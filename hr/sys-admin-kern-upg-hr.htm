@@ -222,21 +222,22 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+ 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>To get a full description of each module:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 
 							<p>4. Sad restartujte vaše računalo. Novi kernel će startovati kao standard. <span class="highlight-3">Ako budete imali problema sa novim kernelima, možete restartovati, i izabrati stariji kernel, i pokušati ponovo</span></p>
@@ -248,10 +249,12 @@ or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">VAŽNO: ako vam trebaju neki pogonitelji, kao za WLAN, morate instalirati .deb paket da ih možete koristiti, kao, kad koristite madwifi.As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">VAŽNO: ako vam trebaju neki pogonitelji, kao za WLAN, morate instalirati .deb paket da ih možete koristiti, kao, kad koristite madwifi.As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+
 							<p>See also <a href="internet-connecting-hr.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-hr.htm">for WIFI</a></p>
 
 							<p>Kernel-Update je sad gotov <a href="hw-dev-hw-dri-hr.htm">Ako su vam potrebni, dodajte naj novije grafičke pogonitelje koje možete instalirati sa odnosom na 3D pogonitelje.</a> Ako imate ATI ili NVIDIA karticu, kao prvo restartujte u novi kernel u runlevel 3 (to izvodite sa dodatnom <b>3</b> u Grub-Boot-Liniju)</p>
@@ -272,8 +275,12 @@ smxi
 
 							<p>Stare kernele možete brisati sa sistema. Da to izvodite, možete koristiti skript <span class="highlight-3">kernel-remover</span> koji je u paketu sidux-kernelhacking! <span class="highlight-3">Taj skript omogućava da izaberete kernele koje hoćete da izbrišete.</span></p>
 
+<pre>
+kernel-remover
+</pre>
+
 			
-	<div id="rev">Page last revised 17/02/2008 0100 UTC</div>
+	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

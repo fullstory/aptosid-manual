@@ -223,21 +223,22 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+ 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>To get a full description of each module:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 
 							<p>4 Теперь необходимо перезапустить компьютер, и новое ядро будет выбрано автоматически после загрузки. <span class="highlight-3">Если использование нового ядра создает проблемы, снова перзапустите компьютер и в меню загрузки grub выбирете старое функционирующее ядро.</span></p>
@@ -249,10 +250,12 @@ or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+
 							<p>Дополнительная информация <a href="internet-connecting-ru.htm">getting on line and ndiswrapper</a> и <a href="internet-connecting-wpa-ru.htm">for WIFI</a></p>
 
 							<p>Обновление ядра завершено. Инсталляция 3D графический модуль для nVidia или ATI в случае необходимости, должна происходить перед запуском сервера X Наиболее просто загрузиться на runlevel 3 ("init 3"), при этом&nbsp;в командную строку загрузочного&nbsp;менеджера просто ввести<b>3</b>. Больше информации можно найти <a href="hw-dev-hw-dri-ru.htm">здесь</a>.</p>
@@ -272,8 +275,12 @@ smxi
 
 							<p>Старые ядра могут удаляться скриптом <span class="highlight-3">kernel-remover</span>, который&nbsp;находится в пакете sidux-kernelhacking. <span class="highlight-3">Этот скрипт перечисляет те ядра, которые могут быть удалены.</span></p>
 
+<pre>
+kernel-remover
+</pre>
+
 			
-	<div id="rev">Содержание, последнее пересмотрено  17/02/2008 0100 UTC</div>
+	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

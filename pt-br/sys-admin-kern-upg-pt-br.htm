@@ -222,21 +222,22 @@ apt-get update
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Find which modules you need. Following command gives you the list of current available modules:</p>
+ 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux| awk '/modules/{print $1}'
+apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>To get a full description of each module:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
-apt-cache search 2.6.24-2.6.24.2.slh.6-sidux
+apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
  							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
 apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.6-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.6-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
 
  
@@ -250,10 +251,12 @@ ou
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANTE: se você faz uso de certos módulos de drivers (p. ex., wlan), você terá de reinstalar os pacotes .deb apropriados. As an example, for webcams and the gspca module, you have to install the .deb package for gspca: </p>
+							<p class="highlight-4">IMPORTANTE: se você faz uso de certos módulos de drivers (p. ex., wlan), você terá de reinstalar os pacotes .deb apropriados. As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
-dpkg -i gspca-modules*.deb 
+apt-get install et131x-modules-*
 </pre>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+
 							<p>Veja também <a href="internet-connecting-pt-br.htm">Configurando a rede e ndiswrapper</a> e <a href="internet-connecting-wpa-pt-br.htm">WIFI</a></p>
 
 							<p>A atualização do kernel está pronta. <a href="hw-dev-hw-dri-pt-br.htm"> Reinstale o driver da placa de vídeo 3D, se você usa uma.</a> Se ela for da ATI ou NVIDIA, na primeira vez que você reiniciar a máquina com o novo kernel é necessário parar no runlevel 3 (é só digitar <b>3</b> na tela inicial do Grub).</p>
@@ -273,8 +276,12 @@ smxi
 
 							<p>Recomendamos também que você mantenha sempre o kernel anterior, para o caso do novo não rodar satisfatoriamente. Havendo problemas, basta selecioná-lo na lista que o GRUB mostra em sua tela de abertura. Já os kernels antigos podem ser removidos do sistema. Para isso, use o script <span class="highlight-3">kernel-remover</span>, que está no pacote sidux-kernelhacking! <span class="highlight-3">Ele permite que você escolha quais kernels deseja remover.</span></p>
 
+<pre>
+kernel-remover
+</pre>
+
 			
-	<div id="rev">Page last revised 17/02/2008 0100 UTC</div>
+	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 21/01/2008 1229 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.67.2008.01.21 -->
-<!-- menu last updated by bluewater 26/01/2008 1935 hrs AEST translated by ceti 25/01/2008 1115 UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-pt-br.htm#welcome-quick">Guia Rápido do sidux</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-pt-br.htm">Placas de Vídeo, Dispositivos Diversos e Drivers</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-pt-br.htm#hd-ntfs3g">Escrevendo na Partição NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-pt-br.htm#mon-res">Resolução de Tela e Monitores</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#mon-res">Resolução de Tela e Monitores</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#non-free-3d">Drivers Proprietários para nVidia e ATI</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#native-nv-ati">Drivers Livres para nVidia, ATI, Radeon e Intel</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#non-free">Hardware que Precisa de Soluções Proprietárias</a></li>
@@ -363,111 +365,6 @@ init 5 &amp;&amp; exit
 </ol>
 
 		</div>
-	<div class="divider" id="mon-res">
-			<h2>Resoluções de Tela e Monitores </h2>
-
-				<h3>Mudando a Resolução de Tela</h3>
-					<p>No terminal, como root:</p>
-<pre>
-siduxcc
-</pre>
-							<p>e siga as instruções. Se preferir, use a interface gráfica:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Se o X não reiniciar automaticamente, pressione a seguinte combinação de teclas:</p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Monitores Múltiplos (Dual Monitors)</h3>
-				
-				<p class="highlight-2">Você está a ponto de mergulhar de cabeça nos arquivos de configuração do xorg. Por favor, FAÇA UMA CÓPIA DO XORG.CONF antes de continuar!!</p>
-				
-				<p>Tudo isso deverá mudar quando sair o Xorg 7.3 no final de 2007.</p>
-
-
-			<h5>ATI Nativo - Método 1</h5>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> mostra alguns xorg.conf funcionando com o driver livre radeon.</p>
-
-				<p>NOTA: Você vai necessitar das informações da configuração do segundo monitor. Para isso, desligue da tomada um dos monitores e dê a partida pelo LiveCD, o que vai gerar um arquivo xorg.conf. Copie-o e faça o mesmo com o outro monitor.</p>
-
-			<h5>ATI Nativo - Método 2</h5>
-					<p>Com este método, você configura a resolução do primeiro monitor, que será usada também pelo segundo; portanto, você terá de configurar uma resolução no primeiro que possa ser igualmente reconhecida pelo segundo.</p>
-					
-					<p>Na seção:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>adicione</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>O resultado final é este:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p>Para informação completa sobre configurações, veja <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-				<p>NOTA: O link acima usa o driver radeon, mas tem funcionado com o driver ati, também.</p>
-				
-			<h5>ATI Não-livre (driver fglrx)</h5>
-
-				<p>Primeiro, instale o driver proprietário fglrx</p>
-<pre>
-get-sidux-gfx
-OU
-sgfxi / smxi
-</pre>
-				<p><a href="hw-dev-hw-dri-pt-br.htm"> Veja instruções completas sobre instalação de drivers 3D</a></p>
-
-				<p>Em seguida, saia do X:</p>
-<pre>
-pressione ctrl+alt+F1
-digite: root
-entre a senha de root:
-init 3
-</pre>
-				<p>Então:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Se a imagem dos monitores estiver descentralizada, você pode fazer:</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Favor ler a Ajuda, pois ela é muito abrangente, com diversas opções e exemplos:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Nota: Os monitores precisam ter a mesma resolução. Portanto, cheque seus respectivos manuais e coloque a maior resolução possível para AMBOS.</p>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> pode ajudá-lo com informações adicionais.</p>
-
-				<p>Para voltar atrás ou desativar o modo de monitores múltiplos:</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-			
-
-			<h3>nvidia</h3>
-				<p>Para o driver não-livre da NVidia, basta usar o configurador do xorg para nvidia <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> e fazer as alterações necessárias em seus arquivos xorg.</p>
-
-
 		<div class="divider" id="non-free">
 			<h2>Dicas para hardware que precisa de soluções não-livres</h2>
 							<p class="highlight-3">Devido à complexidade da legislação, o LiveCD do sidux é montado com software livre somente.</p>
@@ -582,7 +479,7 @@ Para sair do terminal, digite: exit
 			<p>Agora seu volume NTFS deve estar montado <b>rw</b> e você será capaz de armazenar dados nele. Repetimos, porém: <span class="highlight-3">use apenas em situações emergenciais, NUNCA no dia-a-dia!!!</span></p>
 
 		</div>	
-	<div id="rev">Page last revised  13/01/2008 0200 UTC</div>
+	<div id="rev">Page last revised  24/02/2008 1330</div>
 </div>
 </div>
 </body>

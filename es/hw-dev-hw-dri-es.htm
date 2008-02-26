@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 18/12/2007 2000hrs UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by Richard 10/001/2008 1600 hrs AEST 10/02/2008 0500 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-es.htm#welcome-quick">sidux Guía Rápido</a></li>
@@ -105,10 +105,12 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-es.htm">Tarjetas Gráficas, Hardware y Drivers</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-es.htm#hd-ntfs3g">Escribir en NTFS</a></li>
+				<li><a href="hw-dev-mon-es.htm#mon-res">Screen Resolution and Monitors</a></li>
+				<li><a href="hw-dev-mon-es.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-es.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d">Drivers Binarios, No-libre para Nvidia / ATI</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">Drivers Libres de Xorg para Nvidia, ATI, Radeon, Intel</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#mon-res">Resoluciones y Monitores </a></li>
 				<li><a href="hw-dev-hw-dri-es.htm#non-free">Hardware con Necesidades No-libres</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">Drivers Libres de Xorg para Nvidia, ATI, Radeon, Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="wm-kde-es.htm">Gestor de Ventanas</a>
@@ -358,117 +360,7 @@ ejecutando), entonces:
 
 				<p>Más: <a href="http://xorg.freedesktop.org">Más información acerca de X.Org</a></p>
 					</li>
-	</ol>
-
-		</div>
-	<div class="divider" id="mon-res">
-			<h2>Resoluciones y Monitores</h2>
-
-				<h3>Cambiando la Resolución de la Pantalla</h3>
-					<p>En una consola como root:</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace (Ctrl-Alt-BorraAtras)
-</pre>
-				<h3>Monitores</h3>
-
-				<p class="highlight-2">Esta a punto de tirarse de cabeza en archivos de configuración de xorg, por favor, Por Favor, POR FAVOR, haga un respaldo de "/etc/X11/xorg.conf", antes de ir más adelante!</p>
-
-				<p>Todo esto puede cambiarse cuando el xorg 7.3 aparece en los últimos meses del 2007.</p>
-
-			<h4>Reconfiguración del ATI con un sólo monitor</h4>
-<pre>
-Single head:    aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-
-			<h4>Monitores Dual</h4>
-
-			<h5>ATI Nativo - Método 1</h5>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> tiene algunas xorg.conf que funciona con el driver libre de Radeon.</p>
-
-				<p>NOTA: Necesitará la información de la configuración del segundo monitor. Para esto, necesita desenchufar un monitor, arranca con el liveCD para gnererar la información en el xorg.conf, y guardar una copia de esta información, entonces haga los mismos pasos con el otro monitor.</p>
-
-			<h5>ATI Nativo - Método 2</h5>
-					<p>Con este método, tiene que configurar la resolución del monitor primario, primero, entonces el segundo utilizará el mismo configuración. Así que tiene que asegurar que la resolución para la primera puede ser manejada para la segundo.</p>
-
-					<p>En la sección:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>agregue</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>Para que terminará así:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-
-				<p>Para información de configuración completo, ver <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-
-				<p>NOTA: El enlace arriba utiliza el driver de Radeon, pero es conocido a funcionar con el driver de ATI.</p>
-
-			<h5>ATI no-libre</h5>
-
-				<p>Primeramente, instalar el driver no-libre, (fglrx)</p>
-<pre>
-get-sidux-gfx
-ó
-sgfxi / smxi
-</pre>
-				<p><a href="hw-dev-hw-dri-es.htm"> Por favor, referirse a "Instalando Drivers en 3D" para instrucciones completas</a></p>
-
-				<p>Proximamente, tiene que salir del servidor X:</p>
-<pre>
-ctrl+alt+F1
-tipear: root
-entra su clave de raíz:
-init 3
-</pre>
-				<p>Entonces:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Si los monitores terminan fuera de lugar, puede hacerse:</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Por favor, lea la ayuda, lo cual es muy comprensivo, con opciones y ejemplos:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Nota: Ambos monitores necesita tener la misma resolución. Verifica en el manual de los monitores y IGUALAR la resolución más alto de ambos.</p>
-
-				<p>Aquí, en <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> puede encontrar información adicional.</p>
-
-				<p>Para regresar o desactovar de monitores duales a un monitor sencillo:</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-
-			<h3>Nvidia</h3>
-				<p>Para el Nvidia no-libre, utilizar el configurator de xorg para Nvidia <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> y modificar, según necesita, los archivos de xorg.</p>
+			</ol>
 
 	</div>
 	<div class="divider" id="non-free">
@@ -585,7 +477,7 @@ To get out of the konsole type: exit
 						<p>Ahora, el volumen de NTFS debe ser montado <b>rw</b> (leer/escribir) y debe ser posible de escribir datos en el. <br />¡Pero, una vez más, Precaución! ¡Es <span class="highlight-2">experimental!</span></p>
 
 	</div>
-	<div id="rev">Contenido modificado el  13/01/2008 0200 UTC</div>
+	<div id="rev">Contenido modificado el 24/02/2008 1330</div>
 
 
 </div>

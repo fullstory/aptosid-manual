@@ -18,9 +18,9 @@
 </head>
 <body>
 <!-- Last translation revision by RoEn 12/12/2007 1900 UTC-->
-<div id="menu"> <!-- menu starts here ru language maintained by RoEn, koslow and von_Selbst-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.31 -->
-<!-- menu last updated by bluewater 31/01/2008 0130 hrs AEST 30/01/2008 1430 hrs UTC -->
+<div id="menu"> <!-- menu starts here ru language maintained by RoEn, koslow -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-ru.htm#welcome-quick">Краткое руководство sidux</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-ru.htm">Оборудование</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-ru.htm#hd-ntfs3g">Запись на раздел NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#mon-res">Разрешение экрана и мониторы</a></li>
+				<li><a href="hw-dev-mon-ru.htm#mon-res">Разрешение экрана и мониторы</a></li>
+				<li><a href="hw-dev-mon-ru.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-ru.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free-3d">Драйверы от Nvidia и ATI</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#native-nv-ati">Свободные драйверы от xorg</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free">Другие проприетарные драйверы</a></li>
@@ -353,112 +355,7 @@ init 5 &amp;&amp; exit
 
 				<p>Большее количество сведений о <a href= "http://xorg.freedesktop.org">X.Org</a></p>
 					</li>
-</ol>
-	</div>
-	<div class="divider" id="mon-res">
-					<h2>Rазмeры дисплея, экраны и шрифты</h2>
-
-				<h3>Изменение размера дисплея</h3>
-					<p>Как root выполнить в консоли следующее:</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Двойные мониторы</h3>
-				
-				<p class="highlight-2">Перед любыми изменениями файла xorg.conf создавайте резервную копию рабочей версии!</p>
-				
-				<p>С появлением xorg 7.3 в конце 2007 возможны дополнительные изменения.</p>
-
-
-			<h5>Свободный (xorg) драйвер ATI - метод 1</h5>
-
-				<p>В форуме с тематикой <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> имеются некоторые примеры работы xorg.confs со свободным  драйвером radeon.</p>
-
-				<p>ВАЖНО: Чтобы получить сведения конфигурации второго монитора, первый монитор должен быть отключен с последующей перезагрузкой с Live-CD, чтобы позволять сгенерировать xorg.conf. Необходимо скопировать и сохранить полученный файл конфигурации. Для первого монитора повторите описанные действия.</p>
-
-			<h5>Свободный (xorg) драйвер ATI - метод 2</h5>
-					<p>Произведя настройки для первого монитора используем их же для конфигурации второго. Конечно второй монитор должен иметь характеристики позволяющие использовать эти настройки.</p>
-					
-					<p>в разделе:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>Необходимо вставить:</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>Теперь раздел выглядит, как указано ниже:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p>Здесь имеются обширные сведения о возможных конфигурациях: <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-				<p>ПРИМЕЧАНИЕ: Упомянутая ссылка использует драйвер Radeon, но установки были протестированы также на драйверах ATI, и они функционируют.</p>
-
-			<h5>Проприетарный драйвер ATI</h5>
-
-				<p>Сначала инсталлируется драйвер (fglrx).</p>
-<pre>
-get-sidux-gfx
-или
-sgfxi / smxi
-</pre>
-				<p>Обратите внимание, пожалуйста, на раздел в<a href="hw-dev-hw-dri-ru.htm"> руководстве sidux</a>.</p>
-
-				<p>В связи с этим останавливаем сервер X.</p>
-<pre>
-ctrl+alt+F1
-root
-[Ввод данных пароля] # не выводится
-init 3
-</pre>
-				<p>Выполняем:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Если расположение монитора изменено:</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Для информации можно читать руководство, которое очень подробно и предоставляет большое количество примеров по использованию тех или иных опций:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Внимание: оба экрана должны иметьодинаковое разрешение. Как правило, устанавливают наивысшее разрешение слабого монитора. Читайте, пожалуйста, спецификации мониторов в руководствах, если максимальное разрешение неизвестно.</p>
-
-				<p>В форуме с тематикой <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> можно найти дополнительную информацию.</p>
-
-
-				<p>Для возврата от конфигурации двойного монитора к конфигурации с отдельным монитором, вводиться следующая команда:</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-				
-
-			<h5>nvidia</h5>
-				<p>Для проприетарного драйвера nvidia возможно использовать стандартную программу xorg  конфигурации nvidia (<a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a>) и все установки могут производиться в ней. Также необходимо обратить внимание: должно выбираться максимальное разрешение более слабого монитора  и соответственно оба монитора должны быть установлены на то же самое разрешение.</p>
+		</ol>
 
 	</div>
 	<div class="divider" id="non-free">
@@ -569,7 +466,7 @@ Zum Verlassen der Konsole gibt man nur ein: exit
 		<p>Теперь присоединяем NTFS-раздел<b>с правом на запись</b>.Теперь раздел NTFS доступен для сохранения данных. И еще раз наше предупреждение:<i>Зтот образ действия упомянут для ситуаций, в которых нет никаких других возможных решений. Для ежедневного рутинного использования этот образ действий не рекомендован!</i></p>
 </div>
 		
-		<div id="rev">Содержание, последнее пересмотрено 13/01/2008 0200 UTC</div>
+		<div id="rev">Содержание, последнее пересмотрено 24/02/2008 1330</div>
 </div>
 </div>
 </body>

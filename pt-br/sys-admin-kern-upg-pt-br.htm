@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti xx/11/2007 1530 UTC -->
+<!-- Last translation revision by ceti 21/02/2008 0934 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.67.2008.01.21 -->
-<!-- menu last updated by bluewater 26/01/2008 1935 hrs AEST translated by ceti 25/01/2008 1115 UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-pt-br.htm#welcome-quick">Guia Rápido do sidux</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-pt-br.htm">Placas de Vídeo, Dispositivos Diversos e Drivers</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-pt-br.htm#hd-ntfs3g">Escrevendo na Partição NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-pt-br.htm#mon-res">Resolução de Tela e Monitores</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#mon-res">Resolução de Tela e Monitores</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-pt-br.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#non-free-3d">Drivers Proprietários para nVidia e ATI</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#native-nv-ati">Drivers Livres para nVidia, ATI, Radeon e Intel</a></li>
 				<li><a href="hw-dev-hw-dri-pt-br.htm#non-free">Hardware que Precisa de Soluções Proprietárias</a></li>
@@ -190,13 +192,13 @@
 			<h2 id="top-header">Instalando novos Kernels</h2>
 					<h4>Os kernels do sidux ficam aqui. Favor escolher o espelho mais perto de você:</h4>
 <pre>
-Main Mirrors
+Espelhos principais
 <a href="http://sidux.com/files/kernel/">http://debian.tu-bs.de/project/sidux/kernels</a> Alemanha
 <a href="http://sidux.com/files/kernel/">http://sidux.com/files//kernel</a> Alemanha
 <a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> Alemanha
 <a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Alemanha
 
-These mirrors can be as much as 24 hours behind the main mirrors
+Os espelhos abaixo podem estar atrasados em até 24 horas em relação aos espelhos principais
 <a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernels</a> Reino Unido
 <a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> Irlanda
 <a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernels</a> Tennessee, EUA
@@ -207,35 +209,34 @@ These mirrors can be as much as 24 hours behind the main mirrors
 </pre>
 							<p>Os kernels estão disponíveis nas seguintes formas:</p>
 						<ul>
-  							<li><b>smp</b> - Para processadores da família i686 com single/dual core ou mais CPUs</li>
-  							<li><b>64-smp</b> - Para processadores da família AMD64, quando se está usando a versão 64 bit do sidux</li>
+  							<li><b>sidux-686</b> - Para processadores da família i686 com single/dual core ou mais CPUs</li>
+  							<li><b>sidux-amd64</b> - Para processadores da família AMD64, quando se está usando a versão 64 bit do sidux</li>
 						</ul>
 
-					<h6>Its 4 steps to do it manually in a konsole:</h6>
+					<h6>Siga estes 04 passos para realizar a operação manualmente, no console:</h6>
 
 <pre>
 apt-get update
 </pre>
 
- 							<p>1. Get the last version kernel:</p>
+ 							<p>1. Baixe a versão mais recente do kernel:</p>
  <pre>
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
+ 							<p>2. Encontre os módulos que você necessita. O comando abaixo lista os módulos disponíveis atualmente, copy this line to your console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-
-							<p>To get a full description of each module, copy this line to your console/terminal:</p>
+							<p>Se quiser ver a descrição completa de cada módulo, copy this line to your console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
- 							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
+ 							<p>3. Para instalar o kernel, 'headers' (cabeçalhos) e os módulos necessários (por exemplo, virtual-ose e qc-usb):</p>
  
  <pre>
-apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
 </pre>
@@ -255,8 +256,6 @@ cat /proc/modules
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
-
 							<p>Veja também <a href="internet-connecting-pt-br.htm">Configurando a rede e ndiswrapper</a> e <a href="internet-connecting-wpa-pt-br.htm">WIFI</a></p>
 
 							<p>A atualização do kernel está pronta. <a href="hw-dev-hw-dri-pt-br.htm"> Reinstale o driver da placa de vídeo 3D, se você usa uma.</a> Se ela for da ATI ou NVIDIA, na primeira vez que você reiniciar a máquina com o novo kernel é necessário parar no runlevel 3 (é só digitar <b>3</b> na tela inicial do Grub).</p>
@@ -279,9 +278,8 @@ smxi
 <pre>
 kernel-remover
 </pre>
-
 			
-	<div id="rev">Content last revised 20/02/2008 0600 UTC</div>
+	<div id="rev">Page last revised 20/02/2008 0600 UTC</div>
 </div>
 </div>
 </body>

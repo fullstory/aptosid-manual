@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by zonker 26/11/2007 1530 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.31 -->
-<!-- menu last updated by bluewater 31/01/2008 1800 hrs AEST 31/01/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-da.htm#welcome-quick">sidux Kvik Start Guide</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-da.htm">Grafikkort, Hardware Enheder og Drivere</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-da.htm#hd-ntfs3g">Skriv til NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-da.htm#mon-res">Sk&#230;rm opl&#248;sning</a></li>
+				<li><a href="hw-dev-mon-da.htm#mon-res">Screen Resolution and Monitors</a></li>
+				<li><a href="hw-dev-mon-da.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-da.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#non-free-3d">Binære, non-free drivere til: Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#native-nv-ati">Free xorg drivere til nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#non-free">Hardware med non-free behov</a></li>
@@ -368,108 +370,6 @@ init 5 &amp;&amp; exit
 		</ol>
 
 	</div>
-	<div class="divider" id="mon-res">
-			<h2>Skærmopløsninger og Monitors</h2>
-
-				<h3>Ændring af skærmopløsning</h3>
-					<p>I en konsol som root</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Dual Monitors</h3>
-				
-				<p class="highlight-2">Du er ved at dykke ned i xorg config filer, for din egen skyld: Lav en sikkerhedskopi af xorg.conf nu, inden du læser mere af dette!!!ADVARSEL!! ÆNDRINGER I XORG.CONF ER PÅ EGEN ANSVAR!!</p>
-				
-				<p>Alt dette ændres muligvis når xorg 7.3 dukker op sidst i 2007.</p>
-
-
-			<h5>Native ATI - Metode 1</h5>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> her finder du nogle fungerende xorg.conf filer til free radeon driveren.</p>
-
-				<p>BEMÆRK: Du skal bruge konfigurations informationen fra den sekundære monitor. For at få fat i denne kan du afkoble den ene monitor og boot med sidux live-cd'en som så genererer en xorg.conf, kopier denne, og så gør du det samme med den anden monitor.</p>
-
-			<h5>Native ATI - Metode 2</h5>
-					<p>Med denne metode skal du sætte opløsningen af den primære monitor først, den sekundære kommer så til at anvende den samme konfiguration, derfor skal du indstille den primære til en opløsning som den sekundære skærm også magter.</p>
-					
-					<p>I sektionen:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>tilføjer du</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>Så det ser således ud:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p>For mere konfigurations information se <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-				<p>BEMÆRK: Ovenstående link bruger radeon driveren, men det har fungeret med en ati driver.</p>
-				
-			<h5>Non-free ATI (fglrx driver)</h5>
-
-				<p>Først installerer du non-free driveren (fglrx)</p>
-<pre>
-get-sidux-gfx
-ELLER
-sgfxi / smxi
-</pre>
-				<p><a href="hw-dev-hw-dri-da.htm">Se venligst sektionen Installation af 3D driver for yderligere information</a></p>
-
-				<p>Næste trin: Afslut X med ctrl+alt+F1 og bliv root, så</p>
-<pre>
-init 3
-</pre>
-				<p>Dernæst:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Hvis dine skærme står forkert, kan du prøve</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Læs venligst hjælp sektionen som er omfattende med muligheder og valg:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>BEMÆRK: Begge skærme skal have   den samme opløsning. Så tag et kig i skærmenes manualer og set opløsningen til den højeste som begge understøtter.</p>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> kan muligvis hjælpe dig yderligere.</p>
-
-				<p>For at deaktivere dual-head og returnere til single monitor</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-			
-
-			<h3>nvidia</h3>
-				<p>For nvidia non-free bruger du nvidia xorg configurator <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> og rediger din xorg filer som angivet.</p>
-
-	</div>
 	<div class="divider" id="non-free">
 				<h2>Tips til hardware med non-free behov</h2>
 							<p class="highlight-3">Af juridiske årsager er der kun dfsg-free software på sidux-CD'en.</p>
@@ -588,7 +488,7 @@ exit
 			<p>Nu skulle dit NTFS-drev være mounted <b>rw</b> og du skulle være i stand til at gemme data til drevet. Men igen en advarsel! Det er <span class="highlight-2">experimentiel software!</span></p>
 
 		
-	<div id="rev">Page last revised  13/01/2008 0200 UTC</div>
+	<div id="rev">Page last revised  24/02/2008 1330</div>
 
 </div>
 </div>

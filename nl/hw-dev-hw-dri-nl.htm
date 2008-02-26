@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision 10/09/2007 1200 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG eislon -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 19/02/2008 1500 hrs AEDST 19/02/2008 0400 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-nl.htm#welcome-quick">Quick Start Handleiding</a></li>
@@ -105,9 +105,11 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-nl.htm">Grafische kaarten, HW devices en drivers</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-nl.htm#hd-ntfs3g">Schrijven naar NTFS</a></li>
+				<li><a href="hw-dev-mon-nl.htm#mon-res">Schermresolutie en monitor</a></li>
+				<li><a href="hw-dev-mon-nl.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-nl.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-nl.htm#non-free-3d">Binary, non-free drivers voor Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-nl.htm#native-nv-ati">Free xorg drivers voor nVidia, ATI, Radeon, Intel</a></li>
-				<li><a href="hw-dev-hw-dri-nl.htm#mon-res">Schermresolutie en monitor</a></li>
 				<li><a href="hw-dev-hw-dri-nl.htm#non-free">Hardware met niet-vrije/gratis drivers</a></li>
 			</ul>
 		</li>
@@ -352,123 +354,9 @@ init 5 &amp;&amp; exit
 
 				<p><a href= "http://xorg.freedesktop.org">Meer informatie over X.Org</a></p>
 					</li>
-</ol>
+			</ol>
 
 	</div>
-	<div class="divider" id="mon-res">
-			<h2>Schermresolutie en Monitor</h2>
-
-				<h3>Veranderen van de schermresolutie</h3>
-					<p>In een  konsole als root aanmelden</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Monitoren</h3>
-				
-				<p class="highlight-2">Voordat de xorg config bestanden veranderd worden, maak a.u.b, s.v.p., alsjeblieft een back-up van xorg.conf voordat je hieraan begint!</p>
-				
-				<p>Deze dingen worden straks anders in xorg 7.3 (aan het einde van 2007).</p>
-				<h3>Dual Monitors</h3>
-				
-				<p class="highlight-2">Als je de xorg config bestanden aanpast, maak a.u.b., s.v.p., please een back-up van de xorg.conf, v&#243;&#243;rdat je verder gaat!</p>
-				
-			<p>Let op: Met xorg 7.3 einde 2007 wordt een aantal dingen anders.</p>
-
-
-			<h5>Native ATI - methode 1</h5>
-
-				<p><a  href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794">Lees hier meer over bekende goed werkende configuratie-bestanden xorg.confs met de free radeon driver.</a></p>
-
-				<p>Noot: Hiervoor heb je informatie nodig over de configuratie van de tweede monitor. Om dat snel te doen, trek 1 monitor eruit en boot met de liveCD om een correct xorg.conf bestand aan te maken. Dat bestand kan gekopieerd worden. Hierna kan dezelfde actie met de andere monitor gedaan worden.</p>
-
-			<h5>Native ATI - methode 2</h5>
-					<p>Met deze methode, moet eerst de resolutie van de primaire monitor vastgelegd worden. Hierna kan de tweede monitor deze configuration voor de tweede gebruikt worden. Dat betekent dat de maximale/gewenste configuratie van de eerste monitor zo moet worden vastgelegd, dat de tweede monitor hiermee kan omgaan.</p>
-					
-					<p>In de sectie</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>voeg in</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>aan het einde:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p><a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">Hier staat uitgebreidere informatie over de configuratie.</a></p>
-				
-				<p>Noot: De link hierboven gebruikt de radeon driver, maar het werkt met de ati driver.</p>
-			<h5>native ati</h5>
-
-					<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794">Lees hier meer over bekende goed werkende  configuratie-bestanden xorg.confs met de free radeon driver.</a></p>
-
-			<h5>non-free ati</h5>
-
-				<p>Eerst wordt de non-free driver ge&#239;nstalleerd (fglrx)</p>
-<pre>
-get-sidux-gfx
-or
-sgfxi / smxi
-</pre>
-				<p><a href="hw-dev-hw-dri-nl.htm"> Geadviseerd wordt om de volledige instructies voor de 3D drivers te raadplegen.</a></p>
-
-				<p>Hierna moet X worden verlaten door en je vervolgens als root aan te melden:</p>
-<pre>
-ctrl+alt+F1
-type: root
-password:
-init 3
-</pre>
-				<p>Vervolgens:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Als de monitorweergave niet correct is (ori&#235;ntatie), dan wordt het volgende commando gebruikt:</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Er kan bovendien de help functie geraadpleegd worden. Hier staan ook veel opties en voorbeelden in:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Let op: beide schermen behoren dan dezelfde resolutie te hebben. Ga hiervoor in de handleiding van de monitoren na wat de hoogste resolutie is en kies de hoogste gemeenschappelijke resolutie.</p>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231">Met deze link kan hierover meer informatie worden verkregen.</a></p>
-
-				<p>Om te keren naar een single monitor modus</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-				
-
-			<h5>nvidia</h5>
-				<p>Voor nvidia non-free kan de nvidia xorg configurator gebruikt worden <a href="http://www.sorgonet.com/linux/nv-online/"> om de xorg bestanden aan te passen.</a></p>
-
-
-</div>
 	<div class="divider" id="non-free">
 				<h2>Tips voor hardware met 'non-free' benodigdheden</h2>
 							<p class="highlight-3">Vanwege de bepalingen in de verschillende wetten, zal sidux live-cd alleen dfsg-free software aanbieden en ondersteunen.</p>
@@ -576,8 +464,8 @@ apt-get install zd1211-firmware
 				</li>
 			</ul>
    				<p>Wij onderzoeken nog of wij sommige drivers kunnen intergeren in sidux. Helaas is de wettelijke status van deze drivers nogal ingewikkeld.</p>
-</div>
-		
+
+	</div>
 	<div class="divider" id="hd-ntfs3g">
 			<h2>Schrijven naar NTFS-partitions met ntfs-3g</h2>
 
@@ -594,7 +482,7 @@ exit
 </pre>
 			<p>Je NTFS-Volume zou nu gemount moeten zijn met <b>rw</b> permissies en je zou er nu gegevens op moeten kunnen opslaan. Maar nogmaals: wees gewaarschuwd! Het is <span class="highlight-2">experimenteel!</span></p>
 		</div>	
-	<div id="rev">Pagina het laatst gewijzigd op 13/01/2008 0200 UTC</div>
+	<div id="rev">Pagina het laatst gewijzigd op 24/02/2008 1330</div>
 
 </div>
 </body>

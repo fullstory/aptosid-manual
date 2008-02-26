@@ -20,8 +20,8 @@
 <!-- Last translation revision par muchan 14/Jan/2008 à 19H08 UTC-->
 <!-- Last translation revision par LjanA 12/09/2007 à 8H28 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by LjanA 23/01/2008 1800 hrs AEST 23/01/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-fr.htm#welcome-quick">Guide rapide de sidux</a></li>
@@ -106,7 +106,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-fr.htm#hd-ntfs3g">Écritures sur NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-fr.htm#mon-res">Définition d'écran et moniteurs</a></li>
+				<li><a href="hw-dev-mon-fr.htm#mon-res">Screen Resolution and Monitors</a></li>
+				<li><a href="hw-dev-mon-fr.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-fr.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#non-free-3d">Binaires, pilotes propriétaires pour : Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#native-nv-ati">Pilotes libres xorg pour nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#non-free">Matériels nécessitant des outils propriétaires</a></li>
@@ -363,123 +365,6 @@ init 5 &amp;&amp; exit
 				</ol>
 
 		</div>
-		<div class="divider" id="mon-res">
-			<h2>Changer la résolution de vos écrans et moniteurs</h2>
-
-				<h3>Changer la résolution d'écran</h3>
-
-
-							<p>Ceci s'opère depuis une console root :</p>
-
-<pre>
-siduxcc
-</pre>
-							<!--- ####
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-							#### -->
-							<p>et suivez les instructions, ou par l'interface graphique:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<!--- ####
-							<p>Should X not automatically restart, restart X by doing </p>
-							#### -->
-							<p>Si X ne radémarre pas automatiquement, faites un radémarrage de X en entrant </p>
-<pre>
-ctrl+alt+retour arrière
-</pre>
-				<h3>Double Affichage</h3>
-				
-							<p class="highlight-2">Vous êtes sur le point de vous immerger dans les fichiers de configuration de xorg. S'il vous plait ! Faites une sauvegarde de votre fichier xorg.conf, avant d'aller plus loin !</p>
-				
-							<p>Les instructions détaillées ici pourraient changer d'ici la fin 2007 lorsque xorg 7.3 sera sorti.</p>
-
-
-			<h5>Pilote libre ATI - Méthode 1</h5>
-
-							<p>L'article <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> propose quelques fichiers xorg.confs qui fonctionnent avec le pilote libre 'radeon'.</p>
-
-							<p>AVERTISSEMENT: Vous devrez vous munir de l'information nécessaire à la configuration de votre second moniteur. Un moyen d'y parvenir, consiste à démarrer sur le Live-CD pour générer un fichier xorg.conf, de copier celui-ci, puis de le faire à nouveau avec le second moniteur.</p>
-
-			<h5>Pilote libre ATI - Méthode 2</h5>
-
-							<p>Par cette méthode, vous allez régler en premier la résolution du premier moniteur, puis le second utilisera la même configuration. Vous devez donc vous assurer que votre second moniteur supporte les paramètres que vous aurez fixé pour le premier et donc avoir ajusté ceux-ci en conséquence.</p>
-					
-							<p>Dans la section:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>ajoûtez</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-							<p>De sorte que la strophe se présente comme suit:</p>
-
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-							<p>Pour consulter l'information exhaustive de configuration rendez-vous sur <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a> (en)</p>
-				
-							<p>AVERTISSEMENT: Le lien ci-dessus utilise 'radeon' mais la technique a déjà fonctionné avec le pilote 'ati'.</p>
-				
-			<h5>Pilote propriétaire ATI (Pilote fglrx)</h5>
-
-							<p>Commencez par installer le pilote propriétaire ATI (fglrx)</p>
-<pre>
-get-sidux-gfx
-ou
-sgfxi / smxi
-</pre>
-							<p><a href="hw-dev-hw-dri-fr.htm"> Reportez-vous à la section dédiée à l'installation des pilotes 3D pour des instructions complètes.</a></p>
-
-							<p>Ensuite: Vous devrez sortir de  X</p>
-<pre>
-ctrl+alt+F1
-entrez: root
-entrez votre mot-de-passe:
-init 3
-</pre>
-							<p>Ensuite:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-							<p>Si le cadrage de vos moniteurs est incorrect, vous pouvez faire</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-							<p>Lisez l'aide, svp ; elle est bien conçue et accessible, et comporte des exemples et des options:</p>
-<pre>
-aticonfig --help
-</pre>
-							<p>Avertissement: Les deux moniteurs doivent avoir la même résolution. Aussi consultez leurs documentations techniques respectives afin de fixer pour ceux-ci la résolution maximale que ceux-ci puissent supporter EN MÊME TEMPS.</p>
-
-							<p>L'article du forum <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> pourra vous apporter de l'information complémentaire. (en)</p>
-
-							<p>Pour revenir en arrière et/ou désactiver le double-affichage</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-			
-
-	<h3>Nvidia</h3>
-
-							<p>Pour obtenir un double affichage avec les pilotes propriétaires Nvidia, utilisez simplement l'outil de configuration xorg de nvidia <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> et modifiez vos fichiers xorg en conséquence.</p>
-
-
 		<div class="divider" id="non-free">
 			<h2>Indications à propos des matériels nécessitant un support non-libre</h2>
 
@@ -601,7 +486,7 @@ Pour sortir de la console entrez : exit
 							<p>Dès lors votre volume NTFS peut être monté <b>rw</b> (read and write) et vous devriez être en mesure d'y écrire des données. Mais encore une fois, soyez prudent ! <span class="highlight-3">Usez-en dans les situations d'urgence ; cette méthode n'est pas recommandée pour un usage permanent quotidien.</span></p>
 
 		</div>	
-	<div id="rev">Dernière actualisation le 13/01/2008 0200 UTC</div>
+	<div id="rev">Dernière actualisation le 24/02/2008 1330</div>
 </div>
 </div>
 </body>

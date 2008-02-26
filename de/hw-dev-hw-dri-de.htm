@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision hubi 18/12/2007 2115 UTC-->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 21/01/2008 1801 hrs AEST 21/01/2008 0701 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 1310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Zu sidux.com Forum und Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-de.htm#welcome-quick">sidux Kurzanleitung</a></li>
@@ -46,7 +46,7 @@
 				<li><a href="cd-content-de.htm#cd-content">Inhalt der Live-CD</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-de.htm">CD Herunterladen &amp; Brennen</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-de.htm">Spiegelserver, CD Herunterladen &amp; Brennen</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="cd-dl-burning-de.htm#download-sidux">Spiegelserver, CD herunterladen</a></li>
 				<li><a href="cd-dl-burning-de.htm#md5">md5-Prüfsummen</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-de.htm">Grafikkarten, Hardware, Geräte und Treiber</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-de.htm#hd-ntfs3g">Schreiben auf NTFS-Partitionen mit ntfs-3g</a></li>
-				<li><a href="hw-dev-hw-dri-de.htm#mon-res">Bildschirmauflösung und Monitoreinstellungen</a></li>
+				<li><a href="hw-dev-mon-de.htm#mon-res">Ändern der Bildschirmauflösung</a></li>
+				<li><a href="hw-dev-mon-de.htm#xrandr">Zwei Monitore und xrandr</a></li>
+				<li><a href="hw-dev-mon-de.htm#mon-binary">Zwei Monitore mit binären Grafiktreibern</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d">Binäre, nicht freie Treiber für Nvidia und ATI</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#native-nv-ati">Freie xorg-Treiber für nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free">Hardware mit proprietären Anforderungen</a></li>
@@ -363,111 +365,6 @@ init 5 &amp;&amp; exit
 </ol>
 
 		</div>
-	<div class="divider" id="mon-res">
-			<h2>Bildschirmauflösungen, Monitore und Schriftarten</h2>
-
-				<h3>Änderung der Bildschirmauflösung</h3>
-					<p>Als Root wird in der Konsole folgender Befehl eingegeben:</p>
-<pre>
-siduxcc
-</pre>
-							<p>und man folgt den Anweisungen. Die GUI startet man hier: <span class="highlight-3">Kmenu>System>sidux Kontrollzentrum </span></p>
-
-							<p>Falls X nicht automatisch neu startet, kann ein Neustart mit dieser Tastenkombination erfolgen:</p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Dual-Head (zwei) Monitore</h3>
-				
-				<p class="highlight-2">Da nun die Konfigurationsdateien von xorg geändert werden, bitten wir, die Datei xorg.conf zu sichern, bevor der nächste Schritt vollzogen wird!</p>
-				
-				<p>Diese Richtlinien können sich mit der Version xorg 7.3 noch im Jahre 2007 ändern.</p>
-
-
-			<h5>Nativer ATI-Treiber - Methode 1</h5>
-
-				<p>Im Forums-Thread <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794">http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> gibt es einige funktionierende Beispiele für die xorg.conf mit dem freien Radeon-Treiber.</p>
-
-				<p>ZU BEACHTEN: Um die Konfigurationsinformationen des zweiten Monitors zu erhalten, muss der erste abgehängt werden und mit der Live-CD gebootet werden, um eine xorg.conf generieren zu lassen. Von dieser xorg.conf muss eine Kopie angelegt werden. Um die Konfigurationsinformationen des ersten Monitors zu erhalten, wird das gleiche Verfahren angewendet.</p>
-
-			<h5>Nativer ATI-Treiber - Methode 2</h5>
-					<p>Zuerst muss die Auflösung des ersten (primären) Monitors festgelegt werden. Der zweite Monitor nutzt die Auflösungseinstellungen des ersten (primären) Monitors. Beachtet muss werden, dass der zweite Monitor die Auflösungseinstellungen des ersten technisch umsetzen kann.</p>
-					
-					<p>In der Sektion:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>muss folgendes eingefügt werden:</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>Danach sieht die Sektion wie folgt aus:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p>Umfassende Informationen zur Konfigurationseinstellung gibt es hier: <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-				<p>ANMERKUNG: Genannter Link verwendet den Radeon-Treiber, aber die Einstellungen sind auch auf ATI-Treibern getestet worden, und sie funktionieren.</p>
-
-			<h5>Nicht freier ati-Treiber (fglrx)</h5>
-
-				<p>Zunächst muss der nicht freie Treiber (fglrx) installiert werden.</p>
-<pre>
-get-sidux-gfx
-oder
-sgfxi / smxi
-</pre>
-				<p>Bitte die Anleitung im <a href="hw-dev-hw-dri-de.htm">sidux-Handbuch</a> beachten.</p>
-
-				<p>Im Anschluss daran muss der Grafikserver X verlassen werden.</p>
-<pre>
-ctrl+alt+F1
-root
-[Passworteingabe] # wird nicht ausgegeben
-init 3
-</pre>
-				<p>Dann:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>Falls die Monitoranordnung vertauscht ist:</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Zur weiteren Information kann die Hilfe-Anleitung gelesen werden, welche sehr ausführlich ist und umfassende Optionen sowie Beispiele bereit stellt:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Zur Beachtung: Beide Monitore müssen dieselbe Auflösung besitzen. Im Regelfall stellt man die höchste Auflösung des leistungsschwächeren Monitors ein. Die Spezifikationen der Monitore bitte in den Handbüchern der Monitore nachschlagen, falls die maximale Auflösung unbekannt ist.</p>
-
-				<p>In dem Forumsthread <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> ist weitere Information zu finden.</p>
-
-				<p>Um von einer Dual-Monitor-Konfiguration zu einer Konfiguration mit einem einzelnen Monitor zurück zu gehen, muss folgender Befehl eingegeben werden:</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-				
-
-			<h5>nvidia</h5>
-				<p>Für den nicht-freien nvidia-Treiber kann das Konfigurationsprogramm für xorg von nvidia verwendet werden (<a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a>) und die Einstellungen können in diesem vorgenommen werden. Auch hier ist zu beachten: die maximale Auflösung des schwächeren Monitors soll gewählt werden bzw. beide Monitore müssen auf die gleiche Auflösung eingestellt sein.</p>
-
-
 		<div class="divider" id="non-free">
 			<h2>Tipps zu Hardware, die unfreie Treiber benötigt</h2>
 			<p class="highlight-3">Auf Grund der schwierigen Rechtslage liefert sidux auf der Live-CD nur DFSG-freie Software aus.</p>
@@ -583,7 +480,7 @@ Zum Verlassen der Konsole: exit
 			<p>Das NTFS-Volume sollte jetzt <b>mit Schreibzugriff</b> eingehängt sein und man sollte Daten darauf speichern können. Und noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 13/01/2008 0200 UTC</div>
+	<div id="rev">Page last revised 24/02/2008 1330</div>
 </div>
 </div>
 </body>

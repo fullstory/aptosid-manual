@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 29/11/2007 1400 UTC-->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 21/01/2008 1800 hrs AEST 21/01/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-en.htm#welcome-quick">sidux Quick Start Guide</a></li>
@@ -102,10 +102,12 @@
 				<li><a href="hd-install-opts-en.htm#qemu">Installing sidux with QEMU</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-en.htm">Graphic Cards, Hardware Devices and Drivers</a>
+		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-en.htm">Graphic Cards, Drivers &amp; Monitors</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-en.htm#hd-ntfs3g">Writing to NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-en.htm#mon-res">Screen Resolution and Monitors</a></li>
+				<li><a href="hw-dev-mon-en.htm#mon-res">Screen Resolution and Monitors</a></li>
+				<li><a href="hw-dev-mon-en.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-en.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-en.htm#non-free-3d">Binary, non-free drivers for: Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-en.htm#native-nv-ati">Free xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-en.htm#non-free">Hardware needing non-free drivers</a></li>
@@ -363,108 +365,6 @@ init 5 &amp;&amp; exit
 				</ol>
 
 	</div>
-	<div class="divider" id="mon-res">
-			<h2>Screen Resolutions and Monitors </h2>
-
-				<h3>Changing the Screen Resolution</h3>
-							<p>In a konsole as root</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Dual Monitors</h3>
-				
-							<p class="highlight-2">You are about to edit xorg config files, please, please, please make a back-up of xorg.conf, before going any further!</p>
-				
-			<h5>Native ATI - Method 1</h5>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> has some working xorg.confs with the free radeon driver.</p>
-
-				<p>NOTE: You will need to get the configuration information of the second monitor. To do this, you need to unplug one monitor and boot the liveCD to generate xorg.conf, copy it, then do the same with the other one.</p>
-
-			<h5>Native ATI - Method 2</h5>
-					<p>With this method, you have to set the resolution of the primary monitor first, then the second one will use the same configuration, so you have to set the primary in a resolution that the second one can handle</p>
-					
-					<p>In the section:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-					<p>add</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-					<p>So it will end up as:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-				<p>For full configuration information see <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-				<p>NOTE: The link above uses the radeon driver, but it has worked with ati driver.</p>
-				
-			<h5>Non-free ATI (fglrx driver)</h5>
-
-				<p>First install the non-free driver (fglrx)</p>
-<pre>
-get-sidux-gfx
-or
-sgfxi / smxi
-</pre>
-				<p><a href="hw-dev-hw-dri-en.htm"> Please refer to Installing 3D drivers for full instructions</a></p>
-
-				<p>Next: You must get out of X</p>
-<pre>
-ctrl+alt+F1
-type: root
-enter your password:
-init 3
-</pre>
-				<p>Then:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-				<p>If your monitors end up in the wrong place, you can do</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-				<p>Please read the help which is very comprehensive with options and examples:</p>
-<pre>
-aticonfig --help
-</pre>
-				<p>Note: Both monitors have to have the same resolution. So check in the manual of the monitors and MATCH the highest resolution of both.</p>
-
-				<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> may be able to provide additional information.</p>
-
-				<p>To roll back or disable the dual-head to single monitor</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-			
-
-			<h3>nvidia</h3>
-				<p>For nvidia non-free simply use the nvidia xorg configurator <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> and alter your xorg files accordingly.</p>
-
-
 		<div class="divider" id="non-free">
 			<h2>Hints for hardware with non-free needs</h2>
 							<p class="highlight-3">Due to the complexity of law, sidux live-cd will only provide dfsg-free software.</p>
@@ -580,7 +480,7 @@ To get out of the konsole type: exit
 			<p>Now your NTFS-Volume should be mounted <b>rw</b> and you should be able to store data on it. But again, be warned! <span class="highlight-3">Use it in emergency situations, it is not recommended  for use on a daily basis.</span></p>
 
 		</div>	
-	<div id="rev">Page last revised  13/01/2008 0200 UTC</div>
+	<div id="rev">Page last revised  24/02/2008 1310 UTC</div>
 </div>
 </div>
 </body>

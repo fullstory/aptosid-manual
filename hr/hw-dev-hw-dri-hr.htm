@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision  28/10/2007 1400 UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra and damir-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.65.2008.01.21 -->
-<!-- menu last updated by bluewater 21/01/2008 1800 hrs AEST 21/01/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-hr.htm#welcome-quick">sidux Quick Start Guide</a></li>
@@ -105,7 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hr.htm">Grafičke kartice, hardver, sredstvo i pogonitelji</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-hr.htm#hd-ntfs3g">Piši na NTFS</a></li>
-				<li><a href="hw-dev-hw-dri-hr.htm#mon-res">Rezolucije Monitora</a></li>
+				<li><a href="hw-dev-mon-hr.htm#mon-res">Rezolucije Monitora</a></li>
+				<li><a href="hw-dev-mon-hr.htm#xrandr">Dual Monitors and xrandr</a></li>
+				<li><a href="hw-dev-mon-hr.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free-3d">Binarni, non-free pogonitelji za: Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#native-nv-ati">Free xorg pogonitelji za nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free">Hardver sa non-free potrebama</a></li>
@@ -186,7 +188,7 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="nvidia-3d">
+	<div class="divider" id="non-free-3d">
 		<h2 id="top-header">nVidia 3d pogonitelji</h2>
 
 			<p>Postoje 4 metode instaliranja 3d nVidia pogonitelja u vaš sistem</p>
@@ -358,110 +360,6 @@ init 5 &amp;&amp; exit
 					</li>
 				</ol>
 	</div>
-	<div class="divider" id="mon-res">
-					<h2>Rezolucije Monitora, Monitore i pisma</h2>
-
-				<h3>Promijeniti rezoluciju Monitora</h3>
-							<p>U konzoli kao root</p>
-<pre>
-siduxcc
-</pre>
-							<p>and follow the prompts, or with the GUI:<span class="highlight-3">Kmenu>System>sidux Control Centre>Display </span></p>
-
-							<p>Should X not automatically restart, restart X by doing </p>
-<pre>
-ctrl+alt+backspace
-</pre>
-				<h3>Monitori</h3>
-				
-							<p class="highlight-2">Sad će te skočiti naglavce u vodu xorg konfig datoteka, molimo vas puno, puno, puno napravite sigurnosnu kopiju xorg.conf datoteke, prije nego što idete dalje!</p>
-				
-							<p>Sve to će se možda promijeniti kad izađe xorg 7.3 krajem 2007</p>
-
-
-			<h5>Native ATI - Metoda 1</h5>
-
-							<p>Naći će te na <a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> nekoliko xorg.confs sa slobodnim radeon pogoniteljom.</p>
-
-							<p>BILJEŠKA: Morate pronaći informacije o konfiguraciji drugog Monitora. Da to obavite, morate izvuči jedan monitor i bootati s Live-CD da generirate xorg.conf, kopirajte je, i onda isto uradite s drugim.</p>
-
-			<h5>Native ATI - Metoda 2</h5>
-							<p>S tom metodom, rezolucija prvog Monitora je kao prva postavljena, i drugi će koristiti istu konfiguraciju, tako da morate postaviti rezoluciju prvog monitora, da drugi isto može da radi s njom</p>
-					
-							<p>U sekciji:</p>
-<pre>
-Section "Device"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>
-							<p>dodajte</p>
-<pre>
-Option "MergedFB"
-Option "CRT2Position" "RightOf"
-</pre>
-
-							<p>Tako da će završiti kao:</p>
-<pre>
-Section "Device"
-	Option "MergedFB"
-	Option "CRT2Position" "RightOf"
-	Identifier "devname"
-	Driver "ati"
-   ...
-EndSection
-</pre>				
-
-							<p>Za potpunu informaciju o konfiguraciji pogledajte <a href="http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html">http://ftp.x.org/pub/X11R6.9.0/doc/html/radeon.4.html</a></p>
-				
-							<p>BILJEŠKA: Gornji link koristi radeon pogonitelj, ali isto radi s ati pogoniteljem.</p>
-
-			<h5>non-free ati</h5>
-
-							<p>Kao prvo instalirajte non-free pogonitelj (fglrx)</p>
-<pre>
-get-sidux-gfx
-ili
-sgfxi / smxi
-</pre>
-							<p><a href="hw-dev-hw-dri-hr.htm">Molimo vas da se odnosite na instaliranje 3D pogonitelja za potpune instruktcije</a></p>
-
-							<p>Iduće: Morate izaći iz X</p>
-<pre>
-ctrl+alt+F1
-upišite: root
-utipkajte lozinku:
-init 3
-</pre>
-							<p>Onda:</p>
-<pre>
-aticonfig --dtop=horizontal
-init 5 &amp;&amp; exit
-</pre>
-
-							<p>Ako Monitior završi na pogrešnom mjestu, možete izvoditi sljedeće</p>
-<pre>
-aticonfig --dtop=horizontal,reverse
-</pre>
-
-							<p>Molimo vas da pročitate pomoć za opcije i primjere:</p>
-<pre>
-aticonfig --help
-</pre>
-							<p>Bilješka: Oba Monitora moraju imati istu rezoluciju. Tako da morate provjeriti priručnik Monitora i onda postaviti oboje na naj veću moguću rezoluciju.</p>
-
-							<p><a href="http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231"> http://sidux.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=20231#20231</a> možda vam može ponuditi dodatne informacije.</p>
-				
-							<p>Da se vratite ili deaktivirate dual-head na jedan Monitor</p>
-<pre>
-aticonfig --initial --input=/etc/X11/xorg.conf
-</pre>
-
-			<h5>nvidia</h5>
-							<p>Za nvidia non-free jednostavno koristite nvidia xorg konfigurator <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> i promjenite vaše xorg datoteke prema tome.</p>
-
-	</div>
 	<div class="divider" id="non-free">
 				<h2>Savjet za hardver s non-free potrebama</h2>
 							<p class="highlight-3">Zbog kompleksnosti zakona, sidux samo nudi dfsg-free softver.</p>
@@ -576,7 +474,7 @@ exit
 
 	</div>
 		
-	<div id="rev">Content last revised 13/01/2008 0200 UTC</div>
+	<div id="rev">Content last revised 24/02/2008 1330</div>
 
 
 

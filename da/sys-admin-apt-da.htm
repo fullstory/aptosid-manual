@@ -216,17 +216,18 @@
  							<p>Alle sidux ISO'er har allerede de følgende sources som standard:</p>
 
 <pre>
-deb http://ftp.de.debian.org/debian unstable main
-deb http://sidux.com/debian/ sid main fix.main
+# Free University Berlin/ Institute of Computer Science, Germany
+deb http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
+#deb-src http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
 
-							<p>Yderligere information om non-free behov kan findes i vores altid opdaterede <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>  Fra og med 27/02/2007 0800 hrs UTC er de:</p>
+							<p>Yderligere information om non-free behov kan findes i vores altid opdaterede <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>  Fra og med 28/02/2008 0800 hrs UTC er de:</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
 # CDROMs are managed through the apt-cdrom tool.
 # The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in seperate files that end with sources.list file.
+# entries in separate files that end with sources.list file.
 
 # Unstable
 deb http://ftp.de.debian.org/debian unstable main contrib non-free
@@ -241,10 +242,11 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 # deb-src http://ftp.de.debian.org/debian experimental main contrib non-free
 
 # sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+# Free University Berlin/ Institute of Computer Science, Germany
+deb http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
+#deb-src http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
-							<p>OBS: I dette eksempel indikerer ftp.de at de tyske repositorier (filspejle) anvendes. Du kan redigere denne fil (som root) til for eksempel ftp.dk, ftp.uk eller ftp.us (de fleste lande har lokale filspejle), for derigennem at anvende de repositorier som er tættest på dig. På denne måde kan filoverførselshastigheden øges, og båndbredde spares.</p>
+							<p>OBS: I dette eksempel indikerer ftp.de at de tyske repositorier (filspejle) anvendes. Du kan redigere denne fil (som root) til for eksempel ftp.dk, ftp.uk eller ftp.de (de fleste lande har lokale filspejle), for derigennem at anvende de repositorier som er tættest på dig. På denne måde kan filoverførselshastigheden øges, og båndbredde spares.</p>
 
 							<p>For at kunne modtage opdateret information om pakkerne anvender APT en database. Databasen indeholder pakkenavnet, men også en oversigt over hvilke andre pakker der er nødvendige for en given pakke (-afhængigheder/ dependencies). Programmet apt-get anvender denne database når den installerer de pakker du har valgt for at løse alle eventuelle afhængigheder, og garanterer på den måde at programmerne vil fungere. Kommandoen der opdaterer denne database er 'apt-get update' (det følgende eksempel er fra en tysk sidux installation):</p>
  
@@ -370,6 +372,11 @@ echo package hold|dpkg --set-selections
 							<p>For at tage pakken af Hold</p>
 <pre>
 echo package install|dpkg --set-selections
+</pre>
+							<p>To list packages on hold:</p>
+
+<pre>
+dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Nedgradering af en pakke</h3>

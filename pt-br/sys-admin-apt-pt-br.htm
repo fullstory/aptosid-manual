@@ -216,35 +216,36 @@
  				<h3>Todas as ISOs do sidux usam a seguinte 'sources.list' por padrão:</h3>
 
 <pre>
-deb http://ftp.de.debian.org/debian unstable main
-deb http://sidux.com/debian/ sid main fix.main
+# Free University Berlin/ Institute of Computer Science, Germany
+deb http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
+#deb-src http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
 
-				<p>Fontes complementares, com pacotes não-livres, podem ser encontradas em nossa sempre atualizada <a href="http://sidux.com/files/misc/sources.list">sources.list.</a>  Em 27/02/2007, 08:00h UTC, ela estava assim:</p>
+							<p>Fontes complementares, com pacotes não-livres, podem ser encontradas em nossa sempre atualizada <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>  Em 28/02/2008, 08:00h UTC, ela estava assim:</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
 # CDROMs are managed through the apt-cdrom tool.
 # The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in seperate files that end with sources.list file.
+# entries in separate files that end with sources.list file.
 
 # Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
+#deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
 
 # Testing
-# deb http://ftp.de.debian.org/debian testing main contrib non-free
-# deb-src http://ftp.de.debian.org/debian testing main contrib non-free
+#deb http://ftp.us.debian.org/debian/ testing main contrib non-free
+#deb-src http://ftp.us.debian.org/debian/ testing main contrib non-free
 
 # Experimental
-# deb http://ftp.de.debian.org/debian experimental main contrib non-free
-# deb-src http://ftp.de.debian.org/debian experimental main contrib non-free
+#deb http://ftp.us.debian.org/debian/ experimental main contrib non-free
+#deb-src http://ftp.us.debian.org/debian/ experimental main contrib non-free
 
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+# Free University Berlin/ Institute of Computer Science, Germany
+deb http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
+#deb-src http://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
-							<p>OBSERVAÇÃO: Neste exemplo, 'ftp.de' significa que os repositórios usados são da Alemanha. Você pode editar o arquivo, como root, e usar os espelhos brasileiros: simplesmente mude o país, isto é, 'ftp:de' para 'ftp.br'. Com isso, preserva-se a largura de banda e aumenta-se a velocidade.</p>
+							<p>OBSERVAÇÃO: Neste exemplo, 'ftp.us' significa que os repositórios usados são da Alemanha. Você pode editar o arquivo, como root, e usar os espelhos brasileiros: simplesmente mude o país, isto é, 'ftp:de' para 'ftp.br'. Com isso, preserva-se a largura de banda e aumenta-se a velocidade.</p>
 
 							<p>Para receber informações sobre atualizações dos pacotes, o APT usa um banco de dados. Este banco contém não só o pacote em si, mas também outros pacotes necessários para que ele funcione (as chamadas dependências). O programa apt-get usa o banco de dados para instalar os pacotes que você pediu e também todas as dependências necessárias, o que garante que tudo irá funcionar no final do processo. A atualização do banco é feita pelo comando 'apt-get update':</p>
  
@@ -369,6 +370,11 @@ echo package hold|dpkg --set-selections
 							<h3>Tirar um pacote do modo de espera:</h3>
 <pre>
 echo package install|dpkg --set-selections
+</pre>
+							<p>To list packages on hold:</p>
+
+<pre>
+dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Rebaixar um pacote:</h3>

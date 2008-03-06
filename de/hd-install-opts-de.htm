@@ -193,39 +193,39 @@
 
 		<p  class="highlight-2">Für normalen Gebrauch empfehlen wir das Standarddateisystem von sidux, ext3, welches von den Maintainern gut gewartet ist.</p>
 		
-		<p>Dieser Cheatcode startet aus einer ISO-Datei auf der Festplatte (ext2/3). Das ist viel schneller als von einer CD (Festplatten-Installationen "fromiso" dauern nur einen Teil der normalen Zeit. Manche sagen weniger als 4 Minuten, aber 6-8 Minuten sind an sich schon schnell).</p>
+		<p>Dieser Cheatcode startet aus einer ISO-Datei auf der Festplatte (ext2/3). Das ist viel schneller als von einer CD (Festplatten-Installationen "fromiso" dauern nur einen Bruchteil der Zeit).</p>
 
-		<p>Dies ist natürlich viel schneller als von einer CD, und das Laufwerk steht zur Verfügung. Alternativ kann man auch <a href="hd-install-opts-de.htm">QEMU</a> verwenden.</p>
+		<p>Dies ist natürlich viel schneller als von einem CD/DVD-Laufwerk, und das Laufwerk steht gleichzeitig zur Verfügung. Alternativ kann man auch QEMU verwenden.</p>
 
 		<h5>Voraussetzungen:</h5>
 
 			<p>* eine funktionierende Grub-Installation (auf Floppy, einer Festplatteninstallation oder der Live-CD) <br />
-			* eine Imagedatei sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
+			* eine sidux-Imagedatei, z. B. sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
 			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO), müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
 				<h4 class="highlight-3">Eros und Gaia Live-CD:</h4>
-							<p>Zuerst wählt man einen leicht zu erreichenden Platz für das iso und zwei Dateien, die wir brauchen, aus. Hierfür erstellt man einen Basisordner "sidux" auf dem Laufwerk "/media/sdax" (z. B. sda1, oder sda2, oder 5, oder 6, oder ...) und kopiert die iso-Datei in ihn:</p>
+							<p>Zuerst wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/sdax" (sda1, sda2, sda5, sda6, ...), legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
 
 <pre>
 # mkdir /media/sdax/sidux
 # mv sidux.iso /media/sdax/sidux
 </pre>
 
-							<p>Nun mountet man das iso-Image aus dem eben erstellten Ordner:</p>
+							<p>Nun gehen wir in dieses Verzeichnis und binden das ISO-Image ein:</p>
 
 <pre>
 # mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>und kopiert anschließend die Dateien vmlinuz und initrd.img von dem eingebundenen iso-Image in den sidux-Ordner (wobei das "x" an die jeweilige Kernelversion und "sdax" an das entsprechende Laufwerk angepasst werden müssen, da sie Variablen sind):</p>
+							<p>Anschließend kopiert man die Dateien vmlinuz und initrd.img von dem eingebundenen ISO-Image in das Verzeichnis (Kernelnummer und Festplatte sind bekannte Variablen):</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1 /media/sdax/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sdax/sidux/
+# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
-							<p>Als nächstes muss man grub anpassen.  Dazu editiert man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: keine "wildcards" in der Grubzeile für Dateinamem erlaubt!)</span>:</p>
+							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span>:</p>
 
 <pre>
 ### ISO boot
@@ -234,58 +234,58 @@ kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromi
 initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
 
-		<p>Mit dem nächsten Boot hat man einen neuen Menü-Eintrag in grub zum Starten des iso-Images.</p>
+		<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
 
 				<h4 class="highlight-3">Tartaros and Chaos Live-cds:</h4>
-							<p>Zuerst suchen wir einen Ort für die ISO-Datei. Um kurze Pfadnamen zu erhalten, erstellen wir ein Basis-Verzeichnis namens sidux, z. B. auf /dev/hda5, und kopieren das ISO hinein:</p>
+							<p>Zuerst wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/hda5", legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
 
 <pre># mkdir /media/hda5/sidux
 # mv sidux.iso /media/hda5/sidux</pre>
 
-							<p>Wir mounten das ISO:</p>
+							<p>Nun gehen wir in dieses Verzeichnis und binden das ISO-Image ein:</p>
 
 <pre># mkdir -p /mnt/test
 # mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
 
-							<p>Wir kopieren die Dateien miniroot.gz und vmlinuz aus dem gemounteten ISO:</p>
+							<p>Wir kopieren die Dateien miniroot.gz und vmlinuz aus dem gemounteten ISO in dieses Verzeichnis:</p>
 
 <pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
 # cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
 
-							<p>Nun muss Grub noch angepasst werden. Dazu editiert man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: keine "wildcards" in der Grubzeile für Dateinamem erlaubt!)</span>:</p>
+							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span>:</p>
 
 <pre>### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/miniroot.gz</pre>
 
-							<p>Beim nächsten Booten ist eine neue Auswahl im Grub-Menü: "sidux 32bit from ISO".</p>
+							<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
 
 	<div class="divider" id="fromiso-persist">
 		<h2>fromiso und persist (ab Eros)</h2>
 
-							<p>Mit sidux (ab Eros) kann ein dauerhaftes (persistentes) Live-System auf einer beschreibbaren Partition eingerichtet werden, indem die Bootoptionen 'fromiso' und 'persist' kombiniert werden.</p>
+							<p>Ab eros kann ein dauerhaftes (persistentes) Live-System auf einer beschreibbaren Partition eingerichtet werden, indem ein fromiso-Setup mit der Bootoption 'persist' kombiniert werden.</p>
 
 							<p>sidux nutzt aufs, um mittels "copy on write" neue oder veränderte Daten im RAM zu speichern. Mit der Bootoption <span class="highlight-3">persist</span> können diese Daten auf derjenigen Partition gespeichert werden, auf welcher sich das fromiso-CD-Abbild befindet.</p>
 
-							<p><span class="highlight-3">persist</span> verhilft zu einem Live-System, welches alle automatisierten Routinen der sidux-Live-CD enthält (zum Beispiel Hardwarekonfiguration), gleichzeitig aber mit persönlichen Daten und Einstellungen gebootet werden kann.</p> 
+							<p><span class="highlight-3">persist</span> verhilft zu einem Live-System, welches alle automatisierten Routinen der sidux-Live-CD enthält. Dies hat den Vorteil, dass zum Beispiel die automatische Erkennung der Hardware durchgeführt wird. Gleichzeitig werden die gleichen Dateien Dateien bei jedem Booten wiederhergestellt.</p> 
 
-							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des graphischen Servers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, sondern nur die persönlichen Daten und Einstellungen.Somit ist es ideal, um es auf mehr als einem Computer zu nutzen.</span>.</p>
+							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des graphischen Servers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, wodurch diese Vorgehensweise ideal ist, wenn man das System auf mehr als einem Computer benutzt.</span> Weniger geeignet ist sie, wenn man eigene Konfigurationen benötigt.</p>
 
-							<p>persist ist ideal in Kombination mit install-usb-gui, um einen bootbaren USB-Stick mit eigenen Daten und selbstgewählter Software zu erstellen.</p>
+							<p>persist ist ideal in Verbindung mit der neuen install-usb-gui, um einen bootbaren Flash-Drive mit eigenen Daten und selbstgewählter Software zu erstellen.</p>
 
-							<p>Die persönlichen Daten werden in einem Unterverzeichnis der fromiso-Partition gespeichert. Wenn dieses Unterverzeichnis noch nicht vorhanden ist, wird es automatisch erstellt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam benutzt werden.</p>
+							<p>Die persönlichen Daten werden in einem Unterverzeichnis auf dem Drive gespeichert. Wenn dieses Unterverzeichnis noch nicht vorhanden ist, wird es automatisch erstellt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam benutzt werden.</p>
 
-							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (vorformatiert auf den meisten Flash-Speichern) benötigt eine große Datei, die als Loop-Gerät benutzt wird. Diese Datei muss formatiert werden (<span class="highlight-3">empfohlen ist ext3</span>).</p>
+							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (allgemein benutzt für Installationen von DOS/Windows9x und üblicherweise das vorformatierte Dateisystem auf Flash-Speichern) benötigt eine einzelne große Datei, die als Loop-Gerät benutzt wird. Diese Datei muss formatiert werden (<span class="highlight-3">empfohlen ist ext3</span>).</p>
 
-							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis der FAT-Partition (des mit FAT formatierten Flash-Speichers) platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutzte Partition zu fungieren, werden folgende Befehle genutzt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
+							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis des FAT-Drives platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutztes Gerät zu fungieren, werden folgende Befehle genutzt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP/Vista (TM)) können NICHT mit der Bootoption persist benutzt werden.</p>
+							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP (TM)) können NICHT auf diese Weise benutzt werden.</p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 

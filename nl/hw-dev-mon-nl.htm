@@ -239,28 +239,10 @@ ctrl+alt+backspace
 							<li>xserver-xorg-video-radeonhd (for ATI r5xx/r6xx boards)</li>
 						</ul>
 
-			<h3>Preparation for Permanent Configurations of a PC with Dualhead</h3>
+			<h3>Preparation for xrandr configurations of a PC with Dualhead</h3>
 							<p><span class="highlight-2">Note:</span> Ideally, if you are running 2 monitors from a PC all the time, your <span class="highlight-3"> xorg.conf</span> should be altered to be permanently to reflect that mode.</p>
 
 							<p>A laptop/notebook needs to be dynamically configured (as opposed to a PC with 2 monitors) and when you reboot you will need to start over, unless you set up the dual-head with whatever parameters you use in xrandr, then you copy/paste that in a script to<span class="highlight-3"> ~/.kde/Autostart/</span>.</p>
-
-							<p>You need xorg 7.3:</p>
-<pre>
-apt-cache policy xorg
-xorg:
-  Installed: 1:7.3+2
-  Candidate: 1:7.3+2
-  Version table:
- *** 1:7.3+2 0
-        500 http://ftp.at.debian.org sid/main Packages
-        100 /var/lib/dpkg/status
-</pre>
-
-							<p>and so xrandr 1.2:</p>
-<pre>
-xrandr -v
-Server reports RandR version 1.2
-</pre>
 
 					<h4>Getting familiar with xrandr</h4>
 							<p>First step is just to type xrandr in a shell as user to get familiar with the output:</p>
@@ -307,9 +289,9 @@ xrandr --output &lt;output&gt; --rate &lt;rate&gt; --mode &lt;mode&gt; --left-of
 
 							<p>Where:</p>
 					<ul>
-    							<li>&lt;output&gt;: is output name (see Appendix A)</li>
-   							<li>&lt;rate&gt;: is refresh rate given by xrandr output (optional)</li>
-    							<li>&lt;mode&gt;: is resolution given by xrandr output (optional)</li>
+    							<li>&lt;output&gt; is output name (see Appendix A)</li>
+   							<li>&lt;rate&gt; is refresh rate given by xrandr output (optional)</li>
+    							<li>&lt;mode&gt; is resolution given by xrandr output (optional)</li>
 					</ul>
 
 
@@ -331,6 +313,29 @@ xrandr --output VGA --mode 1024x768 --output LVDS --mode 1024x768
 xrandr --output VGA --off --output LVDS --mode 1280x800
 </pre>
 				
+						<h5>Multiple display desktop</h5>
+							<p>As intel gma has a limitation of 2048x2048 for the virtual screen, the cannot put both screens next to each other in high resolution, both at 1024x768 work well:</p>
+<pre>
+xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
+</pre>
+
+							<p>To disable multi screen just disable secondary screen and change resolution of primary screen back (if needed):</p>
+<pre>
+xrandr --output VGA --off (--output LVDS --mode 1280x800)
+</pre>
+
+							<p>Another option is to put the secondary screen above/below the secondary:</p>
+<pre>
+xrandr --output LVDS --mode 1280x800 --output VGA --mode 1280x1024 --above LVDS
+</pre>
+
+							<p>The result is a virtual screen resolution of 1280x1824 which is below 2048x2048 Another solution could be to rotate the screen:</p>
+<pre>
+xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --rotate left --left-of LVDS
+</pre>
+
+							<p>NOTE: This only works if you can rotate your physical screen as well</p>
+
 				<h4>Example of a permanently configured PC with dual monitors with xrandr</h4>
 
 <pre>
@@ -391,120 +396,6 @@ EndSection
 </pre>
 
 
-					<h3>Preparation for a laptop/notebook to Dualhead</h3>
-
-							<p>NOTE: A laptop/notebook needs to be dynamically configured (as opposed to a PC with 2 monitors) and when you reboot you will need to start over, unless you set up the dual-head with whatever parameters you use in xrandr, then you copy/paste that in a script to<span class="highlight-3"> ~/.kde/Autostart/</span></p>
-
-							<p>and a xorg.conf "the new 7.3 way" (see Appendix B for an xorg.conf as an example)</p>
-
-							<p>Note: all examples that follow are based on notebook with intel gpu! Your output names and your primary/secondary screens may differ!</p>
-
-
-					<h4>Getting familiar with xrandr</h4>
-							<p>First step is just to type xrandr in a shell as user to get familiar with the output:</p>
-<pre>
-xrandr
-Screen 0: minimum 320 x 200, current 1280 x 800, maximum 2048 x 2048
-VGA disconnected (normal left inverted right x axis y axis)
-LVDS connected 1280x800+0+0 (normal left inverted right x axis y axis) 286mm x 179mm
-   1280x800       59.9*+   60.0
-   1280x768       60.0
-   1024x768       60.0
-   800x600        60.3
-   640x480        59.9
-TMDS-1 disconnected 1280x800+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
-TV disconnected (normal left inverted right x axis y axis)
-</pre>
-
-							<p>Here you see that only LVDS, the internal notebook screen is connected (see Appendix A for output name explanation). You see the resolutions that are supported by that screen and (which is important for dual head) the maximum screen size (here 2048x2048).</p>
-
-							<p>Now connect your external screen and run xrandr again:</p>
-<pre>
-xrandr
-Screen 0: minimum 320 x 200, current 1280 x 800, maximum 2048 x 2048
-VGA connected (normal left inverted right x axis y axis)
-   1600x1200      75.0     75.0
-   1280x1024      84.8     85.0     75.0
-   1152x864       75.0
-   1024x768       85.0     84.9     75.1     70.1     60.0     43.5
-   832x624        74.6
-   800x600        84.9     72.2     75.0     60.3     56.2
-   640x480        84.6     75.0     72.8     66.7     60.0
-   720x400        87.8     70.1
-LVDS connected 1280x800+0+0 (normal left inverted right x axis y axis) 286mm x 179mm
-   1280x800       59.9*+   60.0
-   1280x768       60.0
-   1024x768       60.0
-   800x600        60.3
-   640x480        59.9
-TMDS-1 connected (normal left inverted right x axis y axis)
-   1280x800       60.0
-   1280x768       60.0
-   1024x768       60.0
-   800x600        60.3
-   640x480        59.9
-TV disconnected (normal left inverted right x axis y axis)
-</pre>
-
-							<p>Here you see that a VGA screen is connected as well, it supports resolutions from 720x400 to 1600x1200 at given refresh rates.</p>
-
-
-				<h6>Configuration scenarios</h6>
-
-							<p>Basic syntax</p>
-<pre>
-xrandr --output &lt;output&gt; --rate &lt;rate&gt; --mode &lt;mode&gt; --left-of|--right-of|--above|--below|--same-as &lt;output&gt;
-</pre>
-
-							<p>Where:</p>
-					<ul>
-    							<li>&lt;output&gt;: is output name (see Appendix A)</li>
-   							<li>&lt;rate&gt;: is refresh rate given by xrandr output (optional)</li>
-    							<li>&lt;mode&gt;: is resolution given by xrandr output (optional)</li>
-					</ul>
-
-
-
-						<h5>Change resolution of primary screen</h5>
-<pre>
-xrandr --output LVDS --mode 1024x768
-</pre>
-
-
-						<h6>Clone</h6>
-								<p>As many external screens / video projectors do not run on 1280x800 but on e.g. 1024x768,  choose this as an example:</p>
-<pre>
-xrandr --output VGA --mode 1024x768 --output LVDS --mode 1024x768
-</pre>
-
-								<p>To turn off secondary screen and get back normal resolution on primary screen just do a:</p>
-<pre>
-xrandr --output VGA --off --output LVDS --mode 1280x800
-</pre>
-
-
-						<h5>Multiple display desktop</h5>
-							<p>As intel gma has a limitation of 2048x2048 for the virtual screen, the cannot put both screens next to each other in high resolution, both at 1024x768 work well:</p>
-<pre>
-xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
-</pre>
-
-							<p>To disable multi screen just disable secondary screen and change resolution of primary screen back (if needed):</p>
-<pre>
-xrandr --output VGA --off (--output LVDS --mode 1280x800)
-</pre>
-
-							<p>Another option is to put the secondary screen above/below the secondary:</p>
-<pre>
-xrandr --output LVDS --mode 1280x800 --output VGA --mode 1280x1024 --above LVDS
-</pre>
-
-							<p>The result is a virtual screen resolution of 1280x1824 which is below 2048x2048 Another solution could be to rotate the screen:</p>
-<pre>
-xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --rotate left --left-of LVDS
-</pre>
-
-							<p>NOTE: This only works if you can rotate your physical screen as well</p>
 
 
 							<p>Note</p>
@@ -519,6 +410,7 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 							<li>For any video card, but intel, the virtual resolution should be big enough for both monitor's resolution. example: monitor1= 1024x768 and monitor2=1280x1024, then the virtual screen should be (1024+1280)x(1024>768) -> 2304x1024</li>
 
 						</ul>
+
 
 					<h6>Appendix A</h6>
 

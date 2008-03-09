@@ -190,95 +190,133 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Instalando novos Kernels</h2>
-					<h4>Os kernels do sidux ficam aqui. Favor escolher o espelho mais perto de você:</h4>
-<pre>
-Espelhos principais
-<a href="http://sidux.com/files/kernel/">http://debian.tu-bs.de/project/sidux/kernels</a> Alemanha
-<a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> Alemanha
-<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Alemanha
+					<h4>The sidux kernels are in apt.  <a href="cd-dl-burning-pt-br.htm#download-sidux/">Please choose your closest sidux repo mirror and alter your sources</a>:</h4>
 
-Os espelhos abaixo podem estar atrasados em até 24 horas em relação aos espelhos principais
-<a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernels</a> Reino Unido
-<a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> Irlanda
-<a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernels</a> Tennessee, EUA
-<a href="http://ftp-mirror.internap.com/pub/sidux/kernel">http://ftp-mirror.internap.com/pub/sidux/kernel</a>  GA. EUA
-<a href="http://ftp.tw.debian.org/pub/Sidux/">http://ftp.tw.debian.org/pub/Sidux/</a> Ásia
-<a href="http://mirror.aarnet.edu.au/pub/sidux/kernel/ ">http://mirror.aarnet.edu.au/pub/sidux/kernel</a> Austrália
-<a href="http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel/">http://ftp.leg.uct.ac.za/pub/linux/sidux/kernels</a> África do Sul
-</pre>
-							<p>Os kernels estão disponíveis nas seguintes formas:</p>
+							<p>The kernels  are available in the following forms:</p>
 						<ul>
-  							<li><b>sidux-686</b> - Para processadores da família i686 com single/dual core ou mais CPUs</li>
-  							<li><b>sidux-amd64</b> - Para processadores da família AMD64, quando se está usando a versão 64 bit do sidux</li>
+  							<li><b>sidux-686</b> sidux-686 - kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+
+  							<li><b>sidux-amd64</b> kernel for 64 bit sidux</li>
 						</ul>
 
-					<h6>Siga estes 04 passos para realizar a operação manualmente, no console:</h6>
+					<h5>Its 4 steps to do it manually in a konsole:</h5>
+
+						<p><b>1.</b> In a konsole switch to root:</p>
 
 <pre>
 apt-get update
 </pre>
+							<p><b>2.</b> To install the latest version kernel:</p>
+<pre>
+apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+</pre>
+							<p><b>3.</b> The kernel-update is now done. Should you require them, add the latest graphics driver, ATI, NVIDIA or INTEL cards. First update the script:</p>
 
- 							<p>1. Baixe a versão mais recente do kernel:</p>
+<pre>
+sgfxi -U
+</pre>
+ 	
+
+							<p><b>4.</b>Now restart your computer and boot to the new kernel (it should boot up by default).</p>
+
+							<p>To update the 3D drivers run:</p>
+<pre>
+sgfxi
+</pre>
+							<p>Alternatively, on the first reboot to the new kernel go directly to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line) and then run sgfxi.</p>
+
+							
+							 <p><a href="hw-dev-hw-dri-pt-br.htm"> More detailed sgfxi information is here</a></p>
+
+							<p>Should the new kernel give you problems, you can reboot and choose an older kernel.</p>
+
+ 							
+							<p class="highlight-3">Should not wish to upgrade your kernel with every dist-upgrade, as it becomes available, put the meta on hold:</p>
+<pre>
+echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
+Revert it with:
+echo linux-image-2.6-sidux-686 install|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 install|dpkg --set-selections 
+List packages on hold with:
+dpkg --get-selections | grep hold
+</pre>
+
+							<p>If you want to find out what the latest available sidux kernel for your computer is, paste this into the console:</p>
  <pre>
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Encontre os módulos que você necessita. O comando abaixo lista os módulos disponíveis atualmente, copy this line to your console/terminal:</p>
+							<p>This will return output looking something like this:</p>
+
+<pre>
+2.6-sidux-686
+2.6.24-2.6.24.2.slh.7-sidux-686
+</pre>
+					<h5>Modules</h5>
+
+							<p class="highlight-2">Note: After you have installed a module put it on 'hold' otherwise a new module will update over your current one and may not match your current kernel</p>
+
+ 							<p>To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<p>Se quiser ver a descrição completa de cada módulo, copy this line to your console/terminal:</p>
+
+							<p>To get a full description of each module, copy this line to your console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
- 							<p>3. Para instalar o kernel, 'headers' (cabeçalhos) e os módulos necessários (por exemplo, virtual-ose e qc-usb):</p>
+
+ 							<p>To install the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
-apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 </pre>
 
- 
-
-							<p>4.Agora, reinicie seu computador e o novo kernel será carregado automaticamente, no lugar do anterior. <span class="highlight-3">Se ele lhe trouxer problemas, reinicie e escolha um kernel mais antigo.</span></p>
-
-							<p>Para verificar os módulos carregados no kernel:</p>
+							<p>To check the modules loaded into the kernel:</p>
 <pre>
 ls /sys/module/
-ou
+or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANTE: se você faz uso de certos módulos de drivers (p. ex., wlan), você terá de reinstalar os pacotes .deb apropriados. As an example, for the Agere et131x ethernet adapter: </p>
+							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p>Veja também <a href="internet-connecting-pt-br.htm">Configurando a rede e ndiswrapper</a> e <a href="internet-connecting-wpa-pt-br.htm">WIFI</a></p>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
 
-							<p>A atualização do kernel está pronta. <a href="hw-dev-hw-dri-pt-br.htm"> Reinstale o driver da placa de vídeo 3D, se você usa uma.</a> Se ela for da ATI ou NVIDIA, na primeira vez que você reiniciar a máquina com o novo kernel é necessário parar no runlevel 3 (é só digitar <b>3</b> na tela inicial do Grub).</p>
-			
+							<p>See also <a href="internet-connecting-pt-br.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-pt-br.htm">for WIFI</a></p>
 
-						<h6> <a href="http://techpatterns.com/forums/about736.html"> Há um método seguro e semi-automatizado para se instalar um novo kernel:</a> o script <span class="highlight-3">smxi</span>:</h6>
+				<h4>Other kernel installation methods</h4>
+
+					<h5>smxi</h5>
+							<p>The <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script offers an integrated method to install kernels, drivers and a number of other system administration scripts:</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
-							<p><a href="siduxcc-pt-br.htm">You can also do this with the GUI control centre siduxcc in KDE-Start-Menu</a></p>
+					<h5>siduxcc</h5>
+							<p>You can also install kernels with the GUI control centre<a href="siduxcc-pt-br.htm"> siduxcc: </a>which is located in the KDE-Start-Menu>System>sidux Control Centre. siduxcc also offers several other system administration GUI applications</p>
 
-					<h4>Removendo kernels antigos</h4>
+					<h4>Removing old kernels</h4>
 
-							<p>Depois de o novo kernel ter sido instalado com sucesso, o kernel.zip e o correspondente arquivo descompactado podem ser apagados. No entanto, é recomendável que você os guarde por alguns dias, para qualquer eventualidade</p>
+							<p>After successful installation of the new kernel, the old kernels can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
 
-							<p>Recomendamos também que você mantenha sempre o kernel anterior, para o caso do novo não rodar satisfatoriamente. Havendo problemas, basta selecioná-lo na lista que o GRUB mostra em sua tela de abertura. Já os kernels antigos podem ser removidos do sistema. Para isso, use o script <span class="highlight-3">kernel-remover</span>, que está no pacote sidux-kernelhacking! <span class="highlight-3">Ele permite que você escolha quais kernels deseja remover.</span></p>
+							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking.<span class="highlight-3"> This script must be installed and allows to you nominate which kernels you wish to remove.</span></p>
 
 <pre>
+apt-get update
+apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
+							<p>Alternatively, you can use siduxcc, which uses the kernel-remover script.</p>
+
 			
-	<div id="rev">Page last revised 26/02/2008 2300 UTC</div>
+	<div id="rev">Content last revised 09/03/2008 0500 UTC</div>
 </div>
 </div>
 </body>

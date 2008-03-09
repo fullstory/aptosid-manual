@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by Adriana 21/02/2008 1200 UTC -->
+<!-- Last translation revision by Adriana 09/03/2008 0700 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer ladepa Adriana-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
@@ -190,98 +190,133 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Instalarea de noi kerneluri</h2>
-					<h4>Kernelurile  sidux sunt stocate aici .  Vă rugăm alegeţi cea mai apropiată locaţie :</h4>
-<pre>
-Oglinzile principale
-<a href="http://debian.tu-bs.de/project/sidux/kernel/">http://debian.tu-bs.de/project/sidux//kernel</a> Germany
-<a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> Germany
-<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> Germany
+					<h4>Kernelurile sidux sunt in apt.  <a href="cd-dl-burning-ro.htm#download-sidux/">Alegeti va rog cea mai apropiata oglinda repo de sidux si schimbati sursele</a>:</h4>
 
-Aceste oglinzi pot fi cel mult 2 de ore in urma oglinzilor principale
-<a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernel</a> United Kingdom
-<a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> Ireland
-<a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel</a>  TN, USA
-<a href="http://ftp-mirror.internap.com/pub/sidux/kernel">http://ftp-mirror.internap.com/pub/sidux/kernel</a>  GA. USA
-<a href="http://ftp.tw.debian.org/pub/Sidux/kernel/">http://ftp.tw.debian.org/pub/Sidux//kernel</a> Asia
-<a href="http://mirror.aarnet.edu.au/pub/sidux/kernel/ ">http://mirror.aarnet.edu.au/pub/sidux/kernel</a> Australia
-<a href="http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel/">http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel</a> South Africa
-</pre>
-							<p> Kernelurile sunt disponibile în următoarele variante :</p>
-			
+							<p>Kernelurile sunt disponibile in urmatoarele forme:</p>
 						<ul>
-  							<li><b>sidux-686</b> - Kernel pentru familia i686 single/dual core sau mai multe procesoare</li>
-  							<li><b>sidux-amd64</b> - Kernel pentru AMD64- când folosiţi sidux pe 64 bits </li>
+  							<li><b>sidux-686</b> sidux-686 - kernelul pentru i686 Procesor de  familie cu miezul singular/dublu sau cu mai muti CPUs</li>
+
+  							<li><b>sidux-amd64</b> kernel pentru 64 bits sidux</li>
 						</ul>
-					<h6>Sunt 4 etape sa folositi manual la consola:</h6>
+
+					<h5>Cele patru trepte de efectuare manuala in consola:</h5>
+
+						<p><b>1.</b> In  consola schimba la root:</p>
 
 <pre>
 apt-get update
 </pre>
+							<p><b>2.</b>Instalarea ultimei versiuni de kernel:</p>
+<pre>
+apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+</pre>
+							<p><b>3.</b>Aducerea la zi a kernel-ului este acum efectuata. Daca aveti nevoie adaogati ultimul driver grafic, cartusele video, ATI, NVIDIA sau INTEL. Mai intii aduceti la zi scenariul:</p>
 
- 							<p>1. Iata ultima versiune de  kernel:</p>
+<pre>
+sgfxi -U
+</pre>
+ 	
+
+							<p><b>4.</b>Acum re-porniti computerul si boot-ati noul kernel (ar trebui sa-l booteze prin default).</p>
+
+							<p>Sa aduceti la zi driverele 3D rulati:</p>
+<pre>
+sgfxi
+</pre>
+							<p>In mod alternativ,la primul reboot al noului kernel mergi direct la nivelul de rulare numarul 3 (aceasta se face prin adaogarea de <b>3</b> la Grub-Boot-Line) si apoi rulati sgfxi.</p>
+
+							
+							 <p><a href="hw-dev-hw-dri-ro.htm"> Informatii mai detailate de sgfxi se afla aici</a></p>
+
+							<p>Daca noul kernel este problematic, puteti sa rebutati si sa alegeti un  kernel mai vechi.</p>
+
+ 							
+							<p class="highlight-3">Daca nu doriti sa aduceti la zi kernelul cu fiecare dist-upgrade, dupa cum devine disponibil, puneti meta in suspandare (hold):</p>
+<pre>
+echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
+Schimbati cu:
+echo linux-image-2.6-sidux-686 install|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 install|dpkg --set-selections 
+Listeaza pachetele in suspendare cu:
+dpkg --get-selections | grep hold
+</pre>
+
+							<p>Daca vreti sa aflati care este cel mai recent kernel pentru computerul dvs, lipiti (paste) urmatoarea fraza pe  consola:</p>
  <pre>
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
- 							<p>2. Ca sa aflati ce module sunt necesare, urmatoarele comenzi va ofera  lista de module ce va sunt la dispozitie acum, copiaza aceasta linie pe consola/terminalul dvs.:</p>
+							<p>Aceasta actiune va aduce o schimbare ce va arata cam asa:</p>
+
+<pre>
+2.6-sidux-686
+2.6.24-2.6.24.2.slh.7-sidux-686
+</pre>
+					<h5>Module</h5>
+
+							<p class="highlight-2">Nota: Dupa ce ati instalat un modul, plasatil in suspendare ('hold') altfel un nou modulva fi adus la zi peste cel curent si nu se va mai potrivi cu kernel-ul curent </p>
+
+ 							<p>Ca sa aflati de care module aveti nevoie, urmatoarea comanda va ofera lista  modulelorcurente, la zi. Copiati aceasta linie pe  consola/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
 
-							<p>Ca sa aveti o descriere completa a fiecarui modul, copiati aceasta linie pe consola/terminalul dvs.:</p>
+							<p>Pentru o descriere totala a fiecarui modul, copiaza aceasta linie pe consola/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
- 							<p>3. Ca sa instalati kernel-ul, headers si modulele necesare (de exemplu virtual-ose, si qc-usb):</p>
+
+ 							<p>Pentru instalarea modulelor necesare(de exemplu  virtual-ose, si qc-usb):</p>
  
  <pre>
-apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 </pre>
 
- 
-
-							<p>4. Acum restartaţi computerul . Noul kernel instalat va porni implicit . <span class="highlight-3">Dacă noul kernel face probleme , puteţi face reboot şi alege un kernel mai vechi , încercaţi  pasul de mai sus încă o dată</span></p>
-
-							<p>Pentru a verifica modulele încărcate în kernel :</p>
+							<p>Pentru verificarea modulelor incarcate in kernel:</p>
 <pre>
 ls /sys/module/
-or
+sau
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT dacă aveţi nevoie de drivere speciale , ex. pentru wlan , va trebui să instalaţi pachetul  .deb necesar , ex ., dacă folosiţi madwifi. As an example, for the Agere et131x ethernet adapter: </p>
+							<p class="highlight-4">IMPORTANT: Daca aveti nevoie de anumite module drivere, e.g. pentru wlan, trebuie saa instalati pachetele corecte .deb pentru ele. Ca exemplu, pentru Agere adaptorul et131x pentru ethernet : </p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> este folosit numai daca  aveti deja debs locali , dar chiar si in acel caz, daca sunt in apt-cache, <span class="highlight-3">apt-get</span> este o optiune mai buna.</p>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span>este folosit numai daca aveti deja debs locali, dar chiar si atunci , daca sunt in the apt-cache, <span class="highlight-3">apt-get</span> este o optiune mai buna.</p>
 
-							<p>Mai vedeţi <a href="internet-connecting-ro.htm">conectarea on line şi ndiswrapper</a>  şi <a href="internet-connecting-wpa-ro.htm">pentru WIFI</a></p>
+							<p>SVezi de asemeni<a href="internet-connecting-ro.htm">cum sa intri  on line si ndiswrapper</a> si <a href="internet-connecting-wpa-ro.htm">pentru WIFI</a></p>
 
-							<p>Update-ul de kernel e făcut . <a href="hw-dev-hw-dri-ro.htm"> Dacă e nevoie , adăugaţi ultimele drivere grafice care pot fi instalate consultând  3D drivers ,</a> Dacă aveţi o placă video ATI sau NVIDIA , prima repornire în noul kernel trebuie făcută în  runlevel 3 (aceasta se face adăugând) <b>3</b> la Grub-Boot-Line)</p>
-			
-					<h6> <a href="http://techpatterns.com/forums/about736.html"> Metoda semi-automată de a instala noul kernel este prin a folosi du-fixes-h2.sh:</a> acum numit  <span class="highlight-3">smxi , nume mai scurt  şi mai uşor de utilizat în sidux-maintenance</span>:</h6>
+				<h4>Alte metode de instalare de kernel</h4>
+
+					<h5>smxi</h5>
+							<p>Un <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>scenariu ofera o metoda integrata de instalare a  kernel-urilor, drivere si un  numar de alte sisteme de scenerii administrative :</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
-							<p><a href="siduxcc-ro.htm">Puteti sa efectuati aceasta deasemeni cu centrul de control GUI  siduxcc in KDE-Start-Menu</a></p>
+					<h5>siduxcc</h5>
+							<p>Puteti de asemeni sa instalati kernel-uri cu centru de control GUI <a href="siduxcc-ro.htm"> siduxcc: </a>care este localizat in KDE-Start-Menu>System>sidux Control Centre. siduxcc de asemenea va ofera cateva alte sisteme de aplicatie administrativa GUI</p>
 
-					<h4>Îndepărtarea kernelurilor vechi</h4>
+					<h4>Inlocuirea de kerneluri vechi</h4>
 
-							<p>După instalarea cu succes a noului kernel fişierul kernel.zip (şi arhiva kernelului ) pot fi şterse , oricum este recomandat să le mai păstraţi câteva zile , pentru cazul în care aţi întâmpina probleme cu noul kernel şi trebuie să bootaţi într-un kernel anterior aşa cum este listat în ecranul grub </p>
+							<p>Dupa instalarea cu succes a noului kernel,vechile kernel-uri pot si sterse (deleted), insa se recomanda sa le pastrati cateva zile, in cazul in care aveti probleme si deci puteti sa bootati cu un kernel vechi, dupa cum este aratat in ecranul grub</p>
 
-							<p>Vechile kerneluri pot fi îndepărtate din sistem. Pentru a face aceasta puteţi folosi scriptul  <span class="highlight-3">kernel-remover</span> care este în pachetul sidux-kernelhacking! <span class="highlight-3">Acest script vă permite să specificaţi kernelul pe care doriţi să-l înlăturaţi .</span></p>
+							<p>Kernel-urile vechi pot fi eliminate din sistem. Ca sa efectuati aceasta, puteti folosi scenariul <span class="highlight-3">kernel-remover</span>care este in pachetul sidux-kernelhacking.<span class="highlight-3"> Acest scenariu trebuie instalat si va permite  sa nomonalizati care din vechile kernel-uri doriti sa fie eliminate.</span></p>
 
 <pre>
+apt-get update
+apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
+							<p>In mod alternativ, puteti folosi siduxcc, care foloseste scenariul kernel-remover .</p>
 
 			
-	<div id="rev">Continutul revizuit ultima data pe 26/02/2008 2300 UTC</div>
+	<div id="rev">Continutul a fost revizuit ultima data la  09/03/2008 0500 UTC</div>
 </div>
 </div>
 </body></html>

@@ -196,150 +196,133 @@
 			<h2 id="top-header">Installing new kernels</h2>
 			#### -->
 			<h2 id="top-header">カーネルのインストール</h2>
-					<!--- ####
-					<h4>The sidux kernels reside here.  Please choose your closest mirror:</h4>
-					#### -->
-					<h4>siduxのカーネルはここからダウンロードできます。 一番近いのミラーを選んでください:</h4>
+					<h4>The sidux kernels are in apt.  <a href="cd-dl-burning-ja.htm#download-sidux/">Please choose your closest sidux repo mirror and alter your sources</a>:</h4>
 
-<pre>
-Main Mirrors
-<a href="http://debian.tu-bs.de/project/sidux/kernel/">http://debian.tu-bs.de/project/sidux//kernel</a> ドイツ
-<a href="http://sidux.net/files/kernel/">http://sidux.net/files//kernel</a> ドイツ
-<a href="ftp://ftp.spline.de/mirrors/sidux/kernel/">ftp://ftp.spline.de/mirrors/sidux/kernel/</a> ドイツ
-
-These mirrors can be as much as 24 hours behind the main mirrors
-<a href="http://www.mirrorservice.org/sites/sidux.com/sidux/kernel/">http://www.mirrorservice.org/sites/sidux.com/sidux/kernel</a> イギリス
-<a href="http://ftp.heanet.ie/pub/sidux/kernel/">http://ftp.heanet.ie/pub/sidux//kernel</a> アイルランド
-<a href="http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel/">http://sunsite.utk.edu/ftp/pub/linux/Sidux/kernel</a>  テネシー州, USA
-<a href="http://ftp-mirror.internap.com/pub/sidux/kernel">http://ftp-mirror.internap.com/pub/sidux/kernel</a>  GA. USA
-<a href="http://ftp.tw.debian.org/pub/Sidux/kernel/">http://ftp.tw.debian.org/pub/Sidux//kernel</a> 台湾 
-<a href="http://mirror.aarnet.edu.au/pub/sidux/kernel/ ">http://mirror.aarnet.edu.au/pub/sidux/kernel</a> オーストラリア
-<a href="http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel/">http://ftp.leg.uct.ac.za/pub/linux/sidux/kernel</a> 南アフリカ
-</pre>
-							<!--- ####
 							<p>The kernels  are available in the following forms:</p>
-							#### -->
-							<p>二つのタイプのカーネルがあります:</p>
 						<ul>
-									<!--- ####
-  							<li><b>sidux-686</b> - Kernel for the i686 Processor Family with single/dual core or more CPUs</li>
-									#### -->
-  							<li><b>sidux-686</b> - i686 プロセッサー・ファミリーのシングル/ダブル・コア（またはそれ以上）の CPUs</li>
-									<!--- ####
-  							<li><b>sidux-amd64</b> - Kernel for the AMD64- Processor Family, when using 64 bit sidux </li>
-									#### -->
-  							<li><b>sidux-amd64</b> - AMD64 プロセッサー・ファミリーのCPU用の64bitのsidux</li>
+  							<li><b>sidux-686</b> sidux-686 - kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+
+  							<li><b>sidux-amd64</b> kernel for 64 bit sidux</li>
 						</ul>
 
-					<!--- ####
-					<h6>Its 4 steps to do it manually in a konsole:</h6>
-					#### -->
-					<h6>次の4つのステップでコンソールからカーネルがアップデートできます:</h6>
+					<h5>Its 4 steps to do it manually in a konsole:</h5>
+
+						<p><b>1.</b> In a konsole switch to root:</p>
 
 <pre>
 apt-get update
 </pre>
+							<p><b>2.</b> To install the latest version kernel:</p>
+<pre>
+apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
+</pre>
+							<p><b>3.</b> The kernel-update is now done. Should you require them, add the latest graphics driver, ATI, NVIDIA or INTEL cards. First update the script:</p>
 
-								<!--- ####
- 							<p>1. Get the last version kernel:</p>
-								#### -->
- 							<p>1. 最新のバージョンをチェックするには:</p>
+<pre>
+sgfxi -U
+</pre>
+ 	
+
+							<p><b>4.</b>Now restart your computer and boot to the new kernel (it should boot up by default).</p>
+
+							<p>To update the 3D drivers run:</p>
+<pre>
+sgfxi
+</pre>
+							<p>Alternatively, on the first reboot to the new kernel go directly to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line) and then run sgfxi.</p>
+
+							
+							 <p><a href="hw-dev-hw-dri-ja.htm"> More detailed sgfxi information is here</a></p>
+
+							<p>Should the new kernel give you problems, you can reboot and choose an older kernel.</p>
+
+ 							
+							<p class="highlight-3">Should not wish to upgrade your kernel with every dist-upgrade, as it becomes available, put the meta on hold:</p>
+<pre>
+echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
+Revert it with:
+echo linux-image-2.6-sidux-686 install|dpkg --set-selections
+echo linux-headers-2.6-sidux-686 install|dpkg --set-selections 
+List packages on hold with:
+dpkg --get-selections | grep hold
+</pre>
+
+							<p>If you want to find out what the latest available sidux kernel for your computer is, paste this into the console:</p>
  <pre>
 wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
 </pre>
 
-								<!--- ####
- 							<p>2. To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
-								#### -->
- 							<p>2. モジュールのリストを表示するコマンド。この中に必要なモジュールがあったらパッケージ名を記録してください。</p>
+							<p>This will return output looking something like this:</p>
+
+<pre>
+2.6-sidux-686
+2.6.24-2.6.24.2.slh.7-sidux-686
+</pre>
+					<h5>Modules</h5>
+
+							<p class="highlight-2">Note: After you have installed a module put it on 'hold' otherwise a new module will update over your current one and may not match your current kernel</p>
+
+ 							<p>To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
-							<!--- ####
+
 							<p>To get a full description of each module, copy this line to your console/terminal:</p>
-							#### -->
-							<p>モジュールの説明も見たかったら:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
-								<!--- ####
- 							<p>3. To Install the kernel, headers and the required modules (for instance virtual-ose, and qc-usb):</p>
-								#### -->
- 							<p>3. カーネル、ヘッダーと必要なモジュール(ここでは例としてvirtualbox-oseとqc-usb)をインストールするコマンド:</p>
+
+ 							<p>To install the required modules (for instance virtual-ose, and qc-usb):</p>
  
  <pre>
-apt-get install  linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 </pre>
-							<!--- ####
-							<p>4 Now restart your computer. The new kernel will boot up by default. <span class="highlight-3">Should the new kernel give problems, you can reboot and choose an older kernel try this stage again.</span></p>
-							#### -->
-							<p>4. 続いてコンピュータを再起動します。 新しいカーネルがデフォルトで起動されます。 <span class="highlight-3">新しいカーネルの起動に問題があったらもう一度起動して一つ前のカーネルを選んで試すことができます。</span></p>
 
-							<!--- ####
 							<p>To check the modules loaded into the kernel:</p>
-							#### -->
-							<p>カーネルにロードされたモジュールを調べるには:</p>
 <pre>
 ls /sys/module/
-または
+or
 cat /proc/modules
 </pre>
 
-							<!--- ####
 							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
-							#### -->
-							<p class="highlight-4">重要事項: wlanなどのドライバ・モジュールが必要な場合、そのモジュールの.debパッケージをインストールする必要があります。 たとえばmadwifiを使っているならmadwifi用の.debパッケージが必要です: </p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-
 							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
 
-							<p><a href="internet-connecting-ja.htm">インターネットへの接続／ndiswrapper</a>と<a href="internet-connecting-wpa-ja.htm">WIFI-WLA</a>の項を参照</p>
+							<p>See also <a href="internet-connecting-ja.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-ja.htm">for WIFI</a></p>
 
-							<!--- ####
-							<p>The kernel-update is now done. <a href="hw-dev-hw-dri-en.htm"> Should you  require them, add the latest graphics driver which can be installed by referring to 3D drivers,</a> If you have an ATI or NVIDIA card, the first reboot to the new kernel should be made to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line)</p>
-							#### -->
-							<p>カーネルのアップデートはこれで終わりです。 <a href="hw-dev-hw-dri-ja.htm"> グラフィック・ドライバば必要な場合, 最新のドライバをインストールします</a> ATI か NVIDIA のカードを使っている場合、新しいカーネルをインストールした後の最初の起動は、ドライバのインストールのため(起動の際のGrubのカーネル・オプションに<b>3</b>を付け加えて) init 3のレベルで始める必要があります。</p>
-			
+				<h4>Other kernel installation methods</h4>
 
-						<!--- ####
-						<h3> <a href="http://techpatterns.com/forums/about736.html"> The semi automated method to install kernels is to use <span class="highlight-3">smxi </span></a>:</h3>
-						#### -->
-						<h3> <a href="http://techpatterns.com/forums/about736.html"> <span class="highlight-3">smxi </span>を使って半自動化されたカーネル・アップデート</a>:</h3>
+					<h5>smxi</h5>
+							<p>The <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script offers an integrated method to install kernels, drivers and a number of other system administration scripts:</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
-							<!--- ####
-							<p><a href="sm-siduxcc-ja.htm">You can also do this with the GUI control centre siduxcc in KDE-Start-Menu</a></p>
-							#### -->
-							<p><a href="siduxcc-ja.htm">KDEーStart-MenuからGUIのsiduxccコントロールセンターを使っても同じことができます.</a></p>
-					<!--- ####
+					<h5>siduxcc</h5>
+							<p>You can also install kernels with the GUI control centre<a href="siduxcc-ja.htm"> siduxcc: </a>which is located in the KDE-Start-Menu>System>sidux Control Centre. siduxcc also offers several other system administration GUI applications</p>
+
 					<h4>Removing old kernels</h4>
-					#### -->
-					<h4>古いカーネルを取り除くには</h4>
 
-							<!--- ####
-							<p>After successfull installation of the new kernel, the kernel.zip (and the kernel archive) can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
-							#### -->
-							<p>新しいカーネルのインストールに成功したら kernel.zip (と古いカーネル)を消しても構いませんが、数日の間は何かの問題に備えてGrubスクリーンから選べる古いカーネルをとっておくことを勧めます。</p>
+							<p>After successful installation of the new kernel, the old kernels can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
 
-							<!--- ####
-							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking! <span class="highlight-3">This script allows to you nominate which kernels you wish to remove.</span></p>
-							#### -->
-							<p>古いカーネルはシステムから取り除くことができます。 sidux-kernelhackingというパッケージに含まれる<span class="highlight-3">kernel-remover</span> というスクリプトを使ってください。 <span class="highlight-3">このスクリプトでどのカーネルを取り除くか選択できます。</span></p>
+							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking.<span class="highlight-3"> This script must be installed and allows to you nominate which kernels you wish to remove.</span></p>
 
 <pre>
+apt-get update
+apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
+							<p>Alternatively, you can use siduxcc, which uses the kernel-remover script.</p>
 
 			
-	<div id="rev">Content last revised 26/02/2008 2300 UTC</div>
+	<div id="rev">Content last revised 09/03/2008 0500 UTC</div>
 </div>
 </div>
 </body>

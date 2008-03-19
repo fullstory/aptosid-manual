@@ -191,48 +191,48 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2>Nieuwe kernels installeren</h2>
-					<h4>The sidux kernels are in apt.  <a href="cd-dl-burning-nl.htm#download-sidux/">Please choose your closest sidux repo mirror and alter your sources</a>:</h4>
+					<h4>De sidux kernels zitten in apt.  <a href="cd-dl-burning-nl.htm#download-sidux/">Selecteer aub de dichtsbijzijnde sidux repo mirror en verander je sources</a>:</h4>
 
-							<p>The kernels  are available in the following forms:</p>
+							<p>De kernels zijn beschikbaar in de volgende varianten:</p>
 						<ul>
-  							<li><b>sidux-686</b> sidux-686 - kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+  							<li><b>sidux-686</b> sidux-686 - kernel voor de i686 Processor Familie met single/dual core of meerdere CPUs</li>
 
-  							<li><b>sidux-amd64</b> kernel for 64 bit sidux</li>
+  							<li><b>sidux-amd64</b> kernel voor 64 bit sidux</li>
 						</ul>
 
-					<h5>Its 4 steps to do it manually in a konsole:</h5>
+					<h5>De kernel installatie benodigd 4 handmatige stappen in een konsole:</h5>
 
-						<p><b>1.</b> In a konsole switch to root:</p>
+						<p><b>1.</b> In een konsole login als root:</p>
 
 <pre>
 apt-get update
 </pre>
-							<p><b>2.</b> To install the latest version kernel:</p>
+							<p><b>2.</b> Om de laatste kernel versie te installeren voer je het volgend uit:</p>
 <pre>
 apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
-							<p><b>3.</b> The kernel-update is now done. Should you require them, add the latest graphics driver, ATI, NVIDIA or INTEL cards. First update the script:</p>
+							<p><b>3.</b> De kernel-update is nu klaar. Als je ze nodig hebt, voeg dan de laatste grafische drivers,  ATI, NVIDIA of INTEL kaarten toe. Maar update eerst het script:</p>
 
 <pre>
 sgfxi -U
 </pre>
  	
 
-							<p><b>4.</b>Now restart your computer and boot to the new kernel (it should boot up by default).</p>
+							<p><b>4.</b>Nu herstart je je computer en boot je de nieuw geinstalleerde kernel (Dit is de standaard boot instelling).</p>
 
-							<p>To update the 3D drivers run:</p>
+							<p>Om de 3D drivers te updaten start je:</p>
 <pre>
 sgfxi
 </pre>
-							<p>Alternatively, on the first reboot to the new kernel go directly to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line) and then run sgfxi.</p>
+							<p>Alternatief, tijdens de eerste herstart van de nieuwe kernel ga je direct naar runlevel 3 (did doe je door een <b>3</b> aan de Grub-Boot-regel toe te voegen) en draai je het programma sgfxi.</p>
 
 							
-							 <p><a href="hw-dev-hw-dri-nl.htm"> More detailed sgfxi information is here</a></p>
+							 <p><a href="hw-dev-hw-dri-nl.htm"> Meer gedetaileerde sgfxi informatie vindt je hier</a></p>
 
-							<p>Should the new kernel give you problems, you can reboot and choose an older kernel.</p>
+							<p>Geeft de nieuwe kernel problemen, dan kun je altijd herstarten met een oudere kernel versie.</p>
 
  							
-							<p class="highlight-3">Should not wish to upgrade your kernel with every dist-upgrade, as it becomes available, put the meta on hold:</p>
+							<p class="highlight-3">Wil je niet elke keer je kernel met elke dist-upgrade opwaarderen, zet dan de meta op "in de wacht" via:</p>
 <pre>
 echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
 echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
@@ -243,81 +243,70 @@ List packages on hold with:
 dpkg --get-selections | grep hold
 </pre>
 
-							<p>If you want to find out what the latest available sidux kernel for your computer is, paste this into the console:</p>
- <pre>
-wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
-</pre>
-
-							<p>This will return output looking something like this:</p>
-
-<pre>
-2.6-sidux-686
-2.6.24-2.6.24.2.slh.7-sidux-686
-</pre>
 					<h5>Modules</h5>
 
-							<p class="highlight-2">Note: If your kernel-image/linux-header metas are on hold, don't forget to put an installed module on hold as well, otherwise a new module will update over your current one and may not match your current kernel.</p>
+							<p class="highlight-2">Notitie: Als je kernel-image/linux-header metas in de wacht staan, vergeet dan niet om ook de geinstalleerde module(s) in de wacht te zetten, anders gaat een nieuwe module je huidige updaten en deze kan eventueel niet geschikt zijn voor je huidige kernel.</p>
 
- 							<p>To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
+ 							<p>Om te kijken welke modules je nodig bent, kun je het volgende commando gaan uitvoeren welke je een lijst geeft van alle huidige modules, copieer deze regel in je console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
 
-							<p>To get a full description of each module, copy this line to your console/terminal:</p>
+							<p>Om een volledige beschrijving van een module te verkrijgen kopieer je de volgende regel naar je console/terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
 
- 							<p>To install the required modules (for instance virtual-ose, and qc-usb):</p>
+ 							<p>Om de benodigde modules te installeren voer je de volgende commandos uit: (bijvooerbeeld voor virtual-ose, en qc-usb):</p>
  
  <pre>
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (dit is een voorbeeld)
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (dit is een voorbeeld)
 </pre>
 
-							<p>To check the modules loaded into the kernel:</p>
+							<p>Met de volgende commando's controleer je welke modules in de kernel geladen zijn:</p>
 <pre>
 ls /sys/module/
 or
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
+							<p class="highlight-4">BELANGRIJK: als je bepaalde driver modules nodig hebt, bijvoorbeeld coor wlan, dan moet de de benodigde .deb pakketten geinstalleerd hebben. Bijvoorbeeld voor de Agere et131x ethernet adapter:</p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> wordt alleen gebruikt als je de .deb pakket local hebt, maar zelfs dan is , als ze bestaan in, apt-cache, <span class="highlight-3">apt-get</span> de beste optie.</p>
 
-							<p>See also <a href="internet-connecting-nl.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-nl.htm">for WIFI</a></p>
+							<p>zie ook <a href="internet-connecting-nl.htm">Online komen met ndiswrapper</a> en <a href="internet-connecting-wpa-nl.htm">Voor WIFI</a></p>
 
-				<h4>Other kernel installation methods</h4>
+				<h4>Andere kernel installatie methodes</h4>
 
 					<h5>smxi</h5>
-							<p>The <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script offers an integrated method to install kernels, drivers and a number of other system administration scripts:</p>
+							<p>De <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script biedt een geintegreerde manier om kernels , drivers en een aantal andere systeem administratie scripts te installeren:</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
 					<h5>siduxcc</h5>
-							<p>You can also install kernels with the GUI control centre<a href="siduxcc-nl.htm"> siduxcc: </a>which is located in the KDE-Start-Menu>System>sidux Control Centre. siduxcc also offers several other system administration GUI applications</p>
+							<p>Je kunt ook kernels installeren via de grafische control center<a href="siduxcc-nl.htm"> siduxcc: </a>deze staat onder KDE-Start-Menu>System>sidux Control Centre. siduxcc biedt ook andere systeem administratie GUI applicaties</p>
 
-					<h4>Removing old kernels</h4>
+					<h4>Verwijderen van oude kernels</h4>
 
-							<p>After successful installation of the new kernel, the old kernels can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
+							<p>Na het succesvol installeren van de nieuwe kernel, kunnen de oude kernels verwijderd worden, het wordt echter wel aangeraden om de oude kernels eerst een paar dagen te bewaren voor het geval er toch nog problemen optreden met de nieuwe kernel, zodat je via grub nog een oude kernel kan selecteren om daarmee te booten.</p>
 
-							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking.<span class="highlight-3"> This script must be installed and allows to you nominate which kernels you wish to remove.</span></p>
+							<p>Oudere kernels kun je van het systeem verwijderen. Om dit te doen kun je het script <span class="highlight-3">kernel-remover</span> gebruiken welke in het pakket sidux-kernelhacking zit.<span class="highlight-3"> Dit script moet geinstalleerd worden en stelt je instaat om kernels te nomineren om te verwijderen van je systeem.</span></p>
 
 <pre>
 apt-get update
 apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
-							<p>Alternatively, you can use siduxcc, which uses the kernel-remover script.</p>
+							<p>Alternatief: je kan siduxcc gebruiken, welke de kernel-remover script gebruikt.</p>
 
 			
-	<div id="rev">Content last revised 11/03/2008 0100 UTC</div>
+	<div id="rev">Inhoud het laatst gewijzigd op 11/03/2008 0100 UTC</div>
 
 </div>
 </div>

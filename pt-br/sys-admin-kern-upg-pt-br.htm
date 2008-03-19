@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti 21/02/2008 0934 UTC -->
+<!-- Last translation revision by ceti 13/03/2008 0934 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by ceti 04/03/2008 1740 hrs AEST 04/03/2008 - hrs UTC -->
@@ -190,130 +190,119 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Instalando novos Kernels</h2>
-					<h4>The sidux kernels are in apt.  <a href="cd-dl-burning-pt-br.htm#download-sidux/">Please choose your closest sidux repo mirror and alter your sources</a>:</h4>
+					<h4>Os kernels do sidux ficam no APT.  <a href="cd-dl-burning-pt-br.htm#download-sidux/">Favor escolher o espelho mais próximo e alterar sua sources.list.</a>:</h4>
 
-							<p>The kernels  are available in the following forms:</p>
+							<p>Os kernels estão disponíveis nos seguintes formatos:</p>
 						<ul>
-  							<li><b>sidux-686</b> sidux-686 - kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+  							<li><b>sidux-686</b> - kernel para a família de processadores i686, com dual core ou não e mais CPUs</li>
 
-  							<li><b>sidux-amd64</b> kernel for 64 bit sidux</li>
+  							<li><b>sidux-amd64</b> - kernel para a plataforma de 64 bit</li>
 						</ul>
 
-					<h5>Its 4 steps to do it manually in a konsole:</h5>
+					<h5>Eis os quatro passos a serem seguidos para instalar um novo kernel manualmente, pelo terminal:</h5>
 
-						<p><b>1.</b> In a konsole switch to root:</p>
+						<p><b>1.</b> Abra o terminal e torne-se root; depois digite:</p>
 
 <pre>
 apt-get update
 </pre>
-							<p><b>2.</b> To install the latest version kernel:</p>
+							<p><b>2.</b> Para instalar a última versão do kernel:</p>
 <pre>
 apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
-							<p><b>3.</b> The kernel-update is now done. Should you require them, add the latest graphics driver, ATI, NVIDIA or INTEL cards. First update the script:</p>
+							<p><b>3.</b> A atualização do kernel está feita. Se você tiver uma placa ATI, nVidia ou Intel, será necessário reinstalá-la. Primeiro, atualize o script:</p>
 
 <pre>
 sgfxi -U
 </pre>
  	
 
-							<p><b>4.</b>Now restart your computer and boot to the new kernel (it should boot up by default).</p>
+							<p><b>4.</b>Agora, reinicie seu computador com o novo kernel (é o que está na primeira linha do GRUB).</p>
 
-							<p>To update the 3D drivers run:</p>
+							<p>Para atualizar os drivers 3D da placa de vídeo, execute:</p>
 <pre>
 sgfxi
 </pre>
-							<p>Alternatively, on the first reboot to the new kernel go directly to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line) and then run sgfxi.</p>
+							<p>Alternativamente, quando reiniciar o micro com o novo kernel pela primeira vez, vá direto pra o runlevel 3 (basta digitar <b>3</b> na Linha de Comando do GRUB) e dai rodar o sgfxi.</p>
 
 							
-							 <p><a href="hw-dev-hw-dri-pt-br.htm"> More detailed sgfxi information is here</a></p>
+							 <p><a href="hw-dev-hw-dri-pt-br.htm"> Informações mais detalhadas sobre o sgfxi aqui</a></p>
 
-							<p>Should the new kernel give you problems, you can reboot and choose an older kernel.</p>
+							<p>Se o novo kernel trouxer problemas, você pode reiniciar a máquina e escolher um kernel antigo.</p>
 
  							
-							<p class="highlight-3">Should not wish to upgrade your kernel with every dist-upgrade, as it becomes available, put the meta on hold:</p>
+							<p class="highlight-3">Se você não quiser atualizar seu kernel toda vez que houver um novo, coloque-o em HOLD, isto é, prenda sua versão:</p>
 <pre>
 echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
 echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
-Revert it with:
+Reverta seu estado com:
 echo linux-image-2.6-sidux-686 install|dpkg --set-selections
 echo linux-headers-2.6-sidux-686 install|dpkg --set-selections 
-List packages on hold with:
+Liste os pacotes em HOLD com:
 dpkg --get-selections | grep hold
 </pre>
 
-							<p>If you want to find out what the latest available sidux kernel for your computer is, paste this into the console:</p>
- <pre>
-wget -O - http://sidux.com/debian/pool/main/l/linux-2.6-sidux 2>/dev/null | awk "/linux-image.*$(dpkg-architecture -qDEB_HOST_ARCH_CPU)/" | sed -e 's/^.*linux\-image\-//' -e's/_.*\.deb.*$//' 
-</pre>
+					<h5>Módulos</h5>
 
-							<p>This will return output looking something like this:</p>
+							<p class="highlight-2">Observação: Se sua imagem e header do kernel estiverem em HOLD, não se esqueça de colocar um módulo instalado em HOLD, também. Se você não fizer isso, é provável que um novo módulo seja atualizado e, portanto, não será compatível com seu kernel atual.</p>
 
-<pre>
-2.6-sidux-686
-2.6.24-2.6.24.2.slh.7-sidux-686
-</pre>
-					<h5>Modules</h5>
-
-							<p class="highlight-2">Note: If your kernel-image/linux-header metas are on hold, don't forget to put an installed module on hold as well, otherwise a new module will update over your current one and may not match your current kernel.</p>
-
- 							<p>To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
+ 							<p>Para saber quais os módulos que você precisa, o comando a seguir lista os módulos disponíveis; copie-o para o terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
 
-							<p>To get a full description of each module, copy this line to your console/terminal:</p>
+							<p>Copie a linha seguinte para o terminal, caso queira uma descrição completa de cada módulo:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
 
- 							<p>To install the required modules (for instance virtual-ose, and qc-usb):</p>
+ 							<p>Para instalar os módulos necessários (por exemplo, virtual-ose e qc-usb):</p>
  
  <pre>
-apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
-apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
+apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXEMPLO)
+apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXEMPLO)
 </pre>
 
-							<p>To check the modules loaded into the kernel:</p>
+							<p>Para checar os módulos carregados no kernel:</p>
 <pre>
 ls /sys/module/
-or
+ou
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
+							<p class="highlight-4">IMPORTANTE: Se precisar de certos módulos, como wlan, você precisa instalar os pacotes .deb correspondentes para eles. Por exemplo, para o adaptador ethernet Agere et131x: </p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> somente é possível se você já tiver os pacotes .deb baixados em sua máquina. Mesmo assim, se eles estiverem no apt-cache, o <span class="highlight-3">apt-get</span> é uma opção melhor.</p>
 
-							<p>See also <a href="internet-connecting-pt-br.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-pt-br.htm">for WIFI</a></p>
+							<p>Veja também <a href="internet-connecting-pt-br.htm">configurando a rede e ndiswrapper</a> e <a href="internet-connecting-wpa-pt-br.htm">wpasupplicant</a></p>
 
-				<h4>Other kernel installation methods</h4>
+				<h4>Outros métodos de instalação do kernel</h4>
 
 					<h5>smxi</h5>
-							<p>The <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script offers an integrated method to install kernels, drivers and a number of other system administration scripts:</p>
+							<p>O script <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>proporciona um método integrado de instalação de kernels e drivers; são instalados, ainda, vários scripts relacionados com tarefas administrativas:</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
 					<h5>siduxcc</h5>
-							<p>You can also install kernels with the GUI control centre<a href="siduxcc-pt-br.htm"> siduxcc: </a>which is located in the KDE-Start-Menu>System>sidux Control Centre. siduxcc also offers several other system administration GUI applications</p>
+							<p>Você pode também instalar kernels pela interface gráfica<a href="siduxcc-pt-br.htm"> siduxcc </a>, que fica no KMenu>Sistema>sidux Control Centre. O siduxcc possui diversas outras aplicações gráficas referentes a administração do sistema</p>
 
-					<h4>Removing old kernels</h4>
+					<h4>Removendo kernels antigos</h4>
 
-							<p>After successful installation of the new kernel, the old kernels can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
+							<p>Depois de um novo kernel instalado com sucesso, os kernels antigos podem ser apagados, ainda que seja prudente ficar com pelo menos um deles por mais alguns dias, pois pode acontecer de você enfrentar imprevistos com o novo. Dessa forma, se for preciso, basta selecioná-lo na tela do Grub.</p>
 
-							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking.<span class="highlight-3"> This script must be installed and allows to you nominate which kernels you wish to remove.</span></p>
+							<p>Para remover kernels antigos do sistema, use o script <span class="highlight-3">kernel-remover</span> , que está no pacote sidux-kernelhacking.<span class="highlight-3"> Este script precisa estar instalado e permite que você indique quais kernels deverão ser apagados.</span></p>
 
 <pre>
 apt-get update
 apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
-							<p>Alternatively, you can use siduxcc, which uses the kernel-remover script.</p>
+							<p>Alternativamente, você pode usar o siduxcc, que também usa o script kernel-remover.</p>
 
 			
 	<div id="rev">Content last revised 11/03/2008 0100 UTC</div>

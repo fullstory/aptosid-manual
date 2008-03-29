@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<!-- Last translation revision by zonker 29/02/2008 2200 UTC -->
+<!-- Last translation revision by zonker 26/03/2008 2100 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by zonker 02/03/2008 0110 hrs AEST 02/03/2008 - hrs UTC -->
@@ -190,122 +190,112 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Installering af ny kernel</h2>
-					<h4>The sidux kernels are in apt.  <a href="cd-dl-burning-da.htm#download-sidux/">Please choose your closest sidux repo mirror and alter your sources</a>:</h4>
+					<h4>sidux kernels findes i apt.  <a href="cd-dl-burning-da.htm#download-sidux/">Vælg venligst det nærmeste filspejl.</a>:</h4>
 
-							<p>The kernels  are available in the following forms:</p>
+							<p>Kernels findes i følgende varianter:</p>
 						<ul>
-  							<li><b>sidux-686</b> sidux-686 - kernel for the i686 Processor Family with single/dual core or more CPUs</li>
+  							<li><b>sidux-686</b> sidux-686 - kernel til i686 Processor Family med single/dual core eller flere CPUer</li>
 
-  							<li><b>sidux-amd64</b> kernel for 64 bit sidux</li>
+  							<li><b>sidux-amd64</b> kernel til 64 bit sidux</li>
 						</ul>
 
-					<h5>Its 4 steps to do it manually in a konsole:</h5>
+					<h5>4 trin for manuel udførsel i en konsol:</h5>
 
-						<p><b>1.</b> In a konsole switch to root:</p>
+						<p><b>1.</b>Bliv root i en konsol:</p>
 
 <pre>
 apt-get update
 </pre>
-							<p><b>2.</b> To install the latest version kernel:</p>
+							<p><b>2.</b>For at installere den seneste kernel:</p>
 <pre>
 apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
-							<p><b>3.</b> The kernel-update is now done. Should you require them, add the latest graphics driver, ATI, NVIDIA or INTEL cards. First update the script:</p>
+							<p><b>3.</b>Kernel opdateringen er nu færdig. Hvis du har brug for dem kan du nu installere de sidste grafikdrivere, ATI, NVIDIA eller INTEL kort. Først skal du opdatere skriptet:</p>
 
 <pre>
 sgfxi -U
 </pre>
  	
 
-							<p><b>4.</b>Now restart your computer and boot to the new kernel (it should boot up by default).</p>
+							<p><b>4.</b>Genstart nu din PC. Den nye kernel vil blive anvendt som standard. </p>
 
-							<p>To update the 3D drivers run:</p>
+							<p>For at opdatere dine 3D drivere kører du nu:</p>
 <pre>
 sgfxi
 </pre>
-							<p>Alternatively, on the first reboot to the new kernel go directly to runlevel 3 (this is done by adding <b>3</b> to the Grub-Boot-Line) and then run sgfxi.</p>
+							<p>Alternativt kan du gå direkte til runlevel 3 ved den næste opstart (dette opnås ved at tilføje et <b>3</b> til Grub-Boot-Line) og så køre sgfxi.</p>
 
 							
-							 <p><a href="hw-dev-hw-dri-da.htm"> More detailed sgfxi information is here</a></p>
+							 <p><a href="hw-dev-hw-dri-da.htm">Mere detajleret sgfxi information findes her.</a></p>
 
-							<p>Should the new kernel give you problems, you can reboot and choose an older kernel.</p>
+							<p>Hvis den nye kernel giver dig problemer kan du vælge at genstarte og vælge en ældre kernel.</p>
 
  							
-							<p class="highlight-3">Should not wish to upgrade your kernel with every dist-upgrade, as it becomes available, put the meta on hold:</p>
-<pre>
-echo linux-image-2.6-sidux-686 hold|dpkg --set-selections
-echo linux-headers-2.6-sidux-686 hold|dpkg --set-selections
-Revert it with:
-echo linux-image-2.6-sidux-686 install|dpkg --set-selections
-echo linux-headers-2.6-sidux-686 install|dpkg --set-selections 
-List packages on hold with:
-dpkg --get-selections | grep hold
-</pre>
+							<p class="highlight-3">Hvis du ikke ønsker at opdatere din kernel ved hvert dist-upgrade, hvis ny kernel er tilgængelig, så kan du sætte meta'en på holdwith siduxcc or smxi.</p>
 
-					<h5>Modules</h5>
+					<h5>Moduler</h5>
 
-							<p class="highlight-2">If your kernel-image/linux-header metas are on hold, don't forget to put an installed module on hold as well, otherwise a new module will update over your current one and may not match your current kernel.</p>
 
- 							<p>To find which modules you need, the following command gives you the list of current available modules, copy this line to your console/terminal:</p>
+ 							<p>For at finde ud af hvilke moduler du anvender giver følgende kommandoer dig lister over de i øjeblikket tilgængelige moduler. Kopier denne linie til din konsol/ terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
 </pre>
 
-							<p>To get a full description of each module, copy this line to your console/terminal:</p>
+							<p>For at få den fulde beskrivelse af modulerne, kopier denne linie ind i din konsol/ terminal:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-sidux
 </pre>
 
 
- 							<p>To install the required modules (for instance virtual-ose, and qc-usb):</p>
+ 							<p>For at installere kernel, headers og de nødvendige moduler (for eksempel virtual-ose, og qc-usb):</p>
  
  <pre>
 apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 </pre>
 
-							<p>To check the modules loaded into the kernel:</p>
+							<p>For at se hvilke moduler der er indlæst med din kernel:</p>
 <pre>
 ls /sys/module/
-or
+eller
 cat /proc/modules
 </pre>
 
-							<p class="highlight-4">IMPORTANT: if you need certain driver modules, e.g. for wlan,you have to install the proper .deb packages for them. As an example, for the Agere et131x ethernet adapter: </p>
+							<p class="highlight-4">VIGTIGT: hvis du skal anvende specifikke kernel modules, for eksempel til wlan, skal du installere de rigtige .deb pakker for dem. For eksempel hvis du anvender Agere et131x ethernet adapter:</p>
 <pre>
 apt-get install et131x-modules-*
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> is only used if you have the debs locally already, but even in that case, if they are in the apt-cache, <span class="highlight-3">apt-get</span> is a better option.</p>
+							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> anvendes kun hvis du har debs lokalt allerede, men selv i det tilfælde, hvis de findes i apt-cache, så er <span class="highlight-3">apt-get</span> den bedste løsning.</p>
 
-							<p>See also <a href="internet-connecting-da.htm">getting on line and ndiswrapper</a> and <a href="internet-connecting-wpa-da.htm">for WIFI</a></p>
+							<p>Se også <a href="internet-connecting-da.htm">kom online og ndiswrapper</a> samt <a href="internet-connecting-wpa-da.htm">angående WIFI</a></a></p>
 
-				<h4>Other kernel installation methods</h4>
+				<h4>Andre metoder til kernel installation</h4>
 
 					<h5>smxi</h5>
-							<p>The <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>script offers an integrated method to install kernels, drivers and a number of other system administration scripts:</p>
+							<p> <a href="http://techpatterns.com/forums/about736.html">  <span class="highlight-3"> smxi </span> </a>skriptet tilbyder en integreret metode til kernel installation, driver installation samt andre sys-admin skripts:</p>
 <pre>
 apt-get update
 apt-get install sidux-scripts
 smxi
 </pre>
 					<h5>siduxcc</h5>
-							<p>You can also install kernels with the GUI control centre<a href="siduxcc-da.htm"> siduxcc: </a>which is located in the KDE-Start-Menu>System>sidux Control Centre. siduxcc also offers several other system administration GUI applications</p>
+							<p>Du kan også installere kernels med GUI kontrol centret<a href="siduxcc-da.htm"> siduxcc: </a>som du finder i KDE-Start-Menu>System>sidux Kontrol Center. siduxcc tilbyder også andre system administrations GUI programmer.</p>
 
-					<h4>Removing old kernels</h4>
+					<h4>Afinstallation af gamle kernels</h4>
 
-							<p>After successful installation of the new kernel, the old kernels can be deleted, however its recommended that you keep them for a few days in case you strike problems and therefore boot to an older kernel as listed in the grub screen</p>
+							<p>Efter vellykket installation af en ny kernel kan de/ den gamle slettes, det anbefales dog at beholde dem i mindst et par dage hvis der skulle dukke problemer op med den nye kernel. Så kan du altid boot den gamle kernel fra grub menuen</p>
 
-							<p>Old kernels can be removed from the system. To do so, you can use the script <span class="highlight-3">kernel-remover</span> which is in the package sidux-kernelhacking.<span class="highlight-3"> This script must be installed and allows to you nominate which kernels you wish to remove.</span></p>
+							<p>Gamle kernels kan fjernes fra systemet. For at gøre dette anvender du skriptet <span class="highlight-3">kernel-remover</span> der findes i pakken sidux-kernelhacking.<span class="highlight-3"> Dette skript skal være installeret og tillader dig at vælge hvilke kernels der skal fjernes.</span></p>
 
 <pre>
 apt-get update
 apt-get install sidux-kernelhacking
 kernel-remover
 </pre>
-							<p>Alternatively, you can use siduxcc, which uses the kernel-remover script.</p>
+							<p>Alternativt kan du anvende siduxcc, der beror på kernel-remover skriptet.</p>
 
 			
-	<div id="rev">Content last revised 11/03/2008 0100 UTC</div>
+	<div id="rev">Content last revised 28/03/2008 0800 UTC</div>
 </div>
 </div>
 </body>

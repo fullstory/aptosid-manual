@@ -18,9 +18,9 @@
 </head>
 <body>
 <!-- Last translation revision 29/01/2008 à 8H28 UTC-->
-<div id="menu"> <!-- menu starts here fr lang maintainer LjanA-->
+<div id="menu"> <!-- menu starts here fr lang maintainer LjanA/alphad-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
-<!-- menu last updated by muchan 04/02/2008 2045 hrs AEST 24/02/2008 - hrs UTC -->
+<!-- menu last updated by LjanA 03/04/2008 05H45 UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-fr.htm#welcome-quick">Guide rapide de sidux</a></li>
@@ -105,9 +105,9 @@
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, Matériels et pilotes</a>
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-fr.htm#hd-ntfs3g">Écritures sur NTFS</a></li>
-				<li><a href="hw-dev-mon-fr.htm#mon-res">Screen Resolution and Monitors</a></li>
-				<li><a href="hw-dev-mon-fr.htm#xrandr">Double Moniteurs et xrandr</a></li>
-				<li><a href="hw-dev-mon-fr.htm#mon-binary">Double Moniteurs (avec Binaires)</a></li>
+				<li><a href="hw-dev-mon-fr.htm#mon-res">Résolution des écrans et moniteurs</a></li>
+				<li><a href="hw-dev-mon-fr.htm#xrandr">Double-écrans et xrandr</a></li>
+				<li><a href="hw-dev-mon-fr.htm#mon-binary">Double-écrans (avec Binaires)</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#non-free-3d">Binaires, pilotes propriétaires pour : Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#native-nv-ati">Pilotes libres xorg pour nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-fr.htm#non-free">Matériels nécessitant des outils propriétaires</a></li>
@@ -173,7 +173,7 @@
 				<li><a href="sys-admin-rdiff-fr.htm#rdiff">Sauvegarde avec rdiff</a></li>
 				<li><a href="sys-admin-rsync-fr.htm#rsync">Sauvegarde avec rsync</a></li>
 				<li><a href="vir-rkits-fr.htm#virus-rkits">Virus et Scanners de Rootkits</a></li>
-				<li><a href="sys-admin-gen-fr.htm#start-services">Activer/désaciver les services</a></li>
+				<li><a href="sys-admin-gen-fr.htm#start-services">Activer/désactiver les services</a></li>
 				<li><a href="sys-admin-gen-fr.htm#pw-lost">Mots passe Root perdus</a></li>
 				<li><a href="sys-admin-gen-fr.htm#fonts">Fontes</a></li>
 				<li><a href="sys-admin-gen-fr.htm#cups">CUPS -imprimantes</a></li>
@@ -182,7 +182,7 @@
 				<li><a href="sys-admin-grub-bootman2-fr.htm#dual-boot">Double et multi-démarrage</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#boot-grub-floppy">Créer une disquette de Boot</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#remove-grub">Enlever grub du MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-fr.htm#what-is-grub">Grub, le getionnaire de démarrage</a></li>
+				<li><a href="sys-admin-grub-bootman2-fr.htm#what-is-grub">Grub, le gestionnaire de démarrage</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -203,27 +203,28 @@
 							* une image ISO de sidux, par exemple : sidux.iso et un système de fichiers GNU/Linux ext2/3 <br />
 							* Si vous changez le nom de l'image pour adopter par exemple, le nom simplifié sidux.ISO, vous devrez en conséquence modifier les commandes nécessaires afin d'intégrer cette modification (souvenez-vous que le système d'identification des fichiers unix est sensible à la casse !).</p>
 
-		<h4 class="highlight-3">Le Live-cd Eros et Gaia:</h4>
+		<h4 class="highlight-3">Le Live-cd Nyx:</h4>
 	
 							<p>Dans un premier temps on choisit l'endroit où copier les trois fichiers nécessaires, l'image iso et les deux autres, en raccourcissant leurs noms. On crée un répertoire "sidux" pour les mettre, par exemple dans "/media/sdax", (sda1 ou 2, ou 5, ou 6, ou autre) pour y copier l'image iso en utilisant cette syntaxe :</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>déplaçons-nous ensuite dans ce répertoire pour monter cette image iso:</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Il nous faut copier les fichiers vmlinuz et initrd.img de l'image iso ainsi montée vers le répertoire où l'image a été copiée (nous considérerons que l'identifiant du noyau et de la partition sont connus, pour adapter la commande au cas particulier rencontré):</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
 							<p>L'étape suivante va consister à adapter Grub pour y créer une entrée vers le démarrage depuis l'iso. Il faut pour ce faire éditer le fichier<span class="highlight-3"> /boot/grub/menu.lst </span> et y ajoûter les lignes suivantes <span class="highlight-3"> APRÈS ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Attention à ne pas vous amuser à utiliser de caractère Joker dans GRUB, qui ne le digère pas ! </span></p>
@@ -233,40 +234,6 @@
 title sidux 32bit depuis ISO
 kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
-</pre>
-
-							<p>Après cette édition vous disposez au démarrage d'une entrée pour démarrer à partir de votre image iso.</p>
-
-		<h6 class="highlight-3">Les Live-CD Tartaros et Chaos:</h6>
-	
-							<p>Dans un premier temps on choisit l'endroit où copier les trois fichiers nécessaires, l'image iso et les deux autres, en raccourcissant leurs noms. On crée un répertoire "sidux" pour les mettre, par exemple dans "/media/hda5":</p>
-
-<pre>
-# mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux
-</pre>
-
-							<p>déplaçons-nous ensuite dans ce répertoire pour monter cette image iso:</p>
-
-<pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>Il nous faut copier les fichiers vmlinuz et initrd.img de l'image iso ainsi montée vers le répertoire où l'image a été copiée:</p>
-
-<pre>
-# cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/
-</pre>
-
-							<p>L'étape suivante va consister à adapter Grub pour y créer une entrée vers le démarrage depuis l'iso. Il faut pour ce faire éditer le fichier<span class="highlight-3"> /boot/grub/menu.lst </span> et y ajoûter les lignes suivantes <span class="highlight-3"> APRÈS ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Attention à ne pas vous amuser à utiliser de caractère Joker dans GRUB, qui ne le digère pas ! </span></p>
-
-<pre>
-### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz
 </pre>
 
 							<p>Après cette édition vous disposez au démarrage d'une entrée pour démarrer à partir de votre image iso.</p>
@@ -493,7 +460,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 							<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Certains contenus se rapportant à QEMU pour le Manuel de Sidux sont extraits de documents extérieurs sous licence GNU Free Documentation License 1.2 et ont été adaptés pour le Manuel de Sidux.</a> </p>
 
 	</div>
-	<div id="rev">Dernière révision le 20/01/2008 0500hrs UTC</div>
+	<div id="rev">Dernière révision le 16/04/2008 0900 UTC</div>
 
 </div>
 </body>

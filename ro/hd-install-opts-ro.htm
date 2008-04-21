@@ -204,26 +204,27 @@
 							* o imagine ISO de sidux - ex.: sidux.iso - şi o partiţie linux de tipul ext2/3 <br />
 							* Dacă ve-ţi redenumi imaginea ISO in sidux.iso va trebui să modificaţi toate comenzile ca atare , deoarece sistemul de numire a fişierelor în unix este case sensitive.</p>
 
-				<h4 class="highlight-3">Eros şi Gaia Live-cd:</h4>
+				<h4 class="highlight-3">Nyx Live-cd:</h4>
 							<p>Mai întâi alegem un loc pentru imaginea iso şi cele 2 fişiere necesare , vom folosi nume scurte . Pentru aceasta creăm un director de bază : de examplu  "/media/sdax", (sda1 sau , 2, sau 5, sau 6, oricare, ca examplu) creăm  directorul "sidux" şi copiem imasginea iso în el :</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>ne mutăm în acel director şi montăm imaginea ISO  :</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Acum copiem fişierele vmlinuz şi intrid.img  din imaginea iso montată în acel director ( X pentru kernel şi HD sunt variabile cunoscute :</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
 							<p>Mai departe va trebui să personalizaţi grub. Pentru aceasta editaţi fişierul  <span class="highlight-3"> /boot/grub/menu.lst </span> adăugându-i următoarele linii  <span class="highlight-3"> DUPĂ  ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTĂ : nu sunt admise caractere speciale(wildcards) la linia grub pentru numele de fişiere ! </span></p>
@@ -236,31 +237,6 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
 
 							<p>La următoarea pornire veţi avea o nouă opţiune în meniu pentru a porni de pe imaginea iso.</p>
-
-				<h6 class="highlight-3">Tartaros şi Chaos Live-cd :</h6>
-							<p>Întâi vom alege un loc pentru imaginea ISO şi două fişiere de care avem nevoie , deci vom folosi nume scurte . De aceea vom crea un director de baza : de exemplu în  /dev/hda5 , creăm directorul "sidux" şi copiem imaginea  ISO în el :</p>
-
-<pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
-
-							<p>acum ne mutăm în acel director şi montăm imaginea ISO :</p>
-
-<pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
-
-							<p>copiem fişierele miniroot.gz şi vmlinuz de pe imaginea ISO montată în directorul nostru :</p>
-
-<pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
-
-							<p>Acum vom personaliza programul grub puţin . Pentru aceasta vom edita fişierul /boot/grub/menu.lst adăugându-i următoarele linii după  <span class="highlight-3"> ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTĂ - nu sunt admise caractere wildcard în liniile grub pentru nume de fişiere ! </span></p>
-
-<pre>### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz</pre>
-
-							<p>La următoarea pornire a sistemului vom avea o nouă linie în programul grub , anume să porneşti de pe imaginea ISO .</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -482,7 +458,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Page last revised 20/01/2008 0500hrs UTC</div>
+			<div id="rev"> Page last revised 16/04/2008 0900 UTC</div>
 
 </div>
 </body>

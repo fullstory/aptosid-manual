@@ -3,12 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="ru">
 <head>
 	<title>Руководство sidux - Способы установки на жесткий диск-ru</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
-	<style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
-	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
-        <link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
-	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" /><style type="text/css" media="all">@import url("../lib/css-js/content.css");</style><style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style><style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
+        <link rel ="shortcut icon" href="../lib/favicon/manual.ico" /><script type="text/javascript" src="../lib/css-js/menu2.js"></script>
         <!--[if lt IE 8]>
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-7_override.css">
         <![endif]-->
@@ -203,25 +199,28 @@
 							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
-				<h4 class="highlight-3">Eros и Gaia Live-CD:</h4>
+				<h4 class="highlight-3">Nyx Live-CD:</h4>
 							<p>Сперва выделим пространство для iso-образа и двух дополнительных файлов. Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>Переходим в каталог, содержащий ISO-образ, и монтируем его:</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Теперь копируем файлы vmlinuz и intrid.img из смонтированного образа в дирректорию sidux (версия ядра должна быть известна, а родительский каталог для "sidux" мы выбирали выше:</p>
 
-<pre># cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sdax/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sdax/sidux/ </pre>
+<pre>
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sdax/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sdax/sidux/ 
+</pre>
 
 							<p>Следующим шагом настроим grub.  Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него следующие строки <span class="highlight-3"> после строки ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ЗАМЕЧАНИЕ: не используйте регулярные выражения в конфигурационном файле grub! </span></p>
 
@@ -234,58 +233,50 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 
 							<p>При следующей загрузке в меню grub станет доступен пункт запуска iso-образа.</p>
 
-				<h6 class="highlight-3">Tartaros и Chaos Live-cds:</h6>
-							<p>Также, как выше, чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax", в ней каталог по имени sidux, например и копируем ISO внутрь:</p>
-
-<pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
-
-							<p>Монтируем ISO:</p>
-
-<pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
-
-							<p>Копируем файлы miniroot.gz и vmlinuz из смонтированного ISO:</p>
-
-<pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
-
-							<p>Для настройки GRUB открываем <span class="highlight-3">/boot/grub/menu.lst</span> и добавляем следующие строки после<span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">Внимание: использование регулярных выражений в конфигурации grub недопустимо!</span></p>
-
-<pre>### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz</pre>
-
-							<p>При следующей загрузке в меню Grub появляется новый пункт: "sidux 32bit from ISO".</p>
-
 	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Установка "fromiso и persist" (eros)</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>
+          В eros стала доступна версия live-cd (на записываемом диске) сочетающая в себе возможности инсталляции "fromiso" и специальных сheatcode-ов.
+        </p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>
+          Для реализации возможности записи новой информации на Ваш live-cd, известной как "copy on write" sidux использует aufs, сохраняя всю информацию в памяти. А специальные <span class="highlight-3"></span>cheatcode-ы в eros сохранят новые файлы на том же разделе жесткого диск, который был использован под cd образ "fromiso".
+        </p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>
+          Данный метод не только сохраняет все возможности live-cd по автоматизации настройки Вашего оборудования, но и обеспечивает сохранность файлов созданных Вами для будущих перезагрузок системы..
+        </p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p>
+          <span class="highlight-3">Например, ваши X-настройки(видео карта, клавиатура и мышь) не будут сохранены в загрузочных настройках live-cd, также, как и файл конфигурации сетевого интерфейса. Но они, будучи сохраненными отдельно будут доступны в любой момент, когда понадобятся. Наибольшее удобство такого метода проявляется в применении данной установки более чем на одном компьютере. </span>
+        </p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>
+          Возможно наилучшим вариантом применения данного метода в сочетании с новой графической утилитой установки на usb будет создание загрузочного flash-usb с необходимым Вам ПО и Вашими файлами.
+        </p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>
+          Ваши файлы будут сохранены в отдельной субдирректории на используемом носителе. Сама субдирректория, если отсутствует - будет создана.
+        </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">Для инсталляции на файловую систему </span> FAT, обычно используемую в dos/Windows 9x или умолчально присутствующую на флеш-носителях, потребуется создать один большой файл для использования как loop-устройства и возможностью последующего его форматирования.
+        </p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Для сохранения образа iso и прочих файлов sidux, как всегда, предлагает использовать файловую систему ext3.</span>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							</p><p>
+          Создаваемый файл под именем <span class="highlight-3">sidux-rw должен быть размещен в корне </span>fat раздела. Предполагая, что диск выбранный Вами , смонтирован с правом записи на /media/sdb1, что размер создаваемого файла равен 1GB, потребуется выполнить следующую команду (права root не потребуются, если у вас есть право записи в файл).
+        </p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">
+          Файловая система NTFS, используемая в инсталляциях Windows NT/2000/XP (TM), НЕ МОЖЕТ быть задействованна для применения описанного метода.
+        </p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 
@@ -483,7 +474,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 20/01/2008 0500hrs UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено 16/04/2008 0900 UTC</div>
 
 </div>
 </body>

@@ -202,26 +202,27 @@
 							* uma imagem ISO do sidux (p. ex., sidux.iso) e um sistema de arquivos Linux, como ext2/3<br />
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
-				<h4 class="highlight-3">Live-CD do Eros e Gaia:</h4>
+				<h4 class="highlight-3">Live-CD do Nyx:</h4>
 							<p> Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
 
 <pre>
-# mkdir /media/sda5/sidux
-# mv sidux.iso /media/sda5/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>Agora, monte a imagem ISO:</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sda5/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sda5/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Copie os arquivos vmlinuz e initrd.img da imagem recém-montada para o diretório 'sidux':</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
 							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span></p>
@@ -234,39 +235,6 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
 
 							<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
-
-				<h6 class="highlight-3">Live-CDs do Tartaros e Chaos:</h6>
-							<p>Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base (p. ex., /dev/hda5) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
-
-<pre>
-# mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux
-</pre>
-
-							<p>Agora, monte a imagem ISO:</p>
-
-<pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>Copie os arquivos vmlinuz e miniroot.gz da imagem recém-montada para o diretório 'sidux':</p>
-
-<pre>
-# cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/
-</pre>
-
-							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span></p>
-
-<pre>
-### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz
-</pre>
-
-		<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -483,7 +451,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 20/01/2008 0500hrs UTC</div>
+	<div id="rev">Page last revised 16/04/2008 0900 UTC</div>
 
 </div>
 </body>

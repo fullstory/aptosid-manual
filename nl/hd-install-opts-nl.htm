@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 10/09/2007 1200 UTC-->
+<!-- Last translation revision by HarzG 14/07/2008 1900 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
@@ -193,7 +193,7 @@
 
 							<p  class="highlight-2">Voor normaal gebruik adviseren wij het ext3 bestandssysteem. Dat is het standaard bestandssysteem voor sidux en wordt goed onderhouden (maintained).</p>
 
-							<p>Met deze cheatcode kun je opstarten van een iso-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
+							<p>Met deze cheatcode kun je opstarten van een ISO-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
 
 							<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
 
@@ -203,26 +203,27 @@
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
-				<h4 class="highlight-3">Eros en Gaia Live-cd:</h4>
-							<p>Eerst kiezen we een plek voor het iso-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het iso-bestand daarin:</p>
+				<h4 class="highlight-3">Nyx Live-cds Live-cd:</h4>
+							<p>Eerst kiezen we een plek voor het ISO-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het ISO-bestand daarin:</p>
 
 <pre>
-# mkdir /media/sda6/sidux
-# mv sidux.iso /media/sda6/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>Dan gaan we naar de map en mounten het ISO image-bestand (een tussenstap via /mnt/test):</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Nu kopi&#235;ren we de vmlinuz en intrid,img bestanden van de gemounte iso image naar de map (hieronder de juiste kernel variables voor x invullen):</p>
+							<p>Nu kopi&#235;ren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image naar de map (hieronder de juiste kernel variables voor x invullen):</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda6/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda6/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda6/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda6/sidux/
 </pre>
 
 							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span></p>
@@ -234,32 +235,7 @@ kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromi
 initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
 
-							<p>Bij de volgende hebben we een nieuw menu item in grub om de de iso image te starten.</p>
-
-				<h6 class="highlight-3">Tartaros and Chaos Live-cds:</h6>
-							<p>Eerst kiezen we een plek voor het iso-bestand en 2 bestanden die we nodig hebben, zodat we kortere namen krijgen. Hiervoor cre&#235;eren we een basis-directory: bijvoorbeeld /dev/hda7, Cre&#235;er nu de directory "sidux" en kopieer de iso-bestand hiernaar toe via:</p>
-
-<pre># mkdir /media/hda7/sidux
-# mv sidux.iso /media/hda7/sidux</pre>
-
-							<p>Nu gaan we naar die directory en mounten we de iso image als volgt:</p>
-
-<pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
-
-							<p>Vervolgens kopi&#235;ren we de bestanden miniroot.gz en vmlinuz van de gemounte iso image naar onze directory dmv:</p>
-
-<pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
-
-							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span></p>
-
-<pre>### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz</pre>
-
-							<p>Bij de volgend herstart v/d pc hebben we een nieuw menu item in grub om de iso image te booten.</p>
+							<p>Bij de volgende hebben we een nieuw menu item in grub om de de ISO-image te starten.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -269,7 +245,7 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 							<p>sidux gebruikt aufs om "copy on write" op je cd mogelijk te maken, dit om het je toe testaan om nieuwe bestanden en folders te schrijven en bestaande te updaten in het geheugen. Met de <span class="highlight-3">persist</span> cheatcode, kan eros je nieuwe bestanden opslaan op dezelfde harddisk partitie waar je ook je fromiso image staat.</p>
 
-							<p>Gebruikmakend van<span class="highlight-3">persist</span> geeft je een live systeem met alle automatische features van de sidux live cd. Dit heeft als voordeel dat alle hardware automatisch geconfigueerd wordt, maar betekend ook dat de bestanden bij elke nieuwe boot opnieuw aangemaakt worden..</p> 
+							<p>Gebruikmakend van <span class="highlight-3">persist</span> geeft je een live systeem met alle automatische features van de sidux live cd. Dit heeft als voordeel dat alle hardware automatisch geconfigueerd wordt, maar betekend ook dat de bestanden bij elke nieuwe boot opnieuw aangemaakt worden.</p> 
 
 							<p><span class="highlight-3">Als voorbeeld worden je instellingen voor X (videokaart, toetsenbord, muis) en je netwerk interface bestanden niet bewaard, het kan wel op elke pc gebruikt worden, maar het is lastig als je specifiek een configuratit van je netwerk moet hebben, want dit moet elke keer weer ingesteld worden.</span> </p>
 
@@ -279,9 +255,9 @@ initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 							<p><span class="highlight-3">persist</span> op een FAT filesysteem, meestal gebruikt voor dos/Windows 9x installatie's en meestal standaard op flash devices gevonden, eisen van je om 1 enkele grote bestand aan te maken als een loop device, je moet deze bestand dan formatteren.</p>
 
-							<p><span class="highlight-3">Zoals gewend raadt sidux aan om een ext3 partitie te gebruiken om je iso en andere bestanden op te slaan..</span></p>
+							<p><span class="highlight-3">Zoals gewend raadt sidux aan om een ext3 partitie te gebruiken om je ISO en andere bestanden op te slaan.</span></p>
 
-							<p>Het bestand moet de volgende naam hebben <span class="highlight-3">sidux-rw </span> en geplaatst worden in de root directory van je FAT drive. Uitgaande van het feit dat je de gebruikte disc mount als een schrijfbare disc op /media/sdb1 en je wil een 1GB groot bestand creeeren als je persistent drive dan kun je de volgende commando's gebruiken om dit uit te voeren (geen root rechten nodig als je naar het bestand kan schrijven).</p>
+							<p>Het bestand moet de volgende naam hebben <span class="highlight-3">sidux-rw </span> en geplaatst worden in de root directory van je FAT drive. Uitgaande van het feit dat je de gebruikte disc mount als een schrijfbare disc op /media/sdb1 en je wil een 1GB groot bestand cre&#235;ren als je persistent drive dan kun je de volgende commando's gebruiken om dit uit te voeren (geen root rechten nodig als je naar het bestand kan schrijven).</p>
 <pre>
 disc="/media/sdb1"
 size=1024
@@ -315,7 +291,7 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 							<p>VirtualBox is ideaal voor 32bit machines. Voor 64bit gebruik dan QEMU.</p>
 						<ul>
  							<li>1. creeer een harddisk image voor VirtualBox</li>
- 							<li>2. start de iso op met VirtualBox</li>
+ 							<li>2. start de ISO op met VirtualBox</li>
  							<li>3. installeren op de harddisk image</li>
 						</ul>
 
@@ -324,7 +300,7 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 
 							<p><span class="highlight-3">Hard disk ruimte:</span> VirtualBox zelfs heeft niet veel nodig, bij een normale installatie ongeveer 30 MB harddisk ruimte. De virtual machines zullen echter veel grotere bestanden op de harddisk opeisen, deze ziet de virtual machine dan als zijn eigen harddisk. Dus, om bijvoorbeeld MS Windows XP (TM) te installeren, zul je een bestand nodig hebben van meerdere GBs! To have sidux in VirtualBox you need to allocate a 5 gig image plus a swap allocation.</p>
 
-							<p class="highlight-3">Indien je een nieuwe kernel geinstalleerd hebt, doe dan eerst een dist-upgrade voordat je virtual machine modules gaat installeren, anders krijg je een gcc mismatch foutmelding, omdat de module niet gebouwd kan worden.(Dit geld voor elke externe module) </p>
+							<p class="highlight-3">Indien je een nieuwe kernel ge&#239;nstalleerd hebt, doe dan eerst een dist-upgrade voordat je virtual machine modules gaat installeren, anders krijg je een gcc mismatch foutmelding, omdat de module niet gebouwd kan worden.(Dit geld voor elke externe module) </p>
 
 						<h4>Het mechanisme:</h4>
 <pre>
@@ -351,12 +327,12 @@ adduser &lt;username&gt; vboxusers
 </pre>
 
 					<h3>Het installeren van sidux in een virtual machine</h3>
-							<p>Gebruik virtualbox's wizard om een nieuwe virtual machine voor sidux te creeeren. volg dan de instructies voor een normale sidux installatie.</p>
+							<p>Gebruik de virtualbox wizard om een nieuwe virtual machine voor sidux te cre&#235;ren. Volg dan de instructies voor een normale sidux installatie.</p>
 
 							<p><a href="http://www.virtualbox.org/">VirtualBox heeft een goed gedocumenteerde PDF Help document, deze kun je vanaf hun site downloaden.</a> </p>
 
-				<h3>Automated installation with svmi</h3>
-							<p>svmi is started by sidux-scripts. You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'. To activate smvi as root in a konsole/terminal:</p>
+				<h3>Automatische installatie met svmi</h3>
+							<p>svmi wordt gestart door sidux-scripts. De opties kunnen handmatig gekozen worden, maar je kan ook een auto install faciliteit gebruiken (non interactive mode) - zie hiervoor <span class="highlight-3">svmi -h</span> voor de autoinstall opties.</p><p>svmi maakt de vbox kernel module, voert een update uit voor modules, voegt het toe in /etc/modules. Hierdoor kan een module automatisch starten (anders werkt vbox niet na een reboot). Verder actualiseert svmi 'adduser'. Om smvi als root in een konsole/terminal te activeren:</p>
 <pre>
 svmi
 </pre>
@@ -369,7 +345,7 @@ svmi
 
 		<ul>
  			<li>1. Cre&#235;er een harddiskimage voor qemu</li>
- 			<li>2. Start de iso op met qemu</li>
+ 			<li>2. Start de ISO op met qemu</li>
  			<li>3. Installeer op de image</li>
 
 		</ul>
@@ -474,7 +450,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 20/01/2008 0500hrs UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 16/04/2008 0900 UTC</div>
 </div>
 </body>
 </html>

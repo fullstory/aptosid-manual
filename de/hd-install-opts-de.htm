@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi 06/03/2008 2300 UTC -->
+<!-- Last translation revision hubi 14/04/2008 1600 UTC -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 1310 hrs UTC -->
@@ -203,26 +203,27 @@
 			* eine sidux-Imagedatei, z. B. sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
 			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO), müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
-				<h4 class="highlight-3">Eros und Gaia Live-CD:</h4>
+				<h4 class="highlight-3">Nyx Live-CD:</h4>
 							<p>Zuerst wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/sdax" (sda1, sda2, sda5, sda6, ...), legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>Nun gehen wir in dieses Verzeichnis und binden das ISO-Image ein:</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Anschließend kopiert man die Dateien vmlinuz und initrd.img von dem eingebundenen ISO-Image in das Verzeichnis (Kernelnummer und Festplatte sind bekannte Variablen):</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
 							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span>:</p>
@@ -233,31 +234,6 @@ title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
-
-		<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
-
-				<h4 class="highlight-3">Tartaros and Chaos Live-cds:</h4>
-							<p>Zuerst wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/hda5", legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
-
-<pre># mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux</pre>
-
-							<p>Nun gehen wir in dieses Verzeichnis und binden das ISO-Image ein:</p>
-
-<pre># mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test</pre>
-
-							<p>Wir kopieren die Dateien miniroot.gz und vmlinuz aus dem gemounteten ISO in dieses Verzeichnis:</p>
-
-<pre># cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/</pre>
-
-							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span>:</p>
-
-<pre>### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz</pre>
 
 							<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
 
@@ -352,8 +328,8 @@ adduser &lt;username&gt; vboxusers
 
 							<p><a href="http://www.virtualbox.org/">VirtualBox hat auf seiner Homepage eine umfassende Bedienungsanleitung, die man als PDF herunterladen kann.</a> </p>
 
-				<h3>Automated installation with svmi</h3>
-							<p>svmi is started by sidux-scripts. You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'. To activate smvi as root in a konsole/terminal:</p>
+				<h3>Automatisierte Installation mittels svmi</h3>
+							<p>svmi wird von sidux-scripts gestartet. Optionen sind "benutzerdefiniert" oder "automatische Installation". Mehr dazu mittels <span class="highlight-3">svmi -h für die Optionen der automatischen Installation</span>. svmi baut die vbox Kernelmodule, die Module werden aktualisiert, diese werden in /etc/modules eingefügt, um automatisch gestartet zu werden (andernfalls würde vbox nach einem Neustart nicht funktionieren), und 'adduser' wird aktualisiert. smvi wird als root in einer Konsole bzw. einem Terminal aktiviert:</p>
 <pre>
 svmi
 </pre>
@@ -472,7 +448,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 20/01/2008 0500hrs UTC</div>
+	<div id="rev">Content last revised 16/04/2008 0900 UTC</div>
 
 </div>
 </div>

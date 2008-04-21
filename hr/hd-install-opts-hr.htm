@@ -18,9 +18,9 @@
 </head>
 <body>
 <!-- Last translation revision  26/10/2007 1400 UTC -->
-<div id="menu"> <!-- menu starts here hr lang maintainer cobra and damir-->
+<div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
-<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 01310 hrs UTC -->
+<!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 12/04/2008 1300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="wel-quickstart-hr.htm#welcome-quick">sidux Quick Start Guide</a></li>
@@ -106,8 +106,8 @@
 			<ul class="sub-menu" id="sm9">
 				<li><a href="hw-dev-hw-dri-hr.htm#hd-ntfs3g">Piši na NTFS</a></li>
 				<li><a href="hw-dev-mon-hr.htm#mon-res">Rezolucije Monitora</a></li>
-				<li><a href="hw-dev-mon-hr.htm#xrandr">Dual Monitors and xrandr</a></li>
-				<li><a href="hw-dev-mon-hr.htm#mon-binary">Dual Monitors (using binaries)</a></li>
+				<li><a href="hw-dev-mon-hr.htm#xrandr">Dual Monitori i xrandr</a></li>
+				<li><a href="hw-dev-mon-hr.htm#mon-binary">Dual Monitori (koristeči binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free-3d">Binarni, non-free pogonitelji za: Nvidia / ATI</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#native-nv-ati">Free xorg pogonitelji za nVidia, ATI, Radeon, Intel</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free">Hardver sa non-free potrebama</a></li>
@@ -166,7 +166,7 @@
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-hr.htm">Sistem administracija</a>
 			<ul class="sub-menu" id="sm14">
 				<li><a href="smxi-hr.htm#smxi">smxi sintaksa naredbenih setova</a></li>
-				<li><a href="siduxcc-hr.htm#siduxcc">sidux Control Centre</a></li>
+				<li><a href="siduxcc-hr.htm#siduxcc">sidux Controlni Centar</a></li>
 				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Obnoviti instaliran sistem - dist-upgrade</a></li>
 				<li><a href="sys-admin-upgrade-hr.htm#live-cd-upgrade">Upgrade koristeći Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-hr.htm#kern-upgrade">Obnoviti kernel</a></li>
@@ -202,26 +202,27 @@
 								* sidux ISO-datoteka: sidux.iso i linux file-sistem kao ext2/3 <br />
 								* Ako date datoteci drugo ime na primjer sidux.ISO morate isto promjeniti naredbe, zato što pod sistemom za imenovanje unix-datoteka morate paziti da li pišete malo ili veliko.</p>
 
-				<h4 class="highlight-3">Eros i Gaia Live-CD:</h4>
+				<h4 class="highlight-3">Nyx Live-CD:</h4>
 							<p>Kao prvo izaberemo mjesto za iso datoteku i dodatne 2 datoteke koje su nam potrebne, da dobijemo krača imena. Zato kreiramo directorij: na primjer "/media/sdax", (sda1 ili, 2, ili 5, ili 6, ili  šta god, na primjer) stvorite direktorij "sidux" i kopirajte iso unutra:</p>
 
 <pre>
-# mkdir /media/sdax/sidux
-# mv sidux.iso /media/sdax/sidux
+$ sux
+mkdir -p /media/sdax/sidux
+mv sidux.iso /media/sdax/sidux
 </pre>
 
 							<p>sad idemo u taj direktorij i mountamo ISO-datoteku:</p>
 
 <pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
+mkdir -p /mnt/test
+mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<p>Sad kopiramo vmlinuz i intrid.img datoteke iz mountane ISO-datoteke u direktorij (X za kernel i HD su poznate varijable:</p>
 
 <pre>
-# cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-# cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
 </pre>
 
 							<p>Kao iduče morate prilagoditi grub.  Prema tome editirajte datoteku<span class="highlight-3"> /boot/grub/menu.lst </span> i dodajte sljedeče linije <span class="highlight-3"> POSLJE ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA wildcards na grub linij nisu dopuštene! </span></p>
@@ -234,39 +235,6 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 </pre>
 
 							<p>Sa idučem startu vidjeti će te novi meni upis u grub da startujete iz ISO-datoteke.</p>
-
-				<h6 class="highlight-3">Tortura i haos Live-cds:</h6>
-							<p>Prvo izaberemo mjesto za ISO-datoteku i 2 datoteke koje su nam dodatno potrebne, da dobijemo kraća imena. Sad kreiramo base-direktorij: na primjer na /dev/hda5, kreirate direktorij "sidux" i kopirajte ISO-datoteku unutra:</p>
-
-<pre>
-# mkdir /media/hda5/sidux
-# mv sidux.iso /media/hda5/sidux
-</pre>
-
-							<p>sad idemo u taj direktorij i mountujemo iso-datoteku:</p>
-
-<pre>
-# mkdir -p /mnt/test
-# mount -t iso9660 -o loop,ro /media/hda5/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>sad kopiramo datoteke miniroot.gz i vmlinuz s mountanom ISO-datotekom u vaš direktorij:</p>
-
-<pre>
-# cp /mnt/test/boot/vmlinuz /media/hda5/sidux/
-# cp /mnt/test/boot/miniroot.gz /media/hda5/sidux/
-</pre>
-
-							<p>Sad moramo malo preraditi grub, zato editiramo datoteku /boot/grub/menu.lst i upišemo sljedeće: poslje <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA: wildcards na grub liniji imena datoteka nisu dopuštene! </span></p>
-
-<pre>
-### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/miniroot.gz
-</pre>
-
-							<p>Sa idućim startom imamo novi meni-stavak u grub da startate ISO-datoteku.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -481,7 +449,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Content last revised 20/01/2008 0500hrs UTC</div>
+			<div id="rev"> Content last revised 16/04/2008 0900 UTC</div>
 
 </div>
 </body>

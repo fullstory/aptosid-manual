@@ -227,12 +227,20 @@
 							#### -->
 							* Unixのファイルシステムはケースセンシティブなので、もしイメージファイルの名がsidux.ISOのように変更されていたらコマンドもその通りに変える必要があります。</p>
 
-				<!--- ####
-				<h4 class="highlight-3">Nyx Live-cds:</h4>
-				#### -->
-				<h4 class="highlight-3">Nyx ライブCD</h4>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
 							<!--- ####
-							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+							<p>Next we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
 							#### -->
 							<p>まずisoファイルと他に必要な２つのファイルを置く場所を確保します。 ファイルのパスが短くなるように"/media/sdax" (xのかわりにsda1, または2, 5のような数字が入ります)のすぐ下に"sidux"というディレクトリを作り、そこにisoファイルをコピーします:</p>
 
@@ -253,25 +261,25 @@ mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
 							<!--- ####
-							<p>Now copy the  vmlinuz and initrd.img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+							<p>Now copy the  vmlinuz and initrd.img  files from the mounted iso image to the directory where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable:: This is an example only:</span></p>
 							#### -->
-							<p>マウントされたISOイメージからvmlinuzとinitrd.imgをコピーします。 (カーネルのバージョン番号とハードディスクのパーティション番号は実際のものと取り替えてください:</p>
+							<p>マウントされたISOイメージからvmlinuzとinitrd.imgをコピーします。 (カーネルのバージョン番号とハードディスクのパーティション番号は実際のものと取り替えてください: where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
 							<!--- ####
-							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span><span class="highlight-3">The HD is YOUR known variable::This is an example only:</span></p>
 							#### -->
-							<p>次にGrubをカスタマイズします。 <span class="highlight-3"> /boot/grub/menu.lst </span>というファイルを編集し<span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>という行の後に次の用に付け加えます: <span class="highlight-2">ノート: Grubのコマンド行にファイル名のワイルドカードは使えません!</span></p>
+							<p>次にGrubをカスタマイズします。 <span class="highlight-3"> /boot/grub/menu.lst </span>というファイルを編集し<span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>という行の後に次の用に付け加えます: <span class="highlight-2">ノート: Grubのコマンド行にファイル名のワイルドカードは使えません!</span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<!--- ####
@@ -286,14 +294,14 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 	</div>
 	<div class="divider" id="fromiso-persist">
 		<!--- ####
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso and persist</h2>
 		#### -->
-		<h2>fromiso と persist (持続性モード - Eros 以降)</h2>
+		<h2>fromiso と persist (持続性モード  以降)</h2>
 
 							<!--- ####
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
 							#### -->
-							<p>Eros 以降 の sidux のリリースでは fromiso の設定に加えて persist という起動オプションを使うことにより書き込み可能なディスク上に持続的なライブシステムを作ることができます。</p>
+							<p> 以降 の sidux のリリースでは fromiso の設定に加えて persist という起動オプションを使うことにより書き込み可能なディスク上に持続的なライブシステムを作ることができます。</p>
 
 							<!--- ####
 							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
@@ -724,7 +732,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 16/04/2008 0900 UTC</div>
+	<div id="rev">Page last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

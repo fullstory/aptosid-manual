@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision  26/10/2007 1400 UTC -->
+<!-- Last translation revision  19/05/2008 1113 UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 12/04/2008 1300 hrs UTC -->
@@ -202,7 +202,18 @@
 								* sidux ISO-datoteka: sidux.iso i linux file-sistem kao ext2/3 <br />
 								* Ako date datoteci drugo ime na primjer sidux.ISO morate isto promjeniti naredbe, zato što pod sistemom za imenovanje unix-datoteka morate paziti da li pišete malo ili veliko.</p>
 
-				<h4 class="highlight-3">Nyx Live-CD:</h4>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
 							<p>Kao prvo izaberemo mjesto za iso datoteku i dodatne 2 datoteke koje su nam potrebne, da dobijemo krača imena. Zato kreiramo directorij: na primjer "/media/sdax", (sda1 ili, 2, ili 5, ili 6, ili  šta god, na primjer) stvorite direktorij "sidux" i kopirajte iso unutra:</p>
 
 <pre>
@@ -218,52 +229,52 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Sad kopiramo vmlinuz i intrid.img datoteke iz mountane ISO-datoteke u direktorij (X za kernel i HD su poznate varijable:</p>
+							<p>Sad kopiramo vmlinuz i intrid.img datoteke iz mountane ISO-datoteke u direktorij where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Kao iduče morate prilagoditi grub.  Prema tome editirajte datoteku<span class="highlight-3"> /boot/grub/menu.lst </span> i dodajte sljedeče linije <span class="highlight-3"> POSLJE ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA wildcards na grub linij nisu dopuštene! </span></p>
+							<p>Kao iduče morate prilagoditi grub.  Prema tome editirajte datoteku<span class="highlight-3"> /boot/grub/menu.lst </span> i dodajte sljedeče linije <span class="highlight-3"> POSLJE ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BILJEŠKA wildcards na grub linij nisu dopuštene! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>Sa idučem startu vidjeti će te novi meni upis u grub da startujete iz ISO-datoteke.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso i persist</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>You can možete imati trajni live sistem na mediju na kojemo je dopušteno pisanje, s kombiniranjem fromiso postavaka sa persist cheatcode.</p>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
+							<p>sidux koristi aufs da omogući, što je poznato pod "copy on write" preko vaše, da vam omoguči da pišete nove datoteke i direktorije, i da možete obnoviti postojeće, ne prepisujuči stare zbog spremanja novih datoteka u memoriju. S <span class="highlight-3">persist</span> cheatcode, eros će memorirati na istu hard disk particiju, na kojoj ste startovali vaš fromiso cd image.</p>
 
-							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
+							<p>Koristeči<span class="highlight-3">persist</span> daje vam live sistem, koji vam sve automatske mogućnosti sidux Live-CD omoguči. To vam je olakšica ako morate obaviti stavri kao automatski konfigurirati hardver, ali isto znači, da će rekreirati datoteke svaki put kad startujete sistem.</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">Na primjer neće memorirati vašu X (grafička kartica, keyboard, mouse) konfiguraciju, ili vašu network interfaces datoteku, što znači da je idejalno za više nego jedno računalo, </span> ali isto vam može stajati na putu, ako morate takve stvari konfigurirati.</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Naj idejalni korištaj trajnosti, je sa spojem s novim install-usb-gui alatom, da kreirate svoj vlastiti, bootable flash disk sa vašim datotekama i softver koji vam je potreban.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Vaše datoteke će biti memorirane u poddirektoriju, na vašem uređaju. Taj poddirektorij je kreiran, ako ne postoji, kad se <span class="highlight-3">fromiso</span> and <span class="highlight-3">persist</span> cheatcodes koriste zajedno. </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p>Da koristite <span class="highlight-3">persist</span> na FAT filesistemu, koje se općenito koristi za dos/Windows 9x instalacije i obično na flash uređajima, zahtijeva od vas da kreirate jednu veliku datoteku, koju koristite kao loop uređaj, koju ond a morate formatirati.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext3 partition to store your iso and all other files..</span></p>
+							<p><span class="highlight-3">Kao uvijek sidux preporučuje korištaj ext3 particija da memorirate vašu iso-datoteku, i sve druge datoteke.</span></p>
 
-							<p>This file should be named <span class="highlight-3">sidux-rw </span>and placed in the root directory of your fat drive. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Ta datoteka bi trebala da se zove <span class="highlight-3">sidux-rw </span>i smještena glavnom direktoriju na vašem fat uređaju. Pretpostavljamo da je disc, koju hočete da koristite, mountana i da je dopušteno pisanje na /media/sdb1, i da hočete da stvorite 1GB datoteku, da koristite kao trajnog uređaja, možete koristiti sljedeče naredbe (root privilegije nisu potrebne ako možete pisati u tu datoteku).</p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">NTFS particije, obično korištene za Windows NT/2000/XP (TM) instalacije, NE MOŽETE koristiti za trajnost.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -295,11 +306,11 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 						</ul>
 
 				<h4>Potrebe</h4>
-							<p><span class="highlight-3">Potreban RAM: 1 GB </span>: Idejalno 512 MB za gosta i 512 MB za host. (radi iako imate manje, ali ne čudite se kako sporo to radi).</p>
+							<p><span class="highlight-3">Potreban RAM: 1 GB </span>: Idejalno 512 MB za gosta i 512 MB za host. (radi iako imate manje, ali ne čudite se, kako sporo to radi).</p>
 
-							<p><span class="highlight-3">Hard disk mjesto:</span> VirtualBox ne treba baš puno mjesta (tipična instalacija je oko 30 MB velika), virtualanom kompjutere će trebati mnogo više mjesta na hard-disku da predstavljaju svoj hard-disk. Tako, da ako instalirate MS Windows XP (TM), na primjer, trebati će vam datoteka koja će lagano narasti na više GB. da instalirate sidux u VirtualBox potrebno je vam najmanje 5 GB image plus mjesto za swap.</p>
+							<p><span class="highlight-3">Hard disk mijesto:</span> VirtualBox ne treba baš puno mjesta (tipična instalacija je oko 30 MB velika), virtualanim kompjuterima će trebati mnogo više mjesta na hard-disku da predstavljaju svoje hard-disk. Tako, da ako instalirate MS Windows XP (TM), na primjer, trebati će vam datoteka koja će lagano narasti na više GB. da instalirate sidux u VirtualBox potrebno je vam najmanje 5 GB image plus mjesto za swap.</p>
 
-							<p class="highlight-3">Osigarjte da obavite dist-upgrade prije instalacije modula za virtualne kompjutere poslje instalacije novog kernela, ili će te završiti u gcc pogreški, failed module build error.(To će se dogoditi za svaki vanjski modul) </p>
+							<p class="highlight-3">Osigurajte da obavite dist-upgrade prije instalacije modula za virtualne kompjutere poslje instalacije novog kernela, ili će te završiti u gcc pogreški, failed module build error.(To će se dogoditi za svaki vanjski modul) </p>
 
 						<h4>Mehanizam:</h4>
 <pre>
@@ -331,8 +342,8 @@ adduser &lt;username&gt; vboxusers
 							<p><a href="http://www.virtualbox.org/">VirtualBox ima dobro PDF pomoč, koju možete povuči</a> </p>
 
 
-				<h3>Automated installation with svmi</h3>
-							<p>svmi is started by sidux-scripts. You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'. To activate smvi as root in a konsole/terminal:</p>
+				<h3>Automatizirana instalacija sa svmi</h3>
+							<p>svmi je startano od sidux-scripts. Možete izvoditi opcije manualno, ili koristite auto-install svojstvo, non interactive modus, pročitajte <span class="highlight-3">svmi -h za autoinstall opcije</span>. svmi stvara vbox kernel modul, obnovi module, dodaje ih u /etc/modules tako da automatski startuju (na drugačiji način vbox neće startati na reboot), i obnovi 'adduser'. Da aktivirate smvi kao root u konzoli/terminal:</p>
 <pre>
 svmi
 </pre>
@@ -381,9 +392,9 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Dobra ideja je da koristite overlay(nadlaganje) images. Tako možete kreirati hard disk image jedan put i onda postaviti Qemu da memorirah promjene u vanjskoj datoteci. Ne morate se brinuti o nestabilitetu, zato što je lagano da se vratite na početno stanje sistema.</p>
+				<p>Dobra ideja je da koristite overlay images. Tako možete kreirati hard disk image jedan put i onda postaviti Qemu da memorirah promjene u vanjskoj datoteci. Ne morate se brinuti o nestabilitetu, zato što je lagano da se vratite na početno stanje sistema.</p>
 
-				<p>Da kreirate overlay(nadlaganje) image, upišite:</p>
+				<p>Da kreirate overlay image, upišite:</p>
 <pre>
 qemu-img create -b [[base_image]] -f qcow [[overlay_image]]
 </pre>
@@ -449,7 +460,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Content last revised 16/04/2008 0900 UTC</div>
+			<div id="rev"> Content last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

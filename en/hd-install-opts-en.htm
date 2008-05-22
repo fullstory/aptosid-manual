@@ -202,8 +202,19 @@
 							* a sidux ISO Image e.g.: sidux.iso and a linux file system like ext2/3 <br />
 							* If you rename your image to sidux.ISO you will need to alter the commands accordingly as a unix file naming system is case sensitive.</p>
 
-				<h4 class="highlight-3">For Nyx Live-cds:</h4>
-							<p>First we choose a place for the iso and 2 files we need, so we get shorter names. Therefore we create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
+							<p>Next choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdax", (sda1 or, 2, or 5, or 6, or  whatever, for example) create the directory "sidux" and copy the iso into it:</p>
 
 <pre>
 $ sux
@@ -211,27 +222,27 @@ mkdir -p /media/sdax/sidux
 mv sidux.iso /media/sdax/sidux
 </pre>
 
-							<p>now we move to that directory and mount the ISO image:</p>
+							<p>Now move to that directory and mount the ISO image:</p>
 
 <pre>
 mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Now copy the  vmlinuz and initrd.img  files from the mounted iso image to the directory (where X for the kernel and HD are  known variables::</p>
+							<p>Now copy the  vmlinuz and initrd.img  files from the mounted iso image to the directory, where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span></p>
+							<p>Next you have to customise grub.  Therefore  edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>With next boot you have a new menu item in grub to start the iso image.</p>
@@ -239,9 +250,9 @@ initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist (eros)</h2>
+		<h2>fromiso and persist</h2>
 
-							<p>With eros you can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
+							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode.</p>
 
 							<p>sidux uses aufs to enable what is known as "copy on write" over your cd to allow you to write new files and folders and update existing ones by keeping the new files in memory. With the <span class="highlight-3">persist</span> cheatcode, eros will store your new files on the same hard drive partition as you use to store your fromiso cd image.</p>
 
@@ -455,7 +466,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 16/04/2008 0900 UTC</div>
+	<div id="rev">Page last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

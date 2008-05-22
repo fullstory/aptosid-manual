@@ -204,8 +204,19 @@
 							* o imagine ISO de sidux - ex.: sidux.iso - şi o partiţie linux de tipul ext2/3 <br />
 							* Dacă ve-ţi redenumi imaginea ISO in sidux.iso va trebui să modificaţi toate comenzile ca atare , deoarece sistemul de numire a fişierelor în unix este case sensitive.</p>
 
-				<h4 class="highlight-3">Nyx Live-cd:</h4>
-							<p>Mai întâi alegem un loc pentru imaginea iso şi cele 2 fişiere necesare , vom folosi nume scurte . Pentru aceasta creăm un director de bază : de examplu  "/media/sdax", (sda1 sau , 2, sau 5, sau 6, oricare, ca examplu) creăm  directorul "sidux" şi copiem imasginea iso în el :</p>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
+							<p>Next întâi alegem un loc pentru imaginea iso şi cele 2 fişiere necesare , vom folosi nume scurte . Pentru aceasta creăm un director de bază : de examplu  "/media/sdax", (sda1 sau , 2, sau 5, sau 6, oricare, ca examplu) creăm  directorul "sidux" şi copiem imasginea iso în el :</p>
 
 <pre>
 $ sux
@@ -220,29 +231,29 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Acum copiem fişierele vmlinuz şi intrid.img  din imaginea iso montată în acel director ( X pentru kernel şi HD sunt variabile cunoscute :</p>
+							<p>Acum copiem fişierele vmlinuz şi intrid.img  din imaginea iso montată în acel director where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Mai departe va trebui să personalizaţi grub. Pentru aceasta editaţi fişierul  <span class="highlight-3"> /boot/grub/menu.lst </span> adăugându-i următoarele linii  <span class="highlight-3"> DUPĂ  ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTĂ : nu sunt admise caractere speciale(wildcards) la linia grub pentru numele de fişiere ! </span></p>
+							<p>Mai departe va trebui să personalizaţi grub. Pentru aceasta editaţi fişierul  <span class="highlight-3"> /boot/grub/menu.lst </span> adăugându-i următoarele linii  <span class="highlight-3"> DUPĂ  ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTĂ : nu sunt admise caractere speciale(wildcards) la linia grub pentru numele de fişiere ! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>La următoarea pornire veţi avea o nouă opţiune în meniu pentru a porni de pe imaginea iso.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso şi  persist (eros)</h2>
+		<h2>fromiso şi  persist</h2>
 
-							<p>Cu eros puteti avea un  sistem live  persistent  pe un disc  ce poate fi scris prin combinarea setup-ului fromiso  cu cheatcode-ul persist .</p>
+							<p>Puteti avea un  sistem live  persistent  pe un disc  ce poate fi scris prin combinarea setup-ului fromiso  cu cheatcode-ul persist .</p>
 
 							<p>sidux foloseste aufs ca sa permita ceea ce este cunoscut ca si "copy on write" pe cd-ul dvs. sa va permita sa scrieti dosare si fisiere noi  si sa aduceti la zi pe cele existente prin pastrarea noilor fisiere in memorie. Cu <span class="highlight-3">persist</span> cheatcode, eros va inmagazina noile fisiere pe acelasi compartiment de hard drive  cum folositi sa inmagazinati imaginea cd  fromiso.</p>
 
@@ -458,7 +469,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Page last revised 16/04/2008 0900 UTC</div>
+			<div id="rev"> Page last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

@@ -201,8 +201,19 @@
 							* Et sidux ISO Image e.g.: sidux.iso og et linux filsystem, som for eksempel ext2/3 <br />
 							* Hvis du omdøber din ISO-fil til for eksempel sidux.ISO skal du ændre kommandoerne i det følgende tilsvarende eftersom unix fil-navngivningssystemet skelner mellem store og små bogstaver.</p>
 
-				<h4 class="highlight-3">Nyx Live-cd'en:</h4>
-							<p>Først skal der vælges et sted til ISO-filen og de to filer vi skal bruge, således at vi får kortere navne. Derfor opretter vi en mappe. Du kan placere den i for eksempel "/media/sdax" (sda1 eller 2, 5, 6 -eller hvad end du bruger). Opret mappen "sidux" her og kopier ISO-filen til denne mappe:</p>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
+							<p>Next skal der vælges et sted til ISO-filen og de to filer vi skal bruge, således at vi får kortere navne. Derfor opretter vi en mappe. Du kan placere den i for eksempel "/media/sdax" (sda1 eller 2, 5, 6 -eller hvad end du bruger). Opret mappen "sidux" her og kopier ISO-filen til denne mappe:</p>
 
 <pre>
 $ sux
@@ -217,29 +228,29 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Så skal vmlinuz og intrid.img  filerne kopieres fra den monterede ISO-fil til mappen hvor din ISO-fil ligger (her skal du tilpasse variablerne til din kernel og harddisk):</p>
+							<p>Now copy the  vmlinuz and initrd.img  files from the mounted iso image to the directory, where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Nu skal grub modificeres. Åbn filen<span class="highlight-3"> /boot/grub/menu.lst </span>(-det skal gøres som root) og tilføj de følgende linier <span class="highlight-3"> EFTER "### END DEBIAN AUTOMAGIC KERNELS LIST"</span> <span class="highlight-2">OBS: du kan ikke bruge wildcards i grub linien til filnavne! </span></p>
+							<p>Nu skal grub modificeres. Åbn filen<span class="highlight-3"> /boot/grub/menu.lst </span>(-det skal gøres som root) og tilføj de følgende linier <span class="highlight-3"> EFTER "### END DEBIAN AUTOMAGIC KERNELS LIST"</span> <span class="highlight-2">OBS: du kan ikke bruge wildcards i grub linien til filnavne! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>Ved næste opstart har du et nyt punkt i grub menuen til at starte ISO-filen.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso og persist (eros)</h2>
+		<h2>fromiso og persist</h2>
 
-							<p>Med eros kan du oprette et blivende live system på en skrivbar disk, ved at kombinere fromiso og persist cheatcodes.</p>
+							<p>You kan du oprette et blivende live system på en skrivbar disk, ved at kombinere fromiso og persist cheatcodes.</p>
 
 							<p>sidux bruger aufs til at muliggøre "copy on write" over din cd til at tillade dig at skrive nye filer og mapper og opdatere allerede eksisterende filer og mapper, ved at beholde de nye filer i hukommelsen. Med <span class="highlight-3">persist</span> cheatcode, kan eros gemme dine nye filer på den same partition som dit fromiso cd image findes på.</p>
 
@@ -444,7 +455,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 16/04/2008 0900 UTC</div>
+			<div id="rev"> Content last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

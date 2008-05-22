@@ -202,8 +202,19 @@
 							* uma imagem ISO do sidux (p. ex., sidux.iso) e um sistema de arquivos Linux, como ext2/3<br />
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
-				<h4 class="highlight-3">Live-CD do Nyx:</h4>
-							<p> Primeiramente, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
+							<p>Next, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
 
 <pre>
 $ sux
@@ -218,29 +229,29 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sda5/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Copie os arquivos vmlinuz e initrd.img da imagem recém-montada para o diretório 'sidux':</p>
+							<p>Copie os arquivos vmlinuz e initrd.img da imagem recém-montada para o diretório 'sidux', where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span></p>
+							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso e persist (eros)</h2>
+		<h2>fromiso e persist</h2>
 
-							<p>Com o eros, você tem um sistema "live" persistente ao combinar o "fromiso" com o cheatcode "persist".</p>
+							<p>You can você tem um sistema "live" persistente ao combinar o "fromiso" com o cheatcode "persist".</p>
 
 							<p>O sidux usa o unificador "aufs" para habilitar em seu CD o que é conhecido como "copiar na escrita", permitindo que você escreva novos arquivos/pastas e atualize os existentes. Isso é possível porque os novos arquivos ficam na memória. Com o cheatcode <span class="highlight-3">persist</span> o eros guardará os novos arquivos na mesma partição que você usa para guardar sua imagem "fromiso".</p>
 
@@ -451,7 +462,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 16/04/2008 0900 UTC</div>
+	<div id="rev">Page last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </body>

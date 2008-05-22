@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi 14/04/2008 1600 UTC -->
+<!-- Last translation revision hubi Mi 21. Mai 18:55:45 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by bluewater 25/02/2008 0010 hrs AEST 24/02/2008 1310 hrs UTC -->
@@ -203,8 +203,19 @@
 			* eine sidux-Imagedatei, z. B. sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
 			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO), müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
-				<h4 class="highlight-3">Nyx Live-CD:</h4>
-							<p>Zuerst wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/sdax" (sda1, sda2, sda5, sda6, ...), legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
+				<h4 class="highlight-3">Vorgehensweise:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Am besten liest man zuerst die "Manifest"-Datei der ISO</a> und sucht die Versionsnummer des Linux-Headers, welche dieses Format besitzt:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Die dazugehörige Kernelnummer ist:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Bitte diese richtig notieren!</p>
+
+							<p>Danach wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/sdax" (sda1, sda2, sda5, sda6, ...), legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
 
 <pre>
 $ sux
@@ -219,28 +230,28 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Anschließend kopiert man die Dateien vmlinuz und initrd.img von dem eingebundenen ISO-Image in das Verzeichnis (Kernelnummer und Festplatte sind bekannte Variablen):</p>
+							<p>Anschließend kopiert man die Dateien vmlinuz und initrd.img von dem eingebundenen ISO-Image in das Verzeichnis, wobei die Kernelnummer diejenige ist, welche in der "Manifest"-Datei ermittelt wurde <span class="highlight-3"> und die Festplatte, wohin kopiert wird, man nur <strong>selbst</strong> kennen kann. Dies ist nur ein Beispiel:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda5/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span>:</p>
+							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamem erlaubt!)</span> <span class="highlight-3"> Die Festplatte kann man nur <strong>selbst</strong> kennen. Dies ist nur ein Beispiel</span>:</p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
 
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso und persist (ab Eros)</h2>
+		<h2>fromiso und persist</h2>
 
-							<p>Ab eros kann ein dauerhaftes (persistentes) Live-System auf einer beschreibbaren Partition eingerichtet werden, indem ein fromiso-Setup mit der Bootoption 'persist' kombiniert wird.</p>
+							<p>You kann ein dauerhaftes (persistentes) Live-System auf einer beschreibbaren Partition eingerichtet werden, indem ein fromiso-Setup mit der Bootoption 'persist' kombiniert wird.</p>
 
 							<p>sidux nutzt aufs, um mittels "copy on write" neue oder veränderte Daten im RAM zu speichern. Mit der Bootoption <span class="highlight-3">persist</span> können diese Daten auf derjenigen Partition gespeichert werden, auf welcher sich das fromiso-CD-Abbild befindet.</p>
 
@@ -448,7 +459,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 16/04/2008 0900 UTC</div>
+	<div id="rev">Content last revised 22/05/2008 0800 UTC</div>
 
 </div>
 </div>

@@ -203,8 +203,19 @@
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
-				<h4 class="highlight-3">Nyx Live-cds Live-cd:</h4>
-							<p>Eerst kiezen we een plek voor het ISO-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het ISO-bestand daarin:</p>
+				<h4 class="highlight-3">Process:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+
+<pre>
+linux-headers-2.6.24-2.6.24.4.slh.5-common 
+</pre>
+							<p>Therefore the kernel number is:</p>
+<pre>
+2.6.24-2.6.24.4.slh.5
+</pre>
+							<p span class="highlight-3">Note it very carefully!</p>
+
+							<p>Next  kiezen we een plek voor het ISO-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het ISO-bestand daarin:</p>
 
 <pre>
 $ sux
@@ -219,29 +230,29 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Nu kopi&#235;ren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image naar de map (hieronder de juiste kernel variables voor x invullen):</p>
+							<p>Nu kopi&#235;ren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image naar de map where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.23.9-rc1-slh-smp-1  /media/sda6/sidux/
-cp /mnt/test/boot/initrd.img-2.6.23.9-rc1-slh-smp-1 /media/sda6/sidux/
+cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda6/sidux/
+cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda6/sidux/
 </pre>
 
-							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span></p>
+							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.23.9-rc1-slh-smp-1 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.23.9-rc1-slh-smp-1
+kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
 							<p>Bij de volgende hebben we een nieuw menu item in grub om de de ISO-image te starten.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso en persist (eros)</h2>
+		<h2>fromiso en persist</h2>
 
-							<p>Met eros kun je een blijvend live systeem op een CDRW schijf hebben door een combinatie van een fromiso opstelling met de blijvende cheatcode.</p>
+							<p>You kun je een blijvend live systeem op een CDRW schijf hebben door een combinatie van een fromiso opstelling met de blijvende cheatcode.</p>
 
 							<p>sidux gebruikt aufs om "copy on write" op je cd mogelijk te maken, dit om het je toe testaan om nieuwe bestanden en folders te schrijven en bestaande te updaten in het geheugen. Met de <span class="highlight-3">persist</span> cheatcode, kan eros je nieuwe bestanden opslaan op dezelfde harddisk partitie waar je ook je fromiso image staat.</p>
 
@@ -450,7 +461,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 16/04/2008 0900 UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 22/05/2008 0800 UTC</div>
 </div>
 </body>
 </html>

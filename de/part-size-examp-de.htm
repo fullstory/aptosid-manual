@@ -201,11 +201,11 @@
 
 <pre>sudo swapoff -a</pre>
 
-		<p>Anschließend können wir den Partitionsmanager wieder starten. Prinzipiell reichen für eine Installation weniger als 3GB, aber damit wird man nicht viel Spass haben. Sinnvolles Mindestmaß sind etwa 5-8GB. Für den Linux-Neuling empfehle ich erstmal nur 2 Partitionen( root und swap) zu verwenden, da dies die Installation sehr vereinfacht. Besser (dies besser ist umstritten) ist es, eine Extrapartition für <span class="highlight-3">/home</span> einzurichten.</p>
+		<p>Anschließend können wir den Partitionsmanager wieder starten. Prinzipiell reichen für eine Installation weniger als 5GB, aber damit wird man nicht viel Spass haben. Sinnvolles Mindestmaß sind etwa 12GB. Für den Linux-Neuling empfehle ich erstmal nur 2 Partitionen( root und swap) zu verwenden, da dies die Installation sehr vereinfacht. Besser (dies besser ist umstritten) ist es, eine Extrapartition für <span class="highlight-3">/home</span> einzurichten.</p>
 
-		 <p>Fortgeschrittene Anwender können auch /var, /tmp, ...etc. aufteilen. Die Erläuterungen würden aber hier zu weit gehen. Es muss/sollte eine Swap-Partition angelegt werden. (Entspricht in der Funktionalität etwa der Auslagerungsdatei bei Windows, ist aber weit effektiver als diese). Im Allgemeinen soll Swap doppelt so groß wie der Arbeitsspeicher sein, aber nicht größer als 500 MB. Als Standarddateisystem für die Linuxpartitionen verwendet man am besten ext3. ReiserFS hat ein paar Vorteile, aber seine Weiterentwicklung ist ungewiss.</p>
+		 <p>Fortgeschrittene Anwender können auch /var, /tmp, ...etc. aufteilen. Die Erläuterungen würden aber hier zu weit gehen. Es muss/sollte eine Swap-Partition angelegt werden. (Entspricht in der Funktionalität etwa der Auslagerungsdatei bei Windows, ist aber weit effektiver als diese). You really should have a swap partition (equivalent to the windows swapfile, but is much more effective). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span>.</p></p>
 
-		<p>Für den Datenaustausch mit einer Windowsinstallation ist vfat (Fat32) <b>am schnellsten und am unkompliziertesten</b>. Wer XFS auch für <span class="highlight-3">/</span> (root) verwenden möchte, muss (weil grub nicht zuverlässig mit xfs zusammenarbeitet) eine Extrapartition <span class="highlight-3">/boot</span> anlegen (ext2) oder auf <b>lilo</b> ausweichen. Der Installer unterstützt zurzeit xfs auf <span class="highlight-3">/</span> nur über den Umweg des Editierens der Datei <b>~/.siduxconf.</b></p>
+		<p>Für den Datenaustausch mit einer Windowsinstallation ist vfat (Fat32) <b>am schnellsten und am unkompliziertesten</b>. [XFS is not supported and whomever wants to use XFS for / (root) must create an extra /boot partition (ext2) or use lilo (because grub doesn't work with xfs reliably). The installer at this point supports xfs on / only through editing the file ~/.siduxconf.]</p>
 
 		<p>Wer mehrere Partitionen macht, sollte sich die Bezeichnungen für später notieren! Zum Schluss die Änderungen durchführen (das Diskettensymbol bzw. Edit > Apply All Operations) und den Partitions-Manager beenden.</p>
 
@@ -221,33 +221,33 @@
       					<th><b>Mountpoint/System</b></th>
     				</tr>
     				<tr>
-      					<td>hda1</td>
+      					<td>sda1</td>
       					<td>20GB</td>
       					<td>NTFS</td>
       					<td>WindowsXP</td>
     				</tr>
     				<tr>
-      					<td>hda5</td>
-      					<td>30GB</td>
+      					<td>sda5</td>
+      					<td>28.5GB</td>
       					<td>FAT32</td>
       					<td>Daten für Win und Linux</td>
     				</tr>
     				<tr>
-      					<td>hda6</td>
+      					<td>sda6</td>
       					<td>8GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>hda7</td>
-      					<td>500MB</td>
+      					<td>sda7</td>
+      					<td>2GB</td>
       					<td>Swap</td>
       					<td>Swap</td>
     				</tr>
   			</tbody>
 		</table>
 	<div class="spacer05"></div>
-<h5>TV- und Video-PC - 200GB ohne Windows - Für große Dateien (z. B. Video) eignet sich am besten XFS.</h5>
+<h5>TV- und Video-PC - 200GB ohne Windows - Für große Dateien (z. B. Video)</h5>
 		<table>
   			<tbody>
     				<tr>
@@ -257,32 +257,32 @@
       					<th><b>Mountpoint/System</b></th>
     				</tr>
     				<tr>
-      					<td>hda1</td>
+      					<td>sda1</td>
       					<td>8GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>hda5</td>
+      					<td>sda5</td>
       					<td>6GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>hda6</td>
+      					<td>sda6</td>
       					<td>5GB</td>
       					<td>ext3</td>
       					<td>/var</td>
     				</tr>
     				<tr>
-      					<td>hda7</td>
-      					<td>180GB</td>
-      					<td>XFS</td>
+      					<td>sda7</td>
+      					<td>178.5GB</td>
+      					<td>ext2/3</td>
       					<td>/video</td>
     				</tr>
     				<tr>
-      					<td>hda8</td>
-      					<td>500MB</td>
+      					<td>sda8</td>
+      					<td>2GB</td>
       					<td>Swap</td>
       					<td>Swap</td>
     				</tr>
@@ -299,32 +299,32 @@
       					<th><b>Mountpoint/System</b></th>
     				</tr>
     				<tr>
-      					<td>hda1</td>
+      					<td>sda1</td>
       					<td>20GB</td>
       					<td>NTFS</td>
       					<td>WindowsXP</td>
     				</tr>
     				<tr>
-      					<td>hda5</td>
+      					<td>sda5</td>
       					<td>8GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>hda6</td>
+      					<td>sda6</td>
       					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>hda7</td>
-      					<td>70GB</td>
+      					<td>sda7</td>
+      					<td>68.5GB</td>
       					<td>FAT32</td>
       					<td>Datentausch WindowsXP-Linux</td>
     				</tr>
     				<tr>
-      					<td>hda8</td>
-      					<td>500MB</td>
+      					<td>sda8</td>
+      					<td>2GB</td>
       					<td>Swap</td>
       					<td>Swap</td>
     				</tr>
@@ -341,38 +341,38 @@
       					<th><b>Mountpoint/System</b></th>
     				</tr>
     				<tr>
-      					<td>hda1</td>
+      					<td>sda1</td>
       					<td>18GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>hda5</td>
+      					<td>sda5</td>
       					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>hda6</td>
-      					<td>30GB</td>
+      					<td>sda6</td>
+      					<td>28.5GB</td>
       					<td>ext3</td>
       					<td>/opt</td>
     				</tr>
     				<tr>
-      					<td>hda7</td>
+      					<td>sda7</td>
       					<td>90GB</td>
       					<td>ext3</td>
       					<td>/daten</td>
     				</tr>
     				<tr>
-      					<td>hda8</td>
+      					<td>sda8</td>
       					<td>2GB</td>
       					<td>ext3</td>
       					<td>/var</td>
     				</tr>
     				<tr>
-      					<td>hda9</td>
-      					<td>500MB</td>
+      					<td>sda9</td>
+      					<td>2 GB</td>
       					<td>Swap</td>
       					<td>Swap</td>
     				</tr>
@@ -389,26 +389,26 @@
       					<th><b>Mountpoint/System</b></th>
     				</tr>
     				<tr>
-      					<td>hda1</td>
+      					<td>sda1</td>
       					<td>5GB</td>
       					<td>NTFS</td>
       					<td>Win-System</td>
     				</tr>
     				<tr>
-      					<td>hda2</td>
-      					<td>10GB</td>
+      					<td>sda2</td>
+      					<td>9.5 GB</td>
       					<td>FAT32</td>
       					<td>Windows-Programme und Daten für Windows und Linux</td>
     				</tr>
     				<tr>
-      					<td>hda5</td>
+      					<td>sda5</td>
       					<td>5GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>hda6</td>
-      					<td>500MB</td>
+      					<td>sda6</td>
+      					<td>1 GB</td>
       					<td>Swap</td>
       					<td>Swap</td>
     				</tr>
@@ -422,7 +422,7 @@
 		<h5>Allgemein</h5>
 		<p>Für sidux ohne irgendwelche besonderen Multimediaanwendungen oder Spiele sind 5 GB vollkommen ausreichend, für die Daten hat man die fat32-Partition. Die 500 MB Swap sollte man natürlich irgendwo eingespart haben. Es gibt sehr viele gute Möglichkeiten seine Platten aufzuteilen. Diese Beispiele sollten erstmal genügen. Sinnvoll ist der Einsatz einer zweiten Festplatte, um Performance, Komfort und Sicherheit zu erhöhen. <span class="highlight-2">Dabei gehört Windows immer auf die erste Festplatte!</span></p>
 
-	<div class="spacer05"></div>
+			<div id="rev">Content last revised 30/06/2007 1329 UTC</div>
 </div>
 </body>
 </html>

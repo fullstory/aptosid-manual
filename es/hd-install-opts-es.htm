@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by Richard 18/12/2007 2100hrs UTC-->
+<!-- Last translation revision by Richard 30/05/2008 1700 UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.73.2008.02.25 -->
 <!-- menu last updated by richard  29/05/2008 1700 hrs UTC -->
@@ -202,19 +202,19 @@
 								* un imagen ISO de sidux, por ejemplo, sidux.iso y un sistema de archivos como el ext2/3 <br />
 								* si el imagen ISO suya ha sido renombrado, a sidux.ISO, tendrar que modificar los comandos de acuerdo, en vista que el sistema de archivos de unix es sensible a letra mayúscula/minúscula.</p>
 
-				<h4 class="highlight-3">Process:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+				<h4 class="highlight-3">Proceso:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Primero, lee el manifesto en el iso del paquete </a> y encontrar el número del linux-header, parece algo así:</p>
 
 <pre>
 linux-headers-2.6.24-2.6.24.4.slh.5-common 
 </pre>
-							<p>Therefore the kernel number is:</p>
+							<p>Así que el número del kernel es:</p>
 <pre>
 2.6.24-2.6.24.4.slh.5
 </pre>
-							<p span class="highlight-3">Note it very carefully!</p>
+							<p span class="highlight-3">Notarlo muy cuidadosamente!</p>
 
-							<p>Next, escogimos el lugar para el ISO y los 2 archivos requerido, para tener nombres más cortos. Entonces, crear un directorio base: por ejemplo, "/media/sdax", (sda1 ó 2 ó 5 ó 6 ó lo que sea, por ejemplo) crear el directorio "sidux" y copiar el ISO a el:</p>
+							<p>Proximo, escogimos el lugar para el ISO y los 2 archivos requerido, para tener nombres más cortos. Entonces, crear un directorio base: por ejemplo, "/media/sdax", (sda1 ó 2 ó 5 ó 6 ó lo que sea, por ejemplo) crear el directorio "sidux" y copiar el ISO a el:</p>
 
 <pre>
 $ sux
@@ -229,14 +229,14 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>ahora copiar los archivos vmlinuz y intrid.img desde el imagen ISO montado hacia el directorio where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
+							<p>ahora copiar los archivos vmlinuz y intrid.img desde el imagen ISO montado hacia el directorio donde el número del kernel es el kernel que habia notado del manifesto del paquete, <span class="highlight-3"> y que la partición del disco duro es SU variable conocido::Este es un ejemplo, solamente:</span></p>
 
 <pre>
 cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda5/sidux/
 cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda5/sidux/
 </pre>
 
-							<p>Después de estos pasos, tiene que configurar el Grub. Así editamos el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue los siguientes líneas <span class="highlight-3"> DESPUÉS del "### END DEBIAN AUTOMAGIC KERNELS LIST"</span>: <span class="highlight-2">NOTA: el Grub no acepta comodines en su línea de comando!</span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span></p>
+							<p>Después de estos pasos, tiene que configurar el Grub. Así editamos el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue los siguientes líneas <span class="highlight-3"> DESPUÉS del "### END DEBIAN AUTOMAGIC KERNELS LIST"</span>: <span class="highlight-2">NOTA: el Grub no acepta comodines en su línea de comando!</span> <span class="highlight-3"> La partición del DD (disco duro) es SU variable conocido::Este es un ejemplo, solamente:</span></p>
 
 <pre>
 ### arranque desde el ISO (fromiso)
@@ -249,9 +249,9 @@ initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso and persist</h2>
+		<h2>fromiso y persist</h2>
 
-							<p>You can puede tener un sistema en vivo y persistente en un disco escribible, combinando una instalación "fromiso" con el cheatcode, "persist".</p>
+							<p>Puede tener un sistema en vivo y persistente en un disco escribible, combinando una instalación "fromiso" con el cheatcode, "persist".</p>
 
 							<p>sidux usa el aufs para proporcionar lo que conoce como "copiar al escribir" sobre el CD para permitir escribir nuevos archivos, directorios y actualizar los existentes a través de guardar los nuevos en memoria. Con el cheatcode <span class="highlight-3">persist</span>, eros guarda los archivos nuevos en el mismo disco duro donde esta guardado el "fromiso" imagen del CD.</p>
 
@@ -341,8 +341,8 @@ adduser &lt;username&gt; vboxusers
 
 							<p><a href="http://www.virtualbox.org/">VirtualBox tiene un archivo de ayuda comprensivo que puede bajar</a> </p>
 
-				<h3>Automated installation with svmi</h3>
-							<p>svmi is started by sidux-scripts. You can run the options manually, or use the auto install feature, non interactive mode, see <span class="highlight-3">svmi -h for autoinstall options</span>. svmi makes the vbox kernel module, it updates modules, it adds it to /etc/modules so it will start automatically (otherwise vbox won't run on reboot), and updates 'adduser'. To activate smvi as root in a konsole/terminal:</p>
+				<h3>Instalación automado con svmi</h3>
+							<p>svmi esta iniciado por sidux-scripts. Puede ejecutar los opciones manaulmente, o utilizar la caracteristica de auto-instalar, modo no-interactivo, ver <span class="highlight-3">svmi -h para los opciones de autoinstall</span>. svmi compila el modolo de vbox para el kernel, actualiza modulos, y se los agregue a /etc/modules para que lo arrancan automaticamente (sino, vbox no se ejecuta al reiniciar), y actualizar 'adduser'. Para activar smvi como root en una consola/terminal:</p>
 <pre>
 svmi
 </pre>

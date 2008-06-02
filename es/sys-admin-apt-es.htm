@@ -385,7 +385,7 @@ dpkg --get-selections | grep hold
 							<li><pre>activar los fuentes de "testing" en <span class="highlight-3">/etc/apt/sources.list </span><br />(borrar el #) para que parece <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
 							<li><pre>apt-get update</pre></li>
 							<li><pre>entonces,<br /># apt-get install -t testing kmahjongg</pre></li>
-							<li><pre>Ponga la paquete nuevamente instalado en "hold" con:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
+							<li><pre>Ponga el paquete nuevamente instalado en "hold" con:<br />echo kmahjongg hold|dpkg --set-selections</pre></li>
 							<li><pre>entonces, comentar la fuente de "testing" en el /etc/apt/sources.list </pre></li>
 							<li><pre>apt-get update</pre></li>
 							</ol>
@@ -401,22 +401,22 @@ apt-get install kmahjongg
 	<div class="divider" id="apt-upgrade">
 		<h2>Actualización de una sistema instalado- dist-upgrade</h2>
 
-							<p>If the whole system is to be upgraded this is achieved through a <span class="highlight-3">dist-upgrade</span>. You should always check Current Warnings on the <a href="http://sidux.com">sidux</a> main web site, and check the warnings against the packages that your system wants to dist-upgrade. If you need to <span class="highlight-3">hold</span> a package refer to <a href="sys-admin-apt-en.htm#apt-downgrade">Downgrade and Hold a package</a></p>
+							<p>Si van a actualizar el sistema completo, se realizó a través de un <span class="highlight-3">dist-upgrade</span>. Siempre debe revisar los Current Warnings en <a href="http://sidux.com">sidux</a> página de web principal, y revisa las advertencias contra las paquetas que su sistema quiere actualizar con dist-upgrade. Si necesita aguantar o <span class="highlight-3">hold</span> un paquete, ver la referencia en <a href="sys-admin-apt-en.htm#apt-downgrade">Downgrade and Hold a package</a></p>
 
-							<p>An 'upgrade' only of 'debian sid' is not recommended.</p>
+							<p>El uso de 'upgrade' solamente, no esta recomendada en 'debian sid'.</p>
 
-					<h5>Frequency of a dist-upgrade</h5>
+					<h5>Frecuencia de dist-upgrade</h5>
 
-							<p>dist-upgrade as routinely as you can, ideally once every week or two, at least 1 time per month to be safe. A dist-upgrade initiated only every 2 to 3 months should be considered the safe outer limit. For non-standard packages, or self compiled packages, you need to be much more careful with upgrading, since those may break your system at any time due to incompatibilities.</p>
+							<p>dist-upgrade tan routinamente que puedes, idealmente, una vez a la semana o cada dos semanas, por lo minimo una vez al mes para estar seguro. Un dist-upgrade realizado cada 2 a 3 meses será considerado como el limite de seguridad. Para paquetes no-estándar, o auto-compilado, tiene que tener más cuidado con la actualización, porque estos puede causar fallas en su sistema debido a incompatibilidades.</p>
 
-					<h4>Just downloading</h4>
+					<h4>Solamente bajando</h4>
 
-							<p class="highlight-3">A little known and great option to do a check for what  packages are in a dist-upgrade is the -d flag:</p>
+							<p class="highlight-3">Una opción poco conocido y muy util es la bandera "-d" para revisar cuales paquetes están involucrado:</p>
 
 <pre>
 apt-get dist-upgrade -d
 </pre>
-							<p>The -d allows you to download the dist-upgrade without installing it whilst in X from the konsole and allows you to do the dist-upgrade in init 3 at a later time. This also gives you the chance to check warnings against the list as it wisely gives you the option to proceed or abort like this</p>
+							<p>El -d permite bajar los paquetes sin instalarlos, mientras sigue en X desde una consola. Además, le permite realizar el dist-upgrade en init 3 a una hora más a su conveniencia. Este permite revisar las advertencias en la lista, porque, sabiamente, le da la opción de proceder o abortar el proceso. </p>
 
 <pre>
 apt-get dist-upgrade -d
@@ -448,10 +448,21 @@ Y
 							<p>Después que el 'dist-upgrade -d' ha bajado los paquetes, y desea completar el dist-upgrade, inmediatemente o posteriormente, por favor, sigue estos instrucciones:</p>
 
 
-							<p class="highlight-2">ABSOLUTAMENTE NUNCA debe realizar un "upgrade" ni "dist-upgrade" mientras que este en el ambiente gráfico X. Siempre revise la sección "Current Warnings" en la página web principal de <a href="http://sidux.com">sidux</a>. Estos avisos están allí por una razón --debido a la naturaleza de "Debian sid/unstable" y que se actualiza diariamente. Salir de KDE. Entre el modo texto por tipear Ctrl+Alt+F1; entonces login como "root" y después teclear "init 3"; apt-get update &amp;&amp; apt-get dist-upgrade; run fglrx o nvidia script si xorg fue actualizado y tienes tal dispositivo (driver) gráficos, sino haga  "init 5 &amp;&amp; exit" [NUNCA HAGA EL DIST-UPGRADE (NI UPGRADE) CON ADEPT O SYNAPTIC]:</p>
+							<p class="highlight-2">ABSOLUTAMENTE NUNCA debe realizar un "upgrade" ni "dist-upgrade" mientras que este en el ambiente gráfico X. Siempre revise la sección "Current Warnings" en la página web principal de <a href="http://sidux.com">sidux</a>. Estos avisos están allí por una razón --debido a la naturaleza de "Debian sid/unstable" y que se actualiza diariamente.</p>
 
+<pre>
+Salir de KDE. 
+Entre el modo texto por tipear Ctrl+Alt+F1; 
+entonces login como "root" y después teclear "init 3"; 
+apt-get update &amp;&amp; apt-get dist-upgrade; 
+run fglrx o nvidia script si xorg fue actualizado y tienes tal dispositivo (driver) gráficos, 
+sino haga  
+init 5 &amp;&amp; exit 
+</pre>
 
-			<p>Si no va a "init 3", bueno, lo siento, "usted ha sido advertido."</p>
+							<p class="highlight-2">NUNCA HAGA EL DIST-UPGRADE (NI UPGRADE) CON ADEPT O SYNAPTIC</p>
+							
+							<p>Si no va a "init 3", bueno, lo siento, "usted ha sido advertido."</p>
 
 
 				<h4>¿Por qué recomendamos SOLAMENTE "apt-get" para "dist-upgrade"?</h4>

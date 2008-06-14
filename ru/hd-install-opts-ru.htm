@@ -260,22 +260,17 @@ initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 
 							<p> Ваши файлы будут сохранены в отдельной субдирректории на используемом носителе. Сама субдирректория, если отсутствует - будет создана. </p>
 
-							<p><span class="highlight-3">Для инсталляции на файловую систему </span> FAT, обычно используемую в dos/Windows 9x или умолчально присутствующую на флеш-носителях, потребуется создать один большой файл для использования как loop-устройства и возможностью последующего его форматирования.
-        </p>
+							<p><span class="highlight-3">Для инсталляции на файловую систему </span> FAT, обычно используемую в dos/Windows 9x или умолчально присутствующую на флеш-носителях, потребуется создать один большой файл для использования как loop-устройства и возможностью последующего его форматирования. </p>
 
-							<p><span class="highlight-3">Для сохранения образа iso и прочих файлов sidux, как всегда, предлагает использовать файловую систему ext3.</span>
+							<p><span class="highlight-3">Для сохранения образа iso и прочих файлов sidux, как всегда, предлагает использовать файловую систему ext3.</span> </p>
 
-							</p><p>
-          Создаваемый файл под именем <span class="highlight-3">sidux-rw должен быть размещен в корне </span>fat раздела. Предполагая, что диск выбранный Вами , смонтирован с правом записи на /media/sdb1, что размер создаваемого файла равен 1GB, потребуется выполнить следующую команду (права root не потребуются, если у вас есть право записи в файл).
-        </p>
+							<p> Создаваемый файл под именем <span class="highlight-3">sidux-rw должен быть размещен в корне </span>fat раздела. Предполагая, что диск выбранный Вами , смонтирован с правом записи на /media/sdb1, что размер создаваемого файла равен 1GB, потребуется выполнить следующую команду (права root не потребуются, если у вас есть право записи в файл). </p>
 <pre>
 disc="/media/sdb1"
 size=1024
 dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
 </pre>
-							<p class="highlight-2">
-          Файловая система NTFS, используемая в инсталляциях Windows NT/2000/XP (TM), НЕ МОЖЕТ быть задействованна для применения описанного метода.
-        </p>
+							<p class="highlight-2"> Файловая система NTFS, используемая в инсталляциях Windows NT/2000/XP (TM), НЕ МОЖЕТ быть задействованна для применения описанного метода. </p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 
@@ -285,13 +280,30 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 							<p>Установка sidux на USB-флэшку или USB-жесткий диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.
         </p>
 
-							<p>Рекомендованной минимальной величиной для установки на USB-флэшку является:<br /><br />для sidux "LITE" 1.2 ГБ. К этому добавляется место, необходимое для данных;
-          <br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+							<p>Рекомендованной минимальной величиной для установки на USB-флэшку является:<br /><br />для sidux "LITE" 1.2 ГБ. К этому добавляется место, необходимое для данных; <br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+
+				<h5>Two kinds of installation to USB</h5> 
+							<p>1) - fromiso <br />
+							2) - full (the full installation to a USB stick behaves as normal HD installation and is done through the normal installer).</p>
+
+				<h3>USB fromiso Installation</h3>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">install-usb-gui.bash</span> and is a fromiso install mostly directed to install fromiso on the first partition of an HD + or USB pen.</p>
+
+							<p><b>You have 2 choices:</b><br />
+							<span class="highlight-3">No Format:</span> the install is made over the first partition with no loss of data.<br />
+							<span class="highlight-3">Format:</span> the disk is erased, all data is lost and single partition created with the chosen file system. Supported file systems are vfat, ext2, ext3.</p>
+
+							<p>Data persist is possible and the full partition will be used  when ext2 or ext3 are involved. When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use).</p>
+
+							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in th standard HD installer</p>
+
+							<p>To create a bootable USB from an installed system you need to have a sidux iso.</p>
 
 
-							<p>
-          Начните нормальную установку и выберите раздел на диске USB для установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB.
-        </p>
+			<h3>Full installation (behaves as normal HD installation)</h3>
+
+
+							<p> Начните нормальную установку и выберите раздел на диске USB для установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB. </p>
 
 							<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел sidux-installer&nbsp; форматирует заново.</p>
 
@@ -473,7 +485,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 22/05/2008 0800 UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено 14/06/2008 0100 UTC</div>
 </div>
 </body>
 </html>

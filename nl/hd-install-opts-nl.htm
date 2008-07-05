@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by HarzG 14/07/2008 1900 UTC-->
+<!-- Last translation revision by eislon 28/06/2008 0800-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.74.2008.06.09 -->
 <!-- menu last updated by eislon 19/06/2008 1600 hrs UTC -->
@@ -213,14 +213,14 @@ linux-headers-2.6.24-2.6.24.4.slh.5-common
 <pre>
 2.6.24-2.6.24.4.slh.5
 </pre>
-							<p span class="highlight-3">Noteer dit nummer goed!</p>
+							<p> <span class="highlight-3">Noteer dit nummer goed!</span></p>
 
 							<p>Nu kiezen we een plek voor het ISO-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het ISO-bestand daarin:</p>
 
 <pre>
 $ sux
-mkdir -p /media/sdax/sidux
-mv sidux.iso /media/sdax/sidux
+mkdir -p /media/sda6/sidux
+mv sidux.iso /media/sda6/sidux
 </pre>
 
 							<p>Dan gaan we naar de map en mounten het ISO image-bestand (een tussenstap via /mnt/test):</p>
@@ -230,23 +230,22 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Nu kopi&#235;ren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image naar de map where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
-
+							<p>Nu kopieeren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image met het kernel nummer (zoals boven genoemd).</p>
 <pre>
 cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sda6/sidux/
 cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sda6/sidux/
 </pre>
 
-							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span> <span class="highlight-3">The HD is YOUR known variable:: This is an example only:</span></p>
+							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span> </p><p><span class="highlight-3">De partitie van je HD is je eigen keus, hier staat alleen een voorbeeld (sda6 heet hd0,5 in grub):</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
+kernel (hd0,5)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,5)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 </pre>
 
-							<p>Bij de volgende hebben we een nieuw menu item in grub om de de ISO-image te starten.</p>
+							<p>Bij de volgende boot hebben we een nieuw menu item in grub om de de ISO-image te starten.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -254,13 +253,13 @@ initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
 
 							<p>Je kunt een blijvend live systeem op een CDRW schijf hebben door een combinatie van een fromiso opstelling met de blijvende cheatcode.</p>
 
-							<p>sidux gebruikt aufs om "copy on write" op je cd mogelijk te maken, dit om het je toe testaan om nieuwe bestanden en folders te schrijven en bestaande te updaten in het geheugen. Met de <span class="highlight-3">persist</span> cheatcode, kan eros je nieuwe bestanden opslaan op dezelfde harddisk partitie waar je ook je fromiso image staat.</p>
+							<p>sidux gebruikt aufs om "copy on write" op je cd mogelijk te maken, dit om het je toe testaan om nieuwe bestanden en folders te schrijven en bestaande te updaten in het geheugen. Met de <span class="highlight-3">persist</span> cheatcode en het booten fromiso, kan sidux (vanaf eros) je nieuwe bestanden opslaan op dezelfde harddisk partitie waar je ook je fromiso image staat.</p>
 
-							<p>Gebruikmakend van <span class="highlight-3">persist</span> geeft je een live systeem met alle automatische features van de sidux live cd. Dit heeft als voordeel dat alle hardware automatisch geconfigueerd wordt, maar betekend ook dat de bestanden bij elke nieuwe boot opnieuw aangemaakt worden.</p> 
+							<p>Gebruikmakend van <span class="highlight-3">persist</span> heb je een live systeem met alle automatische features van de sidux live cd. Dit heeft als voordeel dat alle hardware automatisch geconfigueerd wordt, maar het betekent ook dat de bestanden bij elke nieuwe boot opnieuw aangemaakt worden.</p> 
 
-							<p><span class="highlight-3">Als voorbeeld worden je instellingen voor X (videokaart, toetsenbord, muis) en je netwerk interface bestanden niet bewaard, het kan wel op elke pc gebruikt worden, maar het is lastig als je specifiek een configuratit van je netwerk moet hebben, want dit moet elke keer weer ingesteld worden.</span> </p>
+							<p><span class="highlight-3">Voor de duidelijkheid: je instellingen voor X (videokaart, toetsenbord, muis) en je netwerk interface bestanden worden niet bewaard, maar het kan wel op elke pc gebruikt worden. Dat is lastig als je specifiek een configuratie van je netwerk moet hebben, want dit moet elke keer weer ingesteld worden.</span> </p>
 
-							<p>Misschien is de ideale gebruik van de "persistence mode" in samenhang met de nieuwe install-usb-gui tool om je eigen bootable flash drive met je eigen bestanden en software te maken.</p>
+							<p>Misschien is het ideale gebruik van de persist-modus in combinatie met de nieuwe install-usb-gui tool om je eigen bootable flash drive met je eigen bestanden en software te maken.</p>
 
 							<p>Je bestanden worden dan in een subfolder op de drive opgeslagen. Deze subfolder wordt aangemaakt als deze niet bestaat wanneer de <span class="highlight-3">fromiso </span> en <span class="highlight-3">persist</span> cheatcodes gebruikt worden. </p>
 
@@ -296,13 +295,13 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 
 							<p><b>Je hebt 2 keuzes:</b><br />
 							<span class="highlight-3">No Format:</span> de installatie wordt op de eerste partitie uitgevoerd zonder verlies van data.<br />
-							<span class="highlight-3">Format:</span> de disk wordt geformateerd, alle data gaat verloren en er wordt 1 partitie gemaakt met de opgegeven bestandssysteem. Ondersteunde bestandssystemen zijn vfat, ext2, ext3.</p>
+							<span class="highlight-3">Format:</span> de disk wordt geformateerd, alle data gaat verloren en er wordt 1 partitie gemaakt met het opgegeven bestandssysteem. Ondersteunde bestandssystemen zijn vfat, ext2, ext3.</p>
 
-							<p>Data behoud is mogelijk en de volledige partitie wordt gebruik wanneer men ext2 of ext3 gebruikt. Wanneer vfat gebruikt wordt, is behoud van data mogelijk door een bestand welke maximaal 2GB groot kan zijn, maar niet kleiner dan 100MB mag zijn (omdat het anders geen zin heeft).</p>
+							<p>Data behoud is mogelijk en de volledige partitie wordt gebruikt met ext2 of ext3. Wanneer vfat gebruikt wordt, is behoud van data mogelijk door een bestand welke maximaal 2GB groot kan zijn, maar niet kleiner dan 100MB mag zijn (omdat het anders geen zin heeft).</p>
 
-							<p>Om sidux op een usb stick te installeren ga je naar submenu Systeem onder Kmenu, of gebruik je de knop welke aanwezig is op het eerste scherm van de standaard HD installatie programma</p>
+							<p>Om sidux op een usb stick te installeren ga je naar submenu Systeem onder Kmenu, of gebruik je de knop welke aanwezig is op het eerste scherm van het standaard HD installatie programma.</p>
 
-							<p>Om een opstartbare USB te maken van een geinstalleerd systeem heb je de sidux iso nodig.</p>
+							<p>Om een opstartbare USB te maken van een ge&#239;nstalleerd systeem heb je de sidux iso nodig.</p>
 
 
 			<h3>Volledige installatie (is bijna gelijk als een normale Harddisk installatie)</h3>
@@ -329,9 +328,9 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 				<h4>Vereisten</h4>
 							<p><span class="highlight-3">Aanbevolen RAM: 1 GB </span>: Ideaal zou zijn 512 MB voor het gast os en 512 MB voor de host. (het kan op minder draaien, maar verwacht dan geen enorme performance).</p>
 
-							<p><span class="highlight-3">Hard disk ruimte:</span> VirtualBox zelfs heeft niet veel nodig, bij een normale installatie ongeveer 30 MB harddisk ruimte. De virtual machines zullen echter veel grotere bestanden op de harddisk opeisen, deze ziet de virtual machine dan als zijn eigen harddisk. Dus, om bijvoorbeeld MS Windows XP (TM) te installeren, zul je een bestand nodig hebben van meerdere GBs! To have sidux in VirtualBox you need to allocate a 5 gig image plus a swap allocation.</p>
+							<p><span class="highlight-3">Hard disk ruimte:</span> VirtualBox zelf heeft niet veel nodig, bij een normale installatie ongeveer 30 MB harddisk ruimte. De virtual machines zullen echter veel grotere bestanden op de harddisk opeisen, deze ziet de virtual machine dan als zijn eigen harddisk. Dus, om bijvoorbeeld MS Windows XP (TM) te installeren, zul je een bestand nodig hebben van meerdere GBs! Voor sidux in een VirtualBox is ca. 5 GB ruimte nodig voor je image en een swap allocation.</p>
 
-							<p class="highlight-3">Indien je een nieuwe kernel ge&#239;nstalleerd hebt, doe dan eerst een dist-upgrade voordat je virtual machine modules gaat installeren, anders krijg je een gcc mismatch foutmelding, omdat de module niet gebouwd kan worden.(Dit geld voor elke externe module) </p>
+							<p class="highlight-3">Indien je een nieuwe kernel ge&#239;nstalleerd hebt, doe dan eerst een dist-upgrade voordat je virtual machine modules gaat installeren, anders krijg je een gcc mismatch foutmelding, omdat de module niet gebouwd kan worden (dit geldt voor elke externe module).</p>
 
 						<h4>Het mechanisme:</h4>
 <pre>
@@ -347,7 +346,7 @@ apt-get install virtualbox-ose
 m-a a-i virtualbox-ose
 </pre>
 
-							<p>Hierna sla je de informatie van het huidige besturingssysteem op via : </p> 
+							<p>Hierna sla je de informatie van het huidige besturingssysteem op via:</p> 
 	<!-- echo virtualbox-ose-module-$(uname -r) -->
 <pre>
 virtualbox-ose-module-$(uname -r)
@@ -383,20 +382,20 @@ svmi
 
  			<h4>Het cre&#235;eren van de harddisk image</h4>
 
-				<p>Om qemu op te starten heb je waarschijnlijk een harddisk image nodig. Dit is een bestand welke de inhoud van de ge&#235;muleerde harddisk opslaat.</p>
+				<p>Om qemu op te starten heb je een harddisk image nodig. Dit is een bestand welke de inhoud van de ge&#235;muleerde harddisk opslaat.</p>
 
 				<p>Gebruik het volgende commando:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Om het image file genaamd "sidux.qcow" te cre&#235;eren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat komprimeerd de image zo dat de lege ruimte niet aan de grote van het bestand wordt toegevoegd.</p>
+				<p>Om het image file genaamd "sidux.qcow" te cre&#235;eren. De "3G" parameter specificeerd de grote van de disk - in dit geval 3 GB. Je kunt de waarde M gebruiken voor megabytes (bijvoorbeeld "256M"). Je moet je geen zorgen maken over de disk grootte - het qcow formaat comprimeerd de image zo dat de lege ruimte niet aan de grootte van het bestand wordt toegevoegd.</p>
 
 
 			<h4>Installeren van het besturingssysteem</h4>
 
-				<p>Dit is de eerste keer dat je de emulator moet starten. Een ding moet je onthouden, wanneer je in het qemu window klikt, wordt de muispointer gebruikt in dit window, om deze weer los te laten moet je op Ctrl+Alt drukken.</p>
+				<p>Dit is de eerste keer dat je de emulator moet starten. Let op: wanneer je in het qemu venster klikt, wordt de muispointer gebruikt in dit venster. Om deze weer 'terug' te krijgen, moet je op Ctrl+Alt drukken.</p>
 
-				<p>Indien je een opstartdiskette nodig heb, start dan Qemu als volgt op:</p>
+				<p>Indien je een opstartdiskette nodig hebt, start dan Qemu als volgt op:</p>
 <pre>
 qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>

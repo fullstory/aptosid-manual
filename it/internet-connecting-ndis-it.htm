@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - Internet/Network NDIS</title>
+	<title>Manuale sidux - Internet/Network NDIS</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by bluewater 30/11/2007 0030 UTC -->
+<!-- Last translation revision by alessiog75 03/07/2008 18.45 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.74.2008.06.09 -->
 <!-- menu last updated by alessiog75 16/06/2008 1800 hrs UTC and run againon 19-06-2008 0630 UTC-->
@@ -191,81 +191,81 @@
 	<div class="divider" id="ndiswrapper-basic">
 		<h2>Attivare Ndiswrapper</h2>
 
-							<p>sidux ha gia' installati tutti i paccehtti necessari: il modulo del kernel e  ndiswrapper-utils.</p>
+							<p>sidux ha già installati tutti i paccehtti necessari: il modulo del kernel e ndiswrapper-utils.</p>
 
 <pre>
 apt-get update
-apt-get install ndiswrapper-modules-2.6-sidux-i686 (or ndiswrapper-modules-2.6-sidux-amd64)
+apt-get install ndiswrapper-modules-2.6-sidux-i686 (oppure ndiswrapper-modules-2.6-sidux-amd64)
 </pre>
 
-					<h5>Do it yourself</h5>
+					<h5>Fai da te</h5>
 
-							<p>Find a suitable driver for your card and install it using the command:</p>
+							<p>Trovare un driver appropriato per la scheda ed installarlo con il seguente comando:</p>
 <pre >
 ndiswrapper -i driver.inf
 </pre>
 
-							<p>Per controllare se l'installazione e' andata a buon fine usate l'opzione -l:</p>
+							<p>Per controllare se l'installazione è andata a buon fine usate l'opzione -l:</p>
 
 <pre >
 root@blubb:/cartella/con/i/driver# ndiswrapper -l
 installed drivers:
 net5416 : driver installed
- device (168C:0024) present 
+ device (168C:0024) present
 </pre>
-							<p>E' importante che risulti un "driver installed" e un "device present" nella risposta dell'opzione -l. Se non risultano entrambi qualcosa e' andato storto (controllate i messaggi di errore emessi da -i e/o dmesg), perche' se ci sono errori a questo punto, non avrete la connessione wlan.</p>
+							<p>È importante che risulti un "driver installed" e un "device present" nella risposta dell'opzione -l. Se non risultano entrambi qualcosa è andato storto (controllare i messaggi di errore emessi da -i e/o dmesg), perché se ci sono errori a questo punto, non si avrà la connessione wlan.</p>
 
 							<p>Caricate il modulo ndiswrapper con:</p>
 <pre >
 modprobe ndiswrapper
 </pre>
 
-							<p>Per controllare se e' stato creato un dispositivo wifi, digitate:</p>
+							<p>Per controllare se è stato creato un dispositivo wifi, digitare:</p>
 <pre >
 iwconfig
 </pre>
 
-							<p>Per controllare se e' stato trovato un punto di accesso wireless:</p>
+							<p>Per controllare se è stato trovato un punto di accesso wireless:</p>
 <pre >
 iwlist wlan0 scan
 </pre>
 
-							<p>a questo punto potete configurare la scheda di rete wifi con:</p>
+							<p>a questo si può configurare la scheda di rete wifi con:</p>
 <pre >
 /usr/sbin/netcardconfig
-oppure, per le versioni sidux piu' recenti digitate:
+oppure, per le versioni sidux più recenti digitare:
 ceni
-in una konsole. Oppure usate il centro di controllo sidux digitando in konsole:
+in una console. Oppure usare il centro di controllo sidux digitando in console:
 siduxcc
 </pre>
-							<p class="highlight-3">In caso di aggiornamento del kernel, dovrete reinstallare il modulo ndiswrapper. Usando ovviamente il numero del vostro kernel corrente:</p>
+							<p class="highlight-3">In caso di aggiornamento del kernel, si dovrà reinstallare il modulo ndiswrapper. Usando ovviamente il numero del kernel installato corrente:</p>
 <pre >
 dpkg -i /usr/src/kernel-downloads/2.6.21.5-slh-smp-2/ndiswrapper-modules-2.6.21.5-slh-smp-2_1.46-0+c0.sidux.1+1_i386.deb
 </pre>
-							<p>Poi caricatelo con modprobe:</p>
+							<p>Poi caricarlo con modprobe:</p>
 <pre>
 modprobe ndiswrapper
 </pre>
-							<p>Non dovrete reinstallare i dirver windows in quanto questi sono separati dal modulo del kernel.</p>
+							<p>Non si dovrà reinstallare i driver windows in quanto questi sono separati dal modulo del kernel.</p>
 
-							<p>Potete anche scrivere 'ndiswrapper' in /etc/modules per caricarlo all'avvio</p>
+							<p>Si può anche scrivere "ndiswrapper" in /etc/modules per caricarlo all'avvio</p>
 <pre>
 grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
-							<p><a href="siduxcc-it.htm">Potete fare la procedura mediante il centro di controllo di sidux a interfaccia grafica - siduxcc - che trovate nel menu di KDE</a></p>
+							<p><a href="siduxcc-it.htm">Si può fare la procedura mediante il centro di controllo di sidux ad interfaccia grafica - siduxcc - che si trova nel menu di KDE</a></p>
 
 	</div>
 	<div class="divider" id="ndiswrapper-advanced">
 				<h2>Ndiswrapper Avanzato</h2>
- 							<p>ndiswrapper e' un modulo che abilita Linux ad usare i driver WLAN di Windows. E' necessario in quanto alcune schede di rete wireless non offrono un driver open source o libero, rendendo cosi' difficoltosa l'implementazione della scheda in Linux. Ndiswrapper gira attorno al problema, 'avvolgendo' il driver Windows e traslandone gli input e gli output dalla scheda a Linux.</p>
- 
- 
+ 							<p>ndiswrapper è un modulo che abilita Linux ad usare i driver WLAN di Windows. È necessario in quanto alcune schede di rete wireless non offrono un driver open source o libero, rendendo così difficoltosa l'implementazione della scheda in Linux. Ndiswrapper gira attorno al problema, 'avvolgendo' il driver Windows e traslandone gli input e gli output dalla scheda a Linux.</p>
+
+
 					<h5>Identificare il driver necessario</h5>
 
- 							<p>Prima di tutto vi serve il driver windows appropriato per la vostra scheda WLAN. Queste schede hanno numerosi e differenti chip set per lo stesso modello e quindi il solo modo di identificare accuratamente una scheda e' quello di utilizzare il device id (USBID/PCIID). </p>
- 
- 							<p>Per trovare questo 'id' aprite un terminale:</p>
- 
+ 							<p>Prima di tutto serve il driver windows appropriato per la scheda WLAN. Queste schede hanno numerosi e differenti chip set per lo stesso modello e quindi il solo modo di identificare accuratamente una scheda è quello di utilizzare il device id (USBID/PCIID).</p>
+
+ 							<p>Per trovare questo 'id' aprire un terminale:</p>
+
  					<h5>Per un adattatore WLAN su USB</h5>
 <pre>
 bla@blubb:~$ lsusb
@@ -274,8 +274,8 @@ Bus 001 Device 001: ID 0000:0000
 Bus 002 Device 003: ID 0db0:6982 Micro Star International Medion Flash XL V2.7A Card Reader
 bla@blubb:~$
 </pre>
- 							<p>Come vedete nell'esempio di cui sopra, lo USBID per l'adattatore WLAN D-Link Corp. [hex] DWL-122 e' 2001:3700.</p>
- 
+ 							<p>Come si vede nell'esempio di cui sopra, lo USBID per l'adattatore WLAN D-Link Corp. [hex] DWL-122 è 2001:3700.</p>
+
  					<h5>Per un adattatore WLAN (mini) PCI / PCMCIA </h5>
  <pre>
 bla@blubb:~$ lspci -nn
@@ -286,37 +286,37 @@ bla@blubb:~$ lspci -nn
 </pre>
 
  							<p>Questo 'id' ha il seguente schema 'vendor:device' pari a 168c:0024 per questa scheda Atheros.</p>
- 
- 							<p>Ora cercate su: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a>  una voce con lo 'id' di cui sopra. Se siete fortunati troverete una voce corrispondete e un driver raccomandato. </p>
- 
- 							<p>Vi serviranno i file INF e SYS di quel driver. La cosa migliore e' trovare un file ZIP  da espandere con unzip. Se trovate un file EXE dovrebbe essere un archivio auto-estraente (usate wine per l'estrazione) oppure un file CAB (estraete con cabextract). Ora mettete i file in una nuova cartella della vostra home. </p>
- 
- 
-					<h5>Attivare Ndiswrapper e installare i driver</h5>
 
- 							<p>Entrate nella cartella con i file del driver windows :</p>
+ 							<p>Ora cercare su: <a href='http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list'>ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list</a> una voce con lo 'id' di cui sopra. Se si è fortunati si troverà una voce corrispondente e un driver raccomandato. </p>
+
+ 							<p>Serviranno i file INF e SYS di quel driver. La cosa migliore è trovare un file ZIP da espandere con unzip. Se si trova un file EXE dovrebbe essere un archivio auto-estraente (usare wine per l'estrazione) oppure un file CAB (estrarre con cabextract). Ora mettere i file in una nuova cartella della home. </p>
+
+
+					<h5>Attivare Ndiswrapper ed installare i driver</h5>
+
+ 							<p>Entrare nella directory con i file del driver windows:</p>
  <pre>
 bla@blubb:~$cd /cartella/con/i/driver/windows
 bla@blubb:~$su
 root@blubb:/cartella/con/i/driver/windows# ndiswrapper -i &lt;driver.inf&gt;
-installing net5416 
+installing net5416
 </pre>
-							<p>Per controllare se l'installazione e' avvenuta con successo, usate l'opzione -l:</p>
+							<p>Per controllare se l'installazione è avvenuta con successo, usare l'opzione -l:</p>
 <pre>
 root@blubb:/cartella/con/i/driver/windows# ndiswrapper -l
 installed drivers:
 net5416 : driver installed
- device (168C:0024) present 
+ device (168C:0024) present
 </pre>
 
- 							<p class="highlight-3">E' importante che otteniate un "driver installed" e un "device present" come risposta all'opzione -l. Se non le vedete entrambe allora qualcosa e' andato storto (controllate i messaggi di errore mostrati dall'opzione -i e/o dmesg), perche' se ci sono degli errori qui, non si potra' proseguire.</p>
- 
- 							<p>Se non sono segnalati errori, carichiamo il modulo del kernel: </p>
+ 							<p class="highlight-3">È importante ottenere un "driver installed" e un "device present" come risposta all'opzione -l. Se non si vedono entrambe le scritte allora qualcosa è andato storto (controllare i messaggi di errore mostrati dall'opzione -i e/o dmesg), perché se ci sono degli errori qui, non si potrà proseguire.</p>
+
+ 							<p>Se non sono segnalati errori, carichiamo il modulo del kernel:</p>
  <pre>
 root@blubb:/da/qualsiasi/cartella# modprobe ndiswrapper
 </pre>
- 							<p>Se non otterrete nessun messaggio dopo questo comando, allora tutto e' andato bene, se invece vedrete un qualche messaggio allora controllate con dmesg per ulteriori informazioni.</p>
- 
+ 							<p>Se non si ottiene nessun messaggio dopo questo comando, allora tutto è andato bene, se invece si vede un qualche messaggio allora controllare con dmesg per ulteriori informazioni.</p>
+
  							<p> il comando "iwconfig" dovrebbe ora mostrare un dispositivo wireless:</p>
 <pre>
 root@blubb:~# iwconfig
@@ -337,32 +337,32 @@ wlan0     IEEE 802.11b  ESSID:"ConnectionPoint"
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:0   Missed beacon:0
 </pre>
-							<p> Se volete caricare ndiswrappper all'avvio della macchina, scrivete semplicemente ndiswrapper in <span class="highlight-3">/etc/modules, </span>a mano oppure usate: </p>
+							<p> Se si vuole caricare ndiswrappper all'avvio della macchina, scrivere semplicemente ndiswrapper in <span class="highlight-3">/etc/modules,</span> a mano oppure usare:</p>
  <pre>
 root@blubb:~# grep -q ^ndiswrapper /etc/modules|| echo ndiswrapper >> /etc/modules
 </pre>
- 
- 
-					<h5>Reinstallare Ndiswrapper dopo un aggiornamento del kernel </h5>
 
- 							<p> Dopo un aggiornamento del kernel dovrete reinstallare il modulo del kernel di ndiswrapper. </p>
+
+					<h5>Reinstallare Ndiswrapper dopo un aggiornamento del kernel</h5>
+
+ 							<p>Dopo un aggiornamento del kernel si dovrà reinstallare il modulo del kernel di ndiswrapper.</p>
  <pre>
 apt-get update
 apt-get install ndiswrapper-modules-2.6-sidux-i686 (or ndiswrapper-modules-2.6-sidux-amd64)
 </pre>
 
- 							<p>Dopo l'installazione, caricatelo con:</p>
+ 							<p>Dopo l'installazione, caricarlo con:</p>
  <pre>
 root@blubb:/da/qualsiasi/cartella# modprobe ndiswrapper
 </pre>
- 							<p>Non dovrete reinstallare i driver windows in quanto la parte driver e' separata dal modulo del kernel.</p>
+ 							<p>Non si dovrà reinstallare il driver windows in quanto la parte driver è separata dal modulo del kernel.</p>
 
 					<h5>Informazioni generali</h5>
-  							<p>To configure your new device use <a href="internet-connecting-it.htm#netcardconfig">Ceni</a></p>
+  							<p>Per configurare la nuova periferica usare <a href="internet-connecting-it.htm#netcardconfig">Ceni</a></p>
 
-							<p> Un dettagliato how-to puo' essere trovato <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">qui </a>.</p>
- 							
-							<p>Se trovate un altro driver o uno nuovo, fate qualche prova. Puo' causare problemi, un kernel panic nel peggiore dei casi, ma provandolo potrete aiutare il progetto ndiswrapper e altri utenti ad avere benefici dai migliori driver per le varie schede. E dopo una prova avvenuta con successo non dimenticatevi di aggiornare/completare le informazioni sulla  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">lista</a> di ndiswrapper.</p>
+							<p>Un dettagliato how-to può essere trovato <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,installation/">qui </a>.</p>
+
+							<p>Se si trova un altro driver o uno nuovo, fare qualche prova. Può causare problemi, un kernel panic nel peggiore dei casi, ma provandolo si potrà aiutare il progetto ndiswrapper e altri utenti ad avere benefici dai migliori driver per le varie schede. E dopo una prova avvenuta con successo non dimenticarsi di aggiornare/completare le informazioni sulla  <a href="http://ndiswrapper.sourceforge.net/joomla/index.php?/component/option,com_openwiki/Itemid,33/id,list/">lista</a> di ndiswrapper.</p>
 
 	</div>
 			<div id="rev">Content last revised 12/06/2008 1100hrs UTC</div>

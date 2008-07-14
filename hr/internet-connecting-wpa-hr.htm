@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 27/10/2007 1500 UTC-->
+<!-- Last translation revision by cobra 04/07/2008 1054 UTC-->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.74.2008.06.09 -->
-<!-- menu last updated by bluewater 09/06/2008 1400 hrs AEST 09/06/2008 0400 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
+<!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-hr.htm#search-on"> Traži</a> </li>
@@ -104,7 +104,7 @@
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hr.htm">Grafičke kartice, hardver, sredstvo i pogonitelji</a>
 			<ul class="sub-menu" id="sm9">
-				<li><a href="hw-dev-hw-dri-hr.htm#hd-ntfs3g">Piši na NTFS</a></li>
+				<li><a href="hw-dev-hw-dri-hr.htm#hd-ntfs3g">Piši na NTFS-particiju sa NTFS-3g</a></li>
 				<li><a href="hw-dev-mon-hr.htm#mon-res">Rezolucije Monitora</a></li>
 				<li><a href="hw-dev-mon-hr.htm#xrandr">Dual Monitori i xrandr</a></li>
 				<li><a href="hw-dev-mon-hr.htm#mon-binary">Dual Monitori (koristeči binaries)</a></li>
@@ -159,7 +159,8 @@
 				<li><a href="internet-connecting-hr.htm#dial-mod">56k modemi</a></li>
 				<li><a href="internet-connecting-ndis-hr.htm#ndiswrapper-basic">Aktiviranje Ndiswrapper-a</a></li>
 				<li><a href="internet-connecting-ndis-hr.htm#ndiswrapper-advanced">Aktiviranje Ndiswrapper-a -Za iskusnije</a></li>
-				<li><a href="internet-connecting-wpa-hr.htm#wpa">WIFI-WLAN</a></li>
+				<li><a href="internet-connecting-wpagui-hr.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
+				<li><a href="internet-connecting-wpa-hr.htm#wpa">WiFi - wpasupplicant</a></li>
 				<li><a href="internet-connecting-hr.htm#netcardconfig">Ulaz u Internet - Ceni</a></li>
 			</ul>
 		</li>
@@ -192,7 +193,7 @@
 		<h2 id="top-header">Moduse izvršavanja u wpa_supplicant za Debian</h2>
 							<p class="highlight-3">Zbog kompleksnosti zakona, sidux samo nudi dfsg-free softver, <a href="hw-dev-hw-dri-hr.htm#non-free">molimo vas pogledajte ovdje za dodatne informacije o non-free sources za firmware</a></p>
 
-							<p>Debian wpa_supplicant paket nudi dvije prikladne moduse izvršavanja koje su blizu integrirane na temeljnu infrastrukturu umrežavanja: ifupdown.</p>
+							<p>Debian wpa_supplicant paket nudi dva prikladna modusa izvršavanja koje su blizu integrirane na temeljnu infrastrukturu umrežavanja: ifupdown.</p>
 
 					<h4>Što je obuhvaćeno</h4>
 
@@ -360,7 +361,7 @@ wpa-ap-scan     0 ili 1 ili 2           namjesti logiku za skeniranje
                                         wpa_supplicanta
 
 </pre>
-							<p>Kompletna funkcionalnost wpa_cli(8) bi trebala biti implementirana. Sve što nemate, možete smatrati kao bug(grešku) i trebali bi da ga javite. Patches su uvijek dobrodošli.</p>
+							<p>Kompletna funkcionalnost wpa_cli(8) bi trebala biti implementirana. Sve što nemate, možete smatrati kao grešku i trebali bi da ga javite. Patches su uvijek dobrodošli.</p>
 
 			<h2>Važne Informacije o Managed Modusu</h2>
 
@@ -413,30 +414,28 @@ iface eth1 inet manual
 
 
 <pre>
- # copy the template to /etc/wpa_supplicant/
+ # kopirajte primjer u /etc/wpa_supplicant/
         cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf \
                 /etc/wpa_supplicant/wpa_supplicant.conf
-        # allow only root to read and write to file
+        # dopustite samo root korisniku da čita i piše u tu datoteku
         chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 
-NOTE: it is critical that the used wpa_supplicant.conf defines the location of
-      the 'ctrl_interface' so that a communication socket is created for the 
-      wpa_cli (wpa-roam daemon) to attach. The mentioned example configuration,
-      /usr/share/doc/wpasupplicant/examples/wpa-roam.conf, has been set to a
-      sane default.
+BILJEŠKA: kritično ja, da korištena wpa_supplicant.conf definira lokaciju 'ctrl_interface' tako da je 'communication socket' kreiran za spoj za 
+      wpa_cli (wpa-roam daemon). Namjenena primjerska konfiguracija,
+      /usr/share/doc/wpasupplicant/examples/wpa-roam.conf, ja postavljena na dobar standard.
 
 </pre>
 
 
 							<p>Potrebno je da tu datoteku za konfiguraciju editirate, i dodate Mrežne blokove za sve poznate Mreže. Ako ne znate što to znaci, početak je da pročitate wpa_supplicant.conf(5) manpage.</p>
 
-							<p>Za svaku Mrežu, možete specificirati specijalnu opciju 'id_str'. Trebala bi da se postavi na jednostavan niz teksta. Taj niz teksta  sastavi bazu za mrežni profil; korelira s logičnim interfaceima koje su definirane u interfaces(5) datoteci. Ako nemate 'id_str' za Mrežu , wpa_action pretpostavlja da treba koristiti 'default' logični interface kao fallback. Fallback interface možete izabrati s 'wpa-default-iface' opcijom.</p>
+							<p>Za svaku mrežu, možete specificirati specijalnu opciju 'id_str'. Trebala bi da se postavi na jednostavan niz teksta. Taj niz teksta  sastavi bazu za mrežni profil; korelira s logičnim interfaceima koje su definirane u interfaces(5) datoteci. Ako nemate 'id_str' za Mrežu , wpa_action pretpostavlja da treba koristiti 'default' logični interface kao fallback. Fallback interface možete izabrati s 'wpa-default-iface' opcijom.</p>
 
 							<p>Što to sad sve znači? Da vam ilustriramo sa malim primjerom sa wpa_action(8) manpage.</p>
 
 						<h6>wpa_supplicant.conf primjer</h6>			
 <pre>
-wpa_supplicant.conf example:
+wpa_supplicant.conf primjer:
 network={
         ssid="foo"
         key_mgmt=NONE
@@ -494,17 +493,16 @@ iface home_static inet static
 
 							<p>Log od /sbin/wpa_action's aktivnostima je kreiran u /var/log/wpa_action.log, uvijek je prikačite kad imate problema.</p>
 
-			<h2>Interacting with wpa_supplicant with wpa_cli and wpa_gui</h2>
+			<h2>Interagiranje wpa_supplicant sa wpa_cli i wpa_gui</h2>
 
-							<p>The wpa_supplicant process can be interacted with by members of the "netdev" group if the example roaming configuration was used as is (or by whatever group or gid specified by the GROUP= crtl_interface parameter).</p>
+							<p>wpa_supplicant proces može da interagira s članovima "netdev" grupe ako koristite primjer sa roaming konfiguraciju kako je (ili od bilo koje grupe ili gid specificirano od GROUP= crtl_interface parametra).</p>
 <pre>
-# the default ctrl_interface option used in the example file
+# standardna ctrl_interface opcija korištena u primjerskoj datoteci
 	# /usr/share/doc/wpasupplicant/examples/wpa-roam.conf
         ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 
-To interact with the supplicant, the wpa_cli (command line) and wpa_gui (QT)
-have been provided. With these you may connect, disconnect, add/delete new
-network blocks, provide required interactive security information and so on.
+Ponuđeno vam je, da interagirate s supplicant, wpa_cli (naredbena crta) i wpa_gui (QT).
+S time možete se spojiti, odspojiti, dodati/izbrisati nove mrežne blokove, ponuditi potrebne interaktivne sigurnosne informacije i tako dalje.
 </pre>
 
 		<h2>Kontrolirati Roaming Daemon s wpa_action</h2>
@@ -521,7 +519,7 @@ wpa_action eth1 stop
 wpa_action eth1 reload
 </pre>
 
-							<p>Za sve Tehničke detalje, što se sve može obaviti s wpa_action, pročitajte wpa_action(8) manpage.</p>
+							<p>Za sve tehničke detalje, što se sve može obaviti s wpa_action, pročitajte wpa_action(8) manpage.</p>
 
 </div>
 	<div class="divider" id="wpa3">
@@ -538,8 +536,8 @@ wpa_action eth1 reload
 							<p>*vrijeme i datum<br />
 							*ime interfacea i vrsta akcije<br />
 							*vrijednosti okolnih varijabla (WPA_ID, WPA_ID_STR, WPA_CTRL_DIR)<br />
-							*ifupdown command executed<br />
-							*wpa_cli status (baziran na WPA-PSK, Mreža možda pokazuje neke druge informacije)<br />
+							*ifupdown naredba izvođena<br />
+							*wpa_cli status (baziran na WPA-PSK, mreža možda pokazuje neke druge informacije)<br />
 							*bssid<br />
 							*ssid<br />
 							*id<br />
@@ -645,12 +643,12 @@ iface eth1 inet dhcp
 wpa-conf managed
 wpa-ap-scan 1
 wpa-scan-ssid 1
-# ... vise opcija za vaše postavke
+# ... više opcija za vaše postavke
 </pre>
 
 							<p>Odnosna na #368770, udruživanje s WEP osiguranim Mrežama može da traje dugo vremena. U nekim slučajevima, kad postavite parametar 'ap_scan=2' u config-datoteci, (ili koristite 'wpa-ap-scan 2' strofu, što je isto) može vam stvarno pomoći da ubrzate udruživanje.</p>
 
- 							<p>Please note that setting ap_scan to the value of 2 also requires that all networks have a precisely defined security policy for for key_mgmt, pairwise, group and proto network policy variables.</p>
+ 							<p>Zapamtite da ap_scan na vrijednost od 2 isto zahtijeva da sve mreže imaju točno definiranu policu osiguranja za key_mgmt, pairwise, group and proto mrežne police varijable.</p>
 
 	<div class="divider" id="wpa7">
 			<h2>5. Sagledavanje osiguranja</h2>

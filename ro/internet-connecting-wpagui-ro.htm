@@ -191,15 +191,15 @@
 <div id="main-page">
 	<div class="divider" id="wpa-roaming-gui">
 
-		<h2 id="top-header">wpa Roaming GUI</h2>
+		<h2 id="top-header">GUI wpa  Roaming </h2>
 
-							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p> 
+							<p>Metoda  wpa-roaming permite conectarea la rețele wireless (fără fir) în mod grafic sau în mod consolă. O metodă  foarte utilă utilizatorilor de laptop.</p> 
 
-							<p>wpasupplicant is a program to not only address wireless networks with WPA keys but all wireless networks. In combination with the "classic" /etc/network/interfaces it is a very powerful method to connect to networks without even doing anything. It does it automatically if a network is open or the network is added to a configuration file. Even more convenient: if you allow hotplugging, the correct connection is set fully automated right after logging in (into a desktop environment or into a non X session).</p>
+							<p> Programul wpasupplicant poate aloca chei WPA pentru o întreagă rețea wireless. În combinație cu interfața "clasică" /etc/network/interfaces, devine o metodă forte de conectare la rețele net, fară nici o altă intervenție suplimentară. Conectarea se face automat, dacă rețeaua este deschisă sau dacă rețeaua este agaugată la fișierul de configurație. În plus dacă opțiunea hotplug este activată, imediat după logarea in X sau în consolă conexiunea este automat activată.</p>
 
-					<h3>Basics</h3>
+					<h3>Pachete de bază</h3>
 
-							<p>To be able to use wpa-roaming with wpasupplicant in a GUI environment you have to have two packages installed:<br />
+							<p> Pentru a utiliza  wpa-roaming cu wpasupplicant în mediul grafic trebuiesc instalate aceste pachete:<br />
     							* wpasupplicant<br />
     							* wpagui</p>
 
@@ -208,11 +208,11 @@ apt-get update &amp;&amp; apt-get install wpasupplicant wpagui
 </pre>
 
 
-							<p>wpasupplicant is mandatory, wpagui is a very convenient addition for GUI controlled networking in environments in which you want to change your access point.</p>
+							<p> pachetul wpasupplicant este absolut necesar, pe când wpagui este doar un GUI ce permite controlul rețelei în cazul în care este necesar să fie schimbat punctul de acces la net.</p>
 
-				<h3>Using wpa-gui without network configuration</h3>
+				<h3>Utilizarea  wpa-gui făra a configura rețeaua</h3>
 
-							<p>As root adapt your <span class="highlight-3">/etc/network/interfaces</span> so that it contains these lines. the name of the interface may vary:</p>
+							<p> Ca utilisator root adaptați  <span class="highlight-3">/etc/network/interfaces</span> ca să conțină aceste linii. Numele interfeței poare fi diferit:</p>
 
 <pre>
 allow-hotplug wlan0
@@ -221,70 +221,67 @@ iface wlan0 inet manual
 </pre>
 
 
-							<p>As root you also edit a raw <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span>:</p>
+							<p> Apoi editați liniile următoare din  <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span>:</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 </pre>
 
-
-							<p>The last step is that you make wpa-roaming workable for all users who are in the group <span class="highlight-3">netdev</span> but <span class="highlight-3">unreadable</span> and <span class="highlight-3">unwritable</span> for all other users than root (recommended for security reasons) but members of netdev still can add networks through wpa_gui:</p>
+							<p> Ultimul pas este activarea de permisii pentru utilizatorii din grupul <span class="highlight-3">netdev</span> ( excluzând root din motive de securitate) anume acces pentru wpa-roaming  dar nu <span class="highlight-3">unreadable</span> și <span class="highlight-3">unwritable</span> pentru alți utilizatori cu excepția lui root (fapt recomandat pentru rațiuni de securitate) dar membrii grupului netdev pot adăuga rețele utilizând  wpa_gui:</p>
 <pre>
 chown root:netdev /etc/wpa_supplicant/wpa_supplicant.conf
 chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
 
-					<h4>Running it</h4>
+					<h4> Mod de utilizare </h4>
 
-						<h6>Prerequisites:</h6>
+						<h6> Fază preliminară:</h6>
 
-    							<p>* Make sure, you are member of the group netdev <br />
-    							*Restart the network or reboot</p>
+   							<p>* Asigutați-vă că faceți parte din grupul netdev <br />
+   							* Reporniți rețeaua sau reboot-ați </p>
 
-							<p>Next set the default for the user who is set up during the installation of sidux<br />
-							Then reload wpasupplicant as root with:</p>
+							<p> Specificați utilizatorul de bază fixat în timpul instalării sistemului sidux<br /> Apoi ca root reîncărcați  wpasupplicant prin:</p>
 <pre>
 wpa_action &lt;interface&gt; reload
 </pre>
 
 
 
-					<h4>Starting wpa_gui</h4>
+						<h4> Pornirea  wpa_gui</h4>
 
-							<p>This starts the wpa_gui as user (you need the full path):</p>
+							<p> Această comandă pornește ca utilizator  wpa_gui  ( trebuie sa specificați întregul path):</p>
 <pre>
 /usr/sbin/wpa_gui
 </pre>
 
-							<p>The default screen:</p>
+							<p> Monitor implicit:</p>
 
 		<div class="screenshot"><img src="../lib/images-ro/wpa-roam-ro/wpa-roam-01-ro.png" alt="wpa-01" /></div>
 
-							<p>The interface for managing networks:</p>
+							<p> Interfața de gestiune a rețelei :</p>
 
 		<div class="screenshot"><img src="../lib/images-ro/wpa-roam-ro/wpa-roam-02-ro.png" alt="wpa-02" /></div>
 
-							<p>To add a known network just click <span class="highlight-3">add</span> and you will get this interface with pulldown menus (supports no encryption, WEP, WPA - just add the correct data) and hit <span class="highlight-3">add</span> here as well:</p>
+							<p> Pentru a adauga o rețea cunoscută dați un clic pe  <span class="highlight-3">add</span> și veți obține această apăsați interfață prin meniuri pulldown  ( criptajul WEP și WPA nu sunt suportate - adaugați doar datele corecte) și apăsați încă odată pe <span class="highlight-3">add</span> ca în exemplul:</p>
 
 		<div class="screenshot"><img src="../lib/images-ro/wpa-roam-ro/wpa-roam-03-ro.png" alt="wpa-03" /></div>
 
-							<p>Or more easily, just hit:<span class="highlight-3">scan</span> to scan the network</p>
+							<p> Sau, mult mai ușor,  doar apăsați <span class="highlight-3">scan</span> pentru a scana rețeaua</p>
 
 		<div class="screenshot"><img src="../lib/images-ro/wpa-roam-ro/wpa-roam-04-ro.png" alt="wpa-04" /></div>
-
-							<p>and doubleclick on the network you want to add the desired network (all data is automatically added, you just need the passphrase - plain or in hex) and hit <span class="highlight-3">add</span>:</p>
+							<p> și dublu_clic pe rețeaua pe care doriți să o adăugați  ( toate datele sunt automat adăugate, trebuie doar să puneți passphrase - în mod text sau hex ) și să apasați <span class="highlight-3">add</span>:</p>
 
 		<div class="screenshot"><img src="../lib/images-ro/wpa-roam-ro/wpa-roam-05-ro.png" alt="wpa-05" /></div>
+							<p> Dacă sunteți mulțumiți și rețeau este în ordine, puteți adăuga setările la <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> prin alegerea  <span class="highlight-3">File > Save Configuration</span>.</p>
 
-							<p>If you are happy and everything is working, you can add the settings to <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> by choosing <span class="highlight-3">File > Save Configuration</span>.</p>
 
+				<h3> Utilizarea wpa-gui  împreună cu  configurarea  rețelei </h3>
 
-					<h3>Using wpa-gui with network configuration</h3>
+							<p> Cu ajutorul <span class="highlight-3">IDString</span> și a  <span class="highlight-3">Priority</span> se poate specifica la ce rețea va fi conectat la boot acest calculator/box. Prioritatea maximă este  <span class="highlight-3">1000</span>, iar minimă este  <span class="highlight-3">0</span>. Deasemenea trebuie să adăugați  <span class="highlight-3">IDString</span> la <span class="highlight-3">/etc/network/interfaces</span> .</p>
 
-							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">IDString</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
+					<h6> Syntaxa fișierului  /etc/network/interfaces</h6> 
 
-						<h6>The syntax for /etc/network/interfaces.</h6> 
-							<p>First is for the connection to DHCP servers, the second is if you are provided with a fixed IP address. To adjust your settings:</p>
+							<p> Primul exemplu este pentru o configurare prin DHCP, al doilea este pentru alocarea unei interfețe statice. Adaptați la nevoile locale:</p>
 <pre>
 # id_str="home_dhcp"
 iface home_dhcp inet dhcp
@@ -299,10 +296,10 @@ iface home_static inet static
         broadcast 192.168.0.255
         gateway 192.168.0.1
 </pre>
-						<h6>Practical Examples</h6>
-							<p>If you want to be automatically connected to your home WLAN when  at home, give the the IDString "home" and priority "15". If you are travelling, and want the laptop to connect to any free, non passworded network which is available. give it the IDString "stalk" and priority "1" (very low). But please, always check if your connection is legal and disconnect if it is obviously not intended to be free.</p>
+						<h6> Exemple practice </h6>
+								<p> Dacă doriți să vă conectați automat la rețeaua locală WLAN, când sunteți acasă, alegeți  IDString "home" și  prioritatea  "15". Dacă călătoriți , și doriți să ca laptop-ul să se conecteze la orice rețea liberă, ne criptată prin password, alegeți IDString "stalk" și prioritatea  "1" (foarte joasă). Dar vă rugăm să verificați că aveți o conecsiune legală și deconectați-vă dacă nu este o conexiune free/liberă.</p>
 
-							<p>Example stanzas in /etc/network/interfaces:</p>
+							<p>Exemple stanzas pentru  /etc/network/interfaces:</p>
 <pre>
 # /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
 
@@ -323,7 +320,7 @@ iface stalk inet dhcp
 </pre>
 
 
-							<p>Example /etc/wpa_supplicant/wpa_supplicant.conf (SSID and passwords are changed or just explained):</p>
+							<p>Exemple pentru /etc/wpa_supplicant/wpa_supplicant.conf (SSID și passwords sunt schimbate sau doar explicate):</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -352,10 +349,10 @@ network={
 }
 </pre>
 
-							<p>If you want to connect to passworded WLANs e.g. in cafés or bars, hot spots,  use wpa_gui and decide later if you want to add that network or not.</p>
+							<p> Dacă doriți să vă conectați la o rețea securizată  WLANs de exemlpu în cafenea sau  bar, hot spots, folosiți  wpa_gui și decideți apoi dacă doriți să adaugați sau nu această rețea.</p>
 
-				<h5>WEP encryption</h5>
-							<p>If you want to add WEP encrypted networks to your wpa_supplicant.conf permanently, the syntax is:</p>
+				<h5> Cifrage WEP </h5>
+							<p> Iată un exemplu de fișier wpa_supplicant.conf, dacă doriți  să adaugați o rețea la care să vă conectați permanent :</p>
 <pre>
 network={
 	ssid="example wep network"
@@ -366,19 +363,19 @@ network={
 </pre>
 
 
-				<h5>Notes</h5>
+				<h5>Note</h5>
 
-					<h6>1. Easy to reuse</h6>
+					<h6>1. Reutilizarea configurației </h6>
 
-							<p>Once set up, you can easily reuse your setup on other laptops or desktops with WLAN cards. Just copy /etc/network/interfaces (adjust the name of the interface if needed) and /etc/wpa_supplicant/wpa_supplicant.conf to your new box. There is no need of "installing" anything after that. It is "wash &amp; go" (TM).</p>
+							<p> În momentul în care a veți o configurație funcțională, o puteți reutiliza usor și pe alt laptop sau desktop care are cărți rețea  WLAN. Copiați aceste două fișiere /etc/network/interfaces ( ajustați numele interfeței dacă este cazul ) și /etc/wpa_supplicant/wpa_supplicant.conf pe noul computer. Nu este nevoie să mai  "installing" nimic după aceasta. It is "wash &amp; go" (TM).</p>
 
-					<h6>2. Backup</h6>
+					<h6>2. Backup de configurației </h6>
 
-							<p>It is good to backup /etc/network/interfaces and /etc/wpa_supplicant/wpa_supplicant.conf, but <span class="highlight-3">encrypt your backup because it contains sensitive information</span>. An easy way is a password protected archive like 7zip, zip, rar or others.</p>
+							<p> Este bine sa salvați aceste două fișiere /etc/network/interfaces și /etc/wpa_supplicant/wpa_supplicant.conf , dar  <span class="highlight-3">encriptați acest backup întru-cât contin informații sensibile</span>. Acest lucru se face ușor folosind archive protejate prin parolă cu ar fi 7zip, zip, rar sau altele.</p>
 
-					<h6>3. Easy access of wpa_gui</h6>
+					<h6>3. Acces rapid la wpa_gui</h6>
 
-							<p>It is boring to type "/usr/sbin/wpa_gui" into the konsole. You can add a start button to your desktop, to the kicker, and to kmenu. For eaxample on the desktop, it may have a name like $HOME/Desktop/wpagui.desktop and reads like this:</p>
+							<p> Este dezagreabil să scrieți mereu într-o consolă  "/usr/sbin/wpa_gui". De accea se poate adăuga un button pe desktop, la kiker sau kmeniu, Iată un exemplu, de astfel de button în $HOME/Desktop/wpagui.desktop care poate arăta așa :</p>
 <pre>
 [Desktop Entry]
 Comment=
@@ -402,10 +399,11 @@ X-KDE-Username=
 </pre>
 
 
-							<p>You can easily create such a button by rightclicking on the desktop and choosing "new > link to program".</p>
+							<p> Puteți adauga cu ușurință astfel de buttoane prin clic_dreapta pe desktop și  selecta choosing "new > link to program".</p>
 
-					<h6>4. Hidden SSIDs</h6>
-							<p>Hidden SSIDs are detected</p>
+					<h6>4. SSIDs   ascunse </h6>
+							<p>  SSIDs ascunse sunt detectate
+</p>
 
 	</div>
 

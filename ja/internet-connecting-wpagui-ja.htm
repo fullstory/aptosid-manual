@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by bluewater 13/07/2008 0700 UTC -->
+<!-- Last translation revision by muchan 30/07/2008 0700 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
 <!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
@@ -192,15 +192,27 @@
 <div id="main-page">
 	<div class="divider" id="wpa-roaming-gui">
 
+		<!--- ####
 		<h2 id="top-header">wpa Roaming GUI</h2>
+		#### -->
+		<h2 id="top-header">GUIによるWPA無線ローミング</h2>
 
+							<!--- ####
 							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p> 
+							#### -->
+							<p>接続できる無線LANを閲覧、選択、接続するWPAローミングの方法を紹介します。これはデスクトップGUI上、またはGUIなしでも使え、とくにノートブックを使う時、とても便利です。</p> 
 
+							<!--- ####
 							<p>wpasupplicant is a program to not only address wireless networks with WPA keys but all wireless networks. In combination with the "classic" /etc/network/interfaces it is a very powerful method to connect to networks without even doing anything. It does it automatically if a network is open or the network is added to a configuration file. Even more convenient: if you allow hotplugging, the correct connection is set fully automated right after logging in (into a desktop environment or into a non X session).</p>
+							#### -->
+							<p>wpasupplicantというプログラムはWPAキーの必要な無線LANだけでなく、すべての無線ネットワークへの接続をサポートします。従来の/etc/network/interfaces の設定と併用するととても効果的で、何もしなくても無線Lanを選んで接続することができます。オープンネットワークの場合や、設定ファイルにすでに登録してあるネットワークの場合、ネットを感知すると自動的に接続します。更に便利なことに、ホットプラグ(allow-hotplug)の設定がしてあると、起動の際にもログインの直後に自動的に無線LANを選んで接続することができます。</p>
 
+					<!--- ####
 					<h3>Basics</h3>
+					#### -->
+					<h3>基本</h3>
 
-							<p>To be able to use wpa-roaming with wpasupplicant in a GUI environment you have to have two packages installed:<br />
+							<p>デスクトップ上でwpasupplicantを使ってWPAローミングするには次の2つのパッケージのインストールが必要です:<br />
     							* wpasupplicant<br />
     							* wpagui</p>
 
@@ -209,11 +221,20 @@ apt-get update &amp;&amp; apt-get install wpasupplicant wpagui
 </pre>
 
 
+							<!--- ####
 							<p>wpasupplicant is mandatory, wpagui is a very convenient addition for GUI controlled networking in environments in which you want to change your access point.</p>
+							#### -->
+							<p>wpasupplicantは不可欠なパッケージで、 wpaguiはGUI上でアクセスポイントを変更するときなど、とても便利なプログラムです。</p>
 
+				<!--- ####
 				<h3>Using wpa-gui without network configuration</h3>
+				#### -->
+				<h3>ネットワーク設定なしで wpa-gui を使う</h3>
 
+							<!--- ####
 							<p>As root adapt your <span class="highlight-3">/etc/network/interfaces</span> so that it contains these lines. the name of the interface may vary:</p>
+							#### -->
+							<p>rootとして <span class="highlight-3">/etc/network/interfaces</span> を編集し、次の行を加えます。　インターフェイスの名前は一例です:</p>
 
 <pre>
 allow-hotplug wlan0
@@ -222,62 +243,110 @@ iface wlan0 inet manual
 </pre>
 
 
+							<!--- ####
 							<p>As root you also edit a raw <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span>:</p>
+							#### -->
+							<p>次に、rootとして<span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span>を(なかったら作成し）次のように編集します。:</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 </pre>
 
 
+							<!--- ####
 							<p>The last step is that you make wpa-roaming workable for all users who are in the group <span class="highlight-3">netdev</span> but <span class="highlight-3">unreadable</span> and <span class="highlight-3">unwritable</span> for all other users than root (recommended for security reasons) but members of netdev still can add networks through wpa_gui:</p>
+							#### -->
+							<p>最後のステップとして<span class="highlight-3">netdev</span>グループのメンバーは誰でもWPAローミングが使え、かつ安全のためメンバーでなければrootを除いて <span class="highlight-3">読み書き禁止</span> に設定します。</p>
 <pre>
 chown root:netdev /etc/wpa_supplicant/wpa_supplicant.conf
 chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
 
+					<!--- ####
 					<h4>Running it</h4>
+					#### -->
+					<h4>実践</h4>
 
+						<!--- ####
 						<h6>Prerequisites:</h6>
+						#### -->
+						<h6>前提条件:</h6>
 
+											<!--- ####
     							<p>* Make sure, you are member of the group netdev <br />
+											#### -->
+    							<p>* netdevグループのメンバーに入っていることを確認します。<br />
+											<!--- ####
     							*Restart the network or reboot</p>
+											#### -->
+    							*ネットワークの再スタートまたはシステムの再起動</p>
 
+							<!--- ####
 							<p>Next set the default for the user who is set up during the installation of sidux<br />
+							#### -->
+							<p>次にsiduxのインストールの際にデフォルトで作られたユーザーをデフォルトにセットします。Next set the default for the user who is set up during the installation of sidux<br />
+							<!--- ####
 							Then reload wpasupplicant as root with:</p>
+							#### -->
+							rootとして次のコマンドでwpasupplicantをリロードします:</p>
 <pre>
 wpa_action &lt;interface&gt; reload
 </pre>
 
 
 
+					<!--- ####
 					<h4>Starting wpa_gui</h4>
+					#### -->
+					<h4>wpa_guiをスタート</h4>
 
+							<!--- ####
 							<p>This starts the wpa_gui as user (you need the full path):</p>
+							#### -->
+							<p>ユーザーとしてwpa_guiをスターとします。 (ディレクトリ名が必要です):</p>
 <pre>
 /usr/sbin/wpa_gui
 </pre>
 
+							<!--- ####
 							<p>The default screen:</p>
+							#### -->
+							<p>デフォルトの画面</p>
 
 		<div class="screenshot"><img src="../lib/images-ja/wpa-roam-ja/wpa-roam-01-ja.png" alt="wpa-01" /></div>
 
+							<!--- ####
 							<p>The interface for managing networks:</p>
+							#### -->
+							<p>ネットワークマネージング:</p>
 
 		<div class="screenshot"><img src="../lib/images-ja/wpa-roam-ja/wpa-roam-02-ja.png" alt="wpa-02" /></div>
 
+							<!--- ####
 							<p>To add a known network just click <span class="highlight-3">add</span> and you will get this interface with pulldown menus (supports no encryption, WEP, WPA - just add the correct data) and hit <span class="highlight-3">add</span> here as well:</p>
+							#### -->
+							<p>ネットワーク設定を追加するには<span class="highlight-3">add</span> ボタンをクリックすると、このプルダウンメニューのある画面が現れます。 (暗号化なし、WEP、WPAの中から正しいものを選び)ここでも <span class="highlight-3">add</span> ボタンを押します:</p>
 
 		<div class="screenshot"><img src="../lib/images-ja/wpa-roam-ja/wpa-roam-03-ja.png" alt="wpa-03" /></div>
 
+							<!--- ####
 							<p>Or more easily, just hit:<span class="highlight-3">scan</span> to scan the network</p>
+							#### -->
+							<p>それとももっと簡単な方法として、ただ<span class="highlight-3">scan</span> ボタンを押せば無線ネットワークを走査します。</p>
 
 		<div class="screenshot"><img src="../lib/images-ja/wpa-roam-ja/wpa-roam-04-ja.png" alt="wpa-04" /></div>
 
+							<!--- ####
 							<p>and doubleclick on the network you want to add the desired network (all data is automatically added, you just need the passphrase - plain or in hex) and hit <span class="highlight-3">add</span>:</p>
+							#### -->
+							<p>そして使いたいネットワークとして追加するにはダブルクリックするだけです。(すべてのデータは自動的に加えられるので、パスフレーズを文字と16進数として入力して) <span class="highlight-3">add</span>ボタンを押します:</p>
 
 		<div class="screenshot"><img src="../lib/images-ja/wpa-roam-ja/wpa-roam-05-ja.png" alt="wpa-05" /></div>
 
+							<!--- ####
 							<p>If you are happy and everything is working, you can add the settings to <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> by choosing <span class="highlight-3">File > Save Configuration</span>.</p>
+							#### -->
+							<p>実際に使ってみて満足がいくようだったら、<span class="highlight-3">File > Save Configuration</span>を選んでこの設定を <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> に保存します。</p>
 
 
 					<h3>Using wpa-gui with network configuration</h3>

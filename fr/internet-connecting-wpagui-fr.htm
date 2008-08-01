@@ -191,12 +191,23 @@
 <div id="main-page">
 	<div class="divider" id="wpa-roaming-gui">
 
+<!--- ####
 		<h2 id="top-header">wpa Roaming GUI</h2>
+#### -->
+		<h2 id="top-header">Interface pour wpa Vagabond (Roaming)</h2>
 
+<!--- ####
 							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p> 
 
 							<p>wpasupplicant is a program to not only address wireless networks with WPA keys but all wireless networks. In combination with the "classic" /etc/network/interfaces it is a very powerful method to connect to networks without even doing anything. It does it automatically if a network is open or the network is added to a configuration file. Even more convenient: if you allow hotplugging, the correct connection is set fully automated right after logging in (into a desktop environment or into a non X session).</p>
+#### -->
 
+							<p>wpa-roaming est une méthode vous permettant de vous connecter à des réseaux wifi en les choisissant, dans une interface graphique ou une console. C'est très utile aux utilisateurs d'ordinateurs portables.</p>
+
+							<p>wpasupplicant n'est pas seulement un programme destiné à adresser à votre réseau wifi votre clé WPA mais il peut aussi le faire avec tous les réseaux wifi. Combiné avec la configuration classique /etc/network/interfaces il vous offre une méthode de connexion automatique. Il peut se connecter directement si un réseau est ouvert ou s'il est déclaré dans un fichier de configuration. En plus, si vous autorisez la connexion à chaud, celle-ci peut être configurée automatiquement sitôt que vous êtes logué (dans un environnement fenêtré ou en dehors de X).</p>
+
+
+<!--- ####
 					<h3>Basics</h3>
 
 							<p>To be able to use wpa-roaming with wpasupplicant in a GUI environment you have to have two packages installed:<br />
@@ -247,8 +258,64 @@ chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 wpa_action &lt;interface&gt; reload
 </pre>
 
+#### -->
+							
+					<h3>Les bases</h3>
+
+							<p>Pour être en mesure d'utiliser le mode vagabond et wpasupplicant en graphique vous devez disposer de deux packages installés:<br />
+							* wpasupplicant<br />
+    							* wpagui</p>
+
+							
+
+<pre>
+apt-get update &amp;&amp; apt-get install wpasupplicant wpagui
+</pre>
+
+							<p>Si wpasupplicant est impératif, wpagui est un supplément graphique bien pratique pour gérer des connexions réseau avec changements fréquents de point d'accès.</p>
 
 
+				<h3>Utiliser wpa-gui sans configuration réseau</h3>
+				
+							<p>En tant que root, adaptez votre fichier <span class="highlight-3">/etc/network/interfaces</span> afin qu'il contienne ces lignes. Le nom de l'interface peut varier :</p>
+							
+
+<pre>
+allow-hotplug wlan0
+iface wlan0 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+</pre>
+
+							<p>En tant que root encore, éditez directement un fichier <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span>:</p>
+							
+<pre>
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+</pre>
+
+							<p>La dernière étape consistera à permettre à tous les utilisateurs du groupe <span class="highlight-3">netdev</span> (sauf root pour des raisons de sécurité) de pouvoir exécuter wpa-roaming mais <span class="highlight-3">sans droit de lecture</span> ni <span class="highlight-3">droit d'écriture</span>. Les membres du groupe netdev pourront cependant ajouter des réseaux en utilisant wpa_gui:</p>
+							
+							
+<pre>
+chown root:netdev /etc/wpa_supplicant/wpa_supplicant.conf
+chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
+</pre>
+
+					<h4>Utilisation</h4>
+
+						<h6>Pré-requis:</h6>
+
+    							<p>* Assurez-vous d'appartenir au groupe netdev <br />
+    							* Redémarrez le réseau ou la machine</p>
+
+							<p>Ensuite spécifiez l'utilisateur par défaut déterminé durant l'installation de sidux<br />
+							Puis rechargez wpasupplicant en tant que root comme ceci:</p>
+<pre>
+wpa_action &lt;interface&gt; reload
+</pre>
+
+
+<!--- ####
 					<h4>Starting wpa_gui</h4>
 
 							<p>This starts the wpa_gui as user (you need the full path):</p>
@@ -299,6 +366,57 @@ iface home_static inet static
         broadcast 192.168.0.255
         gateway 192.168.0.1
 </pre>
+#### -->
+					<h4>Lancer wpa_gui</h4>
+
+							<p>Cette commande lance wpa_gui pour l'utilisateur (vous devez spécifier le chemin absolu):</p>
+<pre>
+/usr/sbin/wpa_gui
+</pre>
+
+							<p>L'écran par défaut:</p>
+
+		<div class="screenshot"><img src="../lib/images-fr/wpa-roam-fr/wpa-roam-01-fr.png" alt="wpa-01" /></div>
+
+							<p>L'interface de gestion des réseaux:</p>
+
+		<div class="screenshot"><img src="../lib/images-fr/wpa-roam-fr/wpa-roam-02-fr.png" alt="wpa-02" /></div>
+
+							<p>Pour ajouter un réseau connu, il suffit de cliquer sur <span class="highlight-3">add</span> et vous obtenez alors cette interface avec des boîtes de choix (supporte pas de cryptage, WEP, WPA - choisissez l'option qui vous convient) et appuyez sur <span class="highlight-3">add</span> encore une fois:</p>
+
+		<div class="screenshot"><img src="../lib/images-fr/wpa-roam-fr/wpa-roam-03-fr.png" alt="wpa-03" /></div>
+
+							<p>Ou plus aisement, cliquez sur:<span class="highlight-3">scan</span> pour scanner le réseau</p>
+
+		<div class="screenshot"><img src="../lib/images-fr/wpa-roam-fr/wpa-roam-04-fr.png" alt="wpa-04" /></div>
+
+							<p>et double cliquez sur le réseau désiré (toutes les données seront ajoutées automatiquement, vous avez juste besoin de saisir le mot de passe en mode texte ou en hexadécimale) puis de cliquer sur <span class="highlight-3">add</span>:</p>
+
+		<div class="screenshot"><img src="../lib/images-fr/wpa-roam-fr/wpa-roam-05-fr.png" alt="wpa-05" /></div>
+
+							<p>Si vous avez réussi et que tout fonctionne, vous pouvez ajouter les paramètres à <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> en sélectionnant <span class="highlight-3">File > Save Configuration</span>.</p>
+
+					<h3>Utiliser wpa-gui avec configuration du réseau</h3>
+
+							<p>Avec l'aide de <span class="highlight-3">IDString</span> et <span class="highlight-3">Priority</span> vous pouvez indiquer le réseau auquel votre ordinateur se connectera au démarrage. La priorité la plus élevée est <span class="highlight-3">1000</span>, la priorité la plus basse est <span class="highlight-3">0</span>. Vous devez également ajouter l'<span class="highlight-3">IDString</span> à <span class="highlight-3">/etc/network/interfaces</span>.</p>
+
+						<h6>La syntaxe pour /etc/network/interfaces.</h6> 
+							<p>D'abord la connection  au serveur DHCP, ensuite l'adresse IP fixe si vous en avez. Pour ajuster vos paramètres:</p>
+<pre>
+# id_str="home_dhcp"
+iface home_dhcp inet dhcp
+
+# id_str="home_static"
+iface home_static inet static
+
+        address 192.168.0.20
+        netmask 255.255.255.0
+        network 192.168.0.0
+
+        broadcast 192.168.0.255
+        gateway 192.168.0.1
+</pre>
+<!--- ####
 						<h6>Practical Examples</h6>
 							<p>If you want to be automatically connected to your home WLAN when  at home, give the the IDString "home" and priority "15". If you are travelling, and want the laptop to connect to any free, non passworded network which is available. give it the IDString "stalk" and priority "1" (very low). But please, always check if your connection is legal and disconnect if it is obviously not intended to be free.</p>
 
@@ -320,9 +438,8 @@ iface wlan0 inet manual
 
 iface home inet dhcp
 iface stalk inet dhcp
-</pre>
-
-
+</pre>	
+<!--- ####
 							<p>Example /etc/wpa_supplicant/wpa_supplicant.conf (SSID and passwords are changed or just explained):</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -364,7 +481,73 @@ network={
 	wep_key1=0102030405
 	wep_tx_keyidx=0
 </pre>
+#### -->
+						<h6>Exemples Pratiques</h6>
+							<p>Si vous souhaitez être connectés automatiquement à votre réseau local sans fil à la maison, mettez "home pour l'IDString et "15" pour priority. Lorsque vous voyagez et souhaitez vous connecter votre ordinateur portable à un réseau wifi gratuit sans mot de passe, mettez "stalk" pour l'IDString et "1" pour priority (très bas). Mais svp, vérifiez toujours que ce soit legal et déconnectez vous si ce n'est pas le cas.</p>
 
+							<p>Exemple de fichier /etc/network/interfaces:</p>
+<pre>
+# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+
+# L'interface locale de la machine
+# ajouté automatiquement à la mise-à-jour
+auto lo
+iface lo inet loopback
+
+allow-hotplug eth0
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+iface home inet dhcp
+iface stalk inet dhcp
+</pre>
+
+
+								<p>Exemple de /etc/wpa_supplicant/wpa_supplicant.conf (SSID et mot de passe changés ou juste expliqués):</p>
+<pre>
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+        ssid="my_ssid"
+        scan_ssid=1
+        psk=123ABC  ## ici s'écrit la phrase de passe en code hexadecimal!!
+#       psk="password_in_ascii"   ## vous n'en avez pas besoin
+        key_mgmt=WPA-PSK
+        pairwise=TKIP
+        group=TKIP
+        auth_alg=OPEN
+        priority=15
+        id_str="home"
+}
+
+network={
+        ssid=""
+        scan_ssid=1
+        key_mgmt=NONE
+        auth_alg=OPEN
+        priority=1
+        disabled=1   ## cette option d'est pas obligatoire, voir documentation dans /usr/share/doc/wpasupplicant
+        id_str="stalk"
+}
+</pre>
+
+							<p>Si vous souhaitez vous connecter à un réseau wifi sécurisé par mot de passe, par ex dans les cafés ou bars, hot spots, utilisez wpa_gui et décidez plus tard s'il faut l'ajouter ou non.</p>
+
+				<h5>Chiffrage WEP</h5>
+							<p>Si vous souhaitez ajouter un réseau wifi crypté de façon permanente à votre wpa_supplicant.conf, la syntaxe à saisir:</p>
+<pre>
+network={
+	ssid="example wep network"
+	key_mgmt=NONE
+	wep_key0="abcde"
+	wep_key1=0102030405
+	wep_tx_keyidx=0
+</pre>
+<!--- ####
 
 				<h5>Notes</h5>
 
@@ -408,8 +591,52 @@ X-KDE-Username=
 							<p>Hidden SSIDs are detected</p>
 
 	</div>
+#### -->
+				<h5>Notes</h5>
+
+					<h6>1. Facile à réutiliser</h6>
+
+							<p>Une fois que vous l'avez configuré, vous pouvez facilement réutiliser votre configuration sur d'autres ordinateurs connectés par wifi. Copiez juste le /etc/network/interfaces (ajustez le nom de l'interface si nécessaire) et le /etc/wpa_supplicant/wpa_supplicant.conf sur le nouvel ordinateur. Vous n'avez rien d'autre à installer après. C'est du "wash &amp; go" (TM).</p>
+
+					<h6>2. Copie de sauvegarde</h6>
+
+							<p>Il est neccessaire de faire une sauvegarde de /etc/network/interfaces et /etc/wpa_supplicant/wpa_supplicant.conf, cependant <span class="highlight-3">chiffrez votre copie de sauvegarde car il contient des informations sensibles</span>. Utilisez des archiveurs à mot de passe comme 7zip, zip, rar ou d'autres.</p>
+
+					<h6>3. Facilité d'utilisation du wpa_gui</h6>
+
+							<p>C'est ennuyeux de saisir chaque fois "/usr/sbin/wpa_gui" en mode console. Vous pouvez ajouter un bouton de démarrage sur votre bureau, et au Menu K sur le bureau, vous pouvez le nommer par exemple $HOME/Desktop/wpagui.desktop et obtenir ceci:</p>
+<pre>
+[Desktop Entry]
+Comment=
+Comment[de]=
+Encoding=UTF-8
+Exec[$e]=/usr/sbin/wpa_gui
+GenericName=wpagui
+GenericName[de]=wpagui
+Icon=kwifimanager
+MimeType=
+Name=wpagui
+Name[de]=wpagui
+Path[$e]=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DCOP-ServiceType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+</pre>
+
+
+							<p>Vous pouvez facilement créer un tel bouton en faisant un clic-droit sur le bureau puis "nouveau > raccourci vers un programme".</p>
+
+					<h6>4. SSID cachés</h6>
+							<p>Les SSID cachés sont detectés</p>
+
+	</div>
 
 			<div id="rev">Content last revised 13/07/2008 0700 UTC</div>
 </div>
 </body>
 </html>
+

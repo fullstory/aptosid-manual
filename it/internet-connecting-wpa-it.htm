@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75   04/07/2008 17.50 UTC -->
+<!-- Last translation revision by alessiog75   20/07/2008 13.00 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
 <!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
@@ -225,7 +225,7 @@
 
 			<h3>1. Specificare il backend dei driver di wpa_supplicant</h3>
 
-							<p>Il "wext driver backend" verrà usato per tutte le interfacce che non impostano esplicitamente "wpa-driver" al tipo di driver richiesto per quel dispositivo. Agli utenti di kernel linux 2.4, o 2.6 al di sotto della versione 2.6.14 verrà richiesto di specificare un tipo di wpa-driver.</p>
+							<p>Il "wext driver backend" verrà usato per tutte le interfacce che non impostano esplicitamente "wpa-driver" al tipo di driver richiesto per quel dispositivo. Agli utenti di kernel linux 2.4 oppure 2.6 al di sotto della versione 2.6.14 verrà richiesto di specificare un tipo di wpa-driver.</p>
 
 	</div>
 				<h3>Tabella dei driver supportati</h3>
@@ -248,11 +248,11 @@
 
 							<p>Tutti gli adattatori Intel Pro Wireless (ipw2100, ipw2200 e ipw3945) usano il backend "wext", a meno che il kernel sia più vecchio della versione 2.6.14</p>
 
-							<p>Madwifi supporta sia il driver backend "wext" che il "madwifi". "wext" è preferibile ma "madwifi" in certe circostanze può funzionare meglio.</p>
+							<p>Madwifi supporta sia il driver backend "wext" che il "madwifi". "wext" è preferibile ma "madwifi" in alcune circostanze può funzionare meglio.</p>
 
-							<p>Ndiswrapper: NON CI SARÀ PIÙ SUPPORTO al driver backend "ndiswrapper" dalla versione 1.16, perciò deve essere usato "wext" a meno che si abbia in uso una versione antiquata di ndiswrapper.</p>
+							<p>Ndiswrapper: NON CI SARÀ PIÙ SUPPORTO al driver backend "ndiswrapper" a partire dalla versione 1.16, perciò deve essere usato "wext" a meno che si stia utilizzando una versione antiquata di ndiswrapper.</p>
 
-							<p>Impostare il tipo di driver nella sezione interfaces(5) per il device con la opzione "wpa-driver". Ad esempio:</p>
+							<p>Impostare il tipo di driver nella sezione interfaces(5) per il device con l'opzione "wpa-driver". Ad esempio:</p>
 
 <pre>
 iface eth0 inet dhcp
@@ -262,11 +262,11 @@ iface eth0 inet dhcp
 
 			<h2>2. Modo #1: Managed Mode</h2>
 
-							<p>Questo modo permette di stabilire una connessione via wpa_supplicant ad una rete conosciuta. Lavora in modo similare al pacchetto wireless-tools. Ogni elemento richiesto per stabilire la connessione con wpa_supplicant è stabilito con "wpa-" seguito dal valore che sarà usato per quell'elemento.</p>
+							<p>Questa modalità permette di stabilire una connessione via wpa_supplicant ad una rete conosciuta. Lavora in modo similare al pacchetto wireless-tools. Ogni elemento richiesto per stabilire la connessione con wpa_supplicant è stabilito con "wpa-" seguito dal valore che sarà usato per quell'elemento.</p>
 
 		<h6>Esempi di un file wpa.conf in Modo #1 - Esempio 1.</h6>
 <pre>
-Esempi di un file wpa.conf in Modo #1 - Esempio 1.
+Esempio di un file wpa.conf in Modo #1 - Esempio 1.
 NOTA: Il valore "wpa-psk" è valido solo se:
 
    1. È una stringa di puro testo (ASCII) lunga tra 8 e 63 caratteri
@@ -330,7 +330,7 @@ wpa-conf /path/to/wpa_supplicant.conf
 	<div class="divider" id="wpa1">
 		<h2>Tabella delle opzioni comuni</h2>
 
-							<p>Un breve riassunto delle opzioni comuni di "wpa-" che possono essere usate nella sezione /etc/network/interfaces per un dispositivo wireless. Leggere la sezione "Note importanti riguardo al Managed Mode" per informazioni sui valori "wpa-" validi e non validi.</p>
+							<p>Un breve riassunto delle opzioni comuni di "wpa-" che possono essere usate nel file "/etc/network/interfaces" per un dispositivo wireless. Leggere la sezione "Note importanti riguardo al Managed Mode" per informazioni sui valori "wpa-" validi e non validi.</p>
 
 							<p class="highlight-2">NOTA: TUTTI i valori sono sensibili al maiuscolo/minuscolo</p>
 
@@ -359,18 +359,18 @@ wpa-ap-scan     0 o 1 o 2               regola la logica di scansione di
                                         wpa_supplicant
 
 </pre>
-							<p>Dovrebbe essere implementata la completa funzionalità di wpa_cli(8). Qualsiasi cosa mancante è considerata un errore e dovrebbe essere riportata come tale. Eventuali patch di correzione sono sempre benvenute.</p>
+							<p>Dovrebbe essere implementata la completa funzionalità di wpa_cli(8), qualsiasi mancanza è considerata un errore e dovrebbe essere riportata come tale. Eventuali patch di correzione sono sempre benvenute.</p>
 
 
 			<h2>Note importanti riguardo al Managed Mode</h2>
 
 							<p>Quasi tutte le opzioni "wpa-" richiedono che si sia specificato almeno un ssid. Solo poche opzioni hanno un effetto globale. Queste sono: "wpa-ap-scan" e "wpa-preauthenticate".</p>
 
-							<p>Ogni opzione "wpa-" data per un dispositivo nel file interfaces(5) è sufficiente a innescare una azione del demone di wpa_supplicant.</p>
+							<p>Ogni opzione "wpa-" data per un dispositivo nel file interfaces(5) è sufficiente ad innescare un'azione del demone di wpa_supplicant.</p>
 
 							<p>lo script ifupdown di wpa supplicant fa delle supposizioni riguardo al "tipo" di input che è valido per ogni opzione. Ad esempio, assume che alcuni siano in testo puro e avvolge le virgolette attorno all'input prima di passarlo al wpa_cli, che quindi aggiunge l'input al blocco di rete in formazione con il socket wpa_supplicant ctrl_interface.</p>
 
-							<p>L'avvio manuale di ifup con l'opzione "--verbose" mostrerà tutti i comandi usati per formare il blocco di rete via wpa_cli. Se il valore che si è usato per qualsiasi opzione "wpa-*" in /etc/network/interfaces appare virgolettato, significa che è stato assunto come essere un input di tipo "puro testo" o "ASCII".</p>
+							<p>L'avvio manuale di ifup con l'opzione "--verbose" mostrerà tutti i comandi usati per formare il blocco di rete via wpa_cli. Se il valore che si è usato per qualsiasi opzione "wpa-*" nel file "/etc/network/interfaces" appare virgolettato, significa che è stato assunto come essere un input di tipo "puro testo" o "ASCII".</p>
 
 							<p>Alcuni input sono assunti come se fossero stringhe esadecimali (ad esempio la chiave wpa-wep*). Il valore "tipo" della opzione "wpa-psk" comunque, è determinato tramite un semplice controllo su più di un carattere non esadecimale.</p>
 
@@ -440,21 +440,21 @@ esempio di wpa_supplicant.conf:
 network={
         ssid="foo"
         key_mgmt=NONE
-        # questa id_str notificherà /sbin/wpa_action di fare 'ifup uni'
+        # questa id_str notificherà /sbin/wpa_action di fare "ifup uni"
         id_str="uni"
 }
 
 network={
         ssid="bar"
         psk=123456789...
-        # questa id_str notificherà /sbin/wpa_action di fare 'ifup home_static'
+        # questa id_str notificherà /sbin/wpa_action di fare "ifup home_static"
         id_str="home_static"
 }
 
 network={
         ssid=""
         key_mgmt=NONE
-        # se non viene dato nessun parametro 'id_str', /sbin/wpa_action farà 'ifup default'
+        # se non viene dato nessun parametro id_str, /sbin/wpa_action farà "ifup default"
 }
 </pre>
 
@@ -472,7 +472,7 @@ iface eth1 inet manual
         wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
 
 
-# non è usato un id_str, "default" come fallback mapping target
+# se non è specificato un id_str, verrà utilizzato "default"
 iface default inet dhcp
 
 
@@ -512,7 +512,7 @@ blocchi di rete, fornire le informazioni di sicurezza interattive richieste e co
 
 <h2>Controllare il Roaming Daemon con wpa_action</h2>
 
-							<p>Una volta che il demone roaming è avviato, esso assume il controllo di ifupdown. wpa_cli chiama ifup quando wpa_supplicant è associato con successo ad una access point, e chiama ifdown quando la connessione viene persa o terminata. Mentre il demone roaming è attivo, ifupdown non dovrebbe venire controllato direttamente mediante immissione di comandi manuali, piuttosto viene fornito /sbin/wpa_action per fermare e ricaricare il demone roaming. Per esempio, per fermare il demone roaming sul dispositivo 'eth1':</p>
+							<p>Una volta che il demone roaming è avviato, esso assume il controllo di ifupdown; wpa_cli chiama ifup quando wpa_supplicant è associato con successo ad una access point e chiama ifdown quando la connessione viene persa o terminata. Mentre il demone roaming è attivo, ifupdown non dovrebbe venire controllato direttamente mediante immissione di comandi manuali, piuttosto viene fornito /sbin/wpa_action per fermare e ricaricare il demone roaming. Per esempio, per fermare il demone roaming sul dispositivo "eth1":</p>
 
 <pre>
 wpa_action eth1 stop
@@ -574,7 +574,7 @@ iface wlan0 inet manual
         wpa-map0 home
         wpa-map1 work
         wpa-map2 school
-        # ... additional wpa-mapX lines as required
+        # ...linee wpa-mapX aggiuntive se necessarie
 </pre>
 							<p>Per default lo script di mappatura sarà usato solo quando non è disponibile un "id_str" per la rete corrente. Se si vuole disabilitare completamente la funzione "id_str" e usare solo uno script di mappatura esterno, usare l'opzione "wpa-mapping-script-priority 1" per sovrascrivere il comportamento di default.</p>
 
@@ -629,7 +629,7 @@ iface default-guessnet inet dhcp
 iface default-wparoam inet dhcp
 </pre>
 
-							<p>In questo esempio wpa_action userà lo script guessnet per la selezione di una interfaccia logica disponibile sono quando nessuna opzione "id_str" viene fornita per la rete corrente nel file wpa_supplicant.conf fornito.</p>
+							<p>In questo esempio wpa_action userà lo script guessnet per la selezione di una interfaccia logica disponibile solo quando nessuna opzione "id_str" viene fornita per la rete corrente nel file wpa_supplicant.conf fornito.</p>
 
 							<p>Le linee "wpa-map" danno a guessnet le interfacce logiche che devono essere provate, oltre all'interfaccia di default che deve essere usata se tutte le prove falliscono. Le linee "test" di ogni interfaccia logica sono usate da guessnet per determinare se sono realmente connesse alla rete. Per esempio, guessnet sceglierà l'interfaccia logica  "home_static" se c'è un dispositivo con un indirizzo IP di 192.168.0.1 e MAC di 00:01:02:03:04:05 sulla rete corrente. Se tutte le prove falliscono, verrà configurata l'interfaccia "default-guessnet".</p>
 
@@ -665,10 +665,12 @@ wpa-scan-ssid 1
 
 <pre>
 chmod 0600 /etc/network/interfaces
+
 # sostituisce il percorso del file wpa_supplicant.conf
+
 chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
-							<p>Per default, /etc/network/interfaces è leggibile da tutti, e quindi non è idoneo a contenere chiavi segrete e password.</p>
+							<p>Per default il file "/etc/network/interfaces" è leggibile da tutti e quindi non è idoneo a contenere chiavi segrete e password.</p>
 
 	</div>
 			<div id="rev">Page last revised   Content last revised 30/04/2008 1100 UTC</div>

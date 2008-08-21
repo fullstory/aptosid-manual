@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision 07/11/2007 2330 UTC-->
+<!-- Last translation revision bluewater 03/08/2008 1230hrs UTC-->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
 <!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
@@ -190,7 +190,7 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="smxi">
-		<h2 id="top-header">The smxi Command Syntax sets</h2>
+		<h2 id="top-header">The smxi / sgfxi Command Syntax sets</h2>
 
 							<p>To use the sidux community contributed multi-function administration tool, <a href="  http://techpatterns.com/forums/about736.html">smxi</a>,  which is short for sidux-maintenance, you need to install the script:</p>
 
@@ -242,7 +242,7 @@ sgfxi -h
 							<li><span class="highlight-3">quit </span> - exits smxi at that point if you don't need to do anything more. Note, graphics installer has a start kde/init 5 option, so you can always use that to get back to your desktop</li>
 					</ul>
 					</li>
-							<li><span class="highlight-3">graphics installer</span> - this uses the sgfxi graphics installer from sidux to install nvdia, and usually ati fglrx proprietary drivers (ati has been erratic over the past year, but they usually work). Also offers xorg driver install, as well as starting your x/desktop</li>
+							<li><span class="highlight-3">installer for graphics drivers</span> - this uses the sgfxi to install nvdia, and usually ati fglrx non Open Source drivers (ati has been erratic over the past year, but they usually work). Also offers Xorg driver install, as well as starting your X/desktop</li>
 
 		<li><div class="screenshot"><img src="../lib/images-en/smxi-en/smxi_gfx-en.png" alt="smxi-gfx" /></div></li>
 
@@ -330,13 +330,80 @@ hold-install=nano^libgtk2.0
 							<span class="highlight-3">Note: Important: no spaces, only use ^ as package name separator!</span></li>
 					</ul>
 
+
+
+					<h3>sgfxi </h3>
+
+							<p>To install closed source 3d drivers:</p>
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+
+							<p>sgfxi currently supports ATI fglrx and Nvidia drivers. It also supports converting from or to Xorg free drivers like ati, intel, or nv.  smxi uses sgfxi as its graphics driver installer engine, but simply adds some option support for users.</p>
+	
+							<p> The default driver is the driver that is installed if no arguments are used to override it. Unless your card is too old, and requires a legacy driver, in which case the script will it determine for you.</p>
+	
+							<p>When you run the script, it will stop, and tell you what driver it is going to install. You can accept that, or exit and redo it with an override option if you want something different.</p>
+
+							<p class="highlight-3"><b>You can also run the sgfxi installer using  smxi, which uses sgfxi to install your graphics drivers. First, read the <a href="http://techpatterns.com/forums/about736.html"> smxi homepage </a>for more information, then run this command:</b></p>
+
+<pre>
+smxi -kiwdt
+</pre>
+							<p>sgfxi-h: When you use the -h option you will also see a list of all currently supported drivers, as well as a brief printout of your current system specifications, kernel, Xorg version. Here are some useful sgfxi options:</p>
+<pre>
+-c Use composite mode (nVidia cards only).
+-d Remove IgnoreDisplayDevices, allow TV for example (nVidia cards only).
+-h View this help menu.
+-n Automatically installs correct native Xorg nv, intel, or ati driver for your system.
+   Cleans up old binary driver stuff, updates Xorg.conf with new driver information,
+   and cleans nvidia and fgrlx stuff out of xorg.conf
+-N Force install of specific Xorg driver. 
+Syntax: sgfxi -N &lt;one of the drivers from the list, like -N radeon&gt;
+   Supported Xorg drivers: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Also configures xorg.conf as required. Full radeon Xorg 3d configuration automatically.
+-o Override default: install a specific driver, this is an absolute override - syntax:
+   -o 9746 (for nVidia, do not use the 1.0- part) or: -o 8.32.5 (for fglrx)
+-r Remove mode lines from xorg.conf
+-t Enables dynamic twinview (nVidia only)
+</pre>
+
+					<h3>Rolling back to open source drivers</h3>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. If you have overwitten them with closed source drivers you can revert or roll back to them with sgfxi, first:</p>
+
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+							<p>Then to install or rollback to a native driver</p>
+<pre>
+sgfxi -n
+OR
+sgfxi -N &lt;Xorg driver&gt;
+</pre>
+
+							<p>Key commands are:</p>
+<pre>
+-n Automatically installs correct native Xorg nv, intel, or ati driver for your system.
+   Cleans up old binary driver stuff, updates Xorg.conf with new driver information,
+   and cleans nvidia and fgrlx stuff out of xorg.conf
+-N Force install of specific Xorg driver. 
+Syntax: sgfxi -N &lt;one of the drivers from the list, like -N radeon&gt;
+ Supported Xorg drivers: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+ Also configures xorg.conf as required. Full radeon Xorg 3d configuration automatically.
+</pre>
+
+
 					<h5>Other useful things to know in console</h5>
-							<p>Remember: to scroll up or down in terminal window, use: shift+pageup/pagedown to go up to see something that has scrolled by. This is usually limited to about 6 screens or so back</p>
+							<p>Remember: to scroll up or down in terminal window, use: shift+pageup/pagedown to go up to see something that has scrolled by. This is usually limited to about 6 screens or so back.</p>
 
 	</div>
 
 
-	<div id="rev">Page last revised 28/06/2008 0600hrs UTC </div>
+	<div id="rev">Page last revised 03/08/2008 1230hrs UTC </div>
 
 </div>
 </body>

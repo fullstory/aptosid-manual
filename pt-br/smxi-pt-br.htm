@@ -326,13 +326,74 @@ hold-install=nano^libgtk2.0
 </pre>
 							<span class="highlight-3">Nota importante: não coloque espaços; use apenas ^ como separador dos nomes dos pacotes!</span></li>
 					</ul>
+					<h3>sgfxi </h3>
 
+							<p>To install closed source 3d drivers:</p>
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+para ver as opções:
+sgfxi -h
+</pre>
+							<p>O sgfxi dá suporte, atualmente, a drivers ATI fglrx e Nvidia. Suporta também conversões de ou para os drivers livres do xorg, como ati, intel, ou nv. O !h2 smxi usa sgfxi como motor para instalação dos drivers, apenas adicionando algumas opções extras para os usuários.</p>
+	
+							<p> O driver padrão é o que está instalado, se não houver argumentos que se sobreponham a ele. No entanto, se sua placa for muito antiga e pedir um driver legado ('legacy driver'), o script escolherá um para você.</p>
+	
+							<p>Quando você roda o script, ele faz uma pausa para dizer qual driver vai instalar. Você pode aceitar OU sair e rodá-lo de novo com um argumento diferente, que satisfaça suas necessidades.</p>
+
+							<p class="highlight-3"><b>Você pode ainda rodar o instalador do sgfxi dentro do próprio smxi, pois, como dissemos, ele usa o sgfxi para instalar os drivers de sua placa. Antes de tudo, visite a <a href="http://techpatterns.com/forums/about736.html">página do smxi </a>para mais informações. Em seguida, rode este comando:</b></p>
+
+<pre>
+smxi -kiwdt
+</pre>
+							<p>sgfxi-h: A opção -h fornece uma lista com todos os drivers suportados e mostra uma síntese das especificações de seu sistema, do kernel e da versão do xorg. Outras opções úteis:</p>
+<pre>
+-c Usa modo compósito (apenas placas NVidia)
+-d Remove IgnoreDisplayDevices, o que vai permitir TV, por exemplo (apenas nVidia)
+-h Mostra este menu de ajuda
+-n Instala automaticamente os drivers nv, intel e ati, nativos do xorg;
+   Limpa de seu sistema os drivers binários antigos e atualiza o xorg.conf com informações sobre os novos;
+   Retira do xorg.conf informações sobre nvidia e fgrlx
+-N Força a instalação de um driver xorg específico
+Sintaxe: sgfxi -N &lt;um dos drivers da lista, como -N radeon&gt;
+   Drivers xorg suportados: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Também faz as alterações necessárias no xorg.conf. Configuração total e automática do radeon xorg 3D
+-o Sobrepõe-se ao padrão: instala um driver específico; a sobreposição é absoluta
+Sintaxe: -o 9746 (para NVidia, não use a parte 1.0- ) ou -o 8.32.5 (para fglrx)
+-r Remove modelines do xorg.conf
+-t Ativa twinview dinâmico (apenas NVidia)
+</pre>
+
+					<h3>Rolling back to open source drivers</h3>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. If you have overwitten them with closed source drivers you can revert or roll back to them with sgfxi, first:</p>
+
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+							<p>Then to install or rollback to a native driver</p>
+<pre>
+sgfxi -n
+OU
+sgfxi -N &lt;Xorg driver&gt;
+</pre>
+
+							<p>Key commands are:</p>
+<pre>
+-n Instala automaticamente o driver xorg nativo correto para seu sistema: nv, intel ou ati
+   Limpa de seu sistema os antigos drivers binários, atualiza o xorg.conf com as informações do novo driver e
+   limpa do xorg.conf menções aos drivers nVidia e fgrlx
+-N Força a instalação de um driver xorg específico
+Sintaxe: sgfxi -N &lt;um dos drivers da lista, como like -N radeon&gt;
+ Drivers xorg suportados: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+ Também faz as alterações necessárias no xorg.conf. Configuração total e automática do radeon xorg 3D.
+</pre>
 					<h5>Outras coisas importantes sobre o terminal</h5>
 							<p>Lembre-se: para rolar a janela do terminal, use: Shift+PageUp para rolar a tela para cima e Shift+PageDown para rolá-la para baixo. Isto normalmente está limitado a mais ou menos 6 telas.</p>
 
 	</div>
 
-	<div id="rev">Page last revised 28/06/2008 0600hrs UTC </div>
+	<div id="rev">Page last revised 03/08/2008 1230hrs UTC </div>
 
 </div>
 </body>

@@ -386,14 +386,74 @@ hold-install=nano^libgtk2.0
 
 							<span class="highlight-3">Remarque Importante: n'utilisez aucun espace, séparez les noms de paquets exclusivement à l'aide du signe ^ et d'aucun autre type de séparateur !</span></li>
 					</ul>
+					<h3>sgfxi </h3>
 
+							<p>To install closed source 3d drivers:</p>
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+
+							<p>sgfxi supporte actuellement les pilotes ATI fglrx et Nvidia. Il est également capable de gérer la conversion depuis ou vers les pilotes libres xorg comme ati, intel, nv.  smxi utilise sgfxi comme moteur d'installation de pilotes graphiques, en y adjoignant des fonctions de facilitation pour les utilisateurs.</p>
+
+							<p>Le pilote par défaut sera celui déjà installé, si aucun argument n'est passé au programme pour en changer. Sauf si votre carte était trop ancienne et avait besoin d'un pilote générique, auquel cas le script le déterminerait pour vous.</p>
+	
+							<p>En cours de fonctionnement après que vous l'ayez lancé, le script s'arrêtera pour vous avertir du pilote qu'il aura choisi d'installer. Vous pourrez valider son choix, ou bien sortir et recommencer en utilisant une option de remplacement si vous souhaitez quelque chose de différent.</p>
+
+							<p class="highlight-3"><b>Vous pouvez également lancer l'installeur sgfxi en utilisant le centre de contrôle de sidux  smxi, qui se sert de sgfxi pour installer les pilotes graphiques. Consultez pour ce faire <a href="http://techpatterns.com/forums/about736.html">la page web de  smxi </a>où vous trouverez des informations complémentaires. Lancez cette commande ensuite :</b></p>
+
+<pre>
+smxi -kiwdt
+</pre>
+							<p>sgfxi-h: En utilisant l'option -h vous pourrez afficher une liste de pilotes actuellement gérés, ainsi qu'un bref résumé des spécificités de votre système, et notamment noyau, version de xorg. Voici quelques options utiles pour sgfxi :</p>
+<pre>
+-c Utilisation du mode composite (cartes nVidia seulement).
+-d Enlève IgnoreDisplayDevices, accepte une TV par exemple (cartes nVidia seulement).
+-h Affiche ce menu d'aide.
+-n Installe automatiquement le pilote xorg adapté à votre système, comme nv, intel ou ati.
+   Nettoie les anciens pilotes binaires, met xorg.conf à jour avec les nouvelles informations de pilote et purge tout reste de nvidia ou fgrlx de xorg.conf.
+-N Force l'installation d'un pilote xorg spécifique. 
+Syntaxe: sgfxi -N &lt;un des pilotes de la liste, comme -N radeon&gt;
+   Pilotes Xorg gérés: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Configure également xorg.conf comme requis. Complète automatiquement la configuration 3D xorg radeon.
+-o Remplace défaut: installe un pilote spécifique, il s'agit d'un remplacement absolu - syntaxe :
+   -o 9746 (pour nVidia, n'utilisez pas le préfixe 1.0-) ou: -o 8.32.5 (pour fglrx)
+-r Efface les mode lines de xorg.conf
+-t Active la vue jumelle dynamique (nVidia seulement)
+</pre>
+
+					<h3>Rolling back to open source drivers</h3>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. If you have overwitten them with closed source drivers you can revert or roll back to them with sgfxi, first:</p>
+
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+							<p>Then to install or rollback to a native driver</p>
+<pre>
+sgfxi -n
+OR
+sgfxi -N &lt;Xorg driver&gt;
+</pre>
+
+							<p>Key commands are:</p>
+<pre>
+-n Installe automatiquement le pilote xorg nv, intel, or ati adapté à votre système.
+   Nettoie les anciens pilotes binaires, met xorg.conf à jour avec les nouvelles informations de pilote et purge tout reste de nvidia ou fgrlx de xorg.conf.
+-N Force l'installation d'un pilote xorg spécifique.
+Syntaxe: sgfxi -N &lt;un des pilotes de la liste, comme -N radeon&gt;
+   Pilotes Xorg gérés: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Configure également xorg.conf comme requis. Complète automatiquement la configuration 3D xorg radeon.
+</pre>
 	<h5>Autres petites choses à connaître dans la console</h5>
 
 							<p>Souvenez-vous en : pour naviguer de bas en haut dans une fenêtre de terminal, utilisez : Maj+PageHaut/PageBas, qui vous permettent de revoir quelque chose qui aurait défilé. Les limitations de cette fonctionnalités se situent aux environs de 6 écrans en arrière.</p>
 
 	</div>
 
-	<div id="rev">Page last revised 28/06/2008 0600hrs UTC</div>
+	<div id="rev">Page last revised 03/08/2008 1230hrs UTC</div>
 
 </div>
 </body>

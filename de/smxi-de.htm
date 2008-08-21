@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Fr 27. Jun 18:40:02 CEST 2008 -->
+<!-- Last translation revision hubi Mo 18. Aug 16:23:56 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
 <!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
@@ -190,7 +190,7 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="smxi">
-		<h2 id="top-header">Die Befehls-Syntax von smxi</h2>
+		<h2 id="top-header">Die Befehls-Syntax von smxi/sgfxi</h2>
 
 							<p>Das von der Community entwickelte Skriptpaket zur Systemadministration <a href="  http://techpatterns.com/forums/about736.html">smxi</a>, kurz für sidux-maintenance ("sidux-Wartung"), kann man auf den Computer laden und installieren.</p>
 
@@ -334,12 +334,75 @@ hold-install=nano^libgtk2.0
 							<span class="highlight-3">Wichtig: nur ^ darf als Trennzeichen zwischen Paketnamen verwendet werden, kein Leerzeichen!</span></li>
 					</ul>
 
+					<h3>sgfxi </h3>
+
+							<p>To install closed source 3d drivers:</p>
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+							<p>sgfxi unterstützt im Augenblick ATI/fglrx- und Nvidia-Treiber. Auch wird die Konvertierung von oder zu freien xorg-Treibern wie ati, intel oder nv unterstützt. smxi nutzt sgfxi als Installationsbackend für Grafiktreiber und fügt einige Optionen zur einfacheren Benutzung hinzu.</p> 
+
+							<p>Der Default-Treiber wird installiert, wenn keine weiteren Optionen für die Installation angegeben werden. Auch erkennt das Skript automatisch ältere Grafikkarten und installiert Legacy-Treiber ohne weiteres Zutun.</p>
+
+							<p>Nach Start des Skriptes und Erkennung der Grafikkarte wird ausgegeben, welcher Treiber installiert werden soll. Man hat die Möglichkeit, diese Auswahl zu bestätigen und den Treiber zu installieren oder den Installationsvorgang abzubrechen und mit einer selbstgewählten Option das Skript neu zu starten.</p>
+
+							<p class="highlight-3"><b>Der sgfxi-Installer kann auch mit smxi ausgeführt werden. Dieses Skript benutzt auch sgfxi,  um die Grafik-Treiber zu installieren. Mehr Informationen auf der <a href="http://techpatterns.com/forums/about736.html">  smxi-Homepage</a>. Mit diesem Befehl wird die Grafikkarteninstallation gestartet:</b></p>
+
+<pre>
+smxi -kiwdt
+</pre>
+							<p>sgfxi -h listet alle Optionen. Die Optionen werden im Laufe der Zeit ergänzt. Auch werden mit sgfxi -h die augenblicklich unterstützten Treiber und Spezifikationen des benutzten Systems wie Kernel und xorg-Version angezeigt. Nachfolgend einige nützliche sgfxi-Optionen:</p>
+<pre>
+-c Benutzung des Composite-Modus (nur für nVidia Karten).
+-d Entfernt IgnoreDisplayDevices, um andere Ausgabegeräte wie einen TV-Monitor nutzen zu können (nur für nVidia Karten).
+-h Öffnet dieses Hilfe-Menü.
+-n Installiert automatisch den korrekten nativen xorg nv, intel, oder ati Treiber für ihr System.
+   Säubert alte Binär-Treiberreste, erneuert die xorg.conf mit neuen Treiberinformationen,
+   und entfernt Reste von nvidia und fglrx aus der xorg.conf
+-N Erzwingt die Installation eines spezifischen xorg Treibers. 
+Syntax: sgfxi -N &lt;einer der Treiber aus der Liste, wie z.B. -N radeon&gt;
+   Unterstützte Xorg-Treiber: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Konfiguriert auch die xorg.conf sofern notwendig. Vollautomatische radeon xorg 3d Konfiguration.
+-o Überschreibt Grundeinstellung: Installiert einen spezifischen Treiber. Dies ist die Syntax eines völligen Overrides (alles wird überschrieben):
+   -o 9746 (für nVidia, benutzen Sie nicht den Teil 1.0-) oder: -o 8.32.5 (für fglrx)
+-r Entfernt "modelines" aus der xorg.conf
+-t Aktiviert dynamische Verwaltung von Doppelmonitoren (dynamic twinview) (nur nVidia)
+</pre>
+
+					<h3>Rückgriff auf quelloffene Treiber</h3>
+							<p>Quelloffene Xorg-Treiber für nVidia, ATI, Radeon und Intel werden von sidux vorinstalliert. Falls diese von unfreien Treibern überschrieben wurden, kann mittels sgfxi auf die quelloffenen Treiber zurückgegriffen werden. Als Erstes:</p>
+
+<pre>
+cd /usr/local/bin; wget techpatterns.com/smxi.zip; unzip smxi.zip; smxi
+Als root gibt man ein: 
+smxi
+und folgt den Anweisungen :: Skript-Homepage - http://techpatterns.com/h2
+</pre>
+							<p>(Neu)Installation der quelloffenen Treiber:</p>
+<pre>
+sgfxi -n
+ODER
+sgfxi -N &lt;Xorg driver&gt;
+</pre>
+
+							<p>Die wichtigsten Befehlsoptionen sind:</p>
+<pre>
+-n Installiert automatisch den richtigen nativen Xorg-Treiber (nv, intel oder ati).
+   Entfernt Reste der binären Treiber und schreibt die neuen Treiberinformationen nach xorg.conf.
+-N Erzwingt Installation eines spezifischen Xorg-Treibers. 
+Syntax: sgfxi -N &lt;einer der Treiber aus der Liste, zum Beispiel: -N radeon&gt;
+ Unterstützte Xorg-Treiber sind: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+ Auch wird xorg.conf neu konfiguriert. Eine vollständige radeon-Xorg-3D-Konfiguration wird automatisch erstellt.
+</pre>
+
 					<h5>Nützliche Informationen für die Konsole</h5>
 							<p>Um in einem Terminalfenster zu scrollen, verwendet man die Tasten Shift+BildAuf/BildAb. Dies ist üblicherweise mit ca. sechs Bildschirmseiten begrenzt.</p>
 
 	</div>
 
-	<div id="rev">Page last revised 28/06/2008 0600hrs UTC </div>
+	<div id="rev">Page last revised 03/08/2008 1230hrs UTC </div>
 
 </div>
 </body>

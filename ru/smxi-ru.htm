@@ -323,13 +323,74 @@ hold-install=nano^libgtk2.0
 </pre>
 							<span class="highlight-3">Примечание, важно: никаких пробелов, как разделитель имен пакетов используется только ^ !</span></li>
 					</ul>
+					<h3>sgfxi </h3>
 
+							<p>To install closed source 3d drivers:</p>
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+
+							<p>sgfxi поддерживает в натоящий момент ATI fglrx и NVIDIA драйверы. Переход от проприетарных к свободным драйверам и обратно поддерживается этим скриптом для графических карт ati, intel или nv. Скрипт smxi использует sgfxi как метод инсталляции для графического драйвера и добавляет несколько опций, упрощая процедуру установки.</p>
+
+							<p>Драйвер по умолчанию инсталлируется, если не указываются никакие дополнительные опции инсталляции. Также скрипт автоматически определяет более старые графические карты и сразу инсталлирует драйвер Legacy.</p>
+
+							<p>После старта скрипта и опознования графической карты выдается сообщение о том, какой драйвер должен инсталлироваться. При этом имеется возможность подтвердить этот выбор и инсталлировать драйвер или отменить инсталляционный процесс и перезапустить скрипт с выбранной опцией.</p>
+
+							<p>ИЛИ: используют h2 smxi для установки графических драйверов: <a href="http://techpatterns.com/forums/about736.html">smxi</a>. Для инсталляции только 3D драйвера, возможно использовать команду:</p>
+<pre>
+smxi -kiwdt
+</pre>
+							<p>sgfxi-h перечисляет все опции. Опции со временем дополняются. Также отображаются поддерживаемые на текущий момент драйверы и спецификации используемой системы такие,как ядро и xorg версия:</p>
+<pre>
+-c использовать composite (только nvidia).
+-d удалить незадействованные дисплеи, разрешить TV, например (только nvidia).
+-h это меню помощи.
+-n Автоматическая установка правильных встроенных xorg-драйверов nv, intel, или ati для вашей системы.
+   Старые бинарные драйвера удаляются, файл xorg.conf перезапмсывается с включением новой информации и удалением прежних, относящихся к 
+   nvidia и fgrlx.
+-N Форсировать установку выбранных xorg-драйверов. 
+Синтаксис: sgfxi -N &lt;один из списка драйверов, например -N radeon&gt;
+   Поддерживаемые драйвера: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Дополнительная настройка xorg.conf является необходимой, кроме radeon xorg 3d, конфигурируемого автоматически.
+-o Override default: install a specific driver, this is an absolute override - syntax:
+   -o 9746 (для NVIDIA, не используйте часть названия - 1.0) или: -o 8.32.5 (для fglrx)
+-r Remove mode lines from xorg.conf
+-t Включить dynamic twinview (только NVIDIA)
+</pre>
+
+					<h3>Rolling back to open source drivers</h3>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. If you have overwitten them with closed source drivers you can revert or roll back to them with sgfxi, first:</p>
+
+<pre>
+cd /usr/local/bin &amp;&amp; wget -Nc http://techpatterns.com/downloads/distro/sgfxi &amp;&amp; chmod +x sgfxi &amp;&amp; sgfxi
+To see options:
+sgfxi -h
+</pre>
+							<p>Then to install or rollback to a native driver</p>
+<pre>
+sgfxi -n
+OR
+sgfxi -N &lt;Xorg driver&gt;
+</pre>
+
+							<p>Key commands are:</p>
+<pre>
+-n Инсталлятор автоматически выбирает и корректно устанавливает нативный xorg-драйвер nv, intel, или ati для Вашей системы.
+   При этом информация о старых драйверах стирается, а о новых вносится в xorg.conf,
+   полностью необходимым образом перезаписывая данный файл.
+-N Форсированнная инсталяция указанного драйвера 
+Синтаксис: sgfxi -N &lt;один из драйверов в списке, например -N radeon&gt;
+   Драйвера поддерживаемые xorg: ati i128 i740 i810 i810-modesetting intel mga neomagic nv radeon sis tdfx vesa vga voodoo
+   Все необходимые изменения вносятся в файл xorg.conf автоматически. Настройка radeon xorg 3d также осуществляется автоматом.
+</pre>
 					<h5>Иные полезные сведения для работы в консоли</h5>
 							<p>Запомните: для прокручивания вверх или вниз в окне терминала, используется: shift+pageup/pagedown . Обычно существует ограничение на 6 "экранов"</p>
 
 	</div>
 
-	<div id="rev">Page last revised 28/06/2008 0600hrs UTC</div>
+	<div id="rev">Page last revised 03/08/2008 1230hrs UTC</div>
 
 </div>
 </body>

@@ -227,8 +227,8 @@
 </pre>
 				<p>Now although you can backup any directory, this assumption is to back up entire partitions ... we want to back up hda1 and hda5 (we don't want to backup hda6), and so we make some directories to store the data:</p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
 </pre>
 				<p>You need the IP address distinguished because if you wish to use this computer to also backup another one (covered later on).</p>
 
@@ -248,7 +248,7 @@
 
 				<p>Now the reason you put '/proc/*' instead of just '/proc' is that this will cunningly still backup the directory name /proc, but will ignore everything inside. The same is true to /tmp, /sys, and even more cunningly all the mount point names.</p>
 
-				 <p>This way, if you destroy your root partition and do a full restore, /tmp, /proc, /sysand the mount points names will be created (just as they should). If /tmp doesn't exist when X starts up, it may complain )See the man page for more on --exclude and --include).</p>
+				 <p>This way, if you destroy your root partition and do a full restore, /tmp, /proc, /sys and the mount points names will be created (just as they should). If /tmp doesn't exist when X starts up, it may complain. (See the man page for more on --exclude and --include).</p>
 
 			<h6>Restoring directories from backups</h6>
 
@@ -286,7 +286,7 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p>One way to restore the root partition is to boot into a spare linux partition if you have one on your hard disk. Then since you will be able to restore the partition you want, as it won't be mounted as root. After you restore the partition, boot up into it and it will be exactly has it was when it was backed up ... exactly! This is by far the easiest method.</p>
 
-				<p>Another way to restore the root partition is to boot up the sidux-live cd live cd and do the restore from there. rdiff-backup is included in sidux.  In case the sidux live-cd version you have doest not include rdiff, you can type in the grub (Bootoptions, (Cheatcodes)) the cheatcode "unionfs" and that will mean you can install applications on the  live cd. Just boot up and do the following commands:</p>
+				<p>Another way to restore the root partition is to boot up the sidux-live cd and do the restore from there. rdiff-backup is included in sidux.  In case the sidux live-cd version you have does not include rdiff, you can type in the grub (Bootoptions, (Cheatcodes)) the cheatcode "unionfs" and that will mean you can install applications on the live cd. Just boot up and do the following commands:</p>
 <pre>
 $ sudo su
 # wget -O /etc/apt/sources.list http://sidux.com/files/misc/sources.list

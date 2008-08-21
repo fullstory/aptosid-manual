@@ -266,7 +266,7 @@ Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 	<div class="divider" id="apt-install">
  		<h2>Installing a new package</h2>
  
-			<p>Presuming the Apt-database is updated and the name of the package is known, then the following command will install a package called qemu, for example, and all its dependencies: (further on you will see how to search and find packages.)</p>
+							<p>Presuming the Apt-database is updated and the name of the package is known, then the following command will install a package called qemu, for example, and all its dependencies: (further on you will see how to search and find packages.)</p>
 
  
 <pre># apt-get install qemu
@@ -288,7 +288,7 @@ Do you want to continue [Y/n]? n
  
 	<div class="divider" id="apt-delete"> 
 		<h2>Deleting a package</h2>
-			<p>Similarly it should come as no surprise that the following will deinstall the example, however it will not remove the dependencies installed above: </p>
+							<p>Similarly it should come as no surprise that the following will deinstall the example, however it will not remove the dependencies installed above: </p>
 
 <pre># apt-get remove example
 apt-get remove gaim
@@ -305,9 +305,9 @@ Removing gaim-irchelper ...
 Removing gaim ...
 </pre>
 
-			<p>In this last case the configuration files of the package 'gaim' (basically how its setup) were not deleted from the system. You could use them when installing the same package again and it would work with these settings</p>
+							<p>In this last case the configuration files of the package 'gaim' (basically how its setup) were not deleted from the system. You could use them when installing the same package again and it would work with these settings</p>
 
-			<p>If you want the config files deleted also, issue this command:</p>
+							<p>If you want the config files deleted also, issue this command:</p>
  
 <pre>
 # apt-get remove --purge gaim
@@ -324,12 +324,12 @@ Removing gaim ...
 Purging configuration files for gaim ...
 </pre>
 
-			<p>Here the files in directory /etc/gaim were not only deleted, all config files were also purged/deleted, IF however an application holds or files because they were not created during the installation of the package that we want to delete, they will remain.</p>
+							<p>Here the files in directory /etc/gaim were not only deleted, all config files were also purged/deleted, IF however an application holds or files because they were not created during the installation of the package that we want to delete, they will remain.</p>
 
-			<p>After the database is updated, one can find out which packages have new/newer versions: (first install apt-show-versions)</p>
+							<p>After the database is updated, one can find out which packages have new/newer versions: (first install apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u |grep upgrade
+# apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
@@ -442,7 +442,7 @@ Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
 Do you want to continue [Y/n]?
 
-<span class="highlight-3">Y will download the upgraded packages without touching the installed system</span>
+<span class="highlight-3">Y </span> will download the upgraded packages without touching the installed system
 </pre>
 
 							<p>After the 'dist-upgrade -d' has downloaded, and wish to complete the dist-upgrade,  immediately or at a later time,  please follow these instructions:</p>
@@ -464,26 +464,26 @@ init 5 &amp;&amp; exit
 	</div>
 <div class="spacer02"></div>
 
-				<p class="highlight-2">If you do not go to init 3, well tough for you ,, you have been warned!!!!!!!!!!!!!</p>
+							<p class="highlight-2">If you do not go to init 3, well tough for you ,, you have been warned!!!!!!!!!!!!!</p>
 
 				<h4>The Reasons NOT to use anything else but apt-get for a dist-upgrade</h4>
 
-				<p>Package managers like adept, aptitude, synaptic and kpackage  are not always able to account for the huge amount of changes which happen in Sid (depedency changes, name changes, maintainer script changes, ...). That's not the fault of the developers of those tools though, they write a excellent tools and fabulous for the debian stable branch, they are simply just not suitable for the very special needs of Debian Sid.</p>
+							<p>Package managers like adept, aptitude, synaptic and kpackage  are not always able to account for the huge amount of changes which happen in Sid (depedency changes, name changes, maintainer script changes, ...). That's not the fault of the developers of those tools though, they write a excellent tools and fabulous for the debian stable branch, they are simply just not suitable for the very special needs of Debian Sid.</p>
 
-				<p>Use whatever you like to search for packages, but stick with apt-get for actually installing/removing/dist-upgrading</p>
+							<p>Use whatever you like to search for packages, but stick with apt-get for actually installing/removing/dist-upgrading</p>
 
-				<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection),  mix that with a quickly moving target like sid and even worse an external  repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster. The other item to note is that all of these types of GUI  package managers need to run in init 5, and/or,  in X, and in doing a dist-upgrade in init 5 and/or X , (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, in time you will.</p>
+							<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection),  mix that with a quickly moving target like sid and even worse an external  repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster. The other item to note is that all of these types of GUI  package managers need to run in init 5, and/or,  in X, and in doing a dist-upgrade in init 5 and/or X , (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, in time you will.</p>
 
-				<p>apt-get on the other hand strictly does what it is asked to do,  if there is any breakage you can pinpoint and debug/ fix the cause,  if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
+							<p>apt-get on the other hand strictly does what it is asked to do,  if there is any breakage you can pinpoint and debug/ fix the cause,  if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
 
-				<p>This is the reason why debian builds use apt-get, not the other package manager tools.</p>
+							<p>This is the reason why debian builds use apt-get, not the other package manager tools.</p>
 
 
 	</div>
 	<div class="divider" id="apt-cache">
 			<h2>Searching for a package with apt-cache</h2>
 
-			<p>Another very useful command in the APT-system is apt-cache; it searches the APT-Database and shows information on packages; e.g. a list of all packages, that contain or address "sidux" and "manual" is obtained by:</p>
+							<p>Another very useful command in the APT-system is apt-cache; it searches the APT-Database and shows information on packages; e.g. a list of all packages, that contain or address "sidux" and "manual" is obtained by:</p>
 
 <pre>$ apt-cache search sidux manual
 sidux-manual-de - the official de sidux manual
@@ -528,7 +528,7 @@ Description: the official en sidux manual
  sure that this will prove to be a very valuable resource for you and we thank
  you for being a part of sidux.</pre>
 
-		<p>All installable versions of the package (they depend on your sources.list) can be listed by typing:</p>
+							<p>All installable versions of the package (they depend on your sources.list) can be listed by typing:</p>
 
 <pre>
 $ apt-cache policy sidux-manual-en
@@ -539,7 +539,7 @@ sidux-manual-en:
      01.12.2007.06.03-1 0
         500 http://sidux.com sid/main Packages
 </pre>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
+							<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
 
 	</div>
 	<div class="divider" id="apt-kio">

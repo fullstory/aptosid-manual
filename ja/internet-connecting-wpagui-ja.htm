@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="ja">
 <head>
 	<title>sidux Manuals - WPA-GUI - WIFI</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by muchan 30/07/2008 0700 UTC -->
+<!-- Last translation revision by muchan 04/August/2008 2139 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
 <!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
@@ -200,7 +200,7 @@
 							<!--- ####
 							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p> 
 							#### -->
-							<p>接続できる無線LANを閲覧、選択、接続するWPAローミングの方法を紹介します。これはデスクトップGUI上、またはGUIなしでも使え、とくにノートブックを使う時、とても便利です。</p> 
+							<p>接続できる無線LANを閲覧、選択、接続するWPAローミングの方法を紹介します。これはデスクトップGUI上、またはGUIなしでも使え、とくにノートブックを使う時にとても便利です。</p> 
 
 							<!--- ####
 							<p>wpasupplicant is a program to not only address wireless networks with WPA keys but all wireless networks. In combination with the "classic" /etc/network/interfaces it is a very powerful method to connect to networks without even doing anything. It does it automatically if a network is open or the network is added to a configuration file. Even more convenient: if you allow hotplugging, the correct connection is set fully automated right after logging in (into a desktop environment or into a non X session).</p>
@@ -234,7 +234,7 @@ apt-get update &amp;&amp; apt-get install wpasupplicant wpagui
 							<!--- ####
 							<p>As root adapt your <span class="highlight-3">/etc/network/interfaces</span> so that it contains these lines. the name of the interface may vary:</p>
 							#### -->
-							<p>rootとして <span class="highlight-3">/etc/network/interfaces</span> を編集し、次の行を加えます。　インターフェイスの名前は一例です:</p>
+							<p>rootとして <span class="highlight-3">/etc/network/interfaces</span> を編集し次の行を加えます。インターフェイスの名前は一例です:</p>
 
 <pre>
 allow-hotplug wlan0
@@ -250,13 +250,17 @@ iface wlan0 inet manual
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
+
+network={
+        key_mgmt=NONE
+}
 </pre>
 
 
 							<!--- ####
 							<p>The last step is that you make wpa-roaming workable for all users who are in the group <span class="highlight-3">netdev</span> but <span class="highlight-3">unreadable</span> and <span class="highlight-3">unwritable</span> for all other users than root (recommended for security reasons) but members of netdev still can add networks through wpa_gui:</p>
 							#### -->
-							<p>最後のステップとして<span class="highlight-3">netdev</span>グループのメンバーは誰でもWPAローミングが使え、かつ安全のためメンバーでなければrootを除いて <span class="highlight-3">読み書き禁止</span> に設定します。</p>
+							<p>最後のステップとして安全のため<span class="highlight-3">netdev</span>グループのメンバーのみWPAローミングが使え、メンバー以外はrootを除いて<span class="highlight-3">読み書き禁止</span>に設定します。</p>
 <pre>
 chown root:netdev /etc/wpa_supplicant/wpa_supplicant.conf
 chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
@@ -279,12 +283,12 @@ chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 											<!--- ####
     							*Restart the network or reboot</p>
 											#### -->
-    							*ネットワークの再スタートまたはシステムの再起動</p>
+    							* ネットワークの再スタートまたはシステムの再起動</p>
 
 							<!--- ####
 							<p>Next set the default for the user who is set up during the installation of sidux<br />
 							#### -->
-							<p>次にsiduxのインストールの際にデフォルトで作られたユーザーをデフォルトにセットします。Next set the default for the user who is set up during the installation of sidux<br />
+							<p>次にsiduxのインストールの際にデフォルトで作られたユーザーをデフォルトにセットします。<br />
 							<!--- ####
 							Then reload wpasupplicant as root with:</p>
 							#### -->
@@ -349,12 +353,24 @@ wpa_action &lt;interface&gt; reload
 							<p>実際に使ってみて満足がいくようだったら、<span class="highlight-3">File > Save Configuration</span>を選んでこの設定を <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> に保存します。</p>
 
 
+					<!--- ####
 					<h3>Using wpa-gui with network configuration</h3>
+					#### -->
+					<h3>wpa-guiをネットワーク設定と併用する方法</h3>
 
+							<!--- ####
 							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">IDString</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
+							#### -->
+							<p><span class="highlight-3">IDString</span>と<span class="highlight-3">Priority</span>(優先度)を利用すれば、起動時にどのネットワークに接続するかを指示することができます。優先度の最高が<span class="highlight-3">1000</span>, 最低が <span class="highlight-3">0</span>です。 そして<span class="highlight-3">IDString</span>を<span class="highlight-3">/etc/network/interfaces</span>に加える必要があります。</p>
 
+						<!--- ####
 						<h6>The syntax for /etc/network/interfaces.</h6> 
+						#### -->
+						<h6>/etc/network/interfacesのシンタックス</h6> 
+							<!--- ####
 							<p>First is for the connection to DHCP servers, the second is if you are provided with a fixed IP address. To adjust your settings:</p>
+							#### -->
+							<p>一つ目のセクションはDHCPサーバーへの接続に関するもので、二つめは固定IPアドレスを使う場合です。番号は一例ですから実際の番号に直して使ってください:</p>
 <pre>
 # id_str="home_dhcp"
 iface home_dhcp inet dhcp
@@ -369,10 +385,19 @@ iface home_static inet static
         broadcast 192.168.0.255
         gateway 192.168.0.1
 </pre>
+						<!--- ####
 						<h6>Practical Examples</h6>
+						#### -->
+						<h6>実際例</h6>
+							<!--- ####
 							<p>If you want to be automatically connected to your home WLAN when  at home, give the the IDString "home" and priority "15". If you are travelling, and want the laptop to connect to any free, non passworded network which is available. give it the IDString "stalk" and priority "1" (very low). But please, always check if your connection is legal and disconnect if it is obviously not intended to be free.</p>
+							#### -->
+							<p>例えば自宅にいるとき自動的に自宅のWLANにつなげたい場合、IDString を "home" に優先度を "15" に設定します。また、旅に出るときなど自由にパスワードなしで使えるネットワークがあったら何でも使おう、という場合、IDString を "stark"(*) として優先度は "1" (とても低い値)にセットします。それでももちろんその無線LANを使うことが法律に違反してないことを確認し、自由に使われることを意図していないことが明らかな場合は速やかに接続を終了してください。<br/>*(訳注:「こっそり忍び寄る」の意)</p>
 
+							<!--- ####
 							<p>Example stanzas in /etc/network/interfaces:</p>
+							#### -->
+							<p>/etc/network/interfacesの例:</p>
 <pre>
 # /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
 
@@ -393,7 +418,10 @@ iface stalk inet dhcp
 </pre>
 
 
+							<!--- ####
 							<p>Example /etc/wpa_supplicant/wpa_supplicant.conf (SSID and passwords are changed or just explained):</p>
+							#### -->
+							<p>/etc/wpa_supplicant/wpa_supplicant.conf の例(SSIDとパスワードは説明のため変更してあります):</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -401,8 +429,8 @@ update_config=1
 network={
         ssid="my_ssid"
         scan_ssid=1
-        psk=123ABC  ##here comes the passphrase in hexadecimal code!!
-#       psk="password_in_ascii"   ##you dont need to
+        psk=123ABC                ##ここに16進数のパスフレーズが入ります!!
+#       psk="password_in_ascii"   ## 必要ありません
         key_mgmt=WPA-PSK
         pairwise=TKIP
         group=TKIP
@@ -417,15 +445,24 @@ network={
         key_mgmt=NONE
         auth_alg=OPEN
         priority=1
-        disabled=1   ## this option is not mandatory, see documentation in /usr/share/doc/wpasupplicant
+        disabled=1   ## このオプションは不可欠ではありません, /usr/share/doc/wpasupplicant参照
         id_str="stalk"
 }
 </pre>
 
+							<!--- ####
 							<p>If you want to connect to passworded WLANs e.g. in cafés or bars, hot spots,  use wpa_gui and decide later if you want to add that network or not.</p>
+							#### -->
+							<p>カフェやバー、ホットスポットなどの、パスワードで保護されている無線LANNにアクセスしたい場合、まずwpa_guiを使ってみて、そのネットワークを設定に追加するかは後で決めましょう。</p>
 
+				<!--- ####
 				<h5>WEP encryption</h5>
+				#### -->
+				<h5>WEPで暗号化されたネットワーク</h5>
+							<!--- ####
 							<p>If you want to add WEP encrypted networks to your wpa_supplicant.conf permanently, the syntax is:</p>
+							#### -->
+							<p>WEPで暗号化されたネットワークを継続使用のためにwpa_supplicant.confに追加するシンタックスは:</p>
 <pre>
 network={
 	ssid="example wep network"
@@ -436,19 +473,37 @@ network={
 </pre>
 
 
+				<!--- ####
 				<h5>Notes</h5>
+				#### -->
+				<h5>ノート</h5>
 
+					<!--- ####
 					<h6>1. Easy to reuse</h6>
+					#### -->
+					<h6>1. 再使用が簡単</h6>
 
+							<!--- ####
 							<p>Once set up, you can easily reuse your setup on other laptops or desktops with WLAN cards. Just copy /etc/network/interfaces (adjust the name of the interface if needed) and /etc/wpa_supplicant/wpa_supplicant.conf to your new box. There is no need of "installing" anything after that. It is "wash &amp; go" (TM).</p>
+							#### -->
+							<p>一度設定がすむと、この設定を他のラップトップやWLANカードつきのデスクトップPCなどで再利用するのは簡単です。/etc/network/interfacesと/etc/wpa_supplicant/wpa_supplicant.confのファイルを新しいコンピュータにコピーし必要ならインターフェイスの名前を変更するだけです。その後なにも「インストール」する必要はありません。 "wash &amp; go" (TM)です.</p>
 
+					<!--- ####
 					<h6>2. Backup</h6>
+					#### -->
+					<h6>2. バックアップ</h6>
 
+							<!--- ####
 							<p>It is good to backup /etc/network/interfaces and /etc/wpa_supplicant/wpa_supplicant.conf, but <span class="highlight-3">encrypt your backup because it contains sensitive information</span>. An easy way is a password protected archive like 7zip, zip, rar or others.</p>
+							#### -->
+							<p>/etc/network/interfaces と /etc/wpa_supplicant/wpa_supplicant.conf をバックアップしておくのはいい考えですが、 <span class="highlight-3">大切なパスワードなどがありますから暗号化して保存しましょう</span>。7zip、zip, rarなどを使えば簡単にパスワードを保護することができます。.</p>
 
+					<!--- ####
 					<h6>3. Easy access of wpa_gui</h6>
+					#### -->
+					<h6>3. wpa_guiに簡単にアクセス</h6>
 
-							<p>It is boring to type "/usr/sbin/wpa_gui" into the konsole. You can add a start button to your desktop, to the kicker, and to kmenu. For eaxample on the desktop, it may have a name like $HOME/Desktop/wpagui.desktop and reads like this:</p>
+							<p>コンソールにいちいち "/usr/sbin/wpa_gui" とタイプするのはウンザリだと思うでしょう? スターとボタンをデスクトップやkicker、またはkmenuに加えることができます。例えばデスクトップ上に $HOME/Desktop/wpagui.desktop というファイルを置く場合だと:</p>
 <pre>
 [Desktop Entry]
 Comment=
@@ -472,10 +527,19 @@ X-KDE-Username=
 </pre>
 
 
+							<!--- ####
 							<p>You can easily create such a button by rightclicking on the desktop and choosing "new > link to program".</p>
+							#### -->
+							<p>こういうボタンはデスクトップを右クリックして"new > link to program"を選べば簡単に設定できます。</p>
 
+					<!--- ####
 					<h6>4. Hidden SSIDs</h6>
+					#### -->
+					<h6>4. SSIDを隠しても…</h6>
+							<!--- ####
 							<p>Hidden SSIDs are detected</p>
+							#### -->
+							<p>SSIDを隠しても探知されます</p>
 
 	</div>
 

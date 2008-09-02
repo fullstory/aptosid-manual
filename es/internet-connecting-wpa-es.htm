@@ -19,11 +19,11 @@
 <body>
 <!-- Last translation revision Richardr xx/xx/2008 1600 UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.75.2008.07.13 -->
-<!-- menu last updated by bluewater 13/07/2008 1200 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
+<!-- menu last updated by bluewater 01/09/2008 1430 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
-		<li><a href="manual-search-es.htm#search-on"> Búsqueda</a> </li>
+		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsqueda Online Offline</a> </li>
 		<li><a href="http://manual.sidux.com/meta-manual">sidux Meta-Paquetes</a></li>
 	</ul>
 	<div id="flags-2">
@@ -147,6 +147,7 @@
 				<li><a href="internet-connecting-ndis-es.htm#ndiswrapper-basic">Activar Ndiswrapper</a></li>
 				<li><a href="internet-connecting-ndis-es.htm#ndiswrapper-advanced">Activar Ndiswrapper - Avanzado</a></li>
 				<li><a href="internet-connecting-wpagui-es.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
+				<li><a href="internet-connecting-wpa-es.htm#wpa-basic">WiFi - Basic setup guide</a></li>
 				<li><a href="internet-connecting-wpa-es.htm#wpa">WiFi - wpasupplicant</a></li>
 				<li><a href="internet-connecting-es.htm#netcardconfig">Ceni: conectár en-línea </a></li>
 			</ul>
@@ -189,8 +190,60 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+	<div class="divider" id="wpa-basic">
+		<h2 id="top-header" >Basic Guide To Get Wireless Working - WiFi</h2>
+
+							<p class="highlight-3">Due to the complexity of law, sidux will only provide dfsg-free software, <a href="hw-dev-hw-dri-es.htm#non-free">please check this link for additional information on non-free sources for firmware</a></p>
+
+							<p>To get wlan WiFi working, you need a wired connection for just a few minutes to download the appropriate firmware.</p>
+
+							<p>If a wired connection is not possible you will have to put the firmware on a removable device (pendrive e.g.) and install it as root from there using:</p>
+<pre>
+#dpkg -i &lt;firmware.deb&gt;
+</pre>
+
+							<p>To find the appropriate firmware without knowing the make or brand of your wireless chip, you can use the command:</p>
+<pre>
+#fw-detect
+</pre>
+							<p>This will give you the following information:</p>
+<pre>
+#apt-get update
+#apt-get install &lt;name of firmware&gt;
+#modprobe -r &lt;modulename&gt;
+#modprobe &lt;modulename&gt;
+</pre>
+							<p>Open the metapackage-installer in <span class="highlight-3">kmenu - utilities</span>. There go to the 2nd tab (non-free sources) and hit the install non-free button. That will update your sources list in order to allow non-free apps to be installed.</p>
+
+							<p>Go to the first tab <span class="highlight-3">Metapackages</span> and open the non_free section. There you will find the most common firmware for wireless WiFi devices for an easy install.</p>
+
+							<p>Alternatively you may use the apt-get install line that fw-detect command gave you. After that is done, you need to issue some commands in konsole before configuring the device.</p>
+
+							<p>You have to load the module now in order to be able to configure your device.</p>
+
+							<p>As root in konsole do:</p>
+<pre>
+modprobe -r &lt;modulename&gt;
+
+modprobe &lt;modulename&gt;
+</pre>
+							<p>As &lt;modulename&gt; uses the info that fw-detect gave you before. A helpful function of Konsole can be used here: bash completion: <br />
+							If you just write the first few letters of &lt;modulename&gt; and then hit the TAB key, it completes the module name (e.g. modprobe ipw TAB key) That also prevents misspelling.</p>
+
+							<p>Both modprobe commands dont give any output if successful, so if the normal prompt returns, the module got loaded fine.</p>
+
+							<p>You can check this with:</p>
+<pre>
+#lsmod | grep &lt;module&gt;
+</pre>
+
+							
+							<p>Now start Ceni from K-Menu - Internet or run it from konsole as root with <a href="internet-connecting-es.htm#netcardconfig">Getting Online - Ceni</a>. Your wireless WiFi device should be shown now and is ready to be configured.</p>
+
+							<p>To set up a Wlan WiFi GUI see <a href="internet-connecting-wpagui-es.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></p>
+	</div>	
 	<div class="divider" id="wpa">
-		<h2 id="top-header">Modos de Operación en wpasupplicant para Debian</h2>
+		<h2>Modos de Operación en wpasupplicant para Debian</h2>
 
 							<p class="highlight-3">Debido a la complejidad de la ley, sidux solamente proveerá software dfsg-free en el liveCD, <a href="hw-dev-hw-dri-es.htm#non-free">por favor verifica este enlace para información adicional sobre fuentes no-libres de firmware</a></p>
 
@@ -669,7 +722,7 @@ chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 							<p>Por pre-selección, /etc/network/interfaces es leíble por todo el mundo, y así no es 	apropiado para contener claves secretos y pases.</p>
 
 	</div>
-	<div id="rev">Page last revised   Content last revised 30/04/2008 1100 UTC</div>
+	<div id="rev">Page last revised 02/09/2008 1500 UTC</div>
 
 </div>
 </body>

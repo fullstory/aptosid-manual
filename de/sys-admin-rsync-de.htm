@@ -17,6 +17,7 @@
         <![endif]-->
 </head>
 <body id="welcome">
+<!-- Last translation revision hubi Do 11. Sep 17:31:35 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by hubi 04/09/2008 0900 hrs UTC -->
@@ -199,13 +200,13 @@
 
 				<p>Nach Auswahl der Verzeichnis- und Dateiliste ist wegen eines Komprimierungsverfahrens auch der Kopiervorgang schneller im Vergleich zu einem traditionellen Kopiervorgang. rsync komprimiert die Daten vor dem Kopiervorgang und entpackt sie am Zielort.</p>
 
-				<p>rsync kann Daten kopieren von:<br />
-				* lokalen System zu einem lokalen System,<br />
- 				* lokalen System zu einem entfernten (remote) System,<br />
-				* von einem entfernten (remote) System zu einem lokalen System.</p>
+				<p>rsync kann folgendermaßen Daten kopieren:<br /><br />
+				* von einem lokalen System zu einem lokalen System,<br />
+ 				* von einem lokalen System zu einem entfernten System,<br />
+				* von einem entfernten System zu einem lokalen System.</p>
 				<p>Dabei wird entweder der <a href="ssh-de.htm">ssh</a>-Client (Grundeinstellung) oder ein rsync-daemon, der auf Quell- und Zielsystem läuft, benutzt. Die manpages für rsync besagen, wenn Systeme mit ssh verbunden werden können, kann rsync auch ssh nutzen.</p>
 
-				<p class="highlight-3">Eine Beschränkung von rsync ist, dass Daten NICHT zwischen zwei entfernten (remote) Systemen kopiert werden können. Der Workaround wäre, dass die Daten eines entfernten System auf den lokalen Rechner kopiert werden müssen, um dann mit rsync die Daten des zweiten entfernten Rechner abgleichen zu können.</p>
+				<p class="highlight-3">Eine Beschränkung von rsync ist, dass Daten NICHT zwischen zwei entfernten Systemen kopiert werden können. Ein Workaround wäre, dass die Daten eines entfernten Systems auf den lokalen Rechner kopiert werden, um dann mit rsync die Daten des zweiten entfernten Rechners abzugleichen.</p>
 
 				<p>Um dies zu verdeutlichen, gehen wir im folgenden Beispiel von drei Rechnern aus:</p>
 <pre>
@@ -219,7 +220,7 @@ Nutzername auf neo ist cuddles,
 Nutzername auf morpheus ist tartie,
 Nutzername auf trinity ist taylar.
 </pre>
-				<p>Ziel ist der Abgleich der Verzeichnisse/home/$user/Daten:</p>
+				<p>Ziel ist der Abgleich der Verzeichnisse /home/$user/Daten:</p>
 
 <pre>
 neo: /home/cuddles/Daten nach morpheus und trinity,
@@ -257,13 +258,13 @@ trinity --> morpheus – wird zu: trinity --> neo &amp; neo --> morpheus
 192.168.1.16	 morpheus
 192.168.1.17	 trinity
 </pre>
-				<p>Die erste Zeile übersetzt die IP-Adresse 192.168.1.15 mit “neo”, die zweite 192.168.1.16 mit “morpheus” und die dritte 192.168.1.17 mit “trinity”. Nach Abspeicherung kann der Hostname zusätzlich anstelle der IP-Adresse verwendet werden. Ganz besonders praktisch ist dieses Verfahren, wenn die zugeordneten IP-Adressen geändert werden, zum Beispiel bei "neo" von 192.168.1.15 auf 192.168.1.25</p>
+				<p>Die erste Zeile übersetzt die IP-Adresse 192.168.1.15 mit “neo”, die zweite 192.168.1.16 mit “morpheus” und die dritte 192.168.1.17 mit “trinity”. Nach Abspeicherung kann der Hostname anstelle der IP-Adresse verwendet werden. Ganz besonders praktisch ist dieses Verfahren, wenn die zugeordneten IP-Adressen geändert werden, zum Beispiel bei "neo" von 192.168.1.15 auf 192.168.1.25</p>
 
 				<p>Besonders erleichtert dies die Arbeit mit Skripten, da diese im Falle einer Änderung der IP-Adressen nicht angepasst werden müssen, sondern nur die Datei /etc/hosts. Auch sind Skripte auf Basis der "Hostnamen-Methode" transparenter gestaltet.</p>
 
 				<h4>Zwei Möglichkeiten, rsync zu nutzen.</h4>
 
-				<p>Eine Möglichkeit ist, die Daten ins Ziel zu <b>“schieben (push)”</b> die andere, die Daten von der Quelle zu <b>“ziehen (pull)”</b>. Jede Methode hat seine Vor- und Nachteile, welche jetzt erklärt werden, wobei in unserem Beispiel ein lokales und ein entferntes System verwendet werden, um die Terminologie deutlicher erklären zu können.</p>
+				<p>Eine Möglichkeit ist, die Daten ins Ziel zu <b>schieben (push)</b>, die andere, die Daten von der Quelle zu <b>ziehen (pull)</b>. Jede Methode hat ihre Vor- und Nachteile, welche jetzt erklärt werden, wobei in unserem Beispiel ein lokales und ein entferntes System verwendet werden, um die Terminologie deutlicher erklären zu können.</p>
 
 				<p><b>“push”</b> - das lokale System trägt die Quellverzeichnisse und Quelldateien, Ziel ist das entfernte System. Der Befehl rsync wird auf dem lokalen System gestartet und “schiebt” die Daten ins Zielsystem.</p>
 
@@ -280,7 +281,7 @@ trinity --> morpheus – wird zu: trinity --> neo &amp; neo --> morpheus
 
 				<p>Vorteile:<br />
 				* Ein System wird zum Server, welcher alle Backupprozesse aller anderen Systeme steuert. Die Backupprozesse werden zentralisiert.<br />
-				* Bei Verwendung eines Skripts, muss sich dieses nur auf einem System befinden, was Modifikationen sehr einfach gestaltet. Bei Änderung des Zeitplans muss nur eine crontab geändert werden.<br />
+				* Bei Verwendung eines Skripts muss sich dieses nur auf einem System befinden, was Modifikationen sehr einfach gestaltet. Bei Änderung des Zeitplans muss nur eine crontab geändert werden.<br />
 				* Das Skript kann prüfen, ob die Zielpartition eingebunden ist und gegebenenfalls diese einbinden.</p>
 
 				<h5>Syntax von rsync (Auszug aus "man rsync"):</h5>
@@ -307,7 +308,7 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7
 </pre>
 				<p>Erklärung der einzelnen Bestandteile dieses Befehls:</p>
 <pre>
-Die Quelle Pfad/Datei ist: morpheus:/home/tartie,
+Die Quelle ist: morpheus:/home/tartie,
 das Ziel ist: /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Das Verzeichnis /home/tartie (inklusive Unterverzeichnisse) wird in /media/hda7/SysBackups/morpheus/home gesichert, was nach dem rsync so aussieht:</p>
@@ -316,7 +317,7 @@ das Ziel ist: /media/hda7/SysBackups/morpheus/home
 </pre>
 				<p>Die übergeordnete Verzeichnisstruktur wird nicht übernommen, der ZIELORT bestimmt die Einbindung in das Zielsystem, nicht die Verzeichnisstruktur der Quelle. Darum kann /tartie sich in /home befinden. Die "Quelle" wählt nur, woher die Daten kommen, nicht wohin sie transferiert werden. Das “Ziel” befiehlt rsync, wohin die Daten aus der "Quelle" kopiert werden sollen. Hier ein Beispiel:</p>
 <pre>
-rsync [...] /home/user/data/files” /media/hda7/SysBackups/neo
+rsync [...] /home/user/data/files /media/hda7/SysBackups/neo
 </pre>
 				<p>Hier werden nur das Quellverzeichnis /files und alle sich darin befindlichen Verzeichnisse und Dateien in den Zielordner /neo kopiert – und nicht die komplette Verzeichnisstruktur /media/hda7/SysBackups/neo/home/user/data/files</p>
 
@@ -324,27 +325,46 @@ rsync [...] /home/user/data/files” /media/hda7/SysBackups/neo
 
 				<h5>Erklärung der Optionen (Rohübersetzung aus dem englischsprachigen "man rsync"):</h5>
 <pre>
--a Archiv-Modus. Die manpage dazu: “einfach gesagt, eine Methode, um ein rekursives Backup zu erstellen und beinahe alle Attribute zu bewahren. Nicht bewahrt werden Hardlinks aufgrund der Komplexität des Verfahrens. Die Option -a entspricht: -rlptgoD, was dies bedeutet:
+-a Archiv-Modus. Die manpage dazu: “einfach gesagt, eine Methode, um ein rekursives Backup zu
+erstellen und beinahe alle Attribute zu bewahren. Nicht bewahrt werden Hardlinks aufgrund der
+Komplexität des Verfahrens. Die Option -a entspricht: -rlptgoD, was dies bedeutet:
   -r = rekursiv – Unterverzeichnisse und darin befindliche Dateien aus dem "Quellort".
   -l = Links – symlinks werden am Zielort wieder hergestellt.
   -p = Berechtigungen – die Berechtigungen sind identisch mit jenen am Quellort.
   -t = Zeitstempel – der Zeitstempel ist identisch mit jenem am Quellort.
-  -q = quiet – minimale Rückmeldung. Mehr Rückmeldungen erhält man mit der Option -v right nach der Option -a. Abläufe ohne jegliche Rückmeldung werden ohne Setzung der Option -v erreicht.
-  -o = Besitzer – wenn rsync als Root durchgeführt wird, bleiben die Besitzer entsprechend der Quelldateien erhalten.
+  -q = quiet – minimale Rückmeldung. Mehr Rückmeldungen erhält man mit der Option -v sofort nach der
+       Option -a. Abläufe ohne jegliche Rückmeldung werden ohne Setzung der Option -v erreicht.
+  -o = Besitzer – wenn rsync als Root durchgeführt wird, bleiben die Besitzer entsprechend der
+       Quelldateien erhalten.
 -D = entspricht diesen beiden Befehlen: --devices --specials
- --devices = Zeichen- und Blockgerätdateien werden ins entfernte System Kopiert, um wiederhergestellt zu werden. Zu beachten ist, dass ohne die Option --super die Option --devices nicht arbeitet.
+ --devices = Zeichen- und Blockgerätdateien werden ins entfernte System kopiert, um wiederhergestellt
+             zu werden. Zu beachten ist, dass ohne die Option --super die Option --devices nicht
+             arbeitet.
  --specials = rsync kopiert spezielle Dateien wie sockets und fifos.
 -g: die Gruppen bleiben entsprechend der Quelldateien erhalten.
 -E: das Attribut “ausführbar” bleibt erhalten.
--v: für eine umfassende Rückmeldung. Wenn der Kopiervorgang bekannt ist, kann diese Option entfernt werden. Wenn jedoch beobachtet werden soll, was durchgeführt werden soll, ist diese Option sehr nützlich.
--z: zu kopierende Daten werden komprimiert, was den Kopiervorgang beschleunigt, da die transferierte Datenmenge geringer ist.
---delete-after = Zielverzeichnisse oder Zieldateien, die in der Quelle nicht mehr vorhanden sind, werden nach dem Transfer gelöscht, nicht vor dem Transfer. “after” wird im Falle von Problemen oder eines Absturzes verwendet, "delete” verhindert, dass nicht mehr benötigte Dateien und Verzeichnisse am Zielort Platz verschwenden.
---exclude = mit dieser Option werden Dateien oder Verzeichnisse vom Kopiervorgang ausgeschlossen. Im Beispiel, --exclude=“*~” würden ALLE Dateien mit der Endung “~” vom Backupvorgang ausgeschlossen. Mit einer Option --exclude kann nur ein Muster übergeben werden, bei mehreren Ausschließungsmustern müssen mehrere Optionen --exclude gesetzt werden.
+-v: für eine umfassende Rückmeldung. Wenn der Kopiervorgang bekannt ist, kann diese Option
+    entfernt werden. Wenn jedoch beobachtet werden soll, was durchgeführt werden soll, ist diese
+    Option sehr nützlich.
+-z: zu kopierende Daten werden komprimiert, was den Kopiervorgang beschleunigt, da die
+    transferierte Datenmenge geringer ist.
+--delete-after = Zielverzeichnisse oder Zieldateien, die in der Quelle nicht mehr vorhanden sind,
+                 werden nach dem Transfer gelöscht, nicht vor dem Transfer. “after” wird im Falle
+                 von Problemen oder eines Absturzes verwendet. "delete” verhindert, dass nicht
+                 mehr benötigte Dateien und Verzeichnisse am Zielort Platz verschwenden.
+--exclude = mit dieser Option werden Dateien oder Verzeichnisse vom Kopiervorgang ausgeschlossen.
+Mit --exclude=“*~” würden ALLE Dateien mit der Endung “~” vom Backupvorgang ausgeschlossen. Mit
+einer Option --exclude kann nur ein Muster übergeben werden, bei mehreren Ausschließungsmustern
+müssen mehrere Optionen --exclude gesetzt werden.
 </pre>
 				<h5>Weitere nützliche Befehlsoptionen:</h5>
 <pre>
--c – führt weitere Vergleichsprüfungen durch, was jedoch mehr Zeit beansprucht. Da rsync bereits Vergleichsprüfungen durchführt, wurde dieser Befehl nicht in -a integriert, um den Zeitaufwand durch eine redundante Option nicht zu erhöhen. Diese Option wird im Regelfall nicht benötigt.
---super – das Zielsystem versucht Super-User- (Root-)Aktivitäten durchzuführen (siehe manpage)
+-c – führt weitere Vergleichsprüfungen durch, was jedoch mehr Zeit beansprucht. Da rsync bereits
+     Vergleichsprüfungen durchführt, wurde dieser Befehl nicht in -a integriert, um den
+     Zeitaufwand durch eine redundante Option nicht zu erhöhen. Diese Option wird im Regelfall
+     nicht benötigt.
+--super – das Zielsystem versucht Root-Aktivitäten (Super-User-Aktivitäten) durchzuführen
+          (siehe manpage)
 --dry-run – Testlauf: zeigt, was kopiert würde. Keine Dateien werden kopiert.
 </pre>
 				<p>Die letzten beiden Elemente unseres Befehls sind das Quellverzeichnis und schließlich das Zielverzeichnis.</p>
@@ -357,7 +377,7 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
 </pre>
-				<p>Dies ist der umgekehrte Befehl des ersten Beispiels. Er "schiebt" das Verzeichnis /home/tartie und seinen Inhalt in das angegebene Verzeichnis des Systems "neo" – beachtet muss werden, dass ein System als "entfernt (remote)" angesehen wird, wenn ein Doppelpunkt “:” vor dem Pfad gesetzt wird.</p>
+				<p>Dies ist der umgekehrte Befehl des ersten Beispiels. Er "schiebt" das Verzeichnis /home/tartie und seinen Inhalt in das angegebene Verzeichnis des Systems "neo" – beachtet muss werden, dass ein System als "entfernt" angesehen wird, wenn ein Doppelpunkt “:” vor dem Pfad gesetzt wird.</p>
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
 </pre>

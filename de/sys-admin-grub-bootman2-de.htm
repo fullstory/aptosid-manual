@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Di 26. Aug 17:28:02 CEST 2008 -->
+<!-- Last translation revision by hubi So 14. Sep 14:06:57 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by hubi 04/09/2008 0900 hrs UTC -->
@@ -199,7 +199,7 @@
 </pre>
 						<p>Eine Sicherheitsabfrage kann verlangen, dass dieser Befehl wiederholt wird.</p>
 
-		<h2>Windows hat meinen Bootsektor überschrieben: Wiederherstellung von Grub</h2>
+		<h2>Windows hat den Bootsektor überschrieben: Wiederherstellung von Grub</h2>
 
 							<p>Um Grub neu in den MBR zu schreiben oder Grub generell wieder herzustellen, muss von der <span class="highlight-3">sidux Live-CD</span> gebootet werden.</p>
 						<ol>
@@ -326,8 +326,8 @@ root@sidux:/home/sidux# cat /etc/fstab
 # temporary filesystem in virtual memory
 #tmpfs  /tmp    tmpfs   defaults        0       0
 </pre>
-						<p>Somit ist die Root-Partition /dev/sdb1 und der MBR geht nach sda. Diese drei Befehle werden ausgeführt:</p>
 <pre>
+## Root-Partition ist /dev/sdb1 und der MBR geht nach sda
 mkdir -p /media/sdb1
 mount /dev/sdb1 /media/sdb1
 /usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/sdb1 /dev/sda
@@ -342,67 +342,8 @@ mount /dev/sdb1 /media/sdb1
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Erstellen einer bootfähigen Diskette (Floppy)</h2>
 
-							<p>Man lädt ein <a href="http://sidux.com/files/misc/grubboot.zip"> Grub-Disketten-Image</a> (ca. 580 kB) und probiert damit am besten ein wenig herum. Auf der Diskette sind auch ein funktionierendes FreeDOS und ein Editor. Wenn der Schreibschutz der Diskette entfernt wird, kann die menu.lst der Diskette editiert und an die persönlichen Gegebenheiten angepasst werden.</p>
-
-							<p>Eine andere Möglichkeit, eine bootfähigen Diskette zu erstellen, bieten die Tools der <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD</a>.</p>
+							<p>Um eine bootfähige Diskette zu erstellen, verwendet man am besten die Mittel, die von  <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a> bereit gestellt werden.</p>
 			
-							<h5>Um eine Grub-Boot-Diskette zu erstellen, sind folgende Schritte notwendig:</h5>
-
-
-							<p>1. Formatieren einer Diskette</p>
-<pre>
-# fdformat /dev/fd0
-Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
-Formatting ... done
-Verifying ... done
-</pre>
-							<p>2. Erstellen eines Dateisystems (es wird empfohlen ext2, minix(fs) oder vfat zu benutzen)</p>
-<pre>
-# mkfs -t minix /dev/fd0
-480 inodes
-1440 blocks
-Firstdatazone=19 (19)
-Zonesize=1024
-Maxsize=268966912
-</pre>
-							<p>3. Mounten der Diskette</p>
-<pre>
-# mount -t minix /dev/fd0 /mnt
-</pre>
-							<p>4. Anwenden des grub-install-Skripts</p>
-<pre>
-# grub-install --recheck --root-directory=/mnt /dev/fd0
-Probing devices to guess BIOS drives. This may take a long time.
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Due to a bug in xfs_freeze, the following command might produce a segmentation
-fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
-can be ignored.
-xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
-Unknown partition table signature
-Installation finished. No error reported.
-This is the contents of the device map /mnt/boot/grub/device.map.
-Check if this is correct or not. If any of the lines is incorrect,
-fix it and re-run the script `grub-install'.
- 
-(fd0)   /dev/fd0
-(hd0)   /dev/sda
-</pre>
-							<p>5. Letzte Schritte</p>
-<pre>
-# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
-# cp -L /boot/message /mnt/boot/
-# umount /mnt
-</pre>
-
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Grub aus dem MBR entfernen</h2>
@@ -425,11 +366,11 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 </pre>
 					<h3>Allgemeines</h3>
 
-							<p>Grub ist ein Bootmanager, der geeignet ist, Betriebssysteme von verschiedenen Partitionen zu starten. Grub ist nicht auf Blocklisten zum Finden der Dateien für den Systemstart angewiesen und kann eine ganze Reihe von Dateisystemen direkt lesen: ext2, ext3, reiserfs, (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix und viele andere.</p>
+							<p>Grub ist ein Bootmanager, der geeignet ist, Betriebssysteme von verschiedenen Partitionen zu starten. Grub ist nicht auf Blocklisten zum Finden der Dateien für den Systemstart angewiesen und kann eine ganze Reihe von Dateisystemen direkt lesen: ext2, ext3, reiserfs (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix und viele andere.</p>
 
-							<p>Grub beherrscht BIOS-Erweiterungen (kann also Partitionen oberhalb der 8  GByte booten!) und kennt keine 1024-Zylindergrenze. Grub ist es ziemlich egal, wo der Kernel physikalisch liegt, er braucht nur die  Angabe der Partition und den Pfad des zu bootenden Kernels (dies kann auch ein Symlink sein). Nach Änderung der Konfiguration (also der menu.lst) ist kein Programmaufruf wie bei Lilo nötig, die  neue Konfiguration wird beim nächsten Booten eingelesen.</p>
+							<p>Grub beherrscht BIOS-Erweiterungen (kann also Partitionen oberhalb der 8  GByte booten!) und kennt keine 1024-Zylindergrenze. Grub ist es ziemlich egal, wo der Kernel liegt, er braucht nur die  Angabe der Partition und den Pfad des zu bootenden Kernels (dies kann auch ein Symlink sein). Nach Änderung der Konfiguration (also der menu.lst) ist kein Programmaufruf wie bei Lilo nötig, die  neue Konfiguration wird beim nächsten Booten eingelesen.</p>
 
-                					<p>sidux verwendet Grub beim Booten von CD, und bei einer Festplatten-Installation wird als Standard Grub verwendet. Grub kann dennoch problemlos nachträglich installiert werden. Grub wird mit  folgendem Befehl aus einer Root-Konsole in den MBR installiert:</p>
+                					<p>sidux verwendet Grub beim Booten von CD, und bei einer Festplatten-Installation wird als Standard Grub verwendet. Grub kann aber auch problemlos nachträglich installiert werden und wird mit  folgendem Befehl aus einer Root-Konsole in den MBR installiert:</p>
 
 <pre>
 grub-install --root-directory=/media/hdaX /dev/hdY
@@ -484,7 +425,7 @@ initrd          /boot/initrd.img
 
 							<p>Ein besonders angenehmes Feature von Grub ist der Befehls-Modus. Er	wird mit "<b>c</b>" aufgerufen, es erscheint die Grub-Shell. Damit ist man in der Lage, auch bei einer fehlerhaften menu.lst verschiedene Systeme und Dateien (z. B. den Kernel) zu finden und zu booten.</p>
 
-							<p>Um ein wenig zu testen, kann Grub auch aus einem gebooteten sidux in einer Root-Shell mit <span># grub</span> gestartet werden. In der Grub-Shell kann man sich mit "<b>help</b>" alle verfügbaren Befehle anzeigen lassen. Detaillierte Hilfe zu jedem Befehl gibt es mit "<b>help befehl</b>", zur Linux-Shell kehrt man mit <b>quit</b>" zurück (die Grub-Shell wird beendet). In der Grub-Shell funktioniert die Tabulatortaste ähnlich wie in der Linux-Shell, das ist eine sehr große Erleichterung. Kommandos, Laufwerksbezeichnungen und Dateinamen lassen sich mit der TAB-Taste automatisch vervollständigen.</p>
+							<p>Um ein wenig zu testen, kann Grub auch aus einem gebooteten sidux in einer Root-Shell mit <span># grub</span> gestartet werden. In der Grub-Shell kann man sich mit "<b>help</b>" alle verfügbaren Befehle anzeigen lassen. Detaillierte Hilfe zu jedem Befehl gibt es mit "<b>help befehl</b>", zur Linux-Shell kehrt man mit "<b>quit</b>" zurück (die Grub-Shell wird beendet). In der Grub-Shell funktioniert die Tabulatortaste ähnlich wie in der Linux-Shell, das ist eine sehr große Erleichterung. Befehle, Laufwerksbezeichnungen und Dateinamen lassen sich mit der TAB-Taste automatisch vervollständigen.</p>
 
 							<p>Grub bietet hierbei z. B. die Möglichkeit, die Lage des Kernels und der initrd noch vor dem eigentlichen Booten mittels "<b>find</b>" festzustellen, z. B. gibt Grub auf den Befehl</p>
 <pre>
@@ -702,18 +643,18 @@ initrd (hd0,x)/sidux/miniroot.gz
 wurde geändert zu:
 initrd (hd0,x)/sidux/initrd.img-2.6.22.x-slh-smp-x</span>
 </pre>
-							<p>Mit Hilfe von "chainloading" ist es sehr einfach, das Grub-Auswahlmenü mit anderen Betriebssystemen zu erweitern. Wenn man zum Beispiel die Möglichkeit haben möchte, die Systeme MS Windows (TM) und Debian etch zusammen mit einer sidux 'fromiso'-Installation zu starten, muss man Grub nur wenig anpassen. Hierzu öffnet man die Datei <span class="highlight-3">/boot/grub/menu.lst </span>als Root mit einem Editor und fügt die folgenden Zeilen nach dem Hinweis <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu:</p>
+							<p>Mit Hilfe von "chainloading" ist es sehr einfach, das Grub-Auswahlmenü mit anderen Betriebssystemen zu erweitern. Wenn man zum Beispiel die Möglichkeit haben möchte, die Systeme MS Windows (TM) und Debian Etch zusammen mit einer sidux 'fromiso'-Installation zu starten, muss man Grub nur ein wenig anpassen. Hierzu öffnet man die Datei <span class="highlight-3">/boot/grub/menu.lst </span>als Root mit einem Editor und fügt die folgenden Zeilen nach dem Hinweis <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu:</p>
 
 
 <pre>
-####MS Windows (TM) perhaps even MS Vista (TM)
-Title Windows (95/98/XP/Vista
+####MS Windows Vista (TM)
+Title Windows Vista
 rootnoverify (hd0,1)
 makeactive
 chainloader +1
 
-### Debian etch
-title Debian etch
+### Debian Etch
+title Debian Etch
 kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro	(Oder was auch immer)
 initrd (hd0,3)/debian/miniroot.gz		(hier stehen soll)
 
@@ -726,7 +667,7 @@ initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 		<h3>Von sekundärer Platte booten (z. B. mehrere Windows-Installationen)</h3>
 
-							<p>Manche Leute brauchen/wollen mehrere Windows-Installationen. Windows will aber immer von der 1. Platte starten. Wir müssen also eine Partition verstecken und eine andere aktivieren. Die folgenden Befehle sollte man auf der GRUB-Kommandozeile eingeben und bei Erfolg in die menu.lst eintragen. Das sollte dann für jede Windows-Partition geschehen. Backup nicht vergessen!</p>
+							<p>Manche Leute brauchen/wollen mehrere Windows-Installationen. Windows will aber immer von der 1. Platte starten. Wir müssen also eine Partition verstecken und eine andere aktivieren. Die folgenden Befehle sollte man in der GRUB-Befehlszeile eingeben und bei Erfolg in die menu.lst eintragen. Das sollte dann für jede Windows-Partition geschehen. Backup nicht vergessen!</p>
 
 <pre>
 hide (hd0,0) # versteckt Partition 1 der Platte 1
@@ -747,23 +688,23 @@ map (hd1) (hd0)
 
 				<h3>Stolperfallen</h3>
 
-							<p>Grub kennt zwar keine 1024 Zylindergrenze und kann Systeme oberhalb von 1024 Zylindern booten, <b>aber</b> /boot/grub/stage2 muss durch das Bios erreichbar sein (also davor liegen). stage2 darf nach der Installation nicht verschoben oder in seiner Lage verändert werden (z. B. könnte Defrag sowas versuchen). Beim Setup werden Daten geschrieben, die dann nicht mehr stimmen würden. Es ist sinnvoll, stage2 mit einem Schreibschutz zu versehen (man muss sich im aktuellen Verzeichnis befinden):</p>
+							<p>Grub kennt zwar keine 1024 Zylindergrenze und kann Systeme oberhalb von 1024 Zylindern booten, <b>aber</b> /boot/grub/stage2 muss durch das Bios erreichbar sein (also davor liegen). stage2 darf nach der Installation weder verschoben noch in seiner Lage verändert werden (z. B. könnte Defrag sowas versuchen). Die Setup-Daten würden nicht mehr stimmen. Es ist daher sinnvoll, stage2 mit einem Schreibschutz zu versehen (man muss sich im aktuellen Verzeichnis befinden):</p>
 <pre>
 Dos: attrib +r +s stage2
 LINUX: # chmod a -w ./stage2
 </pre>
 
 
-					<h3>Wo kann ich mehr erfahren?</h3>
+					<h3>Wo kann man mehr erfahren?</h3>
 
 
 
-							<p>Du kannst auch die <a href="http://www.gnu.org/software/grub/grub-faq.de.html">offizielle FAQ zu Grub</a> nachlesen..</p>
+							<p>Umfangreiche Informationen gibt es in der <a href="http://www.gnu.org/software/grub/grub-faq.de.html">offiziellen FAQ zu Grub</a>.</p>
 
 							<p>Sofern man eine unterstützte Netzwerkkarte besitzt, kann Grub auch über das Netzwerk booten. Eine entsprechende <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Boot-Disk kann man sich hier</a> erstellen lassen und anschließend downloaden (allerdings mit einer älteren Version von Grub).</p>
 		
 	</div>
-	<div id="rev">Content last revised 06/02/2008 1200 UTC</div>
+	<div id="rev">Content last revised 13/09/2008 1200 UTC</div>
 
 </div>
 </body>

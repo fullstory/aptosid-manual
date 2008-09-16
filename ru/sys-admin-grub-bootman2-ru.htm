@@ -336,66 +336,11 @@ mount /dev/sdb1 /media/sdb1
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Создание загрузочной дискеты</h2>
 
-							<p>Скачайте с интернета <a href="http://sidux.com/files/misc/grubboot.zip">образ дискеты с grub</a> (ca. 580 Кб). На дискете также установленны функционирующая версия FreeDOS и редактор. Если удалить защиту, то можно редактировать menu.lst на самой дискете. Содержание этого файла можно изменять по желанию.</p>
 
-							<p>Другой возможностью создания загрузочной дискеты является использование программы с <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+
+							<p>Чтобы сделать себе загрузoчную дискету, используйте инструменты, предусмотренные на вебстранице <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a>.</p>
 			
-						<h5>Потребуется осуществить следующие шаги:</h5>
-
-							<p>1. Форматирование дискеты</p>
-<pre>
-# fdformat /dev/fd0
-Double-sided, 80 tracks, 18 sec/track. Total capacity 1440 kB.
-Formatting ... done
-Verifying ... done
-</pre>
-							<p>2. Создание файловой системы на дискете (желательно ext2, minix(fs) или vfat)</p>
-<pre>
-# mkfs -t minix /dev/fd0
-480 inodes
-1440 blocks
-Firstdatazone=19 (19)
-Zonesize=1024
-Maxsize=268966912
-</pre>
-							<p>3. Смонтировать дискету</p>
-<pre>
-# mount -t minix /dev/fd0 /mnt
-</pre>
-							<p>4. Запустить скрипт grub-install</p>
-<pre>
-# grub-install --recheck --root-directory=/mnt /dev/fd0
-Probing devices to guess BIOS drives. This may take a long time.
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Unknown partition table signature
-Due to a bug in xfs_freeze, the following command might produce a segmentation
-fault when /mnt/boot/grub is not in an XFS filesystem. This error is harmless and
-can be ignored.
-xfs_freeze: specified file ["/mnt/boot/grub"] is not on an XFS filesystem
-Unknown partition table signature
-Installation finished. No error reported.
-This is the contents of the device map /mnt/boot/grub/device.map.
-Check if this is correct or not. If any of the lines is incorrect,
-fix it and re-run the script `grub-install'.
- 
-(fd0)   /dev/fd0
-(hd0)   /dev/sda
-</pre>
-							<p>5. Последние шаги:</p>
-<pre>
-# sed "s|^gfxmenu.*|gfxmenu\ \\(fd0\\)\\/boot\\/message|" /boot/grub/menu.lst > /mnt/boot/grub/menu.lst
-# cp -L /boot/message /mnt/boot/
-# umount /mnt
-</pre>
-					
+	
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Удаление grub с загрузочного сектора</h2>
@@ -736,7 +681,7 @@ LINUX: # chmod a -w ./stage2
 		<p>Если у вас имеется поддерживаемая GNU/Linux сетевая карта, то вы вполне можете получить возможность загружать систему по сети. Соответствующий загрузочный диск может быть получен <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">здесь</a> (однако, со старшей версией grub.</p>
 		
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено 06/02/2008 1200 UTC</div>
+			<div id="rev">Содержание, последнее пересмотрено 13/09/2008 1200 UTC</div>
 </div>
 </body>
 </html>

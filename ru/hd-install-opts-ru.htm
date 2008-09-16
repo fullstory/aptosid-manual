@@ -3,12 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="ru">
 <head>
 	<title>Руководство sidux - Способы установки на жесткий диск-ru</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
-	<style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
-	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
-        <link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
-	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" /><style type="text/css" media="all">@import url("../lib/css-js/content.css");</style><style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style><style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
+        <link rel ="shortcut icon" href="../lib/favicon/manual.ico" /><script type="text/javascript" src="../lib/css-js/menu2.js"></script>
         <!--[if lt IE 8]>
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-7_override.css">
         <![endif]-->
@@ -205,19 +201,19 @@
 							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
-				<h4 class="highlight-3">Process:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">First read the package manifest of the ISO</a> and find the linux-headers number, it will look something like this:</p>
+				<h4 class="highlight-3">Способ действия:</h4>
+							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Во-первых, мы прочитаем пакетный  файл manifest с ISO-образа</a> и найдем версию заголовки Linux, которую в этом формате:</p>
 
 <pre>
-linux-headers-2.6.24-2.6.24.4.slh.5-common 
+linux-headers-2.6.26-5.slh.4-sidux-686 
 </pre>
-							<p>Therefore the kernel number is:</p>
+							<p>Связанный номер ядра является ::</p>
 <pre>
-2.6.24-2.6.24.4.slh.5
+2.6.26-5.slh.4-sidux-686
 </pre>
-							<p span class="highlight-3">Note it very carefully!</p>
+							<p span class="highlight-3">Пожалуйста, правильно напишите строку !!</p>
 
-							<p>Next выделим пространство для iso-образа и двух дополнительных файлов. Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
+							<p>Во-вторых выделим пространство для ISO-образа и двух дополнительных файлов. Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
 
 <pre>
 $ sux
@@ -232,23 +228,23 @@ mkdir -p /mnt/test
 mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
 </pre>
 
-							<p>Теперь копируем файлы vmlinuz и intrid.img из смонтированного образа в дирректорию sidux, where the kernel number is the kernel you acertained from the manifest, <span class="highlight-3">and the  HD is YOUR known variable::This is an example only:</span></p>
+							<p>Теперь копируем файлы vmlinuz и intrid.img из смонтированного образа в дирректорию sidux. Название дирректории определяется номером используемного ядра, который выявлен в файле "Manifest". <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz-2.6.24-2.6.24.4.slh.5  /media/sdax/sidux/
-cp /mnt/test/boot/initrd.img-2.6.24-2.6.24.4.slh.5 /media/sdax/sidux/ 
+cp /mnt/test/boot/vmlinuz-2.6.26-5.slh.4-sidux-686 /media/sdax/sidux/
+cp /mnt/test/boot/initrd.img-2.6.26-5.slh.4-sidux-686 /media/sdax/sidux/ 
 </pre>
 
-							<p>Следующим шагом настроим grub.  Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него следующие строки <span class="highlight-3"> после строки ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ЗАМЕЧАНИЕ: не используйте регулярные выражения в конфигурационном файле grub! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span></p>
+							<p>Следующим шагом настроим grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него следующие строки <span class="highlight-3"> после строки ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ЗАМЕЧАНИЕ: Не используйте регулярные выражения в конфигурационном файле grub! </span> <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
 
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.24-2.6.24.4.slh.5 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.24-2.6.24.4.slh.5
+kernel (hd0,4)/sidux/vmlinuz-2.6.26-5.slh.4-sidux-686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
 </pre>
 
-							<p>При следующей загрузке в меню grub станет доступен пункт запуска iso-образа.</p>
+							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -286,27 +282,27 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 							<p>Установка sidux на USB-флэшку или USB-жесткий диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.
         </p>
 
-							<p>Рекомендованной минимальной величиной для установки на USB-флэшку является:<br /><br />для sidux "LITE" 1.2 ГБ. К этому добавляется место, необходимое для данных; <br /> для sidux "FULL" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+							<p>Рекомендованной минимальной величиной для установки на USB-флэшку является:<br /><br />для sidux "Lite" 1.2 ГБ. К этому добавляется место, необходимое для данных; <br /> для sidux "Full" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
 
-				<h5>Two kinds of installation to USB</h5> 
+				<h5>Два способа установки на USB-флэшку</h5> 
 							<p>1) - fromiso <br />
-							2) - full (the full installation to a USB stick behaves as normal HD installation and is done through the normal installer).</p>
+							2) - полная (этот способ придерживаться себя как полная на жесткий диск и проводится с помощью обычной программой установки).</p>
 
-				<h3>USB fromiso Installation</h3>
-							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">install-usb-gui.bash</span> and is mostly directed to install 'fromiso' on the first partition of an HD and/or USB pen.</p>
+				<h3>USB-Установки по способу fromiso</h3>
+							<p>Инсталляция <span class="highlight-3">fromiso</span> проводятся с <span class="highlight-3">install-usb-gui.bash</span>. Эта установка, которая в большинстве случаев будут выполнена на первом разделе жесткого диска или USB палочки.</p>
 
-							<p><b>You have 2 choices:</b><br />
-							<span class="highlight-3">No Format:</span> the install is made over the first partition with no loss of data.<br />
-							<span class="highlight-3">Format:</span> the disk is erased, all data is lost and single partition created with the chosen file system. Supported file systems are vfat, ext2, ext3.</p>
+							<p><b>Существует два варианта:</b><br />
+							<span class="highlight-3">Без Форматирования:</span> Установка на первый раздел без потери данных..<br />
+							<span class="highlight-3">С форматированием:</span> Диск стирается, все данные потеряны и создается отдельный раздел  с выбранной файловой системой. Поддержанные файловые системы VFAT, ext2, ext3.</p>
 
-							<p>Data persist is possible and the full partition will be used  when ext2 or ext3 are involved. When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use).</p>
+							<p>Запоминание собственных данных ("data persist") возможно, причем весь раздел используется, если являются ext2 или ext3 как система файла. Если vfat используется, Запоминание производится через файл, который может быть максимум 2GB, но не менее 100MB (как это было бы не использовать).</p>
 
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in th standard HD installer</p>
+							<p>Скрипт install-sidux-to-usb запускается через подпункт меню "Система" в меню KDE, или через кнопку на главной странице sidux-инсталлятор.</p>
 
-							<p>To create a bootable USB from an installed system you need to have a sidux iso.</p>
+							<p>Чтобы создать загрузочную USB-флешку с установленной системой Вам необходимо иметь sidux ISO-образ.</p>
 
 
-			<h3>Full installation (behaves as normal HD installation)</h3>
+			<h3>Полная установка (в качестве обычной установки на HD)</h3>
 
 
 							<p> Начните нормальную установку и выберите раздел на диске USB для установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB. </p>
@@ -486,13 +482,13 @@ qemu [...] -kernel-kqemu
 <pre>
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
-		<p><a href="http://bellard.org/qemu/qemu-doc.html">Официальная документация проекта QEMU</a> </p>
+		<p><a href="http://bellard.org/qemu/qemu-doc.html">Официальная документация проекта QEMU</a>.</p>
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Несколько разделов руководства QEMU были использованы для руководства sidux на базе GNU Free Documentation License 1.2 и приспособлены для руководства sidux. Перевод на русский язык произведен группой sidux.</a> </p>
 
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 14/06/2008 0100 UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено 16/09/2008 0700 UTC</div>
 </div>
 </body>
 </html>

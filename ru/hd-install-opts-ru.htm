@@ -143,7 +143,7 @@
 				<li><a href="internet-connecting-ndis-ru.htm#ndiswrapper-basic">Использование Ndiswrapper</a></li>
 				<li><a href="internet-connecting-ndis-ru.htm#ndiswrapper-advanced">Использование Ndiswrapper - допол.</a></li>
 				<li><a href="internet-connecting-wpagui-ru.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
-				<li><a href="internet-connecting-wpa-ru.htm#wpa-basic">WiFi - Basic setup guide</a></li>
+				<li><a href="internet-connecting-wpa-ru.htm#wpa-basic">WiFi - основые инструкции</a></li>
 				<li><a href="internet-connecting-wpa-ru.htm#wpa">WiFi - wpasupplicant</a></li>
 				<li><a href="internet-connecting-ru.htm#netcardconfig">Подключение - Ceni</a></li>
 			</ul>
@@ -202,50 +202,31 @@
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
 				<h4 class="highlight-3">Способ действия:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Во-первых, мы прочитаем пакетный  файл manifest с ISO-образа</a> и найдем версию заголовки Linux, которую в этом формате:</p>
+							<p>Мы выбирает место для ISO и двух файлов, которые являются обязательными для заполнения. Для того чтобы получить короткий путь, создаем базовый каталог "sidux" в "/media/sdaX" (в раздел sda1 или в то, что куда-либо) и двигаем ISO в этот каталог:</p>
+<pre>$ sux
+mkdir -p /media/sdaX/sidux
+mv sidux.iso /media/sdaX/sidux
+</pre>
+							<p>Мы смонтируем ISO образ. Альтернативно мы можем използьовать mc [midnight commander], так как этот файловый менеджер смонтирует ISO образы автоматически. Это позволяет отдельные файлы из ISO скопировать:</p>
+										
+<pre>
+mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
+</pre>
+							<p>Теперь мы скопируем файлы vmlinuz и initrd.img из смонтированного ISO образ в каталог. <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
 
 <pre>
-linux-headers-2.6.26-5.slh.4-sidux-686 
+cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
+cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+umount /mnt
 </pre>
-							<p>Связанный номер ядра является ::</p>
-<pre>
-2.6.26-5.slh.4-sidux-686
-</pre>
-							<p span class="highlight-3">Пожалуйста, правильно напишите строку !!</p>
-
-							<p>Во-вторых выделим пространство для ISO-образа и двух дополнительных файлов. Чтобы получить короткие спецификации пути создаем базовую дирректорию, например: "/media/sdax" (sda1 или 2, или 5, или 6, или что-то совсем независимое), внутри создаем каталог "sidux" и копируем в него iso-образ:</p>
-
-<pre>
-$ sux
-mkdir -p /media/sdax/sidux
-mv sidux.iso /media/sdax/sidux
-</pre>
-
-							<p>Переходим в каталог, содержащий ISO-образ, и монтируем его:</p>
-
-<pre>
-mkdir -p /mnt/test
-mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>Теперь копируем файлы vmlinuz и intrid.img из смонтированного образа в дирректорию sidux. Название дирректории определяется номером используемного ядра, который выявлен в файле "Manifest". <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
-
-<pre>
-cp /mnt/test/boot/vmlinuz-2.6.26-5.slh.4-sidux-686 /media/sdax/sidux/
-cp /mnt/test/boot/initrd.img-2.6.26-5.slh.4-sidux-686 /media/sdax/sidux/ 
-</pre>
-
-							<p>Следующим шагом настроим grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него следующие строки <span class="highlight-3"> после строки ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ЗАМЕЧАНИЕ: Не используйте регулярные выражения в конфигурационном файле grub! </span> <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
-
+							<p>Следующим шагом настроим grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него после строки <span class="highlight-3"> ### END DEBIAN AUTOMAGIC KERNELS LIST</span> <span class="highlight-2">следующие строки. ЗАМЕЧАНИЕ: Не используйте нерегулярные буквы в конфигурационном файле grub!</span> <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.26-5.slh.4-sidux-686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
+kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img
 </pre>
-
-							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа.</p>
-
+							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа. Если файлы sidux.iso, vmlinuz и intird.img заменяются на новые версии, включение в файле menu.lst не должно быть измененым.</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Установка "fromiso и persist" </h2>
@@ -488,7 +469,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 16/09/2008 0700 UTC</div>
+	<div id="rev">Содержание, последнее пересмотрено 26/09/2008 1200hrs UTC/div>
 </div>
 </body>
 </html>

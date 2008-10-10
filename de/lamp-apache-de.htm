@@ -17,6 +17,7 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision by hubi Sa 4. Okt 12:23:51 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by hubi 04/09/2008 0900 hrs UTC -->
@@ -228,9 +229,9 @@ phpmyadmin
 <pre>
 apt-get remove --purge splashy
 </pre>
-				<p class="highlight-2">Splashy kann nicht mit mysql</p>
+				<p class="highlight-2">Splashy kann nicht mit mysql!</p>
 
-					<p>Die Konfigurationsdatei für Apache befindet sich hier:<span class="highlight-3">/etc/apache2/apache2.conf</span>, und das Web-Verzeichnis ist hier: <span class="highlight-3">/var/www</span> </p>
+					<p>Die Konfigurationsdatei für Apache befindet sich hier: <span class="highlight-3">/etc/apache2/apache2.conf</span>, und das Web-Verzeichnis ist hier: <span class="highlight-3">/var/www</span> </p>
 
 					<p>Um zu prüfen, ob php installiert ist und korrekt läuft, wird eine Datei test.php in /var/www mit der Funktion phpinfo() auf die Art erstellt, wie es hier angegeben ist:</p>
 <pre>
@@ -239,10 +240,10 @@ mcedit /var/www/test.php
 # test.php
 &lt;?  phpinfo(); ?&gt;
 </pre>
-					<p>Danach wird der Browser hierher gelinkt:</p>
+					<p>Danach wird der Browser dorthin gelinkt:</p>
 <pre>
 http://localhost/test.php
-or 
+oder 
 http://yourip:80/test.php
 </pre>
 					<p>Dies zeigt alle php-Konfigurationen und Grundeinstellungen.</p>
@@ -250,13 +251,13 @@ http://yourip:80/test.php
 					<p>Die Einstellungen können nun angepasst werden bzw. virtuelle Domains können mit Hilfe der Apache-Konfiguration eingerichtet werden.</p>
 
 
-					<p>Um die Installation zu testen, wird folgendes in die URL-Zeile des Browsers eingegeben:</p>
+					<p>Um die Installation zu testen, wird Folgendes in die URL-Zeile des Browsers eingegeben:</p>
 <pre>
 http://youripaddress/apache2-default/
 </pre>
 					<p>Wenn die Installation erfolgreich und korrekt erfolgt ist, sieht man eine Begrüßungsnachricht.</p>
 
-					<p>Das Rootverzeichnis für apache2 ist <span class="highlight-3">/var/www</span> Dies muss folgendermaßen angepasst werden: </p>
+					<p>Das Rootverzeichnis für apache2 ist <span class="highlight-3">/var/www</span>. Dies muss folgendermaßen angepasst werden: </p>
 <pre>
 mkdir /home/myself/www
 ln -s /home/myself/www /var/www
@@ -274,7 +275,7 @@ ln -s /home/myself/www /var/www
 			<h2>Aktivieren von Sicherheitsprotokollen für Webserver</h2>
 
 				<h3>Firewalls</h3>
-				<p><span class="highlight-2">Ohne Firewall gibt es absolut keine Sicherheit für Server. Empfohlene Vorgehensweise ist, ALLES zu blockieren, solange es nicht benötigt ist, und nach Gebrauch wieder zu blocken.</span>.</p>
+				<p><span class="highlight-2">Ohne Firewall gibt es absolut keine Sicherheit für Server. Empfohlene Vorgehensweise ist, ALLES zu blockieren, solange es nicht benötigt ist, und nach Gebrauch wieder zu blockieren.</span></p>
 <pre>
 21 (ftp)
 22 (SSH)
@@ -288,21 +289,21 @@ und auch jeder andere verwendete Port!
 
 				<h3>Grundsätzlicher Schutz von Server-Dateien</h3>
 
-					<p>Ein Aspekt von Apache, der gelegentlich missverstanden wird, ist der grundsätzliche Zugang (default access). Das bedeutet, solange die Konfiguration nicht verändert ist, dass der Server Clients bedienen kann, wenn der Server seinen Weg zu einem File mittels nomaler URL-Mapping-Regeln finden kann.</p>
+					<p>Ein Aspekt von Apache, der gelegentlich missverstanden wird, ist der in der Grundeinstellung festgelegte Zugang. Das bedeutet, solange die Konfiguration nicht verändert ist, kann der Server Clients bedienen, wenn der Server seinen Weg zu einem File mittels nomaler URL-Mapping-Regeln finden kann.</p>
 
 					<p>Zum Beispiel:</p>
 <pre>
  1. # cd /; ln -s / public_html
- 2. Accessing http://localhost/~root/
+ 2. Zugang hat man mit: http://localhost/~root/
 </pre>
-					<p class="highlight-2">Dies erlaubt Clients, das ganze Dateisystem zu durchsuchen! Um dies zu umgehen, muss folgendes zur Server-Konfiguration gefügt werden:</p>
+					<p class="highlight-2">Dies erlaubt Clients, das ganze Dateisystem zu durchsuchen! Um dies zu verhindern, muss Folgendes zur Server-Konfiguration gefügt werden:</p>
 <pre>
 &lt;Directory /&gt;
    Order Deny,Allow
    Deny from all
 &lt;/Directory&gt;
 </pre>
-				<p>Dies verbietet grundsätzlich Zugang zu Bereichen des Dateisystems. Dementsprechend müssen Blöcke &lt;Directory&gt; der Konfiguration beigefügt sein, welche Zugriff ausschließlich zu erlaubten Bereichen gestatten. Zum Beispiel:</p>
+				<p>Dies verbietet grundsätzlich Zugang zu Bereichen des Dateisystems. Dementsprechend müssen &lt;Directory&gt;-Blöcke der Konfiguration beigefügt sein, welche Zugriff ausschließlich zu erlaubten Bereichen gestatten. Zum Beispiel:</p>
 <pre>
 &lt;Directory /usr/users/*/public_html&gt;
     Order Deny,Allow
@@ -311,11 +312,11 @@ und auch jeder andere verwendete Port!
 &lt;Directory /usr/local/httpd&gt;
     Order Deny,Allow
     Allow from all
- &lt;/Directory&gt;
+&lt;/Directory&gt;
 </pre>
 				<p>Besondere Aufmerksamkeit muss dem Zusammenspiel der Anweisungen &lt;Location&gt; und &lt;Directory&gt; geschenkt werden. Zum Beispiel, eine Anweisung &lt;Directory /&gt; kann den Zugang unterbinden, eine Anweisung &lt;Location /&gt; kann dieses Verbot jedoch überschreiben und somit umgehen.</p>
 
-				<p>Auch sollte man Experimente mit der Anweisung UserDir vermeiden; eine Konfiguration "./" hätte für root denselben Effekt, wie er im ersten Beispiel gezeigt wurde. Für die Version Apache 1.3 oder höher, empfehlen wir nachdrücklichst, folgende Zeile in der Konfigurationsdatei einzufügen:</p>
+				<p>Auch sollte man Experimente mit der Anweisung UserDir vermeiden; eine Konfiguration "./" hätte für root denselben Effekt, wie er im ersten Beispiel gezeigt wurde. Für die Version Apache 1.3 oder höher empfehlen wir nachdrücklichst, folgende Zeile in der Konfigurationsdatei einzufügen:</p>
 <pre>
 UserDir disabled root 
 </pre>
@@ -364,25 +365,25 @@ Email Address []:
 <pre>
  # a2enmod ssl
 </pre>
- 					<p>Dieses generiert automatisch einen symbolischen Link zwischen mods- available und mods – enabled. </p>
+ 					<p>Dieses generiert automatisch einen symbolischen Link zwischen mods-available und mods-enabled.</p>
 
 					<p>Danach legt man eine Kopie von '/etc/apache2/sites-available/default' im Ordner  /etc/apache2/sites-available/ an und benennt sie 'ssl':</p>
 <pre>
 # cp /etc/apache2/sites-available/default /etc/apache2/sites-available/ssl
 </pre>
-					<p>Erstellen eines symbolischen Links zu dieser neuen Konfigurationsdatei, um sie zu nutzen</p>
+					<p>Schließlich erstellt man einen symbolischen Link zu dieser neuen Konfigurationsdatei, um sie zu nutzen:</p>
 <pre>
 #  ln -s /etc/apache2/sites-available/ssl /etc/apache2/sites-enabled/                     
 (oder)
 #a2ensite ssl
 </pre>
- 					<p>Wenn Einstellungen der Basiskonfiguration in /etc/apache2/apache2.conf und die Grundeinstellung der Dokument-Route in /etc/apache2/sites-available/default geändert sind, muss der Apache-Server neu gestartet werden.</p>
+ 					<p>Wenn Einstellungen der Basiskonfiguration in /etc/apache2/apache2.conf und die Grundeinstellung der Document-Route in /etc/apache2/sites-available/default geändert sind, muss der Apache-Server neu gestartet werden.</p>
 
  					<p>Der Apache-Server wird mit folgendem Befehl neu gestartet:</p>
 <pre>
 #/etc/init.d/apache2 restart
 </pre>
- 					<p>Nun wird die Port-Adresse /etc/apache2/ports.conf Angepasst. In der Grundeinstellung wird auf Port 80 gelauscht, und da mit SSL installiert wird, hat dies auf Port 443 geändert zu werden.</p>
+ 					<p>Nun wird die Port-Adresse /etc/apache2/ports.conf angepasst. In der Grundeinstellung wird auf Port 80 gelauscht, und da mit SSL installiert wird, hat dies auf Port 443 geändert zu werden.</p>
 <pre>
  Listen 443
 </pre>
@@ -393,18 +394,18 @@ Email Address []:
   SSLEngine On
   SSLCertificateFile /etc/apache2/ssl/apache.pem
 </pre>
-					<p>Die Datei des SSLCertificateFile /etc/apache2/ssl/apache.pem wird editiert und der Ort der Zertifikatsdateien und Zertifikatsschlüssel eingegeben. Zum Beispiel:</p>
+					<p>Die Datei des SSLCertificateFile /etc/apache2/ssl/apache.pem wird editiert und der Ort der Zertifikatsdateien sowie Zertifikatsschlüssel eingegeben. Zum Beispiel:</p>
 <pre>
 SSLCertificateFile /etc/apache2/ssl/online.test.net.crt
 SSLCertificateKeyFile /etc/apache2/ssl/online.test.net.key
 </pre>
-					<p>Um ServerSignature auf off (aus) zu setzen, wird /etc/apache2/apache2.conf editiert und zwei Zeilen werden eingefügt:</p>
+					<p>Um ServerSignature auf off (aus) zu setzen, wird /etc/apache2/apache2.conf editiert, und zwei Zeilen werden eingefügt:</p>
 <pre>
 ServerSignature Off
 ServerTokens ProductOnly
 </pre>
 
- 					<p>Wenn andere Typen von Index-Dateien gewünscht sind, muss folgende Zeile in der Datei /etc/apache2/apache2.conf angepasst werden</p>
+ 					<p>Wenn andere Typen von Index-Dateien gewünscht sind, muss folgende Zeile in der Datei /etc/apache2/apache2.conf angepasst werden:</p>
 <pre>
  DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.shtml
 </pre>

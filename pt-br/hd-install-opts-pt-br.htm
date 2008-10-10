@@ -20,7 +20,7 @@
 <!-- Last translation revision ceti 17/09/2008 1029 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
-<!-- menu last updated by ceti 12/09/2008 0200 hrs UTC -->
+<!-- menu last updated by ceti 25/09/2008 0100 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -53,7 +53,7 @@
 				<li><a href="cd-dl-burning-pt-br.htm#burn-nero">Queimando no Windows</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#burn-linux">Queimando no Linux</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#xdelta">Usando o xdelta-patch</a></li>
-				<li><a href="cd-no-gui-burn-pt-br.htm">Queimando sem interface rráfica</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm">Queimando sem interface gráfica</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-pt-br.htm">Modo Live</a>
@@ -145,7 +145,7 @@
 				<li><a href="ssh-pt-br.htm#ssh">SSH e segurança</a></li>
 				<li><a href="internet-connecting-pt-br.htm#dial-mod">Modems discados</a></li>
 				<li><a href="internet-connecting-ndis-pt-br.htm#ndiswrapper-basic">Ativando o ndiswrapper</a></li>
-				<li><a href="internet-connecting-ndis-pt-br.htm#ndiswrapper-advanced">Ativando o ndiswrapper -  Avançado</a></li>
+				<li><a href="internet-connecting-ndis-pt-br.htm#ndiswrapper-advanced">Ativando o ndiswrapper -  avançado</a></li>
 				<li><a href="internet-connecting-wpagui-pt-br.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-pt-br.htm#wpa-basic">WiFi - guia básico de configuração</a></li>
 				<li><a href="internet-connecting-wpa-pt-br.htm#wpa">WiFi - wpasupplicant</a></li>
@@ -160,8 +160,8 @@
 				<li><a href="sys-admin-apt-pt-br.htm#apt-install">Instalando um novo pacote</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-delete">Apagando um pacote</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-downgrade">Rebaixando um pacote</a></li>
-				<li><a href="sys-admin-apt-pt-br.htm#apt-cache">Procurando pacotes com o Apt-cache</a></li>
-				<li><a href="sys-admin-apt-pt-br.htm#apt-kio">Procurando pacotes com o Kio-apt</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#apt-cache">Procurando pacotes com o apt-cache</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#apt-kio">Procurando pacotes com o kio-apt</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema -  dist-upgrade</a></li>
 			</ul>
 		</li>
@@ -205,49 +205,31 @@
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
 				<h4 class="highlight-3">Processo:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Primeiro leia o pacote com a descrição ('manifest') da ISO</a> e localize o número do "linux-headers". Deverá ser algo do tipo:</p>
+							<p>Choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdaX", (sda1 or, 2, or 5, or 6, or whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+<pre>$ sux
+mkdir -p /media/sdaX/sidux
+mv sidux.iso /media/sdaX/sidux
+</pre>
+							<p>Now mount the ISO image (Alternatively mc [midnight commander] can be used, as it transparently auto-mounts .iso files and lets you copy out the files needed.):</p>
+										
+<pre>
+mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
+</pre>
+							<p>Now copy the vmlinuz and initrd.img files from the mounted iso image to the directory <span class="highlight-3">and the HD is YOUR known variable::This is an example only :</span></p>
 
 <pre>
-linux-headers-2.6.26-5.slh.4-sidux-686 
+cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
+cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+umount /mnt
 </pre>
-							<p>Assim, o número correto da versão do kernel será:</p>
+							<p>Next you have to customise grub. Therefore edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span> </p>
 <pre>
-2.6.26-5.slh.4-sidux-686
+### ISO boot
+title sidux 32bit from ISO
+kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p><span class="highlight-3">Tome nota cuidadosamente!</span></p>
-
-							<p>A seguir, escolha onde ficarão a ISO e os dois arquivos de que você vai necessitar. Crie, então, um diretório-base, p. ex., "/media/sda5" (ou sda1, sda2, sda6..., não importa) e também o diretório "sidux". Em seguida, coloque a ISO neste último:</p>
-
-<pre>
-$ sux
-mkdir -p /media/sdax/sidux
-mv sidux.iso /media/sdax/sidux
-</pre>
-
-							<p>Agora, monte a imagem ISO:</p>
-
-<pre>
-mkdir -p /mnt/teste
-mount -t iso9660 -o loop,ro /media/sda5/sidux/sidux.iso /mnt/teste
-</pre>
-
-							<p>Copie os arquivos vmlinuz e initrd.img da imagem recém-montada para o diretório 'sidux', onde o número do kernel é aquele que você localizou no 'manifest' <span class="highlight-3">e o HD é a SUA variável conhecida. Eis um exemplo:</span></p>
-
-<pre>
-cp /mnt/teste/boot/vmlinuz-2.6.26-5.slh.4-sidux-686 /media/sda5/sidux/
-cp /mnt/teste/boot/initrd.img-2.6.26-5.slh.4-sidux-686 /media/sda5/sidux/
-</pre>
-
-							<p>A seguir, você precisa acertar o GRUB.  Edite o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span> e adicione as seguintes linhas <span class="highlight-3"> DEPOIS de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: não são permitidos coringas para nomes de arquivos no GRUB! </span> <span class="highlight-3">Mais uma vez: o HD é SUA variável já conhecida de antemão. Exemplo:</span></p>
-
-<pre>
-### boot pela ISO
-title sidux 32bit a partir da ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.26-5.slh.4-sidux-686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
-</pre>
-
-							<p>Ao reiniciar sua máquina, o GRUB mostrará um novo item, referente à imagem ISO, com a qual você poderá dar o boot.</p>
+							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -484,7 +466,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 16/09/2008 0700 UTC</div>
+	<div id="rev">Page last revised 26/09/2008 1200hrs UTC</div>
 
 </div>
 </body>

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi So 15. Jun 20:18:40 CEST 2008 -->
+<!-- Last translation revision hubi Fr 26. Sep 17:31:37 CEST 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by hubi 04/09/2008 0900 hrs UTC -->
@@ -193,7 +193,7 @@
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Booten "fromiso"</h2>
 
-		<p  class="highlight-2">Für normalen Gebrauch empfehlen wir das Standarddateisystem von sidux, ext3, welches von den Maintainern gut gewartet ist.</p>
+		<p  class="highlight-2">Für normalen Gebrauch empfehlen wir das Standarddateisystem von sidux, ext3, welches von den Maintainern gut betreut ist.</p>
 		
 		<p>Dieser Cheatcode startet aus einer ISO-Datei auf der Festplatte (ext2/3). Das ist viel schneller als von einer CD (Festplatten-Installationen "fromiso" dauern nur einen Bruchteil der Zeit).</p>
 
@@ -201,54 +201,38 @@
 
 		<h5>Voraussetzungen:</h5>
 
-			<p>* eine funktionierende Grub-Installation (auf Floppy, einer Festplatteninstallation oder der Live-CD) <br />
-			* eine sidux-Imagedatei, z. B. sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
-			* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO), müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
+							<p>* eine funktionierende Grub-Installation (auf Floppy, einer Festplatteninstallation oder der Live-CD) <br />
+							* eine sidux-Imagedatei, z. B. sidux.iso und ein Linux-Dateisystem wie ext2/3 <br />
+							* Wenn die Imagedatei umbenannt wird (zum Beispiel auf sidux.ISO), müssen die Befehle entsprechend angepasst werden, da das Dateibenennungssystem von Unix/Linux zwischen Groß- und Kleinschreibung unterscheidet.</p>
 
 				<h4 class="highlight-3">Vorgehensweise:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Am besten liest man zuerst die "Manifest"-Datei der ISO</a> und sucht die Versionsnummer des Linux-Headers, welche dieses Format besitzt:</p>
+							<p>Man wählt einen Speicherplatz für die ISO und zwei Dateien, die benötigt werden. Um kurze Pfade zu erhalten, erstellt man ein Basisverzeichnis "sidux" in "/media/sdaX" (sda1 oder welche Partition immer) und verschiebt die ISO in dieses:</p>
+<pre>$ sux
+mkdir -p /media/sdaX/sidux
+mv sidux.iso /media/sdaX/sidux
+</pre>
+							<p>Das ISO-Abbild wird eingebunden (alternativ kann dazu mc [midnight commander] benutzt werden, da dieser Dateimanager ISO-Abbilder automatisch einbindet und damit einzelne Dateien aus dem ISO kopiert werden können):</p>
+										
+<pre>
+mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
+</pre>
+							<p>Die Dateien vmlinuz und initrd.img vom eingebundenen ISO-Abbild in das erstellte "sidux"-Verzeichnis kopiert <span class="highlight-3">(die Pfadangaben sind hier nur Beispiele, bitte die eigenen Einstellungen verwenden)</span>:</p>
 
 <pre>
-linux-headers-2.6.26-5.slh.4-sidux-686 
+cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
+cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+umount /mnt
 </pre>
-							<p>Die dazugehörige Kernelnummer ist:</p>
-<pre>
-2.6.26-5.slh.4-sidux-686
-</pre>
-							<p span class="highlight-3">Bitte diese richtig notieren!</p>
-
-							<p>Danach wählt man einen Ort für das iso und die zwei Dateien, die wir brauchen. Hierfür erstellt man ein Basisverzeichnis, zum Beispiel "/media/sdax" (sda1, sda2, sda5, sda6, ...), legt ein Verzeichnis "sidux" an und kopiert die iso-Datei in dieses:</p>
-
-<pre>
-$ sux
-mkdir -p /media/sdax/sidux
-mv sidux.iso /media/sdax/sidux
-</pre>
-
-							<p>Nun gehen wir in dieses Verzeichnis und binden das ISO-Image ein:</p>
-
-<pre>
-mkdir -p /mnt/test
-mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>Anschließend kopiert man die Dateien vmlinuz und initrd.img von dem eingebundenen ISO-Image in das Verzeichnis, wobei die Kernelnummer diejenige ist, welche in der "Manifest"-Datei ermittelt wurde <span class="highlight-3"> und die Festplatte, wohin kopiert wird, man nur <strong>selbst</strong> kennen kann. Dies ist nur ein Beispiel:</span></p>
-
-<pre>
-cp /mnt/test/boot/vmlinuz-2.6.26-5.slh.4-sidux-686 /media/sda5/sidux/
-cp /mnt/test/boot/initrd.img-2.6.26-5.slh.4-sidux-686 /media/sda5/sidux/
-</pre>
-
-							<p>Als nächstes muss man grub anpassen.  Dazu bearbeitet man die Datei <span class="highlight-3">/boot/grub/menu.lst</span> und fügt Folgendes nach dem Eintrag <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span> hinzu <span class="highlight-2">(Anmerkung: in der Grubzeile sind keine "wildcards" für Dateinamen erlaubt!)</span> <span class="highlight-3"> Die Festplatte kann man nur <strong>selbst</strong> kennen. Dies ist nur ein Beispiel</span>:</p>
-
+							<p>Als nächstes muss grub angepasst werden. Dazu wird die Datei <span class="highlight-3"> /boot/grub/menu.lst </span> mit einem Texteditor geöffnet, und Folgendes wird <span class="highlight-3">NACH der Zeile ### END DEBIAN AUTOMAGIC KERNELS LIST</span> eingefügt (<span class="highlight-2">ZUR BEACHTUNG: Platzhalter sind in der Grub-Zeile für Dateinamen nicht gestattet!</span> <span class="highlight-3">Die Pfadangaben sind hier nur Beispiele, bitte die eigenen Einstellungen verwenden.</span>):</p>
 <pre>
 ### ISO boot
-title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz-2.6.26-5.slh.4-sidux-686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
+title sidux 32bit von ISO
+kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img
 </pre>
+							<p>Beim nächsten Neustart findet sich ein neuer Eintrag in Grub, um das ISO-Abbild zu starten. Falls die Dateien sidux.iso, vmlinuz and intird.img files durch eine neuere Version ersetzt werden, muss der Eintrag in Grubs menu.lst nicht geändert werden.</p>
+</div>
 
-							<p>Beim nächsten Booten hat man einen neuen Menü-Eintrag zum Starten des ISO-Images in grub.</p>
 
 	<div class="divider" id="fromiso-persist">
 		<h2>fromiso und persist</h2>
@@ -259,7 +243,7 @@ initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
 
 							<p><span class="highlight-3">persist</span> verhilft zu einem Live-System, welches alle automatisierten Routinen der sidux-Live-CD enthält. Dies hat den Vorteil, dass zum Beispiel die automatische Erkennung der Hardware durchgeführt wird. Gleichzeitig werden die gleichen Dateien bei jedem Booten wiederhergestellt.</p> 
 
-							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des graphischen Servers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, wodurch diese Vorgehensweise ideal ist, wenn man das System auf mehr als einem Computer benutzt.</span> Weniger geeignet ist sie, wenn man eigene Konfigurationen benötigt.</p>
+							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des Grafikservers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, wodurch diese Vorgehensweise ideal ist, wenn man das System auf mehr als einem Computer benutzt.</span> Weniger geeignet ist sie, wenn man eigene Konfigurationen benötigt.</p>
 
 							<p>persist ist ideal in Verbindung mit der neuen install-usb-gui, um einen bootbaren Flash-Drive mit eigenen Daten und selbstgewählter Software zu erstellen.</p>
 
@@ -267,7 +251,7 @@ initrd (hd0,4)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
 
 							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (allgemein benutzt für Installationen von DOS/Windows9x und üblicherweise das vorformatierte Dateisystem auf Flash-Speichern) benötigt eine einzelne große Datei, die als Loop-Gerät benutzt wird. Diese Datei muss formatiert werden (<span class="highlight-3">empfohlen ist ext3</span>).</p>
 
-							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis des FAT-Drives platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutztes Gerät zu fungieren, werden folgende Befehle genutzt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
+							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis des FAT-Drives platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutztes Gerät zu fungieren, werden folgende Befehle ausgeführt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
 <pre>
 disc="/media/sdb1"
 size=1024
@@ -300,9 +284,9 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 
 							<p>Die Speicherung eigener Daten ("data persist") ist möglich, wobei die ganze Partition verwendet wird, wenn man ext2 oder ext3 als Dateisystem nutzt. Falls vfat das gewählte Dateisystem ist, werden die Daten im Modus "data persist" in einer Datei abgelegt, die maximal 2GB groß sein kann und mindestens 100MB groß sein soll (kleiner macht keinen Sinn).</p>
 
-							<p>install-sidux-to-usb wird im Untermenüpunkt "System" im KDE-Menü gestartet, es kann aber auch der Startknopf auf der Startseite des sidux-Installationsprogramms nutzen.</p>
+							<p>install-sidux-to-usb wird im Untermenüpunkt "System" im KDE-Menü gestartet, es kann aber auch der Startknopf auf der Startseite des sidux-Installationsprogramms genutzt werden.</p>
 
-							<p>Um eine bootfähige USB-Installation von einem installierten System zu erstellen, benötigt man die sidux-ISO.</p>
+							<p>Um eine bootfähige USB-Installation von einem installierten System zu erstellen, benötigt man eine sidux-ISO.</p>
 
 
 			<h3>Vollständige Installation (verhält sich wie eine normale Festplatteninstallation)</h3>
@@ -335,8 +319,12 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /s
 						<h4>Der Mechanismus:</h4>
 <pre>
 Installation des VirtualBox-Paketes
-Klicken auf Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Erstellen einer VM, Einlegen der CD/DVD des Betriebssystems in das CD/DVD-Laufwerk, Installieren des Gastsystems, Reboot.
+
+- Klicken auf KMenü &gt; System &gt;InnoTek VirtualBox - Virtual Machine
+- Erstellen einer VM
+- Einlegen der CD/DVD des Betriebssystems in das CD/DVD-Laufwerk
+- Installieren des Gastsystems
+- Reboot
 </pre>
 
 				<h3>Installation:</h3>
@@ -359,7 +347,7 @@ adduser &lt;username&gt; vboxusers
 					<h3>Installation von sidux auf der virtuellen Maschine:</h3>
 							<p>Am besten werden die Assistenten von VirtualBox benutzt, um eine virtuelle Maschine für sidux zu erzeugen. Danach wird den Anweisungen für eine reguläre Installation von sidux gefolgt.</p>
 
-							<p><a href="http://www.virtualbox.org/">VirtualBox hat auf seiner Homepage eine umfassende Bedienungsanleitung, die man als PDF herunterladen kann.</a> </p>
+							<p><a href="http://www.virtualbox.org/">VirtualBox hat auf seiner Homepage eine umfassende englischsprachige Bedienungsanleitung, die man als PDF herunterladen kann.</a> </p>
 <!--
 				<h3>Automatisierte Installation mittels svmi</h3>
 							<p>svmi wird von sidux-scripts gestartet. Optionen sind "benutzerdefiniert" oder "automatische Installation". Mehr dazu mittels <span class="highlight-3">svmi -h für die Optionen der automatischen Installation</span>. svmi baut die vbox Kernelmodule, die Module werden aktualisiert, diese werden in /etc/modules eingefügt, um automatisch gestartet zu werden (andernfalls würde vbox nach einem Neustart nicht funktionieren), und 'adduser' wird aktualisiert. smvi wird als root in einer Konsole bzw. einem Terminal aktiviert:</p>
@@ -374,7 +362,7 @@ svmi
 		<h2>sidux installieren mit QEMU</h2>
 
 		<ul>
- 			<li>1. Erstellen eines Festplattenimages (iso) für QEMU</li>
+ 			<li>1. Erstellen eines Festplattenabbilds (iso) für QEMU</li>
  			<li>2. Booten der iso mit QEMU</li>
  			<li>3. Installation auf dem Image</li>
 
@@ -382,24 +370,24 @@ svmi
 
  			<h4>Erstellen eines Festplattenimages (iso)</h4>
 
-				<p>Um  qemu laufen lassen zu können, braucht man ein Festplattenimage. Das ist eine Datei, welche den Inhalt einer Partition oder Festplatte trägt.</p>
+				<p>Um  qemu laufen lassen zu können, braucht man ein Festplattenabbild. Das ist eine Datei, welche den Inhalt einer Partition oder Festplatte trägt.</p>
 
 				<p>Man verwendet den Befehl:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Damit erstellt man eine Imagedatei mit dem Namen "sidux.qcow". Der Parameter "3G" spezifiziert die Größe der Platte, in diesem Fall 3 GB. Das Suffix M wird für Megabyte verwendet (zum Beispiel "256M"). Man muss sich über die Größe jedoch keine zu großen Gedanken machen - das Format qcow komprimiert das Image, sodass der unbenutzte Platz sich nicht auf die Größe des Files aufaddiert.</p>
+				<p>Damit erstellt man eine Abbilddatei mit dem Namen "sidux.qcow". Der Parameter "3G" spezifiziert die Größe der Platte, in diesem Fall 3 GB. Das Suffix M wird für Megabyte verwendet (zum Beispiel "256M"). Man muss sich über die Größe jedoch keine zu großen Gedanken machen - das Format qcow komprimiert das Abbild, sodass der unbenutzte Platz sich nicht auf die Größe der Datei aufaddiert.</p>
 
 
 			<h4>Installation des Betriebssystems</h4>
 
-				<p>Jetzt wird zum ersten Mal der Emulator gestartet. Eines muss dabei beachtet werden: Wenn man innerhalb des qemu-Fensters mit der Maus klickt, wird der Mauszeiger "gefangen". Um ihn wieder frei zu geben, drückt man Ctrl+Alt.</p>
+				<p>Jetzt wird zum ersten Mal der Emulator gestartet. Eines muss dabei beachtet werden: wenn man innerhalb des qemu-Fensters mit der Maus klickt, wird der Mauszeiger "gefangen". Um ihn wieder frei zu geben, drückt man Ctrl+Alt.</p>
 
-				<p>Falls man eine bootbare Diskette benötigt, wird Qemu so gestartet:</p>
+				<p>Falls man eine bootfähige Diskette benötigt, wird Qemu so gestartet:</p>
 <pre>
 qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
-				<p>Wenn die CD-ROM bootbar ist, wird Qemu so gestartet:</p>
+				<p>Wenn die CD-ROM bootfähig ist, wird Qemu so gestartet:</p>
 <pre>
 qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
@@ -412,49 +400,49 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Eine gute Idee ist die Verwendung von sog. "überlagerten Images" (overlay images). Auf diese Weise braucht ein Image nur einmal angelegt zu werden und Qemu speichert Änderungen außerhalb dieses Images. Das System ist so stabiler, da es sehr einfach ist, auf einen früheren Installationsstand zurückzugreifen.</p>
+				<p>Eine gute Idee ist die Verwendung von sog. "überlagerten Abbildern" (overlay images). Auf diese Weise muss ein Abbild nur einmal angelegt werden und Qemu speichert Änderungen außerhalb dieses Abbilds. Das System ist so stabiler, da es sehr einfach ist, auf einen früheren Installationsstand zurückzugreifen.</p>
 
-				<p>Um ein "überlagertes Image" (overlay image) zu erstellen, gibt man ein:</p>
+				<p>Um ein "überlagertes Abbild" (overlay image) zu erstellen, gibt man ein:</p>
 <pre>
 qemu-img create -b [base_image] -f qcow [overlay_image]
 </pre>
-				<p>Das Festplattenimage ersetzt nun das Basis-Image (base_image), in unserem Fall sidux.qcow). Danach kann qemu gestartet werden:</p>
+				<p>Das Festplattenabbild ersetzt nun das Basis-Abbild (base_image), in unserem Fall sidux.qcow. Danach kann qemu gestartet werden:</p>
 <pre>
 qemu [overlay_image]
 </pre>
-				<p>Das originale Image bleibt unberührt. Es muss aber beachtet werden, dass das Basis-Image weder umbenannt noch verschoben werden kann, da das Overlay den genauen, absoluten Pfad des Basis-Images benötigt.</p>
+				<p>Das originale Abbild bleibt unberührt. Es muss aber beachtet werden, dass das Basis-Abbild weder umbenannt noch verschoben werden darf, da das Overlay den genauen, absoluten Pfad des Basis-Abbilds benötigt.</p>
 
 
-			<h4>Wie man jede echte Partition als primäre Partition eines Festplattenimages benutzen kann</h4>
+			<h4>Wie man jede echte Partition als primäre Partition eines Festplattenabbilds benutzen kann</h4>
 
 				<p>Manchmal möchte man eine Systempartition aus qemu heraus benutzen (man möchte zum Beispiel sowohl die echte Installation wie auch die virtuelle qemu-Installation mit einer gegebenen Partition als root starten). Dies erfolgt durch ein Software-RAID im Linearmodus (dazu braucht man den linear.ko Kernel-Treiber) und ein Loopback-Gerät: der Trick dabei ist, dynamisch einen Master Boot Record (MBR) an den Beginn der realen Partition zu stellen, welche in das Raw-Disk-Image von qemu eingebettet werden soll.</p>
 
-				<p>Angenommen, man hat eine einfache, nicht eingebundene Partition /dev/hdaN mit einem Dateisystem, welche Teil eines qemu-Festplattenimages werden soll. Als erstes erstellt man eine kleine Datei, welche den MBR beinhalten soll:</p>
+				<p>Angenommen, man hat eine einfache, nicht eingebundene Partition /dev/sdaN mit einem Dateisystem, welche Teil eines qemu-Festplattenabbilds werden soll. Als erstes erstellt man eine kleine Datei, welche den MBR beinhalten soll:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
-				<p>Hiermit wird eine 16 KB (32 * 512 bytes) große Datei erstellt. Es ist wichtig, diese Datei nicht zu klein zu veranschlagen (auch wenn der MBR nur einen einzelnen 512 Bytes großen Block benötigt), da die Chunk-Size des Software-RAID-Geräts umso kleiner sein muss, je kleiner jene Datei ist, was wiederum einen Einfluss auf die Leistung haben wird. Danach kann ein Loopback-Gerät zum MBR-File aufgesetzt werden:</p>
+				<p>Hiermit wird eine 16 KB (32 * 512 bytes) große Datei erstellt. Es ist wichtig, diese Datei nicht zu klein zu veranschlagen (auch wenn der MBR nur einen einzelnen 512 Bytes großen Block benötigt), da die Chunk-Größe des Software-RAID-Geräts umso kleiner sein muss, je kleiner jene Datei ist, was wiederum einen Einfluss auf die Leistung haben wird. Danach kann ein Loopback-Gerät zum MBR-File aufgesetzt werden:</p>
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Gehen wir davon aus, dass das Gerät /dev/loop0 heißt, da noch kein weiteres Loopback existieren wird. Nächster Schritt ist das Erstellen eines zusammengeführten, "merged" Images mit MBR + /dev/hdaN unter Benutzung eines Software-RAIDS:</p>
+				<p>Gehen wir davon aus, dass das Gerät /dev/loop0 heißt, da noch kein weiteres Loopback existiert. Nächster Schritt ist das Erstellen eines zusammengeführten Abbilds von MBR + /dev/sdaN unter Benutzung eines Software-RAIDS:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Das daraus resultierende /dev/md0 wird als qemu-Raw-Diskimage benutzt (das Setzen der Berechtigungen nicht vergessen, damit der Emulator darauf zugreifen kann). Der letzte (und etwas heikle) Schritt ist die Erstellung der Festplattenkonfiguration (Plattengeometrie und Partitionstabellen), sodass der Startpunkt der primären Partition im MBR mit jenem von /dev/hdaN innerhalb von /dev/md0 übereinstimmt (ein Offset von genau 16 * 512 = 16384 Bytes in diesem Beispiel). Dazu wird fdisk auf der Host-Maschine benutzt, nicht auf dem Emulator: in den Grundeinstellungen resultiert die Raw-Disk-Erkennung von qemu oft in Offsets, die nicht auf Kilobyte gerundet werden können (wie 31.5 KB im vorangegangenen Abschnitt), was wiederum vom Code des Software-RAIDs nicht verstanden werden kann. Daher gibt man auf der Host-Maschine ein:</p>
+				<p>Das daraus resultierende /dev/md0 wird als qemu-Raw-Diskimage benutzt (das Setzen der Berechtigungen nicht vergessen, damit der Emulator darauf zugreifen kann). Der letzte (und etwas heikle) Schritt ist die Erstellung der Festplattenkonfiguration (Plattengeometrie und Partitionstabellen), sodass der Startpunkt der primären Partition im MBR mit jenem von /dev/sdaN innerhalb von /dev/md0 übereinstimmt (ein Offset von genau 16 * 512 = 16384 Bytes in diesem Beispiel). Dazu wird fdisk auf der Host-Maschine benutzt, nicht auf dem Emulator: in den Grundeinstellungen resultiert die Raw-Disk-Erkennung von qemu oft in Offsets, die nicht auf Kilobyte gerundet werden können (wie 31.5 KB im vorangegangenen Abschnitt), was wiederum vom Code des Software-RAIDs nicht verstanden werden kann. Daher gibt man auf der Host-Maschine ein:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Dort erstellt man eine primäre Partition entsprechend /dev/hdaN und spielt mit dem Befehl 's' (Sector) im Menü 'x' (Expert), bis der erste Zylinder (wo die erste Partition beginnt) genau zur Größe des MBR passt. Schließlich wird mit 'w' (write) das Ergebnis in den File geschrieben: damit ist die Arbeit abgeschlossen. Jetzt ist eine Partition vorhanden, welche sowohl direkt von der Host-Maschine eingebunden werden kann als auch vom qemu-Festplattenimage:</p>
+				<p>Dort erstellt man eine primäre Partition entsprechend /dev/sdaN und spielt mit dem Befehl 's' (Sector) im Menü 'x' (Expert), bis der erste Zylinder (wo die erste Partition beginnt) genau zur Größe des MBR passt. Schließlich wird mit 'w' (write) das Ergebnis in den File geschrieben: damit ist die Arbeit abgeschlossen. Jetzt ist eine Partition vorhanden, welche sowohl direkt von der Host-Maschine eingebunden werden kann als auch vom qemu-Festplattenimage:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Natürlich kann gefahrlos jeder Bootloader auf das Festplattenimage mit qemu geschrieben werden, vorausgesetzt, die originale Partition /boot/hdaN enthält die dafür notwendigen Applikationen.</p>
+				<p>Natürlich kann gefahrlos jeder Bootloader auf das Festplattenabbild mit qemu geschrieben werden, vorausgesetzt, die originale Partition /boot/sdaN enthält die dafür notwendigen Anwendungen.</p>
 
 
 
-			<h4>Das QEMU Accelerator Module</h4>
+			<h4>Das QEMU Beschleunigungs-Modul (Accelerator Module)</h4>
 
 				<p>Die Entwickler von qemu haben ein optionales Kernelmodul erstellt, um qemu beinahe auf natives Niveau beschleunigen zu können. Dieses Modul sollte mit dieser Option geladen werden:</p>
 <pre>
@@ -462,28 +450,28 @@ major=0
 </pre>
 				<p>Damit wird die Einrichtung des benötigten Geräts /dev/kqemu automatisiert. Weitere Befehle sind:</p>
 <pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
+echo "options kqemu major=0" >> /etc/modules
 </pre>
-				<p>Dieser erweitert modprobe.conf, um sicherzustellen, dass die Moduloption bei jedem Laden des Moduls aktiviert wird.</p>
+				<p>Dieser erweitert die Datei /etc/modules, um sicherzustellen, dass die Moduloption bei jedem Laden des Moduls aktiviert wird.</p>
 
 <pre>
 qemu [...] -kernel-kqemu
 </pre>
-				<p>Damit wird die volle Virtualisation ermöglicht und die Geschwindigkeit beträchtlich erhöht.</p>
+				<p>Damit wird die volle Virtualisierung ermöglicht und die Geschwindigkeit beträchtlich erhöht.</p>
 
 			<h4>Aktivierung von QEMU:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
-		<p><a href="http://bellard.org/qemu/qemu-doc.html">Die offizielle Dokumentation des QEMU-Projekts </a> </p>
+		<p><a href="http://bellard.org/qemu/qemu-doc.html">Die offizielle englischsprachige Dokumentation des QEMU-Projekts </a> </p>
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Einige Abschnitte für QEMU wurden für das sidux-Handbuch  unter der GNU Free Documentation License 1.2 verwendet und für das sidux-Handbuch angepasst. Die Übersetzung ins Deutsche erfolgte durch das sidux-Team.</a> </p>
 
 		
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 16/09/2008 0700 UTC</div>
+	<div id="rev">Content last revised 26/09/2008 1200hrs UTC</div>
 
-</div>
+
 </div>
 </body>
 </html>

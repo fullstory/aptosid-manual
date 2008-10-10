@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by HarzG 06/07/2008 1200-->
+<!-- Last translation revision by HarzG 05/10/2008 1930-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by bluewater 01/09/2008 1430 hrs UTC -->
@@ -197,7 +197,7 @@
 
 							<p>Met deze cheatcode kun je opstarten van een ISO-bestand die op een partitie staat, dit is vele malen sneller dan van een CD op te starten. (HD installatie met "fromiso" neemt ook minder tijd in beslag. Sommige hebben het over minder dan 4 minuten, maar met 6-8 minuten is het nog steeds enorm snel).</p>
 
-							<p>Dit is natuurlijk veel sneller dan vanaf CD- /DVD-drive en houdt de cd/dvd-drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
+							<p>Dit is natuurlijk veel sneller dan vanaf CD-/DVD-drive en houdt deze drive beschikbaar voor andere toepassingen. Je kunt natuurlijk ook gebruik maken van VMware als alternatief.</p>
 
 				<h6>Benodigdheden:</h6>
 
@@ -205,49 +205,32 @@
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
-				<h4 class="highlight-3">Proces:</h4>
-							<p><a href="http://debian.tu-bs.de/project/sidux/release/">Lees eerst het pakket manifest van de ISO</a> en vind de linux-headers nummer, het zal er ongeveer zo uit zien:</p>
+				<h4 class="highlight-3">Volgorde, stapsgewijs:</h4>
+							<p>Kies een map/locatie voor het iso-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken wij een map in de partitie "/media/sdaX" bijv. sda1 of 2 of een andere naam. Maak in deze partitie een map "sidux" en verschuif het iso-bestand in deze map:</p>
+<pre>$ sux
+mkdir -p /media/sdaX/sidux
+mv sidux.iso /media/sdaX/sidux
+</pre>
+							<p>Dan wordt het ISO-bestand gemount met:</p>
+										
+<pre>
+mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt/test
+</pre>
+							<p>Hierna wordt een kopie van de vmlinuz en initrd.img bestanden van de gemounte iso naar de map gekopieerd. <span class="highlight-3">De HD/map is je eigen keus. Hier staat slechts een voorbeeld. NB: De namen (vmlinuz en initrd.img) zijn ingekort t.o.v. de originele namen met cijfers achter deze namen.</span></p>
 
 <pre>
-linux-headers-2.6.26-5.slh.4-sidux-686
+cp /mnt/test/boot/vmlinuz* /media/sda5/sidux/vmlinuz
+cp /mnt/test/boot/initrd.img* /media/sda5/sidux/initrd.img
+umount /mnt
 </pre>
-							<p>Hieruit volgt dat het kernel nummer is:</p>
-<pre>
-2.6.26-5.slh.4-sidux-686
-</pre>
-							<p> <span class="highlight-3">Noteer dit nummer goed!</span></p>
-
-							<p>Nu kiezen we een plek voor het ISO-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken we een basis-map, bijv. "/media/sda6" (of sda7,8 ...), maken hierin de map "sidux" aan en plaatsen het ISO-bestand daarin:</p>
-
-<pre>
-$ sux
-mkdir -p /media/sda6/sidux
-mv sidux.iso /media/sda6/sidux
-</pre>
-
-							<p>Dan gaan we naar de map en mounten het ISO image-bestand (een tussenstap via /mnt/test):</p>
-
-<pre>
-mkdir -p /mnt/test
-mount -t iso9660 -o loop,ro /media/sdax/sidux/sidux.iso /mnt/test
-</pre>
-
-							<p>Nu kopieeren we de vmlinuz en intrid.img bestanden van de gemounte ISO-image met het kernel nummer (zoals boven genoemd).</p>
-<pre>
-cp /mnt/test/boot/vmlinuz-2.6.26-5.slh.4-sidux-686 /media/sda6/sidux/
-cp /mnt/test/boot/initrd.img-2.6.26-5.slh.4-sidux-686 /media/sda6/sidux/
-</pre>
-
-							<p>Hierna passen we grub aan. We openen het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> als root en voegen de volgende tekst toe <span class="highlight-3"> NA de ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NB: Er zijn geen wildcards (*) toegestaan in grub voor bestandsnamen! </span> </p><p><span class="highlight-3">De partitie van je HD is je eigen keus, hier staat alleen een voorbeeld (sda6 heet hd0,5 in grub):</span></p>
-
+							<p>Hierna moet grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in grub voor bestandsnamen toegestaan! </span></p> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,5)/sidux/vmlinuz-2.6.26-5.slh.4-sidux-686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,5)/sidux/initrd.img-2.6.26-5.slh.4-sidux-686
+kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd.img
 </pre>
-
-							<p>Bij de volgende boot hebben we een nieuw menu item in grub om de de ISO-image te starten.</p>
+							<p>Na de volgende boot heb je een nieuw menu item in grub om de iso image te starten. Omdat alle bestandsnamen werden ingekort (geen cijfers achter sidux.iso, vmlinuz en initrd.img), kan in grub de menu.lst voortaan ongewijzigd blijven.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -482,7 +465,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 16/09/2008 0700 UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 26/09/2008 1200hrs UTC</div>
 </div>
 </body>
 </html>

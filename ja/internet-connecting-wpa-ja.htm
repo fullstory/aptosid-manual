@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="ja">
 <head>
 	<title>sidux Manuals - Internet/Network WiFi WPA-Supplicant</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
         <style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by muchan 08/Oct/2008 22:03 UTC -->
+<!-- Last translation revision by muchan 09/Oct/2008 23:20 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
 <!-- menu last updated by bluewater 01/09/2008 1430 hrs UTC -->
@@ -53,7 +53,7 @@
 				<li><a href="cd-dl-burning-ja.htm#burn-nero">WindowsでCDを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#burn-linux">LinuxでCDを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#xdelta">xdeltaパッチング</a></li>
-				<li><a href="cd-no-gui-burn-ja.htm">GUIなしでCDを焼くには</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">GUIなしでCDを焼くには</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ja.htm">Live Mode</a>
@@ -373,7 +373,7 @@ modprobe &lt;モジュール名&gt;
 <!--- ####
           						* Using External Mapping Scripts (e.g. guessnet)<br />
 #### -->
-          						* マッピングの外部スクリプト(guessnetなど)を使う<br />
+          						* 外部のマッピングスクリプト(guessnetなど)を使う<br />
 <!--- ####
           						* /etc/network/interfaces with external mapping</p>
 #### -->
@@ -900,14 +900,23 @@ wpa_action eth1 reload
 <!--- ####
 		<h2>Using External Mapping Scripts (e.g. guessnet)</h2>
 #### -->
-		<h2>マッピングの外部スクリプト(guessnetなど)を使う</h2>
+		<h2>外部のマッピングスクリプト(guessnetなど)を使う</h2>
 
+<!--- ####
 							<p>In addition to the internal mapping of logical interfaces via 'id_str', wpa_action can call external mapping scripts. A mapping script should return the name of the logical interface which should be brought up. Any mapping script that works from ifupdowns mapping mechanism (see man interfaces) should also work when called from wpa_action.</p>
+#### -->
+							<p>'id_str'によるロジカルインターフェイスの内部マッピングに加えて、wpa_actionは外部のマッピングスクリプトを使うこともできます。マッピングスクリプトは接続するべきロジカルインターフェイスの名前を出力するスクリプトプログラムです。ifupdownのマッピングメカニズム(man interfacesを参照）から呼び出せるスクリプトであればwpa_actionからも呼び出すことができます。</p>
 
+<!--- ####
 							<p>To call a mapping script add a line 'wpa-mapping-script name-of-the-script' to  the interfaces stanza of the physical roaming device. (You may have to specify the absolute path to the mapping script.)</p>
+#### -->
+							<p>マッピングスクリプトを呼び出すには/etc/network/interfacesファイルの中のフィジカルローミングデバイスを設定する部門に'wpa-mapping-script スクリプトファイル'という書式の行を入れます。(スクリプトファイルはディレクトリの場所を含めた/から始まる完全なパスで記入します。) </p>
 
 
+<!--- ####
 							<p>The contents of lines starting with wpa-map are passed to stdin of the mapping  script. Since ifupdown allows only one wpa-map line you can append any number to wpa-map for additional lines. For example:</p>
+#### -->
+							<p>'wpa-map'から始まる行の内容はマッピングスクリプトのstdin入力として送られます。ifupdownは一行のwpa-mapしか読み込まないため、ここには安心して何行追加しても問題ありません。一例として:</p>
 
 <pre>
 iface wlan0 inet manual
@@ -919,11 +928,20 @@ iface wlan0 inet manual
         wpa-map2 school
         # ... additional wpa-mapX lines as required
 </pre>
+<!--- ####
 							<p>By default the mapping script will only be used when no 'id_str' is available for the current network. If you want to completely disable 'id_str' matching and use only an external mapping script, use the 'wpa-mapping-script-priority 1' option to override default behaviour.</p>
+#### -->
+							<p>デフォルトではアクセスできる無線LANの'id_str'が用意されていないときに限りマッピングスクリプトが使われますが、'id_str'による内部マッピングを完全に無効化して外部スクリプトのみ使いたい場合は'wpa-mapping-script-priority 1'オプションを加えてデフォルトの振る舞いを抑えます。</p>
 
+<!--- ####
 							<p>If the mapping script returns an empty string wpa_action will fallback to using the 'default' interface, unless an alternative is defined by the 'wpa-roam-default-iface' option.</p>
+#### -->
+							<p>マッピングスクリプトがインターフェイス名を出力しないときは'wpa-roam-default-ifce'オプションが指定されている場合をのぞき、フォールバックとしてデフォルトのインターフェイスが使われます。</p>
 
+<!--- ####
 							<p>Below is an advanced example, using guessnet-ifupdown as the external mapping script.</p>
+#### -->
+							<p>guessnet-ifupdownを外部マッピングスクリプトに使った上級の例を下に示します。</p>
 
 					<h6>/etc/network/interfacesと外部マッピング</h6>
 <pre>
@@ -972,19 +990,28 @@ iface default-guessnet inet dhcp
 iface default-wparoam inet dhcp
 </pre>
 
+<!--- ####
 							<p>In this example wpa_action will use guessnet for the selection of a suitable logical interface only when no 'id_str' option has been provided for the current network in the provided wpa_supplicant.conf.</p>
+#### -->
+							<p>この例ではwpa_supplicant.confに見つかった無線LANのネットワークの'id_str'オプションがないとき、wpa_actionはguessnetスクリプトを使ってロジカルインターフェイスを選択します。</p>
 
+<!--- ####
 							<p>The 'wpa-map' lines provide guessnet with the logical interfaces that are to be tested as well as the default interface to be used when all tests fail. The 'test' lines of each logical interface are used by guessnet to determine if we are actually connected to that network. For instance, guessnet will choose the logical interface 'home_static' if there's a device with an IP address of 192.168.0.1 and MAC of 00:01:02:03:04:05 on the current network. If all tests fail, the 'default-guessnet' interface will be configured.</p>
+#### -->
+							<p>'wpa-map'の行はguessnetの入力としてマッチングを試すべきロジカルインターフェイスと、該当するインターフェイスが見つからない場合のデフォルトインターフェイスが送られます。各ロジカルインターフェイスの'test'で始まる行は、ロジカルインターフェイスが今実際に接続しているネットワークに該当するかをguesnetが判断するのに使われます。たとえば、guessnetは接続しているネットワークにIPアドレスが192.168.0.1でMACが00:01:02:03:04:05であるデバイスがあったら、'home_static'をロジカルインターフェイスとして選びます。もしテストがすべて失敗した場合は'default-guessnet'インターフェイスが設定されます。</p>
 
 
-							<p>Please, read the guessnet(8) manpage for more information.</p>
+							<p>詳しくはguessnet(8)のmanページを見てください。</p>
 
 <!--- ####
 			<h2>4. Troubleshooting</h2>
 #### -->
 			<h2>4. 困ったとき</h2>
 
-							<p>In order to debug connection, association and authentication problems, we suggest starting `wpa_cli -i &lt;interface&gt;` in a different shell, before starting the interface. Use the command 'level 0' first, to get all debug messages. Then use `ifup --verbose &lt;interface&gt;` to get verbose debug messages from the script starting wpasupplicant.</p>
+<!--- ####
+							<p>In order to debug connection, association and authentication problems, we suggest starting `wpa_cli -i &lt;interface&gt;` in a different shell, before starting the interface. Use the command 'level 0' first, to get all debug messages. Then use `ifup - -verbose &lt;interface&gt;` to get verbose debug messages from the script starting wpasupplicant.</p>
+#### -->
+							<p>無線LANへの接続、結合、認証の問題をデバッグするには、`wpa_cli -i &lt;interface&gt;`を別のシェルからスタートして、 まずデバッグメッセージをすべて表示するよう'level 0'コマンドを実行し、次に`ifup --verbose &lt;interface&gt;`を実行してwpa_supplicantをスタートするスクリプトのデバッグメッセージをすべて表示するようにします。</p>
 	</div>
 	<div class="divider" id="wpa6">
 <!--- ####
@@ -992,7 +1019,10 @@ iface default-wparoam inet dhcp
 #### -->
 		<h2>隠れssids</h2>
 
+<!--- ####
 							<p>For reference, see #358137. In order to be able to associate to hidden ssids, please try to set the option 'ap_scan=1' in the global section, and  'scan_ssid=1' in your network block section of your wpa_supplicant.conf file. If you are using the managed mode, you can do so by these stanzas:</p>
+#### -->
+							<p>参考までに(Debian bug)#358137を見てください。隠れssidに結合するにはwpa_supplicant.confファイルのグローバル部門に'ap_scan=1'を、ネットワークブロック部門に'scan_ssid=1'を加えます。マネージドモードを使う場合は次のようにします。</p>
 
 <pre>
 iface eth1 inet dhcp
@@ -1002,9 +1032,15 @@ wpa-scan-ssid 1
 # additional options for your setup
 </pre>
 
+<!--- ####
 							<p>According to #368770, association can take a very long time to associate to WEP  secured networks. In some cases, setting the parameter 'ap_scan=2' in the config file, (or using a 'wpa-ap-scan 2' stanza, which is equivalent) can greatly help to speed up association.</p>
+#### -->
+							<p> #368770によるとWEPによって保護されているネットワークに結合させるのにかなりの時間がかかることがあります。場合によって、設定ファイルに'ap_scan'の行を加えること(または'wpa-ap-scan 2'の行をinterfacesに加えること)によって関係づけをスピードアップできることがあります。</p>
 
+<!--- ####
  							<p>Please note that setting ap_scan to the value of 2 also requires that all networks have a precisely defined security policy for for key_mgmt, pairwise, group and proto network policy variables.</p>
+#### -->
+ 							<p>ap_scanの値を2に設定するにはすべてのネットワークについてkey_mgmtのためのセキュリティポリシーや、ペア、グループ、またはプロトネットワークのポリシーが正確に定義されていなくてはなりません。</p>
 
 	</div>	
 	<div class="divider" id="wpa7">
@@ -1015,15 +1051,21 @@ wpa-scan-ssid 1
 <!--- ####
 				<h5>Configuration of File Permissions</h5>
 #### -->
-				<h5>i設定ファイルの読み書き許可</h5>
+				<h5>設定ファイルの読み書き許可</h5>
+<!--- ####
 							<p>It is important to keep PSK's and other sensitive information concerning your network settings private, therefore ensure that important configuration files containing such data are only readable by their owner. For example:</p>
+#### -->
+							<p>PSKその他、ネットワーク関連のの秘匿すべき情報を保護するのは重要なことです。そのため、そのような情報を含んだファイルは所有者以外には読めないように設定します。一例:</p>
 
 <pre>
 chmod 0600 /etc/network/interfaces
-# substitute the path of your wpa_supplicant.conf file
+# 実際のwpa_supplicant.confファイルのパスに編集すること
 chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 </pre>
+<!--- ####
 							<p>By default, /etc/network/interfaces is world readable, and thus unsuitable for containing secret keys and passwords.</p>
+#### -->
+							<p>デフォルトとして/etc/network/interfacesはだれでも読むことができるため,秘密のキーやパスワードを保存するには適していません。</p>
 
 	</div>
 			<div id="rev">Page last revised 02/09/2008 1500 UTC</div>

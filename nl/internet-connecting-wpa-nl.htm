@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="nl">
 <head>
 	<title>sidux handleiding - Internet/Network WiFi WPA-Supplicant</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
         <style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision HarzG 13/05/2008 2145 UTC-->
+<!-- Last translation revision HarzG 12/10/2008 0930 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
-<!-- menu last updated by bluewater 01/09/2008 1430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.10.14 -->
+<!-- menu last updated by bluewater 14/10/2008 0800 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-nl.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Zoeken Online Offline</a> </li>
@@ -53,7 +53,7 @@
 				<li><a href="cd-dl-burning-nl.htm#burn-nero">Branden in Windows</a></li>
 				<li><a href="cd-dl-burning-nl.htm#burn-linux">Branden in Linux</a></li>
 				<li><a href="cd-dl-burning-nl.htm#xdelta">xdelta patches</a></li>
-				<li><a href="cd-no-gui-burn-nl.htm">Branden zonder GUI</a></li>
+				<li><a href="cd-no-gui-burn-nl.htm#burning-no-gui">Branden zonder GUI</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-nl.htm">Live-CD modus</a>
@@ -191,61 +191,58 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="wpa-basic">
-		<h2 id="top-header" >Basic Guide To Get Wireless Working - WiFi</h2>
+		<h2 id="top-header" >Basis handleiding voor draadloze/wireless verbindingen- WiFi</h2>
 
-							<p class="highlight-3">Due to the complexity of law, sidux will only provide dfsg-free software, <a href="hw-dev-hw-dri-nl.htm#non-free">please check this link for additional information on non-free sources for firmware</a></p>
+							<p class="highlight-3">Door de complexiteit van de wet wordt er alleen dsfg-gratis software door sidux aangeboden. <a href="hw-dev-hw-dri-nl.htm#non-free">Bekijk aub deze link voor meer informatie over niet-gratis bronnen voor firmware.</a></p>
 
-							<p>To get wlan WiFi working, you need a wired connection for just a few minutes to download the appropriate firmware.</p>
+							<p>Om een wlan WiFi te installeren, heb je voor een paar minuten een verbinding met netwerkkabel nodig om de firmware te downloaden.</p>
 
-							<p>If a wired connection is not possible you will have to put the firmware on a removable device (pendrive e.g.) and install it as root from there using:</p>
+							<p>Als dat met een netwerkkabel niet mogelijk is, dan moet de firmware op een removable device staan (bijv. USB-stick) en het kan als root op de volgende manier geïnstalleerd worden:</p>
 <pre>
 #dpkg -i &lt;firmware.deb&gt;
 </pre>
 
-							<p>To find the appropriate firmware without knowing the make or brand of your wireless chip, you can use the command:</p>
+							<p>Als je niet weet welke firmware je nodig hebt, dan kan je het volgende commando gebruiken:</p>
 <pre>
 #fw-detect
 </pre>
-							<p>This will give you the following information:</p>
+							<p>Je ziet dan de volgende informatie:</p>
 <pre>
 #apt-get update
 #apt-get install &lt;name of firmware&gt;
 #modprobe -r &lt;modulename&gt;
 #modprobe &lt;modulename&gt;
 </pre>
-							<p>Open the metapackage-installer in <span class="highlight-3">kmenu - utilities</span>. There go to the 2nd tab (non-free sources) and hit the install non-free button. That will update your sources list in order to allow non-free apps to be installed.</p>
+							<p>Open de metapackage-installer in het <span class="highlight-3">K-menu - hulpmiddelen</span>. Ga daar naar de 2e tab (non-free sources) en kies de install non-free button. Hierdoor wordt een update van je sources list uitgevoerd om non-free applicaties to te staan.</p>
 
-							<p>Go to the first tab <span class="highlight-3">Metapackages</span> and open the non_free section. There you will find the most common firmware for wireless WiFi devices for an easy install.</p>
+							<p>Ga naar de eerste tab <span class="highlight-3">Metapackages</span> en open het non_free gedeelte. Daar zie je de meest voorkomende firmware voor wireless WiFi devices en je kan deze met een muisklik installeren.</p>
 
-							<p>Alternatively you may use the apt-get install line that fw-detect command gave you. After that is done, you need to issue some commands in konsole before configuring the device.</p>
-
-							<p>You have to load the module now in order to be able to configure your device.</p>
-
-							<p>As root in konsole do:</p>
+							<p>Je kan natuurlijk ook de informatie van apt-get install gebruiken die je in het fw-detect antwoord gezien hebt. Als je de daar voorgestelde installatie hebt gedaan, moeten nog de onderstaande commando's als root in de konsole uitgevoerd worden voordat je de configuratie van het apparaat kan starten. (Hiermee wordt de benodigde module geladen.)</p>
+							
 <pre>
 modprobe -r &lt;modulename&gt;
 
 modprobe &lt;modulename&gt;
 </pre>
-							<p>As &lt;modulename&gt; uses the info that fw-detect gave you before. A helpful function of Konsole can be used here: bash completion: <br />
-							If you just write the first few letters of &lt;modulename&gt; and then hit the TAB key, it completes the module name (e.g. modprobe ipw TAB key) That also prevents misspelling.</p>
+							<p>Als &lt;modulename&gt; wordt de informatie/naam gebruikt die fw-detect had getoond. Een handige functie in de konsole is de zogenaamde bash completion: <br />
+							Als je de eerste paar letters van de &lt;modulename&gt; hebt getypt kan je de TAB toets gebruiken. Hiermee worden de ontbrekende tekens van module naam aangevuld. Bovendien kan je hiermee typefouten voorkomen.</p>
 
-							<p>Both modprobe commands dont give any output if successful, so if the normal prompt returns, the module got loaded fine.</p>
+							<p>Als je van de modprobe commando's geen meldingen ziet dan is alles prima en de module werd geladen.</p>
 
-							<p>You can check this with:</p>
+							<p>Je kan dat nog controleren met:</p>
 <pre>
 #lsmod | grep &lt;module&gt;
 </pre>
 
 							
-							<p>Now start Ceni from K-Menu - Internet or run it from konsole as root with <a href="internet-connecting-nl.htm#netcardconfig">Getting Online - Ceni</a>. Your wireless WiFi device should be shown now and is ready to be configured.</p>
+							<p>Nu kan je Ceni starten in het K-Menu - Internet of in de konsole als root met <a href="internet-connecting-nl.htm#netcardconfig">Ceni</a>. Je draadloze WiFi apparaten worden dan getoond en kunnen worden geconfigureerd.</p>
 
-							<p>To set up a Wlan WiFi GUI see <a href="internet-connecting-wpagui-nl.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></p>
+							<p>Om de installatie/configuratie in een grafisch scherm uit te voeren GUI Wlan WiFi, kijk bij <a href="internet-connecting-wpagui-nl.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></p>
 	</div>	
 	<div class="divider" id="wpa">
-		<h2>Modes of Operation in wpasupplicant voor Debian</h2>
+		<h2>Modi van de wpasupplicant in Debian</h2>
 
-							<p class="highlight-3">Als gevolg van ingewikkelde wetgeving, kan sidux alleen zogenaamde dfsg-vrije software aanbieden,<a href="hw-dev-hw-dri-en.htm#non-free"> gebruik daarom deze link voor extra informatie over niet-vrije bronnen voor de zogenaamde firmware</a></p>
+							<p class="highlight-3">Als gevolg van ingewikkelde wetgeving, kan sidux alleen zogenaamde dfsg-vrije software aanbieden. <a href="hw-dev-hw-dri-en.htm#non-free">Gebruik daarom deze link voor extra informatie over niet-vrije bronnen voor de zogenaamde firmware.</a></p>
 
 							<p>Het Debian 'wpasupplicant' pakket voorziet in twee (2) gebruikelijke 'modes of operation' die nauw geïntegreerd zijn in kern van de infrastructuur van netwerken; ifupdown.</p>
 

@@ -2,8 +2,8 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="nl">
 <head>
-	<title>sidux Manuals - Samba Configs</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>sidux handleiding - Samba configuratie</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
         <style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
@@ -17,9 +17,10 @@
         <![endif]-->
 </head>
 <body>
+<!-- Last translation revision by by HarzG 11/10/2008 1500 hrs UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.09.01 -->
-<!-- menu last updated by bluewater 01/09/2008 1430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.10.14 -->
+<!-- menu last updated by bluewater 14/10/2008 0800 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-nl.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Zoeken Online Offline</a> </li>
@@ -52,7 +53,7 @@
 				<li><a href="cd-dl-burning-nl.htm#burn-nero">Branden in Windows</a></li>
 				<li><a href="cd-dl-burning-nl.htm#burn-linux">Branden in Linux</a></li>
 				<li><a href="cd-dl-burning-nl.htm#xdelta">xdelta patches</a></li>
-				<li><a href="cd-no-gui-burn-nl.htm">Branden zonder GUI</a></li>
+				<li><a href="cd-no-gui-burn-nl.htm#burning-no-gui">Branden zonder GUI</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-nl.htm">Live-CD modus</a>
@@ -190,7 +191,7 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="configure">
-		<h2 id="top-header">Het Configureren van sidux voor het gebruik van SAMBA (Windows) Shares op Remote Machines </h2>
+		<h2 id="top-header">Het configureren van sidux voor het gebruik van SAMBA (Windows) Shares op Remote Machines</h2>
 		
 							<p>Voer alle commando's uit als <b>root</b> gebruiker (in een Terminal of Konsole) Plaats de URL in Konqueror (start Konqueror op als een normale gebruiker).</p>
 		
@@ -204,7 +205,7 @@
 smbclient -L server
 </pre>
 		
-							<p>Om een share in een directory te mouten -(Met volledige toegang voor ALLE gebruikers) moet je het volgende onthouden: Het Mountpunt moet aanwezig zijn. Is deze er niet, dan moet je eerst een directory aanmaken , zoals hier weer gegeven is:</p>
+							<p>Om een share in een map/directory te mounten (met volledige toegang voor ALLE gebruikers) moet het mountpunt aanwezig zijn. Heb je nog geen mountpunt hiervoor, dan moet je eerst een map aanmaken met:</p>
 <pre>
 mkdir -p /mnt/server_share
 </pre>
@@ -219,20 +220,20 @@ mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/sh
 mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
 </pre>
 		
-							<p>Om de verbinding te beeindigen voer je het volgende commando uit:</p>
+							<p>Om de verbinding te beëindigen voer je het volgende commando uit:</p>
 <pre>
 umount /mnt/server_share
 </pre>
 		
-							<p>Als je een regel in het bestand <i>/etc/fstab</i> wilt zetten om het mounten makkelijker te maken, voeg dan de volgende regel aan dit bestand toe:</p>
+							<p>Om het mounten makkelijker te maken, kan je een regel in het bestand <i>/etc/fstab</i> toevoegen (op deze manier wordt de samba share al tijdens het opstarten van de PC gemount):</p>
 <pre>
 //server/share  /mnt/server_share       cifs  defaults,username=your_username,password=**********,file_mode=0777,dir_mode=0777   0   0
 </pre>
 	</div>
 	<div class="divider" id="setup">
-		<h2>Hoe stellen we op sidux een Samba-Server in</h2>
+		<h2>Hoe stellen we in sidux een Samba-Server in</h2>
 
-							<p>As samba is not on the sidux live-cd. you will need to do the following to have samba access:</p>
+							<p>Omdat samba niet op de sidux live-CD is, moeten de volgende stappen uitgevoerd worden voor een samba-netwerktoegang:</p>
 <pre>
 su
 apt-get update
@@ -240,18 +241,18 @@ apt-get install samba
 </pre>
 
 				<h5>HD installaties:</h5>
-							<p>samba is niet standaard geinstalleerd. Wil je samba installeren, dan moet je het volgende uitvoeren:</p>
+							<p>samba is niet standaard geïnstalleerd. Wil je samba installeren, dan moet je het volgende uitvoeren:</p>
 <pre>
 sux
 apt-get update
 apt-get install samba
 </pre>
 				
-							<p>Op een HD-Installatie is het nodig om de Samba Configuratie aan te passen. Hier is a simpel voorbeeld, Wil je meer weten van Samba, de werking , de instellingen en het gebruik, lees dan het volgende document , <a href="http://us5.samba.org/samba/"> Samba Documentatie.</a>, door.</p>
+							<p>Op een HD-Installatie is het nodig om de Samba configuratie aan te passen. Hieronder staat een eenvoudig voorbeeld. Wil je meer weten over he installeren en configureren van een Linux-Samba-Server, kijk dan in de <a href="http://nl2.samba.org/samba/"> Samba documentatie</a>.</p>
 		
 							<p>Om de samba-configuratie aan te passen voer je het volgende uit:</p>
 		
-							<p>je opent het bestand <span class="highlight-3">/etc/samba/smb.conf</span> in een editor (bv. kedit) en voer het volgende in:</p>
+							<p>Open het bestand <span class="highlight-3">/etc/samba/smb.conf</span> in een editor (bv. kedit) en voer het volgende in:</p>
 		
 <pre>
 # Globale Changes - Proposal everything simple as
@@ -284,7 +285,7 @@ public = yes
 				<h6>Controle van de samba shares</h6>
 							<p>Om de samba-shares zo in te stellen zonder acht te nemen op de beveiliging, voer je het volgend uit (dit geld voor een LAN setup):</p>
 
-							<p>Set de directory en zijn inhoud tenminste op -rwxr-xr-x:</p>
+							<p>Voor de map en zijn inhoud moeten de rechten tenminste op -rwxr-xr-x staan, dat kan je controleren met:</p>
 
 <pre>
 ls -la pathTo/dirShareName/*
@@ -297,14 +298,14 @@ ls -la pathTo/dirShareName/*
 chmod -R 755 pathTo/dirShareName
 </pre>
 
-							<p>Als je in de directory wilt kunnen schrijven voer je het volgende commando uit:</p>
+							<p>Als je in de map wilt kunnen schrijven voer je het volgende commando uit:</p>
 
 
 <pre>
 chmod -R 777 dirShareName
 </pre>
 
-							<p>Een manier om te kijken of je share ook werkt is: ( vergeet niet om de samba-server te starten):</p>
+							<p>Om te kijken of je share ook werkt (vergeet niet om de samba-server te starten):</p>
 
 
 <pre>
@@ -344,10 +345,10 @@ update-rc.d samba defaults
 		
 							<p>Nu start samba op wanneer je je machine start en stopt samba bij het uitzetten van je machine.</p>
 
-							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba information here</a>.</p>
+							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Meer samba informatie is hier te vinden</a>.</p>
 	</div>
 
-			<div id="rev">Pagina het laast bijgewerkt op 05/09/2008 1300hrs UTC</div>
+			<div id="rev">Pagina is het laast bijgewerkt op 05/09/2008 1300hrs UTC</div>
 
 </div>
 </body>

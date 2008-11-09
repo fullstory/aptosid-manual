@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 07/09/2008 0430 UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.10.14 -->
-<!-- menu last updated by bluewater 14/10/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
+<!-- menu last updated by richard 04/11/2008 1430 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsqueda Online Offline</a> </li>
@@ -72,10 +72,10 @@
 				<li><a href="term-konsole-es.htm#shell-scripts">instalando_scripts.sh</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="cheatcodes-es.htm">sidux CheatCodes</a>
+		<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="cheatcodes-es.htm">Chuletas (cheatcodes)</a>
 			<ul class="sub-menu" id="sm6">
-				<li><a href="cheatcodes-es.htm#cheatcodes">Cheatcodes de sidux</a></li>
-				<li><a href="cheatcodes-es.htm#cheatcodes-linux">Cheatcodes generico de Linux</a></li>
+				<li><a href="cheatcodes-es.htm#cheatcodes">Chuletas sidux</a></li>
+				<li><a href="cheatcodes-es.htm#cheatcodes-linux">Chuletas genericas</a></li>
 				<li><a href="cheatcodes-vga-es.htm#vga">Códigos VGA</a></li>
 			</ul>
 		</li>
@@ -182,6 +182,7 @@
 				<li><a href="sys-admin-gen-es.htm#init">sidux Niveles de Ejecución - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#mbr-grub-boot">Sobre-escribir el MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Iniciado Dual y Múltiple</a></li>
+				<li><a href="bios-freedos-es.htm#bois-prep">Actualizando el BIOS con FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#boot-grub-floppy">Floppy del Sistema</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Quitar Grub del MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#what-is-grub">Grub: el Inicializador</a></li>
@@ -205,31 +206,31 @@
 								* si el imagen ISO suya ha sido renombrado, a sidux.ISO, tendrar que modificar los comandos de acuerdo, en vista que el sistema de archivos de unix es sensible a letra mayúscula/minúscula.</p>
 
 				<h4 class="highlight-3">Proceso:</h4>
-							<p>Choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdaX", (sda1 or, 2, or 5, or 6, or whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+							<p>Escoje un lugar para el iso y 2 archivos que necesitamos, para conseguir nombres más cortos. Así que crear un directorio base, por ejemplo, "/media/sdaX", (sda1 ó, 2, ó 5, ó 6, ó lo que sea) crea el directorio "sidux" y copiar el iso hacia el:</p>
 <pre>$ sux
 mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
-							<p>Now mount the ISO image (Alternatively mc [midnight commander] can be used, as it transparently auto-mounts .iso files and lets you copy out the files needed.):</p>
+							<p>Ahora montar el imagen ISO (Alternativamente el mc {midnight commander} puede ser usado, porque se auto-monta el archivo .iso, y permite copiar los archivos del .iso que necesita.):</p>
 										
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
-							<p>Now copy the vmlinuz and initrd.img files from the mounted iso image to the directory <span class="highlight-3">and the HD is YOUR known variable::This is an example only :</span></p>
+							<p>Ahora, copiar los archivos, vmlinuz y initrd.img, desde el .iso montada hacia el directorio <span class="highlight-3">  Sustituye el variable del disco duro para el *suyo*. :: Este es un ejemplo solamente:</span></p>
 
 <pre>
 cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Next you have to customise grub. Therefore edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span> </p>
+							<p>Proximo, tiene que personalizar el Grub. Entonces, editar el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue las siguientes líneas <span class="highlight-3"> DESPUÉS del ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: no están permitidos los comodines en la línea de comando de grub! </span> <span class="highlight-3"> Sustituye el variable del disco duro para el *suyo*. :: Este es un ejemplo solamente:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
+							<p>Con el próximo inicialización, tendra un nuevo renglon en el menu de Grub para arrancar el imagen ISO. Si se actualiza los archivos  sidux.iso, vmlinuz y intird.img con lanzamientos más reciente, el menu.lst de grub no necesita ser modificado..</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>fromiso y persist</h2>

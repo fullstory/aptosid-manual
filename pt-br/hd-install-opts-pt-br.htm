@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision ceti 17/09/2008 1029 UTC-->
+<!-- Last translation revision ceti 16/10/2008 1046 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.76.2008.10.14 -->
-<!-- menu last updated by bluewater 14/10/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
+<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -182,6 +182,7 @@
 				<li><a href="sys-admin-gen-pt-br.htm#init">Runlevels no sidux - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-pt-br.htm#mbr-grub-boot">Sobrescrição da MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pt-br.htm#dual-boot">Boots duplos e múltiplos</a></li>
+				<li><a href="bios-freedos-pt-br.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-pt-br.htm#boot-grub-floppy">Criando um disquete de boot</a></li>
 				<li><a href="sys-admin-grub-bootman2-pt-br.htm#remove-grub">Removendo o GRUB da MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pt-br.htm#what-is-grub">GRUB, o gerenciador de boot</a></li>
@@ -191,7 +192,7 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="fromiso">
-		<h2 id="top-header">Inicializando com "fromiso"</h2>
+		<h2 id="top-header">Como inicializar com "fromiso"</h2>
 							<p  class="highlight-2">Para uma instalação normal, recomendamos usar ext3; ele é o sistema de arquivos padrão do sidux e conta com uma boa manutenção.</p>
 
 							<p>Com este "cheatcode" você pode iniciar o sidux a partir de uma imagem ISO salva em uma partição do HD (ext2/3), o que é muito mais rápido do que dar o boot a partir de um CD (instalações com "fromiso" levam apenas uma fração de tempo).</p>
@@ -205,31 +206,31 @@
 							* Se você renomeou sua imagem para 'sidux.ISO', você terá de alterar os comandos abaixo de acordo, porque o sistema de nomes de arquivos do UNIX é sensível a maiúsculas/minúsculas.</p>
 
 				<h4 class="highlight-3">Processo:</h4>
-							<p>Choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdaX", (sda1 or, 2, or 5, or 6, or whatever, for example) create the directory "sidux" and copy the iso into it:</p>
+							<p>Escolha um lugar para a ISO e os dois arquivos de que vamos precisar. Daí, crie um diretório-base, por exemplo: "/media/sdaX", (sda1 ou 2 ou 5 ou 6 ou seja lá o que você quiser), crie o diretório "sidux" e copie a ISO nele:</p>
 <pre>$ sux
 mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
-							<p>Now mount the ISO image (Alternatively mc [midnight commander] can be used, as it transparently auto-mounts .iso files and lets you copy out the files needed.):</p>
+							<p>Agora, monte a ISO (você pode usar, alternativamente, o mc [midnight commander] para isso, pois ele auto-monta de forma transparente arquivos .iso e deixa que você copie os arquivos necessários):</p>
 										
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
-							<p>Now copy the vmlinuz and initrd.img files from the mounted iso image to the directory <span class="highlight-3">and the HD is YOUR known variable::This is an example only :</span></p>
+							<p>Agora, copie os arquivos vmlinuz e initrd.img da imagem .iso que foi montada para o diretório,<span class="highlight-3"> sendo o HD sua variável conhecida. O que se segue é somente um exemplo:</span></p>
 
 <pre>
 cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Next you have to customise grub. Therefore edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span> </p>
+							<p>A seguir, você precisa editar o grub. Portanto, edit o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span>e adicione as seguintes linhas<span class="highlight-3"> APÓS ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE-se que não são permitidos coringas! </span> <span class="highlight-3">O HD é SUA variável conhecida; isto é apenas um exemplo!!!:</span> </p>
 <pre>
 ### ISO boot
-title sidux 32bit from ISO
+title sidux 32bit a partir da ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
+							<p>Ao reiniciar a máquina, você verá um novo item no grub, referente à ISO. Quando você atualizar sua imagem iso e os arquivos vmlinuz e intird.img para lançamentos mais recentes, não será necessário fazer nenhuma modificação no arquivo menu.lst do GRUB.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
@@ -262,7 +263,7 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mk
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Instalando o sidux em dispositivos USB ou em um HD-USB</h2>
+		<h2>Como instalar o sidux em dispositivos USB ou em um HD-USB</h2>
 
 							<p>Instalar o sidux em dispositivos USB (pendrives etc) ou num HD-USB é tão fácil quando instalar em HDs comums. Simplesmente, atente para estas regras e observações:</p>
 
@@ -300,7 +301,7 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mk
 
 	</div>
 	<div class="divider" id="vtbox">
-		<h2>Instalando o sidux com VirtualBox</h2>
+		<h2>Como instalar o sidux com VirtualBox</h2>
 							<p>O VirtualBox é ideal para máquinas de 32-bits. Para 64-bits, use QEMU.</p>
 						<ul>
  							<li>1. crie uma imagem do HD para VirtualBox</li>
@@ -308,7 +309,7 @@ dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mk
  							<li>3. instale a imagem</li>
 						</ul>
 
-				<h4>Requisitos</h4>
+				<h4>Requisitos:</h4>
 							<p><span class="highlight-3">RAM recomendada: 1 giga </span>; idealmente, 512 MB para o guest e 512 MB para o host (pode ser rodado com menos memória, porém não espere bom desempenho).</p>
 
 							<p><span class="highlight-3">Espaço no HD:</span> Enquanto o VirtualBox em si é magro (uma instalação típica ocupa apenas 30 MB de espaço), as máquinas virtuais necessitarão de grandes arquivos no disco para representar seus próprios HDs. Assim, para instalar o MS Windows XP (TM), por exemplo, você vai precisar de um arquivo que facilmente crescerá por diversos GB em tamanho. Para não se apertar, vai ser preciso que você aloque uma imagem de 5 GB e mais a swap.</p>
@@ -339,13 +340,13 @@ virtualbox-ose-module-$(uname -r)
 adduser &lt;usuário&gt; vboxusers 
 </pre>
 
-					<h3>Instalando o sidux na máquina virtual</h3>
+					<h3>Como instalar o sidux na máquina virtual</h3>
 							<p>Use o assistente do virtualbox para criar uma nova máquina virtual para o sidux, depois é só seguir as instruções de uma instalação normal.</p>
 
 							<p><a href="http://www.virtualbox.org/">O VirtualBox tem uma boa Ajuda em PDF, que você pode baixar</a> </p>
 <!--
 				<h3>Instalação automática com o svmi</h3>
-							<p>O svmi é iniciado pelos scripts do sidux. Você pode rodar as opções manualmente ou usar o recurso de auto-instalação, modo não-interativo. Veja as opções com <span class="highlight-3">svmi -h</span>. O svmi monta o módulo vbox no kernel, atualiza-o, adiciona-o ao arquivo /etc/modules (o que faz com que seja iniciado automaticamente na inicialização -- senão, o vbox não rodaria) e atualiza o 'adduser'. Para ativar o svmi como root no terminal:</p>
+							<p>O svmi é iniciado pelos scripts do sidux. Você pode rodar as opções manualmente ou usar o recurso de auto-instalação, modo não-interativo. Veja as opções com <span class="highlight-3">svmi -h</span>. O svmi monta o módulo vbox no kernel, atualiza-o, adiciona-o ao arquivo /etc/modules (o que faz com que seja iniciado automaticamente na inicialização - senão, o vbox não rodaria) e atualiza o 'adduser'. Para ativar o svmi como root no terminal:</p>
 <pre>
 svmi
 </pre>
@@ -354,7 +355,7 @@ svmi
 -->
 	</div>
 	<div class="divider" id="qemu">
-		<h2>Instalando o sidux com o QEMU</h2>
+		<h2>Como instalar o sidux com o QEMU</h2>
 
 		<ul>
  			<li>1. crie uma imagem do HD para o qemu</li>
@@ -363,7 +364,7 @@ svmi
 
 		</ul>
 
- 			<h4>Criando a imagem do HD</h4>
+ 			<h4>Como criar a imagem do HD</h4>
 
 				<p>Para rodar o QEMU, você provavelmente irá precisar de uma imagem do HD. Trata-se de um arquivo que armazena o conteúdo do HD emulado.</p>
 
@@ -374,7 +375,7 @@ qemu-img create -f qcow sidux.qcow 3G
 				<p>Isso cria o arquivo de imagem "sidux.qcow". O parâmetro "3G" especifica o tamanho do disco - no caso, 3 GB. Você pode usar o sufixo M para megabytes (por exemplo, "256M"). Não se preocupe muito com o tamanho do disco - o formato qcow comprime a imagem, de forma que o espaço vago não é adicionado ao tamanho do arquivo.</p>
 
 
-			<h4>Instalando o sistema operacional</h4>
+			<h4>Como instalar o sistema operacional</h4>
 
 				<p>Esta é a primeira vez que você vai precisar de abrir o emulador. <span class="highlight-3">Atenção: quando você clica dentro da janela do qemu, o ponteiro do mouse fica preso. Para soltá-lo, pressione:</span></p>
 <pre>
@@ -392,7 +393,7 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 				<p> Agora instale o sidux como se fosse em um HD de verdade.</p>
 
 
-			<h4>Rodando o sistema</h4>
+			<h4>Como rodar o sistema</h4>
 
 				<p>Para rodar o sistema, digite:</p>
 <pre>
@@ -411,7 +412,7 @@ qemu [overlay_image]
 				<p>A imagem original permanece intocada. Um probleminha: a imagem base não poderá ser renomeada ou movida. A sobreposição (overlay) lembra o caminho completo da base.</p>
 
 
-			<h4>Usando qualquer partição real como a partição primária de uma imagem do HD</h4>
+			<h4>Como usar qualquer partição real como a partição primária de uma imagem do HD</h4>
 
 				<p>Pode acontecer de você desejar usar uma de suas partições de dentro do qemu (por exemplo, dar o boot tanto em sua máquina real quanto no qemu, usando uma partição como root). Isso pode ser feito utilizando software RAID no modo linear (é necessário o driver linear.ko) e um dispositivo loopback: o truque é  preceder dinamicamente uma MBR à partição real que você deseja embutir em uma imagem de HD bruta (raw) no qemu.</p>
 
@@ -440,7 +441,7 @@ losetup -f /caminho/para/mbr
 
 
 
-			<h4>Usando o Módulo de Aceleração do QEMU</h4>
+			<h4>Como usar o Módulo de Aceleração do QEMU</h4>
 
 				<p>Os desenvolvedores do qemu criaram um módulo opcional para o kernel, de forma a acelerar o qemu às vezes até a níveis de operação nativos. Ele pode ser carregado com a opção:</p>
 <pre>

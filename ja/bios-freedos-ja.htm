@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- last translation by bluewater 02/11/2008 1525 UTC -->
+<!-- last translation by muchan 17/11/2008 1144 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
+<!-- menu last updated by muchan 10/11/2008 1000 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ja.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> サーチ Online Offline</a> </li>
@@ -182,7 +182,7 @@
 				<li><a href="sys-admin-gen-ja.htm#init">siduxのランレベル - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#mbr-grub-boot">MBR ブートセクターへの上書き</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#dual-boot">デュアルブートまたはマルチブート</a></li>
-				<li><a href="bios-freedos-ja.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
+				<li><a href="bios-freedos-ja.htm#bois-prep">FreeDOSでBIOSのアップグレード</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#boot-grub-floppy">ブート・フロッピーの作成</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#remove-grub">MBRからGRUBを消去する</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#what-is-grub">Grub - ブートマネージャ</a></li>
@@ -193,26 +193,63 @@
 <div id="main-page">
 	<div class="divider" id="bois-prep">
 
+<!--- ####
 		<h2 id="top-header">Upgrading the BIOS with FreeDOS</h2>
+#### -->
+		<h2 id="top-header">FreeDOSを使ってBIOSをアップグレードする</h2>
 
-							<p>Firstly, your BIOS needs to allow booting from USB - and be compatible with USB harddisks. Some BIOS formations only accept USB Floppies, CD-ROMs or ZIP drives, although these might be usable, it may be more difficult to implement the upgrade, however you may have no other choice, (netbooks in particular).</p>
+<!--- ####
+							<p>You may want, or have a need, to update the BIOS of your PC, when the manufacturer of the motherboard announces some improvement of BIOS software. The installer program usually offered is an application to run MS-DOS.</p>
+#### -->
+							<p>マザーボードのメーカが改良された新しいBIOSソフトウェアのリリースを発表したときなど、使っているPCのBIOSをアップデートしたくなることがあるでしょう。ところがBIOSインストーラはたいていの場合MS-DOSのプログラムとして提供されています。</p>
+
+<!--- ####
+							<p>This is a way to update BIOS from a USB in linux. This will work with USB keys, USB sticks and with micro/mini/SD cards (with a suitable adapter).</p>
+#### -->
+							<p>ここではUSBデバイスを使ってLinuxのシステムのBIOSアップデートする方法を説明します。USBフラッシュメモリの他にもUSBアダプターを使えばmicro/mini/SDカードなどを使うこともできます。</p>
+
+<!--- ####
+							<p>Firstly, your BIOS needs to allow booting from USB - and be compatible with USB harddisks. Some BIOSes accept USB Floppies, CD-ROMs or ZIP drives, although these might be usable, it may be more difficult to implement the upgrade, however you may have no other choice, (netbooks in particular).</p>
+#### -->
+							<p>まず、USBから起動できて、USBハードディスクが使えるようにBIOSを設定する必要があります。USBフロッピー、CD-ROMまたはZIPドライブからしか起動できないBIOSもあって、そのようなケースではBIOSのアップグレードは難しくなりますが、ネットブックPCなど、それ以外方法がないこともあるでしょう。</p>
 
 
+<!--- ####
 				<h3>You need three things:</h3>
+#### -->
+				<h3>次の三つが必要です:</h3>
 						<ol>
+<!--- ####
 							<li>a USB stick, preferably &lt;2 GB (FAT16 doesn't allow more than 2 GB), and full FreeDOS install only uses 5.8 MB. <span class="highlight-3">FAT16 is the recommended format as FAT32 is not detected as bootable by every BIOS</span>.</li>
+#### -->
+							<li>USBフラッシュドライブ:望ましくは2Gb以下のもの(FAT16は2Gb以上にアクセスできません、また FreeDOSのインストールは5.8Mbしか使いません。) <span class="highlight-3">FAT32では起動できないBIOSもあるため、FAT16の使用をお勧めします。 </span>.</li>
 							<!--<p>For flashing,you only need the base install set (more than enough, actually very comfortable - will take ~5.4 MB on your USB stick)</p> -->
 
+<!--- ####
 							<li>a FreeDOS install medium <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a> should be good enough.</li>
+#### -->
+							<li>FreeDOSインストールメディア: <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a> で十分でしょう。.</li>
 
+<!--- ####
 							<li>qemu (apt-get install qemu), qemu is needed for the installer, basically the emulated qemu BIOS makes your USB stick appear to FreeDOS as an ordinary harddisk, so you can install as usual (and avoids burning the FreeDOS CD).</li>
+#### -->
+							<li>qemu (apt-get install qemuのコマンドでインストールできます): qemuのエミュレーションでFreeDOSがUSBフラッシュドライブをハードディスクとみなすようにできるため(FreeDOSのCDを焼き付けることなく)普通のインストールが行えます。</li>
 						</ol>
 
+<!--- ####
 				<h6><span class="highlight-2">This is absolutly critical: at no stage is the USB stick to be mounted. Be very careful to select the correct device node, otherwise all data on the wrong disk will be erased without any redress, i.e. your main hard drive.</span></h6>
+#### -->
+				<h6><span class="highlight-2">重要事項!: 作業中、どの段階においてもUSBフラッシュドライブをけっしてマウントしないこと。デバイスノードの選択は慎重に行うこと、さもないと間違ったドライブ,つまりメインハードディスクののデータが回復の余地なく消去されてしまいます。</span></h6><br/>
 
+<!--- ####
 							<p>Plug in your USB stick, <span class="highlight-2">remember, don't mount it</span>. Check dmesg (the last messages,if you just plugged it in), which device node got assigned to your USB stick lets assumes <span class="highlight-3">/dev/sdb</span>  .</p>
+#### -->
+							<p>USBフラッシュメモリを差し込む <span class="highlight-2">決してマウントしないように!</span>. dmesgの最新のメッセージををチェックしてUSBフラッシュメモリがどのデバイス名になったかを確認します。ここでは仮に<span class="highlight-3">/dev/sdb</span>として進めます。</p>
 
+<!--- ####
 							<p>Clear your USB stick (<span class="highlight-3">all data will be lost</span>), you could also clear all of it, instead of just the first 16 MB. </p>
+#### -->
+							<p>USBフラッシュメモリをクリアする。(<span class="highlight-3">すべてのデータが失われます</span>)　ドライブ全体をクリアしても、または最初の16Mbだけをクリアするのでも構いません。</p>
 
 
 <pre>
@@ -223,12 +260,24 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 16+0 records out
 16777216 bytes (17 MB) copied, 2.35751 s, 7.1 MB/s
 </pre> 
+<!--- ####
 					<h3>Partitioning the USB stick</h3>
+#### -->
+					<h3>USBフラッシュメモリのパーティショニング</h3>
+<!--- ####
 							<p>Partitioning and formatting your USB stick correctly is probably the hardest part.</p>
+#### -->
+							<p>USBフラッシュメモリを正しくパーティションイングするのが多分一番難しい作業です．</p>
 
+<!--- ####
 							<p>Set the partition label to FAT16, on &lt;2 GB sticks (it offers better compatibility overall).</p>
+#### -->
+							<p>2Gb以下ののフラッシュメモリのパーティションラベルをFAT16に設定します。(より兌換性の強いドライブになります。)</p>
 
+<!--- ####
 							<p>Next fdisk to partition:</p>
+#### -->
+							<p>次にこのパーティションをfdiskします:</p>
 <pre>
 # fdisk /dev/sdb
 fdisk /dev/sdb
@@ -239,7 +288,10 @@ After that, of course, the previous content won't be recoverable.
 
 Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 </pre>
+<!--- ####
 							<p>Now create a partition:</p>
+#### -->
+							<p>パーティションを作成します:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>n</b></span>
 Command action
@@ -252,7 +304,10 @@ Using default value 1
 Last cylinder or +size or +sizeM or +sizeK (1-1018, default 1018):
 Using default value 1018
 </pre>
+<!--- ####
 							<p>Confirm the creation of the partition by printing the partition table:</p>
+#### -->
+							<p>パーティション一覧を表示して作成したパーティションを確認します:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -264,7 +319,10 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1               1        1018     1956595+  83  Linux
 </pre>
+<!--- ####
 							<p>Set the correct partition label, '6' for FAT16:</p>
+#### -->
+							<p>パーティションラベルを正しく設定します。 FAT16は'6'が正しい設定値です:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>t</b></span>
 Selected partition 1
@@ -294,15 +352,23 @@ Hex code (type L to list codes): <span class="highlight-3"><b>l</b></span>
 18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fe  LANstep
 1b  Hidden W95 FAT3 70  DiskSecure Mult bb  Boot Wizard hid ff  BBT
 1c  Hidden W95 FAT3 75  PC/IX
+
 Hex code (type L to list codes): <span class="highlight-3"><b>6</b></span>
+
 Changed system type of partition 1 to 6 (FAT16)
 </pre>
+<!--- ####
 							<p>Activate the new and only partition:</p>
+#### -->
+							<p>新規作成したただ一つのパーティションを有効にします:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>a</b></span>
 Partition number (1-4): <span class="highlight-3"><b>1</b></span>
 </pre>
+<!--- ####
 							<p>Print out the new partition table again, reconfirm that the partition indeed got activated:</p>
+#### -->
+							<p> もう一度パーティション一覧を表示してこのパーティションが有効になったことを再確認します:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -314,7 +380,10 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1   *           1        1018     1956595+   6  FAT16
 </pre>
+<!--- ####
 							<p>Write the new partition table to your USB stick and exit fdisk:</p>
+#### -->
+							<p>新しいパーティションテーブルをUSBフラッシュメモリに書き込んでfdiskを終了します:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>w</b></span>
 The partition table has been altered!
@@ -327,31 +396,52 @@ information.
 Syncing disks.
 # exit
 </pre>
+<!--- ####
 							<p>Format your newly created USB stick:</p>
+#### -->
+							<p>新規作成したパーティションをフォーマットします:</p>
 <pre>
 mkfs -t vfat -n FreeDOS /dev/sdb
 exit
 </pre>
+<!--- ####
 							<p>The preparatory phase is now complete.You have now have partitioned and formatted the USB stick, there's nothing else left to do and you can directly go to the install process.</p>
+#### -->
+							<p>これで準備は終了です。新しいパーティションを作成しUSBメモリをフォーマットしました。これでインストール作業にとりかかれます。</p>
 							
+<!--- ####
 					<h3>Booting up FreeDOS with qemu</h3>
+#### -->
+					<h3>qumuでFreeDOSを起動する</h3>
 
+<!--- ####
 							<p>As DOS has no idea of USB stick, you need to find a way to coax the FreeDOS installer into recognizing the USB as ordinary "harddisk", on live boot, the system's BIOS does that for us - but here the need to get inventive with qemu:</p>
+#### -->
+							<p>DOS自体はUSBについてなにも関知しないためFreeDOSインストーラがUSBをあたかも普通の「ハードディスク」とみなすような方法が必要です。通常の起動の場合はシステムBIOSがこれをやってくれますが、ここではqemuを創造的に使う必要があります:</p>
 <pre>
-as user$:
-qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
+普通のユーザーとして:
+$ qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
 </pre>
+<!--- ####
 							<p><span class="highlight-1">ctrl-alt</span> will toggle mouse and keyboard grab and allow you to switch desktops to reread any instructions at each step.</p>
+#### -->
+							<p><span class="highlight-1">ctrl-alt</span> でマウスとキーボードの入力先の切り替えができますから一段階ごとにデスクトップ上のマニュアルを参照できます。</p>
 
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot01.jpg" alt="qemu" /></div>
+<!--- ####
 							<p>This boots the FreeDOS CD and maps the USB stick raw device as primary master HD (here qemu's BIOS emulation abililty makes the USB stick appear to DOS as an ordinary harddisk).  Select the installer from the start menu of the virtualised FreeDOS boot:</p>
+#### -->
+							<p>これでFreeDOSが起動されUSBフラッシュメモリのデバイスがプライマリマスターHDと認識されました。(qemuのエミュレーション設定によりUSBメモリがハードディスクであるかのようにふるまいます。)バーチャルモードのFreeDOSの起動メニューからインストーラを選択します</p>
 <pre>
 1) Continue to boot FreeDOS from CD-ROM
 <span class="highlight-3"><b>1</b></span>
-enter
+エンター
 </pre>
 	<div class="spacer02"></div>
+<!--- ####
 							<p>Keep choosing the default of <span class="highlight-3">1</span> and/or choosing <span class="highlight-3">Yes</span> when asked.</p>
+#### -->
+							<p>デフォルトの<span class="highlight-3">1</span>を選びつづけ、なにか質問をされたときは<span class="highlight-3">Yes</span> と答えます。</p>
 
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot02.jpg" alt="freedos-inst1" /></div>
@@ -367,54 +457,97 @@ enter
 
 	<div class="spacer02"></div>
 
+<!--- ####
 							<p>The install asks you to reboot - <span class="highlight-3">don't do that yet, as there is a need to fix up two errors in the FreeDOS installer for the mbr and bootmenu</span>. Type the letter <span class="highlight-3"><b>n</b></span>.</p>
+#### -->
+							<p>インストーラに再起動(boot)するか聞かれたときは<span class="highlight-3">まだ再起動しないように！インストーラの二つのエラー(MBRと起動メニュー)を再起動前に修正しなくてはなりません。</span>. <span class="highlight-3"><b>n</b></span>とタイプします。</p>
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot18.jpg" alt="freedos-inst4" /></div>
 
 	<div class="spacer02"></div>
+<!--- ####
 				<h3>Writing a bootsector to your USB stick</h3> 
+#### -->
+				<h3>USBメモリに起動セクターを書き込みます</h3> 
+<!--- ####
 							<p>The first error to fix is the mbr with:</p>
+#### -->
+							<p>一つ目の修正はMBRです:</p>
 
 <pre>
 fdisk /mbr 1
 </pre>
-							<p>The second error that needs fixing is the bootmenu in your new fdconfig.sys, run:</p>
+							<p>二つ目の修正はfdconfig.sysの起動メニューです。次のコマンドを実行します:</p>
 <pre>
 cd \
 edit fdconfig.sys 
 </pre>
+<!--- ####
 							<p>and change the line starting command.com to:</p>
+#### -->
+							<p>command.comで始まる行を次のように直します:</p>
+<!--- ####
 <pre>
 1234?SHELLHIGH=C:\FDOS\command.com C:\FDOS /D /P=C:\fdauto.bat /K set
 (don't actually change this command, just add "1234?" to the begin of the line (before SHELLHIGH==C:\FDOS\command.com .....
 NOTE it is to read : <span class="highlight-3">1234?</span>
 </pre>
+#### -->
+<pre>
+1234?SHELLHIGH=C:\FDOS\command.com C:\FDOS /D /P=C:\fdauto.bat /K set
+(実際にコマンドを編集するのでなく、ただ行の初めの"SHELLHIGH==C:\FDOS\command.com ....."の前に"1234?"を加えるだけです。
+書き加えるのは: <span class="highlight-3">1234?</span>
+</pre>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot23.jpg" alt="fdconfig.sys" /></div>
 	<div class="spacer02"></div>
+<!--- ####
 							<p><span class="highlight-2">Do not change anything else, as the line depends on your install setup.</span></p>
+#### -->
+							<p><span class="highlight-2">それ以外はなにも買い替えないこと! この行の内容はインストール設定によって違います。</span></p>
 
+<!--- ####
 							<p>Save it and exit "edit":</p>
+#### -->
+							<p>保存して"edit"を終了します:</p>
 <pre>
 [alt]+[f]
 </pre>
+<!--- ####
 							<p>Once you're back to the command prompt, you can leave qemu.</p>
+#### -->
+							<p>コマンドプロンプトに戻ったらqemuを終了できます。</p>
 
+<!--- ####
  							<p>Test to check if qemu will boot the USB stick.</p>
+#### -->
+ 							<p>qemuがUSBフラッシュメモリから起動できるかをチェックするコマンド</p>
 <pre>
 qemu -hda /dev/sdb -boot c
 </pre>
+<!--- ####
  							<p>Your USB stick is now bootable and contains a full FreeDOS install of 5.4 MB, for flashing. You really should boot without any drivers <span class="highlight-3">(menu option 4), loading the  himem.sys and emm386 files may otherwise interfere with your flashing programs!</span>:</p>
+#### -->
+ 							<p>これでUSBフラッシュメモリから起動ができるようになり、BIOSフラッシングのための5.4MbのFreeDOS全体がUSBメモリににインストールされました。起動メニューから<span class="highlight-3">(オプション 4)を選択して余分なドライバーなしで起動するべきです。himem.sysやemm386などのファイルがフラッシングプログラムの作業を邪魔することがあるためです</span>:</p>
 
+<!--- ####
 				<h3>Updating the BIOS</h3>
+#### -->
+				<h3>BIOSのアップデート</h3>
+<!--- ####
 							<p>Assuming your PC is up and running, plug in the FreeDOS USB stick, mount it and download the BIOS files needed, as recommended by the manufacturer of your motherboard/BIOS, to the FreeDOS USB stick, then umount the stick.</p>
+#### -->
+							<p>PCの起動中にFreeDOSのUSBフラッシュメモリを挿入し、マウントして、マザーボード/BIOSのメーカーが推奨するBIOSファイルをダウンロードして、USBメモリに保存し、アンマウントします。</p>
 
+<!--- ####
 							<p> Power off your PC, plug in the FreeDOS USB stick, power up, so that you boot to the FreeDOS USB stick and follow the procedures of the manufacturer of your motherboard/BIOS.</p>
+#### -->
+							<p>PCを終了し、FreeDOSのUSBメモリを挿入し、電源を入れ、FreeDOSをUSBから起動し、あとはマザーボード/BIOSのメーカーの指示する手続きに従ってBIOSをアップデートします。</p>
 
 
 
 	</div>
 
-			<div id="rev">Content last revised 02/11/2008 1525 UTC</div>
+			<div id="rev">Content last revised 11/11/2008 0800 UTC</div>
 </div>
 </body>
 </html>

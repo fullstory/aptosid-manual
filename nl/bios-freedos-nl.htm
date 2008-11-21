@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- last translation by bluewater 02/11/2008 1525 UTC -->
+<!-- last translation by HarzG 12/11/2008 2130 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
 <!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
@@ -193,26 +193,32 @@
 <div id="main-page">
 	<div class="divider" id="bois-prep">
 
-		<h2 id="top-header">Upgraden van de BIOS mbv FreeDOS</h2>
+		<h2 id="top-header">Upgraden van de BIOS m.b.v. FreeDOS</h2>
 
-							<p>Als eerste moet je BIOS instaat zijn om van USB op te kunnen starten - en compatible zijn met USB harddisks. Sommige BIOS formaties accepteren alleen USB Floppies, CD-ROMs of ZIP drives, alhoewel dit bruikbaar lijkt te zijn, kan het moeilijker zijn om de upgrade door te voeren, echter zou het kunnen zijn dat je geen andere keuze hebt (netbooks in het algemeen).</p>
+							<p>Het kan wenselijk of nodig zijn om de BIOS van je PC te updaten, bijv. als de producent van het moederbord verbeterde BIOS software levert. De installer is meestal een programma dat in MS-DOS-modus werkt van een diskette.</p>
+
+							<p>Hieronder staat een manier om de BIOS update via USB of memory-cards mogelijk te maken in Linux. Het werkt met USB keys, USB sticks en met micro/mini/SD cards (met een passende adapter).</p>
+
+							
+							<p>Als eerste moet je BIOS in staat zijn om van USB op te kunnen starten - en compatibel zijn met USB harddisks. Sommige BIOSes accepteren USB Floppies, CD-ROMs of ZIP drives, alhoewel deze bruikbaar lijken te zijn, kan het moeilijker zijn om de upgrade door te voeren. Maar het zou kunnen zijn dat je geen andere keuze hebt (netbooks in het algemeen).</p>
 
 
 				<h3>Je hebt drie dingen nodig:</h3>
 						<ol>
-							<li>een USB stick, bij voorkeur van &lt;2 GB (FAT16 kan niet meer dan 2 GB aan), en een volledige FreeDos installatie, deze gebruikt maar 5.8 MB. <span class="highlight-3">FAT16 is de aanbevolen formaat want FAT32 wordt niet door elke BIOS als opstartbaar beschouwd</span>.</li>
-							<!--<p>For flashing,you only need the base install set (more than enough, actually very comfortable - will take ~5.4 MB on your USB stick)</p> -->
+							<li>een USB stick, bij voorkeur van &lt;2 GB (FAT16 kan niet meer dan 2 GB aan), en een base FreeDOS (fdbasecd.iso), deze gebruikt maar 5.8 MB. <span class="highlight-3">FAT16 is het aanbevolen formaat want FAT32 wordt niet door elke BIOS als opstartbaar beschouwd</span>.</li>
 
-							<li>een FreeDOS installatie medium <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a> zou genoeg moeten zijn.</li>
+							<li>een FreeDOS installatie medium <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a>.</li>
 
-							<li>qemu (apt-get install qemu), qemu is nodig voor de installer, feitelijk wordt de geemuleerde qemu BIOS op he USB Stick in FreeDos gezien als een gewone harddisk, zodat je als gebruikelijk kan installeren (en voorkomt dat je de FreeDOS CD moet branden).</li>
+							<li>qemu (apt-get install qemu), qemu is nodig voor de installer, feitelijk wordt de geemuleerde qemu BIOS op he USB Stick in FreeDos gezien als een gewone harddisk. Hierdoor kan je het installeren zonder dat je de FreeDOS CD moet branden.</li>
 						</ol>
 
-				<h6><span class="highlight-2">This is absolutly critical: at no stage is the USB stick to be mounted. Be very careful to select the correct device node, otherwise all data on the wrong disk will be erased without any redress, i.e. your main hard drive.</span></h6>
+				<h6><span class="highlight-2">Dit is absoluut kritisch: koppel de USB stick bij GEEN enkele actie aan! Wees voorzichtig met het selecteren van de correcte device node, anders wordt alle data op de verkeerde disk gewist, zonder herstelmogelijkheid!</span></h6>
 
-							<p>Plug in your USB stick, <span class="highlight-2">remember, don't mount it</span>. Check dmesg (the last messages,if you just plugged it in), which device node got assigned to your USB stick lets assumes <span class="highlight-3">/dev/sdb</span>  .</p>
+	<div class="spacer02"></div>
 
-							<p>Clear your USB stick (<span class="highlight-3">all data will be lost</span>), you could also clear all of it, instead of just the first 16 MB. </p>
+							<p>Sluit je USB stick aan, <span class="highlight-2">onthou dat je hem niet aankoppeld</span>. Controleer dmesg (het laaste bericht als je de USB stick net hebt aangesloten), welke device node je USB stick toegewezen heeft gekregen, laten we aannemen dat dit <span class="highlight-3">/dev/sdb</span>  is.</p>
+
+							<p>Schoon je USB stick op (<span class="highlight-3">alle data gaat verloren</span>). Je kunt ook alles wissen ipv de eerste 16 MB zoals in onderstaand voorbeeld. </p>
 
 
 <pre>
@@ -223,12 +229,12 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 16+0 records out
 16777216 bytes (17 MB) copied, 2.35751 s, 7.1 MB/s
 </pre> 
-					<h3>Partitioning the USB stick</h3>
-							<p>Partitioning and formatting your USB stick correctly is probably the hardest part.</p>
+					<h3>Partitioneren van de USB stick</h3>
+							<p>Het correct partitioneren en formatteren van je USB stick is waarschijnlijk het moeilijkste gedeelte.</p>
 
-							<p>Set the partition label to FAT16, on &lt;2 GB sticks (it offers better compatibility overall).</p>
+							<p>Zet de partitie label naar FAT16, voor &lt;2 GB sticks (het levert betere compatibiliteit op).</p>
 
-							<p>Next fdisk to partition:</p>
+							<p>via fdisk naar partitioneren:</p>
 <pre>
 # fdisk /dev/sdb
 fdisk /dev/sdb
@@ -239,7 +245,7 @@ After that, of course, the previous content won't be recoverable.
 
 Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 </pre>
-							<p>Now create a partition:</p>
+							<p>Creeer nu een partitie:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>n</b></span>
 Command action
@@ -252,7 +258,7 @@ Using default value 1
 Last cylinder or +size or +sizeM or +sizeK (1-1018, default 1018):
 Using default value 1018
 </pre>
-							<p>Confirm the creation of the partition by printing the partition table:</p>
+							<p>Bevestig dat de partitie wordt aangemaakt op de aangegeven plaats voor de partitietabel:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -264,7 +270,7 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1               1        1018     1956595+  83  Linux
 </pre>
-							<p>Set the correct partition label, '6' for FAT16:</p>
+							<p>zet de correcte partitie label, '6' voor FAT16:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>t</b></span>
 Selected partition 1
@@ -294,15 +300,17 @@ Hex code (type L to list codes): <span class="highlight-3"><b>l</b></span>
 18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fe  LANstep
 1b  Hidden W95 FAT3 70  DiskSecure Mult bb  Boot Wizard hid ff  BBT
 1c  Hidden W95 FAT3 75  PC/IX
+
 Hex code (type L to list codes): <span class="highlight-3"><b>6</b></span>
+
 Changed system type of partition 1 to 6 (FAT16)
 </pre>
-							<p>Activate the new and only partition:</p>
+							<p>Activeer de nieuwe en enige partitie:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>a</b></span>
 Partition number (1-4): <span class="highlight-3"><b>1</b></span>
 </pre>
-							<p>Print out the new partition table again, reconfirm that the partition indeed got activated:</p>
+							<p>De nieuwe partitietabel wordt nogmaals geschreven en er moet weer bevestigd worden dat de partitie geactiveerd wordt:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -314,7 +322,7 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1   *           1        1018     1956595+   6  FAT16
 </pre>
-							<p>Write the new partition table to your USB stick and exit fdisk:</p>
+							<p>Schrijf de nieuwe partitietabel naar je USB stick en sluit fdisk af:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>w</b></span>
 The partition table has been altered!
@@ -327,31 +335,31 @@ information.
 Syncing disks.
 # exit
 </pre>
-							<p>Format your newly created USB stick:</p>
+							<p>Formateer je nieuw gecreerde USB stick:</p>
 <pre>
 mkfs -t vfat -n FreeDOS /dev/sdb
 exit
 </pre>
-							<p>The preparatory phase is now complete.You have now have partitioned and formatted the USB stick, there's nothing else left to do and you can directly go to the install process.</p>
+							<p>De voorbereidingsfase is nu compleet. Je hebt nu je USB stick gepartitioneerd en geformateerd, verder hoef je niets te doen en kun je direct doorgaan naar het installatie proces.</p>
 							
-					<h3>Booting up FreeDOS with qemu</h3>
+					<h3>FreeDOS met qemu opstarten</h3>
 
-							<p>As DOS has no idea of USB stick, you need to find a way to coax the FreeDOS installer into recognizing the USB as ordinary "harddisk", on live boot, the system's BIOS does that for us - but here the need to get inventive with qemu:</p>
+							<p>Aangezien DOS geen idee heeft wat een USB stick is , moet je een manier vinden om de FreeDOS installer de USB stick als een gewone "harddisk" te laten herkennen, met live boot, doet de systeem BIOS dit voor ons - maar hier moet je vindingrijk worden met qemu:</p>
 <pre>
 as user$:
 qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
 </pre>
-							<p><span class="highlight-1">ctrl-alt</span> will toggle mouse and keyboard grab and allow you to switch desktops to reread any instructions at each step.</p>
+							<p><span class="highlight-1">ctrl-alt</span> switchs de muis en toetsenbord, en staat het je toe om van desktops te switchen, zodat je de instructies opnieuw kan benaderen.</p>
 
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot01.jpg" alt="qemu" /></div>
-							<p>This boots the FreeDOS CD and maps the USB stick raw device as primary master HD (here qemu's BIOS emulation abililty makes the USB stick appear to DOS as an ordinary harddisk).  Select the installer from the start menu of the virtualised FreeDOS boot:</p>
+							<p>Dit zorgt ervoor dat de FreeDOS CD opstart en de USB stick mapped als een raw device en wel als de primary master HD (hier zorgt qemu's BIOS emulatie ervoor dat je USB stick door DOS gezien wordt als een gewone harddisk).  Selecteer de installer van het start menu van de virtuele FreeDOS boot:</p>
 <pre>
 1) Continue to boot FreeDOS from CD-ROM
 <span class="highlight-3"><b>1</b></span>
 enter
 </pre>
 	<div class="spacer02"></div>
-							<p>Keep choosing the default of <span class="highlight-3">1</span> and/or choosing <span class="highlight-3">Yes</span> when asked.</p>
+							<p>Kies de standaard waarde <span class="highlight-3">1</span> en/of bevestig dat <span class="highlight-3">Yes</span> wanneer dit gevraagd wordt.</p>
 
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot02.jpg" alt="freedos-inst1" /></div>
@@ -367,23 +375,23 @@ enter
 
 	<div class="spacer02"></div>
 
-							<p>The install asks you to reboot - <span class="highlight-3">don't do that yet, as there is a need to fix up two errors in the FreeDOS installer for the mbr and bootmenu</span>. Type the letter <span class="highlight-3"><b>n</b></span>.</p>
+							<p>De installatie vraagt om een reboot- <span class="highlight-3">doe dit nu nog NIET. Eerst moeten nog twee fouten in de FreeDOS installer voor de mbr en bootmenu gecorrigeerd worden</span>. Type de letter <span class="highlight-3"><b>n</b></span>.</p>
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot18.jpg" alt="freedos-inst4" /></div>
 
 	<div class="spacer02"></div>
-				<h3>Writing a bootsector to your USB stick</h3> 
-							<p>The first error to fix is the mbr with:</p>
+				<h3>Het schrijven van de bootsector naar je USB stick</h3> 
+							<p>Eerst wordt de mbr-fout gerepareerd door:</p>
 
 <pre>
 fdisk /mbr 1
 </pre>
-							<p>The second error that needs fixing is the bootmenu in your new fdconfig.sys, run:</p>
+							<p>De tweede fout die gecorrigeerd dient te worden is het bootmenu in je nieuwe fdconfig.sys, start:</p>
 <pre>
 cd \
 edit fdconfig.sys 
 </pre>
-							<p>and change the line starting command.com to:</p>
+							<p>en verander de regel beginnend met command.com naar:</p>
 <pre>
 1234?SHELLHIGH=C:\FDOS\command.com C:\FDOS /D /P=C:\fdauto.bat /K set
 (don't actually change this command, just add "1234?" to the begin of the line (before SHELLHIGH==C:\FDOS\command.com .....
@@ -391,30 +399,30 @@ NOTE it is to read : <span class="highlight-3">1234?</span>
 </pre>
 		<div class="screenshot"><img src="../lib/images-qemu-freedos/qemu-boot23.jpg" alt="fdconfig.sys" /></div>
 	<div class="spacer02"></div>
-							<p><span class="highlight-2">Do not change anything else, as the line depends on your install setup.</span></p>
+							<p><span class="highlight-2">Verander verder niets, aangezien de regel afhankelijk is van je installatie setup.</span></p>
 
-							<p>Save it and exit "edit":</p>
+							<p>Sla het op en stop "edit":</p>
 <pre>
 [alt]+[f]
 </pre>
-							<p>Once you're back to the command prompt, you can leave qemu.</p>
+							<p>Wanneer je terug bent in de command prompt, dan kun je qemu verlaten.</p>
 
- 							<p>Test to check if qemu will boot the USB stick.</p>
+ 							<p>Test of het mogelijk is om op te starten van de USB stick middels qemu.</p>
 <pre>
 qemu -hda /dev/sdb -boot c
 </pre>
- 							<p>Your USB stick is now bootable and contains a full FreeDOS install of 5.4 MB, for flashing. You really should boot without any drivers <span class="highlight-3">(menu option 4), loading the  himem.sys and emm386 files may otherwise interfere with your flashing programs!</span>:</p>
+ 							<p>JE USB stick is opstartbaar en bevat een volledige FreeDOS install van 5.4 MB, voor het flashen. Je moet echt opstarten zonder drivers <span class="highlight-3">(menu optie 4). Laden van himem.sys en emm386 bestanden kan je flashing programma's beinvloeden!</span>:</p>
 
-				<h3>Updating the BIOS</h3>
-							<p>Assuming your PC is up and running, plug in the FreeDOS USB stick, mount it and download the BIOS files needed, as recommended by the manufacturer of your motherboard/BIOS, to the FreeDOS USB stick, then umount the stick.</p>
+				<h3>Updaten van de BIOS</h3>
+							<p>Er vanuit gaande dat je PC aanstaat en draait, sluit en koppel de FreeDOS USB stick aan en download de BIOS bestanden die nodig zijn, zoals aanbevolen door de fabrikant van je moederbord/BIOS, naar de FreeDOS USB stick, ontkoppel (umount) dan de stick.</p>
 
-							<p> Power off your PC, plug in the FreeDOS USB stick, power up, so that you boot to the FreeDOS USB stick and follow the procedures of the manufacturer of your motherboard/BIOS.</p>
+							<p>Zet je PC uit, sluit de FreeDOS USB stick aan en start de PC opnieuw op zodat er vanaf de FreeDOS USB stick opgestart wordt en volg dan de procedures van de fabrikant van je moederbord/BIOS.</p>
 
 
 
 	</div>
 
-			<div id="rev">Content last revised 02/11/2008 1525 UTC</div>
+			<div id="rev">Inhoud het laatst gewijzgid op 11/11/2008 0800 UTC</div>
 </div>
 </body>
 </html>

@@ -1,15 +1,21 @@
 #!/usr/bin/make -f
   
-include /usr/share/cdbs/1/rules/debhelper.mk
+%:
+	dh $@
 
-DEB_DH_BUILDDEB_ARGS := -- -Zbzip2 -z9
-DEB_INSTALL_CHANGELOGS_ALL = ChangeLog.txt
-
-common-binary-fixup-indep::
+binary: build
+	# install non-standard changelog name
+	dh binary --before dh_installchangelogs
+	dh_installchangelogs ChangeLog.txt
+	dh binary --after dh_installchangelogs --until dh_fixperms
 	# fix permissions
 	find debian/*/usr/share/sidux-manual -type f -exec chmod 0644 {} \;
+	dh binary --after dh_fixperms --before dh_builddeb
+	# compress manual with bzip2, to save a little upload size
+	dh_builddeb -- -Zbzip2 -z9
+	dh binary --after dh_builddeb
 
-create-icons::
+create-icons:
 	# requires inkscape and imagemagick to be installed
 	@if [ ! -x /usr/bin/convert ]; then \
 		echo "ERROR: imagemagick not installed!" ; \
@@ -33,4 +39,3 @@ create-icons::
 	mkdir -p menu/icons/pixmaps
 	convert menu/icons/hicolor/32x32/apps/sidux-manual.png menu/icons/pixmaps/sidux-manual.xpm
 	convert menu/icons/hicolor/16x16/apps/sidux-manual.png menu/icons/pixmaps/sidux-manual-16.xpm
-

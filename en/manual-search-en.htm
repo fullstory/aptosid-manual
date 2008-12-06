@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 09/06/2008 0430 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
@@ -159,7 +159,7 @@
 				<li><a href="sys-admin-meta-en.htm#meta-proxy">Meta Installer and Proxies</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-install">Installing a new package</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-delete">Deleting a package</a></li>
-				<li><a href="sys-admin-apt-en.htm#apt-downgrade">Downgrade and Hold a package</a></li>
+				<li><a href="sys-admin-apt-en.htm#apt-downgrade">Package Hold and downgrading</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-cache">Package searching with apt-cache</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-kio">Package searching with kio-apt</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-gen-en.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-en.htm#home-bu">Moving /home</a></li>
 				<li><a href="smxi-en.htm#smxi">smxi Syntax Command Sets</a></li>
 				<li><a href="siduxcc-en.htm#siduxcc">sidux Control Centre</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
@@ -209,6 +210,7 @@
     <input type="text" name="q"><input type="submit" value="Search">
   </form>
 	<div class="spacer02"></div>
+
 					<h6>Searching options</h6>
 
  						<p>If <span class="highlight-3">Match ALL words</span> is selected, only those documents are returned which contain all of your search terms. With <span class="highlight-3">Match ANY word</span> all documents are returned which contain at least one of your search terms. </p>
@@ -219,16 +221,15 @@
 
 						<p>The results are ordered by relevance with the most relevant documents listed first. Relevance depends on the number and position of matched words in the documents. </p>
 	</div>
+
 	<div class="divider" id="search-off">
 		<h2>Off-line Searching</h2>
-							<p>The sidux Operating System Manual has created some special configs in conjunction with the Developer for Recoll, which is a personal full text search tool for Unix/Linux. It is based on the very strong Xapian back-end, for which it provides a feature-rich yet easy to use front-end with a QT graphical interface.</p>
+							<p>The sidux Operating System Manual has created some special configs in conjunction with the Developer for Recoll as a part of the default package. Recoll is a personal full text search tool for Unix/Linux. It is based on the very strong Xapian back-end, for which it provides a feature-rich yet easy to use front-end with a QT graphical interface. <i>A very special thank you to Recoll</i>.</p>
 
 							<p>Recoll is called <span class="highlight-3"> Personal Search Tool</span> in the Debian Menu of KDE.</p>
 
-							<p>To get the local search set up, you are going to have to jump through a few hoops!</p>
-
 					<h5>Step 1</h5>
-							<p>The manual is currently available via apt for the following languages:<br /> da, de, el, en, es, fr, hr, it, ja, nl, pt-br, ro, ru.</p>
+							<p>The manual is currently available via apt for the following languages:<br /> da, de, el, en, es, fr, hr, it, ja, nl, pl, pt-br, ro, ru.</p>
 <pre>
 apt-get update
 apt-get install sidux-manual-xx (where -xx is your language)
@@ -240,56 +241,32 @@ apt-get install recoll
 </pre>
 
 					<h5>Step 3</h5>
-							<p>Download the sidux specific recoll files as <span class="highlight-3"> (as user $)</span> $HOME and extract it:</p>
-<pre>
-wget http://bluewater.sidux.com/outgoing/sidux-recoll-configs.tar.gz
-</pre>
 
-							<p>Make a <span class="highlight-3">.recoll</span> folder in your $HOME, if it is not already there, (it becomes a hidden folder).</p>
-							<p>Place the following <span class="highlight-3">sidux-recoll-config</span> files into <span class="highlight-3">.recoll</span><br />
-							mimeconf<br />
-							mimemap<br />
-							mimeview<br />
-							recoll.conf</p>
+						<ul>
 
-						<h6>For the Steps 4 &amp; 5 you need to be root to be able to alter the <span class="highlight-3"> /usr/share/recoll</span> folders:</h6>
+							<li>Recoll on the first start will ask you if you want to build the database, <span class="highlight-3">click cancel</span>, where upon an indexing configuration box will appear.</li>
 
-					<h5>Step 4</h5>
-							<p>Place the file called <span class="highlight-3">rclsiduxman</span> which is in the<span class="highlight-3"> filters folder</span> of sidux-recoll-config, into <span class="highlight-3">/usr/share/recoll/filters</span>.</p>
-<pre>
-mv sidux-recoll-configs/filters/* /usr/share/recoll/filters
-</pre>
+							<li>In the Global parameters - Top directories box, click on the <span class="highlight-3"> + (plus)</span> sign and go to <span class="highlight-3">/usr/share/sidux-manual</span> and click on your language and click ok.  Next click on the <span class="highlight-3">- (minus)</span> sign and delete any other folders including <span class="highlight-3"> ~ (tilde)</span>.</li>
 
-					<h5>Step 5</h5>
-							<p>Place the file called <span class="highlight-3">sidux-book.png</span> which is in the<span class="highlight-3"> images folder</span> of sidux-recoll-config, into <span class="highlight-3">/usr/share/recoll/images</span>.</p>
-<pre>
-mv sidux-recoll-configs/images/* /usr/share/recoll/images
-</pre>
+							<li>Finally <span class="highlight-3"> File>Update Index</span> and search the topic you need in the sidux-manual.</li>
 
-					<h5>Step 6</h5>
-							<p>As root in konsole:</p>
-<pre>
-update-menus
-</pre>
-							<p><span class="highlight-3"> As user </span> in the Kmenu, go to <span class="highlight-3"> Kmenu >Debian >Applications > Data Management > Personal Search Tool </span>.</p>
+						</ul>
 
- 							<p>Recoll on the first start will ask you if you want to build the database, <span class="highlight-3">click cancel</span>, then <span class="highlight-3"> File>Update Index</span> and search the topic you need in the sidux-manual.</p>
 
-							<p>If you need to reset recoll due to sidux-manual updating via apt, <span class="highlight-3"> (as user $ in konsole)</span>:</p>
+							<p>If you need to reset the index in Recoll due to the sidux-manual updating via apt, <span class="highlight-3"> (as user $ in konsole)</span>:</p>
 <pre>
 recollindex -z
 </pre>
-							<p>Then: <span class="highlight-3"> Kmenu >Debian >Applications > Data Management > Personal Search Tool and in Recoll File>Update Index</span>.</p>
-							
 
-							<p>Should you need to, in Konqueror, use the <span class="highlight-3"> Find on this page</span> command for a micro search for the word you searched in recoll.</p>
+							<p>Then in Recoll: <span class="highlight-3">File>Update Index</span>.</p>
+
+							<p>The 'Preview' link will highlight all instances of your search word in the file, whereas 'Open' will open Konqueror, and use the <span class="highlight-3"> Find on this page</span> command for a micro search for the word you searched in Recoll.</p>
 	
 
 							<p><a href="http://www.lesbonscomptes.com/recoll/">The Home page of Recoll</a>.</p>
  
 	</div>
-			<div id="rev">Content last revised 28/06/2008 1801 UTC</div>
-
+			<div id="rev">Content last revised 30/11/2008 0330 UTC</div>
 
 </div>
 </body>

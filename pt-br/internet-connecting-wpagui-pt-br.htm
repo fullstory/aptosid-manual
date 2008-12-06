@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Manuais do sidux - WPA-GUI - WIFI</title>
+	<title>Manuais do sidux - WPA-GUI - WIFI (RO)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti 07/11/2008 1050 UTC -->
+<!-- Last translation revision by ceti 01/12/2008 1045 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-pt-br.htm">Administração do Sistema</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-pt-br.htm#home-bu">Moving /home</a></li>
 				<li><a href="smxi-pt-br.htm#smxi">Comandos do smxi</a></li>
 				<li><a href="siduxcc-pt-br.htm#siduxcc">sidux control centre</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema -  dist-upgrade</a></li>
@@ -234,7 +235,7 @@ network={
 }
 </pre>
 
-							<p>O próximo passo impede que o arquivo wpa_supplicant.conf seja acessado indevidamente. Isso é necessário, porque senhas secretas e rede privativas são salvas nele:</p>
+							<p>O próximo passo impede que o arquivo wpa_supplicant.conf seja acessado indevidamente. Isso é necessário, porque senhas secretas e redes privativas são salvas nele:</p>
 
 <pre>
 chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
@@ -252,7 +253,13 @@ chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 <pre>
 wpa_action &lt;interface&gt; reload
 </pre>
+							<p>In many cases after the first setup of wpa-roam an existing network connection needs to be stopped and the wireless interface has to be brought up. You can use those commands as root:</p>
 
+<pre>
+ifdown $interface  ## stops a running network connection
+/etc/init.d/network restart  ## network configuration newly loaded - not always needed
+ifup wlan0  ## wlan0 is just a common name for a wireless interface. Take the name from /etc/network/interfaces
+</pre>
 
 
 					<h4>Como iniciar o wpa_gui</h4>
@@ -264,23 +271,23 @@ wpa_action &lt;interface&gt; reload
 
 							<p>A tela padrão:</p>
 
-		<div class="screenshot"><img src="../lib/images-pt-br/wpa-roam-pt-br/wpa-roam-01-pt-br.png" alt="wpa-01" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-01.png" alt="wpa-01" /></div>
 
 							<p>A interface para gerenciar as redes:</p>
 
-		<div class="screenshot"><img src="../lib/images-pt-br/wpa-roam-pt-br/wpa-roam-02-pt-br.png" alt="wpa-02" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-02.png" alt="wpa-02" /></div>
 
 							<p>Para adicionar uma rede reconhecida, clique <span class="highlight-3">add</span> e você verá a interface abaixo (com menus para WEP, WPA e 'sem encriptação'); simplesmente adicione os dados corretos e pressione <span class="highlight-3">add</span> também aqui:</p>
 
-		<div class="screenshot"><img src="../lib/images-pt-br/wpa-roam-pt-br/wpa-roam-03-pt-br.png" alt="wpa-03" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-03.png" alt="wpa-03" /></div>
 
-							<p>Ou, mais facilmente, apenas clique: <span class="highlight-3">scan</span> para pesquisar as rede disponíveis...</p>
+							<p>Ou, mais facilmente, apenas clique <span class="highlight-3">scan</span> para pesquisar as rede disponíveis...</p>
 
-		<div class="screenshot"><img src="../lib/images-pt-br/wpa-roam-pt-br/wpa-roam-04-pt-br.png" alt="wpa-04" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam.png" alt="wpa-04" /></div>
 
 							<p>...clique duas vezes na rede que você deseja adicionar (todos os dados são adicionados automaticamente, você só precisa entrar com a senha - ASCII ou hex) e pressione <span class="highlight-3">add</span>:</p>
 
-		<div class="screenshot"><img src="../lib/images-pt-br/wpa-roam-pt-br/wpa-roam-05-pt-br.png" alt="wpa-05" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-05.png" alt="wpa-05" /></div>
 
 							<p>Se estiver satisfeito, com tudo funcionando, você pode adicionar todos os dados de configuração no arquivo <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> simplesmente clicando em <span class="highlight-3">File > Save Configuration</span>.</p>
 
@@ -353,12 +360,12 @@ network={
         key_mgmt=NONE
         auth_alg=OPEN
         priority=1
-        disabled=1   ## no automatic connection, one needs wpa_cli or wpa_gui
+        disabled=1   ## a conexão não é automática; você vai precisar do wpa_cli ou do wpa_gui
         id_str="stalk"
 }
 </pre>
 
-							<p>With "disabled=1" you will not be automatically connected to a defined network block (open WLANs), you have to initiate roaming through wpa_gui or wpa_cli. For automatic roaming don't use the option at all or comment the line with the "disabled" option using a #.</p>
+							<p>Com "disabled=1" você não será conectado automaticamente a uma rede previamente definida (WLANs abertas); você terá de iniciar o modo 'roaming' por wpa_gui ou wpa_cli. Para um 'roaming' automático, não use a opção de jeito nenhum ou comente a linha começada por "disabled" com um #.</p>
 
 				<h5>Encriptação WEP</h5>
 							<p>Se você deseja adicionar permanentemente redes encriptadas por WEP no arquivo wpa_supplicant.conf, a sintaxe é a seguinte:</p>
@@ -380,7 +387,7 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>Uma boa idéia é fazer backup de /etc/network/interfaces e /etc/wpa_supplicant/wpa_supplicant.conf, mas <span class="highlight-3">use encriptação, porque os arquivos contêm dados e informação sensíveis</span>. Uma maneira fácil é compactá-los nos formatos 7zip, zip, rar etc e protegê-los com senhas.</p>
+							<p>Uma boa ideia é fazer backup de /etc/network/interfaces e /etc/wpa_supplicant/wpa_supplicant.conf, mas <span class="highlight-3">use encriptação, porque os arquivos contêm dados e informação sensíveis</span>. Uma maneira fácil é compactá-los nos formatos 7zip, zip, rar etc e protegê-los com senhas.</p>
 
 					<h6>3. Acesso fácil a wpa_gui</h6>
 
@@ -391,7 +398,7 @@ network={
 
 	</div>
 
-			<div id="rev">Content last revised 09/11/2008 0600 UTC</div>
+			<div id="rev">Content last revised 06/12/2008 0230 UTC</div>
 </div>
 </body>
 </html>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Fr 26. Sep 17:31:37 CEST 2008 -->
+<!-- Last translation revision hubi Di 2. Dez 12:27:06 CET 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by hubi Di 4. Nov 15:40:44 UTC 2008 -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-de.htm">Systemadministration</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-de.htm#home-bu">/home verschieben</a></li>
 				<li><a href="smxi-de.htm#smxi">smxi Befehls-Syntax</a></li>
 				<li><a href="siduxcc-de.htm#siduxcc">sidux Kontrollzentrum</a></li>
 				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Aktualisierung eines installierten Systems - dist-upgrade</a></li>
@@ -250,13 +251,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Die persönlichen Daten werden in einem Unterverzeichnis auf dem Drive gespeichert. Wenn dieses Unterverzeichnis noch nicht vorhanden ist, wird es automatisch erstellt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam benutzt werden.</p>
 
-							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (allgemein benutzt für Installationen von DOS/Windows9x und üblicherweise das vorformatierte Dateisystem auf Flash-Speichern) benötigt eine einzelne große Datei, die als Loop-Gerät benutzt wird. Diese Datei muss formatiert werden (<span class="highlight-3">empfohlen ist ext3</span>).</p>
+							<p><span class="highlight-3">Wie üblich empfiehlt sidux die Verwendung einer mit ext2 oder ext3 formatierten Partition, um die iso zu speichern, jedoch ist vfat auf USB-Sticks auch sehr zuverlässig und bietet höchstwahrscheinlich eine bessere plattformübergreifende Unterstützung zur Datenrettung im Notfall. Ein Wiederbeschreiben von Flash-Speichergeräten hängt von den technischen Spezifikationen des USB-Sticks ab.</span></p>
 
-							<p>Diese Datei soll <span class="highlight-3">sidux-rw</span> benannt werden und im Root-Verzeichnis des FAT-Drives platziert werden. Wenn die Partition zum Beispiel beschreibbar auf /media/sdb1 eingehängt ist und eine Datei mit 1GB Größe erstellt werden soll, um als dauerhaft genutztes Gerät zu fungieren, werden folgende Befehle ausgeführt (es wird kein root benötigt, wenn der user Schreibrechte hat):</p>
+							<p>Diese Datei sollte in sidux-rw umbenannt werden. Angenommen das zu nutzende Speichergerät ist beschreibbar auf /media/sdb1 eingebunden und man möchte eine 1GB große Datei erstellen, um diese als dauerhaftes "Laufwerk" zu nutzen, so können folgende Befehle benutzt werden (root ist nicht notwendig, wenn der user Schreibrechte auf die Datei besitzt):</p>
 <pre>
-disc="/media/sdb1"
-size=1024
-dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux 
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux/sidux-rw
 </pre>
 
 							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP (TM)) können NICHT auf diese Weise benutzt werden.</p>
@@ -470,7 +472,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 26/09/2008 1200hrs UTC</div>
+	<div id="rev">Content last revised 30/11/2008 1410hrs UTC</div>
 
 
 </div>

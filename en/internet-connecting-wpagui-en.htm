@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by bluewater 02/11/2008 0415 UTC -->
+<!-- Last translation revision by bluewater 06/12/2008 0230 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
@@ -159,7 +159,7 @@
 				<li><a href="sys-admin-meta-en.htm#meta-proxy">Meta Installer and Proxies</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-install">Installing a new package</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-delete">Deleting a package</a></li>
-				<li><a href="sys-admin-apt-en.htm#apt-downgrade">Downgrade and Hold a package</a></li>
+				<li><a href="sys-admin-apt-en.htm#apt-downgrade">Package Hold and downgrading</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-cache">Package searching with apt-cache</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-kio">Package searching with kio-apt</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-gen-en.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-en.htm#home-bu">Moving /home</a></li>
 				<li><a href="smxi-en.htm#smxi">smxi Syntax Command Sets</a></li>
 				<li><a href="siduxcc-en.htm#siduxcc">sidux Control Centre</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
@@ -209,7 +210,6 @@
 apt-get update &amp;&amp; apt-get install wpasupplicant wpagui
 </pre>
 
-
 							<p>wpasupplicant is mandatory, wpagui is a very convenient addition for GUI controlled networking in environments in which you want to change your access point.</p>
 
 				<h3>Using wpa-gui without network configuration</h3>
@@ -251,8 +251,13 @@ chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
 <pre>
 wpa_action &lt;interface&gt; reload
 </pre>
+							<p>In many cases after the first setup of wpa-roam an existing network connection needs to be stopped and the wireless interface has to be brought up. You can use those commands as root:</p>
 
-
+<pre>
+ifdown $interface  ## stops a running network connection
+/etc/init.d/network restart  ## network configuration newly loaded - not always needed
+ifup wlan0  ## wlan0 is just a common name for a wireless interface. Take the name from /etc/network/interfaces
+</pre>
 
 					<h4>Starting wpa_gui</h4>
 
@@ -263,23 +268,23 @@ wpa_action &lt;interface&gt; reload
 
 							<p>The default screen:</p>
 
-		<div class="screenshot"><img src="../lib/images-en/wpa-roam-en/wpa-roam-01-en.png" alt="wpa-01" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-01.png" alt="wpa-01" /></div>
 
 							<p>The interface for managing networks:</p>
 
-		<div class="screenshot"><img src="../lib/images-en/wpa-roam-en/wpa-roam-02-en.png" alt="wpa-02" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-02.png" alt="wpa-02" /></div>
 
 							<p>To add a known network just click <span class="highlight-3">add</span> and you will get this interface with pulldown menus (supports no encryption, WEP, WPA - just add the correct data) and hit <span class="highlight-3">add</span> here as well:</p>
 
-		<div class="screenshot"><img src="../lib/images-en/wpa-roam-en/wpa-roam-03-en.png" alt="wpa-03" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-03.png" alt="wpa-03" /></div>
 
 							<p>Or more easily, just hit:<span class="highlight-3">scan</span> to scan the network</p>
 
-		<div class="screenshot"><img src="../lib/images-en/wpa-roam-en/wpa-roam-04-en.png" alt="wpa-04" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-04.png" alt="wpa-04" /></div>
 
 							<p>and doubleclick on the network you want to add the desired network (all data is automatically added, you just need the passphrase - plain or in hex) and hit <span class="highlight-3">add</span>:</p>
 
-		<div class="screenshot"><img src="../lib/images-en/wpa-roam-en/wpa-roam-05-en.png" alt="wpa-05" /></div>
+		<div class="screenshot"><img src="../lib/images-wpa-roam/wpa-roam-05.png" alt="wpa-05" /></div>
 
 							<p>If you are happy and everything is working, you can add the settings to <span class="highlight-3">/etc/wpa_supplicant/wpa_supplicant.conf</span> by choosing <span class="highlight-3">File > Save Configuration</span>.</p>
 
@@ -391,7 +396,7 @@ network={
 
 	</div>
 
-			<div id="rev">Content last revised 09/11/2008 0600 UTC</div>
+			<div id="rev">Content last revised 06/12/2008 0230 UTC</div>
 </div>
 </body>
 </html>

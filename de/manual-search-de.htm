@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mo 29. Sep 17:30:33 CEST 2008 -->
+<!-- Last translation revision hubi So 30. Nov 14:35:02 CET 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by hubi Di 4. Nov 15:40:44 UTC 2008 -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-de.htm">Systemadministration</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-de.htm#home-bu">/home verschieben</a></li>
 				<li><a href="smxi-de.htm#smxi">smxi Befehls-Syntax</a></li>
 				<li><a href="siduxcc-de.htm#siduxcc">sidux Kontrollzentrum</a></li>
 				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Aktualisierung eines installierten Systems - dist-upgrade</a></li>
@@ -221,14 +222,13 @@
 	</div>
 	<div class="divider" id="search-off">
 		<h2>Offline-Suche</h2>
-							<p>In Zusammenarbeit mit dem Entwickler von Recoll, einem Volltextsuchprogramm für Unix/Linux, ist für das sidux-Handbuch eine spezielle Konfiguration entwickelt worden. Diese basiert auf dem Xapian-Backend, um ein umfangreiches wie auch benutzerfreundliches Frontend mit einer auf QT aufgesetzten grafischen Benutzerführung bieten zu können.</p>
+							<p>In Zusammenarbeit mit dem Entwickler von Recoll ist für das sidux-Handbuch eine spezielle Konfiguration entwickelt als Teil des Standard-Pakets entwickelt worden. Diese basiert auf dem Xapian-Backend, um ein umfangreiches wie auch benutzerfreundliches Frontend mit einer auf QT aufgesetzten grafischen Benutzerführung bieten zu können. <i>Ein ganz besonderer Dank geht an Recoll</i>.</p>
 
 							<p>Recoll findet man als <span class="highlight-3"> "Recoll - Local Text Search"</span> im Unterpunkt "Dienstprogramme" des KDE-Menüs.</p>
 
-							<p>Die Aktivierung der lokalen Offline-Suche benötigt einige Schritte.</p>
 
 					<h5>Schritt 1</h5>
-							<p>Das Handbuch ist derzeit via apt für folgende Sprachen installierbar:<br /> da, de, el, en, es, fr, hr, it, ja, nl, pt-br, ro, ru.</p>
+							<p>Das Handbuch ist derzeit via apt für folgende Sprachen installierbar:<br /> da, de, el, en, es, fr, hr, it, ja, nl, pl, pt-br, ro, ru.</p>
 <pre>
 apt-get update
 apt-get install sidux-manual-xx (-xx ist Platzhalter für die gewünschte Sprache)
@@ -240,40 +240,15 @@ apt-get install recoll
 </pre>
 
 					<h5>Schritt 3</h5>
-							<p>Download der sidux-spezifischen recoll-Dateien<span class="highlight-3"> (als user $)</span> in ein temporäres Verzeichnis und Entpacken derselben:</p>
-<pre>
-wget http://bluewater.sidux.com/outgoing/sidux-recoll-configs.tar.gz
-</pre>
+						<ul>
 
-							<p>Anlegen eines versteckten Verzeichnisses  <span class="highlight-3">.recoll</span> in $HOME, falls es noch nicht existiert</p>
-							<p>Folgende Dateien aus dem Verzeichnis <span class="highlight-3">sidux-recoll-config</span> werden in <span class="highlight-3">.recoll</span> abgelegt:<br /><br />
-							mimeconf<br />
-							mimemap<br />
-							mimeview<br />
-							recoll.conf</p>
+							<li>Recoll fragt beim ersten Start, ob eine Datenbank eingerichtet werden soll, was man ablehnt, indem man auf <span class="highlight-3">cancel</span> klickt, worauf ein Dialogfenster zur Index-Erstellung geöffnet wird.</li>
 
-						<h6>Für die Schritte 4 &amp; 5 muss man root sein, um auf die Verzeichnisse in <span class="highlight-3"> /usr/share/recoll</span> zugreifen zu können:</h6>
+							<li>Im Reiter "Globale Parameter" klickt man unterhalb von "Start-Verzeichnisse" auf das Plus-Zeichen <span class="highlight-3">+</span> und geht nach <span class="highlight-3">/usr/share/sidux-manual</span>. Dort wählt man die bevorzugte Sprache und klickt auf "ok".  Als nächstes markiert man alle anderen Verzeichnisse inklusive die Tilde <span class="highlight-3">~</span> und klickt auf das Minuszeichen <span class="highlight-3">-</span>, um sie zu löschen.<br /><br />Als "Wortstammerweiterungssprache" fügt man "German" hinzu.<br /><br />Man schließt das Unterfenster mit einem Klick auf "OK" rechts unten.</li>
 
-					<h5>Schritt 4</h5>
-							<p>Die Datei <span class="highlight-3">rclsiduxman</span>, welche sich im Unterzeichnis <span class="highlight-3">filters</span> in sidux-recoll-config befindet, wird nach <span class="highlight-3">/usr/share/recoll/filters</span> verschoben.</p>
-<pre>
-mv sidux-recoll-configs/filters/* /usr/share/recoll/filters
-</pre>
+							<li>Abschließend erstellt man den Index, indem man im Hauptfenster von Recoll <span class="highlight-3"> Datei>Indizieren</span> wählt. Nun können Begriffe im sidux-Handbuch gesucht werden.</li>
 
-					<h5>Schritt 5</h5>
-							<p>Die Datei <span class="highlight-3">sidux-book.png</span>, welche sich im Unterverzeichnis <span class="highlight-3">images</span> in sidux-recoll-config befindet, wird nach <span class="highlight-3">/usr/share/recoll/images</span> verschoben.</p>
-<pre>
-mv sidux-recoll-configs/images/* /usr/share/recoll/images
-</pre>
-
-					<h5>Schritt 6</h5>
-							<p>Als root in der Konsole:</p>
-<pre>
-update-menus
-</pre>
-							<p><span class="highlight-3"> Als user startet man Recoll</span> im KDE-Menü<span class="highlight-3">: KDE-Menü > Dienstprogramme > Recoll - Local Text Search</span>.</p>
-
- 							<p>Recoll fragt beim ersten Start, ob eine Datenbank eingerichtet werden soll, was man ablehnt, indem man auf <span class="highlight-3">cancel</span> klickt, danach indiziert man das Handbuch mittels <span class="highlight-3"> Datei>Indizieren</span>. Nun kann jedes beliebige Stichwort im sidux-Handbuch gesucht werden.</p>
+						</ul>
 
 							<p>Das Neuindizieren von Recoll nach einem Update des Handbuchs via apt erfolgt <span class="highlight-3">als user $ in der Konsole</span></p>
 <pre>
@@ -282,13 +257,13 @@ recollindex -z
 							<p>und nach einem Neustart von Recoll durch den GUI-Befehl<span class="highlight-3"> Datei>Indizieren</span>.</p>
 							
 
-							<p>Eine genaue Suche auf einer geöffneten Seite des Handbuchs kann im Konqueror auch mittels des Werkzeugleisten-Icons <span class="highlight-3"> "Suchen"</span> durchgeführt werden.</p>
+							<p>Der Link 'Preview' öffnet ein neues Fenster, in dem alle Fundstellen des Suchbegriffs innerhalb einer Datei markiert sind.<br /><br />Der Link 'Open' hingegen öffnet Konqueror. In Konqueror verwendet man den <span class="highlight-3"> Suchen</span>-Dialog, um gewünschte Begriffe zu finden.</p>
 	
 
 							<p><a href="http://www.lesbonscomptes.com/recoll/">Link zur Homepage von Recoll</a>.</p>
  
 	</div>
-			<div id="rev">Content last revised 28/06/2008 1800 UTC</div>
+			<div id="rev">Content last revised 30/11/2008 0330 UTC</div>
 
 
 </div>

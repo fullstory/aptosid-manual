@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 16/10/2008 1046 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.77.2008.11.03 -->
-<!-- menu last updated by bluewater 03/11/2008 0800 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -167,6 +167,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-pt-br.htm">Administração do Sistema</a>
 			<ul class="sub-menu" id="sm14">
+				<li><a href="home-pt-br.htm#home-bu">Moving /home</a></li>
 				<li><a href="smxi-pt-br.htm#smxi">Comandos do smxi</a></li>
 				<li><a href="siduxcc-pt-br.htm#siduxcc">sidux control centre</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema -  dist-upgrade</a></li>
@@ -238,7 +239,7 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Você pode ter um sistema "live" persistente ao combinar o "fromiso" com o cheatcode "persist".</p>
 
-							<p>O sidux usa o unificador "aufs" para habilitar em seu CD o que é conhecido como "copiar na escrita", permitindo que você escreva novos arquivos/pastas e atualize os existentes. Isso é possível porque os novos arquivos ficam na memória. Com o cheatcode <span class="highlight-3">persist</span> o eros guardará os novos arquivos na mesma partição que você usa para guardar sua imagem "fromiso".</p>
+							<p>O sidux usa o unificador "aufs" para habilitar em seu CD o que é conhecido como "copiar na escrita", permitindo que você escreva novos arquivos/pastas e atualize os existentes. Isso é possível porque os novos arquivos ficam na memória. Com o cheatcode <span class="highlight-3">persist</span> o guardará os novos arquivos na mesma partição que você usa para guardar sua imagem "fromiso".</p>
 
 							<p>Usando o <span class="highlight-3">persist</span> dá a você um sistema "live" com todas as características do LiveCD do sidux. Assim, você pode fazer coisas como configurar o hardware automaticamente, por exemplo, mas significa também que serão recriados os mesmos arquivos cada vez que você iniciar sua máquina.</p> 
 
@@ -250,13 +251,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Se você for usar o <span class="highlight-3">persist</span> em um sistema de arquivos FAT, comum no DOS/Windows 9x e (normalmente) padrão em dispositivos flash, você terá de criar, e em seguida formatar, um único (e bem grande) arquivo, que será usado como dispositivo de "loop".</p>
 
-							<p><span class="highlight-3">Como sempre, o sidux recomenda que você use o sistema de arquivos ext3 para armazenar sua ISO e todos os outros arquivos.</span></p>
+							<p><span class="highlight-3">As always sidux recommends using an ext2 or ext3 partition to store your iso,  however vfat on USB sticks are also very reliable and most likely to give better cross platform ability for data rescue when needed most. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
-							<p>Este arquivo grande deve ter o nome <span class="highlight-3">sidux-rw </span> e ser colocado no diretório raiz de seu dispositivo com FAT. Assumindo-se que esse dispositivo está montado com permissão de escrita em /media/sdb1 e que você deseja criar um arquivo de 1GB para usar como seu drive persistente, você pode usar os seguintes comandos, como usuário:</p>
+							<p>This file should be named sidux-rw. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
 <pre>
-disc="/media/sdb1"
-size=1024
-dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'Y' | mkfs.ext3 ${disc}/sidux-rw
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux 
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux/sidux-rw
 </pre>
 
 							<p class="highlight-2">Partições NTFS, presentes geralmente no Windows NT/2000/XP/Vista (TM), NÂO PODEM SER USADAS de forma alguma para persistência.</p>
@@ -467,7 +469,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 26/09/2008 1200hrs UTC</div>
+	<div id="rev">Page last revised 30/11/2008 1410hrs UTC</div>
 
 </div>
 </body>

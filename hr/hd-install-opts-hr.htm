@@ -232,7 +232,7 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Možete imati trajni live sistem na mediju na kojemo je dopušteno pisanje, s kombiniranjem fromiso postavaka sa persist cheatcode.</p>
 
-							<p>sidux koristi aufs da omogući, što je poznato pod "copy on write" preko vaše, da vam omoguči da pišete nove datoteke i direktorije, i da možete obnoviti postojeće, ne prepisujuči stare zbog spremanja novih datoteka u memoriju. S <span class="highlight-3">persist</span> cheatcode, eros će memorirati na istu hard disk particiju, na kojoj ste startovali vaš fromiso cd image.</p>
+							<p>sidux koristi aufs da omogući, što je poznato pod "copy on write" preko vaše, da vam omoguči da pišete nove datoteke i direktorije, i da možete obnoviti postojeće, ne prepisujuči stare zbog spremanja novih datoteka u memoriju. S <span class="highlight-3">persist</span> cheatcode, će memorirati na istu hard disk particiju, na kojoj ste startovali vaš fromiso cd image.</p>
 
 							<p>Koristeči<span class="highlight-3">persist</span> daje vam live sistem, koji vam sve automatske mogućnosti sidux Live-CD omoguči. To vam je olakšica ako morate obaviti stavri kao automatski konfigurirati hardver, ali isto znači, da će rekreirati datoteke svaki put kad startujete sistem.</p> 
 
@@ -244,13 +244,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Da koristite <span class="highlight-3">persist</span> na FAT filesistemu, koje se općenito koristi za dos/Windows 9x instalacije i obično na flash uređajima, zahtijeva od vas da kreirate jednu veliku datoteku, koju koristite kao loop uređaj, koju ond a morate formatirati.</p>
 
-							<p><span class="highlight-3">Kao uvijek sidux preporučuje korištaj ext3 particija da memorirate vašu iso-datoteku, i sve druge datoteke.</span></p>
+							<p><span class="highlight-3">As always sidux recommends using an ext2 or ext3 partition to store your iso,  however vfat on USB sticks are also very reliable and most likely to give better cross platform ability for data rescue when needed most. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
-							<p>Ta datoteka bi trebala da se zove <span class="highlight-3">sidux-rw </span>i smještena glavnom direktoriju na vašem fat uređaju. Pretpostavljamo da je disk, koju hočete da koristite, mountana i da je dopušteno pisanje na /media/sdb1, i da hočete da stvorite 1GB datoteku, da koristite kao trajnog uređaja, možete koristiti sljedeče naredbe (root privilegije nisu potrebne ako možete pisati u tu datoteku).</p>
+							<p>This file should be named sidux-rw. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
 <pre>
-disc="/media/sdb1"
-size=1024
-dd if=/dev/zero of=${disc}/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux-rw
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux 
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | /sbin/mkfs.ext3 ${disc}/sidux/sidux-rw
 </pre>
 
 							<p class="highlight-2">NTFS particije, obično korištene za Windows NT/2000/XP (TM) instalacije, NE MOŽETE koristiti za trajnost.</p>

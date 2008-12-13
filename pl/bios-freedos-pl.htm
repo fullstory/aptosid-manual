@@ -20,7 +20,7 @@
 <!-- last translation by bluewater 02/11/2008 1525 UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintainer neceron -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
-<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
+<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC translated neceron 2008-12-08 0045hrs UTC-->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Do sidux.com, forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pl.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Szukaj</a> </li>
@@ -168,7 +168,7 @@
 		</li>
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-pl.htm">Administracja systemem</a>
 			<ul class="sub-menu" id="sm14">
-				<li><a href="home-pl.htm#home-bu">Moving /home</a></li>
+				<li><a href="home-pl.htm#home-bu">Przenoszenie /home</a></li>
 				<li><a href="smxi-pl.htm#smxi">smxi - składnia</a></li>
 				<li><a href="siduxcc-pl.htm#siduxcc">sidux Control Center</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-upgrade">Pełna aktualizacja systemu</a></li>
@@ -184,7 +184,7 @@
 				<li><a href="sys-admin-gen-pl.htm#init">Poziomy uruchamiania w sidux (runlevel)</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Instalacja GRUB w MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Uruchamianie wielu systemów operacyjnych</a></li>
-				<li><a href="bios-freedos-pl.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
+				<li><a href="bios-freedos-pl.htm#bois-prep">Aktualizacja BIOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#boot-grub-floppy">Tworzenie dyskietki startowej</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#remove-grub">Usuwanie GRUB z MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#what-is-grub">Menadżer uruchamiania - GRUB</a></li>
@@ -213,12 +213,12 @@
 							<li>qemu (apt-get install qemu), qemu jest wymagane przez instalator. Emulowany BIOS qemu sprawia, że pendrive jest rozpoznawany przez FreeDOS jako standardowy dysk twardy, więc można na nim instalować jak na normalnym dysku (przy okazji oszczędzając na wypalaniu płyty z FreeDOS).</li>
 						</ol>
 
-				<h5><span class="highlight-2">This is absolutly critical: at no stage is the USB stick to be mounted. Be very careful to select the correct device node, otherwise all data on the wrong disk will be erased without any redress, i.e. your main hard drive.</span></h5>
+				<h5><span class="highlight-2">BARDZO WAŻNE: na żadnym etapie pendrive nie może zostać zamontowany. Bądź ostrożny przy wybieraniu węzła, w przeciwnym wypadku wszelkie dane ze źle wybranego dysku przepadną.</span></h5>
 
 	<div class="spacer02"></div>
-							<p>Plug in your USB stick, <span class="highlight-2">remember, don't mount it</span>. Check dmesg (the last messages,if you just plugged it in), which device node got assigned to your USB stick lets assumes <span class="highlight-3">/dev/sdb</span>  .</p>
+							<p>Podłącz pendrive do komputera <span class="highlight-2">nie montując go w systemie</span> i sprawdź do którego węzła został przypisany (ostatnie komunikaty dmesg). W tym przewodniku przyjmiemy, że jest to <span class="highlight-3">/dev/sdb</span>  .</p>
 
-							<p>Clear your USB stick,<span class="highlight-3">all data will be lost</span>, you could also clear all of it, instead of just the first 16 MB. </p>
+							<p>Wyczyść swoj pendrive, ponieważ <span class="highlight-3">wszystkie zapisanen na nim dane zostaną utracone</span>. </p>
 
 
 <pre>
@@ -230,7 +230,7 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 16777216 bytes (17 MB) copied, 2.35751 s, 7.1 MB/s
 </pre> 
 					<h3>Partycjonowanie pendrive'a</h3>
-							<p>Partitioning and formatting your USB stick correctly is probably the hardest part.</p>
+							<p>Poprawne partycjonowanie i formatowanie Twojego pendrive jest prawdopodobnie najtrudniejszym etapem aktualizacji.</p>
 
 							<p>Set the partition label to FAT16, on &lt;2 GB sticks (it offers better compatibility overall).</p>
 
@@ -245,7 +245,7 @@ After that, of course, the previous content won't be recoverable.
 
 Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 </pre>
-							<p>Now create a partition:</p>
+							<p>Teraz utwórz nową partycję:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>n</b></span>
 Command action
@@ -258,7 +258,7 @@ Using default value 1
 Last cylinder or +size or +sizeM or +sizeK (1-1018, default 1018):
 Using default value 1018
 </pre>
-							<p>Confirm the creation of the partition by printing the partition table:</p>
+							<p>Potwierdź utworzenie nowej partycji poprzez wyświetlenie tabeli partycji:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -270,7 +270,7 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1               1        1018     1956595+  83  Linux
 </pre>
-							<p>Set the correct partition label, '6' for FAT16:</p>
+							<p>Ustaw poprawną etykietę dla partycji, '6' dla FAT16:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>t</b></span>
 Selected partition 1
@@ -305,12 +305,12 @@ Hex code (type L to list codes): <span class="highlight-3"><b>6</b></span>
 
 Changed system type of partition 1 to 6 (FAT16)
 </pre>
-							<p>Activate the new and only partition:</p>
+							<p>Aktywuj nową partycję:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>a</b></span>
 Partition number (1-4): <span class="highlight-3"><b>1</b></span>
 </pre>
-							<p>Print out the new partition table again, reconfirm that the partition indeed got activated:</p>
+							<p>Wyświetl ponownie tabelę partycji i sprawdź czy partycja rzeczywiście została aktywowana:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -322,7 +322,7 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1   *           1        1018     1956595+   6  FAT16
 </pre>
-							<p>Write the new partition table to your USB stick and exit fdisk:</p>
+							<p>Zapisz tabelę partycji na swój pendrive i wyjdź z fdisk:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>w</b></span>
 The partition table has been altered!

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 05/12/2008 19.00 UTC-->
+<!-- Last translation revision by alessiog75 on 16/12/2008 19.20 UTC-->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
 <!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
@@ -290,7 +290,7 @@ quindi scrivere init 5 &amp;&amp; exit
 
 					<h5>Sources List (liste dei depositi del software)</h5>
 
-							<p>Probabilmente si vorranno aggiungere le sezioni contrib / non-free al file<span class="highlight-3"> /etc/apt/sources.list.d/debian.list</span> o al <span class="highlight-3">/etc/apt/sources.list</span>. Poi procurarsi un accesso internet:</p>
+							<p>Probabilmente si vorranno aggiungere le sezioni contrib / non-free al file<span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> o al <span class="highlight-3">/etc/apt/sources.list</span>. Poi procurarsi un accesso internet:</p>
 <pre>
 # Vedere il file sources.list(5) per maggiori informazioni, in particolare
 # ricordare che potete usare solo http, ftp o file URIs
@@ -307,115 +307,156 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
 
-		<h5>Schede video</h5>
-
-			<ul>
-				<li>
-					Schede grafiche ATi Radeon: l'accelerazione 3D per le vecchie schede fino alle r35x dovrebbe funzionare: le schede Radeon X1xxx non richiedono mai i driver non liberi per prestazioni accelerate che poi non sono compatibili con X.Org 7.2. A seconda del particolare chipset usare il cheatcode "xmodule=vesa" o "xmodule=fbdev" che dovrebbe essere adatto per le più recenti schede Radeon X1xxx.
-				</li>
-			</ul>
-
-		<h5>Firmware</h5>
-
-			<ul>
-					<li><span class="highlight-3">Per ottenere aiuto su quale firmware si ha bisogno di installare, avviare, come utente:</span></li>
-			</ul>
+				<h5>Firmware</h5>
+							<p>Il firmware richiesto puo' essere determinato con la seguente enumerazione device/ firmware oppure usando fw-detect, il nuovo script appena sviluppato   (inglobato in configure-networkcard).</p>
 <pre>
 $ fw-detect
 </pre>
-					<p><span  class="highlight-3">questo script darà una lista di raccomandazioni e quali comandi sono necessari. Il risultato sarà "null" se non si ha bisogno di niente oppure se il firmware è già installato.</span></p>
-			<ul>
 
-				<li>
-					Atheros wlan:
-<pre>
-Use: ath5k/ ath9k 
-as root REMOVE madwifi
-apt-get remove --purge madwifi-tools 
-otherwise madwifi will blacklist ath5k / ath9k
-</pre>
-				</li>
-				<li>
-					Atmel AT76c50x 11 MBit/s wlan:
-<pre>
-apt-get install atmel-firmware
-</pre>
-				</li>
-				<li>
-					Vecchie schede wlan Broadcom, b43/ b43:
-<pre>
-apt-get install b43-fwcutter
-</pre>
-				</li>
-				<li>
-					Broadcom Blutonium Bluetooth chipset (BCM2033):
-<pre>
-apt-get install bluez-firmware
-</pre>
-				</li>
-				<li>
-					Eagle USB ADSL modem: scaricare il firmware da <a href=" http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Firmware DVB per varie schede DVB TV a piene funzionalità (la maggior parte delle schede economiche non ha bisogno di questi firmware): scaricare il firmware che serve (controllarlo con dmesg) da <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					IVTV firmware: scaricare il firmware da <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Intel ipw2100 and ipw2200, 11/54 MBit/s wlan:
-<pre>
-apt-get install firmware-ipw2x00
-(rende obsoleti ipw2100-firmware e ipw2200-firmware che è necessario disinstallare con --purge)
-</pre>
-				</li>
-				<li>
-				 Intel ipw3945 (54 Mbit/s wlan)/ ipw 4965 (draft-n) iwlwifi, 54 Mbit/s wlan: <span class="highlight-3">se già installati rimuovere iwlwifi-ucode, iwlwifi-3945, firmware-iwl3945 e firmware-iwl4965, poi</span>:
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-
-				</li>
-				<li>
-					Intel ipw4965/ iwlwifi, draft-n wlan:
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-				</li>
-				<li>
-					Intersil prism54, 54 MBit/s wlan: scaricare il firmware da <a href="http://prism54.org/firmware/">http://prism54.org/firmware/</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Schede grafiche nVidia: l'accelerazione 3D non è ancora possibile con i driver liberi, usare <a href="../en/hw-dev-hw-dri-it.htm#non-free-3d">get-sidux-binary-gfx</a> o <span class= "highlight-3">sgfxi</span> per scaricare gli script di installazione per queste schede.
-				</li>
-				<li>
-					RaLink rt61 e rt73 54 MBit/s wlan:
-<pre>
-apt-get install firmware-ralink
-</pre>
-					<p class="highlight-3">e rimuovere, se già installati, i seguenti: rt61-fwcutter, rt73-fwcutter, firmware-rt61 e firmware-rt73, </p>
-				</li>
-				<li>
-						Ricoh R5U870 OEM webcam: scaricare il firmware da <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> e copiare i file <span class="highlight-3">r5u870_*.fw</span> in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
-<pre>
-m-a a-i acx100
-</pre>
-					scaricare il firmware da <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					ZyDAS zd1201 11 MBit/s wlan:
-					scaricare il firmware da <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					ZyDAS zd1211 54 MBit/s wlan:
-<pre>
-apt-get install zd1211-firmware
-</pre>
-				</li>
-			</ul>
+				<ul>
+					<li>
+						Supporto per Atari DSP56k:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/dsp56k/.
+					</li>
+					<li>
+						Atmel AT76c50x 11 MBit/s wlan:<br />
+						<pre>apt-get install atmel-firmware</pre>
+					</li>
+					<li>
+						Broadcom, b43/ b43legacy wlan:<br />
+						<pre>apt-get install b43-fwcutter</pre>
+					</li>
+					<li>
+						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
+						<pre>apt-get install bluez-firmware</pre>
+					</li>
+					<li>
+						Macchine fotografiche basate su Vision CPiA2:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/cpia2/.
+					</li>
+					<li>
+						Computone IntelliPort Plus serial device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						Digital Audio Broadcasting (DAB) Receiver for USB and Linux:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/dabusb/.
+					</li>
+					<li>
+						Eagle USB ADSL modem:<br />
+						prendere il firmware da <a href="http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						EMI 2|6 USB Audio interface:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/emi26/.
+					</li>
+					<li>
+						EMI 6|2m USB Audio interface:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/emi62/.
+					</li>
+					<li>
+						ESS Allegro Maestro3 audio device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ess;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/ess/.
+					</li>
+					<li>
+						firmware DVB per varie schede avanzate DVB TV (molte schede economiche non ne hanno bisogno):<br />
+						prendere il firmware necessario (controllare dmesg) da <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						IVTV firmware:<br />
+						prendere il firmware da <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						Intel ipw2100 (11 MBit/s) e Intel ipw2200 (54 MBit/s) wlan:<br />
+						<pre>apt-get install firmware-ipw2x00</pre>
+						<em>please remove ipw2100-firmware and ipw2200-firmware, if already installed.</em>
+					</li>
+					<li>
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						<pre>apt-get install firmware-iwlwifi</pre>
+					</li>
+					<li>
+						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
+						<pre>apt-get install firmware-iwlwifi</pre>
+					</li>
+					<li>
+						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
+						prendere il firmware da <a href="http://jbnote.free.fr/prism54usb/">http://jbnote.free.fr/prism54usb/</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						Korg 1212 IO audio device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/korg/.
+					</li>
+					<li>
+						nVidia graphics:<br />
+						3d acceleration isn't possible with free drivers yet.
+					</li>
+					<li>
+						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+						<pre>apt-get install firmware-ralink</pre>
+					</li>
+					<li>
+						SMC ISA/MCA Token Ring adapter:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						Sound Blaster 16/AWE CSP support:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sb16;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/sb16/.
+					</li>
+					<li>
+						SUN Cassini:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sun;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/sun/.
+					</li>
+					<li>
+						Technotrend/Hauppauge Nova-USB devices:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/ttusb-budget/.
+					</li>
+					<li>
+						Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
+						<pre>m-a a-i acx100</pre>
+						e prendere il firmware da <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						USB 3com HomeConnect (aka vicam):<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/vicam/.
+					</li>
+					<li>
+						USB ConnectTech WhiteHEAT serial device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						USB Inside Out Edgeport Serial Driver:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/edgeport/.
+					</li>
+					<li>
+						USB Keyspan USA-xxx serial device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/keyspan/.
+					</li>
+					<li>
+						USB Keyspan PDA single-port serial device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/keyspan_pda/.
+					</li>
+					<li>
+						USB KLSI KL5USB101-based Ethernet device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/kaweth/.
+					</li>
+					<li>
+						USB TI 3410/5052 serial device:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						Yamaha YMF724/740/744/754 audio devices:<br />
+						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=yamaha;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/yamaha/.
+					</li>
+					<li>
+						ZyDAS zd1201 11 MBit/s wlan:<br />
+						prendere il firmware da <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> e metterlo in /lib/firmware/.
+					</li>
+					<li>
+						ZyDAS zd1211 54 MBit/s wlan:<br />
+						<pre>apt-get install zd1211-firmware</pre>
+					</li>
+				</ul>
 							<p>Cercheremo di fornire i pacchetti per i firmware legalmente ridistribuibili sui nostri archivi software "non-free" ma non tutti i produttori lo permettono.</p>
 
 		</div>
@@ -437,7 +478,7 @@ Per uscire dalla console digitare: exit
 			<p>Ora il volume NTFS dovrebbe essere montato <b>rw</b> e si dovrebbe essere in grado di scrivere i dati su di esso. Ma, di nuovo, stare attenti! <span class="highlight-3">Usarlo soltanto in situazioni di emergenza, non è raccomandato per un uso su base giornaliera.</span></p>
 
 		</div>
-	<div id="rev">Page last revised 13/12/2008 0310hrs UTC</div>
+	<div id="rev">Page last revised 15/12/2008 2230 UTC</div>
 
 </div>
 </body>

@@ -344,8 +344,8 @@ init 5 &amp;&amp; exit
 					<!--h5>Sources List</h5>-->
 					<h5>Λίστα πηγών (sources list)</h5>
 
-							<!--p>As th sidux iso contains only dfsg free software, you will probably want to add contrib/ non-free to your  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> and ensure internet access:</p>-->
-							<p>Επιδή το sidux iso περιέχει μόνο dfsg ελεύθερο λογισμικό, εσείς πιθανών θα θέλετε να προσθέσετε contrib/ non-free (μή ελεύθερο λογισμικό) στο  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list</span> ή στο <span class="highlight-3">/etc/apt/sources.list</span> Να είστε σίγουροι ότι είστε συνδεμένοι στο διαδίκτυο.</p>
+							<!--p>As the sidux iso contains only dfsg free software, you will probably want to add contrib/ non-free to your <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> and ensure internet access:</p>-->
+							<p>Επειδή το sidux iso περιέχει μόνο dfsg ελεύθερο λογισμικό, εσείς πιθανών να θέλετε να προσθέσετε contrib/ non-free (μή ελεύθερο λογισμικό) στο  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list και /etc/apt/sources.list.d/sidux.list</span> ή στο <span class="highlight-3">/etc/apt/sources.list</span> . Σιγουρευτείτε ότι είστε συνδεδεμένοι με το διαδίκτυο.</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
@@ -362,143 +362,220 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
 
-		<!--h5>Video Cards</h5>-->
-		<h5>Κάρτες γραφικών</h5>
-
-			<ul>
-				<!--li>
-					ATi Radeon graphics: 3d acceleration for older cards up to r35x should work, newer Radeon X1xxx cards need non-free drivers for accelerated performance which are not yet compatible with X.org 7.2. Depending on the particular chipset "xmodule=vesa" or "xmodule=fbdev" as cheatcode might be in order for later Radeon X1xxx models.
-				</li>-->
-				<li>
-					ATi Radeon γραφικά: 3d επιτάχυνση για παλιότερες κάρτες μέχρι και την r35x θα πρέπει να δουλέψει, νεότερες Radeon X1xxx κάρτες χρειάζονται μη ελεύθερους οδηγούς για την επιτάχυνση της απόδοσης η οποία δεν είναι ακόμα συμβατά με το X.org 7.2. Αναλόγως του chipset "xmodule=vesa" ή "xmodule=fbdev" σαν κλεπτοκώδικας (cheatcode) μπορεί να χρειαστεί για νεότερα Radeon X1xxx μοντέλα.
-				</li>
-			</ul>
-
-		<h5>Firmware</h5>
-
-			<ul>
-					<!--li><span class="highlight-3">To help detect what firmware you need to install, run, as user:</span></li>-->
-					<li><span class="highlight-3">Για βοήθεια αναγνώρισης του firmware που πρέπει να εγκαταστήσετε, τρέξτε σαν χρήστης:</span></li>
-			</ul>
+				<h5>Firmware</h5>
+							<p>Το firmware που χρειάζεται μπορεί να καθοριστεί από την πιο κάτω λίστα ή με την χρήση του fw-detect script (πακεταρισμένο μέσα στο configure-networkcard).</p>
 <pre>
 $ fw-detect
 </pre>
-					<!--p><span  class="highlight-3">This will give you a list of recommendations and what commands to run. It will return 'null' if you do not need anything, or firmware is already installed.</span></p-->
-					<p><span  class="highlight-3">Αυτό θα σας δώσει μια λίστα των συνιστώμενων και τις εντολές που πρέπει να εκτελέσετε. Θα επιστρέψει 'null' (τίποτα) αν δεν χρειάζεστε κάτι ή αν το firmware είναι ήδη εγκατεστημένο.</span></p>
-			<ul>
 
-				<li>
-					Atheros wlan:
+				<ul>
+					<li>
+						Atari DSP56k υποστήριξη:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/dsp56k/</span>.
+					</li>
+
+					<li>
+						Atheros wlan:
 <pre>
 Χρησημοποιείστε: ath5k/ ath9k 
 ως υπέρ-χρήστης ΑΦΑΙΡΕΣΤΕ το madwifi
 apt-get remove --purge madwifi-tools 
 αν δεν το κάνετε αυτό το madwifi θα κάνει blacklist τις ath5k / ath9k
 </pre>
-				</li>
-				<li>
-					Atmel AT76c50x 11 MBit/s wlan:
+					</li>
+
+					<li>
+						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
 apt-get install atmel-firmware
 </pre>
-				</li>
-				<li>
-					Broadcom, b43/ b43 legacy wlan:
+					</li>
+
+					<li>
+						Broadcom, b43/ b43legacy wlan:<br />
 <pre>
 apt-get install b43-fwcutter
 </pre>
-				</li>
-				<li>
-					Broadcom Blutonium Bluetooth chipset (BCM2033):
+					</li>
+					<li>
+						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
 <pre>
 apt-get install bluez-firmware
 </pre>
-				</li>
-				<!--li>
-					Eagle USB ADSL modem: fetch the firmware from <a href=" http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-				</li>-->
-				<li>
-					Eagle USB ADSL modem: πάρτε το firmware από <a href=" http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> και τοποθετείστε το στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<!--li>
-					DVB firmwares for various full featured DVB TV cards (most budget cards won't need this): fetch the needed firmeware (check dmesg) from <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-				</li>-->
-				<li>
-					DVB firmwares για παραλλαγή ολοκληρωμένου χαρακτηριστικού DVB TV cards (ως επί το πλείστον οι κάρτες δεν το χρειάζονται αυτό): πάρτε το χρήσιμο σε σας firmeware (ελέγξτε dmesg) από <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> και τοποθετείστε το στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<!---li>
-					IVTV firmware:fetch the firmware from <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> and place it under<span class="highlight-3">/lib/firmware/</span>.
-				</li>-->
-				<li>
-					IVTV firmware:πάρτε το firmware από <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> και τοποθετείστε το στο<span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Intel ipw2100 and ipw2200, 11/54 MBit/s wlan: 
+					</li>
+
+					<li>
+						Cameras βασισμένες στο CPiA2 της Vision:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/cpia2/</span>.
+					</li>
+
+					<li>
+						Ricoh R5U870 OEM webcams:<br />
+						πάρτε το firmware από <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> και αντιγράψτε τα <span class="highlight-3">r5u870_*.fw</span> αρχεία στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						Computone IntelliPort Plus serial συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						Digital Audio Broadcasting (DAB) Receiver για USB και Linux:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/dabusb/</span>.
+					</li>
+
+					<li>
+						Eagle USB ADSL modem:<br />
+						πάρτε το firmware από <a href="http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						EMI 2|6 USB Audio interface:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/emi26/</span>.
+					</li>
+
+					<li>
+						EMI 6|2m USB Audio interface:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/emi62/</span>.
+					</li>
+
+					<li>
+						ESS Allegro Maestro3 audio συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ess;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/ess/</span>.
+					</li>
+
+					<li>
+						DVB firmware για διάφορες DVB TV κάρτες με πλήρη χαρακτηριστικά (full featured) (οι περισσότερες σχετικά φτηνές κάρτες (budget) δεν το χρειάζονται αυτό):<br />
+						πάρτε το firmware (ελέγξτε το dmesg) από <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						IVTV firmware:<br />
+						πάρτε το firmware από <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						Intel ipw2100 (11 MBit/s) και Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
-(obsolete ipw2100-firmware and ipw2200-firmware ought to be purged)
 </pre>
-				</li>
-				<!--li>
-				 Intel ipw3945 (54 Mbit/s wlan)/ ipw 4965 (draft-n) iwlwifi, 54 Mbit/s wlan <span class="highlight-3">Please remove iwlwifi-ucode, iwlwifi-3945, firmware-iwl3945 and firmware-iwl4965, if already installed:.</span>:-->
-				<li>
-				 Intel ipw3945 (54 Mbit/s wlan)/ ipw 4965 (draft-n) iwlwifi, 54 Mbit/s wlan <span class="highlight-3">Παρακαλώ διαγράψτε τα iwlwifi-ucode, iwlwifi-3945, firmware-iwl3945 και firmware-iwl4965, εάν είναι ήδη εγκατεστημένα:.</span>:
+
+						<i>Αφαιρέστε τα ipw2100-firmware και ipw2200-firmware, αν είναι ήδη εγκατεστημένα.</i>
+					</li>
+
+					<li>
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-	
-				</li>
-				<li>
-					Intel ipw4965/ iwlwifi, draft-n wlan:
+					</li>
+
+					<li>
+
+						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-				</li>
-				<li>
-					Intersil prism54, 54 MBit/s wlan: πάρτε το firmware από <a href="http://prism54.org/firmware/">http://prism54.org/firmware/</a> και τοποθετείστε το στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<!--li>
-					nVidia graphics: 3d acceleration isn't possible with free drivers yet, please use <a href="../en/hw-dev-hw-dri-en.htm#non-free-3d">get-sidux-binary-gfx</a> or <span class= "highlight-3">sgfxi</span> to fetch install scripts for these cards.
-				</li>-->
-				<li>
-					nVidia γραφικά: η 3D επιτάχυνση δεν είναι δυνατή με ελεύθερους οδηγούς ακόμα, παρακαλώ χρησιμοποιήστε <a href="../en/hw-dev-hw-dri-el.htm#non-free-3d">get-sidux-binary-gfx</a> ή <span class= "highlight-3">sgfxi</span> για να πάρετε scripts εγκατάστασης για αυτές τις κάρτες.
-				</li>
-				<li>
-					RaLink rt61 και rt73 54 MBit/s wlan,:
+					</li>
+
+					<li>
+						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
+						πάρτε το firmware από <a href="http://jbnote.free.fr/prism54usb/">http://jbnote.free.fr/prism54usb/</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						Korg 1212 IO audio συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/korg/</span>.
+					</li>
+
+					<li>
+						RaLink rt61 and rt73 54 MBit/s wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
-					<!--p class="highlight-3">Please remove rt61-fwcutter, rt73-fwcutter, firmware-rt61 and firmware-rt73, if already installed</p>-->
-					<p class="highlight-3">Παρακαλώ διαγράψτε τα rt61-fwcutter, rt73-fwcutter, firmware-rt61 and firmware-rt73, εάν είναι ήδη εγκατεστημένα</p>
-				</li>
-				<!--li>
-						Ricoh R5U870 OEM webcams:fetch the firmware from <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> and copy the <span class="highlight-3">r5u870_*.fw</span> files to <span class="highlight-3">/lib/firmware/</span>.
-				</li>-->
-				<li>
-						Ricoh R5U870 OEM webcams:Πάρτε το firmware από <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> και αντιγράψτε τα  <span class="highlight-3">r5u870_*.fw</span> αρχεία στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
+					</li>
+					<li>
+						SMC ISA/MCA Token Ring adapter:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						Sound Blaster 16/AWE CSP υποστήριξη:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sb16;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/sb16/</span>.
+					</li>
+					<li>
+						SUN Cassini:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sun;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/sun/</span>.
+					</li>
+
+					<li>
+						Technotrend/Hauppauge Nova-USB devices:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/ttusb-budget/</span>.
+					</li>
+
+					<li>
+						Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
 <pre>
 m-a a-i acx100
 </pre>
-					 Πάρτε το firmware από <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> και τοποθετείστε το στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<!--li>
-					ZyDAS zd1201 11 MBit/s wlan:
-					Fetch the firmware from <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-				</li>-->
-				<li>
-					ZyDAS zd1201 11 MBit/s wlan:
-					Πάρτε το firmware από <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> και τοποθετείστε το στο <span class="highlight-3">/lib/firmware/</span>.
-				</li>
-				<li>
-					ZyDAS zd1211 54 MBit/s wlan:
+
+						πάρτε το firmware από <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						USB 3com HomeConnect (γνωστό και ως vicam):<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/vicam/</span>.
+					</li>
+
+					<li>
+						USB ConnectTech WhiteHEAT σειριακή συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						USB Inside Out Edgeport Serial Driver:<br />
+
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/edgeport/</span>.
+					</li>
+
+					<li>
+						USB Keyspan USA-xxx σειριακή συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/keyspan/</span>.
+					</li>
+
+					<li>
+						USB Keyspan PDA single-port σειριακή συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/keyspan_pda/</span>.
+					</li>
+
+					<li>
+						USB KLSI KL5USB101-based Ethernet συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/kaweth/</span>.
+					</li>
+
+					<li>
+						USB TI 3410/5052 σειριακή συσκευή:<br />
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3"> /lib/firmware/</span>.
+					</li>
+
+					<li>
+						Yamaha YMF724/740/744/754 audio συσκευές:<br />
+
+						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=yamaha;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3"> /lib/firmware/yamaha/</span>.
+					</li>
+
+					<li>
+						ZyDAS zd1201 11 MBit/s wlan:<br />
+						πάρτε το firmware από <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+					</li>
+
+					<li>
+						ZyDAS zd1211 54 MBit/s wlan:<br />
 <pre>
 apt-get install zd1211-firmware
 </pre>
-				</li>
-			</ul>
+					</li>
+				</ul>
 							<!--p>We try to provide packages for legally redistributable firmware from our non-free repositories, but not all vendors allow this.</p>-->
 							<p>Δοκιμάζουμε να εξασφαλίσουμε πακέτα για νομική επαναδιανομή του firmware από δικές μας μη-ελεύθερες πηγές, αλλά δεν το επιτρέπουν όλοι οι προμηθευτές αυτό.</p>
 
@@ -523,7 +600,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Τώρα η NTFS-κατάτμηση θα πρέπει να είναι προσαρτημένη (mounted) <b>rw</b> και θα πρέπει να μπορείτε να αποθηκεύσετε τα δεδομένα σας σε αυτή. Αλλά ξανά προ ειδοποιήστε  <span class="highlight-3">Χρησιμοποιήστε το σε επείγουσες καταστάσεις, δεν συνιστάται για χρήση επί καθημερινής βάσεως.</span></p>
 
 		</div>	
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 13/12/2008 0310hrs UTC <!-- dont not update this use line 20 --></div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 15/12/2008 2230 UTC <!-- dont not update this use line 20 --></div>
 
 </div>
 </body>

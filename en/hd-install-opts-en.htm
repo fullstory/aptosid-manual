@@ -244,15 +244,15 @@ initrd (hd0,4)/sidux/initrd.img
 
 							<p>Using <span class="highlight-3">persist</span> gives you a live system which performs all the automatic features of the sidux live cd. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up..</p> 
 
-							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can get in the way if you need to configure some of these features</p>
+							<p><span class="highlight-3">For example it will not store your X (video card, keyboard, mouse) configuration or your network interfaces file  which makes it ideal for using on more then one computer, </span> but can help if you need to configure some of these features</p>
 
-							<p>Perhaps the ideal use of persistence is in conjunction with the new install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
 
 							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext2 or ext3 partition to store your iso,  however vfat on USB sticks are also very reliable and most likely to give better cross platform ability for data rescue when needed most. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recomended file systems and most likely to give better cross platform ability for data rescue when needed most. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
 							<p>This file should be named sidux-rw. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
 <pre>
@@ -267,36 +267,42 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	<div class="divider" id="usb-hd">
 		<h2>Full Installation of sidux on a USB-device</h2>
 
-							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install now. Just follow this simple guideline.</p>
-
-							<p>The recommended mininmum size of a usb stick is:<br />
-							sidux "LITE" needs 1.2gig PLUS you need data space,<br />
-							sidux "FULL" needs 2.1gig PLUS you need data space</p>
+							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
 				<h5>Two kinds of installation to USB</h5> 
 							<p>1) - fromiso <br />
 							2) - full (the full installation to a USB stick behaves as normal HD installation and is done through the normal installer).</p>
 
 				<h3>USB fromiso Installation</h3>
-							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">install-usb-gui.bash</span> and is mostly directed to install 'fromiso' on the first partition of an HD and/or USB pen.</p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">install-usb-gui.bash</span> and is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
 
-							<p><b>You have 2 choices:</b><br />
+							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+
+							<!--<p><b>You have 2 choices:</b><br />
 							<span class="highlight-3">No Format:</span> the install is made over the first partition with no loss of data.<br />
-							<span class="highlight-3">Format:</span> the disk is erased, all data is lost and single partition created with the chosen file system. Supported file systems are vfat, ext2, ext3.</p>
+							<span class="highlight-3">Format:</span> the disk is erased, all data is lost and single partition created with the chosen file system. Supported file systems are vfat and ext2.</p>-->
 
-							<p>Data persist is possible and the full partition will be used  when ext2 or ext3 are involved. When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use).</p>
+							<p>Data persist is possible and the full partition will be used with ext2. When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use).</p>
 
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in th standard HD installer</p>
+							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
 
 							<p>To create a bootable USB from an installed system you need to have a sidux iso.</p>
 
 
 			<h3>Full installation (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a usb stick is:<br />
+							sidux "LITE" needs 1.2gig PLUS you need data space,<br />
+							sidux "FULL" needs 2.1gig PLUS you need data space</p>
+
+							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+
 							<p>Start with a normal installation and choose the partition on the USB-device, where sidux is to be installed - we speak of "sda1" here, but this is valid for any other partition on a USB-disk or device.</p>
 
-							<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext3 filesystem. An existing partition will be reformatted by the installer!</p>
+							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
 
-							<p class="highlight-2">All data on this partition will be lost during the reformat!</p>
+							<!--<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext2 filesystem. An existing partition will be reformatted by the installer!</p>-->
+
+							<!--<p class="highlight-2">All data on this partition will be lost during the reformat!</p>-->
 
 
 							<p>Now you can boot from your USB-HD. 'Boot from USB' must be enabled in your BIOS.</p>
@@ -471,7 +477,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 30/11/2008 1410hrs UTC</div>
+	<div id="rev">Page last revised 18/12/2008 1530hrs UTC</div>
 
 </div>
 </body>

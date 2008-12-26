@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Do 18. Sep 16:47:15 CEST 2008 -->
+<!-- Last translation revision by hubi Di 23. Dez 09:30:26 CET 2008 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
-<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.79.2008.12.24 -->
+<!-- menu last updated by bluewater 24/12/2008 1145 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
@@ -41,12 +41,13 @@
 				<li><a href="wel-quickstart-de.htm#welcome-quick">sidux Kurzanleitung</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-de.htm">CD-Inhalt</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-de.htm">ISO - Infos zur aktuellen Version</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-de.htm#cd-content">Inhalt der Live-CD</a></li>
+				<li><a href="cd-content-de.htm#cd-content">ISOs und Systemanforderungen</a></li>
+				<li><a href="sys-admin-release-de.htm#rolling">Aktuelle Hinweise zum Versionsupgrade</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-de.htm">Spiegelserver, CD Herunterladen &amp; Brennen</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-de.htm">Spiegelserver, ISO Herunterladen &amp; Brennen</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="cd-dl-burning-de.htm#download-sidux">Spiegelserver, CD herunterladen</a></li>
 				<li><a href="cd-dl-burning-de.htm#md5">md5-Prüfsummen</a></li>
@@ -59,7 +60,7 @@
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-de.htm">Live-CD-Modus</a>
 			<ul class="sub-menu" id="sm4">
 				<li><a href="live-mode-de.htm#rootpw">Das Rootpasswort der sidux-Live-CD</a></li>
-				<li><a href="live-mode-de.htm#live-cd-installsoft">Installieren von Software während einer Live-CD Sitzung</a></li>
+				<li><a href="live-mode-de.htm#live-cd-installsoft">Installieren von Software während einer Live-ISO Sitzung</a></li>
 				<li><a href="live-mode-de.htm#ntfs-3g">Schreiben auf NTFS-Partitionen mit ntfs-3g</a></li>
 			</ul>
 		</li>
@@ -194,6 +195,45 @@
 <div id="main-page">
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Dienste starten in sidux</h2>
+
+				<h3>insserv (ab sidux 2008-04 pontos): Start/Stop installierter Dienste</h3>
+							<p><span class="highlight-2">Bitte lesen Sie unbedingt <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, die Release Notes und die Manpages</span>.</p> 
+<pre>
+ $ man insserv 
+ $ man invoke-rc.d 
+ $ man update-rc.d 
+ google LSB headers
+</pre>
+							<p>Auf Init-Skripte der Debianpakete wird durch diesen Befehl zugegriffen: <span class="highlight-3">invoke-rc.d</span>.</p>
+
+							<p>Zum Starten:</p>
+<pre>
+invoke-rc.d &lt;service&gt; start
+</pre>
+							<p>Zum Stoppen:</p>
+<pre>
+invoke-rc.d &lt;service&gt; stop
+</pre>
+							<p>Zum Neustarten:</p>
+<pre>
+invoke-rc.d &lt;service&gt; restart
+</pre>
+							<p>Damit ein Dienst beim Hochfahren des Rechners nicht startet:</p>
+<pre>
+update-rc.d &lt;service&gt; remove
+## dies entfernt alle Start-Links
+</pre>
+							<p>Damit ein Dienst beim Hochfahren des Rechners startet [nicht immer notwendig]</p>
+<pre>
+update-rc.d &lt;service&gt; defaults
+## dies kreiert die nötigen Start-Links
+</pre>
+
+						<h3>insserv auf installierten Systemen vor Pontos 2008-04</h3>
+
+							<p> <span class="highlight-2">Warnung: Ältere Installationen werden aufgrund benutzereigener Init-Skripte oder Symlinks nicht automatisch mit insserv versehen. Es ist NICHT empfohlen, insserv auf sidux-Installationen vor Pontos einzurichten. Dieses Paket sollte mit großer Vorsicht verwendet werden, inkorrekte oder fehlende LSB-Abhängigkeiten vorhandener Init-Skripte können zu einem nicht bootbaren System führen. Die Installation von insserv kann manuelle Änderungen benötigen.</span></p>
+
+							<p><span class="highlight-2">Bitte lesen Sie vor Installation und Aktivierung von insserv <a href="http://wiki.debian.org/LSBInitScripts/DependencyBasedBoot"> die Debian-Dokumentation</a> und die sidux Release Notes.</span></p>
 
 							<p>Dienste werden gemeinsam mit einem dist-upgrade aktualisiert. Falls sie vor dem dist-upgrade vom Nutzer deaktiviert waren, werden sie durch das dist-upgrade aktiviert.</p>
 
@@ -332,7 +372,7 @@ http://localhost:631
 							<p>Mehr dazu <a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">im sidux-Forum</a>.</p>
 	</div>
 
-			<div id="rev">Content last revised 18/09/2008 1500hrs UTC </div>	
+			<div id="rev">Content last revised 23/12/2008 0545 UTC </div>	
 
 </div>
 </body>

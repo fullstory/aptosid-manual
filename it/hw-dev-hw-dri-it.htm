@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 16/12/2008 19.20 UTC-->
+<!-- Last translation revision by alessiog75 on 22/12/2008 23.40 UTC-->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.78.2008.12.06 -->
-<!-- menu last updated by bluewater 06/12/2008 0700 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.79.2008.12.24 -->
+<!-- menu last updated by bluewater 24/12/2008 1145 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="A sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Ricerca Online Offline</a> </li>
@@ -41,12 +41,13 @@
 				<li><a href="wel-quickstart-it.htm#welcome-quick">sidux - Guida d'avvio rapida</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-it.htm">Contenuti del CD</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-it.htm">ISO Releases</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-it.htm#cd-content">Contenuti del CD</a></li>
+				<li><a href="cd-content-it.htm#cd-content">ISO and system requirements</a></li>
+				<li><a href="sys-admin-release-it.htm#rolling">Rolling Notes</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-it.htm">Mirror, download CD e masterizzazione</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-it.htm">Mirror, download ISO e masterizzazione</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="cd-dl-burning-it.htm#download-sidux">sidux mirror, download e masterizzazione</a></li>
 				<li><a href="cd-dl-burning-it.htm#md5">somma md5</a></li>
@@ -308,7 +309,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 
 				<h5>Firmware</h5>
-							<p>Il firmware richiesto puo' essere determinato con la seguente enumerazione device/ firmware oppure usando fw-detect, il nuovo script appena sviluppato   (inglobato in configure-networkcard).</p>
+							<p>Il firmware richiesto può essere determinato con la seguente enumerazione device / firmware oppure usando fw-detect, il nuovo script appena sviluppato (contenuto nel pacchetto configure-networkcard).</p>
 <pre>
 $ fw-detect
 </pre>
@@ -320,15 +321,29 @@ $ fw-detect
 					</li>
 					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
-						<pre>apt-get install atmel-firmware</pre>
+<pre>
+apt-get install atmel-firmware
+</pre>
 					</li>
 					<li>
-						Broadcom, b43/ b43legacy wlan:<br />
-						<pre>apt-get install b43-fwcutter</pre>
+						Broadcom, b43/legacy wlan:<br />
+<pre>
+apt-get install b43-fwcutter
+</pre>
 					</li>
+					<li>
+						Broadcom, b43 wlan:<br />
+<pre>
+dpkg --purge b43-fwcutter
+rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
+apt-get update
+apt-get install b43-fwcutter
+</pre>
 					<li>
 						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
-						<pre>apt-get install bluez-firmware</pre>
+<pre>
+apt-get install bluez-firmware
+</pre>
 					</li>
 					<li>
 						Macchine fotografiche basate su Vision CPiA2:<br />
@@ -368,16 +383,27 @@ $ fw-detect
 					</li>
 					<li>
 						Intel ipw2100 (11 MBit/s) e Intel ipw2200 (54 MBit/s) wlan:<br />
-						<pre>apt-get install firmware-ipw2x00</pre>
+<pre>
+apt-get install firmware-ipw2x00
+</pre>
 						<em>please remove ipw2100-firmware and ipw2200-firmware, if already installed.</em>
 					</li>
 					<li>
 						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
-						<pre>apt-get install firmware-iwlwifi</pre>
+<pre>
+apt-get install firmware-iwlwifi
+</pre>
 					</li>
 					<li>
 						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-						<pre>apt-get install firmware-iwlwifi</pre>
+<pre>
+apt-get install firmware-iwlwifi
+</pre>
+					</li>
+
+					<li>
+						Intel ipw5xxx/ iwlwifi:<br />
+						fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 					<li>
 						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
@@ -393,7 +419,9 @@ $ fw-detect
 					</li>
 					<li>
 						RaLink rt61 and rt73 54 MBit/s wlan:<br />
-						<pre>apt-get install firmware-ralink</pre>
+<pre>
+apt-get install firmware-ralink
+</pre>
 					</li>
 					<li>
 						SMC ISA/MCA Token Ring adapter:<br />
@@ -413,7 +441,9 @@ $ fw-detect
 					</li>
 					<li>
 						Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
-						<pre>m-a a-i acx100</pre>
+<pre>
+m-a a-i acx100
+</pre>
 						e prendere il firmware da <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> e metterlo in /lib/firmware/.
 					</li>
 					<li>
@@ -454,7 +484,9 @@ $ fw-detect
 					</li>
 					<li>
 						ZyDAS zd1211 54 MBit/s wlan:<br />
-						<pre>apt-get install zd1211-firmware</pre>
+<pre>
+apt-get install zd1211-firmware
+</pre>
 					</li>
 				</ul>
 							<p>Cercheremo di fornire i pacchetti per i firmware legalmente ridistribuibili sui nostri archivi software "non-free" ma non tutti i produttori lo permettono.</p>
@@ -463,9 +495,9 @@ $ fw-detect
 		<div class="divider" id="hd-ntfs3g">
 			<h2>Scrivere su partizioni NTFS con ntfs-3g</h2>
 
-			<p class="highlight-2"><b>Vi avvisiamo</b>: sebbene ntfs-3g sia definito come stabile, non usarlo mai per dei salvataggi esterni, e naturalmente non usarlo su sistemi di produzione! L'eventuale perdita di dati dovuti ad un suo utilizzo non potrà in alcun modo essere imputabile a sidux, quindi stare attenti!</p>
+							<p class="highlight-2"><b>Vi avvisiamo</b>: sebbene ntfs-3g sia definito come stabile, non usarlo mai per dei salvataggi esterni, e naturalmente non usarlo su sistemi di produzione! L'eventuale perdita di dati dovuti ad un suo utilizzo non potrà in alcun modo essere imputabile a sidux, quindi stare attenti!</p>
 
-			<p>Aprire una shell/console/terminale e immettere i seguenti comandi: leggere <a href="part-cfdisk-it.htm" >Partizionare il disco fisso - Denominazione dei dischi</a></p>
+							<p>Aprire una shell/console/terminale e immettere i seguenti comandi: leggere <a href="part-cfdisk-it.htm" >Partizionare il disco fisso - Denominazione dei dischi</a></p>
 <pre >
 sux
 apt-get update &amp;&amp; apt-get install ntfs-3g
@@ -478,7 +510,7 @@ Per uscire dalla console digitare: exit
 			<p>Ora il volume NTFS dovrebbe essere montato <b>rw</b> e si dovrebbe essere in grado di scrivere i dati su di esso. Ma, di nuovo, stare attenti! <span class="highlight-3">Usarlo soltanto in situazioni di emergenza, non è raccomandato per un uso su base giornaliera.</span></p>
 
 		</div>
-	<div id="rev">Page last revised 15/12/2008 2230 UTC</div>
+	<div id="rev">Page last revised 24/12/2008 0830 UTC</div>
 
 </div>
 </body>

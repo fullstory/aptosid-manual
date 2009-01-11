@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 23/12/2008 0940 UTC-->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.79.2008.12.24 -->
-<!-- menu last updated by bluewater 24/12/2008 1145 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.80.2008.01.10 -->
+<!-- menu last updated by bluewater 10/01/2009 10400 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
@@ -169,7 +169,6 @@
 		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-gen-en.htm">System Administration</a>
 			<ul class="sub-menu" id="sm14">
 				<li><a href="home-en.htm#home-bu">Moving /home</a></li>
-				<li><a href="smxi-en.htm#smxi">smxi Syntax Command Sets</a></li>
 				<li><a href="siduxcc-en.htm#siduxcc">sidux Control Centre</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
 				<li><a href="sys-admin-upgrade-en.htm#live-cd-upgrade">Upgrading by Live-CD</a></li>
@@ -194,66 +193,17 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binary, non-free drivers for: Nvidia / ATI</h2>
+		<h2 id="top-header">Binary, closed source drivers for: Nvidia / ATI</h2>
 
-						<p>There are 3 methods to install 3d  drivers into your system</p>
-			<ol>
-				<!--<li>
+							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
 
-					<h3>install-binary-gfx</h3>
-		
-							<p>Install<span class="highlight-1"> install-binary-gfx</span>. To get the script run get-sidux-binary-gfx once, in konsole as root.</p>
-<pre>
-get-sidux-binary-gfx
-install-binary-gfx -a (to build sid source)
-</pre>
-							<p>It will choose the right driver for your card, build a deb, install it and it will automatically change your xorg.conf accordingly. <span class="highlight-3">For the new driver to take effect you must restart X (Ctrl+Alt+Backspace)</span>.</p>
-		
-					<h4>Options</h4>
-		
-							<p>There are options you may want to manually enable:</p>
-<pre>
- Usage: ./install-binary-gfx [options]
--a | auto            Automatic mode
--b | -build           MOD Build only (nvidia|nvidia-legacy|ati|ati-legacy|fglrx)
--d | -detect          Detect Card only
--u | -update          Update Script
--v | -verbose         Verbose
-</pre>
-					<h4>Examples</h4>
-<pre>
-install-binary-gfx -a (This will detect you Card and install the sid Drivers automatically.)
-install-binary-gfx -b nvidia (This will just build the nvidia-module....deb in /usr/src. The same works with fglrx and nvidia-legacy.)
-install-binary-gfx -b ati (This will just build the ati-module....deb in /usr/src. The same works with fglrx and ati-legacy.)
-install-binary-gfx -d (This will detect your Card and just print out the Information.)
-install-binary-gfx -u (This will update this Script. )
-</pre>
-     		 		<h4>Troubleshooting</h4>
-
-      							<p>If the Script fails for your Card please run the Script in debug mode and post the output as well as the log file /var/log/sidux-CARD-installer.log in the sidux Forum or use http://paste.debian.net and go to #sidux and give them the link to get IRC help.</p>
-
-				</li>-->
-				<li>
-					<h3>sgfxi /  smxi</h3>
-
-							<p>Use the sidux community contributed multi-function administration tool, <a href="  http://techpatterns.com/forums/about736.html">smxi/sgfxi</a>,  which is short for sidux-maintenance. To read more refer to <a href="smxi-en.htm#smxi">smxi and sgfxi Syntax Command Sets</a>.</p>
-
-				</li>
-				<li>
-					<h5>Use Nvidia/ATI binary installer</h5>
-<pre>
-Download the binary driver installers directly from Nvidia
-Download the binary driver installers directly from ATI
-</pre>
-				</li>
-			</ol>
 
 
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel</h2>
 
-							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. If you have overwitten them with closed source drivers you can revert or roll back to them with <a href="smxi-en.htm#smxi">sgfxi</a></p>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
 
 							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2d for NVIDIA Riva, TNT, GeForce, and Quadro  cards and the ATI Mach, Rage, Radeon, and FireGLcards along with atimisc', 'r128' and 'radeon' sub-drivers. It also provides for the Intel free series in 3d</p>
 
@@ -310,6 +260,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>
 $ fw-detect
 </pre>
+							<p> <span class="highlight-3">It is good practice to do a modprobe -r &lt;modulename&gt; before  modprobe &lt;modulename&gt;, especially for intel</span>.</p>
 
 				<ul>
 					<li>
@@ -324,6 +275,9 @@ Use: ath5k/ ath9k
 as root REMOVE madwifi
 apt-get remove --purge madwifi-tools 
 otherwise madwifi will blacklist ath5k / ath9k
+then
+modprobe -r ath5k OR ath9k
+modprobe ath5k OR ath9k
 </pre>
 					</li>
 
@@ -551,7 +505,7 @@ To get out of the konsole type: exit
 							<p>Now your NTFS-Volume should be mounted <b>rw</b> and you should be able to store data on it. But again, be warned! <span class="highlight-3">Use it in emergency situations, it is not recommended  for use on a daily basis.</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 24/12/2008 0830 UTC <!-- dont not update this use line 20 --></div>
+	<div id="rev">Page last revised 10/01/2009 2345 UTC </div>
 
 </div>
 </body>

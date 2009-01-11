@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by RoEn 25/12/2008 0745 UTC -->
+<!-- Last translation revision by RoEn 07/01/2009 0745 UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.79.2008.12.24 -->
-<!-- menu last updated by RoEn 24/12/2008 1145 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.80.2008.01.10 -->
+<!-- menu last updated by bluewater 10/01/2009 10400 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ru.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Пойск в руководстве" alt="Search" />Варианты пойска</a> </li>
@@ -166,10 +166,9 @@
 				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление - dist-upgrade</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-ru.htm">Системное администрирование</a>
+		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-gen-ru.htm">Системное администрирование</a>
 			<ul class="sub-menu" id="sm14">
 				<li><a href="home-ru.htm#home-bu">Перемещение /home</a></li>
-				<li><a href="smxi-ru.htm#smxi">Описание и опции команды smxi</a></li>
 				<li><a href="siduxcc-ru.htm#siduxcc">sidux Центр управления</a></li>
 				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление - dist-upgrade</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с LiveCD</a></li>
@@ -194,9 +193,9 @@
 	<!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="rolling">
-		<h2 id="top-header">Инструкции для версии обновления установленной системы</h2>
+		<h2 id="top-header">Инструкции для обновления установленной системы</h2>
 
-							<p>sidux преследует простой путь обновления Debian пакетов и также sidux пакетов. Иногда является необходимым, ручно стабилизировать систему. </p>
+							<p>sidux преследует простой путь обновления Debian пакетов и также sidux пакетов. Иногда является необходимым, ручно стабилизировать систему.</p>
 
 							<p><span class="highlight-3">Эта страница будет обновлена с каждой новой версиею sidux. Pontos является текущей версиею.</span></p>
 				
@@ -227,19 +226,22 @@ find /root /home -maxdepth 2 -type f -name '.sidconf*' -delete
 <pre>
 sed -i 's/^DIR_MODE=.*/DIR_MODE=0700/' /etc/adduser.conf
 dpkg-reconfigure adduser
-(denies "system-wide readable home directories")
+("отклонить oбщесистемное чтение домашних каталогов")
 </pre>
 				
 				
-				<h3>ALSA OSS compatibility layer</h3>
-							<p> Starting with alsa-driver 1.0.17.dfsg-3, the OSS compatibility modules are not loaded on default anymore. While this shouldn't impose any problems on modern linux systems, some commercial- or legacy applications might still require OSS support. Given that ALSA's in-kernel emulation for OSS is rather limited (no software based mixing, so there can only be one application accessing /dev/dsp at once), ALSA compatible applications should be preferred instead, but if OSS compatibility is required there are two alternatives available: </p>
+				<h3>Слой совместимости ALSA OSS</h3>
+							<p> Начиная с alsa-driver 1.0.17.dfsg-3, модули совместимости OSS не автоматически  загружаются. Хотя это не должно вызывать никаких проблем на современных систем Linux,  некоторые коммерческе или устаревшие приложения нуждаются еще в поддержке OSS при определенных обстоятельствах. ALSA совместимые приложения должны бы предпочитаться, так как эмуляция ALSA для OSS ограниченa в ядре (никакой поддержки базирующихся на программное обеспечение микшеров, так как только одно приложение может одновременно действовать на /dev/dsp. Если совместимость OSS требуется, имеются 2 альтернативы:</p>
 				<ul>
-							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss is part of the alsa-oss package and can wrap around legacy applications to trap into OSS calls by transparently mapping the OSS ABI on ALSA; this usually allows to take advantage of most ALSA features. </li>
+							<li> <strong>aoss обертка</strong><br />
+             						aaoss является частью пакета alsa-oss и могут быть использованы в качестве обертки для унаследованных приложений. Это может вмешиваться в их вызовы OSS, чтобы осуществлять двоичный интерфейс приложений OSS прозрачно на ALSA. Это сохраняет обычно все преимущества ALSA.
+          </li>
 
-							<li> <strong>in-kernel ALSA emulation</strong><br /> better binary compatibility (emulated /dev/dsp, /dev/audio and /dev/mixer device nodes are created), but this allows no software based mixing, so there can only be one sound application active at the same time. </li>
+							<li> <strong>Эмуляция ALSA, встроя в ядре</strong><br /> 
+							Это позволяет лучшеe бинарную совместимость (эмулированные устройства /dev/dsp, /dev/audio и /dev/mixer имеются ), однако без программного микшера, так что только одно звуковое приложение может одновременно быть активно.</li>
 				</ul>
 
-							<p> For most applications it is preferred to start the affected applications with &quot;aoss &lt;program&gt;&quot; to keep the advantages of software based mixing and concurrent access to the sound hardware, but there might be rare cases which require the in-kernel OSS compatibility layer. This can be activated, if needed, by loading the snd-pcm-oss, snd-mixer-oss and snd-seq-midi modules. </p>
+							<p>При наибольших затронутых программ является рациональным запускать приложения путом "aoss &lt;приложение&gt;". Таким образом преимущества программного микшера и вместе с тем одновременного доступа к звуковым аппаратным средствам сохраняются. Имеются, тем не менее, редкие случаи, в которых требуется обращение на слой совместимости OSS в ядре. В случае необходимости это можно активировать с помощью загрузки модулей snd-pcm-oss, snd-mixer-oss и snd-seq-midi.</p>
 
 <pre>
 for i in snd-pcm-oss snd-mixer-oss snd-seq-midi; do
@@ -267,13 +269,11 @@ dpkg-reconfigure console-setup
 				
 				<h3>gspca2</h3>
 							<p>В ядре 2.6.27 встроен новый gspca2 модуль на базе v4l2, который заменяет старый внешный gspca модуль на базе v4l1. Модуль используется в огромном количестве различных веб-камер. К сожалению, большинство пользователей используют космические программы, еще не новый API для v4l2 ранее обусловлен gspca веб-камеры, так что это означает вмешательство "LD_PRELOAD = / usr/lib/libv4l/v4l1compat.so &lt;приложение>" должна быть запущена.</p>
-<pre>
-apt-get update
+<pre>apt-get update
 apt-get install libv4l-0
 
-AS USER
-$ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;приложение&gt;
-</pre>
+как пользователь
+$ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;приложение&gt; </pre>
 				
 				<h3>insserv</h3>
 						<h6>Применение insserv на существующую систему перед Pontos 2008-04</h6>

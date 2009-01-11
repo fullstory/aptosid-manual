@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by bluewater 24/12/2008 0745 UTC -->
+<!-- Last translation revision by HarzG 03/01/2009 1730 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.79.2008.12.24 -->
-<!-- menu last updated by bluewater 24/12/2008 1145 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.80.2008.01.10 -->
+<!-- menu last updated by bluewater 10/01/2009 10400 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-nl.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Zoeken Online Offline</a> </li>
@@ -41,10 +41,10 @@
 				<li><a href="wel-quickstart-nl.htm#welcome-quick">sidux Snel Start Handleiding</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-nl.htm">ISO Releases</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-nl.htm">ISO en versie-opmerkingen</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-nl.htm#cd-content">ISO and system requirements</a></li>
-				<li><a href="sys-admin-release-nl.htm#rolling">Rolling Notes</a></li>
+				<li><a href="cd-content-nl.htm#cd-content">ISO en systeemeisen</a></li>
+				<li><a href="sys-admin-release-nl.htm#rolling">Upgrades voor geïnstalleerde systemen</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-nl.htm">ISO downloaden en branden</a>
@@ -166,10 +166,9 @@
 				<li><a href="sys-admin-apt-nl.htm#apt-upgrade">Upgraden van een geïnstalleerd systeem -  dist-upgrade</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="smxi-nl.htm">Systeembeheer</a>
+		<li  onmouseover="showHide( 14 );" onmouseout="startTime();" ><a href="sys-admin-gen-nl.htm">Systeembeheer</a>
 			<ul class="sub-menu" id="sm14">
 				<li><a href="home-nl.htm#home-bu">Moving /home</a></li>
-				<li><a href="smxi-nl.htm#sm">smxi Syntax commando sets</a></li>
 				<li><a href="siduxcc-nl.htm#siduxcc">sidux Control Centre</a></li>
 				<li><a href="sys-admin-apt-nl.htm#apt-upgrade">Upgraden van een geïnstalleerd systeem -  dist-upgrade</a></li>
 				<li><a href="sys-admin-upgrade-nl.htm#live-cd-upgrade">Upgraden dmv je Live-CD</a></li>
@@ -194,16 +193,16 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="rolling">
-		<h2 id="top-header">Rolling Notes</h2>
+		<h2 id="top-header">Opmerkingen voor upgrades van geïnstalleerde systemen</h2>
 
-							<p> sidux tries hard to provide seamless rolling dist-upgrade path for debian and sidux' own packages, nevertheless a few things remain that could be improved with manual interaction. </p>
+							<p>sidux probeert zo goed mogelijk een weg te bereiden voor rolling dist-upgrade als het gaat om de eigen pakketten van debian en sidux. Een paar dingen vragen een handmatige aanpassing. </p>
 
-							<p><span class="highlight-3">This page will only be updated after each release. Current release Pontos.</span></p>
+							<p><span class="highlight-3">Deze pagina wordt geactualiseerd na elke release, de actuele release is Pontos.</span></p>
 				
-				<h3>sidux security advisory/ lock down $HOME</h3>
-							<p> While refactoring the sidux installer, a potential local privilege escalation issue has been discovered, which leaves a copy of the installer's configuration file on the target system. This configuration file also contains the salted MD5 password hashes for root and the first user account (UID 1000) and remains readable for local users. While this does not reveal these passwords directly, it can be used for a brute force attack against them. </p>
+				<h3>sidux beveiligingadvies / bescherming van $HOME</h3>
+							<p>Tijdens de actualisatie van de sidux installer werd een beveiligingsprobleem (local privilege escalation) ontdekt, omdat een kopie van het tijdelijke configuratiebestand achterbleef op het nieuw geïnstalleerde system. Dat configuratiebestand bevat de salted MD5 password hashes voor root en de eerste user account (UID 1000) en is door locale users leesbaar. Hoewel deze passwords niet direct openbaar zijn, kan het configuratiebestand misbruikt worden bij een brute force attack. </p>
 
-				<h4>Affected releases:</h4>
+				<h4>Releases waar het probleem voorkomt:</h4>
 						<ul>
 							<li>2007-01 Χάος (Chaos)</li>
 							<li>2007-02 Τάρταρς (Tartaros)</li>
@@ -214,31 +213,31 @@
 							<li>2008-03 Ουρέα (Ourea)</li>
 						</ul>
 
-				<h4>Fix:</h4>
+				<h4>Correctie:</h4>
 <pre>
 find /root /home -maxdepth 2 -type f -name '.sidconf*' -delete
 </pre>
 
-							<p> Especially on multi-user systems, it is recommended to change the passwords for root and the first user (UID 1000) as well, this can be done using "passwd" as root/ user. The cause for this issue has been found and sidux 2008-04 &quot;Πόντος&quot; is not affected. </p>
+							<p> Vooral bij multi-user systemen wordt geadviseerd om de passwords voor root en de eesrte user (UID 1000) te veranderen. Dat kan gedaan worden met "passwd" als root/ user. De oorzaak voor het probleem werd gevonden en hierdoor komt het bij sidux 2008-04 &quot;Πόντος&quot; niet meer voor. </p>
 
-							<p> Debian creates home directories with 0751 access permissions, sidux diverges from this default and enforces 0700 for new installs. </p>
+							<p> Debian maakt de home directories aan met 0751 rechten (access permissions), sidux wijkt hiervan af en gebruikt 0700 rechten voor nieuwe installaties. </p>
 
 <pre>
 sed -i 's/^DIR_MODE=.*/DIR_MODE=0700/' /etc/adduser.conf
 dpkg-reconfigure adduser
-(denies "system-wide readable home directories")
+(vermijden van "system-wide leesbare home directories")
 </pre>
 				
 				
-				<h3>ALSA OSS compatibility layer</h3>
-							<p> Starting with alsa-driver 1.0.17.dfsg-3, the OSS compatibility modules are not loaded on default anymore. While this shouldn't impose any problems on modern linux systems, some commercial- or legacy applications might still require OSS support. Given that ALSA's in-kernel emulation for OSS is rather limited (no software based mixing, so there can only be one application accessing /dev/dsp at once), ALSA compatible applications should be preferred instead, but if OSS compatibility is required there are two alternatives available: </p>
+				<h3>ALSA OSS compatibiliteitslayer</h3>
+							<p> Vanaf de alsa-driver 1.0.17.dfsg-3 worden de OSS compatibility modules niet meer automatisch geladen. Hoewel dat meestal voor moderne Linux systemen geen probleem is, vereisen sommige commerciële of legacy applicaties nog OSS support. Omdat ALSA's in-kernel emulatie voor OSS beperkingen heeft (geen software based mixing, hierdoor kan slechts 1 applicatie /dev/dsp gebruiken), genieten ALSA compatibele applicaties de voorkeur. Maar als OSS compatibiliteit nodig is, zijn twee alternativen beschikbaar: </p>
 				<ul>
-							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss is part of the alsa-oss package and can wrap around legacy applications to trap into OSS calls by transparently mapping the OSS ABI on ALSA; this usually allows to take advantage of most ALSA features. </li>
+							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss maakt deel uit van het alsa-oss pakket en kan "wrap around" legacy applicaties. De OSS oproepen woorden door "transparently mapping" van OSS ABI naar ALSA gestuurd. Hierdoor kunnen de meeste ALSA functies gebruikt worden. </li>
 
-							<li> <strong>in-kernel ALSA emulation</strong><br /> better binary compatibility (emulated /dev/dsp, /dev/audio and /dev/mixer device nodes are created), but this allows no software based mixing, so there can only be one sound application active at the same time. </li>
+							<li> <strong>in-kernel ALSA emulatie</strong><br /> regelt een betere binary compatibiliteit (/dev/dsp, /dev/audio en  /dev/mixer device nodes worden gecreëerd). Maar hiermee is geen software based mixing mogelijk en er kan maar 1 sound applicatie gebruikt worden. </li>
 				</ul>
 
-							<p> For most applications it is preferred to start the affected applications with &quot;aoss &lt;program&gt;&quot; to keep the advantages of software based mixing and concurrent access to the sound hardware, but there might be rare cases which require the in-kernel OSS compatibility layer. This can be activated, if needed, by loading the snd-pcm-oss, snd-mixer-oss and snd-seq-midi modules. </p>
+							<p> Voor de meeste applicaties die hiermee te maken hebben,  wordt geadviseerd deze via  &quot;aoss &lt;program&gt;&quot; te starten om de voordelen van software based mixing en gelijktijdige toegang tot de sound hardware te gebruiken. Maar in sommige situaties waar de in-kernel OSS compatibiliteitslayer nodig is, kan deze geactiveerd worden door de snd-pcm-oss, snd-mixer-oss en snd-seq-midi modules te laden. </p>
 
 <pre>
 for i in snd-pcm-oss snd-mixer-oss snd-seq-midi; do
@@ -248,7 +247,7 @@ done
 </pre>
 				
 				<h3>Broadcom b43 wlan</h3>
-							<p> Kernels &gt;2.6.25 require firmware revisions &ge;4.150.10.5 (internal revision &quot;410.2160 (2007-05-26 15:32:10)&quot;) of the Broadcom firmware, while older ones (up to kernel 2.6.24) required 4.80.53.0 (internal revision &quot;351.126 (2006-07-29 05:54:02)&quot;), which has been installed by older b43-fwcutter revisions. b43-fwcutter cannot upgrade existing firmware images on its own, so upgrading needs manual intervention. </p>
+							<p> Kernels &gt;2.6.25 benodigen firmware versies &ge;4.150.10.5 (internal revision &quot;410.2160 (2007-05-26 15:32:10)&quot;) van de Broadcom firmware. Oudere kernels (tot kernel 2.6.24) benodigen 4.80.53.0 (internal revision &quot;351.126 (2006-07-29 05:54:02)&quot;) die geïnstalleerd werd bij oudere b43-fwcutter versies. b43-fwcutter kan geen upgrade van geïnstalleerde firmware images maken, de upgrade moet handmatig geïnstalleerd worden. </p>
 
 <pre>
 dpkg --purge b43-fwcutter
@@ -258,14 +257,14 @@ apt-get install b43-fwcutter
 </pre>
 				
 				<h3>console-setup</h3>
-							<p> The console keymaps are now handled by &quot;console-setup&quot;. </p>
+							<p> De console keymaps worden nu met  &quot;console-setup&quot; geïnstalleerd. </p>
 <pre>
 apt-get install console-setup
 dpkg-reconfigure console-setup
 </pre>
 				
 				<h3>gspca2</h3>
-							<p> Kernel 2.6.27 ships with the new v4l2 based gspca2 driver, which replaces the old v4l1 based external gspca driver, which is needed for a large number of different webcams. Unfortunately most userspace programs are not aware of the new v4l2 API for devices formerly covered by gspca, meanwhile they need to be started using &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot;. </p>
+							<p> In kernel 2.6.27 zit de nieuwe (v4l2 based) gspca2 driver. Deze vervangt de oudere v4l1 based externe gspca driver, die voor een groot aantal webcams in gebruik is. Helaas gebruiken de meeste userspace programma's nog niet de nieuwe v4l2 API voor devices die voorheen met gspca gebruikt werden. Voorlopig is het nodig om deze programma's met  &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot; te starten. </p>
 <pre>
 apt-get update
 apt-get install libv4l-0
@@ -275,26 +274,26 @@ $ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;
 </pre>
 				
 				<h3>insserv</h3>
-						<h6>insserv on installed systems before Pontos 2008-04</h6>
+						<h6>insserv bij geïnstalleerde systemen vóór Pontos 2008-04</h6>
 
-							<p> <span class="highlight-3">Warning: Older installs will not get insserv automatically, due to users own initscripts or symlinks. It is NOT recommended to install insserv on installations prior to Pontos. This package should be used with care, as incorrect or missing LSB dependencies of existing initscripts can lead to an unbootable system. Installing insserv on an existing install may require some manual changes. </span></p>
+							<p> <span class="highlight-3">LET OP: Oudere installaties worden niet automatisch van insserv voorzien, vanwege de  users eigen initscripts of symlinks. Het wordt NIET geadviseerd om insserv te gebruiken bij installaties vóór Pontos. Dit pakket dient met voorzichtigheid gebruikt te worden, omdat incorrecte of ontbrekende LSB afhankelijkheden van bestaande initscripts tot een unbootable systeem kunnen leiden. Voor de installatie van insserv bij bestaande systemen zijn soms handmatige aanpassingen nodig. </span></p>
 
-							<p><span class="highlight-3">Read <a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> read the Debian documentation notes</a>, and release notes before installing and enabling insserv.</span></p>
+							<p><span class="highlight-3">Lees <a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> de Debian documentatie opmerkingen </a> en de release notes vóórdat insserv geïnstalleerd en geactiveerd wordt.</span></p>
 
 <!-- -->	
-				<h3>Obsolete packages</h3>
-							<p> As part of the continuing development of sidux, a number of packages have been replaced by better alternatives or become redundant. </p>
+				<h3>Overbodige pakketten</h3>
+							<p> Als gevolg van de verdere ontikkeling van sidux is een aantal pakketten vervangen door betere alternatieven of werd overbodig. </p>
 						<ul>
-							<li>capi-isdnconf, obsolete.</li>
-							<li>configure-xawtv, obsolete.</li>
-							<li>gprsconnect, replaced by umtsmon.</li>
-							<li>ipw2100-firmware, replaced by firmware-ipw2x00.</li>
-							<li>ipw2200-firmware, replaced by firmware-ipw2x00.</li>
-							<li>modemlink, replaced by umtsmon and wvdial.</li>
-							<li>ppp-scripts, replaced by umtsmon.</li>
+							<li>capi-isdnconf, overbodig.</li>
+							<li>configure-xawtv, overbodig.</li>
+							<li>gprsconnect, vervangen door umtsmon.</li>
+							<li>ipw2100-firmware, vervangen door firmware-ipw2x00.</li>
+							<li>ipw2200-firmware, vervangen door firmware-ipw2x00.</li>
+							<li>modemlink, vervangen door umtsmon en wvdial.</li>
+							<li>ppp-scripts, vervangen door umtsmon.</li>
 						</ul>
 
-							<p> The following command is able to find packages not available from any active apt repository and may hint at obsolete packages, be careful about manually installed packages though. apt-show-versions is a separate package and isn't necessarily preinstalled. </p>
+							<p> Het volgende commando zoekt naar pakketten die niet meer beschikbaar zijn in een actief apt repository en kan overbodige pakketten tonen. Hierbij kunnen ook handmatig geïnstalleerde pakketten getoond worden (apt-show-versions is een pakket dat niet standaard op alle systemen geïnstalleerd is). </p>
 
 <pre>
 $ apt-show-versions | awk '/No available version in archive/{print $1}'

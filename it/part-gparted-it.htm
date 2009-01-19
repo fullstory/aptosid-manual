@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.80.2008.01.10 -->
-<!-- menu last updated by bluewater 10/01/2009 10400 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.81.2008.01.19 -->
+<!-- menu last updated by bluewater 10/01/2009 1015 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="A sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Ricerca Online Offline</a> </li>
@@ -74,7 +74,7 @@
 		</li>
 		<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="cheatcodes-it.htm">Opzioni d'avvio</a>
 			<ul class="sub-menu" id="sm6">
-				<li><a href="cheatcodes-it.htm#cheatcodes">Opzioni d'avvio specifiche del liveCD sidux</a></li>
+				<li><a href="cheatcodes-it.htm#cheatcodes">Opzioni d'avvio specifiche del live ISO sidux</a></li>
 				<li><a href="cheatcodes-it.htm#cheatcodes-linux">Opzioni d'avvio generici di Linux</a></li>
 				<li><a href="cheatcodes-vga-it.htm#vga">Codici VGA</a></li>
 			</ul>
@@ -115,7 +115,8 @@
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="wm-kde-it.htm">Gestori di finestre</a>
 			<ul class="sub-menu" id="sm10">
-				<li><a href="wm-kde-it.htm#desk-freeze">Blocchi del desktop KDE</a></li>
+				<li><a href="wm-xfce-it.htm#xfce-notes">Useful Xfce extras</a></li>
+				<li><a href="wm-kde-it.htm#desk-freeze">Blocchi del desktop</a></li>
 				<li><a href="wm-kde-it.htm#kde-login">Impossibilità ad entrare in KDE</a></li>
 				<li><a href="wm-kde-it.htm#ch-th">Cambiare i temi</a></li>
 			</ul>
@@ -170,7 +171,7 @@
 				<li><a href="home-it.htm#home-bu">Spostare la directory "home"</a></li>
 				<li><a href="siduxcc-it.htm#siduxcc">Centro di controllo sidux</a></li>
 				<li><a href="sys-admin-apt-it.htm#apt-upgrade">Aggiornare un sistema installato - dist-upgrade</a></li>
-				<li><a href="sys-admin-upgrade-it.htm#live-cd-upgrade">Aggiornare un sistema attraverso il liveCD</a></li>
+				<li><a href="sys-admin-upgrade-it.htm#live-cd-upgrade">Aggiornare un sistema attraverso il live ISO</a></li>
 				<li><a href="sys-admin-kern-upg-it.htm#kern-upgrade">Aggiornare il kernel</a></li>
 				<li><a href="sys-admin-rdiff-it.htm#rdiff">Backup con rdiff</a></li>
 				<li><a href="sys-admin-rsync-it.htm#rsync">Backup con rsync</a></li>
@@ -192,78 +193,93 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="partition">
-		<h2 id="top-header">Partizionare il disco fisso con GParted</h2>
-			<h5><span class="highlight-2">ATTENZIONE: Per la denominazione</span><a href="part-uuid-it.htm"> fate riferimento alla sezione "UUID, Denominazione dischi e fstab" perchè sidux usa UUID in via predefinita</a></h5>
-		<p><b>Gli strumenti di partizionamento possono richiedere una password di root. Poiché in sidux non è impostata nessuna password premete semplicemente 'invio'. A questo riguardo leggete: <a href="live-mode-it.htm" >Live Mode</a></b></p>
+		<h2 id="top-header">Partitioning your HD using GParted</h2>
+			<h5><span class="highlight-2">WARNING: for disk naming</span><a href="part-uuid-en.htm"> Please refer to UUID, Partition Labelling and fstab, as by default sidux uses UUID</a></h5>
+
+			<h5>Partitioning tools may request a root password, type <span class="highlight-3">sux</span>. On a Live-ISO none is set just press 'enter' or type <span class="highlight-3">sux</span>. See: <a href="live-mode-en.htm" >Live Mode</a></h5>
 		
-		<h3>Nozioni basilari</h3>
-		<p>Una partizione deve avere un filesystem. Linux riconosce e può usare svariati filesystem. C'è il ReiserFS, Ext3, e per utente esperti XFS e JFS. Ext2 è pratico come formato di immagazzinamento dati perchè un driver windows è disponibile per il data-swapping.</p>
-		<p  class="highlight-2">Per il normale uso, sidux raccomanda il file system ext3 che è quello  predefinito e ben mantenuto.</p>
+					<h3>Basics</h3>
+							<p>A partition must have a filesystem. Linux knows different filesystems to use. Ext3 is the recommended format for sidux. ext2 is handy as a storage format as an MS Windows&#8482; driver is available for data-swapping.</p>
+
+							<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and well maintained.</p>
 		
-		<p>La versione di GParted qui trattata è la 0.3.1.1. Le seguenti informazioni sono state prese dalla documentazione ufficiale di GParted, modificate per diventare una guida all'uso di questo programma con sidux, e non dovrebbero essere viste o usate come guida definitiva. </p>
-		<p>Per la documentazione completa la trovate su sito di <a href="http://gparted.sourceforge.net">GParted</a></p>
+							<p>The following information has been taken from the GParted Official documentation and been modified to be a guide to using GParted within sidux, and should not be seen as a definitive guide. E&amp;OE</p>
+
+							<p>For full documentation see <a href="http://gparted.sourceforge.net">GParted</a></p>
 		
-		<h3>Uso di GParted</h3>
-		<p>Creare e gestire partizioni non è qualcosa che si fa tutti i giorni. Quindi sarebbe buona norma leggere questa guida almeno una volta per acquisire dimestichezza con i concetti e con le finestre che appaiono nell'uso del programma.</p>
+		<h2>Using GParted</h2>
+							<p>Creating and managing partitions is not something that is typically done every day. Therefore, a good idea is to read this guide once, to get comfortable with the concepts and some of the panels that will appear.</p>
 		
 		<ul>
 			<li>
-				<h3>Informazioni Generali</h3>
-				<p>Quando si avvia GParted appare una finestra e viene eseguita la scansione di tutti i dischi, anche su usb.</p>
+							<p>When GParted runs , a window is opened, and drives are scanned.</p>
 		
-				<p>Se cliccate sul tasto del menu, in alto a sinistra cala un menù a tendina dove potete scegliere di aggiornare l'elenco dei dischi rilevati nel vostro sistema. E'disponibile una scorciatoia di tastiera per compiere il suddetto aggiornamento. Con la seconda voce del menu potete scegliere il disco di cui volete modificare le partizioni. Questo è utile se avete più di un disco. La terza voce serve per avere più informazioni.</p>
+							<p>If you click the menu (at the top left), a pop down is presented. You can select to refresh the display of the drives on your system. As well, a keyboard shortcut is available to easily refresh the screen information. With the second choice, you can choose the hard drive whose partitions you want to modify. This is useful if you have more than one hard drive or wish to partition  external drives like a USB stick.</p>
 		
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-1a-en.png" alt="gparted" /></div>
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted02-en.png" alt="gparted" /></div>
 			</li>
 			<li>
-				<h3>Edit / Modifica</h3>
-				<p>Questa voce di menu apre una nuova finestra nella quale potete vedere i filesystems supportati ed alcune opzioni di modifica delle partizioni.</p>
-		
-				<p>Il menu 'edit' è il secondo da sinistra. Mostra due funzioni in grigio che sono pittosto utili: Annulla (Undo) e Applica (Apply) e permette inoltre di accedere/vedere altre aree. Queste opzioni possono essere viste:</p>
+				<h3>Edit</h3>
+							<p>The Edit menu has three greyed out functions which may be crucial for you:<br /> 
+							<span class="highlight-3">Undo last operations</span><br />
+							<span class="highlight-3">Apply</span><br />
+							<span class="highlight-3">Clear all operations</span>.</p>
+
 			</li>
 			<li>
-				<h3>View (Viste)</h3>
-				<ul>
-					<li>
-						<h4>Device Information (Informazioni sui Dispositivi)</h4>
-						<p><b>La voce "Harddisk Information"</b>  panel (pannello di informazioni sui dischi) mostra vari dettagli sul disco fisso come il modello, la dimensione ecc.. Questo pannello è utile soprattutto in un sistema con più dischi fissi le cui informazioni ci permettono di individuare correttamente il disco su cui vogliamo operare.</p>
-					</li>
-					<li>
-						<h4>Pending Operations / Operazioni pendenti</h4>
-						<p>In basso alla finestra c'è la lista delle operazioni pendenti. Può essere piuttosto utile sapere il numero di operazioni che rimangono da effettuare.</p>
-						<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-3c-en.png" alt="operation view" /></div>
+				<h3>View</h3>
+			<ul>
+				<li>
+					<h4>Device Information</h4>
+							<p>The <span class="highlight-3">Harddisk Information</span> panel displays details about the hard disk, such as Model, Size etc. This panel is most useful in a multi harddisk system, where the information is used to confirm that the hard disk being examined is the one that is wanted.</p>
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted03-en.png" alt="operation view" /></div>
+				</li>
+				<li>
+					<h4>Pending Operations</h4>
+							<p>At the footing window is a list of pending operations. The information is useful as it provides an indication of a number of pending operations.</p>
+
+
 					</li>
 				</ul>
 			</li>
 			<li>
-				<h3>Device / Dispositivi</h3>
-				<p>Questa voce vi permette di impostare un'etichetta per la partizione; se la corrente non è appropriata, potete cambiarla con questa opzione.</p>
+				<h3>Device</h3>
+							<p>Device allows you to Set a Disk label if the current disk label is inappropriate, you may change it using this option.</p>
 			</li>
 			<li>
 				<h3>Partition Menu</h3>
-				<p>Questo menu è della massima importanza. Vi permette molte operazioni, alcune delle quali pericolose.</p>
-				<p><b>Delete/Cancella</b> Se selezionate questa opzione, cancellate una partizione. Per eseguire una cancellazione dovete prima scegliere la partizione su cui volete operare.</p>
-				<p><b>Resize/Move - Ridimensiona/Muovi. </b>Altre funzioni piuttosto utili.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-5a-en.png" alt="partition" /></div>
+							<p>The menu is of utmost importance. It allows you to do multiple operations, some of which are dangerous.</p>
+
+							<p><span class="highlight-3">Delete</span> is selected if you want to delete a partition. To perform the delete, you must first select the partition.</p>
+
+							<p><span class="highlight-3">Resize/Move</span> allows you to rezize partitions.</p>
+
+
 			</li>
 			<li>
-				<h3>Creare una nuova partizione</h3>
-				<p>Sulla barra degli strumenti, il bottone <b>New - Nuova</b> vi permette di creare una nuova partizione, se avete già selezionato un'area non allocata. Appare una nuova finestra che vi lascia scegliere la dimensione, se volete una partizione primaria, estesa o logica, e il filesystem.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-1d-en.png" alt="file system" /></div>
+				<h3>Creating a new partition</h3>
+							<p>On the graphical toolbar, the <span class="highlight-3">New</span> button allows you to create a new partition, if you have already selected an unallocated area. A new window appears and lets you chose the size you want, whether it be a Primary, Extended or Logical partition and the file system.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted07-en.png" alt="file system" /></div>
 			</li>
 			<li>
-				<h3>Se fate un errore</h3>
-				<p>Se avete avete fatto un errore, con il tasto Delete/Cancella eliminate la partizione selezionata; oppure se non avete ancora eseguito (cliccando il tasto Apply/Applica), una impostazione precedente, potete usare il tasto undo/annulla per ritornare sulle decisioni prese.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-2b-en.png" alt="try to delete" /></div>
+				<h3>If you make a mistake</h3>
+							<p>If you have made a mistake you can use the Delete button to delete the chosen partition or if you haven't applied your decision to go ahead you can use the undo button.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted04-en.png" alt="delete" /></div>
 			</li>
 			<li>
-				<h3>Ridimensionare/Muovere</h3>
-				<p>Quando volete ridimensionare la partizione scelta premete il tasto <b>Resize/Move</b>: Nella nuova finestra che appare usate il mouse o le frecce per ridurre o aumentare la dimensione della partizione.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-3-en.png" alt="resize / move" /></div>
-				<p>Dopo la scelta della nuova dimensione premete 'Apply/Applica' perchè finché non lo premete nessuna operazione viene davvero eseguita sul disco fisso.</p>
-				<p>La durata dell'esecuzione dipende dalla nuova dimensione della partizione.</p>
+				<h3>Resizing/Move</h3>
+							<p>When you want to resize a partition you have selected, click <span class="highlight-3">Resize/Move</span> button: a new window pops up. Use the mouse to reduce (or grow) the partition or if you prefer, use the arrows.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted05-en.png" alt="resize / move" /></div>
+							<p>After the Resize command has been given, click on Apply as no operations are given to the hard disk until you click Apply</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted09-en.png" alt="operation view" /></div>
+
+							<p>The duration of the operations depends on the new size of the Partition.</p>
 					
-				<p><b>Dopo aver manipolato la tavola della partizioni uscite da sidux e riavviate il vostro sistema per fargli rileggere la nuova tavola delle partizioni.</b></p>
+							<p><span class="highlight-2">After manipulating the partition table please log out and reboot your system to allow sidux to reread the new partition table.</span></p>
 			</li>
 		</ul>
 
@@ -271,22 +287,21 @@
 	<div class="divider" id="ntfs">
 		<h2>Ridimensionare partizioni NTFS</h2>
 		
-		<p class="warning-box">Il ridimensionamento di una partizione NTFS richiede il riavvio del sistema! NON FATE NESSUNA OPERAZIONE SU QUESTA PARTIZIONE prima del riavvio oppure avrete degli errori.</p>
+							<p class="warning-box">Il ridimensionamento di una partizione NTFS richiede il riavvio del sistema! NON FATE NESSUNA OPERAZIONE SU QUESTA PARTIZIONE prima del riavvio oppure avrete degli errori.</p>
 		
-		<ul>
-			<li>Dopo il riavvio in M$ Windows, il sistema mostrerà una schermata speciale e un messaggio che riguarda la consistenza del disco: 'Checking file system on c'.</li>
+						<ul>
+							<li>Dopo il riavvio in M$ Windows, il sistema mostrerà una schermata speciale e un messaggio che riguarda la consistenza del disco: 'Checking file system on c'.</li>
 	
-			<li>Lasciate eseguire l'AUTOCHK perchè NT ha bisogno di controllare il proprio file system
-			dopo l'operazione di ridimensionamento.</li>
+							<li>Lasciate eseguire l'AUTOCHK perchè NT ha bisogno di controllare il proprio file system dopo l'operazione di ridimensionamento.</li>
 			
-			<li>Alla fine del processo il co,puter si ravvierà automaticamnte per la seeconda volta. Ciò assicura che le cose funzionino perfettamente.</li>
+							<li>Alla fine del processo il co,puter si ravvierà automaticamnte per la seeconda volta. Ciò assicura che le cose funzionino perfettamente.</li>
 			
-			<li>Dopo il riavvio Windows XP sarà a posto, ma aspettate che il sistema finisca di avviarsi, cioè fino alla finestra di autenticazione degli utenti!</li>
+							<li>Dopo il riavvio Windows XP sarà a posto, ma aspettate che il sistema finisca di avviarsi, cioè fino alla finestra di autenticazione degli utenti!</li>
 		</ul>
 		
-		<p><b>La documentazione completa di GParted</b>, completa anche riguardo al copiare le partizioni si trova su sito di <a href="http://gparted.sourceforge.net">GParted</a></p>
+							<p><b>La documentazione completa di GParted</b>, completa anche riguardo al copiare le partizioni si trova su sito di <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
-				<div id="rev">Content last revised UTC 27/07/2007 0100hrs</div>
+				<div id="rev">Content last revised 18/01/2009 0045hrs UTC</div>
 
 </div>
 </body>

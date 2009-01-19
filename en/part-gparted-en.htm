@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.80.2008.01.10 -->
-<!-- menu last updated by bluewater 10/01/2009 10400 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.81.2008.01.19 -->
+<!-- menu last updated by bluewater 10/01/2009 1015 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
@@ -58,8 +58,8 @@
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-en.htm">Live Mode</a>
 			<ul class="sub-menu" id="sm4">
-				<li><a href="live-mode-en.htm#rootpw">Root-password on the sidux-LiveCD</a></li>
-				<li><a href="live-mode-en.htm#live-cd-installsoft">Installing software whilst on a Live-CD</a></li>
+				<li><a href="live-mode-en.htm#rootpw">Root-password on the sidux-Live ISO</a></li>
+				<li><a href="live-mode-en.htm#live-cd-installsoft">Installing software whilst on a Live-ISO</a></li>
 				<li><a href="live-mode-en.htm#ntfs-3g">Writing on NTFS-partitions with ntfs-3g</a></li>
 			</ul>
 		</li>
@@ -74,7 +74,7 @@
 		</li>
 		<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="cheatcodes-en.htm">CheatCodes</a>
 			<ul class="sub-menu" id="sm6">
-				<li><a href="cheatcodes-en.htm#cheatcodes">sidux specific Live-CD Cheatcodes</a></li>
+				<li><a href="cheatcodes-en.htm#cheatcodes">sidux specific Live-ISO Cheatcodes</a></li>
 				<li><a href="cheatcodes-en.htm#cheatcodes-linux">Linux generic Cheatcodes</a></li>
 				<li><a href="cheatcodes-vga-en.htm#vga">VGA Codes</a></li>
 			</ul>
@@ -115,7 +115,9 @@
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="wm-kde-en.htm">Window Managers</a>
 			<ul class="sub-menu" id="sm10">
-				<li><a href="wm-kde-en.htm#desk-freeze">KDE Desktop Freezes</a></li>
+				<li><a href="wm-xfce-en.htm#xfce-notes">Useful Xfce extras</a></li>
+				<li><a href="wm-kde-en.htm#desk-freeze">Desktop Freezes</a></li>
+				<li><a href="wm-kde-en.htm#install-add">Useful extra KDE Apps</a></li>
 				<li><a href="wm-kde-en.htm#kde-login">Cant login in KDE</a></li>
 				<li><a href="wm-kde-en.htm#ch-th">Changing Themes</a></li>
 			</ul>
@@ -170,7 +172,7 @@
 				<li><a href="home-en.htm#home-bu">Moving /home</a></li>
 				<li><a href="siduxcc-en.htm#siduxcc">sidux Control Centre</a></li>
 				<li><a href="sys-admin-apt-en.htm#apt-upgrade">Upgrade an Installed System -  dist-upgrade</a></li>
-				<li><a href="sys-admin-upgrade-en.htm#live-cd-upgrade">Upgrading by Live-CD</a></li>
+				<li><a href="sys-admin-upgrade-en.htm#live-cd-upgrade">Upgrading by Live-ISO</a></li>
 				<li><a href="sys-admin-kern-upg-en.htm#kern-upgrade">Upgrading the kernel</a></li>
 				<li><a href="sys-admin-rdiff-en.htm#rdiff">Back-Up with rdiff</a></li>
 				<li><a href="sys-admin-rsync-en.htm#rsync">Back-Up with rsync</a></li>
@@ -192,78 +194,93 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="partition">
-		<h2 id="top-header">How to partition your HD (using GParted)</h2>
-			<h5><span class="highlight-2">WARNING: for disk naming</span><a href="part-uuid-en.htm"> Please refer to UUID, Partition Labelling and fstab, as by default sidux now uses UUID</a></h5>
-		<p><b>Partitioning tools may request a root password. As none is set just press 'enter', See: <a href="live-mode-en.htm" >Live Mode</a></b></p>
+		<h2 id="top-header">Partitioning your HD using GParted</h2>
+			<h5><span class="highlight-2">WARNING: for disk naming</span><a href="part-uuid-en.htm"> Please refer to UUID, Partition Labelling and fstab, as by default sidux uses UUID</a></h5>
+
+			<h5>Partitioning tools may request a root password, type <span class="highlight-3">sux</span>. On a Live-ISO none is set just press 'enter' or type <span class="highlight-3">sux</span>. See: <a href="live-mode-en.htm" >Live Mode</a></h5>
 		
-		<h3>Basics</h3>
-		<p>A partition must have a filesystem. Linux knows different filesystems to use. There is ReiserFS, Ext3, and for experienced users XFS and JFS. Ext2 is handy as a storage format since a windows driver is available for data-swapping.</p>
-		<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and well maintained.</p>
+					<h3>Basics</h3>
+							<p>A partition must have a filesystem. Linux knows different filesystems to use. Ext3 is the recommended format for sidux. ext2 is handy as a storage format as an MS Windows&#8482; driver is available for data-swapping.</p>
+
+							<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and well maintained.</p>
 		
-		<p>This version of GParted is 0.3.1.1. The following information has been taken from the GParted Official documentation and been modified to be a guide to using GParted within sidux, and should not be seen to be or used as a definitive guide. E&amp;OE</p>
-		<p>For full documentation see <a href="http://gparted.sourceforge.net">GParted</a></p>
+							<p>The following information has been taken from the GParted Official documentation and been modified to be a guide to using GParted within sidux, and should not be seen as a definitive guide. E&amp;OE</p>
+
+							<p>For full documentation see <a href="http://gparted.sourceforge.net">GParted</a></p>
 		
-		<h3>Using GParted</h3>
-		<p>Creating and managing partitions is not something that is typically done every day. Therefore, a good idea is to read this guide once, to get comfortable with the concepts and some of the panels that will appear.</p>
+		<h2>Using GParted</h2>
+							<p>Creating and managing partitions is not something that is typically done every day. Therefore, a good idea is to read this guide once, to get comfortable with the concepts and some of the panels that will appear.</p>
 		
 		<ul>
 			<li>
-				<h3>General Information</h3>
-				<p>When GParted runs , a window is opened, and drives are scanned.</p>
+							<p>When GParted runs , a window is opened, and drives are scanned.</p>
 		
-				<p>If you click the menu keyword (at the top left), a pop down is presented. You can select to refresh the display of the drives on your system. As well, a keyboard shortcut is available to easily refresh the screen information. With the second choice, you can choose the hard drive whose partitions you want to modify. This is useful if you have more than one hard drive. The third option under GParted menu keyword is used to obtain more information.</p>
+							<p>If you click the menu (at the top left), a pop down is presented. You can select to refresh the display of the drives on your system. As well, a keyboard shortcut is available to easily refresh the screen information. With the second choice, you can choose the hard drive whose partitions you want to modify. This is useful if you have more than one hard drive or wish to partition  external drives like a USB stick.</p>
 		
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-1a-en.png" alt="gparted" /></div>
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted02-en.png" alt="gparted" /></div>
 			</li>
 			<li>
 				<h3>Edit</h3>
-				<p>It opens a new window from which you can see the supported file systems and some partition editing options.</p>
-		
-				<p>The menu is second from the left. It shows two greyed out functions which are quite useful: Undo, and Apply and also allows you to access/view other areas. These options may also be seen:</p>
+							<p>The Edit menu has three greyed out functions which may be crucial for you:<br /> 
+							<span class="highlight-3">Undo last operations</span><br />
+							<span class="highlight-3">Apply</span><br />
+							<span class="highlight-3">Clear all operations</span>.</p>
+
 			</li>
 			<li>
 				<h3>View</h3>
-				<ul>
-					<li>
-						<h4>Device Information</h4>
-						<p>The <b>Harddisk Information</b> panel displays details about the hard disk, such as Model, Size etc. This panel is most useful in a multi harddisk system, where the information is used to confirm that the hard disk being examined is the one that is wanted.</p>
-					</li>
-					<li>
-						<h4>Pending Operations</h4>
-						<p>At the footing window is a list of pending operations. The information is useful as it provides an indication of the number of pending operations.</p>
-						<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-3c-en.png" alt="operation view" /></div>
+			<ul>
+				<li>
+					<h4>Device Information</h4>
+							<p>The <span class="highlight-3">Harddisk Information</span> panel displays details about the hard disk, such as Model, Size etc. This panel is most useful in a multi harddisk system, where the information is used to confirm that the hard disk being examined is the one that is wanted.</p>
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted03-en.png" alt="operation view" /></div>
+				</li>
+				<li>
+					<h4>Pending Operations</h4>
+							<p>At the footing window is a list of pending operations. The information is useful as it provides an indication of a number of pending operations.</p>
+
+
 					</li>
 				</ul>
 			</li>
 			<li>
 				<h3>Device</h3>
-				<p>Device allows you to Set a Disk label if the current disk label is inappropriate, you may change it using this option.</p>
+							<p>Device allows you to Set a Disk label if the current disk label is inappropriate, you may change it using this option.</p>
 			</li>
 			<li>
 				<h3>Partition Menu</h3>
-				<p>The menu is of utmost importance. It allows you to do many operations, some of which are dangerous.</p>
-				<p><b>Delete</b> is selected if you want to delete a partition. To perform the delete, you must first select the partition.</p>
-				<p><b>Resize/Move</b> is a useful function.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-1-main-5a-en.png" alt="partition" /></div>
+							<p>The menu is of utmost importance. It allows you to do multiple operations, some of which are dangerous.</p>
+
+							<p><span class="highlight-3">Delete</span> is selected if you want to delete a partition. To perform the delete, you must first select the partition.</p>
+
+							<p><span class="highlight-3">Resize/Move</span> allows you to rezize partitions.</p>
+
+
 			</li>
 			<li>
 				<h3>Creating a new partition</h3>
-				<p>On the toolbar, the <b>New</b> button allows you to create a new partition, if you have already selected an unallocated area. A new window appears and lets you chose the size you want, whether it be a Primary, Extended or Logical partition and the file system.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-1d-en.png" alt="file system" /></div>
+							<p>On the graphical toolbar, the <span class="highlight-3">New</span> button allows you to create a new partition, if you have already selected an unallocated area. A new window appears and lets you chose the size you want, whether it be a Primary, Extended or Logical partition and the file system.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted07-en.png" alt="file system" /></div>
 			</li>
 			<li>
 				<h3>If you make a mistake</h3>
-				<p>If you have made a mistake you can use the Delete button to delete the chosen partition or if you haven't applied your decision to go ahead you can use the undo button.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-2b-en.png" alt="try to delete" /></div>
+							<p>If you have made a mistake you can use the Delete button to delete the chosen partition or if you haven't applied your decision to go ahead you can use the undo button.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted04-en.png" alt="delete" /></div>
 			</li>
 			<li>
 				<h3>Resizing/Move</h3>
-				<p>When you want to resize a partition you have selected, click <b>Resize/Move</b> button: a new window pops up. Use the mouse to reduce (or grow) the partition or if you prefer, use the arrows.</p>
-				<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted-2-main-3-en.png" alt="resize / move" /></div>
-				<p>After the Resize command has been given, click on Apply as no operations are given to the hard disk until you click Apply</p>
-				<p>The duration of the operations depends on the new size of the Partition.</p>
+							<p>When you want to resize a partition you have selected, click <span class="highlight-3">Resize/Move</span> button: a new window pops up. Use the mouse to reduce (or grow) the partition or if you prefer, use the arrows.</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted05-en.png" alt="resize / move" /></div>
+							<p>After the Resize command has been given, click on Apply as no operations are given to the hard disk until you click Apply</p>
+
+		<div class="screenshot"><img src="../lib/images-en/gparted-en/gparted09-en.png" alt="operation view" /></div>
+
+							<p>The duration of the operations depends on the new size of the Partition.</p>
 					
-				<p><b>After manipulating the partition table please log out of sidux and&nbsp;reboot your system into sidux to reread the new partition table.</b></p>
+							<p><span class="highlight-2">After manipulating the partition table please log out and reboot your system to allow sidux to reread the new partition table.</span></p>
 			</li>
 		</ul>
 
@@ -271,27 +288,21 @@
 	<div class="divider" id="ntfs">
 		<h2>NTFS partition Resizing</h2>
 		
-		<p class="warning-box">Resizing the NTFS partition will require you to reboot the system! DON'T DO any other operations on this partition before the reboot,
-		otherwise you will get errors.</p>
+							<p class="warning-box">Resizing the NTFS partition will require you to reboot the system! DON'T DO any other operations on this partition before the reboot, otherwise you will get errors.</p>
 		
-		<ul>
-			<li>After the boot-up on M$ Windows,
-			the system will show a special screen, and a message
-			asking about drive consistency : Checking file system on c :</li>
+						<ul>
+							<li>After the boot-up on MS Windows&#8482; the system will show a special screen, and a message asking about drive consistency : Checking file system on c :</li>
 	
-			<li>Let the AUTOCHK run: NT needs to check its file system
-			after the resize operation.</li>
+							<li>Let the AUTOCHK run: NT needs to check its file system after the resize operation.</li>
 			
-			<li>At the end of the process, the computer will automatically restart
-			for the second time. This ensures that things run perfectly.</li>
+							<li>At the end of the process, the computer will automatically restart for the second time. This ensures that things run perfectly.</li>
 			
-			<li>After restart, Windows XP will be okay, but you must
-			let the system finish the boot and wait for the login screen!</li>
-		</ul>
+							<li>After restart, Windows XP will be okay, but you must let the system finish the boot and wait for the login screen!</li>
+						</ul>
 		
-		<p><b>Full GParted documentation: </b>To read the full documentation including, How-To copy partitions please go to <a href="http://gparted.sourceforge.net">GParted</a></p>
+							<p><b>Full GParted documentation: </b>To read the full documentation including, How-To copy partitions please go to <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
-				<div id="rev">Content last revised UTC 27/07/2007 0100hrs</div>
+				<div id="rev">Content last revised 18/01/2009 0045hrs UTC</div>
 
 </div>
 </body>

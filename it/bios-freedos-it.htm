@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- last translation by alessiog75 on 11/11/2008 2310 UTC -->
+<!-- last translation by alessiog75 on 02/02/2009 1610 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.82.2008.01.21 -->
-<!-- menu last updated by alessiog75 on 19/01/2009 18.50 UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
+<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="A sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Ricerca Online Offline</a> </li>
@@ -147,8 +147,6 @@
 				<li><a href="ssh-it.htm#ssh-w">SSH X-forwarding da un PC Windows</a></li>
 				<li><a href="ssh-it.htm#ssh">SSH e sicurezza</a></li>
 				<li><a href="internet-connecting-it.htm#dial-mod">Modem 56k</a></li>
-				<li><a href="internet-connecting-ndis-it.htm#ndiswrapper-basic">Attivare ndiswrapper</a></li>
-				<li><a href="internet-connecting-ndis-it.htm#ndiswrapper-advanced">Attivare ndiswrapper - Avanzato</a></li>
 				<li><a href="internet-connecting-wpagui-it.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-it.htm#wpa-basic">WiFi - guida base per il setup</a></li>
 				<li><a href="internet-connecting-wpa-it.htm#wpa">WiFi - wpasupplicant</a></li>
@@ -198,7 +196,7 @@
 
 		<h2 id="top-header">Aggiornare il BIOS con FreeDOS</h2>
 
-							<p>Si potrebbe avere intenzione o necessità di aggiornare il BIOS del PC, quando il costruttore della scheda madre  annuncia importanti miglioramenti al BIOS. Il programma che viene fornito per l'aggiornamento del BIOS generalmente funziona sotto MS-DOS.</p>
+							<p>Si potrebbe avere intenzione o necessità di aggiornare il BIOS del PC, quando il costruttore della scheda madre  annuncia alcuni miglioramenti al BIOS. Il programma che viene fornito per l'aggiornamento del BIOS generalmente funziona sotto MS-DOS.</p>
 
 							<p>Questo che segue è un modo per aggiornare il BIOS via USB da linux. Funzionerà con chiavette USB e con schede micro/mini/SD cards (mediante un adattatore).</p>
 
@@ -216,9 +214,9 @@
 
 				<h6><span class="highlight-2">Questo è di importanza fondamentale: in nessun modo la chiavetta USB deve essere montata. Fare attenzione a selezionare la periferica corretta, altrimenti tutti i dati nel disco selezionato sbagliato saranno cancellati senza avviso, as es. l'hard disk principale.</span></h6>
 
-							<p>Inserire la chiavetta USB, <span class="highlight-2">ricordarsi di non montarla</span>. Controllare dmesg (gli ultimi messaggi se si è appena inserita), a quale device node è stata assegnata la chiavetta USB, per esempio <span class="highlight-3">/dev/sdb</span>.</p>
+							<p>Inserire la chiavetta USB, <span class="highlight-2">ricordarsi di non montarla</span>. Controllare dmesg (gli ultimi messaggi se si è appena inserita), quale nome di periferica è stato assegnato alla chiavetta USB, per esempio <span class="highlight-3">/dev/sdb</span>.</p>
 
-							<p>Ripulire la chiavetta USB (<span class="highlight-3">tutti i dati saranno persi</span>), si può ripulire tutta invece che soltanto i primi 16 MB.</p>
+							<p>Ripulire la chiavetta USB, <span class="highlight-3">tutti i dati saranno persi</span>, si può ripulire tutta invece che soltanto i primi 16 MB.</p>
 
 
 <pre>
@@ -234,7 +232,7 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 
 							<p>Selezionare la partizione su FAT16, su chiavette &lt;2 GB (offre maggiore compatibilità).</p>
 
-							<p>fdisk sulla partizione:</p>
+							<p>Eseguire fdisk sulla partizione:</p>
 <pre>
 # fdisk /dev/sdb
 fdisk /dev/sdb
@@ -245,7 +243,7 @@ After that, of course, the previous content won't be recoverable.
 
 Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
 </pre>
-							<p>Creare una partizione:</p>
+							<p>Adesso creare una partizione:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>n</b></span>
 Command action
@@ -344,7 +342,7 @@ exit
 
 					<h3>Avviare FreeDOS con qemu</h3>
 
-							<p>Dal momento che il DOS non ha idea di cosa sia una chiavetta USB, bisogna trovare un sistema per ingannare il programma di installazione di FreeDOS e fargli riconoscere l'USB come un normale hard disk, nell'avvio live, il BIOS di sistema lo fa per noi ma qui bisogna essere fantasiosi con qemu:</p>
+							<p>Dal momento che il DOS non ha idea di cosa sia una chiavetta USB, bisogna trovare un sistema per ingannare il programma di installazione di FreeDOS e fargli riconoscere la periferica USB come un normale hard disk, nell'avvio live, il BIOS di sistema lo fa per noi ma qui bisogna essere fantasiosi con qemu:</p>
 <pre>
 come utente ($):
 qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
@@ -359,7 +357,7 @@ qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
 enter
 </pre>
 	<div class="spacer02"></div>
-							<p>Mantenere la scelta di default <span class="highlight-3">1</span> e/o scegliere <span class="highlight-3">Yes</span> quando richiesto.</p>
+							<p>Mantenere la scelta di default, <span class="highlight-3">1</span>, e/o scegliere <span class="highlight-3">Yes</span> quando richiesto.</p>
 
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot02.jpg" alt="freedos-inst1" /></div>
@@ -386,22 +384,24 @@ enter
 <pre>
 fdisk /mbr 1
 </pre>
-							<p>Il secondo errore che deve essere corretto è il menù d'avvio in fdconfig.sys, fare:</p>
+							<p>Il secondo errore che deve essere corretto è il menù d'avvio in fdconfig.sys, eseguire:</p>
 <pre>
 cd \
 edit fdconfig.sys
 </pre>
-							<p>e cambiare la linea di partenza di command.com in:</p>
+							<p>e cambiare la linea che avvia command.com in:</p>
 <pre>
 1234?SHELLHIGH=C:\FDOS\command.com C:\FDOS /D /P=C:\fdauto.bat /K set
+
 (non va cambiato questo comando, basta aggiungere "1234?" all'inizio della linea (prima di SHELLHIGH==C:\FDOS\command.com .....
+
 NOTA è da leggere: <span class="highlight-3">1234?</span>
 </pre>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot23.jpg" alt="fdconfig.sys" /></div>
 	<div class="spacer02"></div>
 							<p><span class="highlight-2">Non cambiare altro dal momento che la linea dipende dal setup dell'installazione.</span></p>
 
-							<p>Salvarlo ed uscire da "edit":</p>
+							<p>Salvare ed uscire da "edit":</p>
 <pre>
 [alt]+[f]
 </pre>
@@ -411,12 +411,12 @@ NOTA è da leggere: <span class="highlight-3">1234?</span>
 <pre>
 qemu -hda /dev/sdb -boot c
 </pre>
- 							<p>La chiavetta adesso è avviabile e contiene una installazione completa di FreeDOS di 5.4 MB. Bisogna avviare senza nessun driver <span class="highlight-3">(opzione menu: 4), caricare himem.sys e emm386 può interferire con il programma che scrive il BIOS!</span> :</p>
+ 							<p>La chiavetta adesso è avviabile e contiene una installazione completa di FreeDOS di 5.4 MB, per l'aggiornamento. Bisogna avviare senza nessun driver <span class="highlight-3">(opzione menu: 4), caricare himem.sys e emm386 può interferire con il programma che scrive il BIOS!</span> :</p>
 
 				<h3>Aggiornare il BIOS</h3>
 							<p>Assumendo che il PC sia acceso, inserire la chiavetta USB con FreeDOS, montarla e scaricare i file del BIOS necessari, come raccomandato dal produttore dela scheda madre, nella chiavetta USB, quindi smontarla.</p>
 
-							<p>Spegnere il PC, inserire la chiavetta USB con FreeDOS, accendere, adesso avviare dalla chiavetta USB e seguire le procedure del produttore della scheda madre.</p>
+							<p>Spegnere il PC, inserire la chiavetta USB con FreeDOS, accendere, avviare dalla chiavetta USB e seguire le procedure del produttore della scheda madre/BIOS.</p>
 
 
 

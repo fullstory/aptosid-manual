@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Manuais do sidux - Gerenciadores de Boot</title>
+	<title>Manuais do sidux - Gerenciadores de Boot (RO)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti 02/10/2008 1001 UTC -->
+<!-- Last translation revision by ceti 06/02/2009 1009 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.82.2008.01.21 -->
-<!-- menu last updated by bluewater 10/01/2009 1015 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
+<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -147,8 +147,6 @@
 				<li><a href="ssh-pt-br.htm#ssh-w">Acesso remoto SSH a partir do Windows</a></li>
 				<li><a href="ssh-pt-br.htm#ssh">SSH e segurança</a></li>
 				<li><a href="internet-connecting-pt-br.htm#dial-mod">Modems discados</a></li>
-				<li><a href="internet-connecting-ndis-pt-br.htm#ndiswrapper-basic">Ativando o ndiswrapper</a></li>
-				<li><a href="internet-connecting-ndis-pt-br.htm#ndiswrapper-advanced">Ativando o ndiswrapper -  avançado</a></li>
 				<li><a href="internet-connecting-wpagui-pt-br.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-pt-br.htm#wpa-basic">WiFi - guia básico de configuração</a></li>
 				<li><a href="internet-connecting-wpa-pt-br.htm#wpa">WiFi - wpasupplicant</a></li>
@@ -355,13 +353,17 @@ mount /dev/sdb1 /media/sdb1
 	<div class="divider" id="remove-grub">
 		<h2>Como remover o GRUB da MBR</h2>
 
-<p>É muito simples, basta digitar como root:</p>
-<pre>lilo -M /dev/hda -s /dev/null</pre>
+							<p>Instale mbr, uma ferramenta de recuperação do sistema:</p>
+<pre>
+apt-get update
+apt-get install mbr
+apt-get remove --purge lilo 
+man install-mbr
+</pre>
 
-			<p>em um terminal.</p>
 	</div>
 	<div class="divider" id="what-is-grub">
-		<h2>GRUB, o Gerenciador de Boot - o que é isto?</h2>
+		<h2>GRUB, o gerenciador de boot - o que é isto?</h2>
 
 			<h3>Geral</h3>
 <pre>
@@ -388,7 +390,7 @@ grub-install --root-directory=/media/hdaX /dev/hdY
 
 							<p><span class="highlight-2">NOTA: </span><span class="highlight-3">hda</span> está em processo de extinção, portanto comece a substituir <span class="highlight-3">hda </span>por <span class="highlight-3">sda</span> a partir do kernel 2.6.22 e seguintes.</p>
 
-		<p>O GRUB não diferencia HDs SCSI de HDs IDE. (hd0) é sempre o primeiro HD que, por sua vez, é sempre o primeiro na seqüência de boot (isso é configurado na BIOS), independentemente de ser SCSI ou IDE. Já o método de numeração é singular: a primeira partição no primeiro HD é (hd0,0). Partições primárias são numeradas de 0 a 3, partições lógicas de 4 para cima.</p>
+		<p>O GRUB não diferencia HDs SCSI de HDs IDE. (hd0) é sempre o primeiro HD que, por sua vez, é sempre o primeiro na sequência de boot (isso é configurado na BIOS), independentemente de ser SCSI ou IDE. Já o método de numeração é singular: a primeira partição no primeiro HD é (hd0,0). Partições primárias são numeradas de 0 a 3, partições lógicas de 4 para cima.</p>
 
 		<table>
 			<tbody>
@@ -465,7 +467,7 @@ Filesystem type is fat, partition type 0xb"
 							<p>Depois que o kernel ou initrd (ou miniroot.gz) tiverem sido encontrados, você pode iniciar o sistema com "boot".</p>
 
 
-				<h3>Modo de Edição</h3>
+				<h3>Modo de edição</h3>
 
 							<p>Este modo permite a você fazer alterações no arquivo enquanto o sistema é carregado. Isto funciona mesmo quando o Grub é rodado do LiveCD e o 'menu.lst' é protegido contra escrita. Primeiro, pressione ESC, confirme com Return/Enter e pressione "e". Adicione os parâmetros no final da linha (ou no meio delas, usando as setas direcionais).</p>
 
@@ -675,7 +677,7 @@ initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 </pre>
 
 
-							<p>Algumas pessoas necessitam/desejam diversas instalações do MS Windows (TM). O MS Windows (TM) quer sempre ser iniciado no disco 1. Teremos de esconder uma partição e ativar outra. Os seguintes comandos devem ser digitados na Linha de Comando do GRUB e, se der certo, copiados para o arquivo /boot/grub/menu.lst. Isso tem de ser feito para todas as partições Windows. Não se esqueça de fazer cópia de seus dados:</p>
+							<p>Algumas pessoas desejam/necessitam de diversas instalações do MS Windows (TM). O MS Windows (TM) quer sempre ser iniciado no disco 1. Teremos de esconder uma partição e ativar outra. Os seguintes comandos devem ser digitados na Linha de Comando do GRUB e, se der certo, copiados para o arquivo /boot/grub/menu.lst. Isso tem de ser feito para todas as partições Windows. Não se esqueça de fazer cópia de seus dados:</p>
 
 <pre>hide (hd0,0) # esconde partição 1 do HD 1
 unhide (hd0,1) # torna visível partição 2 do HD 1
@@ -692,9 +694,9 @@ map (hd1) (hd0)
 </pre>
 
 
-					<h3>Advertências Finais</h3>
+					<h3>Advertências finais</h3>
 
-							<p>Como o Grub não tem a barreira dos 1024 cilindros e pode, com isso, dar boot em sistemas acima desses 1024 cilindros, o "/boot/grub/stage2" tem de estar acessível para a BIOS (tem de ficar antes dos 1024 cilindros). O Stage2 não pode ser movido depois da instalação (o Defrag, p.ex., pode tentar fazer isso). Dados de configuração serão escritos e perderão a coerência com a realidade. Por tudo isso, o ideal é fazer o 'stage2' somente-leitura (read-only). Você precisar estar no diretório corrente:</p>
+							<p>Como o Grub não tem a barreira dos 1024 cilindros e pode, com isso, dar boot em sistemas acima desses 1024 cilindros, o "/boot/grub/stage2" tem de estar acessível para a BIOS (tem de ficar antes dos 1024 cilindros). O Stage2 não pode ser movido depois da instalação (o Defrag, p.ex., pode tentar fazer isso). Dados de configuração serão escritos e perderão a coerência com a realidade. Por tudo isso, o ideal é fazer o 'stage2' somente-leitura (read-only). Você precisa estar no diretório corrente:</p>
 
 <pre>
 Dos: attrib +r +s stage2
@@ -708,10 +710,10 @@ LINUX: # chmod a -w ./stage2
 
 							<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">Página oficial das FAQs do GRUB</a>.</p>
 
-							<p>Se sua uma placa de rede funcionar bem no Linux, o Grub pode dar boot através da rede.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Um Disco de Boot pode ser obtido aqui (apesar de ser usada uma versão antiga do Grub)</a>.</p>
+							<p>Se sua placa de rede funcionar bem no Linux, o Grub pode dar boot através da rede.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Um Disco de Boot pode ser obtido aqui (apesar de ser usada uma versão antiga do Grub)</a>.</p>
 				
 	</div>
-	<div id="rev">Content last revised 13/09/2008 1200 UTC</div>
+	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
 
 
 </div>

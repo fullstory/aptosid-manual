@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 09/01/2008 0700 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.82.2008.01.21 -->
-<!-- menu last updated by bluewater 10/01/2009 1015 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
+<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
@@ -147,8 +147,6 @@
 				<li><a href="ssh-en.htm#ssh-w">SSH X-Forwarding from Windows-PC</a></li>
 				<li><a href="ssh-en.htm#ssh">SSH and Security</a></li>
 				<li><a href="internet-connecting-en.htm#dial-mod">56k Modems</a></li>
-				<li><a href="internet-connecting-ndis-en.htm#ndiswrapper-basic">Activating Ndiswrapper</a></li>
-				<li><a href="internet-connecting-ndis-en.htm#ndiswrapper-advanced">Activating Ndiswrapper -  Advanced</a></li>
 				<li><a href="internet-connecting-wpagui-en.htm#wpa-roaming-gui">WiFi - roaming WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-en.htm#wpa-basic">WiFi - Basic setup guide</a></li>
 				<li><a href="internet-connecting-wpa-en.htm#wpa">WiFi - wpasupplicant</a></li>
@@ -355,10 +353,14 @@ mount /dev/sdb1 /media/sdb1
 	<div class="divider" id="remove-grub">
 		<h2>Removing grub from MBR</h2>
 
-<p>It's very simple: as root enter</p>
-<pre>lilo -M /dev/hda -s /dev/null</pre>
+							<p>Install the system recovery tool mbr:</p>
+<pre>
+apt-get update
+apt-get install mbr
+apt-get remove --purge lilo 
+man install-mbr
+</pre>
 
-			<p>in a terminal.</p>
 	</div>
 	<div class="divider" id="what-is-grub">
 		<h2>GRUB the Boot Manager - what it is</h2>
@@ -369,9 +371,9 @@ mount /dev/sdb1 /media/sdb1
 and the line
 initrd (hd0.x)/sidux/miniroot.gz
 has changed to:
-initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
+initrd		/boot/initrd.img-2.6.xx.x-slh-x-sidux-xx</span>
 </pre>
-							<p>Grub is a boot manager that can boot operating systems from different partitions. Grub does not rely on block lists to find the needed files for a system to start up, and it can read a bunch of file-systems by default: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix and many others.</p>
+							<p>Grub is a boot manager that can boot operating systems from different partitions. Grub does not rely on block lists to find the needed files for a system to start up, and it can read many file-systems by default: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix and many others.</p>
 
 							<p>Grub knows BIOS-extensions (meaning it can boot partitions above 8 GByte!) and has no 1024-cylinder-barrier. Grub doesn't really care, where the kernel physically resides, all it needs is the declaration of the partition and the path to the kernel it's supposed to boot (this can even be a symlink). After a change in the configuration (i.e. the menu.lst) it doesn't need a program-call like Lilo does, the new configuration is applied at next boot.</p>
 
@@ -712,7 +714,7 @@ LINUX: # chmod a -w ./stage2
 				
 	</div>
 			
-	<div id="rev">Content last revised 13/09/2008 1200 UTC</div>
+	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
 
 
 </div>

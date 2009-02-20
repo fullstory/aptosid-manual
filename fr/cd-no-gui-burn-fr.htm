@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by LjanA 03/02/2008 1100 UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and alphad-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-fr.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Rechercher Online Offline</a> </li>
@@ -45,7 +45,7 @@
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-fr.htm">ISO Releases</a>
 			<ul class="sub-menu" id="sm2">
 				<li><a href="cd-content-fr.htm#cd-content">ISO and system requirements</a></li>
-				<li><a href="sys-admin-release-fr.htm#rolling">Rolling Notes</a></li>
+				<li><a href="sys-admin-release-fr.htm#rolling">Release Notes</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-fr.htm">Télécharger et graver le ISO</a>
@@ -55,7 +55,8 @@
 				<li><a href="cd-dl-burning-fr.htm#burn-nero">Graver sous Windows</a></li>
 				<li><a href="cd-dl-burning-fr.htm#burn-linux">Graver sous Linux</a></li>
 				<li><a href="cd-dl-burning-fr.htm#xdelta">Patcher avec xdelta</a></li>
-				<li><a href="cd-no-gui-burn-fr.htm#burning-no-gui">Graver depuis la console</a></li>
+				<li><a href="cd-no-gui-burn-fr.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-fr.htm#burning-no-gen">Graver depuis la console</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-fr.htm">Mode Live</a>
@@ -203,7 +204,26 @@
 
 							<p>Les soucis de gravure se produisent souvent avec l'interface  (k3b), plus rarement avec les outils qu'elle pilote (growisofs, wodim or cdrdao).</p>
 
-		<h3>Quels matériels utiliser</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
+
+
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>What devices to use, as $user:</h2>
 
 							<p>Pour les périphériques ATAPI ceci se résoud avec:</p>
 
@@ -212,8 +232,8 @@
 $ wodim --devices
 wodim: Vue d'ensemble des périphériques accessibles (2 trouvés) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
  </pre>
 							<p>Other alternatives are:</p>
@@ -229,7 +249,7 @@ $ wodim -prcap
 
 		<h5>Info sur un CD/DVD vierge:</h5>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 		<p>ou</p>
 
@@ -239,7 +259,7 @@ $ cdrdao disk-info --device ATA:1,0,0
 
 		<h5>Effacer un disque réinscriptible:</h5>
 <pre>
-$ wodim -blank=fast -v dev=/dev/hdc
+$ wodim -blank=fast -v dev=/dev/scd0
 </pre>
 		<p>ou</p>
 <pre>
@@ -258,7 +278,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 		<h5>Graver un CD-Audio à partir de fichiers .wav en 12x:</h5>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 		<h5>Graver un cd à partir de fichiers bin/cue:</h5>
@@ -268,7 +288,16 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 
 		<h5>Graver une image ISO:</h5>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v quelquechose.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v quelquechose.iso
+</pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
 		<h5>Créer une image ISO à partir des sous-dossiers et fichiers contenus dans un répertoire.</h5>
@@ -297,7 +326,7 @@ $ growisofs -M /dev/dvd -R -J unautrefichier encoreunautrefichier...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Actualisation du 24/07/2008 1340 UTC</div>
+			<div id="rev">Actualisation du 18/02/2009 0800 UTC</div>
 </div>
 </body>
 

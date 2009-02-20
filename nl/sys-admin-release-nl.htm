@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by HarzG 03/01/2009 1730 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-nl.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Zoeken Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-nl.htm#burn-nero">Branden in Windows</a></li>
 				<li><a href="cd-dl-burning-nl.htm#burn-linux">Branden in Linux</a></li>
 				<li><a href="cd-dl-burning-nl.htm#xdelta">xdelta patches</a></li>
-				<li><a href="cd-no-gui-burn-nl.htm#burning-no-gui">Branden zonder GUI</a></li>
+				<li><a href="cd-no-gui-burn-nl.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-nl.htm#burning-no-gen">Branden zonder GUI</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-nl.htm">Live-ISO modus</a>
@@ -197,100 +198,56 @@
 
 							<p>sidux probeert zo goed mogelijk een weg te bereiden voor rolling dist-upgrade als het gaat om de eigen pakketten van debian en sidux. Een paar dingen vragen een handmatige aanpassing. </p>
 
-							<p><span class="highlight-3">Deze pagina wordt geactualiseerd na elke release, de actuele release is Pontos.</span></p>
+							<p><span class="highlight-3">Deze pagina geeft een samenvatting van de Release Notes en zal alleen geupdate worden bij een nieuwe release. Lees de volledige Release Notes op <a href="http://sidux.com">sidux.com</a> of op de Live ISO</span> of install sidux-releasenotes.</p>
+
+		<h2>Release notities voor Ouranos 2009-01</h2>
+							<p>Ouranos concentreerd zich op de integratie van de wijzigingen veroorzaakt door kernel 2.6.28, stabiliseren van init optimisaties bewerkstelligd door insserv en in het bijzonder het verbeteren van de betrouwbaarheid van de installer en de USB installers.</p>
+
+							<p>Kernel 2.6.28 verbeterd en stabiliseerd niet alleen de hardware ondersteuning van nieuwe apparatuur, het implementeerd ook I/O scheduler ondersteuning voor SSDs om de prioriteit van de disktoegang en snelheid te verbeteren.</p>
+
+							<p>Een andere grote bewerkstelling is het gebruikmaken van de opensource <a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF</a> firmware voor Broadcom draadloze apparatuur, de volgende worden standaard ondersteund BCM4306, BCM4311/1, BCM4318 en BCM4320 devices en maakt installatie van proprietary componenten door b43-fwcutter optioneel.</p>
+
+							<p>Sinds Pontos, maakt sidux gebruik van &quot;insserv&quot; voor het herordenen en optimaliseren van sysv initscripts die gebruikt tijdens het systeem boot, dit verbeterd niet alleen de opstarttijd , maar ook maakt ook het makkelijk de-/ activeren van bepaalde initscripts die gebruikmaken van standaard tools. Verder is er werk verzet voor het verbeteren van de setup en het oplossen van enkele kleine fouten die hier betrekking op hadden.</p>
+
+							<p>Zoals gewoonlijk zijn er een groot aantal individuele functionaliteiten ,verbeteringen en bugfixes toegepast voor de gehele pakketenlijst en sidux' eigen pakketten, dit om ge algemene distributie infrastructurr te verbeteren.</p>
+
+							<p>Although this release happens in close temporal proximity to the Debian 5.0 &quot;Lenny&quot; release, it is still based on Debian sid as of this day and is not meant or suited as an alternative way to install &quot;Lenny&quot;. Many security sensitive packages in sidux (Debian sid) already sport a higher version number than their corresponding package in &quot;Lenny&quot; or are even uninstallable in a &quot;Lenny&quot; context.</p>
+
+				<h6>sidux after the &quot;Lenny freeze&quot;</h6>
+
+							<p>Given that there are a number of high impact changes (KDE4, X.org 7.4/ evdev) staging in experimental and just waiting for the freeze to be lifted, the following 2-3 weeks might be slightly more vibrant and potentially less coordinated than usual in regards to package updates from Debian, therefore we recommend a little caution during dist-upgrades.</p>
+
+							<p>This might involve checking for eventual upgrade warnings on <a href="http://sidux.com">sidux.com</a> or to wait a few hours if KDE4 or X.org are among the upgrading packages for experiences from advanced users.</p>
+
+							<p>Please be aware that it is harder to react in time, now that Debian employs four mirror pushes a day.<br />
+							Users who are already using unsupported KDE4 packages from Debian/ experimental or other sources, might be surprised that the final KDE4 packages heading to sid will most likely use ~/.kde/ for their configuration data again, instead of ~/.kde4/.Manual changes are likely to be required in these cases.</p>
+
+		<h3>Non-free hardware drivers</h3>
+							<p> Refer to <a href="hw-dev-hw-dri-nl.htm#non-free">Hardware needing non-free drivers</a> </p>
 				
-				<h3>sidux beveiligingadvies / bescherming van $HOME</h3>
-							<p>Tijdens de actualisatie van de sidux installer werd een beveiligingsprobleem (local privilege escalation) ontdekt, omdat een kopie van het tijdelijke configuratiebestand achterbleef op het nieuw geïnstalleerde system. Dat configuratiebestand bevat de salted MD5 password hashes voor root en de eerste user account (UID 1000) en is door locale users leesbaar. Hoewel deze passwords niet direct openbaar zijn, kan het configuratiebestand misbruikt worden bij een brute force attack. </p>
-
-				<h4>Releases waar het probleem voorkomt:</h4>
-						<ul>
-							<li>2007-01 Chaos</li>
-							<li>2007-02 Tartaros</li>
-							<li>2007-03/ 2007-03.1 Gaia</li>
-							<li>2007-04/ 2007-04.5 Eros</li>
-							<li>2008-01 Nyx</li>
-							<li>2008-02 Erebos</li>
-							<li>2008-03 Ourea</li>
-						</ul>
-
-				<h4>Correctie:</h4>
-<pre>
-find /root /home -maxdepth 2 -type f -name '.sidconf*' -delete
-</pre>
-
-							<p> Vooral bij multi-user systemen wordt geadviseerd om de passwords voor root en de eesrte user (UID 1000) te veranderen. Dat kan gedaan worden met "passwd" als root/ user. De oorzaak voor het probleem werd gevonden en hierdoor komt het bij sidux 2008-04 Pontos niet meer voor. </p>
-
-							<p> Debian maakt de home directories aan met 0751 rechten (access permissions), sidux wijkt hiervan af en gebruikt 0700 rechten voor nieuwe installaties. </p>
-
-<pre>
-sed -i 's/^DIR_MODE=.*/DIR_MODE=0700/' /etc/adduser.conf
-dpkg-reconfigure adduser
-(vermijden van "system-wide leesbare home directories")
-</pre>
-				
-				
-				<h3>ALSA OSS compatibiliteitslayer</h3>
-							<p> Vanaf de alsa-driver 1.0.17.dfsg-3 worden de OSS compatibility modules niet meer automatisch geladen. Hoewel dat meestal voor moderne Linux systemen geen probleem is, vereisen sommige commerciële of legacy applicaties nog OSS support. Omdat ALSA's in-kernel emulatie voor OSS beperkingen heeft (geen software based mixing, hierdoor kan slechts 1 applicatie /dev/dsp gebruiken), genieten ALSA compatibele applicaties de voorkeur. Maar als OSS compatibiliteit nodig is, zijn twee alternativen beschikbaar: </p>
-				<ul>
-							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss maakt deel uit van het alsa-oss pakket en kan "wrap around" legacy applicaties. De OSS oproepen woorden door "transparently mapping" van OSS ABI naar ALSA gestuurd. Hierdoor kunnen de meeste ALSA functies gebruikt worden. </li>
-
-							<li> <strong>in-kernel ALSA emulatie</strong><br /> regelt een betere binary compatibiliteit (/dev/dsp, /dev/audio en  /dev/mixer device nodes worden gecreëerd). Maar hiermee is geen software based mixing mogelijk en er kan maar 1 sound applicatie gebruikt worden. </li>
-				</ul>
-
-							<p> Voor de meeste applicaties die hiermee te maken hebben,  wordt geadviseerd deze via  &quot;aoss &lt;program&gt;&quot; te starten om de voordelen van software based mixing en gelijktijdige toegang tot de sound hardware te gebruiken. Maar in sommige situaties waar de in-kernel OSS compatibiliteitslayer nodig is, kan deze geactiveerd worden door de snd-pcm-oss, snd-mixer-oss en snd-seq-midi modules te laden. </p>
-
-<pre>
-for i in snd-pcm-oss snd-mixer-oss snd-seq-midi; do
-	grep -q "^${i}" /etc/modules  || echo "${i}" &gt;&gt; /etc/modules
-	grep -q "^${i}" /proc/modules || modprobe "${i}"
-done
-</pre>
-				
-				<h3>Broadcom b43 wlan</h3>
-							<p> Kernels &gt;2.6.25 benodigen firmware versies &ge;4.150.10.5 (internal revision &quot;410.2160 (2007-05-26 15:32:10)&quot;) van de Broadcom firmware. Oudere kernels (tot kernel 2.6.24) benodigen 4.80.53.0 (internal revision &quot;351.126 (2006-07-29 05:54:02)&quot;) die geïnstalleerd werd bij oudere b43-fwcutter versies. b43-fwcutter kan geen upgrade van geïnstalleerde firmware images maken, de upgrade moet handmatig geïnstalleerd worden. </p>
-
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
-				
-				<h3>console-setup</h3>
-							<p> De console keymaps worden nu met  &quot;console-setup&quot; geïnstalleerd. </p>
-<pre>
-apt-get install console-setup
-dpkg-reconfigure console-setup
-</pre>
+		<h3>Hints for Upgraders:</h3>
 				
 				<h3>gspca2</h3>
 							<p> In kernel 2.6.27 zit de nieuwe (v4l2 based) gspca2 driver. Deze vervangt de oudere v4l1 based externe gspca driver, die voor een groot aantal webcams in gebruik is. Helaas gebruiken de meeste userspace programma's nog niet de nieuwe v4l2 API voor devices die voorheen met gspca gebruikt werden. Voorlopig is het nodig om deze programma's met  &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot; te starten. </p>
 <pre>
 apt-get update
 apt-get install libv4l-0
-
-AS USER
+</pre>
+							<p><span class="highlight-3">Then as $user</span></p>
+<pre>
 $ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;
 </pre>
-				
-				<h3>insserv</h3>
-						<h6>insserv bij geïnstalleerde systemen vóór Pontos 2008-04</h6>
-
-							<p> <span class="highlight-3">LET OP: Oudere installaties worden niet automatisch van insserv voorzien, vanwege de  users eigen initscripts of symlinks. Het wordt NIET geadviseerd om insserv te gebruiken bij installaties vóór Pontos. Dit pakket dient met voorzichtigheid gebruikt te worden, omdat incorrecte of ontbrekende LSB afhankelijkheden van bestaande initscripts tot een unbootable systeem kunnen leiden. Voor de installatie van insserv bij bestaande systemen zijn soms handmatige aanpassingen nodig. </span></p>
-
-							<p><span class="highlight-3">Lees <a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> de Debian documentatie opmerkingen </a> en de release notes vóórdat insserv geïnstalleerd en geactiveerd wordt.</span></p>
 
 <!-- -->	
 				<h3>Overbodige pakketten</h3>
 							<p> Als gevolg van de verdere ontikkeling van sidux is een aantal pakketten vervangen door betere alternatieven of werd overbodig. </p>
 						<ul>
-							<li>capi-isdnconf, overbodig.</li>
-							<li>configure-xawtv, overbodig.</li>
-							<li>gprsconnect, vervangen door umtsmon.</li>
-							<li>ipw2100-firmware, vervangen door firmware-ipw2x00.</li>
-							<li>ipw2200-firmware, vervangen door firmware-ipw2x00.</li>
-							<li>modemlink, vervangen door umtsmon en wvdial.</li>
-							<li>ppp-scripts, vervangen door umtsmon.</li>
+							<li>
+							siduxcc-hermes-kde3<br />
+							The KDE3 variant of hermes is not compatible with the upcoming KDE4 and crashes due to incompatibilites with drkonqi, given that KDE 4.2 is merely days away, siduxcc-hermes-kde3 has been dropped from the &quot;siduxcc&quot; package.<br />
+							<br />
+							Users of its functionality might want to install &quot;sidux-hermes-qt4&quot; or &quot;sidux-hermes-gtk2&quot; instead, which are both compatible with KDE3 and KDE4.
+							</li>
 						</ul>
 
 							<p> Het volgende commando zoekt naar pakketten die niet meer beschikbaar zijn in een actief apt repository en kan overbodige pakketten tonen. Hierbij kunnen ook handmatig geïnstalleerde pakketten getoond worden (apt-show-versions is een pakket dat niet standaard op alle systemen geïnstalleerd is). </p>
@@ -302,7 +259,7 @@ $ apt-show-versions | awk '/No available version in archive/{print $1}'
 
 	</div>
 
-			<div id="rev">Inhoud het laatst gewijzigd op 27/12/2008 0233 UTC </div>
+			<div id="rev">Inhoud het laatst gewijzigd op 15/02/2008 0345 UTC </div>
 
 </div>
 </body>

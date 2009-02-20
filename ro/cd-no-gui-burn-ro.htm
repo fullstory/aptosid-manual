@@ -19,8 +19,8 @@
 <body id="cd">
 <!-- Last file translation revision qq 25/06/2008 0900 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana, speedygeo-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC trans update Adriana 11-02-2009 07:00hrs UTC-->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="La pagina sidux.com forums şi wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ro.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Caută Manualul" alt="Caută" /> Caută Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-ro.htm#burn-nero">Scrierea în Windows</a></li>
 				<li><a href="cd-dl-burning-ro.htm#burn-linux">Scrierea în Linux</a></li>
 				<li><a href="cd-dl-burning-ro.htm#xdelta">Adăugirile xdelta (Patching)</a></li>
-				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gui">Scrierea ISO -ului fără GUI (interfaţă grafică)</a></li>
+				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gen">Scrierea ISO -ului fără GUI (interfaţă grafică)</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ro.htm">Modul "Live"</a>
@@ -203,7 +204,26 @@
 
 							<p>Probleme la scriere se întâmplă mai ales când se folosesc programe de ultimă generaţie (k3b) şi mai puţine cu programe mai vechi  (growisofs, wodim ori cdrdao).</p>
 
-				<h3>Ce dispozitiv să folosim</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
+
+
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>What devices to use, as $user:</h2>
 
 							<p>în ce priveşte dispozitivele ATAPI  putem afla cu :</p>
 
@@ -212,8 +232,8 @@
 $  wodim --devices
 wodim: Overview of accessible drives (2 found) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
  </pre>
 							<p>Other alternatives are:</p>
@@ -229,7 +249,7 @@ $ wodim -prcap
 
 					<h5>Informaţii despre un blank CD/DVD:</h5>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 							<p>sau</p>
 <pre>
@@ -242,7 +262,7 @@ cdrdao disk-info --device ATA:1,0,0 )
 
 					<h5>Ştergerea unui disc reinscriptibil :</h5>
 <pre>
-$  wodim -blank=fast -v dev=/dev/hdc
+$  wodim -blank=fast -v dev=/dev/scd0
 </pre>
 							<p>sau</p>
 <pre>
@@ -261,7 +281,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 					<h5>Crearea unui CD audio din fişiere wav la viteza 12X :</h5>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 					<h5>Scrierea unui CD din fişiere bin/cue :</h5>
@@ -271,7 +291,16 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 
 					<h5>Scrierea unei imagini ISO :</h5>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=10 -dao -eject -overburn -v something.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=10 -dao -eject -overburn -v something.iso
+</pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
 					<h5>Crearea unei imagini ISO cu toate fişierele (şi subdirectorii )unui director .</h5>
@@ -301,7 +330,7 @@ $ growisofs -M /dev/dvd -R -J fișierX   fișierY
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Page last revised 24/07/2008 1340 UTC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC</div>
 </div>
 </body>
 </html>

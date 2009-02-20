@@ -19,8 +19,8 @@
 <body id="cd">
 <!-- Last translation revision by muchan 12/Oct/2008 2153 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ja.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> サーチ Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-ja.htm#burn-nero">WindowsでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#burn-linux">LinuxでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#xdelta">xdeltaパッチング</a></li>
-				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">GUIなしでISOを焼くには</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gen">GUIなしでISOを焼くには</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ja.htm">Live Mode</a>
@@ -215,10 +216,26 @@
 		#### -->
 		<p>CDの書き込みの際のトラブルはフロントエンド側(K3b)で起こるものがほとんどで、バックエンド側(growisofs, wodim, cdrdaoといったプログラム)で起こることは滅多にありません。</p>
 
-		<!--- ####
-		<h3>What devices to use</h3>
-		#### -->
-		<h3>デバイス名</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
+
+
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>What devices to use, as $user:</h2>
 
 		<!--- ####
 		<p>For ATAPI devices we can find out with:</p>
@@ -314,6 +331,15 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 <pre>
 $ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
 
 		<!--- ####
 		<h5>Create an ISO image with all files (and subdirs) of a directory.</h5>
@@ -360,7 +386,7 @@ $ growisofs -M /dev/dvd -R -J anotherfile andanotherfile...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Page last revised 24/07/2008 1340 UTC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC</div>
 </div>
 </body>
 </html>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by RoEn 16/01/2009 2120 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ru.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Пойск в руководстве" alt="Search" />Варианты пойска</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
 				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
-				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Запись ISO-образа в консоли</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ru.htm">Режим ISO-образа</a>
@@ -268,21 +269,6 @@ $ fw-detect
 					</li>
 
 					<li>
-						Безпроводные карты с чипсетами Atheros:
-<pre>
-применение: ath5k/ath9k 
-удалить madwifi как root 
-apt-get remove --purge madwifi-tools 
-иначе ath5k/ath9k заблокирован madwifi
-потом
-modprobe -r ath5k
-modprobe ath5k 
-или 
-modprobe ath9k
-</pre>
-					</li>
-
-					<li>
 						Безпроводные 11 MБит/сек карты Atmel AT76c50x:<br />
 <pre>
 apt-get install atmel-firmware
@@ -290,19 +276,13 @@ apt-get install atmel-firmware
 					</li>
 
 					<li>
-						Безпроводные b43/legacy карты Broadcom:<br />
+						Broadcom, b43/ b43legacy wlan:<br />
+						While this shouldn't be required for most 802.11b/g wlan cards anymore, the proprietary firmware gets preferred by b43, in case it is installed.
 <pre>
 apt-get install b43-fwcutter
 </pre>
 					</li>
-					<li>
-						Безпроводные b43 карты Broadcom (upgrades from kernels before 2.6.26):<br />
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
+
 					<li>
 						Микропрограммное обеспечение для bluetooth чипсетое Broadcom Blutonium (BCM2033):<br />
 <pre>
@@ -313,11 +293,6 @@ apt-get install bluez-firmware
 					<li>
 						Вебкэмы на базе Vision's CPiA2:<br />
 						Скачивайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/cpia2/</span>.
-					</li>
-
-					<li>
-						Вебкэмы Ricoh R5U870 OEM:<br />
-						Скачивайте микропрограммное обеспечение с <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> и сохраните <span class="highlight-3">r5u870_*.fw</span> в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -378,15 +353,19 @@ apt-get install firmware-iwlwifi
 
 					<li>
 
-						Безпроводные draft-n карты Intel ipw4965/iwlwifi:<br />
+						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
 					</li>
 
 					<li>
-						Безпроводные карты Intel ipw5xxx/iwlwifi:<br />
-						Скачивайте микропрограммное обеспечение с <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
+						Безпроводные карты Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
+						
+<pre>
+apt-get install firmware-iwlwifi
+</pre>
+						As at 2009-02-14, firmware-iwlwifi does not cover ipw5xxx yet, fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -508,7 +487,7 @@ exit #команда для выхода из консоли
 							<p>И еще раз наше предупреждение: <i>Этот метод действия упомянут исключительно для ситуаций, в которых нет никаких других альтернативных решений. Для ежедневного использования этот метод действий не рекомендуется!</i></p>
 </div>
 		
-		<div id="rev">Содержание, последнее пересмотрено 13/01/2009 0100 UTC </div>
+		<div id="rev">Содержание, последнее пересмотрено 17/02/2009 0100 UTC </div>
 </div>
 </div>
 </body>

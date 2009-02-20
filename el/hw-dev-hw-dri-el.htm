@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by edhunter 04/08/2008 2140 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-el.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Αναζήτηση Online - Offline </a> </li>
@@ -54,7 +54,8 @@
  				<li><a href="cd-dl-burning-el.htm#burn-nero">Γράφοντας το ISO στα Windows</a></li>
 				<li><a href="cd-dl-burning-el.htm#burn-linux">Γράφοντας το ISO στο Linux</a></li>
 				<li><a href="cd-dl-burning-el.htm#xdelta">Patching με το xdelta</a></li>
-				<li><a href="cd-no-gui-burn-el.htm#burning-no-gui">Εγγραφή χωρίς γραφικό περιβάλλον</a></li>
+				<li><a href="cd-no-gui-burn-el.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-el.htm#burning-no-gen">Εγγραφή χωρίς γραφικό περιβάλλον</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-el.htm">Live Mode</a>
@@ -294,19 +295,6 @@ $ fw-detect
 					</li>
 
 					<li>
-						Atheros wlan:
-<pre>
-Χρησημοποιείστε: ath5k/ ath9k 
-ως υπέρ-χρήστης ΑΦΑΙΡΕΣΤΕ το madwifi
-apt-get remove --purge madwifi-tools 
-αν δεν το κάνετε αυτό το madwifi θα κάνει blacklist τις ath5k / ath9k
-then
-modprobe -r ath5k
-modprobe ath5k OR ath9k
-</pre>
-					</li>
-
-					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
 apt-get install atmel-firmware
@@ -314,19 +302,13 @@ apt-get install atmel-firmware
 					</li>
 
 					<li>
-						Broadcom, b43/legacy wlan:<br />
+						Broadcom, b43/ b43legacy wlan:<br />
+						Αν και αυτό δεν χρειάζεται πλέον για τις περισσότερες 802.11b/g wlan κάρτες, η b43 προτιμάει το κλειστού κώδικα firmware σε περίπτωση που είναι εγκατεστημένο.
 <pre>
 apt-get install b43-fwcutter
 </pre>
 					</li>
-					<li>
-						Broadcom, b43 wlan (για αναβαθμίσεις από πυρήνες πριν του 2.6.26):<br />
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
+
 					<li>
 						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
 <pre>
@@ -337,11 +319,6 @@ apt-get install bluez-firmware
 					<li>
 						Cameras βασισμένες στο CPiA2 της Vision:<br />
 						πάρτε το firmware από <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/cpia2/</span>.
-					</li>
-
-					<li>
-						Ricoh R5U870 OEM webcams:<br />
-						πάρτε το firmware από <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> και αντιγράψτε τα <span class="highlight-3">r5u870_*.fw</span> αρχεία στο <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -409,8 +386,11 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
-						Intel ipw5xxx/ iwlwifi:<br />
-						πάρτε το firmware από <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
+						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
+<pre>
+apt-get install firmware-iwlwifi
+</pre>
+						Κατά την διάρκεια γραφής του παρόντος (2009-02-14), το firmware-iwlwifi δεν καλύπτει ακόμη την ipw5xxx, πάρτε το firmware από <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> και βάλτε το μέσα στο <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -535,7 +515,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Τώρα η NTFS-κατάτμηση θα πρέπει να είναι προσαρτημένη (mounted) <b>rw</b> και θα πρέπει να μπορείτε να αποθηκεύσετε τα δεδομένα σας σε αυτή. Αλλά ξανά προ ειδοποιήστε  <span class="highlight-3">Χρησιμοποιήστε το σε επείγουσες καταστάσεις, δεν συνιστάται για χρήση επί καθημερινής βάσεως.</span></p>
 
 		</div>	
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 13/01/2009 0100 UTC </div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 17/02/2009 0100 UTC </div>
 
 </div>
 </body>

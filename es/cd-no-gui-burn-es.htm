@@ -19,8 +19,8 @@
 <body id="cd">
 <!-- Last translation revision by Richard 24/09/2008 1230 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsqueda En-línea y Fuera</a> </li>
@@ -55,13 +55,14 @@
 				<li><a href="cd-dl-burning-es.htm#burn-nero">Quemar en Windows</a></li>
 				<li><a href="cd-dl-burning-es.htm#burn-linux">Quemar en Linux</a></li>
 				<li><a href="cd-dl-burning-es.htm#xdelta">Parches con xdelta</a></li>
-				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">Quemar sin GUI</a></li>
+				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-es.htm#burning-no-gen">Quemar sin GUI</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-es.htm">Live ISO: el modo en Vivo</a>
+		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-es.htm">LiveCD: el modo en Vivo</a>
 			<ul class="sub-menu" id="sm4">
-				<li><a href="live-mode-es.htm#rootpw">Clave raíz del Live ISO</a></li>
-				<li><a href="live-mode-es.htm#live-cd-installsoft">Instalar Software con el Live ISO</a></li>
+				<li><a href="live-mode-es.htm#rootpw">Clave raíz del LiveCd</a></li>
+				<li><a href="live-mode-es.htm#live-cd-installsoft">Instalar Software con el LiveCD</a></li>
 				<li><a href="live-mode-es.htm#ntfs-3g">ntfs-3g: Escribir en Particiones NTFS</a></li>
 			</ul>
 		</li>
@@ -172,7 +173,7 @@
 				<li><a href="home-es.htm#home-bu">Mudando el /home</a></li>
 				<li><a href="siduxcc-es.htm#siduxcc">Centro de Control de sidux</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar Sistema Instalado: dist-upgrade</a></li>
-				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con Live- ISO</a></li>
+				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveCD</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
 				<li><a href="sys-admin-rdiff-es.htm#rdiff">Respaldar con rdiff</a></li>
 				<li><a href="sys-admin-rsync-es.htm#rsync">Respaldar con rsync</a></li>
@@ -199,9 +200,29 @@
 	<div class="spacer02"></div>
 		
 							<p>Si desea quemar un CD / DVD, no es necesario un GUI para hacerlo.</p>
+
 							<p>Los problemas quemando mayormente ocurre con el frontend (k3b, nautilus, arson) no tanto con el backend (growisofs, wodim o cdrdao).</p>
 
-					<h3>¿Cual dispositivos a utilizar?</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
+
+
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>What devices to use, as $user:</h2>
 
 							<p>Para dispositivos ATAPI podemos averiguar:</p>
 
@@ -210,8 +231,8 @@
 $ wodim --devices
 wodim: Sobrevista de drives acesibles (2 encontrado) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
  </pre>
 							<p>Otras alternativas son:</p>
@@ -227,7 +248,7 @@ $ wodim -prcap
 
 					<h5>Info sobre un CD/DVD en blanco:</h5>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 							<p>ó</p>
 <pre>
@@ -240,7 +261,7 @@ cdrdao disk-info --device ATA:1,0,0 )
 
 					<h5>Borrar un disco re-escribible:</h5>
 <pre>
-$ wodim -blank=fast -v dev=/dev/hdc
+$ wodim -blank=fast -v dev=/dev/scd0
 </pre>
 							<p>ó</p>
 <pre>
@@ -259,7 +280,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 					<h5>Crear un CD de audio desde archivos wav, con velocidad 12x:</h5>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 					<h5>Quemar un CD desde archivos bin/cue:</h5>
@@ -269,7 +290,16 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 
 					<h5>Quemar un imagen ISO:</h5>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
 					<h5>Crear un imagen ISO con todos los archivos (y subdirectorios) de un directorio.</h5>
@@ -298,7 +328,7 @@ $ growisofs -M /dev/dvd -R -J otro archivo y otro archivo...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Page last revised 24/07/2008 1340 UTC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC</div>
 </div>
 </body>
 </html>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by muchan 11/01/2009 1241 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ja.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> サーチ Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-ja.htm#burn-nero">WindowsでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#burn-linux">LinuxでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#xdelta">xdeltaパッチング</a></li>
-				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">GUIなしでISOを焼くには</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gen">GUIなしでISOを焼くには</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ja.htm">Live Mode</a>
@@ -198,149 +199,52 @@
 <!--- ####
 							<p> sidux tries hard to provide seamless rolling dist-upgrade path for debian and sidux' own packages, nevertheless a few things remain that could be improved with manual interaction. </p>
 #### -->
-								<p> sidux は Debian と sidux独自のパッケージの Dist-upgrade によって、再インストールを必要としない円滑なローリングリリースを提供するよう努力していますが、それでもいくつか自動化できずにユーザーの手を借りないとできないことも起こります。 </p>
+							<p> sidux は Debian と sidux独自のパッケージの Dist-upgrade によって、再インストールを必要としない円滑なローリングリリースを提供するよう努力していますが、それでもいくつか自動化できずにユーザーの手を借りないとできないことも起こります。 </p>
 
-<!--- ####
-							<p><span class="highlight-3">This page will only be updated after each release. Current release Pontos.</span></p>
-#### -->
-							<p><span class="highlight-3">このページは sidux の新しいリリースごとに旧リリースをローリングアップデートするユーザーのために書き換えられます。現在のリリースはコードネーム Pontos です。</span></p>
+							<p><span class="highlight-3">This page is a summary of the Release Notes and will only be updated after each release. Read the full Release Notes on <a href="http://sidux.com">sidux.com</a> or the Live ISO</span> or install sidux-releasenotes.</p>
+
+		<h2>Release notes for Ouranos 2009-01</h2>
+							<p>Ouranos concentrates on integrating the changes caused by kernel 2.6.28, stabilising the init optimisations accomplished by insserv and in particular improving the reliability of the installer and the USB installers.</p>
+
+							<p>Kernel 2.6.28 doesn't only improve and stabilise hardware support for newer devices, it also adapts the I/O scheduler support for SSDs in order to improve prioritisation of disk accesses and to speed these up.</p>
+
+							<p>Another major accomplishment is the deployment of the opensource <a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF</a> firmware for Broadcom wireless devices, which now supports BCM4306, BCM4311/1, BCM4318 and BCM4320 devices on default and makes installation of proprietary components through b43-fwcutter optional.</p>
+
+							<p>Since Pontos, sidux is using &quot;insserv&quot; to reorder and optimise the sysv initscripts used during the system boot, this doesn't only improve the boot times, but also allows easier de-/ activating of particular initscripts using standard tools. Further efforts have gone into improving this setup and to fix a few minor bugs in regards to it.</p>
+
+							<p>As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and sidux' own packages, in order to improve the general distribution infrastructure.</p>
+
+							<p>Although this release happens in close temporal proximity to the Debian 5.0 &quot;Lenny&quot; release, it is still based on Debian sid as of this day and is not meant or suited as an alternative way to install &quot;Lenny&quot;. Many security sensitive packages in sidux (Debian sid) already sport a higher version number than their corresponding package in &quot;Lenny&quot; or are even uninstallable in a &quot;Lenny&quot; context.</p>
+
+				<h6>sidux after the &quot;Lenny freeze&quot;</h6>
+
+							<p>Given that there are a number of high impact changes (KDE4, X.org 7.4/ evdev) staging in experimental and just waiting for the freeze to be lifted, the following 2-3 weeks might be slightly more vibrant and potentially less coordinated than usual in regards to package updates from Debian, therefore we recommend a little caution during dist-upgrades.</p>
+
+							<p>This might involve checking for eventual upgrade warnings on <a href="http://sidux.com">sidux.com</a> or to wait a few hours if KDE4 or X.org are among the upgrading packages for experiences from advanced users.</p>
+
+							<p>Please be aware that it is harder to react in time, now that Debian employs four mirror pushes a day.<br />
+							Users who are already using unsupported KDE4 packages from Debian/ experimental or other sources, might be surprised that the final KDE4 packages heading to sid will most likely use ~/.kde/ for their configuration data again, instead of ~/.kde4/.Manual changes are likely to be required in these cases.</p>
+
+		<h3>Non-free hardware drivers</h3>
+							<p> Refer to <a href="hw-dev-hw-dri-ja.htm#non-free">Hardware needing non-free drivers</a> </p>
 				
-<!--- ####
-				<h3>sidux security advisory/ lock down $HOME</h3>
-#### -->
-				<h3> 安全のためのアドバイス</h3>
-<!--- ####
-							<p> While refactoring the sidux installer, a potential local privilege escalation issue has been discovered, which leaves a copy of the installer's configuration file on the target system. This configuration file also contains the salted MD5 password hashes for root and the first user account (UID 1000) and remains readable for local users. While this does not reveal these passwords directly, it can be used for a brute force attack against them. </p>
-#### -->
-							<p> sidux インストーラの改良作業の際に、ユーザー権能の乱用に利用されかねない、安全上の欠陥、HDへのインストーラの設定ファイルのうち、インストール先の新しいrootと、デフォルトのユーザー(UID 1000)のパスワードのMD5暗号化された文字列が書き込まれたものがインストール後にも残っているのが発見されました。 この文字列はパスワードそのものというわけではありませんが、パスワードを破るためのブルートフォース攻撃に利用される可能性のあるものです。 </p>
-
-<!--- ####
-				<h4>Affected releases:</h4>
-#### -->
-				<h4>問題のあるリリース:</h4>
-						<ul>
-							<li>2007-01 Χάος (Chaos)</li>
-							<li>2007-02 Τάρταρς (Tartaros)</li>
-							<li>2007-03/ 2007-03.1 Γάια (Gaia)</li>
-							<li>2007-04/ 2007-04.5 Έρως (Eros)</li>
-							<li>2008-01 Νυξ (Nyx)</li>
-							<li>2008-02 Έρεβος (Erebos)</li>
-							<li>2008-03 Ουρέα (Ourea)</li>
-						</ul>
-
-<!--- ####
-				<h4>Fix:</h4>
-#### -->
-				<h4>修正コマンド:</h4>
-<pre>
-find /root /home -maxdepth 2 -type f -name '.sidconf*' -delete
-</pre>
-
-<!--- ####
-							<p> Especially on multi-user systems, it is recommended to change the passwords for root and the first user (UID 1000) as well, this can be done using "passwd" as root/ user. The cause for this issue has been found and sidux 2008-04 &quot;Πόντος&quot; is not affected. </p>
-#### -->
-							<p> とくに複数のユーザーが使うシステムでは、念のためrootと、(UIDが1000である)最初のユーザーのパスワードを変更することを勧めます。rootおよびそユーザーとして、"passed" のコマンドで変更できます。この問題の原因は発見されているため、sidux 2008-04 &quot;Πόντος&quot; には問題ありません。</p>
-
-<!--- ####
-							<p> Debian creates home directories with 0751 access permissions, sidux diverges from this default and enforces 0700 for new installs. </p>
-#### -->
-							<p> Debian はホームディレクトリを 0751 のアクセス許可で作成しますが、sidux の新規インストールでは 0700 をデフォルトに設定しています。</p>
-
-<pre>
-sed -i 's/^DIR_MODE=.*/DIR_MODE=0700/' /etc/adduser.conf
-dpkg-reconfigure adduser
-(denies "system-wide readable home directories")
-</pre>
-				
-				
-<!--- ####
-				<h3>ALSA OSS compatibility layer</h3>
-#### -->
-				<h3>ALSA の OSS コンパチブルレイヤー</h3>
-<!--- ####
-							<p> Starting with alsa-driver 1.0.17.dfsg-3, the OSS compatibility modules are not loaded on default anymore. While this shouldn't impose any problems on modern linux systems, some commercial- or legacy applications might still require OSS support. Given that ALSA's in-kernel emulation for OSS is rather limited (no software based mixing, so there can only be one application accessing /dev/dsp at once), ALSA compatible applications should be preferred instead, but if OSS compatibility is required there are two alternatives available: </p>
-#### -->
-							<p> alsa-driver のバージョン1.0.17.dfsg-3以降、OSS コンパチビリティモジュールはデフォルトでロードされなくなりました。新しい Linux システムでは何も問題がありませんが、古いソフトウェアや、商業的なアプリケーションには今でも OSS サポートを要求するものがあります。カーネル内蔵の ALSA エミュレーションは限られているため、(ソフトウェアベースのミキシングがないため一つのアプリケーションだけしか /dev/dsp にアクセスできないことなど) ALSA コンパチブルなアプリケーションを使うことが望ましいですが、どうしても OSS コンパチブルのソフトをつかわないといけないと困る場合、２つの方法があります。</p>
-				<ul>
-<!--- ####
-							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss is part of the alsa-oss package and can wrap around legacy applications to trap into OSS calls by transparently mapping the OSS ABI on ALSA; this usually allows to take advantage of most ALSA features. </li>
-#### -->
-							<li> <strong>aoss wrapper</strong><br /> /usr/bin/aoss は alsa-oss パッケージに含まれていて、古いアプリケーションの OSSコールをラップして OSS ABI をALSAに透明に中継します。この方法で通常 ALSA の利点をいかすことができます。</li>
-
-<!--- ####
-							<li> <strong>in-kernel ALSA emulation</strong><br /> better binary compatibility (emulated /dev/dsp, /dev/audio and /dev/mixer device nodes are created), but this allows no software based mixing, so there can only be one sound application active at the same time. </li>
-#### -->
-							<li> <strong>カーネル内蔵 ALSA エミュレーション</strong><br /> バイナリーコンパチビリティはこちらのほうが優れています。(/dev/dsp がエミュレートされているため, /dev/audio と /dev/mixer のデバイスが作られます), ただこの方法ではソフトウェアベースのミキシングはできないため、ただ一つのアプリケーションの音声しか有効になりません。 </li>
-				</ul>
-
-<!--- ####
-							<p> For most applications it is preferred to start the affected applications with &quot;aoss &lt;program&gt;&quot; to keep the advantages of software based mixing and concurrent access to the sound hardware, but there might be rare cases which require the in-kernel OSS compatibility layer. This can be activated, if needed, by loading the snd-pcm-oss, snd-mixer-oss and snd-seq-midi modules. </p>
-#### -->
-							<p> たいていのアプリケーションはソフトウェアベースのミキシングとハードウェアへの同時アクセスのできるよう &quot;aoss &lt;program&gt;&quot; で起動するほうがいいですが、まれにカーネル内蔵コンパチブルレイヤーを使わないといけないケースがあります。これが必要なときは snd-pcm-oss、 snd-mixer-oss とsnd-seq-midi のモジュールを次のコマンドでロードします。 </p>
-
-<pre>
-for i in snd-pcm-oss snd-mixer-oss snd-seq-midi; do
-	grep -q "^${i}" /etc/modules  || echo "${i}" &gt;&gt; /etc/modules
-	grep -q "^${i}" /proc/modules || modprobe "${i}"
-done
-</pre>
-				
-				<h3>Broadcom b43 wlan</h3>
-<!--- ####
-							<p> Kernels &gt;2.6.25 require firmware revisions &ge;4.150.10.5 (internal revision &quot;410.2160 (2007-05-26 15:32:10)&quot;) of the Broadcom firmware, while older ones (up to kernel 2.6.24) required 4.80.53.0 (internal revision &quot;351.126 (2006-07-29 05:54:02)&quot;), which has been installed by older b43-fwcutter revisions. b43-fwcutter cannot upgrade existing firmware images on its own, so upgrading needs manual intervention. </p>
-#### -->
-							<p> 2.6.25 以降のカーネルは、4.150.10.5 以降の Broadcom ファームウェアレビジョン (内部バージョン &quot;410.2160 (2007-05-26 15:32:10)&quot;) が必要です。以前の (2.6.24までの) カーネルは以前の b43-fwcutter がインストールした 4.80.53.0 (内部バージョン&quot;351.126 (2006-07-29 05:54:02)&quot;)を使っていました。b43-fwcutter は自動的にファームウェアをアップデートできないため、次のように手動でアップデートする必要があります。</p>
-
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
-				
-<!--- ####
-				<h3>console-setup</h3>
-#### -->
-				<h3>コンソール設定</h3>
-<!--- ####
-							<p> The console keymaps are now handled by &quot;console-setup&quot;. </p>
-#### -->
-							<p> コンソールのキーマップは&quot;console-setup&quot; で行います。 </p>
-<pre>
-apt-get install console-setup
-dpkg-reconfigure console-setup
-</pre>
-				
+		<h3>Hints for Upgraders:</h3>
+					
 				<h3>gspca2</h3>
 <!--- ####
-							<p> Kernel 2.6.27 ships with the new v4l2 based gspca2 driver, which replaces the old v4l1 based external gspca driver, which is needed for a large number of different webcams. Unfortunately most userspace programs are not aware of the new v4l2 API for devices formerly covered by gspca, meanwhile they need to be started using &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot;. </p>
+							<p>Starting with 2.6.27, the kernel ships with the new v4l2 based gspca2 driver, which replaces the old v4l1 based external gspca driver, which is needed for a large number of different webcams. Unfortunately most userspace programs are not aware of the new v4l2 API for devices formerly covered by gspca, meanwhile they need to be started using &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot;. </p>
 #### -->
-							<p> 2.6.27 カーネルには新しい v4l2 ベースの gspca2 ドライバーが内蔵されていて、以前の v4l1 ベースの gspca 外部ドライバと交換されましたが、多くのウェブカメラが旧式のドライバーを必要としています。 多くのユーザースペースのプログラムは残念ながらまだ新しい v4l2 API を使えないため &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot; が必要です。. </p>
+							<p>Starting with 2.6.27, the kernel ships with the new v4l2 ベースの gspca2 ドライバーが内蔵されていて、以前の v4l1 ベースの gspca 外部ドライバと交換されましたが、多くのウェブカメラが旧式のドライバーを必要としています。 多くのユーザースペースのプログラムは残念ながらまだ新しい v4l2 API を使えないため &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;&quot; が必要です。. </p>
 <pre>
 apt-get update
 apt-get install libv4l-0
-
-AS USER
+</pre>
+							<p><span class="highlight-3">Then as $user</span></p>
+<pre>
 $ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;
 </pre>
 				
-				<h3>insserv</h3>
-<!--- ####
-						<h6>insserv on installed systems before Pontos 2008-04</h6>
-#### -->
-						<h6>Pontos 2008-04 以前にインストールされたシステムで insserv を使うには</h6>
 
-<!--- ####
-							<p> <span class="highlight-3">Warning: Older installs will not get insserv automatically, due to users own initscripts or symlinks. It is NOT recommended to install insserv on installations prior to Pontos. This package should be used with care, as incorrect or missing LSB dependencies of existing initscripts can lead to an unbootable system. Installing insserv on an existing install may require some manual changes. </span></p>
-#### -->
-							<p> <span class="highlight-3">警告: 古いインストールには ユーザーの initscript やシンボリックリンクなどに適応できないため、insserv は自動的に設定されません。Pontos 以前にインストールされたシステムに insserv をインストールすることは推奨しません。このパッケージの使用には注意が必要で、既存の initscript に LSB 依存関係の間違いや欠如があるとシステムが起動できなくなるおそれがあります。古いシステムに insserv をインストールするにはいくつかの作業が必要です。</span></p>
-
-<!--- ####
-							<p><span class="highlight-3">Read <a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> read the Debian documentation notes</a>, and release notes before installing and enabling insserv.</span></p>
-#### -->
-							<p><span class="highlight-3"> insserv をインストールし、有効二する前に必ず<a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> Debian documentation notes</a>とリリースノートを読んでください。</span></p>
-
-<!-- -->	
 <!--- ####
 				<h3>Obsolete packages</h3>
 #### -->
@@ -350,13 +254,12 @@ $ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;
 #### -->
 							<p> siduxの開発が進むにつれて、いくつかのパッケージが不要になったり、より良いソフトウェアと交換されたりしています。次のパッケージが不要になりました。</p>
 						<ul>
-							<li>capi-isdnconf.</li>
-							<li>configure-xawtv</li>
-							<li>gprsconnect      (umtsmonに交替）</li>
-							<li>ipw2100-firmware (firmware-ipw2x00に交替)</li>
-							<li>ipw2200-firmware (firmware-ipw2x00に交替)</li>
-							<li>modemlink        (umtsmon と wvdialに交替)</li>
-							<li>ppp-scripts      (umtsmonに交替)</li>
+							<li>
+							siduxcc-hermes-kde3<br />
+							The KDE3 variant of hermes is not compatible with the upcoming KDE4 and crashes due to incompatibilites with drkonqi, given that KDE 4.2 is merely days away, siduxcc-hermes-kde3 has been dropped from the &quot;siduxcc&quot; package.<br />
+							<br />
+							Users of its functionality might want to install &quot;sidux-hermes-qt4&quot; or &quot;sidux-hermes-gtk2&quot; instead, which are both compatible with KDE3 and KDE4.
+							</li>
 						</ul>
 
 <!--- ####
@@ -371,7 +274,7 @@ $ apt-show-versions | awk '/No available version in archive/{print $1}'
 
 	</div>
 
-			<div id="rev">Content last revised 27/12/2008 0233 UTC </div>
+			<div id="rev">Content last revised 15/02/2008 0100 UTC </div>
 
 </div>
 </body>

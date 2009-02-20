@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by cobra 05/05/2007 1340 UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-hr.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Traži Online Offline</a> </li>
@@ -44,7 +44,7 @@
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-content-hr.htm">ISO Releases</a>
 			<ul class="sub-menu" id="sm2">
 				<li><a href="cd-content-hr.htm#cd-content">ISO and system requirements</a></li>
-				<li><a href="sys-admin-release-hr.htm#rolling">Rolling Notes</a></li>
+				<li><a href="sys-admin-release-hr.htm#rolling">Release Notes</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-hr.htm">ISO  download i prženje</a>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-hr.htm#burn-nero">Prženje s Windows</a></li>
 				<li><a href="cd-dl-burning-hr.htm#burn-linux">Prženje s Linux</a></li>
 				<li><a href="cd-dl-burning-hr.htm#xdelta">xdelta Patching</a></li>
-				<li><a href="cd-no-gui-burn-hr.htm#burning-no-gui">Prženje bez GUI-a</a></li>
+				<li><a href="cd-no-gui-burn-hr.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-hr.htm#burning-no-gen">Prženje bez GUI-a</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-hr.htm">Live Modus</a>
@@ -199,21 +200,40 @@
 		<h6><span class="highlight-2">OVO JE VRLO VAŽNO:</span><span class="highlight-3"> sidux, kao Linux LIVE-CD, je bazirana na tehnologiji visoke kompresije, (inicijalizirana od Knoppix, ali opet nije isto kao Knoppix) i zbog toga, dobro pazite kad pečete ISO-datoteku. Samo koristite CDs visoke kvalitete [ili DVD+RW] i pecite sa <span class="highlight-2">DAO-modusom (disk-at-once)</span> i ne brže nego x8.</span></h6>
 	<div class="spacer02"></div>
 
-		<p>Ako hoćete da pržite CD / DVD, nije vam potreban GUI da sredite posao.</p>
+							<p>Ako hoćete da pržite CD / DVD, nije vam potreban GUI da sredite posao.</p>
 
-		<p>Problemi sa prženjem se dogode većinom s frontendom (k3b), ali ne tako puno sa backendima (growisofs, wodim ili cdrdao).</p>
+							<p>Problemi sa prženjem se dogode većinom s frontendom (k3b), ali ne tako puno sa backendima (growisofs, wodim ili cdrdao).</p>
 
-		<h3>Koje uređaje koristiti</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
 
-		<p>Za ATAPI uređaje možemo ih naći sa:</p>
 
-		<p>wodim:</p>
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+			<h2>What devices to use, as $user:</h2>
+
+							<p>Za ATAPI uređaje možemo ih naći sa:</p>
+
+							<p>wodim:</p>
  <pre>
 $ wodim --devices
 wodim: Overview of accessible drives (2 found) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
  </pre>
 							<p>Other alternatives are:</p>
@@ -229,7 +249,7 @@ $ wodim -prcap
 
 		<h5>Informacije o praznoj CD/DVD:</h5>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 		<p>ili</p>
 <pre>
@@ -238,9 +258,9 @@ $ cdrdao disk-info --device ATA:1,0,0
 
 		<h5>Izbrisati rewritable disk:</h5>
 <pre>
-$ wodim -blank=fast -v dev=/dev/hdc
+$ wodim -blank=fast -v dev=/dev/scd0
 </pre>
-		<p>ili</p>
+							<p>ili</p>
 <pre>
 $ cdrdao blank --device ATA:1,0,0 --blank-mode minimal
 </pre>
@@ -257,7 +277,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 		<h5>Kreirati audio cd od wav datoteka s 12x brzinom:</h5>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 		<h5>Prži cd od bin/cue datoteka:</h5>
@@ -267,7 +287,16 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 
 		<h5>Prži ISO datoteku:</h5>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
 		<h5>Kreirati ISO datoteku s svim datotekama (i podirektorijama) direktorija.</h5>
@@ -276,8 +305,7 @@ $ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject
 $ genisoimage -o myImage.iso -r -J -l directory
 </pre>
 
-		<p>Ako imate DVD pržilicu, možete koristiti growisofs za prženje na DVD,
-		isto kao prženje ISO datoteke na DVD:</p>
+						<p>Ako imate DVD pržilicu, možete koristiti growisofs za prženje na DVD,isto kao prženje ISO datoteke na DVD:</p>
 <pre>
 $ growisofs -dvd-compat -Z /dev/dvd=image.iso
 </pre>
@@ -297,7 +325,7 @@ $ growisofs -M /dev/dvd -R -J još jedna datoteka i još jedna...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Content last revised UTC 24/07/2008 1340 UTC</div>
+			<div id="rev">Content last revised 18/02/2009 0800 UTC</div>
 </div>
 </body>
 </html>

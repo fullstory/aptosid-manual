@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Mo 28. Jul 19:26:11 CEST 2008 -->
+<!-- Last translation revision by Mi 18. Feb 19:45:27 CET 2009 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-de.htm#burn-nero">Brennen in Windows</a></li>
 				<li><a href="cd-dl-burning-de.htm#burn-linux">Brennen in Linux</a></li>
 				<li><a href="cd-dl-burning-de.htm#xdelta">xdelta-Patches</a></li>
-				<li><a href="cd-no-gui-burn-de.htm#burning-no-gui">Brennen ohne GUI</a></li>
+				<li><a href="cd-no-gui-burn-de.htm#burning-no-gui">burniso-Skript</a></li>
+				<li><a href="cd-no-gui-burn-de.htm#burning-no-gen">Brennen ohne GUI</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-de.htm">Live-ISO-Modus</a>
@@ -201,7 +202,26 @@
 
 							<p>Probleme, die beim Brennen auftreten, haben ihre Ursache normalerweise in den Frontends wie K3b, nicht so häufig in den Backends wie growisofs, wodim oder cdrdao.</p>
 
-					<h3>Wie finde ich meinen Brenner?</h3>
+							<p><span class="highlight-3">sidux stellt ein Skript namens "burniso" zur Verfügung, um die sidux-ISO zu brennen.</span></p>
+
+
+							<p>burniso brennt unter Nutzung von wodim ISO-Abbilddateien im Disk-At-Once-Modus mit einer fest eingestellten Brenngeschwindigkeit von 8x.</p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">Als $Nutzer:</span></p>
+<pre>
+$ cd /Pfad/zur/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>Alle ISO-Abbilddateien im aktuellen Verzeichnis werden zur Auswahl angeboten, und der Brennvorgang startet sofort nach der Auswahl einer ISO-Datei. Daher soll man darauf achten, dass vor Start des Skripts bereits das Medium, auf das gebrannt wird, ingelegt ist.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+		<h2>Welche Geräte verfügbar sind (als $Nutzer):</h2>
 
 							<p>Für ATAPI Geräte:</p>
 
@@ -211,8 +231,8 @@
 $ wodim --devices
 wodim: Overview of accessible drives (2 found) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
 </pre>
 							<p>Weitere Alternativen sind:</p>
@@ -241,7 +261,7 @@ ATA:1,1,0 _NEC , DVD_RW ND-3540A , 1.01
 
 		<h4 class="size-3">Informationen über leere CDs/DVDs:</h4>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 		<p>oder</p>
 <pre>
@@ -250,7 +270,7 @@ $ cdrdao disk-info --device ATA:1,0,0
 
 		<h4 class="size-3">Einen wiederbeschreibbaren Rohling löschen:</h4>
 <pre>
-$ wodim -blank=fast -v dev=/dev/hdc
+$ wodim -blank=fast -v dev=/dev/scd0
 </pre>
 		<p>oder</p>
 <pre>
@@ -269,7 +289,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 		<h4 class="size-3">Eine Audio-CD mit wav-Dateien mit 12facher Geschwindigkeit brennen:</h4>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 		<h4 class="size-3">Eine CD mittels eines bin/cue-Abbilds brennen:</h4>
@@ -279,8 +299,17 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 
 		<h4 class="size-3">CD von einem ISO-Abbild brennen:</h4>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
+							<p>Falls man eine Fehlermeldung zu <span class="highlight-3">driveropts</span> erhält, liegt dies daran, dass <span class="highlight-3">burnfree</span> auf einigen Brennern nicht möglich ist. Dies wird so gelöst:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>oder so:</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>	
 
 		<h4 class="size-3">Eine ISO-Abbildatei aus einem Ordner und allen Unterordnern erstellen:</h4>
 <pre>
@@ -299,14 +328,14 @@ $ growisofs -Z /dev/dvd -R -J datei1 datei2 datei3 ...
 
 		<h4 class="size-3">Wenn auf der DVD noch Platz ist, kann man Dateien hinzufügen:</h4>
 <pre>
-$ growisofs -M /dev/dvd -R -J anotherfile andanotherfile...
+$ growisofs -M /dev/dvd -R -J noch_eine_datei und_noch_eine_datei
 </pre>
 
 		<h4 class="size-3">Um eine Sitzung zu schließen:</h4>
 <pre>
 $ growisofs -M /dev/dvd=/dev/zero $
 </pre>
-			<div id="rev">Page last revised 24/07/2008 1340 UTC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC</div>
 	</div>
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body id="cd">
 <!-- Last translation revision ceti 18/09/2008 1007 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-pt-br.htm#burn-nero">Queimando no Windows</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#burn-linux">Queimando no Linux</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#xdelta">Usando o xdelta-patch</a></li>
-				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">Queimando sem interface gráfica</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gen">Queimando sem interface gráfica</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-pt-br.htm">Modo Live</a>
@@ -197,11 +198,30 @@
 			<h6><span class="highlight-2">OBSERVAÇÃO MUITO IMPORTANTE:</span><span class="highlight-3"> o sidux, como LiveCD do Linux, é baseado em tecnologia de alta compressão (desenvolvida pioneiramente pelo Knoppix, mas não igual à do Knoppix). Porisso, cuidados especiais são necessários ao queimar a imagem ISO: use apenas mídias de alta qualidade [CD ou DVD+RW] e queime no <span class="highlight-2">modo DAO (disk-at-once)</span> e em velocidade não superior a 8x.</span></h6>
 	<div class="spacer02"></div>
 
-		<p>Você não precisa da GUI para queimar um CD/DVD.</p>
+							<p>Você não precisa da GUI para queimar um CD/DVD.</p>
 
-		<p>Problemas encontrados durante a queima são geralmente causados pelo frontend (K3b) e não pelos backends (growisofs, wodim or cdrdao).</p>
+							<p>Problemas encontrados durante a queima são geralmente causados pelo frontend (K3b) e não pelos backends (growisofs, wodim or cdrdao).</p>
 
-		<h3>Quais dispositivos usar?</h3>
+							<p><span class="highlight-3">sidux provides a ready made script to burn a sidux ISO called 'burniso'.</span></p>
+
+
+							<p>burniso burns ISO images on media, using Disk-At-Once mode and a hard coded speed of 8x, using wodim. </p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">As $User:</span></p>
+<pre>
+$ cd /dir/containing/your/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>All ISO images in the current directory are presented and will start burning right after your selection of an ISO, so be sure you have your media inserted.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>What devices to use, as $user:</h2>
 
 		<p>Para dispositivos ATAPI, podemos descobrir com:</p>
 
@@ -210,8 +230,8 @@
 $ wodim --devices
 wodim: Overview of accessible drives (2 found) :
 ---------------------------------------------------------
- 0  dev='/dev/hdc'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
- 1  dev='/dev/hdd'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
+ 0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
+ 1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
 ---------------------------------------------------------
  </pre>
 							<p>Outras alternativas:</p>
@@ -227,7 +247,7 @@ $ wodim -prcap
 
 		<h5>Informações sobre um CD/DVD virgem:</h5>
 <pre>
-$ wodim dev=/dev/hdc -atip
+$ wodim dev=/dev/scd0 -atip
 </pre>
 		<p>ou</p>
 
@@ -237,7 +257,7 @@ $ cdrdao disk-info --device ATA:1,0,0
 
 		<h5>Apagar um disco regravável:</h5>
 <pre>
-$ wodim -blank=fast -v dev=/dev/hdc
+$ wodim -blank=fast -v dev=/dev/scd0
 </pre>
 		<p>ou</p>
 <pre>
@@ -256,7 +276,7 @@ $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-f
 
 		<h5>Criar um cd de áudio a partir de arquivos .wav com velocidade 12x:</h5>
 <pre>
-$ wodim -v -eject -pad -dao speed=12 dev=/dev/hdc defpregap=0 -audio *.wav
+$ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
 		<h5>Queimar um cd a partir de arquivos bin/cue:</h5>
@@ -266,8 +286,17 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject arquivo.cue
 
 		<h5>Queimar uma imagem ISO:</h5>
 <pre>
-$ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v arquivo_qualquer.iso
+$ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v arquivo_qualquer.iso
 </pre>
+							<p>If you get a <span class="highlight-3">driveropts</span> error, it is because <span class="highlight-3">burnfree</span> is deprecated for some devices, therefore:</p>
+
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>
+							<p>or</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
+</pre>	
 
 		<h5>Criar uma imagem ISO com todos os arquivos (e sub-diretórios) de um diretório:</h5>
 		<p>Pode-se usar, também, o comando acima (queimar uma imagem ISO):</p>
@@ -295,7 +324,7 @@ $ growisofs -M /dev/dvd -R -J outroarquivo outroarquivo...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Page last revised 24/07/2008 1340 UTCC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC </div>
 </div>
 </body>
 </html>

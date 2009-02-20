@@ -19,8 +19,8 @@
 <body>
 <!-- Last file translation revision qq 25/06/2008 0900 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana, speedygeo-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC trans update Adriana 11-02-2009 07:00hrs UTC-->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="La pagina sidux.com forums şi wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-ro.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Caută Manualul" alt="Caută" /> Caută Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-ro.htm#burn-nero">Scrierea în Windows</a></li>
 				<li><a href="cd-dl-burning-ro.htm#burn-linux">Scrierea în Linux</a></li>
 				<li><a href="cd-dl-burning-ro.htm#xdelta">Adăugirile xdelta (Patching)</a></li>
-				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gui">Scrierea ISO -ului fără GUI (interfaţă grafică)</a></li>
+				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ro.htm#burning-no-gen">Scrierea ISO -ului fără GUI (interfaţă grafică)</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-ro.htm">Modul "Live"</a>
@@ -256,29 +257,16 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 
 		<h5>Firmware</h5>
-							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-sripts).</p>
+							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
 <pre>
 $ fw-detect
 </pre>
-							<p> <span class="highlight-3">It is good practice to do a modprobe -r &lt;modulename&gt; before  modprobe 
+							<p> <span class="highlight-3">It is good practice to do a modprobe -r &lt;modulename&gt; before  modprobe &lt;modulename&gt;, especially for intel</span>.</p>
 
 				<ul>
 					<li>
 						Atari DSP56k support:<br />
 						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/dsp56k/</span>.
-					</li>
-
-					<li>
-						Atheros wlan:
-<pre>
-Use: ath5k/ ath9k 
-as root REMOVE madwifi
-apt-get remove --purge madwifi-tools 
-otherwise madwifi will blacklist ath5k / ath9k
-then
-modprobe -r ath5k
-modprobe ath5k OR ath9k
-</pre>
 					</li>
 
 					<li>
@@ -289,19 +277,13 @@ apt-get install atmel-firmware
 					</li>
 
 					<li>
-						Broadcom, b43/legacy wlan:<br />
+						Broadcom, b43/ b43legacy wlan:<br />
+						While this shouldn't be required for most 802.11b/g wlan cards anymore, the proprietary firmware gets preferred by b43, in case it is installed.
 <pre>
 apt-get install b43-fwcutter
 </pre>
 					</li>
-					<li>
-						Broadcom, b43 wlan (upgrades from kernels before 2.6.26):<br />
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
+
 					<li>
 						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
 <pre>
@@ -312,10 +294,6 @@ apt-get install bluez-firmware
 					<li>
 						Cameras based on Vision's CPiA2:<br />
 						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/cpia2/</span>.
-					</li>
-
-					<li>
-						Ricoh R5U870 OEM webcams:fetch the firmware from <a href="http://mediati.org/r5u870/r5u870-0.11.0.tar.gz">http://mediati.org/r5u870/r5u870-0.11.0.tar.gz</a> and copy the <span class="highlight-3">r5u870_*.fw</span> files to <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -383,8 +361,11 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
-						Intel ipw5xxx/ iwlwifi:<br />
-						fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
+						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
+<pre>
+apt-get install firmware-iwlwifi
+</pre>
+						As at 2009-02-14, firmware-iwlwifi does not cover ipw5xxx yet, fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -507,7 +488,7 @@ exit
 
 
 		
-			<div id="rev">Content last revised 13/01/2009 0100 UTC</div>	
+			<div id="rev">Content last revised 17/02/2009 0100 UTC</div>	
 
 </div>
 </div>

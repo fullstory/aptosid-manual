@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body id="cd">
-<!-- Last translation revision by alessiog75   29/07/2008 16.20 UTC -->
+<!-- Last translation revision by alessiog75 on 18/02/2009 19.40 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="A sidux.com forums and wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Ricerca Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-it.htm#burn-nero">Masterizzare in Windows</a></li>
 				<li><a href="cd-dl-burning-it.htm#burn-linux">Masterizzare in Linux</a></li>
 				<li><a href="cd-dl-burning-it.htm#xdelta">Patch xdelta</a></li>
-				<li><a href="cd-no-gui-burn-it.htm#burning-no-gui">Masterizzare senza interfaccia grafica</a></li>
+				<li><a href="cd-no-gui-burn-it.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-it.htm#burning-no-gen">Masterizzare senza interfaccia grafica</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-it.htm">Live Mode</a>
@@ -201,7 +202,26 @@
 
 							<p>Di solito i problemi di masterizzazione si hanno con il front-end (k3b), non con i back-end (growisofs, wodim o cdrdao).</p>
 
-				<h3>Che dispositivi utilizzare</h3>
+							<p><span class="highlight-3">sidux fornisce uno script già pronto per masterizzare una ISO di sidux stessa che si chiama 'burniso'.</span></p>
+
+
+							<p>burniso masterizza immagini ISO, utilizzando la modalità Disk-At-Once ed una velocità di 8x, tramite wodim.</p>
+<pre>
+apt-get install sidux-scripts
+</pre>
+							<p><span class="highlight-3">come utente ($):</span></p>
+<pre>
+$ cd /dir/contenente/la/ISO
+</pre>
+
+<pre>
+$ burniso
+</pre>
+							<p>Tutte le immagini ISO nella directory corrente vengono listate e la masterizzazione inizierà subito dopo la selezione di una di queste, quindi assicurarsi di avere un supporto ottico inserito.</p>
+
+	</div>
+	<div class="divider" id="burn-no-gui-gen">
+					<h2>Quali dispositivi utilizzare, come utente ($):</h2>
 
 							<p>Per i dispositivi ATAPI usare:</p>
 
@@ -268,8 +288,17 @@ $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 <pre>
 $ wodim dev=/dev/hdc driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
+							<p>Se si ottiene un errore <span class="highlight-3">driveropts</span>, è dovuto a <span class="highlight-3">burnfree</span> che è deprecato per alcune periferiche, quindi:</p>
 
-				<h5>Creare un'immagine ISO con tutti i file (e subdirectory) di una directory.</h5>
+<pre>
+$ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v qualcosa.iso
+</pre>
+							<p>oppure</p>
+<pre>
+$ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v qualcosa.iso
+</pre>
+
+				<h5>Creare un'immagine ISO con tutti i file (e sottodirectory) di una directory.</h5>
 							<p>In seguito questa può essere masterizzata con il comando precedente (masterizzare un'immagine ISO):</p>
 <pre>
 $ genisoimage -o miaImmagine.iso -r -J -l directory
@@ -295,7 +324,7 @@ $ growisofs -M /dev/dvd -R -J unaltrofile eunaltrofile...
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>
 	</div>
-			<div id="rev">Page last revised 24/07/2008 1340 UTC</div>
+			<div id="rev">Page last revised 18/02/2009 0800 UTC</div>
 </div>
 </body>
 </html>

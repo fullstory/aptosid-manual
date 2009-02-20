@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ceti 28/01/2009 1008 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.83.2009.02.05 -->
-<!-- menu last updated by bluewater 05/02/2009 0430 hrs UTC -->
+<!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
+<!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Ir para sidux.com forums y wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
 		<li><a href="manual-search-pt-br.htm#search-on"><img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Procurar Online Offline</a> </li>
@@ -54,7 +54,8 @@
 				<li><a href="cd-dl-burning-pt-br.htm#burn-nero">Queimando no Windows</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#burn-linux">Queimando no Linux</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#xdelta">Usando o xdelta-patch</a></li>
-				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">Queimando sem interface gráfica</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gen">Queimando sem interface gráfica</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="live-mode-pt-br.htm">Modo Live</a>
@@ -197,100 +198,56 @@
 
 							<p>O sidux tenta fornecer um dist-upgrade indolor para os pacotes Debian e sidux. No entanto, sempre restam algumas coisinhas que podem ser melhoradas com intervenção manual. </p>
 
-							<p><span class="highlight-3">Esta página só será atualizada após o lançamento de cada versão nova. A versão atual é Pontos.</span></p>
+							<p><span class="highlight-3">This page is a summary of the Release Notes and will only be updated after each release. Read the full Release Notes on <a href="http://sidux.com">sidux.com</a> or the Live ISO</span> or install sidux-releasenotes.</p>
+
+		<h2>Release notes for Ouranos 2009-01</h2>
+							<p>Ouranos concentrates on integrating the changes caused by kernel 2.6.28, stabilising the init optimisations accomplished by insserv and in particular improving the reliability of the installer and the USB installers.</p>
+
+							<p>Kernel 2.6.28 doesn't only improve and stabilise hardware support for newer devices, it also adapts the I/O scheduler support for SSDs in order to improve prioritisation of disk accesses and to speed these up.</p>
+
+							<p>Another major accomplishment is the deployment of the opensource <a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF</a> firmware for Broadcom wireless devices, which now supports BCM4306, BCM4311/1, BCM4318 and BCM4320 devices on default and makes installation of proprietary components through b43-fwcutter optional.</p>
+
+							<p>Since Pontos, sidux is using &quot;insserv&quot; to reorder and optimise the sysv initscripts used during the system boot, this doesn't only improve the boot times, but also allows easier de-/ activating of particular initscripts using standard tools. Further efforts have gone into improving this setup and to fix a few minor bugs in regards to it.</p>
+
+							<p>As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and sidux' own packages, in order to improve the general distribution infrastructure.</p>
+
+							<p>Although this release happens in close temporal proximity to the Debian 5.0 &quot;Lenny&quot; release, it is still based on Debian sid as of this day and is not meant or suited as an alternative way to install &quot;Lenny&quot;. Many security sensitive packages in sidux (Debian sid) already sport a higher version number than their corresponding package in &quot;Lenny&quot; or are even uninstallable in a &quot;Lenny&quot; context.</p>
+
+				<h6>sidux after the &quot;Lenny freeze&quot;</h6>
+
+							<p>Given that there are a number of high impact changes (KDE4, X.org 7.4/ evdev) staging in experimental and just waiting for the freeze to be lifted, the following 2-3 weeks might be slightly more vibrant and potentially less coordinated than usual in regards to package updates from Debian, therefore we recommend a little caution during dist-upgrades.</p>
+
+							<p>This might involve checking for eventual upgrade warnings on <a href="http://sidux.com">sidux.com</a> or to wait a few hours if KDE4 or X.org are among the upgrading packages for experiences from advanced users.</p>
+
+							<p>Please be aware that it is harder to react in time, now that Debian employs four mirror pushes a day.<br />
+							Users who are already using unsupported KDE4 packages from Debian/ experimental or other sources, might be surprised that the final KDE4 packages heading to sid will most likely use ~/.kde/ for their configuration data again, instead of ~/.kde4/.Manual changes are likely to be required in these cases.</p>
+
+		<h3>Non-free hardware drivers</h3>
+							<p> Refer to <a href="hw-dev-hw-dri-pt-br.htm#non-free">Hardware needing non-free drivers</a> </p>
 				
-				<h3>Aviso de segurança do sidux/restrições de leitura da $HOME</h3>
-							<p>Enquanto o instalador do sidux era totalmente remodelado, descobriu-se um potencial problema de escalação de privilégios locais, que deixa uma cópia do arquivo de configuração do instalador no novo sistema. Neste arquivo também estão contidas indicações para os 'hashes' das senhas de root e da conta do primeiro usuário (UID 1000) e pode ser lida pelos usuários locais. Ainda que não revele as senhas diretamente, isso pode ser usado para um ataque de força bruta contra elas. </p>
-
-				<h4>Versões afetadas:</h4>
-						<ul>
-							<li>2007-01 Chaos</li>
-							<li>2007-02 Tartaros</li>
-							<li>2007-03/ 2007-03.1 Gaia</li>
-							<li>2007-04/ 2007-04.5 Eros</li>
-							<li>2008-01 Nyx</li>
-							<li>2008-02 Erebos</li>
-							<li>2008-03 Ourea</li>
-						</ul>
-
-				<h4>Correção:</h4>
-<pre>
-find /root /home -maxdepth 2 -type f -name '.sidconf*' -delete
-</pre>
-
-							<p> Principalmente em sistemas multiusuário, recomendamos trocar a senha tanto do root quanto do primeiro usuário (UID 1000). Isso pode ser feito digitando "passwd" (sem as aspas) como root, em um terminal. O motivo desse problema já foi encontrado e o sidux 2008-04 Pontos (Pontos) não foi afetado.</p>
-
-							<p> O Debian cria diretórios /home com permissão de acesso 0751. O sidux diverge desse padrão ao usar 0700 para novas instalações.</p>
-
-<pre>
-sed -i 's/^DIR_MODE=.*/DIR_MODE=0700/' /etc/adduser.conf
-dpkg-reconfigure adduser
-(nega "sistema totalmente aberto para leitura" aos diretórios home")
-</pre>
-				
-				
-				<h3>Camada de compatibilidade ALSA OSS</h3>
-							<p> Começando com o alsa-driver 1.0.17.dfsg-3, os módulos de compatibilidade do OSS não são mais carregados por padrão. Enquanto isso não traz problemas em modernas versões do Linux, algumas aplicações antigas ('legacy') ou comerciais podem ainda precisar do suporte ao OSS. Dado que o ALSA compilado no kernel oferece uma emulação OSS bastante limitada (não há nenhuma mixagem por software, daí que apenas uma aplicação pode acessar /dev/dsp de cada vez), as aplicações compatíveis com o ALSA têm sempre preferência. Mas caso haja necessidade de compatibilidade com o OSS, existem duas alternativas disponíveis: </p>
-				<ul>
-							<li> <strong>"capa" aoss</strong><br /> /usr/bin/aoss é parte do pacote alsa-oss e pode envolver aplicações legadas para capturar chamadas OSS ao mapear de forma transparente a API OSS no ALSA; assim, torna-se possível aproveitar a maioria dos recursos do ALSA sem maiores problemas</li>
-
-							<li> <strong>emulação ALSA direto do kernel</strong><br /> melhor compatibilidade (criam-se 'nós de dispositivos' (device nodes) /dev/dsp, /dev/audio e /dev/mixer), mas não é possível mixagem por software, portanto só é possível uma aplicação ativa de cada vez. </li>
-				</ul>
-
-							<p> Na maioria dos casos, é preferível abrir as aplicações afetadas com &quot;aoss &lt;programa&gt;&quot; para manter as vantagens de mixagem por software e acesso concomitante à placa de som, pois devem ser raras as ocasiões em que seja necessária a camada de compatibilidade OSS fornecida direto do kernel. Mas se você precisar, ative isso  carregando os módulos snd-pcm-oss, snd-mixer-oss e snd-seq-midi. </p>
-
-<pre>
-for i in snd-pcm-oss snd-mixer-oss snd-seq-midi; do
-	grep -q "^${i}" /etc/modules  || echo "${i}" &gt;&gt; /etc/modules
-	grep -q "^${i}" /proc/modules || modprobe "${i}"
-done
-</pre>
-				
-				<h3>Broadcom b43 wlan</h3>
-							<p> Kernels &gt;2.6.25 requerem revisões de firmware &ge;4.150.10.5 (revisão interna &quot;410.2160 (2007-05-26 15:32:10)&quot;) do firmware da Broadcom, enquanto versões mais antigas (até o kernel 2.6.24) requerem 4.80.53.0 (revisão interna &quot;351.126 (2006-07-29 05:54:02)&quot;), que foi instalada por revisões anteriores do b43-fwcutter. O b43-fwcutter não pode atualizar por si mesmo o firmware já existente, portanto a atualização é feita com intervenção manual: </p>
-
-<pre>
-dpkg --purge b43-fwcutter
-rm -rf /lib/firmware/b43 /lib/firmware/b43legacy
-apt-get update
-apt-get install b43-fwcutter
-</pre>
-				
-				<h3>console-setup</h3>
-							<p> Os mapas de teclado do Terminal agora são gerenciados pelo &quot;console-setup&quot;. </p>
-<pre>
-apt-get install console-setup
-dpkg-reconfigure console-setup
-</pre>
+		<h3>Hints for Upgraders:</h3>
 				
 				<h3>gspca2</h3>
 							<p> O Kernel 2.6.27 vem com o driver gspca2 v4l2 (que substitui o antigo driver externo gspca v4l1), necessário por um largo número de diferentes webcams. Infelizmente, muitos programas comumente utilizados pelos usuários finais não tomaram conhecimento, ainda, da nova API v412 para os dispositivos anteriormente cobertos pelo gspca; daí que, por enquanto, eles têm de abertos com: &quot;LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;programa&gt;&quot;. </p>
 <pre>
 apt-get update
 apt-get install libv4l-0
-
-Como usuário:
-$ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;programa&gt;
 </pre>
-				
-				<h3>insserv</h3>
-						<h6>insserv em sistemas anteriores ao Pontos 2008-04</h6>
-
-							<p> <span class="highlight-3">Atenção: instalações mais antigas não recebem o insserv automaticamente, devido aos scripts de inicialização ou links simbólicos dos usuários. Recomendamos NÃO instalar o insserv em versões anteriores ao Pontos. Este pacote deve ser usado com cuidado, pois dependências LSB incorretas ou faltantes podem levar a um sistema incapaz de ser inicializado. Instalar o insserv em um sistema já instalado requer algumas mudanças manuais. </span></p>
-
-							<p><span class="highlight-3">Leia <a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> as notas de documentação do Debian</a>, e as notas de lançamento antes de instalar e habilitar o insserv.</span></p>
+							<p><span class="highlight-3">Then as $user</span></p>
+<pre>
+$ LD_PRELOAD=/usr/lib/libv4l/v4l1compat.so &lt;program&gt;
+</pre>
 
 <!-- -->	
 				<h3>Pacotes obsoletos</h3>
 							<p> Como parte do contínuo desenvolvimento do sidux, vários pacotes foram substituidos por alternativas melhores, ou tornaram-se redundantes. </p>
 						<ul>
-							<li>capi-isdnconf, obsoleto.</li>
-							<li>configure-xawtv, obsoleto.</li>
-							<li>gprsconnect, substituido por umtsmon.</li>
-							<li>ipw2100-firmware, substituido pelo firmware-ipw2x00.</li>
-							<li>ipw2200-firmware, substituido pelo firmware-ipw2x00.</li>
-							<li>modemlink, substituido por umtsmon e wvdial.</li>
-							<li>ppp-scripts, substituido por umtsmon.</li>
+							<li>
+							siduxcc-hermes-kde3<br />
+							The KDE3 variant of hermes is not compatible with the upcoming KDE4 and crashes due to incompatibilites with drkonqi, given that KDE 4.2 is merely days away, siduxcc-hermes-kde3 has been dropped from the &quot;siduxcc&quot; package.<br />
+							<br />
+							Users of its functionality might want to install &quot;sidux-hermes-qt4&quot; or &quot;sidux-hermes-gtk2&quot; instead, which are both compatible with KDE3 and KDE4.
+							</li>
 						</ul>
 
 							<p> O comando abaixo é capaz de encontrar pacotes não disponíveis em nenhum dos repositórios APT e pode dar indicações sobre pacotes obsoletos. Entretanto, seja cuidadoso com os pacotes instalados manualmente. O apt-show-versions é um pacote separado e não é necessariamente préinstalado. </p>
@@ -302,7 +259,7 @@ $ apt-show-versions | awk '/No available version in archive/{print $1}'
 
 	</div>
 
-			<div id="rev">Content last revised 27/12/2008 0233 UTC </div>
+			<div id="rev">Content last revised 15/02/2008 0345 UTC </div>
 
 </div>
 </body>

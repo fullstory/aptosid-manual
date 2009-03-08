@@ -378,15 +378,13 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 			<p>Grub kender til BIOS-extensions (dvs. at Grub kan boote partitioner over 8 GByte!) og har ikke nogen 1024-cylinder-barrier. Grub er i virkeligheder totalt ligeglad med hvor kernel fysisk findes, det eneste Grub skal vide er all it needs is the declaration of the partition and the og stien til den kernel den skal opstarte (det kan endda være et symlink). Efter en ændring i konfigurationen (i.e. menu.lst) har Grub ikke brug for et programm-opkald som Lilo, den nye konfiguration vil automatisk blive brugt ved næste opstart.</p>
 			<p>sidux bruger Grub til at boote fra CD, og når der installeres til harddisk anvendes Grub som standard. Ikke desto mindre kan Grub sagtens installeres bagefter, uden problemer. Grub installeres til MBR fra en terminal/ konsol med root-rettigheder med følgende kommando:</p>
 
-<pre>grub-install --root-directory=/media/hdaX /dev/hdY</pre>
+<pre>grub-install --root-directory=/media/sdaX /dev/sdY</pre>
 
-			<p>/media/hdaX står for den monterede læsbare partition, på hvilken de nødvendige filer  (stage2, stage1_5xxx) vil blive placeret i mappen "/boot/grub". Konfigurationsfilen "menu.lst" skal også oprettes i denne mappe. /dev/hdY er den harddisk hvorpå Grub vil blive installeret til MBR, normalt /dev/hda.</p>
+							<p>/media/sdaX står for den monterede læsbare partition, på hvilken de nødvendige filer  (stage2, stage1_5xxx) vil blive placeret i mappen "/boot/grub". Konfigurationsfilen "menu.lst" skal også oprettes i denne mappe. /dev/hdY er den harddisk hvorpå Grub vil blive installeret til MBR, normalt /dev/sda.</p>
 
 			<h3>Drevnavne/ Enhedsnavne (device-)</h3>
 
-							<p><span class="highlight-2">BEMÆRK: </span><span class="highlight-3">hda</span> er ved at blive udfaset, derfor skal du begynde at erstatte <span class="highlight-3">hda </span>med <span class="highlight-3">sda</span> for kernels 2.6.22 og højere.</p>
-
-			<p>Grub differentierer ikke imellem SCSI- og IDE-Harddiske. (hd0) er altid den første harddisk der er i starten af boot sekvensen (indstillinger i BIOS), ligegyldigt om det er  IDE eller SCSI. Nummereringen af partitionerne er lidt afvigende, idet den første partition på første harddisk er (hd0,0). Primære partitioner nummereres fra 0-3, logiske partitioner begynder fra 4 og opefter.</p>
+							<p>Grub differentierer ikke imellem SCSI- og IDE-Harddiske. (hd0) er altid den første harddisk der er i starten af boot sekvensen (indstillinger i BIOS), ligegyldigt om det er  IDE eller SCSI. Nummereringen af partitionerne er lidt afvigende, idet den første partition på første harddisk er (hd0,0). Primære partitioner nummereres fra 0-3, logiske partitioner begynder fra 4 og opefter.</p>
 
 		<table>
 			<tbody>
@@ -401,19 +399,19 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 					<td>Floppy (under Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
 					<td>first hd</td>	
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
+					<td>/dev/sda1</td>
 					<td>Part.1 on hd1</td>	
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Extended. part. on hd 1</td>	
+					<td>/dev/sda6</td>
+					<td>Logical part. on hd 1</td>	
 				</tr>
 			</tbody>
 		</table>
@@ -442,7 +440,7 @@ initrd          /boot/initrd.img
 <pre>geometry (hd0)</pre>
 
 			<p>viser dette:</p>
-<pre>"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+<pre>"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 Filesystem type is fat, partition type 0xb Partition num: 1,
 Filesystem type is fat, partition type 0xb Partition num: 2,
 Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -524,7 +522,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -541,9 +539,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -562,7 +560,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -613,7 +611,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -622,9 +620,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -652,7 +650,7 @@ chainloader +1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro (or whatever)
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro (or whatever)
 initrd (hd0,3)/debian/miniroot.gz (or (whatever)
 
 ### ISO boot
@@ -694,7 +692,7 @@ LINUX: # chmod a -w ./stage2
 			<p>Hvis du har et understøttet netkort kan Grub boote over netværket.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> En Boot-Disk kan findes her (selvom det er en lidt ældre version af Grub)</a>.</p>
 				
 	</div>
-	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
+	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
 
 </div>
 </body>

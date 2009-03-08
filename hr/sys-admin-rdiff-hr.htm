@@ -211,16 +211,16 @@
 				<p>rdiff-backup osigura kompletne kopije (ne komprimirane) datoteka koje hoćete da osigurate, i isto tako stvori historiju (inkrementalne sigurnosne kopije), tako da mjesto na kojemu su sigurnosne kopije, mora biti veće nego izvorne podatke. Ako osigurate 100 GB, morate imati 120 GB mjesta (preporučujemo separatnu HD!).</p>
 
 			<h6>Kako da postavite</h6>
-				<p>Recimo da vaš PC ima sljedeće:<br /> * 100 GB HD (hda) koja je u korištaju, mountana na hda1 i korištena za root particiju, i hda5 korištena za  muziku i druge datoteke, i hda6 za swap.<br /> * 200 GB HD (hdb) koja nije korištena, sa jednim mount hdb1 ... to će mo koristiti za naše sigurnosne kopije.<br /> * IP adresa 192.168.0.1</p>
+				<p>Recimo da vaš PC ima sljedeće:<br /> * 100 GB HD (sda) koja je u korištaju, mountana na sda1 i korištena za root particiju, i sda5 korištena za  muziku i druge datoteke, i sda6 za swap.<br /> * 200 GB HD (sdb) koja nije korištena, sa jednim mount sdb1 ... to će mo koristiti za naše sigurnosne kopije.<br /> * IP adresa 192.168.0.1</p>
 
 				<p>Kao prvo moramo instalirati rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Iako sad možete da osigurate svaki direktorij, pretpostavka je da osigurate cijele particije ... mi hoćemo da sigurnosno kopiramo hda1 i hda5 (nećemo da sigurnosno kopiramo hda6), i tako da postavimo direktorije koje trebaju da sadrže podatke:</p>
+				<p>Iako sad možete da osigurate svaki direktorij, pretpostavka je da osigurate cijele particije ... mi hoćemo da sigurnosno kopiramo sda1 i sda5 (nećemo da sigurnosno kopiramo sda6), i tako da postavimo direktorije koje trebaju da sadrže podatke:</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Treba vam IP adresa, zato što želite da koristite to računalo da sigurnosno kopira na drugo računalo (to je tema malo kasnije).</p>
 
@@ -228,15 +228,15 @@
 
 				<p>rdiff-backup koristi syntax <span class="highlight-3">rdiff-backup izvor-dir cilj-dir</span>. Zapamtite: uvijek specificirate imena direktorija, ne imena datoteka.</p>
 
-				<p>Da sigurnosno kopirate hda5, izvodite:</p>
+				<p>Da sigurnosno kopirate sda5, izvodite:</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Da sigurnosno kopirate root particiju, izvodite:</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Svi "AF_UNIX path too long" pogreške možete ignorirati. Prvi put kad sigurnosno kopirate, malo će potrajati, zato što rdiff-backup mora da sigurnosno kopira cijelu particiju (ne samo razlike). Zapamtite da nećemo da osiguramo /tmp, zato što se stalno mijenja, niti /proc ili /sys  zato što sadrže prave datoteke, i isto tako nećemo da osiguramo mounts. Ako sigurnosno kopirate mounts, mogli bi završiti sa sigurnosnom kopijom hdb1 u beskonačnoj petlji! Jedan put da to obavite, bez problema, je da separatno osigurate mounts.</p>
+				<p>Svi "AF_UNIX path too long" pogreške možete ignorirati. Prvi put kad sigurnosno kopirate, malo će potrajati, zato što rdiff-backup mora da sigurnosno kopira cijelu particiju (ne samo razlike). Zapamtite da nećemo da osiguramo /tmp, zato što se stalno mijenja, niti /proc ili /sys  zato što sadrže prave datoteke, i isto tako nećemo da osiguramo mounts. Ako sigurnosno kopirate mounts, mogli bi završiti sa sigurnosnom kopijom sdb1 u beskonačnoj petlji! Jedan put da to obavite, bez problema, je da separatno osigurate mounts.</p>
 
 				<p>Razlog zašto postavite '/proc/*' umjesto '/proc' je, da će samo osigurati ime direktorija /proc, ali će ignorirati sve što je unutra. Isto za /tmp, /sys, i sva mount point imena.</p>
 
@@ -248,9 +248,9 @@
 <pre>
 rdiff-backup -r &lt;od-kada&gt; &lt;izvor-dir&gt; &lt;cilj-dir&gt;
 </pre>
-				<p>Sad ako slučajno izbrišete /media/hda7/photos, možete ga restaurirati sa:</p>
+				<p>Sad ako slučajno izbrišete /media/sda7/photos, možete ga restaurirati sa:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
 				<p>"-r now" opcija znači restauraciju iz zadnje sigurnosne kopije 
 				Ako periodično sve (na primjer sa crontab) osigurate, i niste realizirali da photos direktorij fali, poslije nekoliko dana, potrebno će biti da restaurirate iz sigurnosne kopije prije nekoliko dana (i ne "sada", zato što u zadnjoj sigurnosnoj kopiji photos direktorij ne egzistira) 
@@ -260,9 +260,9 @@ rdiff-backup -r &lt;od-kada&gt; &lt;izvor-dir&gt; &lt;cilj-dir&gt;
 
 				<p class="highlight-1">"3D" odnosi se na 72 sati prije sadašnjosti, i ako tu niste obavili sigurnosnu kopiju u to vrijeme, rdiff-backup će restaurirati stanje prijašnje sigurnosne kopije. Na primjer, u gornjem slučaju, ako koristite "3D", i postoje samo sigurnosne kopije prije 2 i prije 4 dana, direktorij će biti restaurirano na stanje  prije 4 dana (tako da morate dobro pomisliti prije restauracije).</p>
 
-				<p>Koristeći sljedeće će listati datum i vrijeme kad ste obavljali sigurnosne kopije za hda5:</p>
+				<p>Koristeći sljedeće će listati datum i vrijeme kad ste obavljali sigurnosne kopije za sda5:</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Restauracija particija</h5>
 
@@ -270,9 +270,9 @@ rdiff-backup -r &lt;od-kada&gt; &lt;izvor-dir&gt; &lt;cilj-dir&gt;
 
 				<p class="highlight-2">UPOZORENJE: Nikad nemojte restaurirati root particiju dok je startana s sistemom! Sa jednom naredbom izgubiti će te sve datoteke na svim particijama, uključujući sve sigurnosne kopije na separatnoj HD!! rdiff-backup radi točno što mu naredite ... ako sigurnosna kopija root particije ima prazne mount points, na bazi toga restaurira kao što je sigurnosna kopija, i tako sve izbriše u mount points, da restaurira podatke kao što su u sigurnosnoj kopiji.</p>
 
-				<p>Da restaurirate hda5 iz zadnje sigurnosne kopije, jednostavno izvodite:</p>
+				<p>Da restaurirate sda5 iz zadnje sigurnosne kopije, jednostavno izvodite:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Restauracija root particije</h5>
 
@@ -289,14 +289,14 @@ $ sudo su
 </pre>
 				<h6>Sad da obavimo restauraciju:</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Bilješka: Ako nemate sidux CD i vaša Live-CD je podržana od klik možete instalirati rdiff-backup koristeći Klik:</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Preporučeno je, da ko god obavlja sigurnosne kopije root particije (sa namjerom da će je nekada restaurirati) trebao bi da testira proces restauracije. Nista gore nego da mislite da će sve biti u redu, i onda se desi nenadan događaj.</p>
@@ -305,9 +305,9 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Možete sigurnosno kopirati druga računala na lokalni, do god se lokalni može da spoji preko ssh s drugim računalima (i dok god još imate mjesta na hard disku). ssh poslužitelj (sshd) mora da radi na udaljenom računalu. Druga računala ne moraju biti u vašoj lokalnoj mreži, mogu da budu na cijelom svijetu.</p>
 
-				<p>Pretpostavljamo da udaljeno računalo ima sljedeće:<br /> 1) 100 GB HD (hda), sa samim mounts,<br /> 2) hda1 korištena za root particiju,<br /> 3) hda5 gdje memoriramo  privremene datoteke koje ne trebamo da osiguramo,<br /> 4) i hda6 za swap <br />  IP adresa 192.168.0.1</p>
+				<p>Pretpostavljamo da udaljeno računalo ima sljedeće:<br /> 1) 100 GB HD (sda), sa samim mounts,<br /> 2) sda1 korištena za root particiju,<br /> 3) sda5 gdje memoriramo  privremene datoteke koje ne trebamo da osiguramo,<br /> 4) i sda6 za swap <br />  IP adresa 192.168.0.1</p>
 
-				<p>Bilješka: Ne mogu oboje 100GB HD biti sigurnosno kopirane na jedan 200 GB HD sa rdiff-backup (zato što nema mjesta za inkrementalne datoteke), ali ako ne sigurnosno kopirate hda5 na udaljeno računalo (i dok HD nije 100% puna, kako god, ne imajte povjerenja u to) onda bi moglo biti dosta mjesta. Svaki put kad rdiff-backup obavi sigurnosnu kopiju, više od tih inkrementalni datoteka kreira, i zato trebate više i više mjesta.</p>
+				<p>Bilješka: Ne mogu oboje 100GB HD biti sigurnosno kopirane na jedan 200 GB HD sa rdiff-backup (zato što nema mjesta za inkrementalne datoteke), ali ako ne sigurnosno kopirate sda5 na udaljeno računalo (i dok HD nije 100% puna, kako god, ne imajte povjerenja u to) onda bi moglo biti dosta mjesta. Svaki put kad rdiff-backup obavi sigurnosnu kopiju, više od tih inkrementalni datoteka kreira, i zato trebate više i više mjesta.</p>
 
 				<p>Možete rdiff-backupu kazati da drži samo sigurnosne kopije od max. 1 mjeseca (tu naredbu će će mo vam pokazati kasnije), i zato treba puno manje mjesta, nego da rdiff-backup sačuva sve godinama. I naravno ako vam trebaju kopije za nekoliko godina, morate imati i mjesto za memoriranje inkrementalni datoteka.</p>
 
@@ -315,19 +315,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Da osigurate udaljeno računalo na lokalno, izvodite na lokalnom računalu (ie 192.168.0.1): <span class="highlight-4">Pazite dobro na korištaj "::" </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root 
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
 </pre>
 				<p>Sad ako hoćete da restaurirate direktorij na udaljenom računalu, inicirajte restauraciju na lokalnom ili udaljenom računalu.</p>
 
 				<p>Sljedeće je primjer kako bi restaurirali direktorij /usr/local/games na udaljenom računalu, sa iniciranjem s udaljenog računala:</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 
 </pre>
 				<p>Sljedeće je primjer kako bi restaurirali direktorij /usr/local/games na udaljenom računalu, sa iniciranjem s lokalnog računala:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Koristite istu vrstu syntaxa kad restaurirate root particiju sa Live-CD (kad je udaljeno računalo bootano via Live-CD ... vidite gore).</p>
 
@@ -356,19 +356,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Backing up 192.168.0.1 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(and purge increments older than 1 month)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Backing up 192.168.0.1 mount sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Backing up 192.168.0.2 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

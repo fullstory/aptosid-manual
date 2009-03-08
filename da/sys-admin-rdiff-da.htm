@@ -222,18 +222,18 @@
 
 			<h6>Opsætning</h6>
 				<p>lad os antage at din maskine har det følgende:<br />
-				* en 100 gb harddisk (hda) i anvendelse, hvor monteringspunkterne hda1 er root partitionen, hda5 bruges til at gemme musik og andre filer, og hda6 er swap partitionen.<br />
-				* en overskydende 200 gb harddisk (hdb) som du ikke bruger endnu, med et monteringspunkt hdb1 ... den vil vi bruge til vores sikkerhedskopier.<br />
+				* en 100 gb harddisk (sda) i anvendelse, hvor monteringspunkterne sda1 er root partitionen, sda5 bruges til at gemme musik og andre filer, og sda6 er swap partitionen.<br />
+				* en overskydende 200 gb harddisk (sdb) som du ikke bruger endnu, med et monteringspunkt sdb1 ... den vil vi bruge til vores sikkerhedskopier.<br />
 				* IP addressen 192.168.0.1</p>
 
 				<p>Det første du skal gøre er at installere rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Selv om du sagtens kan tage backups af enkelte mapper er denne guide møntet på at sikkerhedskopiere hele partitioner... vi vil sikkerhedskopiere hda1 og hda5 (vi vil ikke tage en backup af hda6), og derfor skal vi have oprettet nogle mapper til vores data:</p>
+				<p>Selv om du sagtens kan tage backups af enkelte mapper er denne guide møntet på at sikkerhedskopiere hele partitioner... vi vil sikkerhedskopiere sda1 og sda5 (vi vil ikke tage en backup af sda6), og derfor skal vi have oprettet nogle mapper til vores data:</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Du skal specificere IP-adressen fordi det er denne maskine du vil oprette en sikkerhedskopi fra (og senere vil vi se på hvordan du også opretter sikkerhedskopier fra andre maskiner på netværket).</p>
 
@@ -241,15 +241,15 @@
 
 				<p>rdiff-backup bruger syntaksen <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. OBS: always specify directory names, not file names.</p>
 
-				<p>For at sikkerhedskopiere hda5, kør:</p>
+				<p>For at sikkerhedskopiere sda5, kør:</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Og for at sikkerhedskopiere root partitionen, kør:</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Alle "AF_UNIX path too long" fejl kan ignoreres. Det kan tage lidt tid hvis det er første gang der oprettes sikkerhedskopi af denne partition, idet rdiff-backup så skal kopiere hele partitionen (ikke bare ændringerne). Bemærk at vi ikke inkluderer /tmp, eftersom dette hele tiden ændres, heller ikke /proc eller /sys eftersom de ikke indeholder rigtige filer, og vi vil heller ikke kopiere monteringer (mounts). Hvis du vælger at sikkerhedskopiere monteringer, så kopierer du hdb1 og det kan føre til en endeløs løkke (infinite loop!). En måde at omgå dette på er at sikkerhedskopiere monteringer separat.</p>
+				<p>Alle "AF_UNIX path too long" fejl kan ignoreres. Det kan tage lidt tid hvis det er første gang der oprettes sikkerhedskopi af denne partition, idet rdiff-backup så skal kopiere hele partitionen (ikke bare ændringerne). Bemærk at vi ikke inkluderer /tmp, eftersom dette hele tiden ændres, heller ikke /proc eller /sys eftersom de ikke indeholder rigtige filer, og vi vil heller ikke kopiere monteringer (mounts). Hvis du vælger at sikkerhedskopiere monteringer, så kopierer du sdb1 og det kan føre til en endeløs løkke (infinite loop!). En måde at omgå dette på er at sikkerhedskopiere monteringer separat.</p>
 
 				<p>Grunden til at du udelader '/proc/*' og ikke bare '/proc' er at dette på snedig vis vil tage en sikkerhedskopi af mappen /proc, men udelade alle filerne i den. Det samme gælder for /tmp, /sys, og, allermest listigt, alle monteringspunkternes navne.</p>
 
@@ -261,9 +261,9 @@
 <pre>
 rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 </pre>
-				<p>Hvis du ved en fejl er kommet til at slette mappen /media/hda7/photos, så gendanner du den med:</p>
+				<p>Hvis du ved en fejl er kommet til at slette mappen /media/sda7/photos, så gendanner du den med:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
 				<p>Her betyder"-r now" parameteren 'genskab fra sidste sikkerhedskopi'. Hvis du periodisk sikkerhedskopierer alt (via crontab, for eksempel), og du ikke havde opdaget at photos mappen manglede før nogle dage senere, så ville du skulle genskabe den fra en sikkerhedskopi der er nogle dage gammel (og ikke "now", eftersom den seneste sikkerhedskopi ikke indeholder mappen). Eller måske vil du bare gerne tilbage til en tidligere version af noget.</p>
 
@@ -271,9 +271,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-1">"3D" henviser til øjeblikket 72 timer før nu. Og hvis der ikke blev taget en sikkerhedskopi på det tidspunkt, så vil rdiff-backup genskabe fra den første tidligere kopi den finder. Hvis for eksempel som ovennævnt, man anvender "3D", og der ikke findes nogen sikkerhedskopi oprettet for 3 dage siden, men der er sikkerhedskopier oprettet hhv. for 2 og for 4 dage siden, da vil rdiff-backup genskabe til tilstanden som den var for 4 dage siden. Du skal altså lige tænke over dette, inden du genskaber noget med rdiff-backup.</p>
 
-				<p>Ved at skrive følgende kommando kan du få rdiff til at skrive en liste over datoer og tidspunkter hvor der er blevet oprettet sikkerhedskopier af hda5:</p>
+				<p>Ved at skrive følgende kommando kan du få rdiff til at skrive en liste over datoer og tidspunkter hvor der er blevet oprettet sikkerhedskopier af sda5:</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Genoprettelse af partitioner</h5>
 
@@ -281,9 +281,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-2">ADVARSEL: Genopret ikke root partitionen (/) mens du er bootet ind i den! Med en kommando vil du miste alle filerne på alle dine partitioner, inklusiv alle sikkerhedskopier på separate harddiske!! rdiff-backup gør nemlig det du siger den skal gøre ... hvis din sikkerhedskopi for root partitionen har tomme monteringspunkter, så vil rdiff-backup slette alt hvad der er i monteringspunkterne for at få dem genoprettet til tilstanden i sikkerhedskopien.</p>
 
-				<p>For at genoprette hda5 fra den sidste sikkerhedskopi, skriver vi:</p>
+				<p>For at genoprette sda5 fra den sidste sikkerhedskopi, skriver vi:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Genoprettelse af root partitionen</h5>
 
@@ -300,14 +300,14 @@ $ sudo su
 </pre>
 				<h6>Lad os så genoprette:</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>OBS: Hvis du ikke har en sidux-CD kan du benytte en anden Live-CD hvis denne understøtter installation via 'klik'. Du kan så installere rdiff-backup med Klik og kalde:</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Det kan anbefales alle, der opretter en sikkerhedskopi af root partitionen (med den intention at genoprette fra den), at de tester processen med genopretning fra sikkerhedskopien. Der er næsten intet der er værre, end at tro at alt stadig kan ordnes og så få sig en ubehagelig overraskelse, når uheldet virkelig er ude.</p>
@@ -317,13 +317,13 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				<p>Du kan sikkerhedskopiere andre maskiner til din lokal-maskine, så længe din lokale maskine kan afvikle ssh forbindelser til de andre maskiner (og så længe som du har plads på dine harddiske). ssh server'en (sshd) skal køre på fjern-maskinen. De andre maskiner skal ikke nødvendigvis være i dit LAN, -de kan være placeret hvor som helst i verden.</p>
 
 				<p>Lad os antage at fjern-maskinen har følgende:<br />
-				1) en 100 gb harddisk (hda) som er i brug, med fgl. monteringspunkter,<br />
-				2) hda1 anvendt som root partition(/),<br />
-				3) hda5 hvor vi gemmer midlertidige data, som vi ikke vil sikkerhedkopiere,<br />
-				4) og hda6 som er swap, <br />
+				1) en 100 gb harddisk (sda) som er i brug, med fgl. monteringspunkter,<br />
+				2) sda1 anvendt som root partition(/),<br />
+				3) sda5 hvor vi gemmer midlertidige data, som vi ikke vil sikkerhedkopiere,<br />
+				4) og sda6 som er swap, <br />
 				5) samt IP-addressen 192.168.0.2</p>
 
-				<p>OBS: Begge 100 gb drev kan ikke normalt blive sikkerhedskopieret til en 200 gb harddisk med rdiff-backup (eftersom dette ikke ville efterlade noget plads til ændringer), men eftersom du ikke vil sikkerhedskopiere hda5 på fjern-maskinen (og siden harddiske sjældent er helt fulde, -det kan du dog ikke regne med som standard) så antager vi at du har plads nok. For hver gang rdiff-backup opretter en ny sikkerhedskopi, dannes der flere filer (incremental files), og mere og mere plads anvendes.</p>
+				<p>OBS: Begge 100 gb drev kan ikke normalt blive sikkerhedskopieret til en 200 gb harddisk med rdiff-backup (eftersom dette ikke ville efterlade noget plads til ændringer), men eftersom du ikke vil sikkerhedskopiere sda5 på fjern-maskinen (og siden harddiske sjældent er helt fulde, -det kan du dog ikke regne med som standard) så antager vi at du har plads nok. For hver gang rdiff-backup opretter en ny sikkerhedskopi, dannes der flere filer (incremental files), og mere og mere plads anvendes.</p>
 
 				<p>Du kan fortælle rdiff-backup at den kun skal gemme den sidste måneds sikkerhedskopier (kommandoen til dette viser vi senere), og dette vil naturligvis gøre at rdiff-backup bruger mindre plads end hvis den skal beholde sikkerhedskopierne fra et helt år.</p>
 
@@ -331,18 +331,18 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>For at sikkerhedskopiere fjern-maskinen til lokal-maskinen, kør fgl. på lokal-maskinen (ie 192.168.0.1): <span class="highlight-4">Bemærk anvendelsen af dobbelt kolon :: </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root 
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
 </pre>
 				<p>Hvis du vil genoprette en mappe på fjern-maskinen, kan du enten starte processen fra lokal- eller fra fjern-maskinen.</p>
 
 				<p>Dette er hvordan du ville genoprette mappen /usr/local/games på fjern-maskinen, ved at initiere det fra fjern-maskinen:</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
 				<p>Dette er hvordan du ville genoprette mappen /usr/local/games på fjern-maskinen, ved at initiere det fra den lokale maskine:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Brug den samme slags syntaks hvis du genopretter din root partition fra en Live-CD (hvor fjern-maskinen er booted op med Live-CD... se ovenstående).</p>
 
@@ -371,19 +371,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Backing up 192.168.0.1 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(and purge increments older than 1 month)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Backing up 192.168.0.1 mount sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Backing up 192.168.0.2 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

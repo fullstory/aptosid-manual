@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-br">
 <head>
-	<title>Manuais do sidux - UUID</title>
+	<title>Manuais do sidux - UUID (RO)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti  29/09/2008 1045 UTC -->
+<!-- Last translation revision by ceti  05/03/2009 1550 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-pt-br.htm#burn-nero">Queimando no Windows</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#burn-linux">Queimando no Linux</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#xdelta">Usando o xdelta-patch</a></li>
-				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">Script burniso </a></li>
 				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gen">Queimando sem interface gráfica</a></li>
 			</ul>
 		</li>
@@ -194,9 +194,9 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Reconstruindo a fstab</h2>
+			<h2 id="top-header">Como reconstruir a fstab</h2>
 
-							<p>Para mostrar uma nova partição (digamos hda6 ou sdb7), que não aparece na fstab ou não quer ser montada, abra o terminal e digite o seguinte, como usuário ($):</p>
+							<p>Para mostrar uma nova partição (digamos sda6 ou sdb7), que não aparece na fstab ou não quer ser montada, abra o terminal e digite o seguinte, como usuário ($):</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Você verá uma saída como esta (o negrito é somente para fins de exemplo):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>Nesse exemplo, <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> é o item faltante. O próximo passo é colocar os dados UUID dessa partição no arquivo etc/fstab. Para isso, abra-o em um editor de texto (como kate ou kwrite), com privilégios de root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Outro exemplo:</p>
 
@@ -243,13 +243,13 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 					Se você criar outras partições após a instalação do sidux, os pontos de montagem referentes a elas terão de ser criados e adicionados manualmente.</h5>
 
 	<div class="divider" id="uuid-fstab">
-			<h2>Uma Visão Geral: UUID, rotulando partições e a fstab</h2>
+			<h2>Uma visão geral: UUID, como rotular partições e a fstab</h2>
 							<p>A nomeação persistente de dispositivos tornou-se possível com a introdução do 'udev' e possui algumas vantagens sobre o método anterior, baseado no 'bus'.</p>
 
 							<p>Enquanto as distribuições Linux e o udev evoluem e a detecção de hardware tem se tornado mais confiável, há um novo número de problemas e mudanças:<br />
 				    			<b>1)</b> Se você tiver mais de um controlador de discos SATA/SCSI ou IDE, eles são adicionados em ordem aleatória. Isso pode resultar em nomes como hdX e hdY fazendo rodízio a cada boot. O mesmo vale para sdX e sdY. A nomeação persistente permite que você nunca mais se preocupe com isso.<br />
 				    			<b>2)</b> Com a introdução do suporte à nova biblioteca libata pata, todos os seus dispositivos IDE 'hdX' tornar-se-ão 'sdX' num futuro próximo. Por causa da nomeação persisitente, você nem vai notar.<br />
-				    			<b>3)</b> Máquinas com controladores tanto IDE quanto SATA são bastante comuns hoje em dia. Com as mudanças na libata mencionadas acima, o primeiro problema tornar-se-á ainda mais comum, porque tanto os HDs de um como do outro serão chamados de sdX.</p>
+				    			<b>3)</b> Máquinas com controladores tanto IDE quanto SATA são bastante comuns hoje em dia. Com as mudanças na libata mencionadas acima, o primeiro problema irá tornar-se ainda mais comum, porque tanto os HDs de um como do outro serão chamados de sdX.</p>
 
 							<p class="highlight-3">O padrão do sidux, ao ser instalado, é usar UUID na fstab</p>
 
@@ -271,6 +271,8 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>Como se pode ver, as partições FAT e NTFS possuem nomes menores (sda6 e sdb1), mas ainda assim são listadas pelo uuid.</p>
+
 					<h4>2. Pelo rótulo (LABEL)</h4>
 
 							<p>Praticamente todo tipo de sistema de arquivos pode ter um rótulo. Todas as suas partições que possuem um são listadas no diretório /dev/disk/by-label directory:</p>
@@ -285,9 +287,9 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Como você pode ver, as partições FAT e NTFS (rótulos fat e windows acima) possuem nomes menores, mas mesmo assim estão na fstab. A vantagem de usar o método UUID é que, ao contrário do sistema de rotulação anterior, é muito menos provável que aconteçam colisões; a desvantagem é que os identificadores são mais difíceis de serem memorizados.</p>
+							<p>Ainda que os rótulos sejam formados por nomes reconhecíveis, você precisa ser bastante cauteloso para impedir colisões.</p>
 
-							<p>Você pode mudar os rótulos usando estes comandos:</p>
+							<p>Os rótulos podem ser mudados usando-se estes comandos:</p>
 <pre>
 * swap: Crie uma nova partição swap com: mkswap -L &lt;rótulo&gt; /dev/XXX
 * ext2/ext3: e2label /dev/XXX &lt;rótulo&gt;
@@ -299,7 +301,7 @@ mas quando criar o sistema de arquivos, use mkdosfs -n &lt;rótulo&gt; &lt;outra
 Você também pode mudar o rótulo no Windows.
 * ntfs: ntfslabel /dev/XXX &lt;rótulo&lt; ou mude pelo Windows. 
 </pre>
-							<p class="highlight-3">Tenha cuidado: Para que isso funcione corretamente, os rótulos têm de ser únicos! Isso vale ao mesmo tempo para dispositivos USB/firewire, como pendrives, e para discos rígidos. A sintaxe LABEL=/ UUID= é preferível sobre /dev/disk/by-*/ para partições UN*X.</p>
+							<p class="highlight-3">Tenha cuidado: para que isso funcione corretamente, os rótulos têm de ser únicos! Isso vale ao mesmo tempo para dispositivos USB/firewire, como pendrives, e para discos rígidos. A sintaxe LABEL=/ UUID= é preferível sobre /dev/disk/by-*/ para partições UN*X.</p>
 
 
 
@@ -340,7 +342,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>No exemplo acima, /dev/sda1 é a partição root. No arquivo /boot/grub/menu.lst, a linha referente ao kernel é parecida com esta:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>Dependendo do esquema de nomeação que você preferir, mude-a para uma das seguintes:</p>
 <pre>
@@ -351,16 +353,16 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Há uma maneira alternativa de usar o rótulo incorporado ao sistema de arquivos. Por exemplo, se o sistema de arquivos em /dev/hda1 for rotulado "root", a linha no arquivo 'menu.lst' fica assim:</p>
+							<p>Há uma maneira alternativa de usar o rótulo incorporado ao sistema de arquivos. Por exemplo, se o sistema de arquivos em /dev/sda1 for rotulado "root", a linha no arquivo 'menu.lst' fica assim:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
-							<p>Fonte: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> que usou <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. O conteúdo de wiki.archlinux.org é disponibilizado sob a GNU Free Documentation License 1.2 e foi re-editado para o Manual do sidux.</p>
+							<p>Fonte: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> que usou <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. O conteúdo de wiki.archlinux.org é disponibilizado sob a GNU Free Documentation License 1.2 e foi reeditado para o Manual do sidux.</p>
 				
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Mais sobre rotulação ('labelling') pode ser encontrado em lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

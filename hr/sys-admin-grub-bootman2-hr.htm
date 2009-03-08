@@ -376,13 +376,11 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 			<p>Grub pozna BIOS-extensions (sto znači da može da startuje particije veće nego 8 GB!) i nema 1024-cilindar-ograničenje. Grubu nije važno, gdje je kernel fizički, sve što mu je potrebno je deklaracija particije i put do kernel koji treba da startuje (to može da bude samo symlink). Poslije promjene konfiguracije (kao datoteke menu.lst) ne treba mu program-call kao lilo, nova konfiguracija će biti korištena na idućem startu sistema.</p>
 			<p>sidux koristi Grub da startuje sa CD, i kad instalirate na hard disk, Grub je standardno korišten. Grub isto možete instalirati poslije bez problema. Grub je instaliran na MBR sa root-shell sa sljedećom naredbom:</p>
 
-<pre>grub-install --root-directory=/media/hdaX /dev/hdY</pre>
+<pre>grub-install --root-directory=/media/sdaX /dev/sdY</pre>
 
-			<p>/media/hdaX stoji za čitljivo-mountanu partitciju, na kojoj, u direktoriju "/boot/grub" će biti postavljene potrebne datoteke (stage2, stage1_5xxx). Konfiguracijska datoteka "menu.lst" isto mora biti kreirana u tom direktorij. /dev/hdY je hard disk, na kojem MBR Grub će biti instaliran, normalno /dev/hda.</p>
+			<p>/media/sdaX stoji za čitljivo-mountanu partitciju, na kojoj, u direktoriju "/boot/grub" će biti postavljene potrebne datoteke (stage2, stage1_5xxx). Konfiguracijska datoteka "menu.lst" isto mora biti kreirana u tom direktorij. /dev/sdY je hard disk, na kojem MBR Grub će biti instaliran, normalno /dev/sda.</p>
 
 			<h3>Disk-Imena/Imena Uređaja</h3>
-
-							<p><span class="highlight-2">Please Note: </span><span class="highlight-3">hda</span> is in the process of being depreciated, therefore you need to start substituting <span class="highlight-3">hda </span>with <span class="highlight-3">sda</span> for kernels 2.6.22 and onward.</p>
 
 			<p>Grub ne pravi razliku između SCSI- i IDE-Harddisks. (hd0) je uvijek prvi hard disk koji je prvi u boot sekvenci (postavka u BIOS), nema veze dali je IDE ili SCSI. Izvanredna je metoda sa brojenjem; prva particija na prvoj hd je (hd0,0). Primary particije su numerirane od 0 do 3, logične particije od 4 pa na dalje.</p>
 
@@ -399,19 +397,19 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 					<td>Floppy (pod Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
 					<td>Prvi hd</td>	
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
+					<td>/dev/sda1</td>
 					<td>Part.1 na hd1</td>	
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Extended part. na hd 1</td>	
+					<td>/dev/sda6</td>
+					<td>Logical part. na hd 1</td>	
 				</tr>
 			</tbody>
 		</table>
@@ -447,7 +445,7 @@ geometry (hd0)
 
 			<p>pokazuje ovo:</p>
 <pre>
-"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 Filesystem type is fat, partition type 0xb Partition num: 1,
 Filesystem type is fat, partition type 0xb Partition num: 2,
 Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -529,7 +527,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -546,9 +544,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -567,7 +565,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -618,7 +616,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -627,9 +625,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -656,7 +654,7 @@ chainloader +1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro (or whatever)
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro (or whatever)
 initrd (hd0,3)/debian/miniroot.gz (or (whatever)
 
 ### ISO boot
@@ -700,7 +698,7 @@ LINUX: # chmod a -w ./stage2
 				
 	</div>
 
-	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
+	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
 
 </div>
 </body>

@@ -415,28 +415,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							#### -->
 							sidux "FULL" には 最低2.1GBとさらにデータ用のスペースが必要です。</p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<!--- ####
-							<p>We start with a normal installation and choose the partition on the USB-device, where sidux is to be installed - we speak of "sda1" here, but this is valid for any other partition on a USB-disk or device.</p>
-							#### -->
-							<p>普通の場合と同じようにインストールを始め、インストール先のパーティションにUSBドライブを選びます。 ここでは"sda1"と書きますがUSBドライブやその他のデバイスのパーティションも同じように選べます。</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ja.htm#Installation">Installing to your HD</a></p>
 
-							<!--- ####
-							<p>The Partition must be formatted with a linux-filesystem. Recommended is the ext3 filesystem. An existing partition will be reformatted by the installer!</p>
-							#### -->
-							<!--<p>インストール先のパーティションはLinuxのファイルシステムにフォーマットされていなければなりません。 推薦するのはext3ファイルシステムです。 使用されているパーティションもインストーラによってフォーマットされます!</p>-->
-
-							<!--- ####
-							<p class="highlight-2">All data on this partition will be lost during the reformat!</p>
-							#### -->
-							<!--<p class="highlight-2">このパーティションのデータはすべてリフォーマットによって消されてしまします!</p>-->
-
-
-							<!--- ####
-							<p>Now you can boot from your USB-HD. 'Boot from USB' must be enabled in your BIOS.</p>
-							#### -->
-							<p>これでUSBドライブからsiduxを起動できます。 USBドライブから起動するようにBIOSを設定します。</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -660,9 +643,9 @@ qemu [overlay_image]
 				<p>時にはシステムパーティションの一つをQEMUの内部から使いたいことがあります。 (同じパーティションをルートとして実際に起動したりQEMUから起動したりしたい場合など)。 ソウトウェアRAIDをリニアモードで使い(そのためにはカーネルモジュールlinear.koが必要です)合わせてループバックデバイスを使うことで実現できます: QEMUのディスクイメージに埋め込みたい本物のパーティションの先頭にマスターブートレコード(MBR)をダイナミックに差し込むのがトリックです。</p>
 
 				<!--- ####
-				<p>Suppose you have a plain, unmounted /dev/hdaN partition with some filesystem on it you wish to make part of a qemu disk image. First, you create some small file to hold the MBR:</p>
+				<p>Suppose you have a plain, unmounted /dev/sdaN partition with some filesystem on it you wish to make part of a qemu disk image. First, you create some small file to hold the MBR:</p>
 				#### -->
-				<p>仮にまだマウントされていないパーティション /dev/hdaN があって、何らかのファイルシステムにフォーマットされていて、これをQEMUのディスクイメージの一部に取り込みたいとします。 まず、MBRを保持する小さいファイルを作ります:</p>
+				<p>仮にまだマウントされていないパーティション /dev/sdaN があって、何らかのファイルシステムにフォーマットされていて、これをQEMUのディスクイメージの一部に取り込みたいとします。 まず、MBRを保持する小さいファイルを作ります:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -674,31 +657,31 @@ dd if=/dev/zero of=/path/to/mbr count=32
 losetup -f /path/to/mbr
 </pre>
 				<!--- ####
-				<p>Let's assume the resulting device is /dev/loop0, because we wouldn't already have been using other loopbacks. Next step is to create the "merged" MBR + /dev/hdaN disk image using software RAID:</p>
+				<p>Let's assume the resulting device is /dev/loop0, because we wouldn't already have been using other loopbacks. Next step is to create the "merged" MBR + /dev/sdaN disk image using software RAID:</p>
 				#### -->
-				<p>すでにループデバイスが存在するとは限らないので仮にこれから作るループデバイスを /dev/loop0 としましょう。 次のステップはソフトウェアRAIDを使ってMBRとディスクイメージ/dev/hdaNを合併することです:</p>
+				<p>すでにループデバイスが存在するとは限らないので仮にこれから作るループデバイスを /dev/loop0 としましょう。 次のステップはソフトウェアRAIDを使ってMBRとディスクイメージ/dev/sdaNを合併することです:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
 				<!--- ####
-				<p>The resulting /dev/md0 is what you will use as a qemu raw disk image (don't forget to set the permissions so that the emulator can access it). The last (and somewhat tricky) step is to set the disk configuration (disk geometry and partitions table) so that the primary partition start point in the MBR matches the one of /dev/hdaN inside /dev/md0 (an offset of exactly 16 * 512 = 16384 bytes in this example). Do this using fdisk on the host machine, not in the emulator: the default raw disc detection routine from qemu often results in non kilobyte-roundable offsets (such as 31.5 KB, as in the previous section) that cannot be managed by the software RAID code. Hence, from the the host:</p>
+				<p>The resulting /dev/md0 is what you will use as a qemu raw disk image (don't forget to set the permissions so that the emulator can access it). The last (and somewhat tricky) step is to set the disk configuration (disk geometry and partitions table) so that the primary partition start point in the MBR matches the one of /dev/sdaN inside /dev/md0 (an offset of exactly 16 * 512 = 16384 bytes in this example). Do this using fdisk on the host machine, not in the emulator: the default raw disc detection routine from qemu often results in non kilobyte-roundable offsets (such as 31.5 KB, as in the previous section) that cannot be managed by the software RAID code. Hence, from the the host:</p>
 				#### -->
-				<p>こうして作られた /dev/md0 をQEMUのディスクイメージファイルとして使います。 (エミュレータがアクセスで切るようにパーミッションを設定するのを忘れないように)。 最後の(一番トリッキーな)ステップはディスク設定(ディスクの形状とパーティションテーブル)においてMBRのプライマリパーティションのスタートポイントが /dev/md0 のなかの /dev/hdaN のポイントと一致するように(この例ではオフセットが16 x 512 = 16384バイトちょうどになるように)設定することです。 この作業はエミュレータの中では行わず、ホストマシーンの上でfdiskを使って行いましょう。 QEMUのデフォルトのロウディスク認識ルーチンはしばしばキロバイトで割り切れないオフセット(上の例だと31.5Kb)を出力するため、ソフトウェアRAIDコードでは扱えません。 だからホスト上で行います:</p>
+				<p>こうして作られた /dev/md0 をQEMUのディスクイメージファイルとして使います。 (エミュレータがアクセスで切るようにパーミッションを設定するのを忘れないように)。 最後の(一番トリッキーな)ステップはディスク設定(ディスクの形状とパーティションテーブル)においてMBRのプライマリパーティションのスタートポイントが /dev/md0 のなかの /dev/sdaN のポイントと一致するように(この例ではオフセットが16 x 512 = 16384バイトちょうどになるように)設定することです。 この作業はエミュレータの中では行わず、ホストマシーンの上でfdiskを使って行いましょう。 QEMUのデフォルトのロウディスク認識ルーチンはしばしばキロバイトで割り切れないオフセット(上の例だと31.5Kb)を出力するため、ソフトウェアRAIDコードでは扱えません。 だからホスト上で行います:</p>
 <pre>
  fdisk /dev/md0
 </pre>
 				<!--- ####
-				<p>There, create a single primary partition corresponding to /dev/hdaN, and play with the 's'ector command from the 'x'pert menu until the first cylinder (where the first partition starts), matches to the size of the MBR. Finally, 'w'rite the result to the file: you are done. You know have a partition you can mount directly from your host, as well as part of a qemu disk image:</p>
+				<p>There, create a single primary partition corresponding to /dev/sdaN, and play with the 's'ector command from the 'x'pert menu until the first cylinder (where the first partition starts), matches to the size of the MBR. Finally, 'w'rite the result to the file: you are done. You know have a partition you can mount directly from your host, as well as part of a qemu disk image:</p>
 				#### -->
-				<p>このプラグラムで /dev/hdaN に対応する単一のプライマリパーティションを作成し、XpertメニューのSectorコマンドを試しながら最初のシリンダ(初めのセクターが始まるところ)ばMBRのサイズと一致する設定を探し、Writeコマンドで結果を書き込んで終わりです。 これでこのパーティションをホストからでもQEMUのディスクイメージの一部としてでも使えるようになりました:</p>
+				<p>このプラグラムで /dev/sdaN に対応する単一のプライマリパーティションを作成し、XpertメニューのSectorコマンドを試しながら最初のシリンダ(初めのセクターが始まるところ)ばMBRのサイズと一致する設定を探し、Writeコマンドで結果を書き込んで終わりです。 これでこのパーティションをホストからでもQEMUのディスクイメージの一部としてでも使えるようになりました:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
 				<!--- ####
-				<p>You can of course safely set any bootloader on this disk image using qemu, provided the original /boot/hdaN partition contains the necessary tools.</p>
+				<p>You can of course safely set any bootloader on this disk image using qemu, provided the original /boot/sdaN partition contains the necessary tools.</p>
 				#### -->
-				<p>もちろんこのディスクイメージにQEMUを使って(元の/boot/hdaNパーティションに必要なツールさえあれば)どんなブートローダでも設定できます。</p>
+				<p>もちろんこのディスクイメージにQEMUを使って(元の/boot/sdaNパーティションに必要なツールさえあれば)どんなブートローダでも設定できます。</p>
 
 
 			<!--- ####
@@ -747,11 +730,11 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<!--- ####
 		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Some content for QEMU for the sidux-manual was accessed off this site under GNU Free Documentation License 1.2 and modified for the sidux-manual</a> </p>
 		#### -->
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">QEMUについての内容の一部はこのサイトからGNU Free Documentation License 1.2に基づいて取得されsidux-manual用に変更されています</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">QEMUについての内容の一部はこのサイトからGNU Free Documentation License 1.2に基づいて取得されsidux-manual用に変更されています</a> </p>
 
 		
 	</div>
-	<div id="rev">Page last revised 22/01/2008 0100hrs UTC</div>
+	<div id="rev">Page last revised 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

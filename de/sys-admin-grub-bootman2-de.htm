@@ -98,7 +98,7 @@
 				<li><a href="hd-install-de.htm#Installation">Installation auf die Festplatte</a></li>
 				<li><a href="hd-install-de.htm#first-hd-boot">Erstes Booten von der Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#fromiso">Booten 'fromiso'</a></li>
-				<li><a href="hd-install-opts-de.htm#fromiso-persist">fromiso und persist</a></li>
+				<li><a href="hd-install-opts-de.htm#fromiso-persist">Beschreibbares Live-System - fromiso</a></li>
 				<li><a href="hd-install-opts-de.htm#usb-hd">Installation auf eine USB-Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#vtbox">Installation sidux über VirtualBox</a></li>
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
@@ -378,14 +378,12 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
                 					<p>sidux verwendet Grub beim Booten von CD, und bei einer Festplatten-Installation wird als Standard Grub verwendet. Grub kann aber auch problemlos nachträglich installiert werden und wird mit  folgendem Befehl aus einer Root-Konsole in den MBR installiert:</p>
 
 <pre>
-grub-install --root-directory=/media/hdaX /dev/hdY
+grub-install --root-directory=/media/sdaX /dev/sdY
 </pre>
 
-							<p>/media/hdaX steht hierbei für die schreibend gemountete Partition, auf der im Verzeichnis <i>/boot/grub</i> die benötigten Dateien (stage2, stage1_5xxx) abgelegt werden.<br /> Die Konfigurationsdatei menu.lst muss ebenfalls in diesem Verzeichnis erstellt werden. /dev/hdY ist die Platte, in deren MBR Grub installiert wird, normalerweise /dev/hda.</p>
+							<p>/media/sdaX steht hierbei für die schreibend gemountete Partition, auf der im Verzeichnis <i>/boot/grub</i> die benötigten Dateien (stage2, stage1_5xxx) abgelegt werden.<br /> Die Konfigurationsdatei menu.lst muss ebenfalls in diesem Verzeichnis erstellt werden. /dev/sdY ist die Platte, in deren MBR Grub installiert wird, normalerweise /dev/sda.</p>
 
 					<h3>Festplattenbezeichner/Geräte-Namen</h3>
-
-							<p><span class="highlight-2">Zur Beachtung: </span><span class="highlight-3">hda</span> ist ab Kernel 2.6.22 (und höher) obsolet, und <span class="highlight-3">hda</span> muss durch <span class="highlight-3">sda</span> ersetzt werden.</p>
 
 							<p>Grub unterscheidet nicht zwischen SCSI- und IDE-Festplatten. (hd0) ist immer die erste Festplatte, die in der Bootreihenfolge (Einstellung im BIOS) auch die erste ist, egal ob nun IDE oder SCSI. Ungewöhnlich ist die Zählweise, die 1. Partition auf der ersten Festplatte heißt (hd0,0). Die primären Partitionen haben die Ziffernfolge von 0-3 und die logischen Partitionen zählen dann ab 4 aufwärts.</p>
 
@@ -402,19 +400,19 @@ grub-install --root-directory=/media/hdaX /dev/hdY
 					<td>Floppy (unter Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
 					<td>erste hd</td>	
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
+					<td>/dev/sda1</td>
 					<td>Part.1 auf hd1</td>	
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Erweiterte Part. auf hd 1</td>	
+					<td>/dev/sda6</td>
+					<td>Logische Part. auf hd 1</td>	
 				</tr>
 			</tbody>
 		</table>
@@ -451,7 +449,7 @@ geometry (hd0)
 
 							<p>zeigt Folgendes:</p>
 <pre>
-"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 		Filesystem type is fat, partition type 0xb Partition num: 1,
 		Filesystem type is fat, partition type 0xb Partition num: 2,
 		Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -533,7 +531,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -550,9 +548,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -571,7 +569,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -622,7 +620,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -631,9 +629,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -660,7 +658,7 @@ chainloader +1
 
 ### Debian Etch
 title Debian Etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro	(Oder was auch immer)
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro	(Oder was auch immer)
 initrd (hd0,3)/debian/miniroot.gz		(hier stehen soll)
 
 ### ISO boot
@@ -709,7 +707,7 @@ LINUX: # chmod a -w ./stage2
 							<p>Sofern man eine unterstützte Netzwerkkarte besitzt, kann Grub auch über das Netzwerk booten. Eine entsprechende <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Boot-Disk kann man sich hier</a> erstellen lassen und anschließend downloaden (allerdings mit einer älteren Version von Grub).</p>
 		
 	</div>
-	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
+	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
 
 </div>
 </body>

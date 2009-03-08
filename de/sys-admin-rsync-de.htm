@@ -98,7 +98,7 @@
 				<li><a href="hd-install-de.htm#Installation">Installation auf die Festplatte</a></li>
 				<li><a href="hd-install-de.htm#first-hd-boot">Erstes Booten von der Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#fromiso">Booten 'fromiso'</a></li>
-				<li><a href="hd-install-opts-de.htm#fromiso-persist">fromiso und persist</a></li>
+				<li><a href="hd-install-opts-de.htm#fromiso-persist">Beschreibbares Live-System - fromiso</a></li>
 				<li><a href="hd-install-opts-de.htm#usb-hd">Installation auf eine USB-Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#vtbox">Installation sidux über VirtualBox</a></li>
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
@@ -307,22 +307,22 @@ trinity --> morpheus – wird zu: trinity --> neo &amp; neo --> morpheus
 </pre>
 				<h5>Arbeitsbeispiele von Befehlen mit rsync:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 				<p>Erklärung der einzelnen Bestandteile dieses Befehls:</p>
 <pre>
 Die Quelle ist: morpheus:/home/tartie,
-das Ziel ist: /media/hda7/SysBackups/morpheus/home
+das Ziel ist: /media/sda7/SysBackups/morpheus/home
 </pre>
-				<p>Das Verzeichnis /home/tartie (inklusive Unterverzeichnisse) wird in /media/hda7/SysBackups/morpheus/home gesichert, was nach dem rsync so aussieht:</p>
+				<p>Das Verzeichnis /home/tartie (inklusive Unterverzeichnisse) wird in /media/sda7/SysBackups/morpheus/home gesichert, was nach dem rsync so aussieht:</p>
 <pre>
-/media/hda7/SysBackups/morpheus/home/tartie
+/media/sda7/SysBackups/morpheus/home/tartie
 </pre>
 				<p>Die übergeordnete Verzeichnisstruktur wird nicht übernommen, der ZIELORT bestimmt die Einbindung in das Zielsystem, nicht die Verzeichnisstruktur der Quelle. Darum kann /tartie sich in /home befinden. Die "Quelle" wählt nur, woher die Daten kommen, nicht wohin sie transferiert werden. Das “Ziel” befiehlt rsync, wohin die Daten aus der "Quelle" kopiert werden sollen. Hier ein Beispiel:</p>
 <pre>
-rsync [...] /home/user/data/files /media/hda7/SysBackups/neo
+rsync [...] /home/user/data/files /media/sda7/SysBackups/neo
 </pre>
-				<p>Hier werden nur das Quellverzeichnis /files und alle sich darin befindlichen Verzeichnisse und Dateien in den Zielordner /neo kopiert – und nicht die komplette Verzeichnisstruktur /media/hda7/SysBackups/neo/home/user/data/files</p>
+				<p>Hier werden nur das Quellverzeichnis /files und alle sich darin befindlichen Verzeichnisse und Dateien in den Zielordner /neo kopiert – und nicht die komplette Verzeichnisstruktur /media/sda7/SysBackups/neo/home/user/data/files</p>
 
 				<p>Dies sollte bei Erstellung von Backupbefehlen mit rsync beachtet werden.</p>
 
@@ -374,32 +374,32 @@ müssen mehrere Optionen --exclude gesetzt werden.
 
 				<h5>Beispielsbefehle:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
-				<p>Dieser Befehl kopiert alle Verzeichnisse und Dateien unterhalb von /home/tartie auf das System “morpheus” und platziert diese in das Verzeichnis /media/hda7/SysBackups/morpheus/home. Die Verzeichnisstruktur von tartie bleibt erhalten.</p>
+				<p>Dieser Befehl kopiert alle Verzeichnisse und Dateien unterhalb von /home/tartie auf das System “morpheus” und platziert diese in das Verzeichnis /media/sda7/SysBackups/morpheus/home. Die Verzeichnisstruktur von tartie bleibt erhalten.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/sda7/SysBackups/morpheus/home
 </pre>
 				<p>Dies ist der umgekehrte Befehl des ersten Beispiels. Er "schiebt" das Verzeichnis /home/tartie und seinen Inhalt in das angegebene Verzeichnis des Systems "neo" – beachtet muss werden, dass ein System als "entfernt" angesehen wird, wenn ein Doppelpunkt “:” vor dem Pfad gesetzt wird.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
+rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/sda7/SysBackups/neo/home
 </pre>
-				<p>Dies ist ein Backupvorgang auf dem lokalen Rechner. Zu beachten ist, dass hier kein Doppelpunkt gesetzt ist. Das lokale Verzeichnis /home/cuddles wird nach /media/hda7/SysBackups/neo/home auf dem selben lokalen Rechner kopiert.</p>
+				<p>Dies ist ein Backupvorgang auf dem lokalen Rechner. Zu beachten ist, dass hier kein Doppelpunkt gesetzt ist. Das lokale Verzeichnis /home/cuddles wird nach /media/sda7/SysBackups/neo/home auf dem selben lokalen Rechner kopiert.</p>
 
 				<h5>rsync mit mehrfachen Optionen --exclude:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/hda7/SysBackups/neo
+rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/sda7/SysBackups/neo
 </pre>
-				<p>Dieser Befehl kopiert ALLES aus dem Root-Verzeichnis des lokalen Systems (alle Verzeichnisse und Dateien) nach /media/hda7/SysBackups/neo – ausgeschlossen davon sind alle Dateien und Verzeichnisse, die auf “~”, “.c” oder “.o” enden.</p>
+				<p>Dieser Befehl kopiert ALLES aus dem Root-Verzeichnis des lokalen Systems (alle Verzeichnisse und Dateien) nach /media/sda7/SysBackups/neo – ausgeschlossen davon sind alle Dateien und Verzeichnisse, die auf “~”, “.c” oder “.o” enden.</p>
 
 				<h5>Ersetzung von Hostnamen mit der IP-Adresse:</h5>
 
 				<p>Der erste Befehl ist mit der Hostnamen-Methode gesetzt, der zweite mit der IP-Adressen-Methode. Beide Befehle sind in ihrer Ausführung identisch:</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 				<p>Die Hostnamen-Methode muss nicht angewendet werden, aber unserer Meinung nach vereinfacht sie Backups mit rsync in Netzwerken.</p>
 

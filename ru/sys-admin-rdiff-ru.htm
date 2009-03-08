@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
 				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
-				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Скрипт burniso</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
 		</li>
@@ -223,18 +223,18 @@
 			<h6>Как это работает</h6>
 				<p>(названия и размеры разделов приведены в качестве примера и могут быть другими в Вашем конкретном случае)</p>
 				<p>Сперва убедитесь в том, что:<br />
-				* Первый жесткий диск (hda) 100Гб используется со следующими смонтированными разделами:, hda1 как /;hda5 для сохранения музыки и прочих файлов;hda6 под swap.<br />
-				* Второй жесткий диск (hdb) 200Гб не используется и смонтирован как hdb1 ...(будет задействован для сохранения резервных копий).<br />
+				* Первый жесткий диск (sda) 100Гб используется со следующими смонтированными разделами:, sda1 как /;sda5 для сохранения музыки и прочих файлов;sda6 под swap.<br />
+				* Второй жесткий диск (sdb) 200Гб не используется и смонтирован как sdb1 ...(будет задействован для сохранения резервных копий).<br />
 				* IP адрес 192.168.0.1</p>
 
 				<p>Сперва устанавливаем rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Теперь, хотя возможно осуществить резервирование любой дирректории, рассмотрим пример резервирования раздела жесткого диска целиком ( пусть это будут hda1 и hda5; создавать бэкап раздела swap - необходимости нет).Создадим небходимые дирректории для сохраняемых файлов:</p>
+				<p>Теперь, хотя возможно осуществить резервирование любой дирректории, рассмотрим пример резервирования раздела жесткого диска целиком ( пусть это будут sda1 и sda5; создавать бэкап раздела swap - необходимости нет).Создадим небходимые дирректории для сохраняемых файлов:</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Необходимо указать свой IP адрес для сохранения возможности резервировать данные с других хостов в будущем.</p>
 
@@ -242,13 +242,13 @@
 
 				<p>синтаксис утилиты rdiff-backup: <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. (Примечание: всегда указывайте имя дирректории, а не файла!).</p>
 
-				<p>Для резервирования раздела hda5 выполнить в командной строке:</p>
+				<p>Для резервирования раздела sda5 выполнить в командной строке:</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Тоже самое, но для корневого раздела:</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
 				<p>Ошибки типа "AF_UNIX path too long" могут быть проигнорированны. Их появление может быть связано с тем, что при первичном копировании раздела rdiff-backup сохраняет все, а не только измененные файлы. Так же обращаем внимание, что из списка резервирования исключены /tmp(постоянно изменяющиеся временные файлы); /proc и /sys, как не содержащие реальных файлов; а также /mount(здесь содержится раздел с резервными копиями файлов; включив его в список мы создадим бесконечный цикл "самокопирования" этого раздела. Если создать копию все же необходимо - придется выбрать отдельный диск).</p>
 
@@ -262,9 +262,9 @@
 <pre>
 rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 </pre>
-				<p>Теперь, если вы случайно удалили дирректорию /media/hda7/photos,ее возможно восстановить:</p>
+				<p>Теперь, если вы случайно удалили дирректорию /media/sda7/photos,ее возможно восстановить:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
 				<p>Опция "-r now" означает восстановление из последнего бэкапа. Если резервное копирование осуществляется периодически (посредством crontab, например) и дирректория с фотографиями была удалена несколько дней назад, то для восстановления следует использовать соответствующий бэкап (не "now", т.к. в нем не содержатся необходимые файлы). То же самое верно во всех случаях, когда необходимо восстановить прежнюю версию чего бы то ни было.</p>
 
@@ -272,9 +272,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-1">"3D" позволяет вернуться к состоянию за 72 часа до настоящего момента, и если тогда не было создано резервной копии, восстановление автоматически произойдет из предыдущего бэкапа. Например, указана опция "3D", но существуют бэкапы только двухдневной и черырехдневной давности; запрошенный файл будет восстановлен из бэкапа, созданного 4 дня назад ( это обстоятельство необходимо учесть перед проведением восстановления).</p>
 
-				<p>Следующая команда отображает дату и время резервных копий, созданых для hda5:</p>
+				<p>Следующая команда отображает дату и время резервных копий, созданых для sda5:</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Восстановление разделов</h5>
 
@@ -282,9 +282,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-2">ПРЕДУПРЕЖДЕНИЕ: Не пытайтесь восстановить корневой раздел, если Вы в него загрузились! Это может привести к потере всех данных на всех разделах, включая резервные копии на отдельном жестком диске!! ...rdiff-backup выполнят в точности то, что ему указано... если в бэкапе корневой раздел пуст, то при восстановлении будет удалнено все содиржимое настоящего корневого раздела - в точности как в резервной копии.</p>
 
-				<p>Для восстановления hda5 из последней резервной копии необходимо выполнить:</p>
+				<p>Для восстановления sda5 из последней резервной копии необходимо выполнить:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Восстановление корневого раздела</h5>
 
@@ -301,14 +301,14 @@ $ sudo su
 </pre>
 				<h6>А теперь осуществим восстановление:</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Примечание: если вы не имеете диска sidux, но располагаете Live-CD с поддержкой klik, установить rdiff-backup возможно с помощью Klik:</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Рекомендуется каждому попробовать осуществить восстановление  корневого раздела на практике. так как нет ничего хуже, чем думать, как все просто и легко, а потом столкнуться с неожиданностью в аварийной ситуации.</p>
@@ -318,13 +318,13 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				<p>Данные с удаленной машины возможно сохранять локально с условием наличия ssh доступа к удаленному хосту и достаточного количества свободного места на локальном жестком диске. На удаленной машине должен быть запущен сервер ssh, где при этом расположен сам хост - значения не имеет( это может быть и локальная сеть и интернет).</p>
 
 				<p>Подразумевается соответствие удаленного хоста следующим параметрам:<br />
-				1) 100Гб жесткий диск (hda) с обычными точками монтирования<br />
-				2) hda1 используется как корневой раздел<br />
-				3) hda5 предназначен для хранения временных файлов, которые мы не включаем в резервное копирование<br />
-				4) hda6 как swap <br />
+				1) 100Гб жесткий диск (sda) с обычными точками монтирования<br />
+				2) sda1 используется как корневой раздел<br />
+				3) sda5 предназначен для хранения временных файлов, которые мы не включаем в резервное копирование<br />
+				4) sda6 как swap <br />
 				5) IP адрес 192.168.0.2</p>
 
-				<p>Примечание: оба 100 гигабайтных харда обычно не могут быть зарезервированы на 200 гигабайтном винчестере ввиду нехватки дискового пространства, но поскольку мы не копируем hda5 удаленного хоста, а разделы жесткого диска обычно не заполнены на 100% ( хотя полагаться на это не стоит) можно сосчитать количество необходимого места на жестком диске и убедиться в его достаточности. Каждый раз, когда новый раздел сохраняется с помощью rdiff-backup, необходимо помнить, что создается новая 'структура' для вложенных файлов, требующая нового дополнительного пространства.</p>
+				<p>Примечание: оба 100 гигабайтных харда обычно не могут быть зарезервированы на 200 гигабайтном винчестере ввиду нехватки дискового пространства, но поскольку мы не копируем sda5 удаленного хоста, а разделы жесткого диска обычно не заполнены на 100% ( хотя полагаться на это не стоит) можно сосчитать количество необходимого места на жестком диске и убедиться в его достаточности. Каждый раз, когда новый раздел сохраняется с помощью rdiff-backup, необходимо помнить, что создается новая 'структура' для вложенных файлов, требующая нового дополнительного пространства.</p>
 
 				<p>Существует возможность ограничить временной интервал хранения резервных копий( например одним месяцем) и соответствующая команда будет рассмотрена ниже. Конечно в этом случае потребуется меньше места, чем при сохранении резервных копий за годовой период. А вслучае, когда необходимо сохранять копии на протяжении года, также необходимо иметь достаточное количество дискового пространства.</p>
 
@@ -332,18 +332,18 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>На локальном компьютере выполняем: <span class="highlight-4">Обратите внимание на использование двойного двоеточия :: </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root 
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
 </pre>
 				<p>Теперь для восстановления дирректории на удаленном компьютере возможно инициировать процесс восстановления как локально, так и удаленно.</p>
 
 				<p>Восстановление дирректории /usr/local/games на удаленном компьютере, инициализируя процесс восстановления на нем же:</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
 				<p>Тоже самое, но локально:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Используется такой же синтаксис, как при восстановлении корневого раздела с Live-CD (удаленная машина загружена с Live-CD ... пример - смотри выше).</p>
 
@@ -372,19 +372,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Backing up 192.168.0.1 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(and purge increments older than 1 month)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Backing up 192.168.0.1 mount sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Backing up 192.168.0.2 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

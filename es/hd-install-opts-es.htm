@@ -23,7 +23,7 @@
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
-		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsqueda En-línea y Fuera</a> </li>
+		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsquedas</a> </li>
 		<li><a href="http://manual.sidux.com/meta-manual">Meta-Paquetes de sidux</a></li>
 	</ul>
 	<div id="flags-2">
@@ -55,7 +55,7 @@
 				<li><a href="cd-dl-burning-es.htm#burn-nero">Quemar en Windows</a></li>
 				<li><a href="cd-dl-burning-es.htm#burn-linux">Quemar en Linux</a></li>
 				<li><a href="cd-dl-burning-es.htm#xdelta">Parches con xdelta</a></li>
-				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">Script para quemar ISO</a></li>
 				<li><a href="cd-no-gui-burn-es.htm#burning-no-gen">Quemar sin GUI</a></li>
 			</ul>
 		</li>
@@ -69,7 +69,7 @@
 		<li  onmouseover="showHide( 5 );" onmouseout="startTime();" ><a href="term-konsole-es.htm">Terminal/Consola</a>
 			<ul class="sub-menu" id="sm5">
 				<li><a href="term-konsole-es.htm#sux">sux</a></li>
-				<li><a href="term-konsole-es.htm#term-kon">Terminal/Consola</a></li>
+				<li><a href="term-konsole-es.htm#term-kon">Terminal (Consola)</a></li>
 				<li><a href="term-konsole-es.htm#cli-help">Ayuda en la Línea de Comando</a></li>
 				<li><a href="term-konsole-es.htm#term-cmds">Comandos del Terminal Linux</a></li>
 				<li><a href="term-konsole-es.htm#shell-scripts">instalando_scripts.sh</a></li>
@@ -296,16 +296,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							para sidux "LITE", 1.2 GB, MAS espacio para los datos,<br />
 							para sidux "FULL", 2.1 GB, MAS espacio para los datos.</p>
 
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p> <span class="highlight-3">Formatear el dispositivo con ext2 ó fat32 antes de proceder.</span></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-es.htm#Installation">Installing to your HD</a></p>
 
-							<p>Empezamos como una instalación normal y escoge la partición del dispositivo-USB, donde el sidux es de ser instalado - hablamos de "sda1" aquí, pero la forma es válido para cualquier otra partición en un dispositivo o disco duro USB.</p>
-
-							<!--<p>La partición tiene que ser formateada con una sistema de archivos de Linux. La sistema de archivos ext3 es recomendado. Cualquier partición existente será reformateado/reinicializada por el instalador!</p>
-
-							<p class="highlight-2">Todos los datos de este partición sera perdido durante el re-formateo!</p>-->
-
-							<p>Ahora, puede arrancar desde el DD-USB. "Arranque desde USB" (Boot from USB) tiene que ser activado en el BIOS del computador.</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -415,7 +410,7 @@ qemu [overlay_image]
 
 				<p>A veces, puede desea utilizar una de las otras particiones de adentro de qemu (por ejemplo, si desea arrancar tanto la máquina actual o qemu utilizando un otra partición como root). Puede hacer esto con un software RAID en modo línear (necesitas el interprete del kernel, linear.ko) y un dispositivo loopback: el truco es dinámicamente anteponer un registro maestro de arranque (MBR) a la partición verdadera que desea embedir en el imagen raw del disco qemu.</p>
 
-				<p>Suponga que tiene una partición sencilla, no montado /dev/hdaN con algunos sistema de archivos que desea hacerlo parte de un imagen de disco qemu. Primero, crea un pequeño archivo para guardar el MBR:</p>
+				<p>Suponga que tiene una partición sencilla, no montado /dev/sdaN con algunos sistema de archivos que desea hacerlo parte de un imagen de disco qemu. Primero, crea un pequeño archivo para guardar el MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -423,21 +418,21 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Asumimos que el dispositivo es /dev/loop0, porque no estuvimos usando otros loopbacks. Próximo, crear el imagen del disco unido ("merged") MBR + /dev/hdaN utilizando software RAID:</p>
+				<p>Asumimos que el dispositivo es /dev/loop0, porque no estuvimos usando otros loopbacks. Próximo, crear el imagen del disco unido ("merged") MBR + /dev/sdaN utilizando software RAID:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16  \
- --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>El resultante, /dev/md0 es lo que va a usar como el imagen de disco raw del qemu (no olvide de corregir los permiso para que el emulador puede accesarlo). El ultimo (y algo delicado) paso es de fijar la configuración (geometría del disco y la tabla de particiones) tanto que punto de inicialización de la partición primario en el MBR es igual al aquel de /dev/hdaN adentro el /dev/md0 (un  "offset" de exactamente, 16 * 512 = 16384 bytes en este ejemplo). Haga esto con el fdisk en la máquina de hospedaje, y no en el emulador: la rutina de detección del disco raw de qemu frecuentemente resulta en "offsets" no redondeable en kilobytes (tales como, 31.5 KB, como en la sección previo) que no puede ser manejada por el código del software RAID. Entonces, desde el hospedaje:</p>
+				<p>El resultante, /dev/md0 es lo que va a usar como el imagen de disco raw del qemu (no olvide de corregir los permiso para que el emulador puede accesarlo). El ultimo (y algo delicado) paso es de fijar la configuración (geometría del disco y la tabla de particiones) tanto que punto de inicialización de la partición primario en el MBR es igual al aquel de /dev/sdaN adentro el /dev/md0 (un  "offset" de exactamente, 16 * 512 = 16384 bytes en este ejemplo). Haga esto con el fdisk en la máquina de hospedaje, y no en el emulador: la rutina de detección del disco raw de qemu frecuentemente resulta en "offsets" no redondeable en kilobytes (tales como, 31.5 KB, como en la sección previo) que no puede ser manejada por el código del software RAID. Entonces, desde el hospedaje:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Allí, crea una sóla partición primario que corresponda a /dev/hdaN, y juega con el comando "s"ector de la menú e"x"pert hasta que la primer cilindro (donde la primero partición empieza), es igual a la tamaño del MBR. Finalmente, "w"rite (escribir) el resultado al archivo: cuando esta lista. Ahora tienes una partición que puede montar directamente desde el hospedaje, tanto como parte del imagen de disco qemu:</p>
+				<p>Allí, crea una sóla partición primario que corresponda a /dev/sdaN, y juega con el comando "s"ector de la menú e"x"pert hasta que la primer cilindro (donde la primero partición empieza), es igual a la tamaño del MBR. Finalmente, "w"rite (escribir) el resultado al archivo: cuando esta lista. Ahora tienes una partición que puede montar directamente desde el hospedaje, tanto como parte del imagen de disco qemu:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Puede, por supuesto, con seguridad fija cualquier gestionador de arranque en este imagen del disco utilizando el qemu, con la condición que la partición original /boot/hdaN se contiene las herramientas necesarias.</p>
+				<p>Puede, por supuesto, con seguridad fija cualquier gestionador de arranque en este imagen del disco utilizando el qemu, con la condición que la partición original /boot/sdaN se contiene las herramientas necesarias.</p>
 
 
 
@@ -464,12 +459,12 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">La documentación oficial del proyecto QEMU</a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Algunos contenidos sobre QEMU para el Manual de sidux fue accesado de este sitio web bajo el GNU FDL 1.2 (Free Documentation License) y modificado para el manual-sidux.</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Algunos contenidos sobre QEMU para el Manual de sidux fue accesado de este sitio web bajo el GNU FDL 1.2 (Free Documentation License) y modificado para el manual-sidux.</a> </p>
 
 
 	</div>
 		<div class="spacer05"></div>
-	<div id="rev">Contenido revisado el 22/01/2008 0100hrs UTC</div>
+	<div id="rev">Contenido revisado el 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

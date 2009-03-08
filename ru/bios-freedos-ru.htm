@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by bluewater and RoEn 27/12/2008 2300 UTC-->
+<!-- Last translation revision by Blumkina 01/03/2009 2300 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
 				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
-				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Скрипт burniso</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
 		</li>
@@ -348,23 +348,23 @@ exit
 							
 					<h3>Загрузка FreeDOS в qemu</h3>
 
-							<p>Поскольку DOS не узнает USB-флешки, Вы должны 'уговаривать' FreeDOS, что флешка является нормальным жестким диском. При "Live-Boot" BIOS выполняет эту функцию, в нашем случае Вы должны для того использовать qemu:</p>
+							<p>Так как DOS не знаком с понятием USB-флешки, нужно найти путь, чтобы обмануть FreeDOS относительно обычного винчестера. При Live-Boot эту функцию перенимает BIOS, в нашем же случае мы должны использовать для этой цели qemu:</p>
 <pre>
 как пользователь $:
 qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
 </pre>
-							<p>Комбинация клавиш <span class="highlight-1">ctrl-alt</span> переключает мышь и клавиатура между qemu и хостовой ситемой. Таким образом, вы можете выбрать рабочий стол и повторить каждый шаг инструкции для чтения.
+							<p>Комбинация клавиш <span class="highlight-1">ctrl-alt</span> переключает мышку и клавиатуру между qemu и хост-системой. Таким образом можно переключаться с одного рабочего стола на другой и заново прочитывать каждый шаг в инструкции.
         </p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot01.jpg" alt="qemu" /></div>
-							<p>This boots the FreeDOS CD and maps the USB stick raw device as primary master HD (here qemu's BIOS emulation abililty makes the USB stick appear to DOS as an ordinary harddisk).  Select the installer from the start menu of the virtualised FreeDOS boot:</p>
+							<p>Тогда диск с FreeDOS загружается, а USB-флешка узнаётся в качестве основного мастер-винчестера (благодаря способности qemus к эмуляции BIOS USB-накопитель появляется в DOS как обычный винчестер). Теперь можно выбрать инсталятор в BOOT-меню виртуализированного FreeDOS:</p>
 <pre>
 1) Continue to boot FreeDOS from CD-ROM
 <span class="highlight-3"><b>1</b></span>
 enter
 </pre>
 	<div class="spacer02"></div>
-							<p>Keep choosing the default of <span class="highlight-3">1</span> and/or choosing <span class="highlight-3">Yes</span> when asked.</p>
+							<p>Затем нужно выбрать дифолтную установку <span class="highlight-3">1</span>  или ответить <span class="highlight-3">Yes</span> в случае, если будет задан вопрос.</p>
 
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot02.jpg" alt="freedos-inst1" /></div>
@@ -380,48 +380,48 @@ enter
 
 	<div class="spacer02"></div>
 
-							<p>The install asks you to reboot - <span class="highlight-3">don't do that yet, as there is a need to fix up two errors in the FreeDOS installer for the mbr and bootmenu</span>. Type the letter <span class="highlight-3"><b>n</b></span>.</p>
+							<p>Когда инсталятор потребует перезапустить систему, <span class="highlight-3">этого делать пока не надо, так как нужно ещё удалить 2 ошибки в FreeDOS: в Boot-меню и mbr.</span>. Нажмите клавишу с буквой <span class="highlight-3"><b>n</b></span>.</p>
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot18.jpg" alt="freedos-inst4" /></div>
 
 	<div class="spacer02"></div>
 				<h3>Запись загрузочного сектора на USB-флешку</h3> 
-							<p>The first error to fix is the mbr with:</p>
+							<p>Ошибку mbr можно удалить с помощью:</p>
 
 <pre>
 fdisk /mbr 1
 </pre>
-							<p>The second error that needs fixing is the bootmenu in your new fdconfig.sys, run:</p>
+							<p>Ошибка в меню загрузочного сектора удаляется в новой конфигурации fdconfig.sys при введении команды:</p>
 <pre>
 cd \
 edit fdconfig.sys 
 </pre>
-							<p>and change the line starting command.com to:</p>
+							<p>А строчку, начиная с command.com, нужно изменить так:</p>
 <pre>
 1234?SHELLHIGH=C:\FDOS\command.com C:\FDOS /D /P=C:\fdauto.bat /K set
-(don't actually change this command, just add "1234?" to the begin of the line (before SHELLHIGH==C:\FDOS\command.com .....
-NOTE it is to read : <span class="highlight-3">1234?</span>
+(не изменяйте эту команду, а лишь добавьте "1234?"  в начало строчки (до SHELLHIGH==C:\FDOS\command.com .....
+Имейте в виду, читать это нужно как: <span class="highlight-3">1234?</span>
 </pre>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot23.jpg" alt="fdconfig.sys" /></div>
 	<div class="spacer02"></div>
-							<p><span class="highlight-2">Do not change anything else, as the line depends on your install setup.</span></p>
+							<p><span class="highlight-2">Помимо этого менять ничего нельзя, так как строчка зависит от установок Setup-а.</span></p>
 
-							<p>Save it and exit "edit":</p>
+							<p>Сохраните и выйдите из "edit":</p>
 <pre>
 [alt]+[f]
 </pre>
-							<p>Once you're back to the command prompt, you can leave qemu.</p>
+							<p>Вернувшись к подсказке, Вы можете покинуть qemu.</p>
 
- 							<p>Test to check if qemu will boot the USB stick.</p>
+ 							<p>Теперь проводится тест, загружается ли qemu с USB-флешки.</p>
 <pre>
 qemu -hda /dev/sdb -boot c
 </pre>
- 							<p>Your USB stick is now bootable and contains a full FreeDOS install of 5.4 MB, for flashing. You really should boot without any drivers <span class="highlight-3">(menu option 4), loading the  himem.sys and emm386 files may otherwise interfere with your flashing programs!</span>:</p>
+ 							<p>USB-флешка способна выполнить загрузку и содержит полную версию инсталляции FreeDOS (5,4 MB), чтобы обновить BIOS. При этом не стоит загружать драйвера <span class="highlight-3">(в меню опция 4), himem.sys и emm386 могут навредить программам Flashing!</span></p>
 
 				<h3>Обновление BIOS</h3>
-							<p>Assuming your PC is up and running, plug in the FreeDOS USB stick, mount it and download the BIOS files needed, as recommended by the manufacturer of your motherboard/BIOS, to the FreeDOS USB stick, then umount the stick.</p>
+							<p>USB-флешка, содержащиaя FreeDOS, вставляется и запускается в работающей системе, и требуемые файлы BIOS (по рекомендации изготовителя) сохраняются на FreeDOS. USB-флешка необходимо затем удалить.</p>
 
-							<p> Power off your PC, plug in the FreeDOS USB stick, power up, so that you boot to the FreeDOS USB stick and follow the procedures of the manufacturer of your motherboard/BIOS.</p>
+							<p>Компьютер необходимо выключить и вставить FreeDOS USB-накопитель. Затем включить компьютер. FreeDOS стартует с USB-накопителя. ПОсле этого необходимо следовать указаниям изготовителя или BIOS или материнской платы.</p>
 
 
 

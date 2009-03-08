@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Re-crearea fstab</h2>
 
-							<p>Pentru ca o partiţie nou creată (să spunem hda6 sau sdb7),  nu apare în fstab şi doriţi să o montaţi , tipăriţi într-o consolă , ca user  ($), următoarea comandă :</p>
+							<p>Pentru ca o partiţie nou creată (să spunem sda6 sau sdb7),  nu apare în fstab şi doriţi să o montaţi , tipăriţi într-o consolă , ca user  ($), următoarea comandă :</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Rezultatul va fi cam aşa (şirul în bold este doar un exemplu):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>În acest exemplu : <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> este intrarea lipsă . Următorul pas este să introducem UUID-ul partiţiei în  etc/fstab. Pentru a adăuga aceasta în fişierul fstab folosiţi un text editor (  kate sau kwrite) cu privilegii root :</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Un alt exemplu :</p>
 
@@ -271,6 +271,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
 
 					<h4>2. Numirea Permanentă după LABEL</h4>
 							<p>Aproape orice tip de fişiere poate avea o etichetă ( label ). Toate partiţiile care posedă aceasta sunt listate în directorul  /dev/disk/by-label :</p>
@@ -286,7 +287,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>După cum vedeţi , partiţiile fat şi ntfs  (numite fat şi windows ) au nume mai scurte , dar sunt listate . Avantajul folosirii metodei UUID este că veţi avea mai puţine coliziuni decât numite dupa label ; dezavantajul este că sunt greu de memorat .</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p> Poţi schimba etichetele partiţiilor folosind aceste comenzi :</p>
 <pre>
@@ -344,9 +345,9 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 							<b>2)</b> Să aveţi activat udev în  /etc/mkinitcpio.conf<br />
 							<b>3)</b> Când s-a generat imaginea initramfs , versiunea 101-3 sau superioară a klibc-udev să fie instalată ( numirea permanentă nu funcţionează în nici o versiune anterioară  ). Dacă faceţi upgrade la klibc-udev de la o versiune anterioară şi doriţi să folosiţi numirea permanentă , regeneraţi imaginea initramfs înainte de reboot.</p>
 
-							<p>În exemplul de mai jos   /dev/hda1 este partiţia root . În fişierul  menu.lst din grub linia de kernel arată cam aşa :</p>
+							<p>În exemplul de mai jos   /dev/sda1 este partiţia root . În fişierul  menu.lst din grub linia de kernel arată cam aşa :</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 
 							<p>În funcţie de schema de numire pe care o preferaţi schimbaţi-o în una din următoarele :</p>
@@ -358,14 +359,14 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Acesta este un mod alternativ de a utiliza eticheta ataşată partiţiei . De exemplu dacă (ca mai sus) partiţia în /dev/hda1 este etichetată "root", veţi da această linie în grub :</p>
+							<p>Acesta este un mod alternativ de a utiliza eticheta ataşată partiţiei . De exemplu dacă (ca mai sus) partiţia în /dev/sda1 este etichetată "root", veţi da această linie în grub :</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
 							<p>(sursa :<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  şi <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Conţinutul din wiki.archlinux.org a fost declarat disponibil sub GNU Free Documentation License 1.2 ) şi a fost reeditat pentru manualul sidux .</p>
 
 	</div>
-			<div id="rev">Content last revised 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 
 </div>
 </body>

@@ -297,17 +297,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							sidux "LITE" necesită 1.2 giga PLUS spaţiu de date ,<br />
 							sidux "FULL" necesită 2.1 giga PLUS spaţiu pentru date</p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p>Vom incepe ca o instalare normală şi vom alege partiţia de pe dispozitivul USB , cel pe care dorim să instalăm sidux - va primi numele "sda1" aici , dar aceasta este valabil pentru orice disc sau dispozitiv USB .</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ro.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p> Partiţia trebuie formatată cu un sistem de fişiere linux . Recomandat este sistemul de fişiere ext3 . O partiţie existentă va fi reformatată de către installer !</p>
-
-							<p class="highlight-2">Toate datele de pe această partiţie vor fi pierdute în timpul reformatării !</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Acum puteţi porni sistemul de pe Hard Discul USB. Optiunea 'Boot from USB' trebuie să fie activată în BIOS .</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -419,7 +413,7 @@ Faceţi o VM , puneţi un CD-Sistem de Operare în unitatea CD ROM şi-l instala
 
 				<p>Uneori , veţi dori să folosiţi una din partiţiile sistemului şi din interiorul qemu (de  exemplu , dacă vei vrea să porneşti şi sistemul real şi qemu folosind o anumită partiţie ca root ). Poţi face acest lucru folosind software RAID în linear mode (ai nevoie de  linear.ko kernel driver) şi un dispozitiv virtual (loopback device) : trucul este să ataşezi dinamic un master boot record (MBR) partiţiei reale pe care vrei să o incluzi in imaginea de disc qemu .</p>
 
-				<p>Să presupunem că aveţi o partiţie nemontată , cu ceva fişiere pe ea ,  /dev/hdaN , pe care vreţi să o faceţi parte a imaginii de disc qemu . Mai întâi trebuie sa creaţi un mic fişier care să conţină MBR :</p>
+				<p>Să presupunem că aveţi o partiţie nemontată , cu ceva fişiere pe ea ,  /dev/sdaN , pe care vreţi să o faceţi parte a imaginii de disc qemu . Mai întâi trebuie sa creaţi un mic fişier care să conţină MBR :</p>
 <pre>
   dd if=/dev/zero of=/path/to/mbr count=32 
 </pre>
@@ -427,22 +421,22 @@ Faceţi o VM , puneţi un CD-Sistem de Operare în unitatea CD ROM şi-l instala
 <pre>
  losetup -f /path/to/mbr 
 </pre>
-				<p>Să presupunem că dispozitivul rezultat este /dev/loop0 , pentru că noi nu am folosit încă alte dispozitive virtuale . Următorul pas este sa creăm imaginea de disc comună MBR+/dev/hdaN folosind  software RAID :</p>
+				<p>Să presupunem că dispozitivul rezultat este /dev/loop0 , pentru că noi nu am folosit încă alte dispozitive virtuale . Următorul pas este sa creăm imaginea de disc comună MBR+/dev/sdaN folosind  software RAID :</p>
 <pre>
 
   modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN 
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN 
 </pre>
-				<p>Rezultatul , /dev/md0 , este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator ) . Ultimul  ( şi cumva inşelator ) pas este să setezi configuraţia discului ( geometria discului şi tabela de partiţii ) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/hdaN din interiorul /dev/md0 ( un offset de exact 16 * 512 = 16384 bytes în acest exemplu ) . Faceţi acest lucru folosind fdisk de pe computerul gazdă , nu în emulator : din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca in sectiunea precedenta ) iar acestea nu pot fi interpretate de codul software RAID . De acolo , de pe computerul gazdă :</p>
+				<p>Rezultatul , /dev/md0 , este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator ) . Ultimul  ( şi cumva inşelator ) pas este să setezi configuraţia discului ( geometria discului şi tabela de partiţii ) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 ( un offset de exact 16 * 512 = 16384 bytes în acest exemplu ) . Faceţi acest lucru folosind fdisk de pe computerul gazdă , nu în emulator : din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca in sectiunea precedenta ) iar acestea nu pot fi interpretate de codul software RAID . De acolo , de pe computerul gazdă :</p>
 <pre>
   fdisk /dev/md0 
 </pre>
-				<p>Creaţi o singură partiţie primară corespunzătoare /dev/hdaN , si jucaţi-vă cu comanda 's'ector din meniul 'x'pert până când primul cilindru ( de unde incepe prima partiţie ) , se potriveşte cu mărimea din MBR . La sfârşit  folosiţi 'w'rite pentru a scrie rezultatul în fişier : asta e tot . Aveţi acum o partiţie pe care o puteţi monta şi de pe computerul gazdă şi care este parte a imaginii de disc qemu :</p>
+				<p>Creaţi o singură partiţie primară corespunzătoare /dev/sdaN , si jucaţi-vă cu comanda 's'ector din meniul 'x'pert până când primul cilindru ( de unde incepe prima partiţie ) , se potriveşte cu mărimea din MBR . La sfârşit  folosiţi 'w'rite pentru a scrie rezultatul în fişier : asta e tot . Aveţi acum o partiţie pe care o puteţi monta şi de pe computerul gazdă şi care este parte a imaginii de disc qemu :</p>
 <pre>
   qemu -hdc /dev/md0 [...]  
 </pre>
 
-				<p>Puteţi , bineânţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/hdaN conţine uneltele necesare .</p>
+				<p>Puteţi , bineânţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare .</p>
 
 
 
@@ -470,11 +464,11 @@ Faceţi o VM , puneţi un CD-Sistem de Operare în unitatea CD ROM şi-l instala
   qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512 
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Documentaţia Oficială a Proiectului QEMU  </a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Anumit conţinut din manualul de sidux despre QEMU a fost transpus pe această pagină sub GNU Free Documentation License 1.2  şi modificat pentru manualul de sidux</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Anumit conţinut din manualul de sidux despre QEMU a fost transpus pe această pagină sub GNU Free Documentation License 1.2  şi modificat pentru manualul de sidux</a> </p>
 
 		
 	</div>
-			<div id="rev"> Page last revised 22/01/2008 0100hrs UTC</div>
+			<div id="rev"> Page last revised 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

@@ -23,7 +23,7 @@
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" id="menu-header" /></a>
 	<ul id="top-list">
-		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsqueda En-línea y Fuera</a> </li>
+		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" />Búsquedas</a> </li>
 		<li><a href="http://manual.sidux.com/meta-manual">Meta-Paquetes de sidux</a></li>
 	</ul>
 	<div id="flags-2">
@@ -55,7 +55,7 @@
 				<li><a href="cd-dl-burning-es.htm#burn-nero">Quemar en Windows</a></li>
 				<li><a href="cd-dl-burning-es.htm#burn-linux">Quemar en Linux</a></li>
 				<li><a href="cd-dl-burning-es.htm#xdelta">Parches con xdelta</a></li>
-				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">Script para quemar ISO</a></li>
 				<li><a href="cd-no-gui-burn-es.htm#burning-no-gen">Quemar sin GUI</a></li>
 			</ul>
 		</li>
@@ -69,7 +69,7 @@
 		<li  onmouseover="showHide( 5 );" onmouseout="startTime();" ><a href="term-konsole-es.htm">Terminal/Consola</a>
 			<ul class="sub-menu" id="sm5">
 				<li><a href="term-konsole-es.htm#sux">sux</a></li>
-				<li><a href="term-konsole-es.htm#term-kon">Terminal/Consola</a></li>
+				<li><a href="term-konsole-es.htm#term-kon">Terminal (Consola)</a></li>
 				<li><a href="term-konsole-es.htm#cli-help">Ayuda en la Línea de Comando</a></li>
 				<li><a href="term-konsole-es.htm#term-cmds">Comandos del Terminal Linux</a></li>
 				<li><a href="term-konsole-es.htm#shell-scripts">instalando_scripts.sh</a></li>
@@ -212,16 +212,16 @@
 				<p>rdiff-backup 	mantenga una copia (no comprimida) de los archivos que están respaldando, y también mantenga una historia (respaldos incrementales), que significa que el espacio de respaldo tiene que ser más grande de lo que estas respaldando. Si están respaldando datos ocupando 100 giga de espacio, puede necesitar 120 giga de espacio (preferiblemente en un otro disco duro separado!).</p>
 
 			<h6>Como configurarlo</h6>
-				<p>Vamos a definir un caso hipotético:<br /> * un disco duro de 100 gigabytes (hda) esta en uso, con la montura hda1 usado para el partición /root (raíz) y la montura hda5 usado para almacenar musica y otros archivos; mientras que la montura hda6 es usado para swap.<br /> * en un otro disco duro de 200 giga (hdb) que no esta siendo utilizado por la sistema, con una sóla montura hdb1 ... vamos a utilizar este para nuestros respaldos.<br /> * la dirección IP es 192.168.0.1</p>
+				<p>Vamos a definir un caso hipotético:<br /> * un disco duro de 100 gigabytes (sda) esta en uso, con la montura sda1 usado para el partición /root (raíz) y la montura sda5 usado para almacenar musica y otros archivos; mientras que la montura sda6 es usado para swap.<br /> * en un otro disco duro de 200 giga (sdb) que no esta siendo utilizado por la sistema, con una sóla montura sdb1 ... vamos a utilizar este para nuestros respaldos.<br /> * la dirección IP es 192.168.0.1</p>
 
 				<p>La primera cosa ha hacer es instalar rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Ahora, aunque podemos respaldar cualquier directorio, este caso hipotética es para respaldar particiones enteros --deseamos respaldar el hda1 y hda5 (no queremos respaldar el hda6), entonces creamos unas directorios para almacenar los datos:</p>
+				<p>Ahora, aunque podemos respaldar cualquier directorio, este caso hipotética es para respaldar particiones enteros --deseamos respaldar el sda1 y sda5 (no queremos respaldar el sda6), entonces creamos unas directorios para almacenar los datos:</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Se necesita distinguir la dirección IP por que si desea utilizar este computador de respaldar otro (cubierto más adelante).</p>
 
@@ -229,15 +229,15 @@
 
 				<p>rdiff-backup usa el sintaxis <span class="highlight-3">rdiff-backup fuente-dir destinación-dir</span>. Nota: siempre especifica nombres de directorios, no los nombres de archivos.</p>
 
-				<p>Para respaldar el hda5, ejecuta:</p>
+				<p>Para respaldar el sda5, ejecuta:</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Y para respaldar la partición-raíz, ejecuta:</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Cualquier error del tipo "AF_UNIX ruta demasiado largo" puede ser ignorado sin perjuicio. Esto puede llevar bastante tiempo, porque es la primera vez que la partición esta siendo respaldado, entonces el rdiff-backup tendrá que respaldar la partición entero (no solamente las diferencias). Nota que tampoco deseamos respaldar /tmp por que este siempre esta cambiando, ni el /proc ni /sys, en vista que estos no contiene archivos verdaderas de datos, ni tampoco deseamos respaldar puntos de monturas. Si incluya respaldos para monturas, estará respaldando el hdb1, y podemos entrar en un circulo infinito! Una manera de evitar eso es de respaldar las monturas separadamente.</p>
+				<p>Cualquier error del tipo "AF_UNIX ruta demasiado largo" puede ser ignorado sin perjuicio. Esto puede llevar bastante tiempo, porque es la primera vez que la partición esta siendo respaldado, entonces el rdiff-backup tendrá que respaldar la partición entero (no solamente las diferencias). Nota que tampoco deseamos respaldar /tmp por que este siempre esta cambiando, ni el /proc ni /sys, en vista que estos no contiene archivos verdaderas de datos, ni tampoco deseamos respaldar puntos de monturas. Si incluya respaldos para monturas, estará respaldando el sdb1, y podemos entrar en un circulo infinito! Una manera de evitar eso es de respaldar las monturas separadamente.</p>
 
 				<p>Ahora, la razón porque se usa '/proc/*' en vez de solamente '/proc' es que este causa que se respalda el nombre del directorio, /proc, pero se ignorar todo su contendido. Lo mismo para /tmp, /sys y  aún más ingenioso todos los nombres de las puntos de monturas.</p>
 
@@ -249,9 +249,9 @@
 <pre>
 rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 </pre>
-				<p>Ahora, si accidentalmente borra el directorio /media/hda7/photos, puede restaurarlo ejecutando lo siguiente:</p>
+				<p>Ahora, si accidentalmente borra el directorio /media/sda7/photos, puede restaurarlo ejecutando lo siguiente:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
 				<p>El opción "-r now" significa restaurar desde el respaldo más reciente. Si estuvo respaldando todo periódicamente (quizás con crontab), y no realiza que el directorio de fotos estaba perdido hasta unas días después, necesitará restaurar de un respaldo de hace unas días (y no del "now", en vista que el último respaldo dice que /photos no existe). O quizás solamente quieres volver a una versión previa de algo.</p>
 
@@ -259,9 +259,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-1">"3D" refiere a la instante 72 horas antes del presente, y si no existe respaldo creado justo a este momento, el rdiff-backup restaura el estado grabado para el respaldo previo. Por ejemplo, en el caso arriba, si "3D" fue utilizado, y hubo respaldos de hace 2 días y 4 días, el directorio sera restaurado a como era hace 4 días (entonces, tiene que pensar un poco antes que lleva a cabo la restauración).</p>
 
-				<p>Utiliza lo siguiente para una lista de fechas y horas de cuando fue realizados respaldos para el hda5:</p>
+				<p>Utiliza lo siguiente para una lista de fechas y horas de cuando fue realizados respaldos para el sda5:</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Restaurando particiones</h5>
 
@@ -269,9 +269,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-2">PRECAUCIÓN:  No restaurar la partición-raíz mientras que estas arrancado en el! Con un sólo comando puedo perder todos sus archivos en todos los particiones, incluyendo todos los respaldos en un disco duro separado!! rdiff-backup haga exactamente lo que esta instruido --si el respaldo para la partición-raíz tiene puntas de monturas vacíos, entonces para restaurar todos a como esta el respaldo, tiene que borrar todo en las puntas de monturas para poder hacer todos igual como el respaldo.</p>
 
-				<p>Restaura el hda5 desde el último respaldo, simplemente ejecuta:</p>
+				<p>Restaura el sda5 desde el último respaldo, simplemente ejecuta:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Restaurando la partición-raíz</h5>
 
@@ -288,14 +288,14 @@ $ sudo su
 </pre>
 				<h6>Ahora, vamos hacer la restauración:</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Nota: Si no tiene un LiveCD de sidux, pero el que tiene apoya el "klik", puede instalar el rdiff-backup utilizando klik, y llamando:</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Es recomendado que cualquiera haciendo un respaldo del partición-raíz (con la intención de restaurarlo si es necesario), debe comprobar que funciona el proceso de restauración. Nada es peor que pensar que todo esta bien, y luego encontrar algo inesperado durante una emergencia.</p>
@@ -304,9 +304,9 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Puede respaldar otro PC en el PC local, mientras que el PC local puede ssh a la otro PC (y que tiene espacio en su disco duro). El servidor ssh (sshd) tiene que ser ejecutando en un PC remoto. Los demás PCs no tienen que ser en el LAN local, puede ser en cualquier parte del mundo.</p>
 
-				<p>Asumimos que el PC remoto tiene los siguiente:<br /> 1) un disco duro de 100 giga (hda) en uso, con solamente monturas,<br /> 2) el hda1 esta utilizado para la partición-raíz,<br /> 3) en el hda5 estamos almacenando archivos temporales que no desea respaldar,<br /> 4) y el hda6 es el swap para la dirección IP: 192.168.0.2</p>
+				<p>Asumimos que el PC remoto tiene los siguiente:<br /> 1) un disco duro de 100 giga (sda) en uso, con solamente monturas,<br /> 2) el sda1 esta utilizado para la partición-raíz,<br /> 3) en el sda5 estamos almacenando archivos temporales que no desea respaldar,<br /> 4) y el sda6 es el swap para la dirección IP: 192.168.0.2</p>
 
-				<p>Nota: ambos discos duros de 100 giga normalmente no puede ser respaldado en el disco de 200 giga con rdiff-backup (por falta de espacio para los archivos incrementales), pero en vista de que no estamos respaldando el hda5 en el PC remoto (y por que los discos duros usualmente no estan 100% lleno, aún que 	no siempre cuenta en eso) entonces puede calcular que hay suficiente espacio. Cada vez que rdiff-backup realiza un respaldo, más archivos incrementales están creados, y este necesita más y más espacio.</p>
+				<p>Nota: ambos discos duros de 100 giga normalmente no puede ser respaldado en el disco de 200 giga con rdiff-backup (por falta de espacio para los archivos incrementales), pero en vista de que no estamos respaldando el sda5 en el PC remoto (y por que los discos duros usualmente no estan 100% lleno, aún que 	no siempre cuenta en eso) entonces puede calcular que hay suficiente espacio. Cada vez que rdiff-backup realiza un respaldo, más archivos incrementales están creados, y este necesita más y más espacio.</p>
 
 				<p>Puede decir a rdiff-backup de solamente guarda un máximo de respaldos de 1 mes (este comando se muestra más adelante), y este se requiere menos espacio que decir a rdiff-backup de mantener respaldos de datos de un año. Y, por supuesto, si desea tener un año de respaldos de datos, entonces hay que tener suficiente espacio en el disco duro para almacenar un año de respaldos con su archivos incrementales.</p>
 
@@ -314,18 +314,18 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Para respaldar el PC remoto en un PC local, ejecuta en el PC local (por ejemplo: 192.168.0.1):  <span class="highlight-4">Nota el uso del doble colon :: </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 				<p>Ahora si deseas restaurar un directorio en el PC remoto, iniciar la restauración en el PC local o en el PC remoto.</p>
 
 				<p>Este es como podía restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC remoto:</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
 				<p>Este es como podía restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC local:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Utiliza la misma sintaxis cuando restaura la partición-raíz desde un LiveCD (donde el PC remoto ha sido arrancado via un LiveCD --ver arriba).</p>
 
@@ -354,19 +354,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Respaldando 192.168.0.1 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(y purgar incrementos mayor que 1 mes)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Respaldando 192.168.0.1 montura hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Respaldando 192.168.0.1 montura sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(y purgar incrementos mayor que 1 mes)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Respaldando 192.168.0.2 root======="
-$${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+$${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(y purgar incrementos mayor que 1 mes)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

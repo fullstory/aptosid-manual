@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- last translation by bluewater 04/12/2008 1100 UTC -->
+<!-- Last translation revision par alphad 05/03/2009 0100 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and alphad-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -195,6 +195,7 @@
 <!-- menu ends here --></div>
 <div id="main-page">
 	<div class="divider" id="home-bu">
+<!--- ####	
 		<h2 id="top-header">Backing up your /home partition</h2>
 
 							<p>Before moving your <span class="highlight-3">/home</span> you should back up everything below /home (as root): </p>
@@ -233,7 +234,46 @@ mcedit /etc/fstab
 </pre>
 
 							<p>Now <span class="highlight-3">uncomment (delete the #)</span> where the new /home is and <span class="highlight-3">comment out (insert #)</span> the old /home and save with F2 then quit with F10 then reboot.</p>
+#### -->
+		<h2 id="top-header">Sauvegarder votre partition /home</h2>
 
+							<p>Avant de déplacer votre <span class="highlight-3">/home</span> vous devrez sauvegarder tout ce qui s'y trouve sous /home (du root): </p>
+
+<pre>
+tar cvzpf  chemin/home.tar.gz /home
+</pre>
+							<p>Pour extraire:</p>
+<pre>
+tar xvpf chemin/home.tar.gz
+</pre>
+							<p><a href="sys-admin-rdiff-fr.htm">Autre méthode alternative, faire la sauvegarde en utilisant rdiff.</a></p>
+
+							<p><a href="http://sidux.com/index.php?module=pnWikka&amp;tag=SecureHomeEN">Cela vous sera utile si vous souhaitez mattre à jour votre home d'une installation précédente sur la nouvelle.</a></p>
+
+	<div class="divider" id="home-move">
+		<h2>Déplacer le /home</h2>
+							<p>Il existe deux manières de déplacer le /home, par le livecd, et l'autre en ligne de commande, elles ne sont pas difficiles.</p>
+
+							<p>Le système ayant besoin des  <a href="part-uuid-fr.htm">informations UUID </a>, il vous faut les uuid des nouvelles partitions, à moins de les avoir soigneusement noté déjà. </p>
+
+							<p>la méthode la plus facile consiste à ajouter cette information commentée avant de déplacer le /home au <span class="highlight-3">/etc/fstab</span>.</p>
+
+							<p>Démarrer l'ordinateur et dans la fenêtre du menu du grub taper 1 et valider. Vous accederez à init (runlevel) 1, soit en console, votre home n'étant pas utilisé, vous pouvez travailler sans danger.</p>
+
+							<p>Au tty, logguez vous en root (administrateur) et monter la nouvelle partition /home, exemple:</p>
+<pre>
+mount /dev/sdxX /media/new-home
+(ou une quelconque partition dediée au home)
+cp -pr /home /media/new-home
+</pre>
+
+							<p>Ensuite editer le <span class="highlight-3">/etc/fstab</span> pour qu'il reflète les changements effectués et reconnaisse la nouvelle partition /home: </p>
+<pre>
+mcedit /etc/fstab
+</pre>
+
+							<p>Maintenant <span class="highlight-3">décommentez (Enlever le #)</span> là où se trouve le nouveau /home et <span class="highlight-3">commentez (inserer #)</span> à l'ancien /home et enregistrez en tapant F2 ensuite quittez en tapant F10 et redémarrez.</p>
+					
 
 	</div>
 	</div>

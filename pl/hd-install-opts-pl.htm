@@ -299,17 +299,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							sidux "LITE" potrzebuje 1.2 GB PLUS dodatkowe miejsce na twoje dane,<br />
 							sidux "FULL" potrzebuje 2.1 GB PLUS dodatkowe miejsce na twoje dane</p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p>Rozpoczynamy normalną instalację i wybieramy partycję na urządzeniu USB, gdzie sidux ma zostać zainstalowany - będziemy mówić tu o "sda1", ale można użyć każdej innej partycji na urządzeniu USB.</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-pl.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p>Partycja musi być sformatowana linuksowym systemem plików. Rekomendowany jest ext3. Istniejąca partycja będzie reformatowana przez instalatora!</p>
-
-							<p class="highlight-2">Wszystkie dane na tej partycji zostaną utracone w trakcie formatowania!</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Teraz możesz startować system z dysku USB. Opcja 'Boot from USB' musi być uaktywniona w BIOS.</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -425,26 +419,26 @@ qemu [overlay_image]
             Czasami możesz chcieć użyć jednej z twoich partycji systemowych z qemu (na przykład, jeśli chcesz wystartować twój komputer i qemu z podanej partycji). Możesz to zrobić używając oprogramowania RAID w trybie liniowym (potrzebujesz sterownik linear.ko) i urządzenie loopback: sztuczka polega na dynamicznym dodaniu master boot rekordu (MBR) do rzeczywistej partycji, którą chcesz dodać do obrazu dysku qemu.
           </p>
 
-				<p>Załóżmy, że masz niezamontowaną partycję /dev/hdaN z jakimś systemem plików i chcesz ją włączyć do obrazu dysku qemu. Najpierw stwórz mały plik, by przechować MBR:</p>
+				<p>Załóżmy, że masz niezamontowaną partycję /dev/sdaN z jakimś systemem plików i chcesz ją włączyć do obrazu dysku qemu. Najpierw stwórz mały plik, by przechować MBR:</p>
 <pre> dd if=/dev/zero of=/sciezka/do/mbr count=32 </pre>
 				<p>Tu został stworzony 16 KB (32 * 512 bytes) plik. Ważne, aby plik nie był zbyt mały (nawet jeśli MBR potrzebuje tylko pojedynczy 512-bajtowy blok), ponieważ im mniejszy będzie, tym mniejszy będzie musiał być fragment oprogramowania urządzenia RAID, co może wpłynąć na wydajność. Następnie należy skonfigurować urządzenie loopback na pliku MBR:</p>
 <pre>
 losetup -f /sciezka/do/mbr
 </pre>
-				<p>Załóżmy, że utworzone urządzenie to /dev/loop0, ponieważ nie korzystaliśmy do tej pory z innych urządzeń loopback. Następnym krokiem jest stworzenie "złączonego" MBR + /dev/hdaN obrazu dysku przy użyciu oprogramowania RAID:</p>
+				<p>Załóżmy, że utworzone urządzenie to /dev/loop0, ponieważ nie korzystaliśmy do tej pory z innych urządzeń loopback. Następnym krokiem jest stworzenie "złączonego" MBR + /dev/sdaN obrazu dysku przy użyciu oprogramowania RAID:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Powstały /dev/md0 jest tym, co będziemy używać jako obraz dysku dla qemu (nie zapomnij ustawić uprawnień, by emulator miał do niego niego dostęp). Ostatnim (i w pewnym stopniu skomplikowanym) krokiem jest ustawienie konfiguracji dysku (geometria dysku i tablica partycji), aby miejsce rozpoczynania się partycji podstawowej w MBR był zgodny z tym z /dev/hdaN wewnątrz /dev/md0 (offset dokładnie 16 * 512 = 16384 bajtów w tym przykładzie). Zrób to używając fdisk na rzeczywistym urządzeniu, nie na emulatorze: domyślny program wykrywania dysku z qemu często daje wynik nie zaokrąglony do kilobajtowego offsetu (jak 31.5 KB), który nie może być przyjęty przez oprogramowanie RAID. W związku z tym, na rzeczywistym sprzęcie:</p>
+				<p>Powstały /dev/md0 jest tym, co będziemy używać jako obraz dysku dla qemu (nie zapomnij ustawić uprawnień, by emulator miał do niego niego dostęp). Ostatnim (i w pewnym stopniu skomplikowanym) krokiem jest ustawienie konfiguracji dysku (geometria dysku i tablica partycji), aby miejsce rozpoczynania się partycji podstawowej w MBR był zgodny z tym z /dev/sdaN wewnątrz /dev/md0 (offset dokładnie 16 * 512 = 16384 bajtów w tym przykładzie). Zrób to używając fdisk na rzeczywistym urządzeniu, nie na emulatorze: domyślny program wykrywania dysku z qemu często daje wynik nie zaokrąglony do kilobajtowego offsetu (jak 31.5 KB), który nie może być przyjęty przez oprogramowanie RAID. W związku z tym, na rzeczywistym sprzęcie:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Następnie stwórz pojedynczą partycję podstawową odpowiadającą /dev/hdaN, i eksperymentuj z poleceniem 's'ector z 'x'pert menu, aż pierwszy cyliner (gdzie zaczyna się pierwsza partycja) będzie zgodny z wielkością MBR. Na koniec, 'w'rite (zapisz) wynik do pliku: zadanie zakończone. Masz teraz partycję, którą możesz zamontować bezpośrednio z rzeczywistego systemu, jak również jako część obrazu dysku qemu:</p>
+				<p>Następnie stwórz pojedynczą partycję podstawową odpowiadającą /dev/sdaN, i eksperymentuj z poleceniem 's'ector z 'x'pert menu, aż pierwszy cyliner (gdzie zaczyna się pierwsza partycja) będzie zgodny z wielkością MBR. Na koniec, 'w'rite (zapisz) wynik do pliku: zadanie zakończone. Masz teraz partycję, którą możesz zamontować bezpośrednio z rzeczywistego systemu, jak również jako część obrazu dysku qemu:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Możesz oczywiście ustawić menadżer uruchamiania na obrazie dysku używając qemu, oryginalna partycja /boot/hdaN partition zawiera niezbędne narzędzia.</p>
+				<p>Możesz oczywiście ustawić menadżer uruchamiania na obrazie dysku używając qemu, oryginalna partycja /boot/sdaN partition zawiera niezbędne narzędzia.</p>
 
 
 
@@ -470,11 +464,11 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Oficjalna dokumentacja projektu QEMU</a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Część treści dot. QEMU dla instrukcji siduksa było pobrane z tej strony na licencji GNU Free Documentation License 1.2 i zmodyfikowane dla instrukcji siduksa</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Część treści dot. QEMU dla instrukcji siduksa było pobrane z tej strony na licencji GNU Free Documentation License 1.2 i zmodyfikowane dla instrukcji siduksa</a> </p>
 
 		
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 22/01/2008 0100hrs UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

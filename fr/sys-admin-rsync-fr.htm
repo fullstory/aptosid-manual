@@ -331,7 +331,7 @@ trinity --> morpheus – deviendra: trinity --> neo &amp; neo --> morpheus
 			<h5>Exemple opérationnel de commandes rsync:</h5>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
 <p>Voyons ensemble des parties de cette commande:</p>
@@ -339,24 +339,24 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7
 
 <pre>
 le chemin des fichiers sources est: morpheus:/home/tartie
-et celui de la cible: /media/hda7/SysBackups/morpheus/home
+et celui de la cible: /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>tout le contenu de /home/tartie... va être sauvegardé dans /media/hda7/SysBackups/morpheus/home, donnant un résultat comme ceci :</p>
+<p>tout le contenu de /home/tartie... va être sauvegardé dans /media/sda7/SysBackups/morpheus/home, donnant un résultat comme ceci :</p>
 
 <pre>
-/media/hda7/SysBackups/morpheus/home/tartie...
+/media/sda7/SysBackups/morpheus/home/tartie...
 </pre>
 
 <p>il est à noter que la seule raison qui place /tartie dans /home provienne de la syntaxe de désignation de la CIBLE et non de celle de la SOURCE. la "source" ne sélectionne que d'où viennent les données et pas où elles vont aller. C'est la "cible" qui désigne à rsync où copier, les données qu'il récupère de la "source". Voyens cet exemple :</p>
 
 
 <pre>
-rsync [...] /home/user/data/files /media/hda7/SysBackups/neo
+rsync [...] /home/user/data/files /media/sda7/SysBackups/neo
 </pre>
 
 
-<p>Dans la commande ci-dessus, seul le répertoire source /files et ce qu'il contient, sera copié sous le répertoire cible /neo, et nous n'obtiendrons pas /media/hda7/SysBackups/neo/home/user/data/files </p>
+<p>Dans la commande ci-dessus, seul le répertoire source /files et ce qu'il contient, sera copié sous le répertoire cible /neo, et nous n'obtiendrons pas /media/sda7/SysBackups/neo/home/user/data/files </p>
 				
 <p>Soyez attentif à ces considérations lorsque vous créez vos commandes de sauvegarde avec rsync.</p>
 
@@ -395,32 +395,32 @@ L'option -a est considérée comme un équivalent à : -rlptgoD qui signifie:
 			<h5>Exemples de commandes:</h5>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>Cette commande va sauvegarder tous les fichiers répertoires inclus dans /home/tartie vers le système dont le nom d'hôte est "morpheus", pour les disposer dans le répertoire  /media/hda7/SysBackups/morpheus/home  – préservant la structure d'arborescence du répertoire source /tartie.</p>
+<p>Cette commande va sauvegarder tous les fichiers répertoires inclus dans /home/tartie vers le système dont le nom d'hôte est "morpheus", pour les disposer dans le répertoire  /media/sda7/SysBackups/morpheus/home  – préservant la structure d'arborescence du répertoire source /tartie.</p>
 
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/sda7/SysBackups/morpheus/home
 </pre>
 
 <p>Cette commande est l'équivalent en mode "pousser" de la commande précédente. Elle va pousser tous les fichiers répertoires inclus dans /home/tartie vers la machine neo et dans le même répertoire. Notez qu'un système est considéré "distant" dès lors que son chemin est précédé du signe “:”.</p>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
+rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/sda7/SysBackups/neo/home
 </pre>
 
-<p>Cette commande réalise une synchronisation de réperoire local à répertoire local puisqu'aucun chemin n'est précédé de “:”. Elle sauvegardera la zone /home/cuddles vers le répertoire /media/hda7/SysBackups/neo/home de la même machine.</p>
+<p>Cette commande réalise une synchronisation de réperoire local à répertoire local puisqu'aucun chemin n'est précédé de “:”. Elle sauvegardera la zone /home/cuddles vers le répertoire /media/sda7/SysBackups/neo/home de la même machine.</p>
 
 
 <p>Voyons maintenant ce que l'usage de multiples options d'exclusion peut donner:</p>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/hda7/SysBackups/neo
+rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/sda7/SysBackups/neo
 </pre>
 
-<p>La commande ci-dessus va sauvegarder TOUT les fichiers et répertoires situés sous racine de la machine locale vers /media/hda7/SysBackups/neo – sauf que cette sauvegarde excluera tout fichier ou répertoire se terminant par un “~”, ou un “.c”, ou un “.o”. </p>
+<p>La commande ci-dessus va sauvegarder TOUT les fichiers et répertoires situés sous racine de la machine locale vers /media/sda7/SysBackups/neo – sauf que cette sauvegarde excluera tout fichier ou répertoire se terminant par un “~”, ou un “.c”, ou un “.o”. </p>
 
 
 
@@ -438,11 +438,11 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie trinity:/ho
 <p>La même commande est ici successivement écrite en utilisant les noms d'hôte puis les IP.</p>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
 <p>Certes, vous n'êtes pas obligés d'utiliser les noms d'hôtes, mais vous conviendrez que ce soit un tantinet plus simple.</p>

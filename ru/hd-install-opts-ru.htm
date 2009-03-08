@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
 				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
-				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Скрипт burniso</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
 		</li>
@@ -296,17 +296,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							для sidux "Lite" 1.2 ГБ. К этому добавляется место, необходимое для данных; <br /> 
 							для sidux "Full" 2.1 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p> Начните нормальную установку и выберите раздел на диске USB для установки sidux - мы используем в примере "sda1", но тоже самое верно для любого другого раздела жесткого диска USB. </p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ru.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p>Раздел должен использовать файловою систему Linux. Рекомендована ext3 файловая система. Уже существующий раздел sidux-installer&nbsp; форматирует заново.</p>
-
-							<p class="highlight-2">Все прежние данные на этом разделе при форматировании будут удалены!</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Теперь Вы можете перезагрузится с Вашей USB установки. Предварительно включите в BIOS "Boot from USB".</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -419,7 +413,7 @@ qemu [overlay_image]
 
 				<p>Иногда хотелось бы использовать системный раздел из qemu (например, как настоящую, так и виртуальную инсталляцию qemu запускать с данного раздела как root). Это возможно посредством Software-RAID в линейном режиме (для этого необходим модуль ядра linear.ko) и устройство Loopback: При этом фокус состоит в том, что Master Boot Record (MBR)&nbsp;ставят динамично в начале реального раздела, который должен встраиваться в qemu имидж Raw Disk.</p>
 
-				<p>Предположим, имеют простой, не включенный раздел /dev/hdaN с файловой системой, который должен&nbsp;стать частью имиджа жестких дисков qemu. Сперва создают маленький файл, который должен содержать MBR:</p>
+				<p>Предположим, имеют простой, не включенный раздел /dev/sdaN с файловой системой, который должен&nbsp;стать частью имиджа жестких дисков qemu. Сперва создают маленький файл, который должен содержать MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -427,20 +421,20 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Мы исходим из того, что устройство  называется /dev/loop0, так как еще никакого иного Loopback не существует. Следующий шаг - это объединение&nbsp;"merged" имиджа с MBR +/dev/hdaN при использовании Software-RAIDS:</p>
+				<p>Мы исходим из того, что устройство  называется /dev/loop0, так как еще никакого иного Loopback не существует. Следующий шаг - это объединение&nbsp;"merged" имиджа с MBR +/dev/sdaN при использовании Software-RAIDS:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Созданый таким образом /dev/md0 используется как qemu-Raw-Diskimage (устанавливаемые права доступа должны позволять эмулятору его использовать). Последний (и несколько щекотливый) шаг - это конфигурация жестких дисков (геометрия диска и таблицы разделов), так чтобы совпадали исходная точка первоначального раздела в MBR с одним из /dev/hdaN в пределах/dev/md0 (смещение точно 16 * 512 = 16 384 Байт в этом примере). Для этого используется fdisk на машине Host, а не на эмуляторе: он не всегда позволяет провести округление в килобайтах(как 31.5 KБ в предшествовавшем разделе), и выдаваемое значение, как следствие, не может быть обработано Software-RAIDs. Поэтому на компьютере хоста выполняем:</p>
+				<p>Созданый таким образом /dev/md0 используется как qemu-Raw-Diskimage (устанавливаемые права доступа должны позволять эмулятору его использовать). Последний (и несколько щекотливый) шаг - это конфигурация жестких дисков (геометрия диска и таблицы разделов), так чтобы совпадали исходная точка первоначального раздела в MBR с одним из /dev/sdaN в пределах/dev/md0 (смещение точно 16 * 512 = 16 384 Байт в этом примере). Для этого используется fdisk на машине Host, а не на эмуляторе: он не всегда позволяет провести округление в килобайтах(как 31.5 KБ в предшествовавшем разделе), и выдаваемое значение, как следствие, не может быть обработано Software-RAIDs. Поэтому на компьютере хоста выполняем:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Создается соответствующим образом первоначальный раздел /dev/hdaN и командой 's' (Sector) в меню 'x' (эксперт)подбирают размер, до тех пор, пока первый цилиндр (где начинается&nbsp;первый раздел) точно подойдет к величине MBR. Наконец, с 'w' (write) результат заносится в файл. Теперь имеется в наличии раздел, который непосредственно может включаться как машиной Host так и имиджем жестких дисков qemu:</p>
+				<p>Создается соответствующим образом первоначальный раздел /dev/sdaN и командой 's' (Sector) в меню 'x' (эксперт)подбирают размер, до тех пор, пока первый цилиндр (где начинается&nbsp;первый раздел) точно подойдет к величине MBR. Наконец, с 'w' (write) результат заносится в файл. Теперь имеется в наличии раздел, который непосредственно может включаться как машиной Host так и имиджем жестких дисков qemu:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Конечно, можно использовать любой загрузчик для имиджа жестких дисков с qemu, который поддерживается оригинальным разделом, содержащим необходимые приложения, &nbsp;/boot/hdaN.</p>
+				<p>Конечно, можно использовать любой загрузчик для имиджа жестких дисков с qemu, который поддерживается оригинальным разделом, содержащим необходимые приложения, &nbsp;/boot/sdaN.</p>
 
 
 
@@ -470,12 +464,12 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Официальная документация проекта QEMU</a>.</p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Несколько разделов руководства QEMU были использованы для руководства sidux на базе GNU Free Documentation License 1.2 и приспособлены для руководства sidux. Перевод на русский язык произведен группой sidux.</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Несколько разделов руководства QEMU были использованы для руководства sidux на базе GNU Free Documentation License 1.2 и приспособлены для руководства sidux. Перевод на русский язык произведен группой sidux.</a> </p>
 
 		
 	</div>
 
-	<div id="rev">Содержание, последнее пересмотрено 22/01/2008 0100hrs UTC  </div>
+	<div id="rev">Содержание, последнее пересмотрено 03/03/2008 1050hrs UTC  </div>
 </div>
 </body>
 </html>

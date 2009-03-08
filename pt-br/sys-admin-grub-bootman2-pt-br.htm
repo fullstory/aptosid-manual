@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-pt-br.htm#burn-nero">Queimando no Windows</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#burn-linux">Queimando no Linux</a></li>
 				<li><a href="cd-dl-burning-pt-br.htm#xdelta">Usando o xdelta-patch</a></li>
-				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gui">Script burniso </a></li>
 				<li><a href="cd-no-gui-burn-pt-br.htm#burning-no-gen">Queimando sem interface gráfica</a></li>
 			</ul>
 		</li>
@@ -382,16 +382,14 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 
 
 <pre>
-grub-install --root-directory=/media/hdaX /dev/hdY
+grub-install --root-directory=/media/sdaX /dev/sdY
 </pre>
 
-							<p>/media/hdaX é a partição montada como 'leitura', onde, no diretório "/boot/grub", serão colocados os arquivos necessários (stage2, stage1_5xxx). O arquivo de configuração 'menu.lst' também precisa ser criado naquele diretório. Já /dev/hdY é o disco rígido em cuja MBR o Grub será instalado; geralmente, é o /dev/hda.</p>
+							<p>/media/sdaX é a partição montada como 'leitura', onde, no diretório "/boot/grub", serão colocados os arquivos necessários (stage2, stage1_5xxx). O arquivo de configuração 'menu.lst' também precisa ser criado naquele diretório. Já /dev/sdY é o disco rígido em cuja MBR o Grub será instalado; geralmente, é o /dev/sda.</p>
 
 						<h3>Nomes de discos/Nomes de dispositivos</h3>
 
-							<p><span class="highlight-2">NOTA: </span><span class="highlight-3">hda</span> está em processo de extinção, portanto comece a substituir <span class="highlight-3">hda </span>por <span class="highlight-3">sda</span> a partir do kernel 2.6.22 e seguintes.</p>
-
-		<p>O GRUB não diferencia HDs SCSI de HDs IDE. (hd0) é sempre o primeiro HD que, por sua vez, é sempre o primeiro na sequência de boot (isso é configurado na BIOS), independentemente de ser SCSI ou IDE. Já o método de numeração é singular: a primeira partição no primeiro HD é (hd0,0). Partições primárias são numeradas de 0 a 3, partições lógicas de 4 para cima.</p>
+							<p>O GRUB não diferencia HDs SCSI de HDs IDE. (hd0) é sempre o primeiro HD que, por sua vez, é sempre o primeiro na sequência de boot (isso é configurado na BIOS), independentemente de ser SCSI ou IDE. Já o método de numeração é singular: a primeira partição no primeiro HD é (hd0,0). Partições primárias são numeradas de 0 a 3, partições lógicas de 4 para cima.</p>
 
 		<table>
 			<tbody>
@@ -406,19 +404,19 @@ grub-install --root-directory=/media/hdaX /dev/hdY
 					<td>Floppy ou Disquete (sob Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
 					<td>primeiro HD</td>	
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
+					<td>/dev/sda1</td>
 					<td>Partição1 no HD1</td>	
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Partição estendida no HD1</td>	
+					<td>/dev/sda6</td>
+					<td>Partição logical no HD1</td>	
 				</tr>
 			</tbody>
 		</table>
@@ -457,7 +455,7 @@ geometry (hd0)
 							<p>mostra o seguinte:</p>
 
 <pre>
-"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 Filesystem type is fat, partition type 0xb Partition num: 1,
 Filesystem type is fat, partition type 0xb Partition num: 2,
 Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -539,7 +537,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -556,9 +554,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -577,7 +575,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -628,7 +626,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -637,9 +635,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -668,7 +666,7 @@ chainloader +1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro (ou qualquer que seja)
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro (ou qualquer que seja)
 initrd (hd0,3)/debian/miniroot.gz (ou seja lá o que for)
 
 ### ISO boot
@@ -714,7 +712,7 @@ LINUX: # chmod a -w ./stage2
 							<p>Se sua placa de rede funcionar bem no Linux, o Grub pode dar boot através da rede.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Um Disco de Boot pode ser obtido aqui (apesar de ser usada uma versão antiga do Grub)</a>.</p>
 				
 	</div>
-	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
+	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
 
 
 </div>

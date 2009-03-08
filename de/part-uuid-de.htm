@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Di 23. Sep 12:50:53 CEST 2008 -->
+<!-- Last translation revision by hubi Di 24. Feb 13:46:35 CET 2009 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -98,7 +98,7 @@
 				<li><a href="hd-install-de.htm#Installation">Installation auf die Festplatte</a></li>
 				<li><a href="hd-install-de.htm#first-hd-boot">Erstes Booten von der Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#fromiso">Booten 'fromiso'</a></li>
-				<li><a href="hd-install-opts-de.htm#fromiso-persist">fromiso und persist</a></li>
+				<li><a href="hd-install-opts-de.htm#fromiso-persist">Beschreibbares Live-System - fromiso</a></li>
 				<li><a href="hd-install-opts-de.htm#usb-hd">Installation auf eine USB-Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#vtbox">Installation sidux über VirtualBox</a></li>
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Aktualisieren der fstab</h2>
 
-							<p>Um eine neu erstellte Partition anzuzeigen (nehmen wir hda6 oder sdb7 als Beispiel), die nicht in der fstab erscheint oder sich nicht mounten lässt, tippt man als user ($) folgenden Befehl in die Konsole:</p>
+							<p>Um eine neu erstellte Partition anzuzeigen (nehmen wir sda6 oder sdb7 als Beispiel), die nicht in der fstab erscheint oder sich nicht mounten lässt, tippt man als user ($) folgenden Befehl in die Konsole:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Er wird etwas Ähnliches wie dies hier ausgeben (nur das fett Gedruckte ist im Folgenden wichtig):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>In diesem Beispiel ist <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> der fehlende Eintrag. Der nächste Schritt ist, die UUID/Partition in die /etc/fstab einzutragen. Um sie zu dieser hinzuzufügen, benutzt man einen Texteditor (wie kate oder kwrite) mit Rootrechten; in diesem Beispiel sähe der Eintrag so aus:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Ein anderes Beispiel:</p>
 
@@ -271,6 +271,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>Wie man sehen kann, haben die FAT- und NTFS-Partitionen kürzere Bezeichnungen, sind aber dennoch gelistet (sda6 und sdb1).</p>
 
 
 				<h4>2. Dauerhafter Bezeichner mittels LABEL</h4>
@@ -287,7 +288,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Wie man sehen kann, haben die FAT- und NTFS-Partitionen kürzere Bezeichnungen, sind aber dennoch gelistet. Der Vorteil der UUID-Methode ist die geringere Wahrscheinlichkeit von Benennungskollisionen, als wenn die Speichergeräte mittels Label-Benennung eingebunden wären. Der Nachteil ist offensichtlich: die UUID-Benennungen kann man sich schwerer merken.</p>
+							<p>Während Labels leicht wiedererkennbare Bezeichnungen haben, muss jedoch sehr genau darauf geachtet werden, Namensüberschneidungen zu vermeiden.</p>
 
 							<p>Die Bezeichnung eines Labels kann mit folgenden Befehlen geändert werden:</p>
 <pre>
@@ -344,7 +345,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>In obigem Beispiel ist /dev/sda1 die Rootpartition. Die Kernel-Zeile der Datei /boot/grub/menu.lst sieht daher folgendermaßen aus:<br /><br />Abhängig von der Wahl des Benennungs-Schemas wird diese Zeile</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>abgeändert in</p>
 <pre>
@@ -355,7 +356,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Eine alternative Methode ist, das Label in das Dateisystem einzubetten. Wenn zum Beispiel das Dateisystem /dev/hda1 das Label "root" besitzt, würde die Kernelzeile in /boot/grub/menu.lst so aussehen:</p>
+							<p>Eine alternative Methode ist, das Label in das Dateisystem einzubetten. Wenn zum Beispiel das Dateisystem /dev/sda1 das Label "root" besitzt, würde die Kernelzeile in /boot/grub/menu.lst so aussehen:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
@@ -364,7 +365,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p>Mehr über Labels findet man auf <a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised UTC 12/01/2009 1324hrs</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

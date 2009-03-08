@@ -195,7 +195,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Re Building fstab</h2>
 
-							<p>To show a newly created partition (say hda6 or sdb7), that does not appear in fstab or want to be mounted, in a konsole as user ($), type the following command:</p>
+							<p>To show a newly created partition (say sda6 or sdb7), that does not appear in fstab or want to be mounted, in a konsole as user ($), type the following command:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -204,17 +204,17 @@
 							<p>It will output like this (bold is for example purposes only):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>In this example <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> is the missing entry. The next step is to enter the UUID partition to your etc/fstab. To add it to your fstab file use a text editor (like kate or kwrite) with root privileges:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Another example:</p>
 
@@ -239,7 +239,7 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 </pre>
 
 					<h5 class="highlight-3">Note: mountpoint names (in fstab) must be existing directories,  sidux creates these directories during installation under /media  and they can be named sda1, sda2, ....,disk0, disk1<br />
-					fstab mountpoints for partitions created after initial installation will need to be added manually</h5>
+					fstab mountpoints for partitions created after initial installation will need to be added manually.</h5>
 
 	<div class="divider" id="uuid-fstab">
 			<h2>Overview: UUID, Partition Labelling and fstab</h2>
@@ -250,7 +250,7 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 				  			<b>2)</b> With the introduction of the new libata pata support, all your ide hdX devices will become sdX devices at some point in the future. Again, with persistent naming, you won't even notice.<br />
 				   			<b>3)</b> Machines with both sata and ide controllers are quite common these days. With the libata changes mentioned above, the first problem will become even more common, as sata and ide hard drives will both have sdX names.</p>
 
-							<p class="highlight-3">By default sidux will use uuid in your fstab when you install</p>
+							<p class="highlight-3">By default sidux will use uuid in your fstab when you install.</p>
 
 				<p>There are more reasons, but these are the most critical ones now and in the near future. That's why sidux encourages you to change your setup to persistent naming schemes.</p>
 
@@ -271,6 +271,8 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
 
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
+
 
 			<h4>2. Persistent Naming by LABEL</h4>
 
@@ -287,7 +289,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
 
-							<p>As you can see, the fat and ntfs partitions (fat and windows labels above) have shorter names, but are still listed. The advantage about using the uuid method is that it is less likely that you have name collisions than with labels; the disadvantage is that they are more difficult to memorise.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>You can change the labels of your filesystems using these commands:</p>
 <pre>
@@ -341,7 +343,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>In the above example, /dev/sda1 is the root partition. In the grub menu.lst file, the kernel line looks like this:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>Depending on which naming scheme you prefer, change it to one of the following:</p>
 <pre>
@@ -352,7 +354,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>There is an alternative way to use the label embedded in the filesystem. For example if (as above) the filesystem in /dev/hda1 is labelled "root", you would give this line to grub:</p>
+							<p>There is an alternative way to use the label embedded in the filesystem. For example if (as above) the filesystem in /dev/sda1 is labelled "root", you would give this line to grub:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
@@ -361,7 +363,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">There is more on labeling here at lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised UTC 12/01/2009 1324hrs</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

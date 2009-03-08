@@ -307,22 +307,22 @@ trinity --> morpheus – postane: trinity --> neo &amp; neo --> morpheus
 </pre>
 				<h5>Primjeri za rsync naredbe:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/hda7/SysBackups/morpheus/home"
+rsync -agEvz --delete-after --exclude=”*~” "morpheus:/home/tartie" "/media/sda7/SysBackups/morpheus/home"
 </pre>
 				<p>Da pogledamo na nekoliko dijelova te naredbe:</p>
 <pre>
 izvorna direktorija/datoteka je: morpheus:/home/tartie
-cilj je: /media/hda7/SysBackups/morpheus/home
+cilj je: /media/sda7/SysBackups/morpheus/home
 </pre>
-				<p>sve na /home/tartie... će biti sigurnosno kopirano pod /media/hda7/SysBackups/morpheus/home što izgleda kao ovo:</p>
+				<p>sve na /home/tartie... će biti sigurnosno kopirano pod /media/sda7/SysBackups/morpheus/home što izgleda kao ovo:</p>
 <pre>
-/media/hda7/SysBackups/morpheus/home/tartie...
+/media/sda7/SysBackups/morpheus/home/tartie...
 </pre>
 				<p>Moramo zabilježiti, da je jedini razlog što je /tartie pod /home je zbog CILJ opcije, i NE zbog IZVOR opcije. “Izvor” samo selektira odakle su datoteke, a ne gdje idu. “Cilj” je što pokaze rsyncu gdje da memorira datoteke koje dobiva s “izvora”. Uzmite sljedeći primjer:</p>
 <pre>
-rsync [...] /home/user/data/files /media/hda7/SysBackups/neo
+rsync [...] /home/user/data/files /media/sda7/SysBackups/neo
 </pre>
-				<p>U gornjoj naredbi, samo izvorni direktorij /files, i što je ispod, će biti pod ciljnim direktoriji /neo - i ne ovo /media/hda7/SysBackups/neo/home/user/data/files</p>
+				<p>U gornjoj naredbi, samo izvorni direktorij /files, i što je ispod, će biti pod ciljnim direktoriji /neo - i ne ovo /media/sda7/SysBackups/neo/home/user/data/files</p>
 
 				<p>Budite sigurni da dobro promislite o tome kad kreirate vaše rsync naredbe za sigurnosne kopije.</p>
 
@@ -357,23 +357,23 @@ Nažalost, ako ne uključite --super u toj naredbi, neće biti efekta.
 
 				<h5>Primjerne naredbe:</h5>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
-				<p>Ta naredba će osigurati sve datoteke/direktorije ispod /home/tartie na sistem zvanog “morpheus”, i memorirati ih u /media/hda7/SysBackups/morpheus/home direktorij – sa preuzimanjem strukture iz tartie direktorija.</p>
+				<p>Ta naredba će osigurati sve datoteke/direktorije ispod /home/tartie na sistem zvanog “morpheus”, i memorirati ih u /media/sda7/SysBackups/morpheus/home direktorij – sa preuzimanjem strukture iz tartie direktorija.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/sda7/SysBackups/morpheus/home
 </pre>
 				<p>Ta naredba je obratna strana gornje naredbe, to će “gurati” /home/tartie direktorij, i njegov sadržaj, i pod-direktorija na sistem zvan neo u isti direktorij – zapamtite da je sistem smatran udaljen ako koristite “:” na početku puta.</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/hda7/SysBackups/neo/home
+rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/sda7/SysBackups/neo/home
 </pre>
-				<p>Ta naredba obavlja lokalnu na lokalnu sigurnosnu kopiju, zato što nigdje nema “:”, ni u izvoru niti u cilj lokacijama. Ta naredba će sigurnosno kopirati lokalno /home/cuddles na /media/hda7/SysBackups/neo/home.</p>
+				<p>Ta naredba obavlja lokalnu na lokalnu sigurnosnu kopiju, zato što nigdje nema “:”, ni u izvoru niti u cilj lokacijama. Ta naredba će sigurnosno kopirati lokalno /home/cuddles na /media/sda7/SysBackups/neo/home.</p>
 
 				<p>Da vidimo kako će izgledati višestruka exclude rsync naredba:</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/hda7/SysBackups/neo
+rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/sda7/SysBackups/neo
 </pre>
-				<p>Gornja naredba će sigurnosno kopirati SVE sa root lokalnog sistema, i sve datoteke/direktorije, postaviti na cilj lokaciju /media/hda7/SysBackups/neo – samo sad, će odstraniti sve datoteke, ili direktorije, koje imaju na kraju “~”, ili “.c”, ili “.o”</p>
+				<p>Gornja naredba će sigurnosno kopirati SVE sa root lokalnog sistema, i sve datoteke/direktorije, postaviti na cilj lokaciju /media/sda7/SysBackups/neo – samo sad, će odstraniti sve datoteke, ili direktorije, koje imaju na kraju “~”, ili “.c”, ili “.o”</p>
 
 				<p class="highlight-2">Ispod je primjer za rsync naredbu, koju nikada ne bih trebali koristiti, jeli neće obaviti posao. To ja primjer za rsync naredbu sa udaljenog sistema na udaljeni sistem:</p>
 <pre>
@@ -385,10 +385,10 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie trinity:/ho
 
 				<p>Sljedeća naredba je “name” metoda, i druga, je potpuno ista naredba samo koristi IP adrese</p>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 <pre>
-rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/hda7/SysBackups/morpheus/home
+rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 				<p>Kao što smo naveli prije, ne morate koristiti “imena”, ali, u prvom primjeru, možete pročitati što radi, puno lakše nego u drugome.</p>
 

@@ -293,17 +293,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							sidux "LITE" kræver ca. 1.2gig PLUS plads til ekstra data,<br />
 							sidux "FULL" kræver ca. 2.1gig PLUS plads til ekstra data</p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p>Start som med en normal installation og vælg den partition på usb-enheden hvortil sidux skal installeres - vi kalder den "sda1" her, men det gælder for enhver anden partition på en usb-disk eller usb-enhed.</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-da.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p>Partitionen skal formatteres med et linux-filsystem. Vi anbefaler ext3-filesystemet. En eksisterende partition vil blive reformatteret af installationsprogrammet!</p>
-
-							<p class="highlight-2">Al data på denne partition vil blive tabt under reformatteringen!</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Du kan nu boote fra din usb-enhed. 'Boot fra USB' skal være aktiveret i din BIOS.</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -411,7 +405,7 @@ qemu [overlay_image]
 
 				<p>Det kan hænde at du ønsker at anvende enaf dine system partitioner fra inde i qemu (for eksempel hvis du vil boot både din rigtige maskine eller qemu med en given apartition som root). Du kan opnå dette ved at anvende software RAID i linear mode (du skal bruge kernel driveren linear.ko) og en loopback enhed: tricket består i at "dynamically prepend a master boot record (MBR) to the real partition you wish to embed in a qemu raw disk image."(###)</p>
 
-				<p>Antag at du har en almindelig, umonteret /dev/hdaN partition med et filsystem på, som du vil gøre til del af en qemu disk image. Først opretter du en lille fil til at indeholde MBR:</p>
+				<p>Antag at du har en almindelig, umonteret /dev/sdaN partition med et filsystem på, som du vil gøre til del af en qemu disk image. Først opretter du en lille fil til at indeholde MBR:</p>
 <pre>
 dd if=/dev/zero of=/sti/til/mbr count=32
 </pre>
@@ -419,20 +413,20 @@ dd if=/dev/zero of=/sti/til/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Lad os antage at den resulterende enhed er /dev/loop0, for vi ville ikke allerede have brugt andre loopbacks. Næste trin er at oprette det "sammensmeltede" MBR + /dev/hdaN disk image med software RAID:</p>
+				<p>Lad os antage at den resulterende enhed er /dev/loop0, for vi ville ikke allerede have brugt andre loopbacks. Næste trin er at oprette det "sammensmeltede" MBR + /dev/sdaN disk image med software RAID:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Det resulterende /dev/md0 er havd du anvender som qemu raw disk image (glem ikke at sætte rettighederne så emulatoren kan få adgang). Det sidste, lettere spegede trick er at sætte disk konfigurationen (disk geometry og partitions table) således at den primære partitions start point i MBR matcher det fra /dev/hdaN inde i /dev/md0 (et offset på præcist 16 * 512 = 16384 bytes i dette eksempel). Gør dette med fdisk på værtsmaskinen, ikke i emulatoren: standard raw disc detection routinen fra qemu resulterer ofte i ikke kilobyte-afrundbare offsets (såsom 31.5 KB, som i den forrige sektion) som ikke kan håndteres af software RAID programmet. Derfor, fra værten:</p>
+				<p>Det resulterende /dev/md0 er havd du anvender som qemu raw disk image (glem ikke at sætte rettighederne så emulatoren kan få adgang). Det sidste, lettere spegede trick er at sætte disk konfigurationen (disk geometry og partitions table) således at den primære partitions start point i MBR matcher det fra /dev/sdaN inde i /dev/md0 (et offset på præcist 16 * 512 = 16384 bytes i dette eksempel). Gør dette med fdisk på værtsmaskinen, ikke i emulatoren: standard raw disc detection routinen fra qemu resulterer ofte i ikke kilobyte-afrundbare offsets (såsom 31.5 KB, som i den forrige sektion) som ikke kan håndteres af software RAID programmet. Derfor, fra værten:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Sådan, opret en enkelt primær partition korresponderende til /dev/hdaN, og leg med 's'ector kommanden fra 'x'pert menuen indtil den første cylinder (hvor den første partition starter) matcher størrelsen af MBR. Slutteligt, 'w'rite resultatet til filen: Du er nu færdig. Du har nu en partition der kan monteres direkte på din vært og som såvel er et qemu disk image:</p>
+				<p>Sådan, opret en enkelt primær partition korresponderende til /dev/sdaN, og leg med 's'ector kommanden fra 'x'pert menuen indtil den første cylinder (hvor den første partition starter) matcher størrelsen af MBR. Slutteligt, 'w'rite resultatet til filen: Du er nu færdig. Du har nu en partition der kan monteres direkte på din vært og som såvel er et qemu disk image:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Du kan selvfølgelig helt sikkert sætte en hvilken som helst bootloader på dette qemu diskimage, forudsat at den originale /boot/hdaN partition indeholder de nødvendige værktøjer.</p>
+				<p>Du kan selvfølgelig helt sikkert sætte en hvilken som helst bootloader på dette qemu diskimage, forudsat at den originale /boot/sdaN partition indeholder de nødvendige værktøjer.</p>
 
 			<h4>Anvendelse af QEMU Accelerator Module</h4>
 
@@ -456,10 +450,10 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Den officielle dokumentation for QEMU Project </a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 22/01/2008 0100hrs UTC</div>
+			<div id="rev"> Content last revised 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

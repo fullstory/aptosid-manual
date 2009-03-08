@@ -240,7 +240,7 @@
 			<!--h6>How to set it up</h6-->
 			<h6>Πως να το ρυθμίσετε</h6>
 				<!--p>Let's say that your pc has the following:<br />
-				* a 100 gig hard drive (sda) which is in use, with mounts hda1 used for the root partition, and sda5 used for storing music and other files, and sda6 for swap.<br />
+				* a 100 gig hard drive (sda) which is in use, with mounts sda1 used for the root partition, and sda5 used for storing music and other files, and sda6 for swap.<br />
 				* a spare 200 gig hard drive (sdb) which is not in use, with one mount sdb1 ... we'll use this one for our backups.<br />
 				* IP address 192.168.0.1</p-->
 				<p>Ας πούμε ότι ο υπολογιστής σας έχει τα πιο κάτω:<br />
@@ -267,7 +267,7 @@
 				<!--p>rdiff-backup uses the syntax <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. Note: always specify directory names, not file names.</p-->
 				<p>Το rdiff-backup χρησιμοποιεί την σύνταξη <span class="highlight-3">rdiff-backup πηγή προορισμός</span>. Σημείωση: πάντα να δίνετε ονόματα καταλόγων και όχι ονόματα αρχείων.</p>
 
-				<!--p>To back up hda5, run:</p-->
+				<!--p>To back up sda5, run:</p-->
 				<p>Για να κάνετε backup το sda5, τρέξτε:</p>
 <pre>
 # rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
@@ -277,7 +277,7 @@
 <pre>
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<!--p>Any "AF_UNIX path too long" errors can be ignored. This may take a while as it's the first time the partition has been backed up, so rdiff-backup will have to back up the entire partition (not just the differences). Notice that we don't want to back up /tmp as this always changes, nor /proc or /sys as these don't contain real files, and also we don't want to back up mounts. If you did back up mounts, then you would be backing up hdb1, and could get into an infinite loop! One way around this is to backup the mounts separately.</p-->
+				<!--p>Any "AF_UNIX path too long" errors can be ignored. This may take a while as it's the first time the partition has been backed up, so rdiff-backup will have to back up the entire partition (not just the differences). Notice that we don't want to back up /tmp as this always changes, nor /proc or /sys as these don't contain real files, and also we don't want to back up mounts. If you did back up mounts, then you would be backing up sdb1, and could get into an infinite loop! One way around this is to backup the mounts separately.</p-->
 				<p>Οποιαδήποτε "AF_UNIX path too long" λάθη (errors) μπορούν να αγνοηθούν. Μπορεί να χρειαστεί λίγη ώρα μιας και είναι η πρώτη φορά που η κατάτμηση θα γίνει backup και το rdiff-backup θα πρέπει να κάνει backup ολόκληρη την κατάτμηση (όχι μόνο τις διαφορές). Σημειώστε ότι δεν θέλουμε να κάνουμε backup το /tmp γιατί αυτό πάντα αλλάζει, ούτε το το /proc ή το /sys γιατί δεν περιέχουν πραγματικά αρχεία και επίσης δεν θέλουμε να κάνουμε backup τα σημεία προσάρτησης. Εάν κάνετε backup σημεία προσάρτησης, τότε θα κάνατε backup το sdb1 και θα μπορούσατε να μπείτε σε άπειρο βρόχο (infinite loop)! Μια λύση γιαυτό είναι να κάνετε ξεχωριστά backup τα σημεία προσάρτησης.</p>
 
 				<!--p>Now the reason you put '/proc/*' instead of just '/proc' is that this will cunningly still backup the directory name /proc, but will ignore everything inside. The same is true to /tmp, /sys, and even more cunningly all the mount point names.</p-->
@@ -294,7 +294,7 @@
 <pre>
 rdiff-backup -r &lt;από-πότε&gt; &lt;πηγή&gt; &lt;προορισμός&gt;
 </pre>
-				<!--p>Now if you were to accidentally delete the directory /media/hda7/photos, you can restore it by doing:</p-->
+				<!--p>Now if you were to accidentally delete the directory /media/sda7/photos, you can restore it by doing:</p-->
 				<p>Τώρα εάν κατά λάθος σβήσατε τον κατάλογο /media/sda7/photos, μπορείτε να τον ανακτήσετε γράφοντας:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
@@ -308,7 +308,7 @@ rdiff-backup -r &lt;από-πότε&gt; &lt;πηγή&gt; &lt;προορισμό�
 				<!--p class="highlight-1">"3D" refers to the instant 72 hours before the present, and if there was no backup made at that time, rdiff-backup restores the state recorded for the previous backup. For instance, in the above case, if "3D" is used, and there are only backups from 2 days and 4 days ago, the directory would be restored as it was 4 days ago (so you have to think about it before you restore).</p-->
 				<p class="highlight-1">Το "3D" αναφέρεται στην στιγμή 72 ώρες πριν το παρόν και αν δεν έγινε backup εκείνη την ώρα, το rdiff-backup επαναφέρει την κατάσταση που καταγράφτηκε για το προηγούμενο backup. Για παράδειγμα, για την πιο πάνω περίπτωση, εάν χρησιμοποιηθεί το "3D" και υπάρχουν μόνο backup από 2 μέρες και 4 μέρες πριν, ο κατάλογος θα επαναφερθεί στην κατάσταση στην οποία βρισκόταν πριν από 4 μέρες (γιαυτό πρέπει να το σκεφτείτε πριν κάνετε ανάκτηση).</p>
 
-				<!--p>Using the following will list the date and times of when the backups were made for hda5:</p-->
+				<!--p>Using the following will list the date and times of when the backups were made for sda5:</p-->
 				<p>Η χρήση της παρακάτω εντολής θα σας δείξει τις μέρες και τις ώρες που έγιναν τα backup για το sda5:</p>
 <pre>
 # rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
@@ -322,7 +322,7 @@ rdiff-backup -r &lt;από-πότε&gt; &lt;πηγή&gt; &lt;προορισμό�
 				<!--p class="highlight-2">WARNING: Don't restore the root partition while you are booted up into it! With one command you will lose all the files on all your partitions, including all the backups on a separate hard drive!! rdiff-backup does exactly what it was instructed to do ... if the the backup for the root partition has empty mount points, thus in order to restore to how the backup is, it deletes everything in the mounts to make everything like the backup.</p-->
 				<p class="highlight-2">ΠΡΟΣΟΧΗ: Μην επαναφέρετε την root κατάτμηση ενώ χρησιμοποιείται (booted into it)! Με μια εντολή θα χάσετε όλα σας τα αρχεία σε όλες σας τις κατατμήσεις καθώς και όλα τα backup που βρίσκονται σε ξεχωριστό δίσκο!! Το rdiff-backup κάνει ακριβώς αυτό που του είπατε να κάνει. Εάν το backup για την root κατάτμηση έχει άδεια σημεία προσάρτησης, για να μπορέσει να επαναφέρει το σύστημα στην κατάσταση του backup, διαγράφει τα πάντα μέσα στα σημεία προσάρτησης όπως είναι και στο backup.</p>
 
-				<!--p>To restore hda5 from the latest backup, we simply do:</p-->
+				<!--p>To restore sda5 from the latest backup, we simply do:</p-->
 				<p>Για να επαναφέρουμε την sda5 από το πιο πρόσφατο backup, απλά γράφουμε:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
@@ -368,10 +368,10 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				<p>Μπορείτε να κάνετε backup άλλους υπολογιστές πάνω στον τοπικό (local) σας υπολογιστή, φτάνει ο τοπικός σας υπολογιστής να μπορεί να συνδεθεί στον άλλο υπολογιστή μέσω ssh (και φτάνει να έχετε χώρο στον σκληρό σας δίσκο). Ο ssh διακομιστής (server) (sshd) πρέπει να τρέχει στον απομακρυσμένο (remote) υπολογιστή. Οι άλλοι υπολογιστές δεν χρειάζεται να βρίσκονται στο τοπικό σας δίκτυο (lan), μπορούν να βρίσκονται οπουδήποτε στον κόσμο.</p>
 
 				<!--p>Let's assume that your remote pc has the following:<br />
-				1) a 100 gig hard drive (hda) which is in use, with only mounts,<br />
-				2) hda1 used for the root partition,<br />
-				3) hda5 that we are storing some temporary files that we don't want backed up,<br />
-				4) and hda6 for swap <br />
+				1) a 100 gig hard drive (sda) which is in use, with only mounts,<br />
+				2) sda1 used for the root partition,<br />
+				3) sda5 that we are storing some temporary files that we don't want backed up,<br />
+				4) and sda6 for swap <br />
 				5) IP address 192.168.0.2</p-->
 				<p>Ας υποθέσουμε ότι ο απομακρυσμένος υπολογιστής σας έχει τα ακόλουθα:<br />
 				1) ένα 100 gig σκληρό δίσκο (sda) ο οποίος χρησιμοποιείται, με μοναδικά σημεία προσάρτησης:<br />
@@ -380,8 +380,8 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				4) και sda6 για swap <br />
 				5) διεύθυνση IP 192.168.0.2</p>
 
-				<!--p>Note: both 100 gig drives cannot usually be backed up on the 200 gig drive using rdiff-backup (since there would be no room for incremental files), but since you aren't backing up hda5 on the remote pc (and since hard drives aren't usually 100% full anyway, although don't rely on this) then you may calculate that you have enough room. Every time rdiff-backup performs another backup, more incremental files are created, and this takes up more and more room.</p-->
-				<p>Note: both 100 gig drives cannot usually be backed up on the 200 gig drive using rdiff-backup (since there would be no room for incremental files), but since you aren't backing up hda5 on the remote pc (and since hard drives aren't usually 100% full anyway, although don't rely on this) then you may calculate that you have enough room. Every time rdiff-backup performs another backup, more incremental files are created, and this takes up more and more room.</p>
+				<!--p>Note: both 100 gig drives cannot usually be backed up on the 200 gig drive using rdiff-backup (since there would be no room for incremental files), but since you aren't backing up sda5 on the remote pc (and since hard drives aren't usually 100% full anyway, although don't rely on this) then you may calculate that you have enough room. Every time rdiff-backup performs another backup, more incremental files are created, and this takes up more and more room.</p-->
+				<p>Note: both 100 gig drives cannot usually be backed up on the 200 gig drive using rdiff-backup (since there would be no room for incremental files), but since you aren't backing up sda5 on the remote pc (and since hard drives aren't usually 100% full anyway, although don't rely on this) then you may calculate that you have enough room. Every time rdiff-backup performs another backup, more incremental files are created, and this takes up more and more room.</p>
 
 				<!--p>You can tell rdiff-backup only to keep a max of 1 months backups (this command is shown later on), and this would take up less room than telling rdiff-backup to keep a years worth of data. And of course if you want a years worth of data backed up, then you have to have the hard drive space to store a years worth of incremental files.</p-->
 				<p>Μπορείτε να πείτε στο rdiff-backup να κρατάει τα backup μόνο για ένα μήνα (την εντολή αυτή σας την δείχνουμε αργότερα) και αυτό θα χρειάζεται πιο λίγο χώρο παρά αν του πείτε να κρατάει τα backup για ένα χρόνο. Φυσικά αν θέλετε να κρατάτε τα δεδομένα ενός χρόνου, τότε θα πρέπει να έχετε και χώρο στον σκληρό σας δίσκο για αυτά τα δεδομένα.</p>

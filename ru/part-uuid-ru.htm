@@ -54,7 +54,7 @@
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
 				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
-				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Скрипт burniso</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
 		</li>
@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Конфигурирование fstab</h2>
 
-							<p>Для просмотра вновь созданных и пока не включенных в fstab (скажем, hda6 или sdb7) разделов, или любых других доступных для монтирования разделов жесткого диска выполните как обычный пользователь в консоли.</p>
+							<p>Для просмотра вновь созданных и пока не включенных в fstab (скажем, sda6 или sdb7) разделов, или любых других доступных для монтирования разделов жесткого диска выполните как обычный пользователь в консоли.</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Вывод команды будет похож на приведенный ниже (выделение толстым шрифтом исключительно для примера):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>В этом примере строка, содержащая <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> отсутствует в fstab. Следующим шагом станет добавление соответствующей данному UUID строки в файл /etc/fstab. Для этого подойдет любой текстовый редактор (такой как kate или kwrite), запущенный от имени суперпользователя root:</p>
 <pre>
 # &lt;device file system&gt;                    &lt;mount point&gt;  &lt;type&gt;  &lt;options&gt;         &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b>  /media/hda6    ext3    auto,users,exec   0      2 
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b>  /media/sda6    ext3    auto,users,exec   0      2 
 </pre>
 							<p>Еще один пример:</p>
 
@@ -270,6 +270,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -&gt
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -&gt; ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -&gt; ../../sdb2
 </pre>
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
 
 					<h4>2. Посредством МЕТКИ (LABEL)</h4>
 
@@ -285,7 +286,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -&gt; ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -&gt; ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -&gt; ../../sdb1
 </pre>
-							<p>В приведенном примере можно видеть uuid обозначения FAT-и NTFS разделов, хотя и более короткие.  Преимущество метода UUID - незначительная вероятность совпадения наименований по сравнению с использованием метки. Недостаток очевиден: наименования UUID сложнее запоминать.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>Обозначение метки может изменяться следующими командами:</p>
 <pre>
@@ -333,7 +334,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>В вышеупомянутом примере /dev/sda1 является  root разделом. Замена строка ядра в&nbsp;файле /boot/grub/menu.lst выглядит (в зависимости от выбора схем наименования) следующим образом:<br /></p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>модифицирована в</p>
 <pre>
@@ -344,7 +345,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Альтернативный метод такой: присвоить метку файловой системе. Если, например, файловая система /dev/hda1 имеет метку (Label) "root", то строка ядра в /boot/grub/menu.lst&nbsp;выглядела бы следующим образом:</p>
+							<p>Альтернативный метод такой: присвоить метку файловой системе. Если, например, файловая система /dev/sda1 имеет метку (Label) "root", то строка ядра в /boot/grub/menu.lst&nbsp;выглядела бы следующим образом:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
@@ -352,7 +353,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p>Больше о метках: <a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Содержание, последнее пересмотрено 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Содержание, последнее пересмотрено 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

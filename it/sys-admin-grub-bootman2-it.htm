@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 02/02/2009 14.00 UTC -->
+<!-- Last translation revision by alessiog75 on 22/02/2009 14.35 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -381,14 +381,12 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 
 
 <pre>
-grub-install --root-directory=/media/hdaX /dev/hdY
+grub-install --root-directory=/media/sdaX /dev/sdY
 </pre>
 
-							<p>/media/hdaX indica la partizione montata in lettura sulla quale, nella cartella '/boot/grub' ci sono i file necessari (stage2, stage1_5xxx). Anche il file di configurazione 'menu.lst' deve assere creato in quella cartella. /dev/hdY è il disco fisso nel cui MBR verrà installato Grub, normalmente /dev/hda.</p>
+							<p>/media/sdaX indica la partizione montata in lettura sulla quale, nella cartella '/boot/grub' ci sono i file necessari (stage2, stage1_5xxx). Anche il file di configurazione 'menu.lst' deve assere creato in quella cartella. /dev/sdY è il disco fisso nel cui MBR verrà installato Grub, normalmente /dev/sda.</p>
 
 						<h3>Denominazione dei dischi/dispositivi</h3>
-
-							<p><span class="highlight-2">Notare: </span><span class="highlight-3">hda</span> sta per essere dismesso, perciò si deve cominciare a sostituire <span class="highlight-3">hda</span> con <span class="highlight-3">sda</span> dal kernel 2.6.22 in poi.</p>
 
 							<p>Grub non fa differenza tra dischi fissi SCSI e IDE. (hd0) è sempre il primo disco fisso che è primo nella sequenza di avvio (impostata nel BIOS), non importa se è IDE o SCSI. Insolito è il metodo di conteggio; la prima partizione del primo disco fisso è (hd0,0). Le partizioni primarie sono numerate da 0-3, quelle logiche dal 4 in su.</p>
 
@@ -397,27 +395,27 @@ grub-install --root-directory=/media/hdaX /dev/hdY
 				<tr>
 					<th><b>Grub</b></th>
 					<th><b>Linux</b></th>
-					<th><b>Label</b></th>
+					<th><b>Etichetta</b></th>
 				</tr>
 				<tr>
 					<td>(fd0)</td>
 					<td>/dev/fd0</td>
-					<td>Floppy (under Windows)</td>
+					<td>Floppy (in Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
-					<td>first hd</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
+					<td>primo hd</td>
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
-					<td>Part.1 on hd1</td>
+					<td>/dev/sda1</td>
+					<td>Part.1 su hd1</td>
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Extended. part. on hd 1</td>
+					<td>/dev/sda6</td>
+					<td>Part. Logica su hd1</td>
 				</tr>
 			</tbody>
 		</table>
@@ -456,7 +454,7 @@ geometry (hd0)
 							<p>mostra il seguente:</p>
 
 <pre>
-"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 Filesystem type is fat, partition type 0xb Partition num: 1,
 Filesystem type is fat, partition type 0xb Partition num: 2,
 Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -538,7 +536,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -555,9 +553,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -576,7 +574,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -627,7 +625,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -636,9 +634,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -670,7 +668,7 @@ chainloader +1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro (or whatever)
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro (or whatever)
 initrd (hd0,3)/debian/miniroot.gz (or (whatever)
 
 ### ISO boot
@@ -717,7 +715,7 @@ LINUX: # chmod a -w ./stage2
 
 	</div>
 
-	<div id="rev">Content last revised 02/02/2009 0240 UTC</div>
+	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
 
 
 </div>

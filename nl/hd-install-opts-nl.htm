@@ -299,17 +299,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							sidux "LITE" heeft 1.2GB nodig EN je hebt ruimte voor data (home/Mijn_documenten) nodig,<br />
 							sidux "FULL" needs 2.1GB nodig EN je hebt ruimte voor data nodig</p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p>We starten de normale installatie en kiezen de partitie op de USB-device, waarop sidux geïnstalleerd moet worden - hieronder noemen wij dat "sda1", maar elke andere beschikbare partitie op een USB-disk of stick kan ook gebruikt worden.</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-nl.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p>De partitie moet geformatteerd zijn met een linux-bestandssysteem. Geadviseerd wordt hiervoor het ext3 bestandssysteem. Een reeds bestaande partitie wordt geformatteerd door de installer!</p>
-
-							<p class="highlight-2">Alle data op deze partitie worden dus overschreven de het formatteren!</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Je kunt nu opstarten van je USB-HD/Stick. 'Boot from USB' moet in je BIOS op enabled staan.</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -417,7 +411,7 @@ qemu [overlay_image]
 
 				<p>Soms wil je een systeem partitie gebruiken met qemu (Bijvoorbeeld, als je wilt opstarten van je echte systeem of om qemu een speciale partitie te laten gebruiken als zijn root partitie). Je kunt dit doen door gebruik te maken van software RAID in lineaire mode (je hebt de linear.ko kernel driver nodig) en een loopback device: de truck is dat je dynamisch een master boot record (MBR) append aan een echte partitie welke je aan de qemu raw disk image wilt koppelen.</p>
 
-				<p>Stel je voor dat je een unmounted /dev/hdaN partitie met een bestandssysteem hebt welke je deel wilt maken van een qemu disk image. Als eerste moet je een klein bestand aanmaken waarin de MBR komt te staan, dit doen we met het volgende commando:</p>
+				<p>Stel je voor dat je een unmounted /dev/sdaN partitie met een bestandssysteem hebt welke je deel wilt maken van een qemu disk image. Als eerste moet je een klein bestand aanmaken waarin de MBR komt te staan, dit doen we met het volgende commando:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -425,20 +419,20 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Laten we aannemen dat het resulterende resultaat het device /dev/loop0 is, omdat we toch nog niet van een andere loopback devices gebruik maakten. De volgende stap is om de "merged" MBR + /dev/hdaN disk image te gebruiken als software RAID:</p>
+				<p>Laten we aannemen dat het resulterende resultaat het device /dev/loop0 is, omdat we toch nog niet van een andere loopback devices gebruik maakten. De volgende stap is om de "merged" MBR + /dev/sdaN disk image te gebruiken als software RAID:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>De aangemaakte /dev/md0 is wat je gaat gebruiken als  qemu raw disk image (vergeet niet om de rechten goed te zetten, zodat qemu bij het bestand kan). De laatste stap (een beetje moeilijke) is het zetten van de disk configuratie (disk geometry en partitie tabellen) zo dat de primary partitie start punt in de MBR overeenkomt met de /dev/hdaN in de /dev/md0 (een offset van precies 16 * 512 = 16384 bytes in dit voorbeeld). Doe dit door gebruik te maken van fdisk op de host machine, niet in de emulator: de standaard raw disc detectie routine van qemu resulteert vaak in een niet-kilobyte afgeronde offsets (zoals 31.5 KB, zoals weer gegeven in vorige sectie) dit kan niet gemanaged worden door de software RAID code. Doe het volgende vanaf het hostsysteem:</p>
+				<p>De aangemaakte /dev/md0 is wat je gaat gebruiken als  qemu raw disk image (vergeet niet om de rechten goed te zetten, zodat qemu bij het bestand kan). De laatste stap (een beetje moeilijke) is het zetten van de disk configuratie (disk geometry en partitie tabellen) zo dat de primary partitie start punt in de MBR overeenkomt met de /dev/sdaN in de /dev/md0 (een offset van precies 16 * 512 = 16384 bytes in dit voorbeeld). Doe dit door gebruik te maken van fdisk op de host machine, niet in de emulator: de standaard raw disc detectie routine van qemu resulteert vaak in een niet-kilobyte afgeronde offsets (zoals 31.5 KB, zoals weer gegeven in vorige sectie) dit kan niet gemanaged worden door de software RAID code. Doe het volgende vanaf het hostsysteem:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Hier creëren we een enkele primaire partitie welke overeenkomt met /dev/hdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
+				<p>Hier creëren we een enkele primaire partitie welke overeenkomt met /dev/sdaN, en spelen hier met de 's'ector commando van het 'x'pert menu totdat we de eerste cylinder (waar de eerste partitie start), overeenkomt met de grote van de MBR. Daarna doen we een , 'w'rite om het geheel op te slaan en je bent klaar. Je hebt nu een partitie die je direct kunt mounten vanaf je hostsysteem, en ook als onderdeel van je qemu disk image en wel als volgt:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Je kunt natuurlijk op een veilige manier elke  bootloader op deze disk image zetten voor het gebruik met qemu, vooruitgesteld dat de originele /boot/hdaN partitie de benodigde tools bevat.</p>
+				<p>Je kunt natuurlijk op een veilige manier elke  bootloader op deze disk image zetten voor het gebruik met qemu, vooruitgesteld dat de originele /boot/sdaN partitie de benodigde tools bevat.</p>
 
 
 
@@ -464,11 +458,11 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">De officiële documentatie van het QEMU Project </a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Sommige teksten voor QEMU voor het sidux-handleiding was vanaf deze site onder GNU Free Documentation License 1.2 benaderd en veranderd voor deze sidux-handleiding</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Sommige teksten voor QEMU voor het sidux-handleiding was vanaf deze site onder GNU Free Documentation License 1.2 benaderd en veranderd voor deze sidux-handleiding</a> </p>
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 22/01/2008 0100hrs UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 03/03/2008 1050hrs UTC</div>
 </div>
 </body>
 </html>

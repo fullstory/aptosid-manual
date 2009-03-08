@@ -207,7 +207,7 @@
 				<p class="highlight-2">Voer de commando's in als root in de konsole, tenzij anders vermeld.</p>
 
 				<p>
-          *het is supergeschikt om misgelopen dist-upgrades, kernel-upgrades enz te herstellen (trouwens ook prima om individuele bestanden terug te halen).
+          *het is geschikt om misgelopen dist-upgrades, kernel-upgrades enz te herstellen (trouwens ook prima om individuele bestanden terug te halen).
           <br />
 				*het maakt alleen een backup van wat er veranderd is, zoals rsync dat doet (dus iedere backup neemt maar weinig tijd in beslag).<br />
 				*het houdt bij wat er verandert (dat betekent dat je een bestand kunt terug halen dat je drie weken geleden verwijderd hebt!).<br />
@@ -223,18 +223,18 @@
 
 			<h6>Hoe je het moet instellen</h6>
 				<p>Laten we zeggen dat er het volgende in je pc zit:<br />
-				* een harde schijf van 100 gig (hda) die in gebruik is, met koppelpunten (mounts): hda1 voor de root partitie, en hda5 om muziek en andere bestanden op te slaan, en hda6 voor swap (wisselheugen).<br />
-				* een lege harde schijf van 200 gig (hdb), die niet gebruikt wordt, met één koppelpunt (mount) op hdb1 .... deze gebruiken we om onze backup op te maken.<br />
+				* een harde schijf van 100 gig (sda) die in gebruik is, met koppelpunten (mounts): sda1 voor de root partitie, en sda5 om muziek en andere bestanden op te slaan, en sda6 voor swap (wisselheugen).<br />
+				* een lege harde schijf van 200 gig (sdb), die niet gebruikt wordt, met één koppelpunt (mount) op sdb1 .... deze gebruiken we om onze backup op te maken.<br />
 				* IP addres 192.168.0.1</p>
 
 				<p>Het eerste wat je moet doen is rdiff-backup installeren:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Hoewel je van iedere directory een backup kunt maken, gaan we er hier van uit dat je een backup maakt van een hele partitie ... je wilt een backup maken van hda1 en hda5 (en niet van hda6), en dus maak je een paar directories aan waar je je data op gaat slaan:</p>
+				<p>Hoewel je van iedere directory een backup kunt maken, gaan we er hier van uit dat je een backup maakt van een hele partitie ... je wilt een backup maken van sda1 en sda5 (en niet van sda6), en dus maak je een paar directories aan waar je je data op gaat slaan:</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Je hebt een eigen IP adres nodig voor als je deze computer wilt gebruiken om ook een backup te maken vanaf een andere computer (dit wordt later behandeld).</p>
 
@@ -242,15 +242,15 @@
 
 				<p>rdiff-backup gebruikt de syntax <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. Opmerking: specificeer altijd de namen van directories, niet van bestanden.</p>
 
-				<p>Om een backup te maken van hda5, doe het volgende:</p>
+				<p>Om een backup te maken van sda5, doe het volgende:</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>En om een backup van de root-partitie te maken, doe je:</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Alle "AF_UNIX path too long" foutmeldingen kun je negeren.<br />Het kan allemaal een tijdje duren omdat dit de eerste keer is dat er een backup van de partitie gemaakt wordt. rdiff-back maakt dus een backup van de hele partitie (niet alleen van de verschillen). Merk op dat je niet van alles een backup wilt maken: niet van /tmp omdat deze altijd verandert; niet van /proc of /sys omdat hier geen echte bestanden op staan; bovendien willen we ook geen backup van mounts (koppelpunten), zoals in /media - als je daar wel een backup van maakt, doe je dat in dit geval van hdb1 en kom je terecht in een eeuwige 'loop'. Een manier om daaraan te ontkomen is om van de (andere) mounts een aparte backup te maken.</p>
+				<p>Alle "AF_UNIX path too long" foutmeldingen kun je negeren.<br />Het kan allemaal een tijdje duren omdat dit de eerste keer is dat er een backup van de partitie gemaakt wordt. rdiff-back maakt dus een backup van de hele partitie (niet alleen van de verschillen). Merk op dat je niet van alles een backup wilt maken: niet van /tmp omdat deze altijd verandert; niet van /proc of /sys omdat hier geen echte bestanden op staan; bovendien willen we ook geen backup van mounts (koppelpunten), zoals in /media - als je daar wel een backup van maakt, doe je dat in dit geval van sdb1 en kom je terecht in een eeuwige 'loop'. Een manier om daaraan te ontkomen is om van de (andere) mounts een aparte backup te maken.</p>
 
 				<p>Je voert '/proc/*' in in plaats van alleen '/proc' omdat hierdoor slim genoeg wel een backup gemaakt wordt van de directorienaam /proc, maar alles in de directory met rust laat. Hetzelfde geldt voor /tmp, /sys en nog bijdehanter: alle namen van de koppelpunten (mountpoints).</p>
 
@@ -262,9 +262,9 @@
 <pre>
 rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 </pre>
-				<p>Als je nu per ongeluk de directorie /media/hda7/foto's verwijderd hebt, kun je dit herstellen door het volgende in te voeren:</p>
+				<p>Als je nu per ongeluk de directorie /media/sda7/foto's verwijderd hebt, kun je dit herstellen door het volgende in te voeren:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/foto's /media/hda5/foto's
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/foto's /media/sda5/foto's
 </pre>
 				<p>De optie "-r now" betekent: herstel vanaf de laatste backup. Als je van alles periodiek een backup maakte (laat we zeggen met crontab), en je je tot een paar dagen terug niet realiseerde dat de foto's directorie ontbrak, zou je een backup van een paar dagen eerder moeten gebruiken (en niet "now", aangezien de laatste backup aangeeft dat de foto's directorie ontbreekt). Misschien wil je ook wel gewoon om wat voor reden dan ook teruggaan naar een eerdere versie of iets dergelijks.</p>
 
@@ -272,9 +272,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-1">"3D" refereert aan de onmiddellijke 72 uur vóór het huidige moment, en als er toen geen backup gemaakt is, herstelt rdiff-backup de situatie zoals die met de backup daarvóór vastgelegd is. Bijvoorbeeld in bovengenoemd situatie: als "3D" gebruikt wordt en er zijn alleen backups van 2 en 4 dagen geleden, dan wordt de directorie teruggezet zoals die 4 dagen geleden was (dus denk daar even aan als je een herstel wilt uitvoeren).</p>
 
-				<p>Het volgende commando zal de data en tijdstippen weergeven waarop de backups van hda5 werden uitgevoerd:</p>
+				<p>Het volgende commando zal de data en tijdstippen weergeven waarop de backups van sda5 werden uitgevoerd:</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Partities herstellen</h5>
 
@@ -282,9 +282,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-2">WAARSCHUWING: Herstel je root-partitie niet als je erin geboot bent! Met één commando verlies je alle bestanden op al je partities, ook alle backups die op een aparte schijf staan!!<br /> rdiff-backup doet precies waarvoor het opdracht krijgt ... als de backup voor de root-partitie lege mount points (koppelpunten) heeft, dus om de situatie te herstellen naar hoe die was, verwijdert diff-backup alles in de mounts.</p>
 
-				<p>Om hda5 terug te zetten van de laatste backup, doe je gewoon:</p>
+				<p>Om sda5 terug te zetten van de laatste backup, doe je gewoon:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>De root-partitie herstellen</h5>
 
@@ -303,14 +303,14 @@ $ sudo su
 </pre>
 				<h6>Ok, nu gaan we herstellen:</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>NB: Als je geen sidux cd hebt maar je gebruikt een livecd met 'klik' ondersteuning, dan kun je rdiff-backup installeren door 'klik' te gebruiken en dan het volgende aan te roepen:</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Het is raadzaam om het herstelproces te controleren als je van je root-partitie een backup maakt (met de bedoeling een herstel uit te voeren als dat nodig is). Niets ergers dan denken dat alles in orde zal komen en dan iets onverwachts tegenkomen in een noodsituatie.</p>
@@ -320,13 +320,13 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				<p>Je kunt ook een backup maken van andere pc's op je eigen pc. Voorwaarde is wel dat je eigen pc gebruik kan maken van het ssh-protocol naar de bedoelde pc-op-afstand - en je moet natuurlijk genoeg opslagcapaciteit hebben op je eigen pc. De ssh-server moet op die andere pc draaien. Hij hoeft niet in je lokale LAN te staan - hij mag overal op de wereld zijn.</p>
 
 				<p>Laten we ervan uitgaan dat je andere pc over het volgende beschikt:<br />
-				1) een 100 gig harde schijf (hda) die in gebruik is en waarbij alles dus is aangekoppeld,<br />
-				2) hda1 gebruikt voor de root-partitie,<br />
-				3) hda5 gebruikt voor het opslaan van een paar tijdelijke gegevens waar we geen backup van willen maken,<br />
-				4) en hda6 als swap <br />
+				1) een 100 gig harde schijf (sda) die in gebruik is en waarbij alles dus is aangekoppeld,<br />
+				2) sda1 gebruikt voor de root-partitie,<br />
+				3) sda5 gebruikt voor het opslaan van een paar tijdelijke gegevens waar we geen backup van willen maken,<br />
+				4) en sda6 als swap <br />
 				5) IP addres 192.168.0.2</p>
 
-				<p>NB: van alletwee de 100 gig schijven kan normaal gesproken niet een backup gemaakt worden op een 200 gig grote harde schijf, als je rdiff-backup gebruikt (dit omdat er dan geen plek is voor de zogenaamde 'incremental files'). Aangezien je geen backup maakt van hda5 van je pc-op-afstand en trouwens ook omdat normaal gesproken je harde schijf niet voor de volle 100% vol zit, kun je er vanuit gaan dat je genoeg ruimte hebt voor een backup. Het is wel zo dat elke keer dat je met rdiff-backup een backup maakt er meer van die zogenaamde 'incremental files' aangemaakt worden. Deze nemen dus meer en meer plek in beslag.</p>
+				<p>NB: van alletwee de 100 gig schijven kan normaal gesproken niet een backup gemaakt worden op een 200 gig grote harde schijf, als je rdiff-backup gebruikt (dit omdat er dan geen plek is voor de zogenaamde 'incremental files'). Aangezien je geen backup maakt van sda5 van je pc-op-afstand en trouwens ook omdat normaal gesproken je harde schijf niet voor de volle 100% vol zit, kun je er vanuit gaan dat je genoeg ruimte hebt voor een backup. Het is wel zo dat elke keer dat je met rdiff-backup een backup maakt er meer van die zogenaamde 'incremental files' aangemaakt worden. Deze nemen dus meer en meer plek in beslag.</p>
 
 				<p>Je kunt rdiff-backup opdracht geven om slechts backups van een maand oud te bewaren (dat commando geven we je hier verderop), en dat neemt natuurlijk lang niet zoveel ruimte in beslag dan backups over de periode van ene jaar. Daarnaast .... als je over ene periode van ene jaar backups bewaart dan horen daar ook weer de nodige 'incremental files' bij.</p>
 
@@ -334,18 +334,18 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Om een backup te maken van de pc-op-afstand op jouw pc (192.168.0.1), voer je het volgende in: <span class="highlight-4">Let op het gebruik van twee keer de dubbele punt :: </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root 
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
 </pre>
 				<p>Als je nou een directory wil herstellen op je pc-op-afstand, begin dan de 'restore' op of je eigen pc of op de pc-op-afstand.</p>
 
 				<p>Zo herstel je de directory /usr/local/games op je pc-op-afstand, vanaf die pc:</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
 				<p>Zo herstel je de directory /usr/local/games op je pc-op-afstand, vanaf je eigen pc:</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Gebruik dezelfde syntax als je je root partitie herstelt vanaf een live cd (de pc-op-afstand is dan wel met een live cd opgestart ... zie hierboven).</p>
 
@@ -376,23 +376,23 @@ echo
 echo "=======Backing up 192.168.0.1 root======="
 ${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*'\
  --exclude '/sys/*' --exclude '/media/*/*'\
- / /media/hdb1/rdiff-backups/192.168.0.1/root
+ / /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(and purge increments older than 1 month)"
 ${RDIFF} --remove-older-than 1M\
- --force /media/hdb1/rdiff-backups/192.168.0.1/root
+ --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5\
- /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Backing up 192.168.0.1 mount sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5\
+ /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(and purge increments older than 1 months)"
 ${RDIFF} --remove-older-than 1M\
- --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+ --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Backing up 192.168.0.2 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(and purge increments older than 1 months)"
 ${RDIFF} --remove-older-than 1M\
- --force /media/hdb1/rdiff-backups/192.168.0.2/root
+ --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

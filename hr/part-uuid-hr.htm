@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Re-Building(prepravljanje) fstab</h2>
 
-							<p>Da vidite novo kreiranu Particiju (na primjer hda6 ili sdb7), koja ne postoji u fstab i hočete da je moounten, koristite sljedeče naredbe u konzoli kao user ($):</p>
+							<p>Da vidite novo kreiranu Particiju (na primjer sda6 ili sdb7), koja ne postoji u fstab i hočete da je moounten, koristite sljedeče naredbe u konzoli kao user ($):</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>To će vam pokazati ovakav output(dobitak) (debelo je samo za primjere):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>U tom primjeru je <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> Disk koja fali. Sljedeči korak je da upišete UUID Particije u vašu etc/fstab. Da je dodate u fstab datoteku koristite tekst editor (kao kate ili kwrite) s root privilegijama:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Drugi primjer:</p>
 
@@ -271,6 +271,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
 
 					<h4>2. Trajno nazivanje s oznakom</h4>
 
@@ -286,7 +287,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Kako možete vidjeti, Fat i NTFS particije (fat i windows oznake gore) imaju kraća imena, ali su navedeni. Napredak korištaja UUID metode je da je manje vjerojatno da će te imati sudare imena nego s oznakama; Nedostatak je da je teže zapamtiti.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>Možete promijeniti oznake vaših file-sistema koristeći ove naredbe:</p>
 <pre>
@@ -343,7 +344,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>U primjeru gore, /dev/sda1 je root particija. U Grub menu.lst datoteci, kernel izgleda ovako:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>Ovisno o šemi koju vi preferirate, promjenite ga ovako:</p>
 <pre>
@@ -354,14 +355,14 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Ima alternativan put da koristite oznaku umetnutu u file-sistemu. Na primjer (kao gore) file-sistem u /dev/hda1 je označeno s "root", upišite ovu crtu u Grub:</p>
+							<p>Ima alternativan put da koristite oznaku umetnutu u file-sistemu. Na primjer (kao gore) file-sistem u /dev/sda1 je označeno s "root", upišite ovu crtu u Grub:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
 							<p>(source: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> korištena je <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Sadržaj s wiki.archlinux.org je izdan pod GNU Free Documentation License 1.2) i prerađen je za sidux-priručnik</p>
 
 	</div>
-			<div id="rev">Content last revised 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

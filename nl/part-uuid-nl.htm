@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Het herbouwen van fstab</h2>
 
-							<p>Om een nieuw gecreeerde partitie (bv. hda6 of sdb7), welke niet in fstab staat of niet aangekoppeld is te gebruiken als een normale gebruiker ($) ga je in het konsole het volgende commando uitvoeren:</p>
+							<p>Om een nieuw gecreeerde partitie (bv. sda6 of sdb7), welke niet in fstab staat of niet aangekoppeld is te gebruiken als een normale gebruiker ($) ga je in het konsole het volgende commando uitvoeren:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Dit commando produceerd het volgende gegevens (het vet gedrukt is als voorbeeld bedoeld):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>In dit voorbeeld is <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> een missende waarde in fstab. De volgende stap is om de UUID partitie in het bestand etc/fstab te plaatsen. Om dit toe te voegen maak je gebruik van een teksteditor (zoals kate of kwrite), doe dit wel met root rechten:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Een ander voorbeeld:</p>
 
@@ -271,6 +271,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
 
 
 					<h4>2. Permanente Namen door LABEL</h4>
@@ -287,7 +288,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>De aanduidinge hierboven laten zien, dat FAT en NTFS partities met kortere codes worden weergegeven, maar zij worden wel getoond. Het voordeel van de uuid methode is het voorkomen van naam-conflicten. Helaas is het door de lange cijfer-letter-aanduidingen niet eenvoudig om deze zo te onthouden.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>Het is mogelijk om de labels te veranderen door de volgende commando's:</p>
 <pre>
@@ -344,7 +345,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>In het bovengenoemde voorbeeld is /dev/sda1 de root partitie. In het grub-bestand  menu.lst, wordt de (de huidige, oude) kernel aanduiding zoals onderstaand weergegeven:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>Afhankelijk van de gekozen manier van permanenten benamingen, kan dat als volgt aangepast worden:</p>
 <pre>
@@ -355,14 +356,14 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Er is nog een alternative methode door een label embedded aanduiding in het bestandssystem. Als in het bestandssysteem /dev/hda1 als "root" is gelabeld, dan kan in grub de volgende aanduiding staan:</p>
+							<p>Er is nog een alternative methode door een label embedded aanduiding in het bestandssystem. Als in het bestandssysteem /dev/sda1 als "root" is gelabeld, dan kan in grub de volgende aanduiding staan:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
 							<p>(source:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  welke gebruikt maakte van <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Inhoud van wiki.archlinux.org stond ter beschikking volgensr GNU Free Documentation License 1.2 ) en is gewijzigd voor de sidux-handleidingen</p>
 
 	</div>
-			<div id="rev">Inhoud het laatst gewijzigd op 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Inhoud het laatst gewijzigd op 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

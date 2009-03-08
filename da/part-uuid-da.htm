@@ -196,7 +196,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Genopret fstab</h2>
 
-							<p>For at se en nyligt oprettet partition (f.eks. hda6 eller sdb7) -som ikke vises i fstab eller ikke kan monteres- i en konsol som bruger ($), skriv da følgende kommando:</p>
+							<p>For at se en nyligt oprettet partition (f.eks. sda6 eller sdb7) -som ikke vises i fstab eller ikke kan monteres- i en konsol som bruger ($), skriv da følgende kommando:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -205,17 +205,17 @@
 							<p>Output vil ligne det følgende (den fede skrift tjener blot til eksempel):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>I dette eksempel er  <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> den manglende indføring (partition). Næste skridt er at skrive denne UUID ind i din etc/fstab. Brug en tekst editor til dette (f.eks kate eller kwrite) med root privilegier:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Et andet eksempel:</p>
 
@@ -272,6 +272,8 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
 
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
+
 			<h4>2. Permanent navngivning med LABEL</h4>
 
 							<p>Næsten ethvert filsystem kan have en label. Alle dine partitioner der har en label kan findes i /dev/disk/by-label mappen:</p>
@@ -286,7 +288,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Som du kan se har FAT og NFTS partitionerne (sda6 og sdb1 i eksemplet) kortere id's, men de er med. Fordelen ved uuid metoden er, at det er meget mindre sandsynligt at du vil have navne der kolliderer fordi de er ens, end hvis du bruger labels; ulempen er helt åbenlyst at det er temmeligt vanskeligt at huske disse id'er.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>Du kan ændre labels på dine filsystemer med disse kommandoer:</p>
 <pre>
@@ -343,7 +345,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>I det ovennævnte eksempel er /dev/sda1 root partitionen. I Grub menu.lst filee ser kernel linien ud som dette:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>Afhængigt af den metode du har valgt til at navngive, ændrer du dette til en af de følgende:</p>
 <pre>
@@ -354,14 +356,14 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Der findes en alternativ måde at anvende filsystemets labels på. Hvis for eksempel (som i ovenstående eksempel) filsystemet i /dev/hda1 har label'en "root", så kan du skrive denne linie i Grub:</p>
+							<p>Der findes en alternativ måde at anvende filsystemets labels på. Hvis for eksempel (som i ovenstående eksempel) filsystemet i /dev/sda1 har label'en "root", så kan du skrive denne linie i Grub:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
 							<p>Kilde:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  som anvendte <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Indhold fra wiki.archlinux.org var defineret som tilgængeligt i henhold til GNU Free Documentation License 1.2. Redigeret og tilpasset sidux manualerne</p>
 
 	</div>
-			<div id="rev">Content last revised UTC 12/01/2009 1324hrs</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

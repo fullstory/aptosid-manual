@@ -221,18 +221,18 @@
 
 			<h6>Setările care trebuiesc făcute</h6>
 				<p>Să spunem ca PC-ul dumneavoastră are următoarele :<br />
-				* un hard de 100 giga ce este folosit (hda) , cu partiţia hda1 ca partiţie root , partiţia hda5 pentru a stoca muzică şi alte fişiere şi partiţia hda6 ca swap .<br />
-				* un disc nefolosit de 200 giga (hdb) cu partiţia hdb1 ... şi pe care o vom folosi pentru salvările noastre .<br />
+				* un hard de 100 giga ce este folosit (sda) , cu partiţia sda1 ca partiţie root , partiţia sda5 pentru a stoca muzică şi alte fişiere şi partiţia sda6 ca swap .<br />
+				* un disc nefolosit de 200 giga (sdb) cu partiţia sdb1 ... şi pe care o vom folosi pentru salvările noastre .<br />
 				* adresa IP  192.168.0.1</p>
 
 				<p>Primul lucru ce trebuie făcut este să instalăm rdiff-backup :</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Acum veţi putea să salvaţi orice director , dar aici presupunem că salvam o întreagă partiţie ...vom salva partiţiile hda1 şi hda5 (nu şi hda6 ) iar pentru aceasta vom crea nişte directori în care vom stoca datele :</p>
+				<p>Acum veţi putea să salvaţi orice director , dar aici presupunem că salvam o întreagă partiţie ...vom salva partiţiile sda1 şi sda5 (nu şi sda6 ) iar pentru aceasta vom crea nişte directori în care vom stoca datele :</p>
 <pre>
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/root
-# mkdir -p /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
+# mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Trebuie ca adresa IP să fie specificată exact pentru că se poate salva şi o partiţie din alt calculator , iar la restaurare să ştie pe care calculator să o facă (vom vedea mai departe).</p>
 
@@ -240,15 +240,15 @@
 
 				<p>rdiff-backup foloseşte sintaxa <span class="highlight-3">rdiff-backup source-dir dest-dir</span>. Notă : întotdeauna specificaţi numele directorului , nu numele fişierelor .</p>
 
-				<p>Pentru a face salvarea partiţiei hda5 , rulaţi :</p>
+				<p>Pentru a face salvarea partiţiei sda5 , rulaţi :</p>
 <pre>
-# rdiff-backup /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 				<p>Iar pentru a salva partiţia root , rulaţi :</p>
 <pre>
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/hdb1/rdiff-backups/192.168.0.1/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Orice eroare de genul "AF_UNIX path too long" poate fi ignorată . Aceasta va dura ceva timp de vreme ce este prima oară când partiţia e salvata şi deci rdiff-backup va trebui să o scrie în întregime (şi nu numai diferenţele ) . Observaţi că nu salvam  /tmp deoarece acesta mereu se schimbă , şi nici  /proc sau  /sys din cauză ca acestea nu conţin fişiere reale , şi deasemeni nu vom salva punctele de montare . Dacă am face salvarea punctului de montare am salva de fapt hdb1, şi am intra într-o buclă infinită ! O altă cale este să salvaţi punctele de montare separat .</p>
+				<p>Orice eroare de genul "AF_UNIX path too long" poate fi ignorată . Aceasta va dura ceva timp de vreme ce este prima oară când partiţia e salvata şi deci rdiff-backup va trebui să o scrie în întregime (şi nu numai diferenţele ) . Observaţi că nu salvam  /tmp deoarece acesta mereu se schimbă , şi nici  /proc sau  /sys din cauză ca acestea nu conţin fişiere reale , şi deasemeni nu vom salva punctele de montare . Dacă am face salvarea punctului de montare am salva de fapt sdb1, şi am intra într-o buclă infinită ! O altă cale este să salvaţi punctele de montare separat .</p>
 
 				<p>Acum , motivul pentru care se foloseşte  '/proc/*' în loc de  '/proc' este că astfel ar fi salvat doar numele de director  /proc , şi ar fi ignorat tot ceea ce este în interiorul acestuia . La fel este valabil şi pentru /tmp, /sys , şi chiar pentru punctele de montare .</p>
 
@@ -260,9 +260,9 @@
 <pre>
 rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 </pre>
-				<p>Dacă din greşeală aţi şters directorul  /media/hda5/photos , îl puteţi restaura executând :</p>
+				<p>Dacă din greşeală aţi şters directorul  /media/sda5/photos , îl puteţi restaura executând :</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5/photos /media/hda5/photos
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
 				<p>Opţiunea  "-r now" înseamnă restaurarea din ultima salvare făcută . Dacă aţi făcut salvări periodice  (via crontab, să spunem), şi nu v-aţi dat seama că acel director cu fotografii lipseste până acum câteva zile veţi avea nevoie de o restaurare dintr-o salvare făcută acum câteva zile (şi nu  "now", pentru că în ultima salvare făcută probabil acel director nu există). Sau poate că vreţi pur şi simplu să ajungeţi înapoi la o anumită versiune a unui program , ceva .</p>
 
@@ -270,9 +270,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-1">"3D" se referă la exact 72 ore înainte de momentul prezent , şi dacă nu există nici o salvare făcută la acel moment , rdiff-backup va restaura starea salvată anterior acestui moment . Ca în cazul de mai sus , de exemplu , dacă  "3D" este folosit , şi există salvări făcute cu 2 şi cu  4 zile în urmă , acel director va fi restaurat aşa cum era el cu 4 zile în urmă (deci va trebui să vă gândiţi bine înainte de a face restaurarea).</p>
 
-				<p>Folosind următoarele comenzi veţi primi o listă cu data şi ora la care au fost făcute toate salvările pentru hda5 :</p>
+				<p>Folosind următoarele comenzi veţi primi o listă cu data şi ora la care au fost făcute toate salvările pentru sda5 :</p>
 <pre>
-# rdiff-backup -l /media/hdb1/rdiff-backups/192.168.0.1/hda5
+# rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Restaurarea partiţiilor</h5>
 
@@ -280,9 +280,9 @@ rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
 
 				<p class="highlight-2">ATENŢIE : Nu încercaţi să restauraţi partiţia root atât timp cât lucraţi de pe ea ! Cu o singură comandă puteţi pierde toate fişierele de pe toate partiţiile , inclusiv salvările de pe un disc separat !! rdiff-backup face exact ce-i spuneţi să facă ... dacă salvarea pentru partiţia root are puncte de montare goale , programul  va şterge orice există în punctul de montare pentru a face să fie conform salvării existente .</p>
 
-				<p>Pentru a restaura hda5 din ultima salvare vom executa :</p>
+				<p>Pentru a restaura sda5 din ultima salvare vom executa :</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/hda5 /media/hda5
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Restaurarea partiţiei root</h5>
 
@@ -299,14 +299,14 @@ $ sudo su
 </pre>
 				<h6>Acum vom face restaurarea :</h6>
 <pre>
-# mount /dev/hda1 /media/hda1
-# mount /dev/hdb1 /media/hdb1
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+# mount /dev/sda1 /media/sda1
+# mount /dev/sdb1 /media/sdb1
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Notă : În cazul în care aveţi un Live-CD care suportă klik puteţi instala rdiff-backup folosind Klik şi rulând :</p>
 <pre>
-$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root /media/hda1
+$ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
 				<p>Este recomandat ca toţi cei care fac salvarea partiţiei root (cu intenţia de a o restaura la nevoie ) să facă un test al procesului de restaurare . Nimic nu este mai neplacut decât să te gândeşti că totul va fi în regulă după restaurare şi aceasta să nu reuşească din cauza a ceva neaşteptat  când ai mai mare nevoie .</p>
@@ -316,12 +316,12 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				<p>Puteţi să salvaţi partiţiile altor computere în computerul local atâta vreme cât vă puteţi conecta ssh la acele computere (şi aveţi destul spaţiu pe hard disc). Serverul ssh (sshd) trebuie să ruleze pe computerul comandat . Acesta nu trebuie să fie neaparat în reteaua locala , poate fi oriunde în lume .</p>
 
 				<p>Să presupunem că PC-ul comandat are urmatoarele :<br />
-				1) un hard de 100 giga (hda) în uz , cu următoarele,<br />
-				2) hda1 ca partiţie root ,<br />
-				3) hda5 unde sunt stocate nişte fişiere temporare şi pe care nu dorim să le salvăm ,<br />
-				4) şi hda6 ca partiţie swap şi adresa IP  192.168.0.2</p>
+				1) un hard de 100 giga (sda) în uz , cu următoarele,<br />
+				2) sda1 ca partiţie root ,<br />
+				3) sda5 unde sunt stocate nişte fişiere temporare şi pe care nu dorim să le salvăm ,<br />
+				4) şi sda6 ca partiţie swap şi adresa IP  192.168.0.2</p>
 
-				<p>Notă : două discuri de 100 giga de obicei nu pot fi salvate pe un disc de 200 giga folosind rdiff-backup (pentru că nu va mai fi loc şi pentru fişierele incrementale ), dar pentru că nu salvaţi şi partiţia hda5 de pe computerul comandat (şi pentru că de obicei discurile nu sunt 100% pline , dar nu vă bazaţi pe asta) va trebui întotdeauna să calculaţi dacă aveţi destul spaţiu pentru backup .De fiecare dată când rdiff-backup face o alta salvare , el va crea încă un fişier incremental , şi acesta va ocupa din ce în ce mai mult spaţiu .</p>
+				<p>Notă : două discuri de 100 giga de obicei nu pot fi salvate pe un disc de 200 giga folosind rdiff-backup (pentru că nu va mai fi loc şi pentru fişierele incrementale ), dar pentru că nu salvaţi şi partiţia sda5 de pe computerul comandat (şi pentru că de obicei discurile nu sunt 100% pline , dar nu vă bazaţi pe asta) va trebui întotdeauna să calculaţi dacă aveţi destul spaţiu pentru backup .De fiecare dată când rdiff-backup face o alta salvare , el va crea încă un fişier incremental , şi acesta va ocupa din ce în ce mai mult spaţiu .</p>
 
 				<p>Puteţi specifica programului rdiff-backup să păstreze salvările doar din ultima lună (această comandă va fi detaliată mai târziu), şi aceasta va ocupa mai puţin spaţiu decât salvările unui an întreg . Bineînţeles ,dacă veţi dori să păstraţi salvările de pe parcursul întregului an veţi avea nevoie de spatiu pe hard corespunzător mărimii fişierelor incrementale făcute de-a lungul întregului an .</p>
 
@@ -329,18 +329,18 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 
 				<p>Pentru a salva datele din computerul comandat în calculatorul local rulaţi în computerul local (cu adresa , să zicem 192.168.0.1) : <span class="highlight-4">Fiţi atenţi la folosirea de două ori a semnului doua puncte  :: </span></p>
 <pre>
-# mkdir /media/hdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/hdb1/rdiff-backups/192.168.0.2/root 
+# mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
 </pre>
 				<p>Acum dacă doriţi să restauraţi un director în computerul comandat puteţi iniţia restaurarea atât din computerul local cât şi din cel comandat .</p>
 
 				<p>În exemplul următor veţi restaura fişierul /usr/local/games în computerul comandat , iniţializând restaurarea tot din computerul comandat :</p>
 <pre>
-# rdiff-backup -r now 192.168.0.1::/media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
+# rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
 				<p>În exemplul ce urmează veţi restaura directorul  /usr/local/games în computerul comandat , iniţializând restaurarea din computerul local :</p>
 <pre>
-# rdiff-backup -r now /media/hdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
+# rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
 				<p>Folosiţi cam aceaşi sintaxă când restauraţi partiţia root de pe un live cd (când computerul comandat a fost pornit de pe live cd ...vedeţi mai sus).</p>
 
@@ -369,19 +369,19 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Backing up 192.168.0.1 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' /media/sdb1/rdiff-backups/192.168.0.1/root
 echo "(and purge increments older than 1 month)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Backing up 192.168.0.1 mount hda5======="
-${RDIFF} --ssh-no-compression --exclude /media/hda5/myjunk /media/hda5 /media/hdb1/rdiff-backups/192.168.0.1/hda5
+echo "=======Backing up 192.168.0.1 mount sda5======="
+${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.1/hda5
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Backing up 192.168.0.2 root======="
-${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
 echo "(and purge increments older than 1 months)"
-${RDIFF} --remove-older-than 1M --force /media/hdb1/rdiff-backups/192.168.0.2/root
+${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 

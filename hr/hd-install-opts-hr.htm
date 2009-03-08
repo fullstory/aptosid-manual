@@ -291,19 +291,12 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p>Preporučljiva minimalna veličina USB-sticka je:<br />
 							sidux "LITE" treba 1.2GB PLUS trebate mjesta za podatke,<br />
 							sidux "FULL" treba 2.1GB PLUS trebate mjesta za podatke,<br />
-							<span class="highlight-3">Zato je minimalna veličina za stick 3GB.</span></p>
 
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
-							<p>Startujemo normalnu instalaciju i izaberemo particiju USB-uređaja, gdje sidux treba da bude instaliran - pričamo ovdje o "sda1", ali isto vrijedi za sve druge particije na USB-disku ili uređaju.</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-hr.htm#Installation">Installing to your HD</a></p>
 
-							<!--<p>Particija mora biti formatirana s linux-file-sistemom. Preporučujemo ext3 file-sistem. Postojeća particija će biti reformatirana od instalera!</p>
-
-							<p class="highlight-2">Izgubiti će te sve podatke na toj particiji, s reformatiranjem!</p>-->
-
-							<p>To start the install-sidux-to-usb go to the submenu System under Kmenu, or use the button that exists on the first screen in the standard HD installer</p>
-
-							<p>Sad možete startati sa USB-hard-diska. 'Boot from USB' mora biti aktivirano u BIOS.</p>
+							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -411,7 +404,7 @@ qemu [overlay_image]
 
 				<p>Ponekad, želite da koristite jednu od vaših sistem particija za qemu (na primjer, ako želite startovati vaš pravi sistem ili qemu koristeći particiju kao root). Možete to izvesti koristeći softver RAID u "linear modusu" (potreban vam je linear.ko kernel pogonitelj) i loopback uređaj: trik je da dinamično ubacite master boot record (MBR) na pravu particiju koju želite ugnijezditi u qemu raw disk image.</p>
 
-				<p>Pretpostavljamo da imate čistu, unmountanu /dev/hdaX particiju sa bilo kojim file-sistemom na njoj, i želite je spojiti s qemu disk image. Kao prvo kreirate malu datoteku koja sadrži MBR:</p>
+				<p>Pretpostavljamo da imate čistu, unmountanu /dev/sdaX particiju sa bilo kojim file-sistemom na njoj, i želite je spojiti s qemu disk image. Kao prvo kreirate malu datoteku koja sadrži MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -419,20 +412,20 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Smatramo da rezultiraje uređaj /dev/loop0, zato što dosada nismo još koristili drugi loopback. Idemo dalje sa kreiranjem "spojenog" MBRa + /dev/hdaN disk image koristeći softver RAID:</p>
+				<p>Smatramo da rezultiraje uređaj /dev/loop0, zato što dosada nismo još koristili drugi loopback. Idemo dalje sa kreiranjem "spojenog" MBRa + /dev/sdaN disk image koristeći softver RAID:</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Rezultirani uređaj /dev/md0 je taj kojega će te koristiti kao qemu raw disk image (ne zaboravite postaviti prava, tako da emulator može da ga koristi). Kao zadnje (i malo tricky) postavite disk konfiguraciju (disk geometriju i particijsku tablu) tako da paše primary particijski start u MBRu zajedno s /dev/hdaN u /dev/md0 (offset od točno 16 * 512 = 16384 bytes u ovom primjeru). Uradite to koristeći fdisk na host mašini, ne u emulatoru: Standardna raw disc detekcija qemu-a mnogo puta rezultira u "non kilobyte-roundable offsets" (kao 31.5 KB, u prijašnjoj sekciji) i softver RAID code ne može sa tim da radi. Zato, sa hosta:</p>
+				<p>Rezultirani uređaj /dev/md0 je taj kojega će te koristiti kao qemu raw disk image (ne zaboravite postaviti prava, tako da emulator može da ga koristi). Kao zadnje (i malo tricky) postavite disk konfiguraciju (disk geometriju i particijsku tablu) tako da paše primary particijski start u MBRu zajedno s /dev/sdaN u /dev/md0 (offset od točno 16 * 512 = 16384 bytes u ovom primjeru). Uradite to koristeći fdisk na host mašini, ne u emulatoru: Standardna raw disc detekcija qemu-a mnogo puta rezultira u "non kilobyte-roundable offsets" (kao 31.5 KB, u prijašnjoj sekciji) i softver RAID code ne može sa tim da radi. Zato, sa hosta:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Tu onda kreirate samu primary particiju odgovarajući /dev/hdaN, i igrajte se malo s 's'ector naredbom iz 'x'pert menija dok prvi cilindar (gdje prva particija startuje), paše na veličinu MBRa. Kao zadnje, 'w'rite rezultat u datoteku: i gotovi ste. Sad imate particiju koju možete mountati direktno s hosta ili qemu disk imagea:</p>
+				<p>Tu onda kreirate samu primary particiju odgovarajući /dev/sdaN, i igrajte se malo s 's'ector naredbom iz 'x'pert menija dok prvi cilindar (gdje prva particija startuje), paše na veličinu MBRa. Kao zadnje, 'w'rite rezultat u datoteku: i gotovi ste. Sad imate particiju koju možete mountati direktno s hosta ili qemu disk imagea:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Naravno možete sigurno postaviti bilo koji bootloader na tom disk imageu koristeći qemu, pod uvjetom da original /boot/hdaN particija sadrži potrebne alate.</p>
+				<p>Naravno možete sigurno postaviti bilo koji bootloader na tom disk imageu koristeći qemu, pod uvjetom da original /boot/sdaN particija sadrži potrebne alate.</p>
 
 
 
@@ -458,11 +451,11 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Oficijalna dokumentacija QEMU Projekta </a> </p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Nešto od sadržaja za QEMU sidux-priručnik je upisano pod GNU Free Documentation License 1.2 i modificirano je za sidux-priručnik</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Nešto od sadržaja za QEMU sidux-priručnik je upisano pod GNU Free Documentation License 1.2 i modificirano je za sidux-priručnik</a> </p>
 
 		
 	</div>
-			<div id="rev"> Content last revised 22/01/2008 0100hrs UTC</div>
+			<div id="rev"> Content last revised 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

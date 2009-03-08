@@ -382,13 +382,11 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 			<p>Grub rozpoznaje rozszerzenia BIOS (co oznacza, że może uruchamiać systemy z partycji powyżej 8 GB!) i nie ma bariery 1024. cylindra. Grub nie przejmuje się, gdzie fizycznie znajduje się kernel, potrzebuje tylko deklaracji partycji i ścieżki do kernela, który ma uruchomić (może być to nawet symlink). Po zmianie w konfiguracji (np. menu.lst) nie wymaga wywołania programu jak Lilo, nowe ustawienia są wprowadzane przy następnym starcie systemu.</p>
 			<p>sidux używa Gruba do startu z CD i kiedy jest instalowany na twardy dysk, Grub jest użyty domyślnie. Niemniej jednak Grub może być także zainstalowany później. Grub jest instalowany na MBR z konsoli roota przy pomocy następującego polecenia:</p>
 
-<pre>grub-install --root-directory=/media/hdaX /dev/hdY</pre>
+<pre>grub-install --root-directory=/media/sdaX /dev/sdY</pre>
 
-			<p>/media/hdaX oznacza zamontowaną partycję, na której w katalogu "/boot/grub" znajdą się potrzebne pliki (stage2, stage1_5xxx). Plik konfiguracyjny "menu.lst" również musi zostać utworzony w tym katalogu. /dev/hdY jest twardym dyskiem, na którego MBR Grub zostanie zainstalowany, zwykle /dev/hda.</p>
+			<p>/media/sdaX oznacza zamontowaną partycję, na której w katalogu "/boot/grub" znajdą się potrzebne pliki (stage2, stage1_5xxx). Plik konfiguracyjny "menu.lst" również musi zostać utworzony w tym katalogu. /dev/sdY jest twardym dyskiem, na którego MBR Grub zostanie zainstalowany, zwykle /dev/sda.</p>
 
 			<h3>Nazwy dysków/nazwy urządzeń</h3>
-
-							<p><span class="highlight-2">Uwaga: </span><span class="highlight-3">hda</span> jest w trakcie procesu wycofywania z użycia, dlatego musisz zacząć zamieniać <span class="highlight-3">hda </span>na <span class="highlight-3">sda</span> dla kerneli 2.6.22 i nowszych.</p>
 
 			<p>Grub nie różnicuje dysków SCSI i IDE. (hd0) jest zawsze pierwszym twardym dyskiem, który jest pierwszy w sekwencji startu (ustawionej w BIOS), niezależnie czy IDE lub SCSI. Niezwykła jest metoda liczenia; pierwsza partycja na pierwszym hd to (hd0,0). Podstawowe partycje są numerowane 0-3, dyski logiczne od 4 wzwyż.</p>
 
@@ -405,19 +403,19 @@ initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 					<td>Floppy (pod Windows)</td>
 				</tr>
 				<tr>
-					<td>(hda0)</td>
-					<td>/dev/hda</td>
+					<td>(hd0)</td>
+					<td>/dev/sda</td>
 					<td>pierwszy hd</td>	
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
-					<td>/dev/hda1</td>
+					<td>/dev/sda1</td>
 					<td>Part.1 na hd1</td>	
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
-					<td>/dev/hda6</td>
-					<td>Rozszerz. part. na hd 1</td>	
+					<td>/dev/sda6</td>
+					<td>Logical part. na hd 1</td>	
 				</tr>
 			</tbody>
 		</table>
@@ -446,7 +444,7 @@ initrd          /boot/initrd.img
 <pre>geometry (hd0)</pre>
 
 			<p>pokaże to:</p>
-<pre>"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/hda Partition num: 0,
+<pre>"drive 0x80: C/H/S = 3648/255/63, The number of sectors = 58605120, /dev/sda Partition num: 0,
 Filesystem type is fat, partition type 0xb Partition num: 1,
 Filesystem type is fat, partition type 0xb Partition num: 2,
 Filesystem type is fat, partition type 0xc Partition num: 4,
@@ -528,7 +526,7 @@ gfxmenu (hd0,5)/boot/message
 #
 # title		Linux
 # root		(hd0,1)
-# kernel	/vmlinuz root=/dev/hda2 ro
+# kernel	/vmlinuz root=/dev/sda2 ro
 #
 
 #
@@ -545,9 +543,9 @@ gfxmenu (hd0,5)/boot/message
 ## default kernel options for automagic boot options
 ## If you want special options for specific kernels use kopt_x_y_z
 ## where x.y.z is kernel version. Minor versions can be omitted.
-## e.g. kopt=root=/dev/hda1 ro
-##      kopt_2_6_8=root=/dev/hdc1 ro
-##      kopt_2_6_8_2_686=root=/dev/hdc2 ro
+## e.g. kopt=root=/dev/sda1 ro
+##      kopt_2_6_8=root=/dev/sdc1 ro
+##      kopt_2_6_8_2_686=root=/dev/sdc2 ro
 # kopt=root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 
 ## default grub root device
@@ -566,7 +564,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## additional options to use with the default boot option, but not with the
 ## alternatives
-## e.g. defoptions=vga=791 resume=/dev/hda5
+## e.g. defoptions=vga=791 resume=/dev/sda5
 # defoptions=
 
 ## should update-grub lock old automagic boot options
@@ -617,7 +615,7 @@ initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 ### END DEBIAN AUTOMAGIC KERNELS LIST
 
 #### MS (TM)
-title Windows 2K/XP/2003 (hda1)
+title Windows 2K/XP/2003 (sda1)
 chainloader (hd0,0)+1
 
 ### ISO boot
@@ -626,9 +624,9 @@ kernel (hd0,3)/sidux3/vmlinuz-2.6.22.1-slh-smp-7 boot=fll quiet vga=791 fromiso=
 initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 
-title Debian GNU/Linux, kernel 2.6.18-1-686 (hda5)
+title Debian GNU/Linux, kernel 2.6.18-1-686 (sda5)
 root (hd0,4)
-kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/hda5 ro vga=791
+kernel (hd0,4)/boot/vmlinuz-2.6.18-1-686 root=/dev/sda5 ro vga=791
 initrd (hd0,4)/boot/initrd.img-2.6.18-1-686
 savedefault
 </pre>
@@ -655,7 +653,7 @@ chainloader +1
 
 ### Debian etch
 title Debian etch
-kernel (hd0,3)/debian/vmlinuz root=/dev/hda4 ro 
+kernel (hd0,3)/debian/vmlinuz root=/dev/sda4 ro 
 initrd (hd0,3)/debian/miniroot.gz 
 
 ### ISO boot
@@ -694,7 +692,7 @@ LINUX: # chmod a -w ./stage2
 			<p>Jeśli masz wspieraną kartę sieciową, Grub może startować przez sieć.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Odpowiednie dyski można pobrać tutaj (chociaż ze starszymi wersjami Gruba)</a>.</p>
 				
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 02/02/2009 0240 UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 22/02/2009 0800 UTC</div>
 
 
 </div>

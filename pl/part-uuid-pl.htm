@@ -197,7 +197,7 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Odtwarzanie fstab</h2>
 
-							<p>Aby dodać nową partycję (np. hda6 lub sdb7) do fstab, w konsoli jako użytkownik ($), wpisz następujące polecenie:</p>
+							<p>Aby dodać nową partycję (np. sda6 lub sdb7) do fstab, w konsoli jako użytkownik ($), wpisz następujące polecenie:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
@@ -206,17 +206,17 @@
 							<p>Wyświetli to taki komunikat (wytłuszczenie tylko dla celów przykładu):</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 							<p>W tym przykładzie <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> jest brakującym wpisem. Następnym krokiem jest wpisanie UUID partycji do etc/fstab. Aby to zrobić, użyj edytora tekstowego (jak kate lub kwrite) z uprawnieniami roota:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 							<p>Inny przykład:</p>
 
@@ -273,6 +273,8 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
+
 					<h4>2. Trwałe nazwy poprzez użycie ETYKIET</h4>
 
 							<p>Prawie każdy system plików może mieć etykietę. Wszystkie partycje, które je mają, są wylistowane w katalogu /dev/disk/by-label:</p>
@@ -287,7 +289,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Jak widać, partycje fat i ntfs (etykiety fat i windows) mają krótsze nazwy, ale jednak pojawią się na liście. Zaletą użycia metody uuid jest to, że istnieje mniejsze prawdopodobieństwo kolizji nazw niż w przypadku etykiet; wadą jest to, że są trudniejsze do zapamiętania.</p>
+							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
 
 							<p>Możesz zmienić etykiety swoich systemów plików używając poleceń:</p>
 <pre>
@@ -343,7 +345,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 
 							<p>W powyższym przykładzie /dev/sda1 jest partycją główną. W plikumenu.lst gruba, linia kernela wygląda tak:</p>
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>W zależności od schematu nazw, który wybrałeś, zmień to na jedno z następujących:</p>
 <pre>
@@ -354,7 +356,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Istnieje alternatywny sposób użycia etykiet osadzonych w systemie plików. Na przykład, jeśli (jak powyżej) system plików w /dev/hda1 jest oznaczony "root", możesz dać tę linię do gruba:</p>
+							<p>Istnieje alternatywny sposób użycia etykiet osadzonych w systemie plików. Na przykład, jeśli (jak powyżej) system plików w /dev/sda1 jest oznaczony "root", możesz dać tę linię do gruba:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
@@ -363,7 +365,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Więcej o nazwach na lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </body>
 </html>

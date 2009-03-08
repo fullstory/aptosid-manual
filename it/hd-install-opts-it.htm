@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 19/12/2008 20.50 UTC -->
+<!-- Last translation revision by alessiog75 on 04/03/2009 19.35 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -297,17 +297,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							per una sidux "LITE" sono necessari 1.2giga OLTRE allo spazio per i dati,<br />
 							per una sidux "FULL" sono necessari 2.1giga OLTRE allo spazio per i dati</p>
 
-							<p> <span class="highlight-3">Prima di procedere formattare la periferica con ext2 o ext3 o fat32.</span></p>
+							<p> <span class="highlight-3">Formattare prima la periferica con ext3 e partizionare l'HD USB oppure la chiavetta USB come per un comune PC.</span></p>
 
-							<p>Iniziamo come se fosse una installazione normale e scegliamo la partizione dedicata sul dispositivo USB, per esempio "sda1", ma qualsiasi altra partizione sarà valida.</p>
+							<p>Avviare l'installazione dalla ISO Live e scegliere la partizione nella periferica USB dove si vuole installare sidux, per esempio <span class="highlight-3">sdbX</span> e seguire le indicazioni del programma di installazione. Leggere <a href="hd-install-it.htm#Installation">Installare sul disco fisso</a></p>
 
-							<!--<p>La partizione deve essere formattata con un filesystem linux. Il filesystem raccomandato è ext3. Una partizione esistente verrà riformattata dall'installatore!</p>
-
-							<p class="highlight-2">Tutti i dati su questa partizione verranno cancellati dalla formattazione!</p>-->
-
-							<p>Per avviare install-sidux-to-usb andare in Menu K->System, oppure utilizzare il pulsante nella prima schermata del programma di installazione su HD</p>
-
-							<p>Ora si può avviare dal dispositivo USB. Naturalmente si deve prima abilitare "Boot from USB" nel BIOS del computer.</p>
+							<p><span class="highlight-3">Per avviare dall'HD USB oppure dalla chiavetta USB. 'Boot from USB' deve essere abilitato nel BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
@@ -420,7 +414,7 @@ qemu [overlay_image]
 
 				<p>Talvolta si potrebbe voler usare una delle partizioni del sistema dall'interno di qemu (per esempio se si vuole avviare sia la macchina reale che qemu usando una certa partizione come root). È possibile farlo usando il software RAID in modalità lineare (serve il driver del kernel "linear.ko") e un dispositivo loopback: il trucco è mettere dinamicamente un master boot record (MBR) all'inizio della partizione reale che si vuole inglobare in una immagine del disco grezza di qemu.</p>
 
-				<p>Supponiamo di avere una partizione pulita e non montata /dev/hdaN con qualche filesystem su di essa che si vuole sia parte di una immagine disco di qemu. Prima salvare in un piccolo file l'MBR:</p>
+				<p>Supponiamo di avere una partizione pulita e non montata /dev/sdaN con qualche filesystem su di essa che si vuole sia parte di una immagine disco di qemu. Prima salvare in un piccolo file l'MBR:</p>
 <pre>
 dd if=/dev/zero of=/percorso/verso/mbr count=32
 </pre>
@@ -428,20 +422,20 @@ dd if=/dev/zero of=/percorso/verso/mbr count=32
 <pre>
 losetup -f /percorso/verso/mbr
 </pre>
-				<p>Supponiamo che il dispositivo risultante sia /dev/loop0, in quanto potremmo non avere ancora usato altri loopback. Il prossimo passo sarà quello di creare il "combinato" MBR e /dev/hdaN (immagine disco che usa il software RAID):</p>
+				<p>Supponiamo che il dispositivo risultante sia /dev/loop0, in quanto potremmo non avere ancora usato altri loopback. Il prossimo passo sarà quello di creare il "combinato" MBR e /dev/sdaN (immagine disco che usa il software RAID):</p>
 <pre>
  modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/hdaN
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Il risultante /dev/md0 sarà quello che useremo come immagine del disco grezza qemu (non dimenticare di impostare i permessi in modo che l'emulatore vi possa accedere). L'ultimo (e un po' scaltro) passo è impostare la configurazione del disco (geometria del disco e tabella della partizioni) in modo che il punto di inizio della partizione primaria nell'MBR si abbini a quello di /dev/hdaN dentro /dev/md0 (un offset di esattamente 16 * 512 = 16384 byte in questo esempio). Si può fare usando fdisk sulla macchina host, non nell'emulatore: la routine predefinita di rilevamento di dischi grezzi produce un "non kilobyte-roundable offsets" (es. 31.5 KB, come nella sezione precedente) che non può essere gestita dal codice del software RAID. Quindi, dall'host:</p>
+				<p>Il risultante /dev/md0 sarà quello che useremo come immagine del disco grezza qemu (non dimenticare di impostare i permessi in modo che l'emulatore vi possa accedere). L'ultimo (e un po' scaltro) passo è impostare la configurazione del disco (geometria del disco e tabella della partizioni) in modo che il punto di inizio della partizione primaria nell'MBR si abbini a quello di /dev/sdaN dentro /dev/md0 (un offset di esattamente 16 * 512 = 16384 byte in questo esempio). Si può fare usando fdisk sulla macchina host, non nell'emulatore: la routine predefinita di rilevamento di dischi grezzi produce un "non kilobyte-roundable offsets" (es. 31.5 KB, come nella sezione precedente) che non può essere gestita dal codice del software RAID. Quindi, dall'host:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Creare una partizione primaria singola corrispondente a /dev/hdaN, e giocare con il comando "s"ector dal menu "x"pert finché il primo cilindro (dove inizia la prima partizione) si abbina con la dimensione dell'MBR. Alla fine scrivere ("w"rite) il risultato nel file. Finito. Ora si ha una partizione che si può montare direttamente dall'host, come se fosse una parte di una immagine disco qemu:</p>
+				<p>Creare una partizione primaria singola corrispondente a /dev/sdaN, e giocare con il comando "s"ector dal menu "x"pert finché il primo cilindro (dove inizia la prima partizione) si abbina con la dimensione dell'MBR. Alla fine scrivere ("w"rite) il risultato nel file. Finito. Ora si ha una partizione che si può montare direttamente dall'host, come se fosse una parte di una immagine disco qemu:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Si può naturalmente impostare in sicurezza qualsiasi bootloader di questa immagine disco che usa qemu, purché la partizione originale /boot/hdaN contenga gli strumenti necessari.</p>
+				<p>Si può naturalmente impostare in sicurezza qualsiasi bootloader di questa immagine disco che usa qemu, purché la partizione originale /boot/sdaN contenga gli strumenti necessari.</p>
 
 
 
@@ -467,11 +461,11 @@ qemu [...] -kernel-kqemu
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://bellard.org/qemu/qemu-doc.html">Qui si trova la documentazione ufficiale del progetto QEMU.</a></p>
-		<p><a href="http://wiki2.archlinux.org/index.php/Qemu">Alcuni contenuti riguardo a QEMU sono stati tratti dal wiki di arklinux sotto la Licenza 1.2 della documentazione libera GNU e modificati per il manuale sidux.</a></p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Alcuni contenuti riguardo a QEMU sono stati tratti dal wiki di arklinux sotto la Licenza 1.2 della documentazione libera GNU e modificati per il manuale sidux.</a></p>
 
 
 	</div>
-	<div id="rev">Page last revised 22/01/2008 0100hrs UTC</div>
+	<div id="rev">Page last revised 03/03/2008 1050hrs UTC</div>
 
 </div>
 </body>

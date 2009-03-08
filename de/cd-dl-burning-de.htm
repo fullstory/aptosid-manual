@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Di 10. Feb 13:08:27 CET 2009 -->
+<!-- Last translation revision by hubi Di Mo 2. Mär 21:41:10 CET 2009 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -98,7 +98,7 @@
 				<li><a href="hd-install-de.htm#Installation">Installation auf die Festplatte</a></li>
 				<li><a href="hd-install-de.htm#first-hd-boot">Erstes Booten von der Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#fromiso">Booten 'fromiso'</a></li>
-				<li><a href="hd-install-opts-de.htm#fromiso-persist">fromiso und persist</a></li>
+				<li><a href="hd-install-opts-de.htm#fromiso-persist">Beschreibbares Live-System - fromiso</a></li>
 				<li><a href="hd-install-opts-de.htm#usb-hd">Installation auf eine USB-Festplatte</a></li>
 				<li><a href="hd-install-opts-de.htm#vtbox">Installation sidux über VirtualBox</a></li>
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
@@ -235,13 +235,13 @@ deb-src ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free firmware
 					</li>
 					<li>
 						<b>sidux e.V.</b>, Deutschland<br />
-						<em>(Nur Repository und Kernel)</em><br />
+						<em>(nur Repository und Kernel)</em><br />
 						<a href="http://sidux.com/files/">http://sidux.com/files/</a><br />
 <pre>
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
-						<em>(Nur Repository und Kernel)</em><br />
+						<em>(nur Repository und Kernel)</em><br />
 						<a href="http://sidux.net/files/">http://sidux.net/files/</a><br />
 <pre>
 deb http://sidux.net/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
@@ -264,7 +264,7 @@ deb-src http://sidux.net/debian/ sid main contrib non-free firmware fix.main fix
 						<a href="rsync://ftp-mirror.internap.com/sidux/"> rsync://ftp-mirror.internap.com/sidux/</a>
 					</li>
 				</ul>
-				<h4>South America</h4>
+				<h4>Südamerika</h4>
 				<ul>
 					<li>
 						<b>Universidade Federal do Paraná/ Center for Scientific Computing and Free Software</b>, Brasilien<br />
@@ -296,6 +296,59 @@ deb-src http://sidux.net/debian/ sid main contrib non-free firmware fix.main fix
 						<a href="ftp://mirror.aarnet.edu.au/pub/sidux/">ftp://mirror.aarnet.edu.au/pub/sidux/</a>
 					</li>
 				</ul>
+				<h4>Dateidefinitionen auf den sidux-Spiegelservern</h4>
+
+							<p>Jeder Spiegelserver umfasst folgende Dateien:</p>
+
+<pre>
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.amd64.manifest
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.iso
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.iso.md5
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.iso.md5.asc
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.iso.sha256
+sidux-2009-01-ouranos-kde-lite-amd64-200902151304.iso.sha256.asc  
+</pre> 
+
+							<p>Die <span class="highlight-3">.manifest</span>-Datei listet alle Pakete der jeweiligen iso. Die <span class="highlight-3">.iso</span> ist die für den Download angebotene Abbilddatei. Die Dateien <span class="highlight-3">.md5 und .sha256</span> sind zur Überprüfung der Integrität der ISO.</p>
+
+							<p>Die <span class="highlight-3">.asc</span>-Dateien sind die Signaturdateien, mit denen Checksummen-Dateien (.md5 .sha256) überprüft werden, ob sie verändert wurden. Letztere werden zur Integritätsüberprüfung der ISO verwendet.</p>
+
+							<p>Falls die Gültigkeit der <span class="highlight-3">.asc</span>-Dateien überprüft werden soll, geschieht dies <span class="highlight-3">als $USER</span>:</p>
+
+							<p>1) Importieren des öffentlichen Schlüssels von "Stefan Lippers-Hollmann" (slh) von einem Schlüsselserver:</p>
+
+<pre>
+$ gpg --keyserver wwwkeys.eu.pgp.net --recv-keys F80994F6
+gpg --edit-key F80994F6
+Command> trust
+Command> (choose the option you prefer or quit)
+Command> quit
+</pre>
+
+							<p>2) Jetzt kann die Integrität der Checksummen damit bestätigt werden:</p>
+
+<pre>
+$ gpg --verify sidux-2009-01-ouranos-kde-full-i386-amd64-200902151348.iso.md5.asc sidux-2009-01-ouranos-kde-full-i386-amd64-200902151348.iso.md5
+</pre>
+							<p>Falls dieser Schlüssel mittels der üblichen GPG-Befehle als vertrauenswürdig gesetzt wurde, sollte diese Rückmeldung erfolgen: "5 trusted ultimately".</p>
+
+<pre>
+$ gpg: Signature made Sun 15 Feb 2009 04:55:55 PM CET using DSA key ID F80994F6
+$ gpg: checking the trustdb
+$ gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+$ gpg: depth: 0  valid:   2  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 2u
+$ gpg: Good signature from "Stefan Lippers-Hollmann (sidux.com) &lt;s.l-h@gmx.de&gt;"
+</pre>
+
+							<p>Die Rückmeldung 'Good signature' mit einer WARNUNG erhält man, wenn der Schlüssel nicht bewertet wurde:</p>
+
+<pre>
+$ gpg: Signature made Sun 15 Feb 2009 04:55:55 PM CET using DSA key ID F80994F6
+$ gpg: Good signature from "Stefan Lippers-Hollmann (sidux.com) &lt;s.l-h@gmx.de&gt;"
+$ gpg: WARNING: This key is not certified with a trusted signature!
+$ gpg:          There is no indication that the signature belongs to the owner.
+$ Primary key fingerprint: 64C3 6120 DA8D 91E7 378B  E79F 3916 C431 F809 94F6
+</pre>
 
 			<h5 class="highlight-3">Wir bedanken uns herzlich bei allen Betreibern von Spiegelservern für ihre Unterstützung von sidux.</h5>
 
@@ -365,12 +418,12 @@ sidux-Name.iso: Fehlschlag md5sum: Warnung: 1 von 1 berechneten Prüfsumme stimm
 								<p>Es gibt verschiedene gute Optionen, ISO-Dateien in Windows zu brennen.</p>
 
 					<h5>Open-Source-Brennsoftware für Windows</h5>
-							<p><a href="http://home.arcor.de/kerberos002/cdrtfe/install_de.html">cdrtfe</a>: kompatibel mit Windows 9x/ME/2000/XP (getestet mit Win95, Win98SE, Win2000, WinXP). Nur für Win9x/ME: funktionierende ASPI-Layer (z. B. Adaptec ASPI 4.60)</p>
+							<p><a href="http://home.arcor.de/kerberos002/tfe/install_de.html">cdrtfe</a>: kompatibel mit Windows 9x/ME/2000/XP (getestet mit Win95, Win98SE, Win2000, WinXP). Nur für Win9x/ME: funktionierende ASPI-Layer (z. B. Adaptec ASPI 4.60)</p>
 
 						<h5>Closed-Source- und proprietäre Brennsoftware für Windows</h5>
 							<ul>
 								<li> Nero (nicht nero express!)</li>
-								<li><a href="http://www.engelmann.com/?file=Cdrwin&amp;lang=german">CDR-WIN</a>:   Eine Testversion kann aus dem Internet geladen werden, die aber mit reduzierter Geschwindigkeit brennt, was jedoch für diese Aufgabe ausreichend sein sollte. Im englischsprachigen Menü muss folgender Punkt gewählt werden: "Burn a ISO 9660 Image File to CD".</li>
+								<li><a href="http://www.engelmann.com/?file=Cdrwin&amp;lang=german">CDR-WIN</a>:   Eine Testversion kann aus dem Internet geladen werden, die aber mit reduzierter Geschwindigkeit brennt, was jedoch für diese Aufgabe ausreichend sein sollte. Im Startmenü wählt man "Kopieren: Daten-CD/DVD", klickt auf "Demoversion" und im Hauptmenü wählt man als "Leselaufwerk" "Von Imagedatei lesen ...".</li>
 								<li>Eine weitere gute Freeware-Brennsoftware ist der <a href="http://www.cdburnerxp.se/">CD/DVD Burner XP pro</a></li>
 								<li>Burncdcc von  <a href="http://www.terabyteunlimited.com/utilities.html"> terabyteunlimited </a>kann nur ISO-Abbilddateien brennen.</li>
 							</ul>	
@@ -420,7 +473,7 @@ $ xdelta patch patch_2007-03-200707231344-gaia_pre2-kde-lite_200708051825-gaia_p
 
 							<p>Ein Programm, um Xdeltas in Windows zu benutzen und eine ISO-Datei zu patchen, ist <a href="http://evanjones.ca/software/xdelta.exe">xdelta.exe</a> (direkter Link zur Exe-Datei!!!). Auf derselben Seite gibt es auch <a href="http://evanjones.ca/software/xdelta-win32.html">englischsprachige Informationen zu xdelta</a>.</p>
 	</div>
-			<div id="rev">Page last revised 10/02/2009 0530hrs UTC</div>
+			<div id="rev">Page last revised 26/02/2009 0920hrs UTC</div>
 </div>
 </body>
 </html>

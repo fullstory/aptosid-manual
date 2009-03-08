@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by LjanA 27/06/2008 0840 UTC -->
+<!-- Last translation by alphad 06/03/2009 0100 UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and alphad-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.84.2009.02.20 -->
 <!-- menu last updated by bluewater 20/02/2009 0300 hrs UTC -->
@@ -207,18 +207,18 @@
 							<p>Elle affiche une sortie comme celle-ci (les caractères en gras le sont ici pour rendre l'exemple parlant, c'est tout) :</p>
 
 <pre>
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../hda4
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../hda2
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../hda5
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../hda1
-lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../hda6
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 610aaaeb-a65e-4269-9714-b26a1388a106 -> ../../sda2
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 857c5e63-c9be-4080-b4c2-72d606435051 -> ../../sda5
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 -> ../../sda1
+lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
 <p>Dans cet exemple <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> est l'entrée manquante. Ce qu'il va vous falloir réaliser, c'est entrer la partition identifiée par son UUID dans votre fichier /etc/fstab. Pour ce faire utilisez un éditeur de texte (comme kate ou nano) avec des privilèges root:</p> 
 
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/hda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
 </pre>
 
 							<p>Autre exemple:</p>
@@ -283,6 +283,10 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -> .
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
+<!--- ####
+							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
+#### -->
+							<p>Comme vous pouvez le constater, les partitions fat et ntfs sont identifiés par des noms courts (sda6 et sdb1), mais sont toujours listés par uuid.</p>
 
 			<h4>2. Identification permanente par Label</h4>
 
@@ -298,7 +302,7 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -> ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
-							<p>Comme vous pouvez le constater, les partitions FAT et NTFS sont dotées d'identifiants plus courts, mais figurent dans la liste. L'avantage à utiliser la méthode UUID c'est qu'elle a moins de chances de conduire à des confusions de noms entre partitions qu'avec les labels ; l'inconvénient c'est que les identifiants soient franchement difficiles à mémoriser.</p>
+							<p>Puisque les labels doivent êtres distincts de par leurs noms, vous devez être extrêmement prudents pour éviter toute confusion de nom.</p>
 
 							<p>Vous pouvez changer les labels de vos partitions en utilisant ces commandes :</p>
 <pre>
@@ -363,7 +367,7 @@ UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 							<p>Dans l'exemple /dev/sda1 est la partition racine. Dans la menu.lst de GRUB, la ligne désignant le noyau se présente comme suit :</p>
 
 <pre>
-kernel /boot/vmlinuz26 root=/dev/hda1 vga=0x318 ro
+kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
 							<p>En fonction du schéma d'identification qui vous agrée le mieux, changez-la pour :</p>
 <pre>
@@ -396,7 +400,7 @@ kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Plus d'information sur l'identification sur lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 12/01/2009 1324hrs UTC</div>
+			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>
 </div>
 </div>
 </body>

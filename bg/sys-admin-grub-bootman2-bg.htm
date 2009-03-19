@@ -214,7 +214,7 @@ cat /etc/fstab
 </pre>
 							за да откриете правилните имена.
 							</li>							
-							<li>След като сте потвърдили правилния раздел, създайте точка за монтиране:
+							<li>След като сте потвърдили правилния раздел, създайте директория за монтиране:
 <pre>
 mkdir -p /media/[hdxx,sdxx,diskx]
 </pre>				
@@ -334,15 +334,15 @@ mount /dev/sdb1 /media/sdb1
 </pre>
 
 
-						<p>На по-старите linux системи, дисковите устройства IDE (PATA) използват за имената <span class="highlight-3">sdaX</span>, вместо <span class="highlight-3"> sdaX</span>, което се използва навсякъде по съвременния стандарт.</p>
+						<p>На по-старите linux системи, дисковите устройства IDE (PATA) използват за имената <span class="highlight-3">hdaX</span>, вместо <span class="highlight-3"> sdaX</span> което се използва навсякъде по съвременния стандарт.</p>
 
 
 
 	</div>
 	<div class="divider" id="boot-grub-floppy">
-		<h2>Създаване на зареждащо флопи</h2>
+		<h2>Създаване на зареждащ флопи-диск</h2>
 
-							<p>За да си направите стартиращо флопи, използвайте съответните инструменти от <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
+							<p>За да си направите зареждащ флопи-диск, използвайте съответните инструменти от <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
 
 	</div>
 	<div class="divider" id="remove-grub">
@@ -366,11 +366,11 @@ initrd (hd0.x)/sidux/miniroot.gz
 се сменя на:
 initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
 </pre>
-							<p>Grub може да зарежда операционни системи от различни раздели. Той не зависи от блочните списъци  (block lists) за откриването на нужните за стартирането на системата файлове, и може да работи с ред файлови системи по подразбиране: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix и много други.</p>
+							<p>Grub може да зарежда операционни системи от различни раздели. Той  може да работи с ред файлови системи по подразбиране: ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix и много други.</p>
 
-							<p>Grub поддържа разширенията на BIOS (което значи че може да стартира раздели разположени след 8 GByte!), и няма ограничението за 1024 цилиндъра. Grub реално не се интересува къде е разположено физически ядрото - всичко което е нужно, е да се укаже физическия раздел плюс пътя към ядрото от което да стартира (пътя може да е даже символична връзка към ядрото). След промяна в настройките (т.е. файла menu.lst), той не се нуждае извикване на програма като Lilo, а новата конфигурация автоматично влиза в действие на следващото рестартиране.</p>
+							<p>Grub поддържа разширенията на BIOS (което значи че може да стартира раздели разположени след 8 GByte!), и няма ограничението за 1024 цилиндъра. Grub не се интересува къде е разположено физически върху диска ядрото - нужно му е да знае само физическия раздел плюс пътя към ядрото от което да стартира (при това пътя може да е даже символична връзка към ядрото). След промяна в настройките (т.е. файла menu.lst), новата конфигурация автоматично влиза в действие при следващото рестартиране.</p>
 
-							<p>sidux използва Grub за зареждане от CD; и при инсталация на sidux върху хард-диска - зареждащият мениджър Grub също се използва по подразбиране. Независимо от това, Grub може без проблем да бъде инсталиран също и по-късно.За да инсталирате Grub върху MBR, като root изпълнете в терминала:</p>
+							<p>sidux използва Grub за зареждане от CD. При инсталация на sidux върху хард-диска, за зареждащ мениджър също се инсталира Grub. Grub може без проблем да бъде (пре)инсталиран по всяко време.За да инсталирате Grub върху MBR, като root изпълнете в терминала:</p>
 
 
 <pre>
@@ -381,7 +381,7 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 
 						<h3>Имена на дисковете и устройствата</h3>
 
-							<p>Grub не прави разлика между SCSI- и IDE- хард дискове. (hd0) е винаги първия hard disk - който е първия в последователността за зареждане на системата (настройва се в BIOS) - без значение IDE ли е, или SCSI. По-особено е номерирането - тук то винаги започва от нула, така че първия раздел на първия диск се обозначава чрез (hd0,0). Първичните раздели са номерирани от 0 до 3, логическите от 4 и нагоре.</p>
+							<p>Grub не прави разлика между SCSI- и IDE- хард дискове. (hd0) е винаги първия хард-диск в последователността за зареждане на системата (настройва се в BIOS) - без значение IDE ли е, или SCSI. По-особено е номерирането - тук то винаги започва от нула, така че първия раздел на първия диск се обозначава чрез (hd0,0). Първичните раздели са номерирани от 0 до 3, логическите от 4 и нагоре.</p>
 
 		<table>
 			<tbody>
@@ -393,7 +393,7 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 				<tr>
 					<td>(fd0)</td>
 					<td>/dev/fd0</td>
-					<td>Флопи (под Windows)</td>
+					<td>Флопи</td>
 				</tr>
 				<tr>
 					<td>(hd0)</td>
@@ -413,7 +413,7 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 			</tbody>
 		</table>
 	<div class="spacer05"></div>
-							<p>Всички обозначения на устройства в Grub, трябва да използват скоби (). Внимавайте за редовете преди този за ядрото. В противоположност на Grub, ядрото адресира устройството по обичайния за linux начин. В дадения пример, всички редове сочат към един и същи раздел, а именно четвъртия раздел на първия хард-диск. Първия ред използва именоването на Grub, втория използва обичайна конвенция за именоване в linux (в дадения случай uuid):</p>
+							<p>Всички обозначения на устройства в Grub, трябва да използват скоби (). Внимавайте за редовете преди този за ядрото. В противоположност на Grub, ядрото адресира устройството по обичайния за linux начин. В дадения пример, всички редове сочат към един и същи раздел, а именно четвъртия раздел на първия хард-диск. Първия ред използва именоването на Grub, втория използва обичайна конвенция за именоване на раздели в linux (в дадения случай uuid):</p>
 <pre>
 root (hd0,3)
 kernel          /boot/vmlinuz root=UUID=bf955abf-ce1f-45a3-9ee5-93b5c5dc4fe0 ro quiet vga=791
@@ -422,9 +422,9 @@ initrd          /boot/initrd.img
 
 					<h3>Команден режим на Grub (Grub-Shell)</h3>
 
-							<p>Удобна възможност на Grub е командния му режим. В него се влиза със "c". По този начин можете да откриете и заредите различни операционни системи и ядра, даже с грешни настройки в menu.lst.</p>
+							<p>Удобна възможност на Grub е командния му режим. В него се влиза със "c". По този начин можете да откриете и зареждате различни операционни системи и ядра - даже ако имате грешни настройки в menu.lst.</p>
 
-							<p>Ако искате да се поупражнявате, може да влезете в командния режим на grub даже вече в заредена система (с командата "grub", логнати като root). За списъка на всички възможни команди използвайте командата "help". Подробна помощ за всяка от командите ще получите с <span class="highlight-3">help име-на-командата",</span>. С "quit" излизате от режима на grub обратно в нормалния команден ред на linux. В командния режим на Grub, клавишът tab има "довършваща" функция (подобна на тази в командния ред на linux) - командите, иманата на устройствата и файловете могат да бъдат автоматично довършвани с натискане на клавиша tab.</p>
+							<p>Ако искате да се поупражнявате, може да влезете в командния режим на grub (даже вече в заредена система) с командата "grub" (логнати като root). За списъка на всички възможни команди, използвайте командата "help" в командния режим на grub. Подробна помощ за специфична команда, ще получите с <span class="highlight-3">help име-на-командата",</span>. С "quit" излизате от режима на grub обратно в нормалния команден ред на linux. В командния режим на Grub, клавишът tab има "довършваща" функция (подобна на тази в командния ред на linux) - командите, иманата на устройствата и файловете могат да бъдат автоматично довършвани с натискане на клавиша tab.</p>
 
 							<p>С Grub можете да откриете местоположението на ядрото и initrd-образа даже преди системата да е заредила; с помощта на командата "find":</p>
 
@@ -460,12 +460,12 @@ Filesystem type is fat, partition type 0xb"
 
 				<h3>Режим на редактиране</h3>
 
-							<p>Този режим позволява временно да промените редовете в "menu.lst", преди конкретното зареждане. Това е възможно даже ако Grub е зареден отi CD и файла menu.lst е защитен от запис. За тази цел в менюто на grub за избор на система (ядро) за зареждане натиснете ESC, потвърдете с Return и натиснете "e". Сега може да добавяте или изменяте параметри в соответния ред, навигирайки със стрелките.</p>
+							<p>Този режим позволява временно да промените редовете в "menu.lst", по време на зареждане (преди системата да се е заредила). Това е възможно даже ако Grub е зареден от CD и файла menu.lst е защитен от запис. За тази цел в менюто на grub натиснете ESC, потвърдете с Return и натиснете "e". Сега може да добавяте нови, или да измените съществуващите параметри в соответния ред, навигирайки със стрелките.</p>
 
 
-				<h3>menu.lst (examples for possible entries)</h3>
+				<h3>Пример за menu.lst</h3>
 
-							<p>Lines with comments are started with # and don't interfere with the bootprocess, so they can stay in the file.</p>
+							<p>Редовете започващи с # са коментари, и не влияят на функционалността на настройките.</p>
 
 <pre>
 # Example /boot/grub/menu.lst
@@ -636,17 +636,9 @@ savedefault
 
 	</div>
 	<div class="divider" id="dual-boot">
-			<h2>Dual and Multiple Booting</h2>
+			<h2>Две или повече операционни системи</h2>
 
-<pre>
-<span class="highlight-3">NOTE Grub for kernels 2.6.22 and up uses sdax
-and the line
-initrd (hd0,x)/sidux/miniroot.gz
-has changed to:
-initrd		/boot/initrd.img-2.6.xx.x-slh-smp-x</span>
-</pre>
-
-							<p>To enable multiple grub OS booting is very simple with the use of chainloading. If for example you want to run a MS Windows (TM)  and Debian etch OS along with a sidux  'fromiso' installation , you will need to customise grub a bit, Therefore  edit the file <span class="highlight-3">/boot/grub/menu.lst </span>and add the following lines after the <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
+							<p>За зареждане на две или повече операционни системи чрез grub, се използва "верижно зареждане" (chainloading). Например ако искате да ползвате на един и същ компютър MS Windows (TM) и Debian etch OS, заедно със sidux  'fromiso' инсталация, ще трябва да донастроите grub - редактирайте файла <span class="highlight-3">/boot/grub/menu.lst </span>, добавяйки долните редове СЛЕД реда <span class="highlight-3">### END DEBIAN AUTOMAGIC KERNELS LIST</span>:</p>
 
 
 <pre>
@@ -668,16 +660,16 @@ initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 </pre>
 
 
-							<p>Some people need/want several MS Windows (TM)Installations. MS Windows (TM) always wants to boot from disk 1. We will have to hide one partition and activate another. The following commands should be entered in the GRUB-Commandline and, if successfull, copied to the menu.lst. This should be done for every Windows-partition. Don't forget to do a Backup:</p>
+							<p>Понякога се налага да има няколко MS Windows (TM) инсталации. MS Windows (TM) винаги започва зареждането от диск 1. Поради това, ще трябва да се скрие един раздел на диска, и да се активира друг. Ако след въвеждането на командите по-долу зареждането е успешно, можем да ги копираме в menu.lst. Това трябва да бъде направено за всеки раздел на Windows. Не забравяйте да направите резервно копие на данните си!</p>
 
-<pre>hide (hd0,0) # hidden partition 1 of disk 1
-unhide (hd0,1) # makes partition 2 of disk 1 visible
-rootnoverify (hd0,1) # makes partition 2 of disk 1 the Root-FS
-makeactive # makes partition 2 of disk 1 active
-chainloader +1 # points to the first sector of the start-partition
-boot # boots the operating system</pre>
+<pre>hide (hd0,0) # скрива раздел 1 от диск 1
+unhide (hd0,1) # прави видим раздел 2 от диск 1 
+rootnoverify (hd0,1) # прави раздел 2 от диск 1 да е Root-FS
+makeactive # прави активен раздел 2 от диск 1
+chainloader +1 # указва към първия сектор на старт-раздела, за предаване на управлението
+boot # зарежда операционната система</pre>
 
-							<p>If you want to start a 2nd Windows from the 2nd disk, you virtually swap disk 1 and 2. Thereby Windows sees a simulated 1st disk:</p>
+							<p>Ако искате да заредите втори Windows от втория хард-диск, виртуално разменяме диск 1 и диск 2 - по този начин Windows вижда симулиран пръв диск:</p>
 
 <pre>
 map (hd0) (hd1)
@@ -685,9 +677,9 @@ map (hd1) (hd0)
 </pre>
 
 
-					<h3>Pitfalls</h3>
+					<h3>Възможни трудности</h3>
 
-							<p>As Grub has no 1024-cylinder barrier and can boot systems above 1024 cylinders, the  "/boot/grub/stage2" must be accessible by the bios (must be before 1024 cylinders). Stage2 may not be moved after installation (e.g. Defrag could try that). Setup data will get written that would not be congruent anymore. It is reasonable to make stage2 read-only (you must be in the current directory):</p>
+							<p>Понеже Grub не е ограничен от 1024 цилиндра и може да зарежда системи разположени над 1024 цилиндра, файлът  "/boot/grub/stage2" трябва да бъде достъпен за bios-а (да бъде преди 1024 цилиндър). Затова Stage2 не може да бъде преместван след инсталацията (например дефрагментаторите могат да се опитат да го направят). Разумно е за stage2 да се остави само достъп за четене (трябва да сте в същата директория):</p>
 
 <pre>
 Dos: attrib +r +s stage2
@@ -695,17 +687,17 @@ LINUX: # chmod a -w ./stage2
 </pre>
 
 
-				<h3>Where to find out more</h3>
+				<h3>Допълнителна информация</h3>
 
 
 
-							<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">The official FAQ for Grub</a>.</p>
+							<p><a href="http://www.gnu.org/software/grub/grub-faq.en.html">Официалния сайт на Grub</a>.</p>
 
-							<p>If you have a supported network card, Grub can boot over the network.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> An appropriate Boot-Disk can be obtained here (allthough with an older version of Grub)</a>.</p>
+							<p>Ако мрежовата ви карта се поддържа, Grub може да зареди и през мрежата.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Подходящ зареждащ диск (Boot-Disk) ще намерите тук (макар и с по-стара версия на Grub)</a>.</p>
 				
 	</div>
 			
-	<div id="rev">Content last revised 22/02/2009 0800 UTC</div>
+	<div id="rev">Content last revised 17/03/2009 0200 UTC</div>
 
 
 </div>

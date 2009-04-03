@@ -226,67 +226,88 @@ initrd (hd0,4)/sidux/initrd.img
 							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso i persist</h2>
+		<h2>General information on fromiso with persist</h2>
 
-							<p>Možete imati trajni live sistem na mediju na kojemo je dopušteno pisanje, s kombiniranjem fromiso postavaka sa persist cheatcode.</p>
+				<h3>fromiso and persist on a HD</h3>
 
-							<p>sidux koristi aufs da omogući, što je poznato pod "copy on write" preko vaše, da vam omoguči da pišete nove datoteke i direktorije, i da možete obnoviti postojeće, ne prepisujuči stare zbog spremanja novih datoteka u memoriju. S <span class="highlight-3">persist</span> cheatcode, će memorirati na istu hard disk particiju, na kojoj ste startovali vaš fromiso cd image.</p>
+							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
 
-							<p>Koristeči<span class="highlight-3">persist</span> daje vam live sistem, koji vam sve automatske mogućnosti sidux Live-CD omoguči. To vam je olakšica ako morate obaviti stavri kao automatski konfigurirati hardver, ali isto znači, da će rekreirati datoteke svaki put kad startujete sistem.</p> 
+<pre>
+persist
+</pre>
 
-							<p><span class="highlight-3">Na primjer neće memorirati vašu X (grafička kartica, keyboard, mouse) konfiguraciju, ili vašu network interfaces datoteku, što znači da je idejalno za više nego jedno računalo, </span> ali isto vam može stajati na putu, ako morate takve stvari konfigurirati.</p>
+							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
 
-							<p>Naj idejalni korištaj trajnosti, je sa spojem s novim install-usb-gui alatom, da kreirate svoj vlastiti, bootable flash disk sa vašim datotekama i softver koji vam je potreban.</p>
+							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
 
-							<p>Vaše datoteke će biti memorirane u poddirektoriju, na vašem uređaju. Taj poddirektorij je kreiran, ako ne postoji, kad se <span class="highlight-3">fromiso</span> and <span class="highlight-3">persist</span> cheatcodes koriste zajedno. </p>
+							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
 
-							<p>Da koristite <span class="highlight-3">persist</span> na FAT filesistemu, koje se općenito koristi za dos/Windows 9x instalacije i obično na flash uređajima, zahtijeva od vas da kreirate jednu veliku datoteku, koju koristite kao loop uređaj, koju ond a morate formatirati.</p>
+							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
 
-							<p><span class="highlight-3">As always sidux recommends using an ext2 or ext3 partition to store your iso,  however vfat on USB sticks are also very reliable and most likely to give better cross platform ability for data rescue when needed most. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+				<h3>fromiso and persist on a bootable USB Key</h3>
+							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
 
-							<p>This file should be named sidux-rw. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+
+					<h6>ext2/3 file systems</h6>
+							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+
+					<h6>vfat file system</h6>
+							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+
 <pre>
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
 </pre>
 
-							<p class="highlight-2">NTFS particije, obično korištene za Windows NT/2000/XP (TM) instalacije, NE MOŽETE koristiti za trajnost.</p>
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Instalirati sidux na USB-Stick ili na USB-hard-disk</h2>
+		<h2>Installation of sidux on a USB-device</h2>
 
-							<p>Da instalirate sidux na USB-Stick ili na USB-hard-disk je sad lagano kao normalna hard-disk-instalacija. Samo pratite ovu jednostavnu vodilicu.</p>
+							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
+				<h5>Two kinds of installation to USB</h5> 
+							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
+							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
 
-
-				<h5>Postoje dvoje vrste instalacije na USB</h5> 
-							<p>1) - fromiso <br />
-										2) - full (full instalacija na USB stick ponaša se kao normalna HD instalacija i obavlja se s normalnim instalerom).</p>
-
-				<h3>USB fromiso Instalacija</h3>
-							<p><span class="highlight-3">fromiso</span> instalcija je obavljena od <span class="highlight-3">install-usb-gui.bash</span> i usmjerena ja da instalira fromiso na prvu particiju Hard-Diska + ili na USB stick.</p>
-
+				<h3>USB fromiso Installation</h3>
 							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
 
-							<!--<p><b>Imate 2 izbora:</b><br />
-							<span class="highlight-3">No Format:</span> instalira na prvu particiju bez gubitka podataka.<br />
-							<span class="highlight-3">Format:</span> disk će biti izbrisana, sve podatke su izgublene i jedna particija će biti kreirana s izabranim file sistemom. Podržani file sistemi su vfat, ext2, ext3.</p>-->
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
 
-							<p>Trajni podaci su moguči ako koristite cijelu particiju i ext2 ili FAT32 file-sistem. Ako koristite vfat, trajnost je izvršena od datoteke s maksimalno 2GB ali ne manja nego 100MB (zato što nebi bilo od koristi).</p>
+							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
 
-							<p>Da startujete install-sidux-to-usb otvorite submenu System pod Kmenu, ili koristite tipku koju nađete na prvom ekranu standardnog HD instalera</p>
+							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
 
-							<p>Da kreirate bootable USB od instaliranog sistema, potrebna vam je sidux iso.</p>
 
+						<h6>Terminal example:</h6>
+<pre>
+fll-iso2usb -D /dev/sdb /home/sidux/sidux.iso -p  \ -- toram lang=no tz=Pacific/Auckland
+</pre>
+							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
+
+							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
+
+							<p>For more documentation including customisation options see:</p>
+
+<pre>
+$ man fll-iso2usb
+</pre>
 
 			<h3>Full instalcija (ponaša se kao normalna HD instalacija)</h3>
 
 							<p>Preporučljiva minimalna veličina USB-sticka je:<br />
-							sidux "LITE" treba 1.2GB PLUS trebate mjesta za podatke,<br />
-							sidux "FULL" treba 2.1GB PLUS trebate mjesta za podatke,<br />
+							sidux "LITE" treba 1.7GB PLUS trebate mjesta za podatke,<br />
+							sidux "FULL" treba 3.5GB PLUS trebate mjesta za podatke,<br />
 
 							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
@@ -451,7 +472,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Content last revised 03/03/2008 1050hrs UTC</div>
+			<div id="rev"> Content last revised 31/03/2009 1220hrs UTC</div>
 
 </div>
 </body>

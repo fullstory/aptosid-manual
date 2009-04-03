@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Di 3. Mär 13:53:00 CET 2009 -->
+<!-- Last translation revision hubi Fr 27. Mär 17:12:21 CET 2009-->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -234,64 +234,87 @@ initrd (hd0,4)/sidux/initrd.img
 
 
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso und persist: ein beschreibbares Live-System</h2>
+		<h2>Allgemeine Informationen zu fromiso und persist</h2>
 
-							<p>Ein dauerhaftes (persistentes) Live-System kann auf einer beschreibbaren Partition eingerichtet werden, indem ein fromiso-Setup mit der Bootoption 'persist' kombiniert wird.</p>
+				<h3>fromiso und persist auf einer Festplatte</h3>
 
-							<p>sidux nutzt aufs, um mittels "copy on write" neue oder veränderte Daten im RAM zu speichern. Mit der Bootoption <span class="highlight-3">persist</span> können diese Daten auf derjenigen Partition gespeichert werden, auf welcher sich das fromiso-CD-Abbild befindet.</p>
+							<p>Ein persistentes (dauerhaftes) Live-System kann auf einer Festplatte eingerichtet werden, wenn man eine fromiso-Installation mit der Bootoption "persist" einrichtet. Der Befehl ist einfach:</p>
 
-							<p><span class="highlight-3">persist</span> verhilft zu einem Live-System, welches alle automatisierten Routinen der sidux-Live-CD enthält. Dies hat den Vorteil, dass zum Beispiel die automatische Erkennung der Hardware durchgeführt wird. Gleichzeitig werden die gleichen Dateien bei jedem Booten wiederhergestellt.</p> 
+<pre>
+persist
+</pre>
 
-							<p><span class="highlight-3">Zur Verdeutlichung: das System speichert nicht die Einstellungen des Grafikservers X (Grafikkarte, Tastatur, Maus) oder der Netzwerkkarte, wodurch diese Vorgehensweise ideal ist, wenn man das System auf mehr als einem Computer benutzt.</span> Weniger geeignet ist sie, wenn man eigene Konfigurationen benötigt.</p>
+							<p>sidux verwendet aufs, um "copy on write" über eine ISO zu ermöglichen, womit man Verzeichnisse und Daten neu anlegen bzw. aktualisieren kann, indem neue Daten im Speicher vorgehalten werden. Mit der Bootoption <span class="highlight-3">persist</span> werden die neuen Daten auf der gleichen Festplatte abgespeichert, welche auch Speicherort für die fromiso-Abbilddatei ist.</p>
 
-							<p>persist ist ideal in Verbindung mit der neuen install-usb-gui, um einen bootbaren Flash-Drive mit eigenen Daten und selbstgewählter Software zu erstellen.</p>
+							<p><span class="highlight-3">fromiso</span> ermöglicht ein Live-System, welches alle automatisierten Fähigkeiten einer sidux-Live-CD bietet. Dies hat den Vorteil, dass zum Beispiel die Hardware automatisch erkannt wird, es bedeutet aber auch, dass nach einem Neustart ein unveränderter Datensatz wieder zur Verfügung steht, solange man nicht andere Anweisungen gibt.</p> 
 
-							<p>Die persönlichen Daten werden in einem Unterverzeichnis auf dem Drive gespeichert. Wenn dieses Unterverzeichnis noch nicht vorhanden ist, wird es automatisch erstellt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam benutzt werden.</p>
+							<p>Die Verwendung von <span class="highlight-3">persist</span> gemeinsam mit anderen sidux spezifischen Bootoptionen wie noxorgconf oder nonetwork bedeutet, dass beim Booten nicht mehr der gleiche, unveränderte Datensatz aufgerufen wird.</p>
 
-							<p><span class="highlight-3">Für USB-Sticks sind ext2 und vfat die empfohlenen Dateisysteme. Sie bieten vermutlich die beste plattformübergreifende Kompatibilität zur Datenrettung im Notfall. Ein Wiederbeschreiben von Flash-Speichergeräten hängt von den technischen Spezifikationen des USB-Sticks ab.</span></p>
+							<p>persist bedeutet auch, dass man Programmpakete mittels apt installieren kann und die neuen Programme wie auch die geänderten Daten nach einem Neustart sofort wieder zur Verfügung stehen.</p>
 
-							<p>Diese Datei sollte in sidux-rw umbenannt werden. Angenommen das zu nutzende Speichergerät ist beschreibbar auf /media/sdb1 eingebunden und man möchte eine 1GB große Datei erstellen, um diese als dauerhaftes "Laufwerk" zu nutzen, so können folgende Befehle benutzt werden (root ist nicht notwendig, wenn der user Schreibrechte auf die Datei besitzt):</p>
+				<h3>fromiso und persist auf einem bootfähigen USB-Stick</h3>
+							<p>Die vielleicht ideale Verwendung von persist ist mit install-usb-gui, womit ein eigener bootfähiger USB-Stick mit eigenen Daten und selbst gewählter Software erstellt werden kann.</p>
+
+							<p>Die eigenen Daten werden in einem Unterverzeichnis auf dem Laufwerk gespeichert. Dieses Unterverzeichnis wird - so nicht vorhanden - angelegt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam verwendet werden.</p>
+
+							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (üblich für DOS/Windows9x und Standard auf Flash-Drives) bedarf der Erstellung einer großen Datei, welche als Loop-Gerät eingebunden wird. Diese Datei muss formatiert werden.</p>
+
+							<p><span class="highlight-3">Für USB-Sticks sind ext2 und vfat die empfohlenen Dateisysteme. Sie bieten vermutlich die beste plattformübergreifende Kompatibilität zur Datenrettung im Notfall, as an MS Windows&#8482; driver is available for data-swapping. Ein Wiederbeschreiben von Flash-Speichergeräten hängt von den technischen Spezifikationen des USB-Sticks ab.</span></p>
+
+					<h6>ext2/3 Dateisysteme</h6>
+							<p>Mit ext2/3 wird die ganze Partition verwendet. Das aktuelle Root-Verzeichnis wird verwendet und ein Verzeichnis /fll wird angelegt, welches den restlichen Speicherplatz für den persist-Modus zum Abspeichern der Daten verwendet.</p>
+
+					<h6>vfat Dateiystem</h6>
+							<p>Wenn vfat verwendet wird, wird der persist-Modus mittels einer Datei ermöglicht, die maximal 2GB groß sein kann, aber mindestens 100MB groß sein soll (weniger macht keinen Sinn). Diese Datei sollte  <span class="highlight-3">sidux-rw</span> benannt werden. Angenommen das zu verwendende Speichergerät ist schreibbar auf /media/sdb1 eingebunden und es soll eine Datei mit der Größe von 1GB für den persist-Modus angelegt werden, kann folgender Befehl verwendet werden (man muss nicht root sein):</p>
+
 <pre>
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
 </pre>
 
 							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP (TM)) können NICHT auf diese Weise benutzt werden.</p>
 
 	</div>
 	<div class="divider" id="usb-hd"> 
-		<h2>sidux auf einen USB-Stick oder eine USB-Festplatte installieren</h2>
+		<h2>Installation von sidux auf ein USB-Speichergerät</h2>
 
-							<p>sidux auf eine USB-Festplatte oder einen USB-Stick zu installieren ist genauso einfach wie eine normale Festplatteninstallation.</p>
+							<p>sidux auf eine USB-Festplatte oder einen USB-Stick zu installieren ist genauso einfach wie eine normale Festplatteninstallation. Hier eine einfache Anleitung.</p>
 
-
-
-				<h5>Die zwei Installationswege auf USB-Medien</h5> 
-							<p>1) fromiso <br />
+				<h5>Zwei Installationswege auf USB-Medien</h5> 
+							<p>1) fromiso (um ein bootfähiges USB-Laufwerk von einem installierten System zu kreieren, braucht man eine sidux-ISO)<br />
 							2) vollständig (eine vollständige Installation auf einen USB-Stick verhält sich wie eine Festplatteninstallation und geschieht mit Hilfe des normalen Installationsprogramms)</p>
 
-				<h3>fromiso-Installation auf USB</h3>
-							<p>Eine <span class="highlight-3">fromiso</span>-Installation macht man mit <span class="highlight-3">install-usb-gui.bash</span>. Dies ist eine fromiso-Installation, die in den meisten Fällen auf der ersten Partition einer Festplatte oder eines USB-Sticks durchgeführt wird.</p>
+				<h3>USB fromiso-Installation</h3>
+							<p> <span class="highlight-3">Das Speichergerät muss mit ext2 oder vfat vorformatiert werden.</span></p>
 
-							<p> <span class="highlight-3">Bevor man fortsetzt, formatiert man mit ext2 oder fat32.</span></p>
+							<p>Die <span class="highlight-3">fromiso</span>-Installation erfolgt mittels <span class="highlight-3">Kmenü>System>install-sidux-usb-gui</span> von einem installierten System, oder durch Klick auf den <span class="highlight-3">sidux-Installer Knopf </span> und Auswahl der Option <span class="highlight-3">Install to USB</span> von einem Live-System. In den meisten Fällen wird man angewiesen, "fromiso" auf der ersten Partition des USB-Laufwerks zu installieren.</p>
 
-							<!--<p><b>Man hat zwei Möglichkeiten:</b><br /><br />
-							<span class="highlight-3">Ohne Formatierung ("no format"):</span> die Installation wird auf der ersten Partition ohne Datenverlust durchgeführt.<br /><br />
-							<span class="highlight-3">Mit Formatierung ("format"):</span> der Datenträger wird gelöscht, alle Daten gehen verloren und eine einzelne Partition wird mit dem gewählten Dateisystem erstellt. Unterstützte Dateisysteme sind vfat, ext2, ext3.</p>-->
+							<p>Man hat die Möglichkeit Sprache, Zeitzone und weitere Optionen zu wählen, und mittels eines Häkchens kann man entscheiden, ob man persist aktivieren möchte oder nicht.</p>
 
-							<p>Die Speicherung eigener Daten ("data persist") ist möglich, wobei die ganze Partition verwendet wird, wenn man ext2 als Dateisystem nutzt. Falls vfat das gewählte Dateisystem ist, werden die Daten im Modus "data persist" in einer Datei abgelegt, die maximal 2GB groß sein kann und mindestens 100MB groß sein soll (kleiner macht keinen Sinn).</p>
+							<p>Schließlich hat man ein bootfähiges USB-Speichergerät. Falls "persist" nicht gewählt wurde, kann es nachträglich aktiviert werden, indem man <span class="highlight-3">persist</span> in der Befehlszeile von Grub eingibt oder indem man in der Zeile beginnend mit #kopt= in der Datei menu.lst diese Bootoption dauerhaft macht.</p>
 
-							<p>install-sidux-to-usb wird im Untermenüpunkt "System" im KDE-Menü gestartet, es kann aber auch der Startknopf auf der Startseite des sidux-Installationsprogramms genutzt werden.</p>
 
-							<p>Um eine bootfähige USB-Installation von einem installierten System zu erstellen, benötigt man eine sidux-ISO.</p>
+						<h6>Beispiel im Terminal:</h6>
+<pre>
+fll-iso2usb -D /dev/sdb /home/sidux/sidux.iso -p  \ -- toram lang=no tz=Pacific/Auckland
+</pre>
+							<p>Dieser Befehl installiert das ISO auf das USB-Speichergerät <span class="highlight-3">sdb</span> mit persist, toram, mit norwegischer Sprache und Lokalisation sowie der Zeitzone Pacific/Auckland (NZL) in der Grub-Befehlszeile.</p>
+
+							<p>Die Konfiguration von X (Grafikkarte, Tastatur, Maus) bzw. die Netzwerkkarten wurden nicht gespeichert, womit dieses Vorgehen ideal ist, falls diese Installation auf mehreren Computern verwendet werden soll.</p>
+
+							<p>Weitere Informationen auch zu individuellen Anpassungsmöglichkeiten siehe:</p>
+
+<pre>
+$ man fll-iso2usb
+</pre>
 
 
 			<h3>Vollständige Installation (verhält sich wie eine normale Festplatteninstallation)</h3>
 							<p>Die empfohlene minimale Größe für eine Installation auf einen USB-Stick ist:<br /><br />
-							sidux "Lite" braucht 1.2 GB. Dazu kommt noch Platz für die Daten.<br />
-							sidux "Full" braucht 2.1 GB. Dazu kommt noch Platz für die Daten.<br /><br />
+							sidux "Lite" braucht 1.7 GB. Dazu kommt noch Platz für die Daten.<br />
+							sidux "Full" braucht 3.5 GB. Dazu kommt noch Platz für die Daten.<br /><br />
 							<span class="highlight-1">Für die Lite-Installation sind daher USB-Sticks mit mindestens 2 GB, für eine Full-Installation USB-Sticks mit mindestens 3 GB empfohlen.</span></p>
 
 							<p> <span class="highlight-3">Das USB-Speichergerät wird mit ext3 formatiert, und die USB-Festplatte bzw. der USB-Stick werden wie bei einer Standard-Installation auf einem PC partitioniert.</span></p>
@@ -462,7 +485,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 03/03/2008 1050hrs UTC</div>
+	<div id="rev">Content last revised 27/03/2009 0315hrs UTC</div>
 
 
 </div>

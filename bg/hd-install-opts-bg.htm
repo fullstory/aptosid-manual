@@ -233,63 +233,87 @@ initrd (hd0,4)/sidux/initrd.img
 </div>
 
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso и persist (Стартиране от iso-образ, с възможност за съхранение на данните)</h2>
+		<h2>General information on fromiso with persist</h2>
 
-							<p>Възможно е стартиране на live-система от iso-образ, със съхраняване на данните между последователните стартирания на системата. Това се извършва комбинирайки fromiso инсталацията (виж по-горе) с опцията "persist" в реда за зареждане на системата (persist cheatcode).</p>
+				<h3>fromiso and persist on a HD</h3>
 
-							<p>При sidux стартиран от CD или iso-образ, можете да променяте или добавяте файлове по време на сесията - но тези промени се съхраняват само в паметта; макар че за програмите изглежда като че ли файловете са съхранени на диска - за тази цел се използва специалната файлова система aufs и метода известен като "copy on write". С <span class="highlight-3">persist</span> опцията (cheatcode), системата реално ще записва промените върху хард-диска, в раздела където се намира файла с iso-образа.</p>
+							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
 
-							<p>С добавянето на <span class="highlight-3">persist</span> функционалността получавате "хибридна" live система, която има всичките екстри на sidux live cd (неща като автоматично конфигуриране на хардуера при стартиране и т.н.), но в същото време помнеща промените във файловете между сесиите (подобно на постоянна инсталация върху хард-диска).</p> 
+<pre>
+persist
+</pre>
 
-							<p><span class="highlight-3">Например конфигурациите за X системата (видеокартата, клавиатурата, мишката, мрежата и т.н.) по подразбиране няма да бъдат запомнени, а ще се преконфигурират всеки път - което е идеално за ползване на различни компютри; </span>но ако все пак искате да конфигурирате някои от тях за постоянно, то имате възможността да го направите.</p>
+							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
 
-							<p>Едно отлично приложение на този метод е, с помощта на install-usb-gui (live-usb инсталатора) - да си направите универсална, стартируема навсякъде usb флашка, която обаче също така съдържа файловете и инсталирания софтуер, които ви трябват.</p>
+							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
 
-							<p>Файловете ви ще бъдат записани в поддиректория на диска. Тази поддиректория автоматично се създава ако не съществува, когато <span class="highlight-3">fromiso </span> и <span class="highlight-3">persist</span>  опциите (cheatcodes) се използват заедно.</p>
+							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
 
-							<p>Ако използвате <span class="highlight-3">persist</span> върху файлова система FAT (с която обикновено флашките са форматирани по подразбиране), трябва да създадете един голям файл,  който после да се използва за файлова система (като loop устройство), и съответно да го форматирате.</p>
+							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
 
-							<p><span class="highlight-3">За флашките се препоръчват  ext2 и vfat файлови системи, и те предоставят най-добра междуплатформена съвместимост. Количеството презаписи на данни, които флашката ще издържи,  зависи от спецификациите й.</span></p>
+				<h3>fromiso and persist on a bootable USB Key</h3>
+							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
 
-							<p>Този файл трябва да се казва sidux-rw. Ако диска  който искате да използвате, е монтиран като /media/sdb1 (с възможност за запис); и искате да създадете 1GB файл за съхраняване на промените между сесиите, може да ползвате следните команди (няма нужда да сте логнати като root, ако имате права за запис на файла).</p>
+							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+
+							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+
+							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+
+					<h6>ext2/3 file systems</h6>
+							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+
+					<h6>vfat file system</h6>
+							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+
 <pre>
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
 </pre>
-							<p class="highlight-2">NTFS разделите, които масово се използват за инсталации на Windows NT/2000/XP (TM), ВЪОБЩЕ НЕ МОГАТ да бъдат използвани за съхраняване на промените между сесиите.</p>
+
+
+							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Пълна инсталация на sidux върху външен USB носител (флашка)</h2>
+		<h2>Installation of sidux on a USB-device</h2>
 
-							<p>Инсталирането на sidux върху външен USB носител на данни (флашка, USB хард-диск) не се отличава особено от обикновеното инсталиране върху хард-диска. Просто следвайте инструкциите по-долу.</p>
+							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
-				<h5>Два вида инсталация върху USB флашка</h5> 
-							<p>1) - fromiso <br />
-							2) - пълна (пълната инсталация на USB флашка се държи като нормална инсталация върху хард-диска, и се извършва с помощта на обикновения инсталатор.)</p>
+				<h5>Two kinds of installation to USB</h5> 
+							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
+							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
 
-				<h3>Инсталация на USB флашка - тип fromiso (стартиране от iso-образ)</h3>
-							<p>Инсталацията <span class="highlight-3">fromiso</span> се прави с помощта на <span class="highlight-3">install-usb-gui.bash</span>, и ще извърши 'fromiso' инсталацията върху първия раздел на USB флашката.</p>
+				<h3>USB fromiso Installation</h3>
+							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
 
-							<p> <span class="highlight-3">Преформатирайте USB  флашката с ext2 или fat32 (vfat) файлова система, преди да започнете инсталирането.</span></p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
 
-							<!--<p><b>You have 2 choices:</b><br />
-							<span class="highlight-3">No Format:</span> the install is made over the first partition with no loss of data.<br />
-							<span class="highlight-3">Format:</span> the disk is erased, all data is lost and single partition created with the chosen file system. Supported file systems are vfat and ext2.</p>-->
+							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
 
-							<p>Съхраняването на промените между сесиите е възможно, и ако файловата система е ext2, за тази цел ще бъде използвано пространството на целия раздел (т.е. използва се просто поддиректория). Ако се използва vfat, ще бъде създаден sidux-rw файл (който може да бъде максимум 2GB  но не по-малко от 100MB тъй като това не би имало смисъл) съдържащ евентуалните промени (използва се като файлова система на loop-device).</p>
+							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
 
-							<p>За да стартирате install-sidux-to-usb, в Kmenu отидете на подменюто System, или използвайте специалния бутон от първия екран на стандартния хард-диск инсталатор.</p>
 
-							<p>За създаването на стартируема флашка (USB-диск) от вече инсталирана система е нужен sidux iso-образ.</p>
+						<h6>Terminal example:</h6>
+<pre>
+fll-iso2usb -D /dev/sdb /home/sidux/sidux.iso -p  \ -- toram lang=no tz=Pacific/Auckland
+</pre>
+							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
 
+							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
+
+							<p>For more documentation including customisation options see:</p>
+
+<pre>
+$ man fll-iso2usb
+</pre>
 
 			<h3>Пълна инсталация (държи се като нормална инсталация върху хард-диска)</h3>
 							<p>Препоръчвания минимален размер на раздела и/или флашката като цяло, е:<br />
-							sidux "LITE" (олекотената версия) - 1.2gig ПЛЮС място за данните<br />
-							sidux "FULL" (пълната версия) - 2.1gig ПЛЮС място за данните</p>
+							sidux "LITE" (олекотената версия) - 1.7gig ПЛЮС място за данните<br />
+							sidux "FULL" (пълната версия) - 3.5gig ПЛЮС място за данните</p>
 
 							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
 
@@ -464,7 +488,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 03/03/2008 1050hrs UTC</div>
+	<div id="rev">Page last revised 31/03/2009 1220hrs UTC</div>
 
 </div>
 </body>

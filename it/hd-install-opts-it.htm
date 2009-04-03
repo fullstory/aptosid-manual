@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 04/03/2009 19.35 UTC -->
+<!-- Last translation revision by alessiog75 on 30/03/2009 17.50 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by alessiog75 2009.03.16 2100 hrs UTC -->
@@ -231,67 +231,89 @@ initrd (hd0,4)/sidux/initrd.img
 							<p>Con il prossimo avvio si troverà una voce nel menù per l'immagine ISO. Se si aggiorna sidux.iso, i file vmlinuz e intird.img con rilasci più recenti, il file di grub menu.lst non necessita di modifiche.</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>fromiso e persistente</h2>
+		<h2>Informazioni generali su fromiso con persist</h2>
 
-							<p>Si può avere un sistema live persistente su un disco scrivibile combinando una impostazione fromiso con il cheatcode "persist".</p>
+				<h3>fromiso e persist su di un HD</h3>
 
-							<p>sidux utilizza aufs per abilitare ciò che è conosciuto come "copy on write" sopra il cd che permette di scrivere nuovi file e directory o aggiornare quelli esistenti sul liveCD, tenendo i nuovi file in memoria. Con il codice <span class="highlight-3">persist</span>, sidux salverà i nuovi file sulla stessa partizione del disco fisso dove si è scritto l'immagine ISO del CD che si avvia con fromiso.</p>
+							<p>Si può avere un sistema live persistente su di un disco scrivibile attraverso un setup fromiso con l'opzione persist. Il default è semplicemente:</p>
 
-							<p>Usando <span class="highlight-3">persist</span> si ottiene un sistema live che ha tutte le funzionalità automatiche di un liveCD sidux, inclusa la configurazione automatica dell'hardware, ma significa anche che ricreerà gli stessi file ad ogni riavvio...</p>
-
-							<p><span class="highlight-3">Ad esempio non salverà la configurazione di X (scheda video, tastiera e mouse) o il file delle interfacce di rete, cose che rendono questo sistema ideale per l'uso su più computer, </span> ma può mettere in difficoltà se si devono poi configurare alcune di queste caratteristiche.</p>
-
-							<p>Forse l'uso ideale della persistenza è assieme al nuovo strumento ad interfaccia grafica di installazione su usb per creare una chiavetta avviabile con i file e i programmi che servono abitualmente.</p>
-
-							<p>I file saranno salvati in una sotto-directory del disco. Questa directory verrà creata, se ancora non esiste, nel caso che i codici d'avvio <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span> vengano usati assieme.</p>
-
-							<p><span class="highlight-3">persist</span> usato sul filesystem FAT, (usato normalmente per installazioni dos/Windows 9x e trovato in via predefinita sui dispositivi a memoria flash come le chiavette usb), necessita della creazione di un grosso, singolo file da usare come loop device che sarà poi da formattare.</p>
-
-							<p><span class="highlight-3">Come sempre sidux raccomanda sempre l'uso di una partizione ext2 o ext3 per scrivere la iso, comunque anche vfat sulle chiavette USB è molto affidabile e garantisce una maggior compatibilità fra s.o. per il recupero dei dati quando è più necessario. Le riscritture sulle periferiche di tipo flash dipendono dalle specifiche della chiavetta USB.</span></p>
-
-							<p>Questo file potrebbe essere chiamato sidux-rw. Supponendo che il disco che si vuole usare sia montato e scrivibile in /media/sdb1 e si vuole creare un file di 1GB per usarlo come disco persistente, si devono usare i seguenti comandi (non necessario per root se si può scrivere sul file:</p>
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw
+persist
 </pre>
 
-							<p class="highlight-2">Le partizioni NTFS, comunemente usate per le installazioni di Windows NT/2000/XP (TM), NON POSSONO essere usate per la persistenza.</p>
+							<p>sidux utilizza aufs per abilitare quello che è conosciuto come "copy on write" sulla ISO per permettere di scrivere nuovi file e directory ed aggiornare quelli esistenti mantenendo i nuovi file in memoria. Con l'opzione <span class="highlight-3">persist</span>, i nuovi file verranno salvati nella stessa partizione che viene utilizzata per l'immagine ISO.</p>
+
+							<p><span class="highlight-3">fromiso</span> permette di ottenere un sistema live che ha le stesse caratteristiche automatiche del sidux live ISO. Si ottiene il beneficio di fare cose tipo configurare automaticamente l'hardware ma significa anche che verranno ricreati gli stessi file ogni volta che si avvia a meno di usare codici addizionali.</p>
+
+							<p>Utilizzando <span class="highlight-3">persist</span> insieme ad altre opzioni specifiche di sidux come noxorgconf, nonetwork, significa che non verranno ricreati gli stessi file ogni volta che si avvia.</p>
+
+							<p>Utilizzare persist significa anche che si possono installare pacchetti da apt ed avere l'applicazione ed ogni dato che si è salvato disponibile ed accessibile al prossimo riavvio.</p>
+
+				<h3>fromiso e persist su di una chiavetta USB</h3>
+							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno.</p>
+
+							<p>I file verranno immagazzinati in una sotto directory del drive. Questa viene creata se non esiste quando vengono usate insieme le opzioni <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span>.</p>
+
+							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
+
+							<p><span class="highlight-3">Nelle chiavette USB, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB.</span></p>
+
+					<h6>ext2/3 file system</h6>
+							<p>Con ext2/3 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
+
+					<h6>vfat file system</h6>
+							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">sidux-rw</span>. Assumiamo il fatto che il disco che si vuole utilizzare è montato e scrivibile e si trovi su /media/sdb1, si vuole creare un file di 1GB da utilizzare come drive persistente si possono utilizzare i seguenti comandi (non c'è necessità di essere root se si può scrivere il file):</p>
+
+<pre>
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux 
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
+</pre>
+
+
+							<p class="highlight-2">Partizioni NTFS, utilizzate di solito da installazioni Windows NT/2000/XP (TM), NON POSSONO essere utilizzate per la persistenza.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installazione completa di sidux su un dispositivo USB</h2>
+		<h2>Installare sidux su di una periferica USB</h2>
 
-							<p>Fare una vera installazione di sidux su una chiavetta USB o su un disco fisso USB è facile come una normale installazione su disco fisso. Seguire semplicemente queste linee guida.</p>
+							<p>Fare una installazione di sidux su di una chiavetta USB o su di un HardDisk USB è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
+
+				<h5>Due tipi di installazione su USB</h5>
+							<p>1) - fromiso (per creare una USB avviabile da un sistema installato, c'è bisogno di una sidux.iso)<br />
+							2) - full (l'installazione completa su USB HD/chiavetta si comporta come una normale installazione su hard disk ed è fatta attraverso il programma di installazione normale).</p>
+
+				<h3>Installazione USB fromiso</h3>
+							<p> <span class="highlight-3">Pre formattare la periferica con ext2 o fat32 prima di procedere.</span></p>
+
+							<p>L'installazione <span class="highlight-3">fromiso</span> viene fatta attraverso <span class="highlight-3">Kmenu > Sistema > install-sidux-usb-gui</span> su di un sistema installato su hard disk oppure cliccando su <span class="highlight-3">sidux Installer Icon </span> nella ISO live e scegliendo <span class="highlight-3">Install to USB</span>. È la scelta preferita per installare 'fromiso' nella prima partizione della chiavetta USB.</p>
+
+							<p>Viene data la possibilità di scegliere la lingua, il fuso orario ed altre opzioni d'avvio e se attivare oppure no persist tramite una checkbox.</p>
+
+							<p>Adesso si ha una chiavetta USB avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio, oppure mettendola nella linea #kopt= nel file menu.lst.</p>
 
 
+						<h6>Esempio da terminale:</h6>
+<pre>
+fll-iso2usb -D /dev/sdb /home/sidux/sidux.iso -p  \ -- toram lang=no tz=Pacific/Auckland
+</pre>
+							<p>Questo comando installa l'immagine ISO nella periferica USB <span class="highlight-3">sdb</span> con persist, toram, localizzazione per la lingua Norvegese e fuso orario di Pacific/Auckland (NZL) nella linea di default di grub.</p>
 
-				<h5>Ci sono due metodi per fare l'installazione su USB:</h5>
-							<p>1) - fromiso<br />
-							2) - full (l'installazione full su una chiavetta USB si comporta come una normale installazione su hard disk e viene fatta normalmente attraverso il programma di installazione)</p>
+							<p>La configurazione di X (scheda video, tastiera, mouse) oppure il file con le interfacce di rete non sono stati salvati, questo lo rende ideale per l'utilizzo in altri computer.</p>
 
-				<h3>Installazione fromiso su USB</h3>
-							<p>L'installazione <span class="highlight-3">fromiso</span> si realizza attraverso <span class="highlight-3">install-usb-gui.bash</span> ed è principalmente rivolta ad installare fromiso nella prima partizione di un hard disk e/o chiavetta USB.</p>
+							<p>Per una maggiore documentazione incluso le opzioni di personalizzazione vedere:</p>
 
-							<p> <span class="highlight-3">Prima di procedere formattare la periferica con ext2 o ext3 o fat32.</span></p>
-
-							<!--<p><b>Si hanno 2 scelte:</b><br />
-							<span class="highlight-3">No Format:</span> l'installazione viene fatta nella prima partizione senza perdita di dati.<br />
-							<span class="highlight-3">Format:</span> il disco viene cancellato, tutti i dati sono persi e viene creata una singola partizione con il filesystem scelto. I filesystem supportati sono: vfat, ext2, ext3.</p>-->
-
-							<p>È possibile mantenere la persistenza dei dati utilizzando l'intera partizione quando vengono scelti ext2 o FAT32. Quando viene utilizzato vfat, la persistenza si realizza attraverso un file di massimo 2GB e di non meno di 100MB (dato che sarebbe inutile).</p>
-
-							<p>Per avviare install-sidux-to-usb andare nel sottomenù System di Kmenu, oppure utilizzare il pulsante che si trova nella prima schermata del programma di installazione standard.</p>
-
-							<p>Per creare un dispositivo USB avviabile da un sistema installato si deve avere a disposizione una ISO sidux.</p>
+<pre>
+$ man fll-iso2usb
+</pre>
 
 
 			<h3>Installazione completa (si comporta come una normale installazione su hard disk)</h3>
 
 							<p>Dimensione minima della chiavetta USB:<br />
-							per una sidux "LITE" sono necessari 1.2giga OLTRE allo spazio per i dati,<br />
-							per una sidux "FULL" sono necessari 2.1giga OLTRE allo spazio per i dati</p>
+							per una sidux "LITE" sono necessari 1.7giga OLTRE allo spazio per i dati,<br />
+							per una sidux "FULL" sono necessari 3.5giga OLTRE allo spazio per i dati</p>
 
 							<p> <span class="highlight-3">Formattare prima la periferica con ext3 e partizionare l'HD USB oppure la chiavetta USB come per un comune PC.</span></p>
 
@@ -461,7 +483,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 03/03/2008 1050hrs UTC</div>
+	<div id="rev">Page last revised 27/03/2009 0315hrs UTC</div>
 
 </div>
 </body>

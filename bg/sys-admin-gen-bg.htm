@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - System Administration</title>
+	<title>sidux Manuals - Системно Администриране</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -190,171 +190,172 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="start-services">
-		<h2 id="top-header">Enabling services in sidux</h2>
+		<h2 id="top-header">Включване и изключване на услугите (фоновите програми, демоните) в sidux</h2>
 
-				<h3>insserv (Pontos 2008-04 and forward ): To start/stop already installed services:</h3>
-							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p> 
+				<h3>insserv (от версия Pontos 2008-04 нататък): За да включите/изключите вече инсталирана услуга:</h3>
+							<p><span class="highlight-2">Прочетете подробно <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, забележките и man-докуметацията:</span></p> 
 <pre>
  $ man insserv 
  $ man invoke-rc.d 
  $ man update-rc.d 
- google LSB headers
+ търсете в google за LSB headers
 </pre>
-							<p>All access to the init scripts by Debian packages’ maintainer scripts should be done through <span class="highlight-3">invoke-rc.d</span>.</p>
+							<p>Управлението на стартовите скриптове (init scripts) трябва да бъде извършвано винаги чрез командата <span class="highlight-3">invoke-rc.d</span>.</p>
 
-							<p>For 'start':</p>
+							<p>За стартиране, 'start':</p>
 <pre>
 invoke-rc.d &lt;service&gt; start
 </pre>
-							<p>For 'stop':</p>
+							<p>За спиране, 'stop':</p>
 <pre>
 invoke-rc.d &lt;service&gt; stop
 </pre>
-							<p>For 'restart:</p>
+							<p>За рестартиране, 'restart:</p>
 <pre>
 invoke-rc.d &lt;service&gt; restart
 </pre>
-							<p>To prevent services running at-startup</p>
+							<p>За да изключите услуга за постоянно, т.е. да не се включва при зареждането на системата</p>
 <pre>
 update-rc.d &lt;service&gt; remove
-[will remove all startup links]
+[ще премахне всички стартиращи симлинкове за съответните нива на работа]
 </pre>
-							<p>To make sure a service runs at boot [not always required]</p>
+							<p>За да се уверите, че услугата ще се включва при зареждането на системата [не винаги е необходимо]</p>
 <pre>
 update-rc.d &lt;service&gt; defaults
-[will make startup links]
+[ще направи стартиращите симлинкове в съответните нива на работа]
 </pre>
 
-					<h3>Older Installs (before Pontos 2008-04)</h3>
-						<h3>insserv on installed systems before Pontos 2008-04</h3>
+					<h3>По-стари инсталации (преди Pontos 2008-04)</h3>
+						<h3>insserv на инсталирани системи преди Pontos 2008-04</h3>
 
-							<p> <span class="highlight-2">Warning: Older installs will not get insserv automatically, due to users own initscripts or symlinks. It is NOT recommended to install insserv on installations prior to Pontos. This package should be used with care, as incorrect or missing LSB dependencies of existing initscripts can lead to an unbootable system. Installing insserv on an existing install may require some manual changes. </span></p>
+							<p> <span class="highlight-2">Предупреждение: По-старите инсталации при обновяване няма да получат insserv автоматично, тъй като евентуално може да имат собствени стартиращи скриптове или симлинкове които да влязат в конфликт с insserv. НЕ СЕ препоръчва инсталирането на insserv на системи преди Pontos. Пакетът трябва да бъде използван внимателно - тъй като неправилни или отсъстващи LSB-зависимости в съществуващите стартиращи скриптове, могат да доведат до система отказваща да се стартира. Инсталацията на insserv за съществуваща инсталация, може да се нуждае от някои ръчни промени. </span></p>
 
-							<p><span class="highlight-2">Read <a href="http://wiki.debian.org/LSBInitScripts/DependencyBasedBoot"> read the Debian documentation notes</a>, and release notes before installing and enabling insserv.</span></p>
+							<p><span class="highlight-2">Прочетете <a href="http://wiki.debian.org/LSBInitScripts/DependencyBasedBoot">  документацията на Debian</a>, и забележките към пакета, ппеди да инсталирате и включите insserv.</span></p>
 
-			<h2>Killing a service or process</h2>
-						<p><span class="highlight-3">pkill</span> is very useful as its human readable and can work in both user and root mode in the terminal or at tty</p>
+			<h2>Убиване (аварийно завършване) на услуга или процес</h2>
+						<p><span class="highlight-3">pkill</span> е удобна команда - тъй като работи както под root, така и под обикновен потребител. Чрез нея може да откривате процеси, и да им изпратите сигнал по име или други атрибути</p>
 <pre>
 pkill -n service
 </pre>
-						<p>If you are not sure of the correct spelling of the process or service you wish to kill <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> will provide a list </p>
+						<p>Ако не сте сигурни за името на процеса (или услугата) които искате да "убиете", <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> ще изведе списък с възможностите.</p>
 
-						<p>htop is also good a alternative. (killall -9 is your last alternative).</p>
+						<p>Също добра алтернатива е htop. (killall -9 използвайте само в краен случай).</p>
 
 	</div>
 	<div class="divider" id="init">
-			<h2>sidux runlevels - init</h2>
-							<p>This is the list for the sidux operating system runlevels, please note that it does differ from debian stable runlevels:</p>
+			<h2>sidux нива на работа (runlevels) - init</h2>
+							<p>Това е списък с функционалността на нивата на работа (runlevels) за операционната система sidux. Имайте предвид че те се отличават от нивата на работа на debian stable:</p>
 
 							<ul>
-								<li><span class="highlight-3">init 0 </span> powers off the PC</li>
-								<li><span class="highlight-3">init 1</span> single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode without network, and/or to stop or not enter X,  </li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode with network not running the X-windows system, and/or to stop or not enter X</li>
-								<li><span class="highlight-3">init 4 </span>to stop or not enter X</li>
-								<li><span class="highlight-3">init 5</span> Multi-User mode with network running the X-windows system, and/or to start X</li>
-								<li><span class="highlight-3">init 6 </span>reboot</li>
+								<li><span class="highlight-3">init 0 </span> изключва компютъра</li>
+								<li><span class="highlight-3">init 1</span> еднопотребителски режим</li>
+								<li><span class="highlight-3">init 2 </span>Многопотребителски режим без мрежа, без графична среда,  </li>
+								<li><span class="highlight-3">init 3 </span>Многопотребителски режим с мрежа, без графична среда</li>
+								<li><span class="highlight-3">init 4 </span>За да спрете или да не влизате в графичната среда</li>
+								<li><span class="highlight-3">init 5</span> Многопотребителски режим и с мрежа, и с графична среда</li>
+								<li><span class="highlight-3">init 6 </span>рестартиране</li>
 							</ul>
 	</div>
 	<div class="divider" id="pw-lost">
-		<h2>Lost root passwords</h2>
+		<h2>Забравена root парола</h2>
 
-							<p>You cannot recover the lost password but you can set a new one.</p>
+							<p>Забравена парола не може да се възстанови - но може да се зададе нова.</p>
 
-							<p>First boot from the Live-CD.</p>
+							<p>Първо, стартирайте от Live-CD-то.</p>
 
-							<p>As root mount your root partition (for example /dev/hdb2)</p>
+							<p>Като root, монтирайте вашия основен раздел (root partition) (например /dev/sdb2)</p>
 
 <pre>
-# mount /dev/hdb2
-Now chroot into your old root-Partition with
-# chroot /media/hdb2 passwd
-and set a new password:
+# mount /dev/sdb2
+Сега chroot-нете в стария ви основен раздел със
+# chroot /media/sdb2 passwd
+(chroot = changed root, сменяне на основния раздел на системата "в движение")
+и задайте нова парола.
 </pre>
 
 	</div>
 	<div class="divider" id="fonts">
-			<h2>Fonts in sidux</h2>
-				<h5>Correct dpi settings - Basic Philosophy</h5>
+			<h2>Шрифтове в sidux</h2>
+				<h5>Правилни dpi настройки</h5>
 
-							<p>DPI settings are problematic to guess, but are actually perfectly done by X, if DisplaySize provides physical screen dimensions in /etc/X11/xorg.conf "Monitor Section".</p>
+							<p>DPI параметрите са трудни за налучкване, но X ги изчислява перфектно когато чрез DisplaySize параметъра (в /etc/X11/xorg.conf "Monitor Section") са зададени физическите размери на екрана.</p>
 
-				<h5>Correct resolutions and refresh rates</h5>
+				<h5>Правилни разделителни способности (resolutions) и честоти на опресняване (refresh rates)</h5>
 
-							<p>Every monitor has its own perfect settings combination, but unfortunately not all of them report the right DCC values, and sometimes it is in need of a manual overwride.</p>
+							<p>Всеки монитор си има своите перфектни настройки, но за съжаление не всички предават към системата правилните DCC стойности, и понякога е нужна ръчна промяна.</p>
 
-				<h5>Correct graphics adapter drivers</h5>
+				<h5>Правилни драйвери за видеокартата</h5>
 
-							<p>Some newer ATI and Nvidia cards simply don't play well with the free Xorg drivers, and the only reasonable solution in such case are the commercial closed source drivers. sidux will not  pre-install those for legal reasons, <a href="hw-dev-hw-dri-en.htm"> The solutions can be found here. </a></p>
+							<p>Някои нови ATI и Nvidia видеокарти просто не работят добре със свободните Xorg драйвери, и единственото разумно решение в дадения случай е да се използват несвободните драйвери на производителите. Те не са включени в инсталацията на sidux по правни съображения, <a href="hw-dev-hw-dri-en.htm"> Решения са посочени тук. </a></p>
 
-				<h5>Default Font selections, rendering and sizes</h5>
+				<h5>Шрифтове и размери по подразбиране</h5>
 
-							<p>sidux uses (Debian) pre-selected free fonts which have proved to be very balanced, your own fonts selection can/may deteriorate the quality of rendering. But there are a few powerful options in Debian (apart from settings in kcontrol) that can help providing spotless rendering with other fonts as well. But please be aware that every font has just a few real perfect sizes, other sizes may not play well.</p>
+							<p>sidux използва свободните шрифтове (от Debian) които са добре балансирани; ваши собствени шрифтове могат евентуално да имат по-лошо качество на визуализация. Някои опции в Debian (извън настройките в Контролния Център kcontrol) могат да помогнат за визуализирането също и на външни шрифтове. Но имайте предвид, че всеки шрифт има само няколко наистина перфектни размера; останалите размери могат да не работят толкова добре.</p>
 
-							<p>Playing with the dpi size with the command may also be of assistance:</p>
+							<p>Промяната на dpi също може да е от полза, поиграйте си с различни стойности:</p>
 <pre>
 fix-dpi-kdm
 </pre>
-							<p>It should show the DPI for your screensize, but you can play with that as well.You will need to go to init 3 and back to init 5 to make it work or do a reboot.</p>
+							<p>Би трябвало да покаже и зададе DPI подходящо за размерите на екрана ви, но пробвайте и с други стойности. Трябва да превключите в init 3 и после обратно в init 5 (или да рестартирате) за да видите резултата от промяната.</p>
 
-							<p> After having changed font type or DPI (in X or Firefox/Iceweasel), you might need some readjustments to get results to your liking, especially. after a change from Bitmap Fonts to True Type Fonts or the other way round through:</p>		
+							<p> След настройката на шрифтовете и DPI (в X или Firefox/Iceweasel), може да донастроите в зависимост от предпочитанията, особено ако сте сменили от Bitmap на True Type шрифтове или обратно:</p>		
 <pre>
 dpkg-reconfigure fontconfig-config
 </pre>
-							<p>Choose native and autohinter on automatic. Otherwise play around with it.</p>
+							<p>Изберете native, и сложете autohinter на automatic. Или пробвайте другите варианти.</p>
 
-							<p>Should you need to rebuild your font cache:</p>
+							<p>Ако е нужно да възстановите кеша на шрифтовете:</p>
 <pre>
 fc-cache -f -vv
 </pre>
-							<p>If that does not work you might need to reinstall the package with a default config file of your fonts cache by:</p>
+							<p>Ако това не работи, може да трябва да преинсталирате пакета с настройки по подразбиране за кеша на шрифтовете:</p>
 
 <pre>
 apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::Options::=--force-confnew fontconfig fontconfig-config
 </pre>
 
-				<h5>GTK based applications like Firefox/Icewasel</h5>
-							<p>GTK-based apps in general are problematic with KDE defaults. This could be solved by this:</p>
+				<h5>GTK-базирани приложения като Firefox/Icewasel</h5>
+							<p>GTK-базираните приложения като цяло са проблематични с настройките на KDE по подразбиране. Това би могло да се оправи така:</p>
 <pre>
 apt-get install gtk2-engines gtk-qt-engine
 </pre>
-							<p>In the control center you will have a new gtk menu item, set it to use clearlooks and have the fonts set to use KDE fonts.</p>
+							<p>В Контролния Център ще имате ново меню за gtk, сложете го да ползва clearlooks и за шрифтовете да ползва шрифтовете на KDE.</p>
 
-							<p>In case of stability problems which occured in the past, but not since 2006 please remove or purge gtk-qt-engine, the settings are are kept in $HOME , and there are no dependencies which could be removed by it:</p>
+							<p>В случай на нестабилно поведение (това се случваше до 2006), деинсталирайте gtk-qt-engine:</p>
 
 <pre>
 apt-get remove gtk-qt-engine
-or
+или
 apt-get remove --purge gtk-qt-engine
 </pre>
 
-							<p>This MAY fix your font rendering in gtk apps</p>
+							<p>Това БИ МОГЛО да оправи визуализацията на шрифтовете в gtk-базираните приложения</p>
 
 	</div>
 	<div class="divider" id="cups">
-			<h2>CUPS</h2>
-							<p>KDE has a large section inbuilt in the KDE help, however dist-upgrades often can cause cups to misbehave, this is one known solution,:</p>
+			<h2>CUPS (принтери)</h2>
+							<p>KDE има голям раздел посветен на това в KDE help, но обновяването на системата често може да дестабилизира cups. Ако това се случи, едно възможно решение:</p>
 
 <pre>
 modprobe lp
 echo lp >> /etc/modules 
 apt-get remove --purge cupsys cups
 apt-get install cups 
-        OR
+        ИЛИ
 apt-get install cups cups-driver-gutenprint hplip
 </pre>
-							<p> Then in a web browser: </p>
+							<p> После в браузера: </p>
 <pre>
 http://localhost:631
 </pre>
-							<p>Make sure CUPS is running:</p>
+							<p>Уверете се че CUPS услугата е включена:</p>
 <pre>
 /etc/init.d/cups restart
 </pre>
 
-							<p>Another gotcha is when setting up cups via the GUI method, is that it brings up a dialog box asking for you to put in your password, however the dialog box has your user name, prefilled, so when you put in your user password, it does not work, What is really wants is for you to change the user name to <span class="highlight-2">root</span> and put in your <span class="highlight-2">root password</span>.</p>
+							<p>Друго недоразумение може да възникне когато настройвате принтерите през графичния интерфейс (в диалога който ви пита за парола и е със вашето потребителско име предварително попълнено) - ако въведете паролата си няма да работи - всъщност трябва да смените потребителското име от вашето на <span class="highlight-2">root</span>, и съответно да въведете <span class="highlight-2">паролата за root</span> вместо вашата.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">and there is more on the sidux forums.</a></p>
+							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Ще намерите и още съвети във форумите на sidux.</a></p>
 	</div>
 
 			<div id="rev">Content last revised 15/03/2008 2221 UTC  </div>

@@ -189,10 +189,49 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binary, closed source drivers for: Nvidia / ATI</h2>
+	<div class="divider" id="non-free">
+				<h2>Tips til hardware med non-free behov</h2>
+							<p class="highlight-3">Af juridiske årsager er der kun dfsg-free software på sidux-CD'en.</p>
 
-							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
+					<h5>Sources List</h5>
+
+							<p>Eftersom sidux kun indeholder dfsg-free software, kan det være at du vil tilføje contrib/ non-free til din  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> og sikre dig du har internet adgang:</p>
+<pre>
+# See sources.list(5) for more information, especially
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
+# entries in seperate files that end with sources.list file.
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
+	<div class="divider" id="non-free-3d">
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Open Source Xorg drivere til nVidia, ATI, Radeon, Intel</h2>
@@ -218,41 +257,24 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>For nogle kort kan dette understøtte 3D, men det er som regel kun 2D der understøttes.</p>
 
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p class="highlight-2">Som det næste skal du redigere /etc/X11/xorg.conf, MEN HUSK AT TAGE EN SIKKERHEDSKOPI AF FILEN FØRST, eftersom at fejl i redigeringen vil medføre en meget tidskrævende fejlsøgning.</p>
+							<p>For at redigere /etc/X11/xorg.conf kan du højreklikke den og vælge at åbne den med administrator-rettigheder. Find sektionen der hedder SECTION DEVICE, her skal du ændre 'display driver' så værdien bliver <span class="highlight-2">nv</span> ELLER <span class="highlight-2">ati</span>OR <span class="highlight-2">intel</span>.</p>
 
-							<p>For at redigere /etc/X11/xorg.conf kan du højreklikke den og vælge at åbne den med administrator-rettigheder. Find sektionen der hedder SECTION DEVICE, her skal du ændre 'display driver' så værdien bliver <span class="highlight-2">nv</span> ELLER <span class="highlight-2">ati</span></p>
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
 
-							<p class="highlight-2">ADVARSEL!! ÆNDRINGER I XORG.CONF ER PÅ EGEN ANSVAR!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
 
 							<p>Mere information om <a href="http://xorg.freedesktop.org">X.Org</a></p>
-
-
+							
 	</div>
-	<div class="divider" id="non-free">
-				<h2>Tips til hardware med non-free behov</h2>
-							<p class="highlight-3">Af juridiske årsager er der kun dfsg-free software på sidux-CD'en.</p>
-
-					<h5>Sources List</h5>
-
-							<p>Eftersom sidux kun indeholder dfsg-free software, kan det være at du vil tilføje contrib/ non-free til din  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> og sikre dig du har internet adgang:</p>
-<pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in seperate files that end with sources.list file.
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-				<h5>Firmware</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -483,7 +505,7 @@ exit
 							<p>Nu skulle dit NTFS-drev være mounted <b>rw</b> og du skulle være i stand til at gemme data til drevet. Men igen en advarsel! Det er <span class="highlight-2">experimentiel software!</span></p>
 
 		
-	<div id="rev">Page last revised 17/02/2009 0100 UTC </div>
+	<div id="rev">Page last revised 20/04/2009 1130 UTC </div>
 
 </div>
 </div>

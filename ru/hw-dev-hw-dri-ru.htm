@@ -41,7 +41,7 @@
 				<li><a href="wel-quickstart-ru.htm#welcome-quick">Краткое руководство sidux</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-ru.htm">ISO Releases, Download Mirrors and Burning</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-ru.htm">ISO-образы, зеркалa и запись</a>
 			<ul class="sub-menu" id="sm2">
 				<li><a href="cd-content-ru.htm#cd-content">Системые требования</a></li>
 				<li><a href="sys-admin-release-ru.htm#rolling">Замечания</a></li>
@@ -150,7 +150,7 @@
 				<li><a href="internet-connecting-ru.htm#netcardconfig">Подключение - Ceni</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Обновление систем и  упрабление пакетами</a>
+		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Обновление системы и  упрабление пакетами</a>
 			<ul class="sub-menu" id="sm12">
 				<li><a href="sys-admin-apt-ru.htm#apt-cook">APT и репозитории</a></li>
 				<li><a href="sys-admin-meta-ru.htm#meta-pack">Мета-пакеты</a></li>
@@ -189,44 +189,6 @@
 	</ul>
 	<!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Двоичные драйвера для ATI и Nvidia</h2>
-
-							<p> <span class="highlight-3">Перед установке собственнических драйверов читайте документацию производителя видеокарты.</span></p>
-	</div>
-		<div class="divider" id="native-nv-ati">
-			<h2>Свободные драйвера Xorg для Nvidia, ATI, Radeon и Intel</h2>
-
-							<p>Свободные драйвера для Nvidia, ATI, Radeon, Intel от xorg установлены автоматически при инсталляции sidux. </p>
-
-							<p>Драйвера X-Сервера, предоставляемые X.Org (смотри xserver-xorg для более подробной информации) обеспечивают поддержку 2D для следующих карт: NVIDIA Riva-, TNT-, GeForce- и Quadro-карт, Rage-, Radeon- а также карт серии FireGL ATI, включая 'r128' и 'radeon'. Для Intel включена поддержка 3D.</p>
-
-							<p>Для установки:</p>
-<pre>
-выйти из KDE одновременным нажатием Ctrl+Alt+F1 в текстовую консоль и зарегестрироваться в системе суперпользователем root
-выполнить команду "init 3"
-(приводящую к остановке X-сервера)
-apt-get update
-apt-get install xserver-xorg-video-nv
-или
-apt-get install xserver-xorg-video-ati
-или
-xserver-xorg-video-intel
-init 5 &amp;&amp; exit
-</pre>
-							<p>Для некоторых карт можно добавить поддержку 3D, однако, часто 2D - максимум.</p>
-
-							<p>Теперь необходимо отредактировать <span class="highlight-3">/etc/X11/xorg.conf</span>. Предварительно создайте резервную копию, иначе <span class="highlight-2">сохранение ошибочно отредактированного <span class="highlight-3">/etc/X11/xorg.conf</span> может принести много проблем и потребовать много времени на исправление.</span></p>
-
-							<p>Откройте для редактирования <span class="highlight-3">/etc/X11/xorg.conf</span> &nbsp;с правами root, посредством&nbsp;щелчка мыши. В разделе <span class="highlight-1">SECTION DEVICE</span> изменить драйвер дисплея на <span class="highlight-2">nv</span> или <span class="highlight-2">ati</span>.</p>
-
-							<p class="highlight-2">Осуществление данных действий связано с определенным риском!</p>
-
-							<p>Более подробно о возможностях можно почитать тут: <a href= "http://xorg.freedesktop.org">X.org</a>.</p>
-					</li>
-		</ol>
-
-	</div>
 	<div class="divider" id="non-free">
 				<h2>Указания к аппаратным средствам, которые нуждаются в проприетарных модулях</h2>
 							<p class="highlight-3">В соответствиии с нормами права применительно лицензионного програмного обеспечения на sidux live-cd включает только ПО совместимое с dfsg-free.</p>
@@ -249,8 +211,67 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
+	</div>
+	<div class="divider" id="non-free-3d">
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
+		</div>
+		<div class="divider" id="native-nv-ati">
+			<h2>Свободные драйвера Xorg для Nvidia, ATI, Radeon и Intel</h2>
 
-				<h5>Микропрограммное обеспечение</h5>
+							<p>Свободные драйвера для Nvidia, ATI, Radeon, Intel от xorg установлены автоматически при инсталляции sidux. </p>
+
+							<p>Драйвера X-Сервера, предоставляемые X.Org (смотри xserver-xorg для более подробной информации) обеспечивают поддержку 2D для следующих карт: NVIDIA Riva-, TNT-, GeForce- и Quadro-карт, Rage-, Radeon- а также карт серии FireGL ATI, включая 'r128' и 'radeon'. Для Intel включена поддержка 3D.</p>
+
+							<p>Для установки:</p>
+<pre>
+выйти из KDE одновременным нажатием Ctrl+Alt+F1 в текстовую консоль и зарегестрироваться в системе суперпользователем root
+выполнить команду "init 3"
+(приводящую к остановке X-сервера)
+apt-get update
+apt-get install xserver-xorg-video-nv
+или
+apt-get install xserver-xorg-video-ati
+или
+xserver-xorg-video-intel
+init 5 &amp;&amp; exit
+</pre>
+							<p>Для некоторых карт можно добавить поддержку 3D, однако, часто 2D - максимум.</p>
+
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+
+							<p>Откройте для редактирования <span class="highlight-3">/etc/X11/xorg.conf</span> &nbsp;с правами root, посредством&nbsp;щелчка мыши. В разделе <span class="highlight-1">SECTION DEVICE</span> изменить драйвер дисплея на <span class="highlight-2">nv</span> или <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
+
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
+
+							<p>Более подробно о возможностях можно почитать тут: <a href= "http://xorg.freedesktop.org">X.org</a>.</p>
+
+	</div>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 				
 							<p>Необходимое микропрограммное обеспечение можно определять с помощью следующего списка устройств/микропрограммного обеспечения или с скриптом fw-detect, который находится в пакете sidux-scripts).</p>
 <pre>
@@ -483,7 +504,7 @@ exit #команда для выхода из консоли
 							<p>И еще раз наше предупреждение: <i>Этот метод действия упомянут исключительно для ситуаций, в которых нет никаких других альтернативных решений. Для ежедневного использования этот метод действий не рекомендуется!</i></p>
 </div>
 		
-		<div id="rev">Содержание, последнее пересмотрено 17/02/2009 0100 UTC </div>
+		<div id="rev">Содержание, последнее пересмотрено 20/04/2009 1130 UTC </div>
 </div>
 </div>
 </body>

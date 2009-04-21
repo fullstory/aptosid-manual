@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Di 17. Feb 13:50:23 CET 2009 -->
+<!-- Last translation revision hubi Mo 20. Apr 16:47:25 CEST 2009 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -189,12 +189,44 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+		<div class="divider" id="non-free">
+			<h2>Tipps zu Hardware, die unfreie Treiber benötigt</h2>
+							<p class="highlight-3">Auf Grund der schwierigen Rechtslage liefert sidux auf der Live-CD nur DFSG-freie Software aus.</p>
+
+					<h5>Erweiterung der Liste der Debian-Quellen</h5>
+
+							<p>Daher könnte es vom Anwender gewünscht sein, contrib/non-free in den Dateien  <span class="highlight-3">/etc/apt/sources.list.d/debian.list und /etc/apt/sources.list.d/sidux.list</span> oder <span class="highlight-3">/etc/apt/sources.list</span> hinzuzufügen:</p>
+<pre>
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+
+	</div>
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binäre Treiber für Nvidia bzw. ATI</h2>
-
-							<p> <span class="highlight-3">Für proprietäre Treiber ziehen Sie bitte die Dokumenatation des Grafikkartenherstellers zu Rate.</span></p>
-
-
+		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms</h2>
+							<p>Vorbereitung des Moduls:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Im Anschluss daran wird der "Dynamic Module-Assistant Kernel Module Support (dmakms)" für Nvidia aktiviert, sodass bei der nächsten Kernelaktualisierung auch das Nvidia-Modul ohne Intervention vorbereitet wird. Um dies zu gewährleisten, fügt man 'nvidia-kernel-source' in die Konfigurationsdatei <span class="highlight-3">/etc/default/dmakms </span> ein und führt diesen Befehl aus:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Danach ändert man xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Der PC muss neu gestartet werden, damit die Modulinstallation vollendet wird.</p>
+						      <p>Weitere Information findet man im Verzeichnis</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Open Source Xorg-Treiber für nVidia, ATI, Radeon, Intel</h2>
@@ -219,34 +251,23 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>Üblich ist 2D-Unterstützung, für manche Grafikkarten existiert 3D-Unterstützung.</p>
 
-							<p>Nun muss die Datei <span class="highlight-3">/etc/X11/xorg.conf</span> bearbeitet werden. Zuvor sollte eine Sicherungskopie erstellt werden. <span class="highlight-2">Fehlerhaftes Bearbeiten der Datei <span class="highlight-3">/etc/X11/xorg.conf</span> kann dazu führen, dass der Grafikserver X nicht mehr startet. Eine Fehlersuche kann sich dabei sehr zeitaufwändig gestalten</span>.</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p>Um <span class="highlight-3">/etc/X11/xorg.conf</span> zu bearbeiten, muss sie mit Rootrechten geöffnet werden. Im Abschnitt <span class="highlight-1">Section "Device"</span> wird der Treiber in der Zeile "Driver" abgeändert auf <span class="highlight-2">nv</span> ODER <span class="highlight-2">ati</span>.</p>
+							<p>Um <span class="highlight-3">/etc/X11/xorg.conf</span> zu bearbeiten, muss sie mit Rootrechten geöffnet werden. Im Abschnitt <span class="highlight-1">Section "Device"</span> wird der Treiber in der Zeile "Driver" abgeändert auf <span class="highlight-2">nv</span> ODER <span class="highlight-2">ati</span> ODER <span class="highlight-2">intel</span>..</p>
 
 							<p class="highlight-2">Ein Bearbeiten der Datei xorg.conf geschieht auf eigenes Risiko!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
 
 							<p>Mehr Informationen finden sich auf der Seite von <a href= "http://xorg.freedesktop.org">X.Org</a>.</p>
 
-
 		</div>
-		<div class="divider" id="non-free">
-			<h2>Tipps zu Hardware, die unfreie Treiber benötigt</h2>
-							<p class="highlight-3">Auf Grund der schwierigen Rechtslage liefert sidux auf der Live-CD nur DFSG-freie Software aus.</p>
-
-					<h5>Erweiterung der Liste der Debian-Quellen</h5>
-
-							<p>Daher könnte es vom Anwender gewünscht sein, contrib/non-free in den Dateien  <span class="highlight-3">/etc/apt/sources.list.d/debian.list und /etc/apt/sources.list.d/sidux.list</span> oder <span class="highlight-3">/etc/apt/sources.list</span> hinzuzufügen:</p>
-<pre>
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-				<h5>Firmware</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>Die benötigte Firmware kann mit Hilfe der folgenden Geräte/Firmware-Liste oder mit dem neu entwickelten Skript fw-detect bestimmt werden. fw-detect befindet sich im Paket sidux-scripts.</p>
 <pre>
 $ fw-detect
@@ -479,7 +500,7 @@ exit  ## mit diesem Befehl wird die Konsole verlassen
 							Aber noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 17/02/2009 0100 UTC</div>
+	<div id="rev">Page last revised 20/04/2009 1130 UTC</div>
 
 </div>
 </body>

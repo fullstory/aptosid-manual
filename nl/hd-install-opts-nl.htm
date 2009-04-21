@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by HarzG 05/10/2008 1930-->
+<!-- Last translation revision by HarzG 06/04/2009 1845 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by HarzG 2009.03.21 1045 hrs UTC -->
@@ -200,7 +200,7 @@
 
 				<h6>Benodigdheden:</h6>
 
-		   					<p>* een functionerende grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
+		   					<p>* een functionerende Grub (op een diskette, een HD-Installatie of van een Live-CD)<br />
 							* een sidux ISO bestand bijv.: sidux.iso en een Linux bestandssysteem zoals ext2/3 <br />
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 
@@ -222,49 +222,49 @@ cp /mnt/test/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/test/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Hierna moet grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in grub voor bestandsnamen toegestaan! </span></p> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
+							<p>Hierna moet Grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in Grub voor bestandsnamen toegestaan! </span></p> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>Na de volgende boot heb je een nieuw menu item in grub om de iso image te starten. Omdat alle bestandsnamen werden ingekort (geen cijfers achter sidux.iso, vmlinuz en initrd.img), kan in grub de menu.lst voortaan ongewijzigd blijven.</p>
+							<p>Na de volgende boot heb je een nieuw menu item in Grub om de iso image te starten. Omdat alle bestandsnamen werden ingekort (geen cijfers achter sidux.iso, vmlinuz en initrd.img), kan in Grub de menu.lst voortaan ongewijzigd blijven.</p>
 
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>General information on fromiso with persist</h2>
+		<h2>Algemene informatie over fromiso met persist</h2>
 
-				<h3>fromiso and persist on a HD</h3>
+				<h3>fromiso en persist op een HD</h3>
 
-							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
+							<p>Je kan een persistent (blijvend) live systeem op een beschrijfbare disc in combinatie met een fromiso setup gebruiken met de persist cheatcode. Aan het einde van de Grub-bootregel voeg je toe:</p>
 
 <pre>
 persist
 </pre>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
+							<p>sidux gebruikt aufs om de modus "copy on write" in te schakelen voor je ISO. Hierdoor kunnen nieuwe bestanden en mappen aangemaakt worden en bestaande bestanden/mappen bewerkt worden omdat die in het geheugen worden bewaard. De <span class="highlight-3">persist</span> cheatcode bewaard de nieuwe/gewijzigde bestanden in dezelfde partitie waar ook je fromiso ISO image staat.</p>
 
-							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
+							<p><span class="highlight-3">fromiso</span> biedt je een  live systeem dat alle automatische mogelijkheden heeft net als de sidux live-CD. Hierdoor wordt de hardware automatisch geconfigureerd maar het betekent ook dat telkens dezelfde ongewijzigde bestanden bij elke boot worden getoond - tenzij je gebruikt een aanvullend boot-commando.</p> 
 
-							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
+							<p>Met <span class="highlight-3">persist</span> en andere specifieke sidux cheatcodes zoals noxorgconf, nonetwork, kan een veranderde situatie worden bewaard.</p>
 
-							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
+							<p>Door persist te gebruiken kunnen pakketten met apt geïnstalleerd worden. Deze wijzigingen in de applicaties en de data zijn dan opnieuw beschikbaar bij de volgende boot.</p>
 
-				<h3>fromiso and persist on a bootable USB Key</h3>
-							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+				<h3>fromiso en persist met een bootable USB Key</h3>
+							<p>Het misschien ideale gebruik van persistence is met de install-usb-gui tool waarmee je eigen bootable flash drive gemaakt kan worden met eigen data en de benodigde software.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>De eigen data worden in een submap op je USB-drive bewaard. Als deze submap nog niet bestaat, wordt deze automatisch aangemaakt zodra je beide cheatcodes <span class="highlight-3">fromiso </span> en <span class="highlight-3">persist</span> gebruikt. </p>
 
-							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p><span class="highlight-3">persist</span> op een FAT bestandssysteem, zoals die in DOS/Windows 9x omgevingen en ook bij flash devices zijn toegepast, vereist dat je een groot bestand aanmaakt dat als een loop device werkt. Dat bestand moet geformatteerd worden.</p>
 
-							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">Op USB sticks worden ext2 en vfat als bestandssysteme aanbevolen omdat met beiden  waarschijnlijk een betere cross platform beschikbaarheid voor een backup en herstel van data mogelijk is. Een MS Windows&#8482; driver voor etx2 is beschikbaar om de data te kunnen benaderen. Let ook op de specificaties van de USB stick inzake de herschrijfbaarheid (gegarandeerde levensduur/herschrijfbaarheid).</span></p>
 
-					<h6>ext2/3 file systems</h6>
-							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+					<h6>ext2/3 bestandssystemen</h6>
+							<p>Met ext2/3 wordt de hele partitie gebruikt. De actuele root partitie wordt in combinatie met een map /fll gebruikt (die wordt op de stick aangemaakt). In de /fll worden alle data van/voor persist modus bewaard.</p>
 
-					<h6>vfat file system</h6>
-							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+					<h6>vfat bestandssysteem</h6>
+							<p>Als vfat wordt gebruikt, wordt een bestand voor persistance aangemaakt dat maximaal 2GB groot mag zijn maar niet kleiner dan 100MB (anders heeft het geen zin). Dat bestand wordt <span class="highlight-3">sidux-rw</span> genoemd. Als de disk/stick die je wilt gebruiken gemounted en beschrijfbaar is als /media/sdb1 en je wilt een 1GB groot bestand aanmaken voor de persistent drive, dan kan je de volgende commando's gebruiken (het is niet nodig om root te zijn om dat bestand aan te maken).</p>
 
 <pre>
 disc="/media/sdb1" 
@@ -274,37 +274,39 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 </pre>
 
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">NTFS partities, die in Windows NT/2000/XP (TM) installaties voorkomen, kunnen NIET gebruikt worden voor persistence.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installation of sidux on a USB-device</h2>
+		<h2>Installatie van sidux op een USB-stick/device</h2>
 
-							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+							<p>De installatie van sidux op een USB-stick of op een  USB-HD is niet moeilijker als een normale HD-installatie. Voer hiervoor de onderstaande stappen uit.</p>
 
-				<h5>Two kinds of installation to USB</h5> 
-							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
-							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
+				<h5>Twee soorten van installaties op USB</h5> 
+							<p>1) - fromiso (om een bootable USB te maken is een sidux.iso nodig)<br />
+							2) - volledig (de volledige installatie naar een USB HD/stick verloopt net zo als een HD installatie met de normale installer).</p>
 
-				<h3>USB fromiso Installation</h3>
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+				<h3>USB fromiso installatie</h3>
+							<p> <span class="highlight-3">Formatteer vooraf de USB-device/stick met ext2 of fat32.</span></p>
 
-							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
+							<p>Als de 'install-sidux-usb-gui' niet beschikbaar is, dan kan dat met 'apt-get install fll-iso2usb' geïnstalleerd worden.</p>
 
-							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
+							<p>De <span class="highlight-3">fromiso</span> installatie kan uitgevoerd worden via <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> op een geïnstalleerd system. Met de live-CD kan je klikken op  <span class="highlight-3">sidux Installer </span> op je desktop en dan kan je <span class="highlight-3">Install to USB</span> kiezen. Meestal wordt dan 'fromiso' in de eerste partitie van de USB stick geïnstalleerd.</p>
 
-							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
+							<p>In de aangeboden stappen kan je je voorkeuren zoals de taal, tijdzone en andere opties vastleggen en hierna persist activeren door daar een haakje te plaatsen.</p>
+
+							<p>Hierdoor verkrijg je een bootable USB stick. Als je dat haakje vergeten bent, kan je dat achteraf nog herstellen. Het kan door de (tijdelijke) toevoeging van <span class="highlight-3">persist</span> in de regel van je Grub scherm. De andere (permanente) manier is het toevoegen van persist in de #kopt= regel in het bestand menu.lst.</p>
 
 
-						<h6>Terminal example:</h6>
+						<h6>Terminal voorbeeld:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb /home/sidux/sidux.iso -p  \ -- toram lang=no tz=Pacific/Auckland
+fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
 </pre>
-							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
+							<p>Hiermee wordt een ISO image op een USB device <span class="highlight-3">sdb</span> geïnstalleerd met persist, toram, Noorse taal en Pacific/Auckland (NZL) tijdzone in de standaard Grub bootregel.</p>
 
-							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
+							<p>Je configuratie voor X (videokaart, toetsenbord, muis) en de netwerkkaart worden niet permanent bewaard. Hierdoor kan de USB-stick ook op andere computers gebruikt worden.</p>
 
-							<p>For more documentation including customisation options see:</p>
+							<p>Voor meer informatie en nog meer opties kan de handleiding geraadpleegd worden:</p>
 
 <pre>
 $ man fll-iso2usb
@@ -319,7 +321,7 @@ $ man fll-iso2usb
 
 							<p> <span class="highlight-3">Deel je USB-HD of USB-Stick op in partities en formateer ze in ext3 bestandssysteem zoals je ook zou doen bij een standaard PC.</span></p>
 
-							<p>Start de installatie van de Live-ISO en kies de partitie op de USB-device, waar je sidux op wilt installeren, Bijvooorbeeld <span class="highlight-3">sdbX </span>en volg de instructies van de sidux installatieprogramma. Lees <a href="hd-install-nl.htm#Installation">Installing to your HD</a></p>
+							<p>Start de installatie van de Live-ISO en kies de partitie op de USB-device, waar je sidux op wilt installeren, Bijvooorbeeld <span class="highlight-3">sdbX </span>en volg de instructies van de sidux installatieprogramma. Lees <a href="hd-install-nl.htm#Installation">Installeren naar je HD</a>.</p>
 
 							<p><span class="highlight-3">Om op te starten van je USB-HD of USB-Stick. 'Boot from USB' moet ingeschakeld zijn in je BIOS.</span></p>
 
@@ -480,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 31/03/2009 1220hrs UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 05/04/2009 0050hrs UTC</div>
 </div>
 </body>
 </html>

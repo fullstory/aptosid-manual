@@ -189,11 +189,50 @@
 	</ul>
 <!-- menu ends here --></div>
 <div id="main-page">
+		<div class="divider" id="non-free">
+			<h2>Indications à propos des matériels nécessitant un support non-libre</h2>
+
+							<p class="highlight-3">Du fait de complexités juridiques, le live-cd sidux n'est fourni qu'avec des outils entièrement libres.</p>
+
+					<h5>Sources List</h5>
+
+							<p>De ce fait, vous souhaiterez probablement ajoûter les sources contrib/ non-free à votre fichier  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> et vous configurer un accès à Internet:</p>
+<pre>
+# See sources.list(5) for more information, especially
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
+# entries in separate files that end with sources.list file.
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Pilotes binaires propriétaires: Nvidia / ATI</h2>
-
-							<p> <span class="highlight-3">Pour les pilotes propriétaires (non libres) lire la documentation du fabricant de la carte graphique.</span></p>
-
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Pilotes libres Xorg pour nVidia, ATI, Radeon, Intel</h2>
@@ -218,253 +257,21 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>Quelques cartes graphiques ont d'office le support 3D, cependant dans la généralité des cas c'est la 2D.</p>
 
-							<p class="highlight-2">Il vous faut ensuite éditer votre fichier /etc/X11/xorg.conf, APRÈS TOUTEFOIS AVOIR PRIS LA PRÉCAUTION D'EN FAIRE UNE SAUVEGARDE, car l'édition incorrecte de /etc/X11/xorg.conf peut vous causer de gros, gros soucis.</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p>Pour éditer /etc/X11/xorg.conf, vous devez être root. Trouvez-y la section intitulée <b>Section "Device"</b>, et changez-y le pilote graphique à la ligne <b>Driver</b> par <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span></p>   
+							<p>Pour éditer /etc/X11/xorg.conf, vous devez être root. Trouvez-y la section intitulée <b>Section "Device"</b>, et changez-y le pilote graphique à la ligne <b>Driver</b> par <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
 
-							<p class="highlight-2">VOUS ÊTES PRÉVENUS ! L'ÉDITION DE XORG.CONF PRÉSENTE DES RISQUES ! C'EST À VOUS ET À VOUS SEUL DE LES ASSUMER !</p>
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
 
 							<p><a href= "http://xorg.freedesktop.org">Plus d'informations sur X.Org ici</a></p>
-					</li>
-				</ol>
 
-		</div>
-		<div class="divider" id="non-free">
-			<h2>Indications à propos des matériels nécessitant un support non-libre</h2>
-
-							<p class="highlight-3">Du fait de complexités juridiques, le live-cd sidux n'est fourni qu'avec des outils entièrement libres.</p>
-
-					<h5>Sources List</h5>
-
-							<p>De ce fait, vous souhaiterez probablement ajoûter les sources contrib/ non-free à votre fichier  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> et vous configurer un accès à Internet:</p>
-<pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-<!--- ####
-				<h5>Firmware</h5>
-							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
-<pre>
-$ fw-detect
-</pre>
-							<p> <span class="highlight-3">It is good practice to do a modprobe -r &lt;modulename&gt; before  modprobe &lt;modulename&gt;, especially for intel</span>.</p>
-
-				<ul>
-					<li>
-						Atari DSP56k support:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/dsp56k/</span>.
-					</li>
-
-					<li>
-						Atmel AT76c50x 11 MBit/s wlan:<br />
-<pre>
-apt-get install atmel-firmware
-</pre>
-					</li>
-
-					<li>
-						Broadcom, b43/ b43legacy wlan:<br />
-						While this shouldn't be required for most 802.11b/g wlan cards anymore, the proprietary firmware gets preferred by b43, in case it is installed.
-<pre>
-apt-get install b43-fwcutter
-</pre>
-					</li>
-
-					<li>
-						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
-<pre>
-apt-get install bluez-firmware
-</pre>
-					</li>
-
-					<li>
-						Cameras based on Vision's CPiA2:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/cpia2/</span>.
-					</li>
-
-					<li>
-						Computone IntelliPort Plus serial device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under<span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						Digital Audio Broadcasting (DAB) Receiver for USB and Linux:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/dabusb/</span>.
-					</li>
-
-					<li>
-						Eagle USB ADSL modem:<br />
-						fetch the firmware from <a href="http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						EMI 2|6 USB Audio interface:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/emi26/</span>.
-					</li>
-
-					<li>
-						EMI 6|2m USB Audio interface:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/emi62/</span>.
-					</li>
-
-					<li>
-						ESS Allegro Maestro3 audio device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ess;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/ess/</span>.
-					</li>
-
-					<li>
-						DVB firmware for various full featured DVB TV cards (most budget cards won't need this):<br />
-						fetch the needed firmware (check dmesg) from <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						IVTV firmware:<br />
-						fetch the firmware from <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/firmware/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) wlan:<br />
-<pre>
-apt-get install firmware-ipw2x00
-</pre>
-
-						<i>Remove ipw2100-firmware and ipw2200-firmware, if already installed.</i>
-					</li>
-
-					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						As at 2009-02-14, firmware-iwlwifi does not cover ipw5xxx yet, fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
-						fetch the firmware from <a href="http://jbnote.free.fr/prism54usb/">http://jbnote.free.fr/prism54usb/</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						Korg 1212 IO audio device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/korg/</span>.
-					</li>
-
-					<li>
-						RaLink rt61 and rt73 54 MBit/s wlan:<br />
-<pre>
-apt-get install firmware-ralink
-</pre>
-					</li>
-					<li>
-						SMC ISA/MCA Token Ring adapter:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						Sound Blaster 16/AWE CSP support:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sb16;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/sb16/</span>.
-					</li>
-					<li>
-						SUN Cassini:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sun;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/sun/</span>.
-					</li>
-
-					<li>
-						Technotrend/Hauppauge Nova-USB devices:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/ttusb-budget/</span>.
-					</li>
-
-					<li>
-						Texas Instruments ACX100 (22 Mbit/s)/ ACX111 (54 MBit/s) wlan:
-<pre>
-m-a a-i acx100
-</pre>
-
-						and fetch the firmware from <a href="http://www.kazer.org/acx-firmware-20060207.tar.bz2">http://www.kazer.org/acx-firmware-20060207.tar.bz2</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						USB 3com HomeConnect (aka vicam):<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/vicam/</span>.
-					</li>
-
-					<li>
-						USB ConnectTech WhiteHEAT serial device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						USB Inside Out Edgeport Serial Driver:<br />
-
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/edgeport/</span>.
-					</li>
-
-					<li>
-						USB Keyspan USA-xxx serial device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/keyspan/</span>.
-					</li>
-
-					<li>
-						USB Keyspan PDA single-port serial device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/keyspan_pda/</span>.
-					</li>
-
-					<li>
-						USB KLSI KL5USB101-based Ethernet device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/kaweth/</span>.
-					</li>
-
-					<li>
-						USB TI 3410/5052 serial device:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3"> /lib/firmware/</span>.
-					</li>
-
-					<li>
-						Yamaha YMF724/740/744/754 audio devices:<br />
-
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=yamaha;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3"> /lib/firmware/yamaha/</span>.
-					</li>
-
-					<li>
-						ZyDAS zd1201 11 MBit/s wlan:<br />
-						fetch the firmware from <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-					<li>
-						ZyDAS zd1211 54 MBit/s wlan:<br />
-<pre>
-apt-get install zd1211-firmware
-</pre>
-					</li>
-#### -->
-				<h5>Firmware</h5>
+	</div>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>Le firmware requis peut être déterminé par le peripherique suivant / firmware enumeration ou en utilisant le tout nouveau script fw-detect (contenu dans sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -695,7 +502,7 @@ Pour sortir de la console entrez : exit
 							<p>Dès lors votre volume NTFS peut être monté <b>rw</b> (read and write) et vous devriez être en mesure d'y écrire des données. Mais encore une fois, soyez prudent ! <span class="highlight-3">Usez-en dans les situations d'urgence ; cette méthode n'est pas recommandée pour un usage permanent quotidien.</span></p>
 
 		</div>	
-	<div id="rev">Dernière actualisation le 17/02/2009 0100 UTC </div>
+	<div id="rev">Dernière actualisation le 20/04/2009 1130 UTC </div>
 
 </div>
 </body>

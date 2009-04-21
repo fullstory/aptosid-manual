@@ -241,21 +241,65 @@ ls /sys/module/
 sau
 cat /proc/modules
 </pre>
+	</div>
+		<div class="divider" id="dmakms">
+			<h2>Installing modules with Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
-							<p class="highlight-4">IMPORTANT: Daca aveti nevoie de anumite module drivere, e.g. pentru wlan, trebuie saa instalati pachetele corecte .deb pentru ele. Ca exemplu, pentru Agere adaptorul et131x pentru ethernet : </p>
+							<p>dmakms is useful to install kernel modules that are not premade for the sidux kernel and is designed to automate the installation of kernel modules with module-assistant <span class="highlight-3">(m-a)</span> when upgrading or installing new Linux kernels.</p>
+							
 <pre>
-apt-get install et131x-modules-*
+apt-get install dmakms module-assistant
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span>este folosit numai daca aveti deja debs locali, dar chiar si atunci , daca sunt in the apt-cache, <span class="highlight-3">apt-get</span> este o optiune mai buna.</p>
+							<p>Before activating Dynamic Module-Assistant Kernel Module Support, first use module-assistant to install the desired kernel module(s) for the currently running Linux kernel. For more information on module-assistant please read its manual page:</p> 
+<pre>
+man m-a
+</pre>
 
-							<p>See also<a href="internet-connecting-ro.htm#netcardconfig"> Getting on with Ceni</a> si <a href="internet-connecting-wpa-ro.htm#wpa-basic"> pentru WIFI</a></p>
+							<p>The name of the module-assistant compatible package then needs to be added to <span class="highlight-3">/etc/default/dmakms</span>, so that the process of preparing and installing the same module(s) for each new Linux kernel can be automated.</p>
 
-				<h4>Alte metode de instalare de kernel</h4>
+				<h4>Example: Installing <span class="highlight-3">speakup module</span> with module-assistant</h4>
+							<p>Ensure that your sources list has <span class="highlight-3">contrib non-free</span> added in your sources line in: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
+<pre>
+apt-cache search speakup-s
+speakup-source - Source of the speakup kernel modules
+</pre>
+
+							<p>Then prepare the module:</p>
+<pre>
+m-a prepare
+m-a a-i speakup-source
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support for speakup, so that the next time the Linux kernel is updated a speakup module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">speakup-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+<pre>
+mcedit /etc/default/dmakms
+speakup-source
+</pre>
+
+							<p>Repeat the same process for any other module-assistant compatible kernel module package.</p>
+
+							<p>A linux-headers package must be installed for every linux-image package for module-assistant to compile kernel modules.</p>
+
+			 <h5> How It Works</h5>
+
+							<p>Dynamic Module-Assistant Kernel Module Support consists of a single initscript (/etc/init.d/dmakms) that is executed at boot time or by a script that is triggered after installation of new linux-image Debian packages.</p>
+
+							<p>On each boot, /etc/init.d/dmakms is run to discover if each module source package listed in /etc/default/dmakms has provided a module package for the running Linux kernel, calling module-assistant to build and install a module package as required.</p>
+
+							<p>When a new linux-image Debian package is installed, /etc/init.d/dmakms is executed via a postinst hook script with two arguments, 'start' and the 'version string' of the Linux kernel to prepare new module package(s) for. At this time, the module packages listed in the /etc/default/dmakms configuration file are processed with module-assitant, and derived module packages are scheduled for installation at shutdown time. <span class="highlight-3">The reason for installation to occur at shutdown time is because it is necessary to delay the installation until such a time that apt/dpkg are not locked by another process</span>.</p>
+
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+
+	</div>
+			<div class="divider" id="other-kern-inst">
+				<h2>Alte metode de instalare de kernel</h2>
 
 					<h5>siduxcc</h5>
 							<p>Puteti de asemeni sa instalati kernel-uri cu centru de control GUI <a href="siduxcc-ro.htm"> siduxcc: </a>care este localizat in KDE-Start-Menu>System>sidux Control Centre. siduxcc de asemenea va ofera cateva alte sisteme de aplicatie administrativa GUI</p>
-
-					<h4>Inlocuirea de kerneluri vechi</h4>
+	</div>
+			<div class="divider" id="kern-remove">
+					<h2>Inlocuirea de kerneluri vechi</h2>
 
 							<p>Dupa instalarea cu succes a noului kernel,vechile kernel-uri pot si sterse (deleted), insa se recomanda sa le pastrati cateva zile, in cazul in care aveti probleme si deci puteti sa bootati cu un kernel vechi, dupa cum este aratat in ecranul grub</p>
 
@@ -268,8 +312,10 @@ kernel-remover
 </pre>
 							<p>In mod alternativ, puteti folosi siduxcc, care foloseste scenariul kernel-remover .</p>
 
+</div>
 			
-	<div id="rev">Continutul a fost revizuit ultima data la 10/01/2009 0415 UTC</div>
+	<div id="rev">Continutul a fost revizuit ultima data la 20/04/2009 0800 UTC</div>
+	
 </div>
-</div>
-</body></html>
+</body>
+</html>

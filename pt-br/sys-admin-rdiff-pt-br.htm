@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Manuais do sidux - rdiff</title>
+	<title>Manuais do sidux - rdiff (RO)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ceti 02/010/2008 1046 hrs UTC -->
+<!-- Last translation revision by ceti 17/04/2009 0935 hrs UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -208,9 +208,9 @@
 				* só faz back-ups do que tiver sofrido alterações, como faz o rsync (donde cada back-up não demorar muito).<br />
 				* mantém um histórico das mudanças (portanto, você pode recuperar um arquivo que você apagou três semanas atrás!)<br />
 				* faz back-ups seguros pela rede (usando ssh).<br />
-				* faz back-ups de partições enquanto estão montadasd (portanto, é fácil automatizar back-ups diários... não há necessidade de desmontar).<br />
+				* faz back-ups de partições enquanto estão montadas (portanto, é fácil automatizar back-ups diários... não há necessidade de desmontar).<br />
 				* pode restaurar tudo se seu HD morrer e você tiver de comprar um novo.<br />
-				* reconfigura-se para fazer back-ups de grandes redes (fácil no Linux, no Windows é mais complicado) e é usado em negócios.<br />
+				* reconfigura-se para fazer back-ups de grandes redes (fácil no Linux; no Windows é mais complicado) e é usado em negócios.<br />
 				* é um aplicativo de linha de comando, portanto é ótimo para quem gosta de fazer coisas como automatizar back-ups (usando um script chamado pelo cron).<br />
 				* lembra e lida bem com donos de arquivos e permissões e também com links simbólicos (e todo esse tipo de coisa); assim, após uma restauração, tudo fica exatamente como era antes.</p>
 
@@ -220,7 +220,7 @@
 			<h6>Como configurá-lo</h6>
 				<p>Digamos que seu computador tenha:<br />
 				* um HD de 100GB (sda), com sda1 usada como partição root, sda5 para guardar músicas e outros arquivos e sda6 como partição swap.<br />
-				* outro HD de 200GB (sdb), não utilizado no momento, apenas com a partição sdb1...use-a para seus back-ups.<br />
+				* outro HD de 200GB (sdb), não utilizado no momento, apenas com a partição sdb1; use-a para seus back-ups.<br />
 				* endereço IP 192.168.0.1</p>
 
 				<p>A primeira coisa a fazer é instalar rdiff-backup:</p>
@@ -246,11 +246,11 @@
 <pre>
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Qualquer mensagem de erro "AF_UNIX path too long" pode ser ignorada. Isso vai demorar um pouco, porque é a primeira vez que você faz um back-up dessa partição e, assim, o rdiff-backup terá de fazer cópia de tudo (e não apenas das diferenças). Note que não queremos fazer back-up do diretório /tmp, pois ele sempre muda, nem de /proc ou /sys, que não contêm arquivos reais, e nem de pontos de montagem.. Se você fizer back-up dos pontos de montagem, então você estará copiando sdb1 e você poderá cair em um loop (círculo vicioso) infinito! Uma maneira de evitar isso é fazer back-up dos pontos de montagem separadamente.</p>
+				<p>Qualquer mensagem de erro "AF_UNIX path too long" pode ser ignorada. Isso vai demorar um pouco, porque é a primeira vez que você faz um back-up dessa partição e, assim, o rdiff-backup terá de fazer cópia de tudo (e não apenas das diferenças). Note que não queremos fazer back-up do diretório /tmp, pois ele sempre muda, nem de /proc ou /sys, que não contêm arquivos reais, e nem de pontos de montagem. Se você fizer back-up dos pontos de montagem, então você estará copiando sdb1 e você poderá cair em um loop (círculo vicioso) infinito! Uma maneira de evitar isso é fazer back-up dos pontos de montagem separadamente.</p>
 
 				<p>A razão de você ter colocado '/proc/*' e não apenas '/proc' é que o nome do diretório /proc fará parte do back-up, mas seu conteúdo será ignorado. O mesmo vale para /tmp, /sys e todos os nomes dos pontos de montagem.</p>
 
-				 <p>Desse jeito, se você destruir sua partição /root e restaurá-la, /tmp, /proc, /sys e os nomes dos pontos de montagem serão criados (como deve ser). Se /tmp não existir quando o X for iniciado, ele vai reclamar. Veja as páginas de manual para saber mais sobre --exclude e --include).</p>
+				 <p>Desse jeito, se você destruir sua partição /root e restaurá-la, /tmp, /proc, /sys e os nomes dos pontos de montagem serão criados (como deve ser). Se /tmp não existir quando o X for iniciado, ele vai reclamar. (Veja as páginas de manual para saber mais sobre --exclude e --include).</p>
 
 			<h6>Como restaurar diretórios a partir de back-ups</h6>
 
@@ -266,7 +266,7 @@ rdiff-backup -r &lt;de-quando&gt; &lt;dir-fonte&gt; &lt;dir-destino&gt;
 
 				<p>Se você quiser restaurar a partir de três dias atrás, então use "-r 3D" ... mas, como dizem as páginas de manual, note o seguinte:</p>
 
-				<p class="highlight-1">"3D" se refere a 72 horas antes do presente e se não houver backup daquele dia, o rdiff-backup restaura a partir da data imediatamente anterior. No caso acima, por exemplo, se "3D" for usado e somente existir back-ups de 2 e 4 dias atrás, o diretório será restaurado a seu estado de 4 dias atrás. (portanto, você terá de pensar um pouco antes de restaurar).</p>
+				<p class="highlight-1">"3D" se refere a 72 horas antes do presente e se não houver backup daquele dia, o rdiff-backup restaura a partir da data imediatamente anterior. No caso acima, por exemplo, se "3D" for usado e somente existir back-ups de 2 e 4 dias atrás, o diretório será restaurado a seu estado de 4 dias atrás. (Portanto, você terá de pensar um pouco antes de restaurar).</p>
 
 				<p>Usando o seguinte, você terá datas e horas dos back-ups de sda5:</p>
 <pre>
@@ -276,7 +276,7 @@ rdiff-backup -r &lt;de-quando&gt; &lt;dir-fonte&gt; &lt;dir-destino&gt;
 
 				<p>Você pode também restaurar partições inteiras (mounts), pois um ponto de montagem nada mais é que um diretório.</p>
 
-				<p class="highlight-2">ATENÇÃO: Não restaure a partição root, se ela está em uso!!! Com apenas um comando, você perderá todos os arquivos em todas as partições, inclusive todos seus back-ups, mesmo que estiverem em HDs separados!! o rdiff-backup segue exatamente as instruções que recebeu...se o back-up para a partição root tiver pontos de montagens vazios, então para restaurar ao estado do back-up, ele deleta tudo nos pontos de montagem, para que tudo fique igual ao back-up.</p>
+				<p class="highlight-2">ATENÇÃO: Não restaure a partição root, se ela está em uso!!! Com apenas um comando, você perderá todos os arquivos em todas as partições, inclusive todos seus back-ups, mesmo que estiverem em HDs separados!! O rdiff-backup segue exatamente as instruções que recebeu...se o back-up para a partição root tiver pontos de montagens vazios, então para restaurar ao estado do back-up, ele deleta tudo nos pontos de montagem, para que tudo fique igual ao back-up.</p>
 
 				<p>Para restaurar sda5 para o último back-up, faça isto:</p>
 <pre>
@@ -284,11 +284,11 @@ rdiff-backup -r &lt;de-quando&gt; &lt;dir-fonte&gt; &lt;dir-destino&gt;
 </pre>
 			<h5>Como restaurar a partição root</h5>
 
-				<p>Restaurar a partição root não é tão simples. Não a restaure enquanto ela estiver montada (veja o aviso acima). É realmente útil poder restaurar a partição root, porque se você bagunçar tudo quando estiver instalando/atualizando ou quando estiver instalando um novo kernel etc, você tem a tranqüilidade de saber que tudo pode voltar a ser como era antes em apenas 20 minutos.</p>
+				<p>Restaurar a partição root não é tão simples. Não a restaure enquanto ela estiver montada (veja o aviso acima). É realmente útil poder restaurar a partição root, porque se você bagunçar tudo quando estiver instalando/atualizando ou quando estiver instalando um novo kernel etc, você tem a tranquilidade de saber que tudo pode voltar a ser como era antes em apenas 20 minutos.</p>
 
 				<p>Um modo de restaurar a partição root é dar o boot em outra distribuição Linux que por acaso você tiver instalado. Assim, você será capaz de restaurar a partição root que você quer porque ela não está montada. Após restaurá-la, dê o boot por ela e perceba que as coisas estão exatamente como eram quando você fez o back-up. Este é de longe o jeito mais fácil.</p>
 
-				<p>Outra maneira de restaurar a partição root é dar o boot pelo LiveCd do sidux e restaurar a partir dele, pois o rdiff-backup está incluido no CD. Se acaso ele não estiver na sua versão do LiveCD, digite no Grub (Bootoptions, Cheatcodes) a "cheatcode" 'unionfs' para ser capaz de instalar aplicações no modo LiveCD. Simplesmente carregue o sidux e digite no terminal:</p>
+				<p>Outra maneira de restaurar a partição root é dar o boot pelo LiveCd do sidux e restaurar a partir dele, pois o rdiff-backup está incluído no CD. Se acaso ele não estiver na sua versão do LiveCD, digite no Grub (Bootoptions, Cheatcodes) a "cheatcode" 'unionfs' para ser capaz de instalar aplicações no modo LiveCD. Simplesmente carregue o sidux e digite no terminal:</p>
 <pre>
 $ sudo su
 # wget -O /etc/apt/sources.list http://sidux.com/files/misc/sources.list
@@ -302,7 +302,7 @@ $ sudo su
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
-				<p>Nota: Se você não tiver um CD do sidux, mas se o LiveCD que você estiver usando tiver suporte do Klik, você pode instalar o rdiff-backup por ele e chamando:</p>
+				<p>Nota: se você não tiver um CD do sidux, mas se o LiveCD que você estiver usando tiver suporte do Klik, você pode instalar o rdiff-backup por ele e chamando:</p>
 <pre>
 $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
@@ -320,7 +320,7 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 				4) sda6 para swap <br />
 				5) endereço IP 192.168.0.2</p>
 
-				<p>Nota: ambos HDs de 100GB não podem, geralmente, ser copiados em um HD de 200GB com o rdiff-backup (porque não há espaço para os arquivos incrementais),mas já que você não vai fazer back-up da partição sda5 em seu PC remoto (e tendo em vista que HDs raramente estão 100% cheios, mas não confie tanto nisso), então você pode concluir que, sim, você tem espaço suficiente. Toda vez que o rdiff-backup fizer um back-up, mais arquivos incrementais serão criados, ocupando mais e mais espaço.</p>
+				<p>Nota: ambos HDs de 100GB não podem, geralmente, ser copiados em um HD de 200GB com o rdiff-backup (porque não há espaço para os arquivos incrementais), mas já que você não vai fazer back-up da partição sda5 em seu PC remoto (e tendo em vista que HDs raramente estão 100% cheios, mas não confie tanto nisso), então você pode concluir que, sim, você tem espaço suficiente. Toda vez que o rdiff-backup fizer um back-up, mais arquivos incrementais serão criados, ocupando mais e mais espaço.</p>
 
 				<p>Você pode pedir ao rdiff-backup para manter apenas os back-ups do último mês; assim seu HD estará menos cheio do que se o rdiff-backup guardar dados de um ano inteiro. Naturalmente, você pode guardar dados de um ano, mas você terá de comprar outro HD.</p>
 
@@ -337,7 +337,7 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 <pre>
 # rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
-				<p>Para restaurar o diretório /usr/local/games no PC remoto, iniciando o proceso no PC local:</p>
+				<p>Para restaurar o diretório /usr/local/games no PC remoto, iniciando o processo no PC local:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
@@ -351,7 +351,7 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media
 <pre>
 # [ -f /root/.ssh/id_rsa ] || ssh-keygen -t rsa -f /root/.ssh/id_rsa
 </pre>
-				<p>E pressione [ENTER] duas vezes para senhas em branco. Então digite:</p>
+				<p>... e pressione [ENTER] duas vezes para senhas em branco. Então digite:</p>
 <pre>
 # cat /root/.ssh/id_rsa.pub | ssh 192.168.0.2 'mkdir -p /root/.ssh;\<!--dunno if this is wrong-->
 > cat - >>/root/.ssh/authorized_keys2'

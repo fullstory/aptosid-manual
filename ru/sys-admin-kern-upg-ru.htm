@@ -41,7 +41,7 @@
 				<li><a href="wel-quickstart-ru.htm#welcome-quick">Краткое руководство sidux</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-ru.htm">ISO Releases, Download Mirrors and Burning</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-ru.htm">ISO-образы, зеркалa и запись</a>
 			<ul class="sub-menu" id="sm2">
 				<li><a href="cd-content-ru.htm#cd-content">Системые требования</a></li>
 				<li><a href="sys-admin-release-ru.htm#rolling">Замечания</a></li>
@@ -150,7 +150,7 @@
 				<li><a href="internet-connecting-ru.htm#netcardconfig">Подключение - Ceni</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Обновление систем и  упрабление пакетами</a>
+		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Обновление системы и  упрабление пакетами</a>
 			<ul class="sub-menu" id="sm12">
 				<li><a href="sys-admin-apt-ru.htm#apt-cook">APT и репозитории</a></li>
 				<li><a href="sys-admin-meta-ru.htm#meta-pack">Мета-пакеты</a></li>
@@ -241,22 +241,67 @@ apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 <pre>
 ls /sys/module/
 или
-cat /proc/modules </pre>
-
-							<p class="highlight-4">ВАЖНО: Если Вы нуждаетесь в определенных модулях драйвера, например для wlan, Вы должны установить надлежащие пакеты .deb для них. Как пример, для сетевого адаптеpа Agere et131xр:</p>
-<pre>
-apt-get install et131x-modules-*
+cat /proc/modules 
 </pre>
-							<p><span class="highlight-3">dpkg -i et131x-modules*.deb</span> может только использоваться, если debs имеются в наличии уже локально. Но даже в том случае, когда они являются в кэше apt-cache, <span class="highlight-3">apt-get</span> лучшую опцию.</p>
+	</div>
+		<div class="divider" id="dmakms">
+			<h2>Installing modules with Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
-							<p>Дополнительная информация <a href="internet-connecting-ro.htm#netcardconfig"> Getting on with Ceni</a> и <a href="internet-connecting-wpa-ru.htm#wpa-basic"> для WIFI</a>.</p>
+							<p>dmakms is useful to install kernel modules that are not premade for the sidux kernel and is designed to automate the installation of kernel modules with module-assistant <span class="highlight-3">(m-a)</span> when upgrading or installing new Linux kernels.</p>
+							
+<pre>
+apt-get install dmakms module-assistant
+</pre>
+							<p>Before activating Dynamic Module-Assistant Kernel Module Support, first use module-assistant to install the desired kernel module(s) for the currently running Linux kernel. For more information on module-assistant please read its manual page:</p> 
+<pre>
+man m-a
+</pre>
 
-				<h4>Другие методы инсталляций ядра</h4>
+							<p>The name of the module-assistant compatible package then needs to be added to <span class="highlight-3">/etc/default/dmakms</span>, so that the process of preparing and installing the same module(s) for each new Linux kernel can be automated.</p>
+
+				<h4>Example: Installing <span class="highlight-3">speakup module</span> with module-assistant</h4>
+							<p>Ensure that your sources list has <span class="highlight-3">contrib non-free</span> added in your sources line in: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
+<pre>
+apt-cache search speakup-s
+speakup-source - Source of the speakup kernel modules
+</pre>
+
+							<p>Then prepare the module:</p>
+<pre>
+m-a prepare
+m-a a-i speakup-source
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support for speakup, so that the next time the Linux kernel is updated a speakup module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">speakup-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+<pre>
+mcedit /etc/default/dmakms
+speakup-source
+</pre>
+
+							<p>Repeat the same process for any other module-assistant compatible kernel module package.</p>
+
+							<p>A linux-headers package must be installed for every linux-image package for module-assistant to compile kernel modules.</p>
+
+			 <h5> How It Works</h5>
+
+							<p>Dynamic Module-Assistant Kernel Module Support consists of a single initscript (/etc/init.d/dmakms) that is executed at boot time or by a script that is triggered after installation of new linux-image Debian packages.</p>
+
+							<p>On each boot, /etc/init.d/dmakms is run to discover if each module source package listed in /etc/default/dmakms has provided a module package for the running Linux kernel, calling module-assistant to build and install a module package as required.</p>
+
+							<p>When a new linux-image Debian package is installed, /etc/init.d/dmakms is executed via a postinst hook script with two arguments, 'start' and the 'version string' of the Linux kernel to prepare new module package(s) for. At this time, the module packages listed in the /etc/default/dmakms configuration file are processed with module-assitant, and derived module packages are scheduled for installation at shutdown time. <span class="highlight-3">The reason for installation to occur at shutdown time is because it is necessary to delay the installation until such a time that apt/dpkg are not locked by another process</span>.</p>
+
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+
+	</div>
+			<div class="divider" id="other-kern-inst">
+				<h2>Другие методы инсталляций ядра</h2>
 
 					<h5>siduxcc</h5>
 							<p>Вы можете также установить ядра с помощью центра управления <a href="siduxcc-ru.htm">siduxcc</a>, который расположен в KDE-старт -> мenю -> Система -> sidux центр управления. siduxcc также предлагает несколько других системных приложений GUI администрации.</p>
-
-					<h4>Удаление старого ядра (kernel remover)</h4>
+	</div>
+			<div class="divider" id="kern-remove">
+					<h2>Удаление старого ядра (kernel remover)</h2>
 
 							<p>После успешной установки нового ядра можно удалить kernel.zip и архив ядра, хотя рекомендуется его и более старое ядро сохранять ещё несколько дней, на случай непредвиденных проблем и необходимости перезагрузится с более старым ядром. Более старые ядра перечислены в меню менеджера загрузок Grub.</p>
 
@@ -269,9 +314,10 @@ kernel-remover
 </pre>
 							<p>Альтернативно, Вы можете использовать siduxcc, который использует скрипт kernel-remover.</p>
 
-			
-	<div id="rev">Content last revised 10/01/2009 0415 UTC</div>
-</div>
+	</div>
+	
+	<div id="rev">Content last revised 20/04/2009 0800 UTC</div>
+
 </div>
 </body>
 </html>

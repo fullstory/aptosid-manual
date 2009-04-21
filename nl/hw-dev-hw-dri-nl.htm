@@ -189,11 +189,49 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+	<div class="divider" id="non-free">
+				<h2>Tips voor hardware met 'non-free' benodigdheden</h2>
+							<p class="highlight-3">Vanwege de bepalingen in de verschillende wetten, zal sidux live-cd alleen dfsg-free software aanbieden en ondersteunen.</p>
+
+					<h5>Sources List</h5>
+
+							<p>Hoewel sidux allen dfsg free software bevat, wil je misschien desondanks non-free software toevoegen aan je <span class="highlight-3"> /etc/apt/sources.list.d/debian.list en /etc/apt/sources.list.d/sidux.list</span> of <span class="highlight-3">/etc/apt/sources.list</span> als die nodig is.</p>
+<pre>
+# See sources.list(5) for more information, especially
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
+# entries in separate files that end with sources.list file.
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binaire, gesloten code drivers voor: Nvidia / ATI</h2>
-
-							<p> <span class="highlight-3">Voor proprietary drivers lees de documentatie die je bij je grafische kaart gekregen hebt.</span></p>
-
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Open Source Xorg drivers voor nVidia, ATI, Radeon, Intel</h2>
@@ -217,43 +255,28 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>Bij sommige kaarten wordt 3D ondersteuning aangeboden, standaard is de 2D weergave.</p>
 
-							<p class="highlight-2">Daarna moet je /etc/xorg.conf veranderen, maar MAAK EERST EEN BACKUP!, want als de veranderingen niet goed werken, zit je zonder backup met de brokken.</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p>Om /etc/xorg.conf te veranderen: rechtsklik erop, open de file met rootpermissies. Vind de sectie: SECTION DEVICE en verander de display driver naar <span class="highlight-2">nv</span> OF <span class="highlight-2">ati</span>.</p>
+							<p>Om /etc/xorg.conf te veranderen: rechtsklik erop, open de file met rootpermissies. Vind de sectie: SECTION DEVICE en verander de display driver naar <span class="highlight-2">nv</span> OF <span class="highlight-2">ati</span>OR <span class="highlight-2">intel</span>.</p>
 
-							<p class="highlight-2">JE BENT GEWAARSCHUWD!! XORG.CONF VERANDEREN IS HELEMAAL VOOR EIGEN RISISCO!!</p>
-
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
+							
 							<p><a href= "http://xorg.freedesktop.org">Meer informatie over X.Org</a></p>
 
 	</div>
-	<div class="divider" id="non-free">
-				<h2>Tips voor hardware met 'non-free' benodigdheden</h2>
-							<p class="highlight-3">Vanwege de bepalingen in de verschillende wetten, zal sidux live-cd alleen dfsg-free software aanbieden en ondersteunen.</p>
-
-					<h5>Sources List</h5>
-
-							<p>Hoewel sidux allen dfsg free software bevat, wil je misschien desondanks non-free software toevoegen aan je <span class="highlight-3"> /etc/apt/sources.list.d/debian.list en /etc/apt/sources.list.d/sidux.list</span> of <span class="highlight-3">/etc/apt/sources.list</span> als die nodig is.</p>
-<pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-				<h5>Firmware</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>De benodigde firmware kan met de onderstaande device / firmware lijst verkregen worden of met het fw-detect script (onderdeel van sidux-scripts).</p>
 <pre>
 $ fw-detect
 </pre>
-							<p> <span class="highlight-3">Het is een goede oefening om een modprobe -r &lt;modulename&gt; uit te proberen voordat je de echte modprobe gaat uitvoeren.
+							<p> <span class="highlight-3">Het is een goede oefening om een modprobe -r &lt;modulename&gt; uit te proberen voordat je de echte modprobe gaat uitvoeren.</span>.</p>
 
 				<ul>
 					<li>
@@ -479,7 +502,7 @@ exit
 </pre>
 							<p>Je NTFS-partitie zou nu gemount moeten zijn met <b>rw</b> rechten en je kan gegevens daar opslaan. <span class="highlight-3">Gebruik het als het niet anders kan, het wordt niet geadviseerd voor dagelijks gebruik.</span></p>
 		</div>	
-	<div id="rev">Pagina het laatst gewijzigd op 17/02/2009 0100 UTC </div>
+	<div id="rev">Pagina het laatst gewijzigd op 20/04/2009 1130 UTC </div>
 
 </div>
 </body>

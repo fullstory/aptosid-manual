@@ -189,17 +189,58 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+		<div class="divider" id="non-free">
+			<!--- ####
+			<h2>Hints for hardware with non-free needs</h2>
+			#### -->
+			<h2>non-freeのドライバーが必要なハードウェアについてのヒント</h2>
+							<!--- ####
+							<p class="highlight-3">Due to the complexity of law, sidux live-cd will only provide dfsg-free software.</p>
+							#### -->
+							<p class="highlight-3">複雑な法律的な理由のためsiduxのライブCDはdfsg-free (DebianのFree Software Guidelineの立場からfreeとみなされるもの）だけを搭載しています。</p> 
+
+					<h5>Sources List</h5>
+
+							<!--- ####
+							<p>As the sidux iso contains only dfsg free software, you will probably want to add contrib/ non-free to your <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> and ensure internet access:</p>
+							#### -->
+							<p>siduxのISOにはdfsg-freeのソフトウェアしか含まれていないため、<span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> または<span class="highlight-3">/etc/apt/sources.list</span> にcontribやnon-freeを加えてネットに接続してドライバーをダウンロードする必要があるでしょう:</p>
+<pre>
+# See sources.list(5) for more information, especially
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
+# entries in separate files that end with sources.list file.
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
 	<div class="divider" id="non-free-3d">
-<!--- ####
-		<h2 id="top-header">Binary, closed source drivers for: Nvidia / ATI</h2>
-#### -->
-		<h2 id="top-header">nVidia または ATI のクローズドソースドライバ</h2>
-
-<!--- ####
-							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
-#### -->
-							<p> <span class="highlight-3">私有ドライバーについてはグラフィックカード製造者の文書をよんでください。</span></p>
-
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<!--- ####
@@ -252,20 +293,20 @@ init 5 &amp;&amp; exit
 								#### -->
 								<p>カードによっては3Dがサポートされていることもありますが、たいていは2Dのみのサポートです。</p>
 
-							<!--- ####
-							<p class="highlight-2">Next you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</p>
-							#### -->
-							<p class="highlight-2">次に/etc/X11/xorg.confを編集しますが, このファイルの編集中にを間違えをすると泣かされるハメになりますから<b>まず必ずバックアップのコピーを作ってください</b>。</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
 							<!--- ####
 							<p>To edit /etc/X11/xorg.conf right click it, open it with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">ati</span></p>
 							#### -->
-							<p>/etc/X11/xorg.confを編集するには右クリックしてrootとして開きます。 Section "Device"の項目を探しDriverを<span class="highlight-2">nv</span>または<span class="highlight-2">ati</span>に変えます。</p>
+							<p>/etc/X11/xorg.confを編集するには右クリックしてrootとして開きます。 Section "Device"の項目を探しDriverを<span class="highlight-2">nv</span>または<span class="highlight-2">ati</span>に変えます。 OR <span class="highlight-2">intel</span>.</p>
 
-							<!--- ####
-							<p class="highlight-2">YOU HAVE BEEN WARNED!! EDITING XORG.CONF IS ENTIRELY AT YOUR OWN RISK!!</p>
-							#### -->
-							<p class="highlight-2">警告しましたよ!! XORG.CONFの編集のリスクは自分で負ってください!!</p>
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
 
 							<!--- ####
 							<p><a href= "http://xorg.freedesktop.org">More information about X.Org</a></p>
@@ -275,42 +316,8 @@ init 5 &amp;&amp; exit
 				</ol>
 
 		</div>
-		<div class="divider" id="non-free">
-			<!--- ####
-			<h2>Hints for hardware with non-free needs</h2>
-			#### -->
-			<h2>non-freeのドライバーが必要なハードウェアについてのヒント</h2>
-							<!--- ####
-							<p class="highlight-3">Due to the complexity of law, sidux live-cd will only provide dfsg-free software.</p>
-							#### -->
-							<p class="highlight-3">複雑な法律的な理由のためsiduxのライブCDはdfsg-free (DebianのFree Software Guidelineの立場からfreeとみなされるもの）だけを搭載しています。</p> 
-
-					<h5>Sources List</h5>
-
-							<!--- ####
-							<p>As the sidux iso contains only dfsg free software, you will probably want to add contrib/ non-free to your <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> and ensure internet access:</p>
-							#### -->
-							<p>siduxのISOにはdfsg-freeのソフトウェアしか含まれていないため、<span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> または<span class="highlight-3">/etc/apt/sources.list</span> にcontribやnon-freeを加えてネットに接続してドライバーをダウンロードする必要があるでしょう:</p>
-<pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-<!--- ####
-				<h5>Firmware</h5>
-#### -->
-				<h5>ファームウェア</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 <!--- ####
 							<p> The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in configure-networkcard).</p>
 #### -->
@@ -568,7 +575,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 		<p>これであなたのNTFSパーティションは<b>rw</b>(読み書きモード)でマウントされていて、データの書き込みができるるはずです。 警告を繰り返しますが <span class="highlight-3">これは緊急の場合に使うもので、日々の仕事につかうのにはお勧めできません！</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 17/02/2009 0100 UTC </div>
+	<div id="rev">Page last revised 20/04/2009 1130 UTC </div>
 
 </div>
 </body>

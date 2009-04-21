@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision ceti 05/03/2008 1432 UTC-->
+<!-- Last translation revision ceti 20/04/2009 1025 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -189,10 +189,49 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Drivers binários de código fechado para nVidia e ATI</h2>
+		<div class="divider" id="non-free">
+			<h2>Dicas para hardware que precisa de soluções não livres</h2>
+							<p class="highlight-3">Devido à complexidade da legislação, o LiveCD do sidux é montado com software livre somente.</p>
 
-							<p> <span class="highlight-3">Para drivers proprietários, leia a documentação do fabricante de sua placa de vídeo.</span></p>
+					<h5>Sources List</h5>
+
+							<p>Como a ISO do sidux contém apenas software livre, você provavelmente sentirá necessidade de adicionar repositórios com aplicações não livres (contrib/ non-free) à sua <span class="highlight-3">/etc/apt/sources.list.d/debian.list e /etc/apt/sources.list.d/sidux.list</span> ou <span class="highlight-3">/etc/apt/sources.list</span>:</p>
+<pre>
+# See sources.list(5) for more information, especially    [Veja sources.list (5) para mais informações]
+# Remember that you can only use http, ftp or file URIs     [Lembre-se de que você só pode usar http, ftp ou URIs] 
+# CDROMs are managed through the apt-cdrom tool.     [CDROMs são gerenciados pelo apt-cdrom]
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list     [O diretório /etc/apt/sources.list.d/ fornece uma maneira de adicionar]
+# entries in separate files that end with sources.list file.     [linhas em arquivos separados, que comporão a sources.list final]
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+
+	</div>
+	<div class="divider" id="non-free-3d">
+		<h2>Drivers binários de código fechado para nVidia, com dmakms</h2>
+							<p>Prepare o módulo:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Então ative o Dynamic Module-Assistant Kernel Module Support (dmakms) para nNidia, de forma que, da próxima vez que o kernel for atualizado, um módulo nVidia também será preparado para ele, sem intervenção manual. Para isso, adicione 'nvidia-kernel-source' ao arquivo de configuração <span class="highlight-3">/etc/default/dmakms </span>. Daí:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Em seguida, altere o arquivo xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reinicie seu PC para que a instalação do módulo tenha efeito</p>
+						      <p>Leia:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Drivers Xorg de código aberto para nVidia, ATI, Radeon e Intel</h2>
@@ -217,41 +256,24 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>Como dissemos, o suporte normal é 2D, apesar de haver placas onde é possível o suporte 3D.</p>
 
-							<p class="highlight-2">A seguir, você precisa editar o arquivo /etc/X11/xorg.conf. ENTRETANTO, FAÇA UMA CÓPIA DELE PRIMEIRO, pois qualquer erro cometido resultará em muitas lágrimas pra você...</p>
+							<p><span class="highlight-3">Se você tem usado drivers proprietários e quiser reverter para drivers de código aberto, será necessário editar o arquivo /etc/X11/xorg.conf. NO ENTANTO, ANTES DE MAIS NADA FAÇA UMA CÓPIA DELE, de vez que editar incorretamente o /etc/X11/xorg.conf irá resultar em muitas lágrimas para você!!</span></p>
 
-							<p>Para editá-lo, clique nele com o botão direito e abra-o como root (você pode fazer isso pelo teclado também, é claro). Encontre o texto SECTION DEVICE e mude o driver para <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span></p>
+							<p>Para editá-lo, clique nele com o botão direito e abra-o como root (você pode fazer isso pelo teclado também, é claro). Encontre o texto SECTION DEVICE e mude o driver para <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span> OU <span class="highlight-2">intel</span>.</p>
 
-							<p class="highlight-2">AVISO!!!: EDITE O XORG.CONF POR SUA PRÓPRIA CONTA E RISCO!!!</p>
+							<p class="highlight-2">A edição do xorg.conf é totalmente por sua conta e risco!!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">Maiores informação sobre Intel</a></p>
 
-							<p><a href= "http://xorg.freedesktop.org">Mais informações sobre X.Org</a></p>
-
-
+							
+							<p><a href= "http://www.x.org/wiki/radeon">Maiores informação sobre ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">Maiores informações sobre ati radeonhd</a></p>
+							
+							<p><a href= "http://xorg.freedesktop.org">Maiores informações sobre X.Org</a></p>
 
 		</div>
-		<div class="divider" id="non-free">
-			<h2>Dicas para hardware que precisa de soluções não-livres</h2>
-							<p class="highlight-3">Devido à complexidade da legislação, o LiveCD do sidux é montado com software livre somente.</p>
-
-					<h5>Sources List</h5>
-
-							<p>Como a ISO do sidux contém apenas software livre, você provavelmente sentirá necessidade de adicionar repositórios com aplicações não-livres (contrib/ non-free) à sua <span class="highlight-3">/etc/apt/sources.list.d/debian.list e /etc/apt/sources.list.d/sidux.list</span> ou <span class="highlight-3">/etc/apt/sources.list</span>:</p>
-<pre>
-# See sources.list(5) for more information, especially    [Veja sources.list (5) para mais informações]
-# Remember that you can only use http, ftp or file URIs     [Lembre-se de que você só pode usar http, ftp ou URIs] 
-# CDROMs are managed through the apt-cdrom tool.     [CDROMs são gerenciados pelo apt-cdrom]
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list     [O diretório /etc/apt/sources.list.d/ fornece uma maneira de adicionar]
-# entries in separate files that end with sources.list file.     [linhas em arquivos separados, que comporão a sources.list final]
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-		<h5>Firmware</h5>
+		<div class="divider" id="non-free-firmware">
+				<h2>Drivers para firmware</h2>
 							<p>O firmware necessário pode ser determinado pelo script recém-disponibilizado fw-detect (empacotado em sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -480,7 +502,7 @@ Para sair do terminal, digite: exit
 							<p>Agora seu volume NTFS deve estar montado <b>rw</b> e você será capaz de armazenar dados nele. Repetimos, porém: <span class="highlight-3">use apenas em situações emergenciais, NUNCA no dia-a-dia!!!</span></p>
 
 		</div>	
-				<div id="rev">Page last revised 17/02/2009 0100 UTC </div>
+				<div id="rev">Page last revised 20/04/2009 1130 UTC </div>
 
 </div>
 </body>

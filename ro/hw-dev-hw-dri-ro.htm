@@ -189,11 +189,49 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+	<div class="divider" id="non-free">
+				<h2>Trucuri pentru dispozitive ce necesită drivere non-free</h2>
+							<p class="highlight-3">Din cauza complexităţii legii sidux live-cd va oferi doar software dfsg-free .</p>
+
+					<h5>Sources List</h5>
+
+							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi contrib/ non-free la    <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> sau <span class="highlight-3">/etc/apt/sources.list</span> şi să-i asiguraţi accesul la internet:</p>
+<pre>
+# See sources.list(5) for more information, especially
+# Remember that you can only use http, ftp or file URIs
+# CDROMs are managed through the apt-cdrom tool.
+# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
+# entries in separate files that end with sources.list file.
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binary, closed source drivers for: Nvidia / ATI</h2>
-
-							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
-
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel</h2>
@@ -219,40 +257,23 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>For some cards it may add 3D support, however it is usually 2D.</p>
 
-							<p class="highlight-2">În continuare va trebui să editaţi  /etc/xorg.conf , MAI ÎNTÂI FACEŢI O SALVARE DE SIGURANŢA, pentru că editând xorg.conf incorect va rezulta un lung şir de lacrimi... .</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p>Pentru a edita /etc/xorg.conf faceţi clic dreapta pe el şi-l deschideţi cu permisiune root . Găsiţi secţiunea care citeşte SECTION DEVICE şi schimbaţi driverul de display pentru a fi <span class="highlight-2">nv</span> sau <span class="highlight-2">ati</span>. </p>
+							<p>Pentru a edita /etc/xorg.conf faceţi clic dreapta pe el şi-l deschideţi cu permisiune root . Găsiţi secţiunea care citeşte SECTION DEVICE şi schimbaţi driverul de display pentru a fi <span class="highlight-2">nv</span> sau <span class="highlight-2">ati</span>. <span class="highlight-2">intel</span>.</p>
 
-
-							<p class="highlight-2">AŢI FOST AVERTIZAŢI !! EDITAREA XORG.CONF ESTE UN RISC PE CARE VI-L ASUMAŢI !!</p>
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+	
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
 
 							<p><a href= "http://xorg.freedesktop.org">Mai multe informaţii despre X.Org</a></p>
 
 	</div>
-	<div class="divider" id="non-free">
-				<h2>Trucuri pentru dispozitive ce necesită drivere non-free</h2>
-							<p class="highlight-3">Din cauza complexităţii legii sidux live-cd va oferi doar software dfsg-free .</p>
-
-					<h5>Sources List</h5>
-
-							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi contrib/ non-free la    <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> sau <span class="highlight-3">/etc/apt/sources.list</span> şi să-i asiguraţi accesul la internet:</p>
-<pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-
-		<h5>Firmware</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -484,7 +505,7 @@ exit
 
 
 		
-			<div id="rev">Content last revised 17/02/2009 0100 UTC</div>	
+			<div id="rev">Content last revised 20/04/2009 1130 UTC</div>	
 
 </div>
 </div>

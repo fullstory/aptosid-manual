@@ -189,11 +189,49 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
+	<div class="divider" id="non-free">
+				<h2>Datos para hardware con necesidades no-libres</h2>
+							<p class="highlight-3">Debido a la complejidad de la ley, sidux solamente proveerá software dfsg-free.</p>
+
+					<h5>sources.list</h5>
+
+							<p><b>sidux</b> solamente contiene software dfsg-free, probablemente desea agregar "contrib y non-free" al  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> y asegurar que tiene acceso a internet:</p>
+<pre>
+# Ver sources.list(5) para más información, especialmente
+# recuerda que solamente puede usar http, ftp o URIs de archivos
+# CDROMs se maneja con el herramienta: apt-cdrom
+# El directorio /etc/apt/sources.list.d/ provee una manera de agregue
+# entradas a sources.list en archivos separados que terminan con ".list".
+
+# Unstable
+deb http://ftp.de.debian.org/debian unstable main contrib non-free
+# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
+
+# sidux
+deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
+</pre>
+	</div>
 	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Drivers no-libres, binarios para: Nvidia / ATI</h2>
-
-							<p> <span class="highlight-3">Para drivers propietarios, ver la documentación de la fabricante de la tarjeta gráfica.</span></p>
-
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
 		</div>
 		<div class="divider" id="native-nv-ati">
 			<h2>Drivers de Fuente Abierto para nVidia, ATI, Radeon y Intel</h2>
@@ -218,40 +256,23 @@ xserver-xorg-video-intel
 </pre>
 							<p>Para algunas tarjetas puede agregar soporte para 3D pero nomalmente es solamente 2D.</p>
 
-							<p class="highlight-2">Próxima, tiene que editar /etc/X11/xorg.conf,  SIN EMBARGO, TIENE QUE HACER UN RESPALDO PRIMERO, por que una edición incorrecto resultará en muchos lágrimas a su parte.</p>
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
 
-							<p>Para editar /etc/X11/xorg.conf, clic derecho, Abrirlo con permisos de raíz (root). Busca la sección que dice SECTION DEVICE y cambiarlo a leer <span class="highlight-2">nv</span> ó <span class="highlight-2">ati</span></p>
+							<p>Para editar /etc/X11/xorg.conf, clic derecho, Abrirlo con permisos de raíz (root). Busca la sección que dice SECTION DEVICE y cambiarlo a leer <span class="highlight-2">nv</span> ó <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
 
-							<p class="highlight-2">HA SIDO ADVERTIDO!! <br>EDITANDO EL XORG.CONF ES COMPLETAMENTE A SU PROPIO RIESGO!!</p>
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+	
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
 
 							<p>Más: <a href="http://xorg.freedesktop.org">Más información acerca de X.Org</a></p>
-					</li>
-			</ol>
 
 	</div>
-	<div class="divider" id="non-free">
-				<h2>Datos para hardware con necesidades no-libres</h2>
-							<p class="highlight-3">Debido a la complejidad de la ley, sidux solamente proveerá software dfsg-free.</p>
-
-					<h5>sources.list</h5>
-
-							<p><b>sidux</b> solamente contiene software dfsg-free, probablemente desea agregar "contrib y non-free" al  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> y asegurar que tiene acceso a internet:</p>
-<pre>
-# Ver sources.list(5) para más información, especialmente
-# recuerda que solamente puede usar http, ftp o URIs de archivos
-# CDROMs se maneja con el herramienta: apt-cdrom
-# El directorio /etc/apt/sources.list.d/ provee una manera de agregue
-# entradas a sources.list en archivos separados que terminan con ".list".
-
-# Unstable
-deb http://ftp.de.debian.org/debian unstable main contrib non-free
-# deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
-
-# sidux
-deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-#deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
-</pre>
-				<h5>Firmware (Programación en Firme)</h5>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p> El firmware requerida puede ser determinado con el siguiente enumeración del dispositivo / firmware, o a través del script nuevo, fw-detect (empaquetada en sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -480,7 +501,7 @@ Para salir del consola, entrar: exit
 							<p>Ahora, el volumen de NTFS debe ser montado <b>rw</b> (leer/escribir) y debe ser posible de escribir datos en el. <br />¡Pero, una vez más, Precaución! <span class="highlight-3">Usalo solamente para situaciones de emergencia, no esta recomendada para uso diario.</span></p>
 
 	</div>
-	<div id="rev">Contenido modificado el 17/02/2009 0100 UTC </div>
+	<div id="rev">Contenido modificado el 20/04/2009 1130 UTC </div>
 
 
 </div>

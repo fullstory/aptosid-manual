@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 23/12/2008 0940 UTC-->
+<!-- Last translation revision bluewater 17/04/2009 1445 UTC-->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -189,46 +189,6 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="non-free-3d">
-		<h2 id="top-header">Binary, closed source drivers for: Nvidia / ATI</h2>
-
-							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
-
-
-
-		</div>
-		<div class="divider" id="native-nv-ati">
-			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel</h2>
-
-							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
-
-							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2d for NVIDIA Riva, TNT, GeForce, and Quadro  cards and the ATI Mach, Rage, Radeon, and FireGLcards along with atimisc', 'r128' and 'radeon' sub-drivers. It also provides for the Intel free series in 3d</p>
-
-							<p>To install it:</p>
-<pre>
-Log out of KDE by Going into Textmode by doing Ctrl+Alt+F1
-logon as root user
-and then in type init 3
-(this should state that X no longer is running
-apt-get update
-apt-get install xserver-xorg-video-nv
-OR
-apt-get install xserver-xorg-video-ati
-OR
-xserver-xorg-video-intel
-init 5 &amp;&amp; exit
-</pre>
-							<p>For some cards it may add 3D support, however it is usually 2D.</p>
-
-							<p class="highlight-2">Next you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</p>
-
-							<p>To edit /etc/X11/xorg.conf right click it, open it with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">ati</span></p>
-
-							<p class="highlight-2">YOU HAVE BEEN WARNED!! EDITING XORG.CONF IS ENTIRELY AT YOUR OWN RISK!!</p>
-
-							<p><a href= "http://xorg.freedesktop.org">More information about X.Org</a></p>
-			
-	</div>
 		<div class="divider" id="non-free">
 			<h2>Hints for hardware with non-free requirements</h2>
 							<p class="highlight-3">Due to the complexity of law, sidux live-cd will only provide dfsg-free software.</p>
@@ -251,8 +211,70 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
+	</div>
+	<div class="divider" id="non-free-3d">
+		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p>Prepare the module:</p>
+<pre>
+apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+</pre>
+							<p>Next alter xorg.conf:</p>
+<pre>
+sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Read:</p>
+<pre>
+$ /usr/share/doc/dmakms
+</pre>
+						      
+		</div>
+		<div class="divider" id="native-nv-ati">
+			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel</h2>
 
-				<h5>Firmware</h5>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
+
+							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2D for NVIDIA Riva, TNT, GeForce, and Quadro cards and the ATI Mach, Rage, Radeon, and FireGLcards along with atimisc', 'r128' and 'radeon' sub-drivers. It also provides for the Intel free series in 3D</p>
+
+							<p>To install it:</p>
+<pre>
+Log out of KDE by Going into Textmode by doing Ctrl+Alt+F1
+logon as root user
+and then type in: 
+init 3
+(this should state that X no longer is running
+apt-get update
+apt-get install xserver-xorg-video-nv
+OR
+apt-get install xserver-xorg-video-ati
+OR
+xserver-xorg-video-intel
+init 5 &amp;&amp; exit
+</pre>
+							<p>For some cards it may add 3D support, however it is usually 2D.</p>
+
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+
+							<p>To edit /etc/X11/xorg.conf, open it in an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
+
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+
+							
+							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							
+							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
+							
+							<p><a href= "http://xorg.freedesktop.org">More information about X.Org</a></p>
+			
+	</div>
+	<div class="divider" id="non-free-firmware">
+				<h2>Firmware drivers</h2>
 							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
 <pre>
 $ fw-detect
@@ -482,7 +504,7 @@ To get out of the konsole type: exit
 							<p>Now your NTFS-Volume should be mounted <b>rw</b> and you should be able to store data on it. But again, be warned! <span class="highlight-3">Use it in emergency situations, it is not recommended  for use on a daily basis.</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 17/02/2009 0100 UTC </div>
+	<div id="rev">Page last revised 20/04/2009 1130 UTC </div>
 
 </div>
 </body>

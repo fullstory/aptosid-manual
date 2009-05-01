@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 05/02/2009 15.55 UTC -->
+<!-- Last translation revision by alessiog75 on 23/04/2009 20.15 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by alessiog75 2009.03.16 2100 hrs UTC -->
@@ -243,49 +243,49 @@ cat /proc/modules
 </pre>
 	</div>
 		<div class="divider" id="dmakms">
-			<h2>Installing modules with Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
+			<h2>Installare i moduli con Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
-							<p>dmakms is useful to install kernel modules that are not premade for the sidux kernel and is designed to automate the installation of kernel modules with module-assistant <span class="highlight-3">(m-a)</span> when upgrading or installing new Linux kernels.</p>
+							<p>dmakms è utile per installare i moduli kernel che non sono preconfezionati per il kernel sidux ed è concepito per automatizzare l'installazione dei moduli del kernel con module-assistant <span class="highlight-3">(m-a)</span> quando si aggiornano o si installano nuovi kernel Linux.</p>
 							
 <pre>
 apt-get install dmakms module-assistant
 </pre>
-							<p>Before activating Dynamic Module-Assistant Kernel Module Support, first use module-assistant to install the desired kernel module(s) for the currently running Linux kernel. For more information on module-assistant please read its manual page:</p> 
+							<p>Prima di attivare Dynamic Module-Assistant Kernel Module Support, utilizzare module-assistant per installare il/i modulo/i del kernel desiderato/i per il kernel corrente. Per maggiori informazioni su module-assistant leggere la sua pagina del manuale:</p> 
 <pre>
 man m-a
 </pre>
 
-							<p>The name of the module-assistant compatible package then needs to be added to <span class="highlight-3">/etc/default/dmakms</span>, so that the process of preparing and installing the same module(s) for each new Linux kernel can be automated.</p>
+							<p>Il nome del pacchetto compatibile con module-assistant quindi deve essere aggiunto a <span class="highlight-3">/etc/default/dmakms</span>, in modo che l'operazione di preparare ed installare lo stesso modulo/i per ogni nuovo kernel Linux può essere automatizzato.</p>
 
-				<h4>Example: Installing <span class="highlight-3">speakup module</span> with module-assistant</h4>
-							<p>Ensure that your sources list has <span class="highlight-3">contrib non-free</span> added in your sources line in: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
+				<h4>Esempio: Installare <span class="highlight-3">speakup module</span> con module-assistant</h4>
+							<p>Assicurarsi che la lista delle sorgenti software contenga <span class="highlight-3">contrib non-free</span> aggiunti nella linea in: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
 <pre>
 apt-cache search speakup-s
 speakup-source - Source of the speakup kernel modules
 </pre>
 
-							<p>Then prepare the module:</p>
+							<p>quindi preparare il modulo:</p>
 <pre>
 m-a prepare
 m-a a-i speakup-source
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for speakup, so that the next time the Linux kernel is updated a speakup module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">speakup-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+							<p>Adesso attivare Dynamic Module-Assistant Kernel Module Support per speakup, in modo che la prossima volta che il kernel viene aggiornato venga preparato un nuovo modulo per speakup compatibile, senza intervento manuale. Per fare ciò aggiungere <span class="highlight-3">speakup-source</span> al file di configurazione <span class="highlight-3">/etc/default/dmakms </span> .</p>
 <pre>
 mcedit /etc/default/dmakms
 speakup-source
 </pre>
 
-							<p>Repeat the same process for any other module-assistant compatible kernel module package.</p>
+							<p>Ripetere lo stesso processo per ogni altro pacchetto compatibile con module-assistant.</p>
 
-							<p>A linux-headers package must be installed for every linux-image package for module-assistant to compile kernel modules.</p>
+							<p>Un pacchetto linux-headers deve essere installato per ogni pacchetto linux-image per fare in modo che module-assistant possa compilare i moduli del kernel.</p>
 
-			 <h5> How It Works</h5>
+			 <h5>Come funziona</h5>
 
-							<p>Dynamic Module-Assistant Kernel Module Support consists of a single initscript (/etc/init.d/dmakms) that is executed at boot time or by a script that is triggered after installation of new linux-image Debian packages.</p>
+							<p>Dynamic Module-Assistant Kernel Module Support consiste di un singolo initscript (/etc/init.d/dmakms) che viene eseguito all'avvio oppure da un altro script che viene avviato dopo l'installazione di un nuovo pacchetto linux-image Debian.</p>
 
-							<p>On each boot, /etc/init.d/dmakms is run to discover if each module source package listed in /etc/default/dmakms has provided a module package for the running Linux kernel, calling module-assistant to build and install a module package as required.</p>
+							<p>Ad ogni avvio, /etc/init.d/dmakms viene eseguito per verificare che ogni pacchetto sorgente del modulo compreso nella lista di /etc/default/dmakms abbia un corrispettivo pacchetto per il kernel Linux corrente, richiamando, se necessario, module-assistant per compilare ed installare il pacchetto.</p>
 
-							<p>When a new linux-image Debian package is installed, /etc/init.d/dmakms is executed via a postinst hook script with two arguments, 'start' and the 'version string' of the Linux kernel to prepare new module package(s) for. At this time, the module packages listed in the /etc/default/dmakms configuration file are processed with module-assitant, and derived module packages are scheduled for installation at shutdown time. <span class="highlight-3">The reason for installation to occur at shutdown time is because it is necessary to delay the installation until such a time that apt/dpkg are not locked by another process</span>.</p>
+							<p>Quando un nuovo pacchetto linux-image Debian viene installato, /etc/init.d/dmakms viene eseguito attraverso uno script postinst con due argomenti, 'start' e 'version string' del kernel Linux di cui preparare il pacchetto. A questo punto, i pacchetti dei moduli listati nel file di configurazione /etc/default/dmakms sono lavorati con module-assistant, ed i pacchetti derivati sono programmati per l'installazione allo spegnimento del sistema. <span class="highlight-3">La ragione dell'installazione allo spegnimento è perché si rende necessario ritardare l'installazione dino a che apt/dpkg non sono bloccati da altri processi</span>.</p>
 
 <pre>
 $ /usr/share/doc/dmakms

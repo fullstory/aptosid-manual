@@ -329,7 +329,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Instalarea sidux cu VirtualBox</h2>
-							<p>VirtualBox este ideal pentru computerele pe 32bit . Pentru 64bit folosiţi QEMU.</p>
+							<p>The Steps:</p>
 						<ul>
  							<li>1. creaţi o imagine de harddisk pentru VirtualBox</li>
  							<li>2. bootaţi imaginea iso cu VirtualBox</li>
@@ -341,31 +341,31 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Spaţiu pe Hard disk :</span> În timp ce VirtualBox este relativ mic (o instalare tipică va avea nevoie de aproximativ 30 MB spaţiu pe hard ), maşina virtuală va necesita spaţiu uriaş pe disc pentru a reprezenta fişierele ce le va stoca . Aşa că , pentru instalarea MS Windows XP (TM), de exemplu , veţi avea nevoie de un fişier ce va creşte până la câţiva  GB mărime.Pentru a avea sidux în VirtualBox va trebui să alocaţi 5 giga pentru imaginea de hard , plus spaţiu pentru swap .</p>
 
-							<p class="highlight-3">Asiguraţi-vă că aţi făcut dist-upgrade înainte de a instala 'virtual machine modules' după instalarea unui nou kernel , sau veţi primi gcc mismatch , failed module build error.(Se aplică oricărui modul extern) </p>
-
-						<h4>Mecanismul :</h4>
+				<h3>Installation:</h3>
+						 <h6>32 bit</h6>
 <pre>
-Instalaţi pachetul virtualbox 
-Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Faceţi o VM , puneţi un CD-Sistem de Operare în unitatea CD ROM şi-l instalati apoi faceţi restart .
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+</pre>
+						 <h6>64 bit</h6>
+<pre>
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-				<h3>Instalarea :</h3>
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-   apt-get update 
-   apt-get install virtualbox-ose  
-   m-a a-i virtualbox-ose  
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-
-							<p>Apoi stocaţi informaţia ce identifică sistemul de operare curent în structură :</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+							<p>Now add your user name to vboxusers:</p>
 <pre>
-   virtualbox-ose-module-$(uname -r) 
+adduser &lt;username&gt; vboxusers 
 </pre>
-							<p class="highlight-3">Va trebui să faceţi următoarele :</p>
+							<p>Next:</p>
 <pre>
-    adduser &lt;username&gt; vboxusers  
+modprobe vboxdrv
 </pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Instalarea sidux în maşina virtuală </h3>
 							<p>Utilizaţi interfaţa de la virtualbox pentru a  crea o maşină virtuală pentru sidux . Apoi urmaţi instrucţiunile unei instalări sidux obişnuite .</p>
@@ -491,7 +491,7 @@ Faceţi o VM , puneţi un CD-Sistem de Operare în unitatea CD ROM şi-l instala
 
 		
 	</div>
-			<div id="rev"> Page last revised 05/04/2009 0050hrs UTC</div>
+			<div id="rev"> Page last revised 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

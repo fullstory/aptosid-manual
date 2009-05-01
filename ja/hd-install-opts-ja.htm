@@ -41,7 +41,7 @@
 				<li><a href="wel-quickstart-ja.htm#welcome-quick">sidux Quick Start Guide</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-ja.htm">ISO Releases, Download Mirrors and Burning</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-ja.htm">ISO リリース、ダウンロードミラーとCD作成</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="cd-content-ja.htm#cd-content">ISOと要求仕様</a></li>
 				<li><a href="sys-admin-release-ja.htm#rolling">ローリングノート</a></li>
@@ -50,7 +50,7 @@
 				<li><a href="cd-dl-burning-ja.htm#burn-nero">WindowsでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#burn-linux">LinuxでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#xdelta">xdeltaパッチング</a></li>
-				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso スクリプト</a></li>
 				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gen">GUIなしでISOを焼くには</a></li>
 			</ul>
 		</li>
@@ -150,7 +150,7 @@
 				<li><a href="internet-connecting-ja.htm#netcardconfig">インターネットに接続 -Ceni</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-ja.htm">dist-upgrade and package management</a>
+		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-ja.htm">dist-upgrade とパッケージ管理</a>
 			<ul class="sub-menu" id="sm13">
 				<li><a href="sys-admin-apt-ja.htm#apt-cook">APTの手引き、ソースリストについて</a></li>
 				<li><a href="sys-admin-meta-ja.htm#meta-pack">メタ・パッケージのインストーラーMeta-Package Installer</a></li>
@@ -385,9 +385,9 @@ $ man fll-iso2usb
 		#### -->
 		<h2>siduxをVirtualBoxにインストールする</h2>
 							<!--- ####
-							<p>VirtualBox is ideal for 32bit machines. For 64bit use QEMU.</p>
+							<p>The Steps:.</p>
 							#### -->
-							<p>VirtualBoxは32bitのシステムをVMで使うにはうってつけですが。 64bitの場合QEMUを使います。</p>
+							<p>The Steps:</p>
 						<ul>
 								<!--- ####
  							<li>1. create a harddiskimage for VirtualBox</li>
@@ -417,53 +417,31 @@ $ man fll-iso2usb
 							#### -->
 							<p><span class="highlight-3">ハードディスクスペース:</span> VirtualBoxそのものはとても小さいプログラムです(普通にインストールすれば30MB程度のスペースしか使いません)が、バーチャルマシンはハードディスクの代わりとしてディスク上にかなり大きいファイルを必要とします。 そのため、例えばMS Windows XP(TM)をインストールするには何GBものスペースが必要になるでしょう。 siduxをVirtualBoxのゲストOSとして使うのには５GBのイメージとスワップスペースがあればいいでしょう。</p>
 
-							<!--- ####
-							<p class="highlight-3">Make sure to dist-upgrade before you install virtual machine modules after installing a new kernel, or you'll get a gcc mismatch, failed module build error.(This applies to any external module) </p>
-							#### -->
-							<p class="highlight-3">新しくカーネルをインストールしたあとで、VirtualBoxのモジュールをインストールする前に必ず一度dist-upgradeを行ってください。 gccのバージョンが合っていないとモジュールの構築に失敗します。 (これはモジュールの構築全般について言えることです)</p>
-
-						<!--- ####
-						<h4>The mechanism:</h4>
-						#### -->
-						<h4>作業の手順:</h4>
-<!--- ####
-<pre>
-Install the virtualbox package
-Click Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Make a VM, put a Operating System-CD into your CD drive and install.and reboot
-</pre>
-#### -->
-<pre>
-virtualboxパッケージのインストール
-メニューからApplications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machineをクリック
-バーチャルマシンの作成、OSのCDをCDドライブに入れスタート、インストール、再起動
-</pre>
-
-				<!--- ####
 				<h3>Installation:</h3>
-				#### -->
-				<h3>VirtualBoxの(手動)インストール:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose 
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+</pre>
+						 <h6>64 bit</h6>
+<pre>
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<!--- ####
-							<p>Then you store the information identifying the current operating system in the structure:</p> 
-							#### -->
-							<p>現行のOSの情報(カーネルバージョン)を次の形で記録します:</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-virtualbox-ose-module-$(uname -r)
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<!--- ####
-							<p class="highlight-3">You will need to do the following:</p>
-							#### -->
-							<p class="highlight-3">新しいユーザーvboxusersを加える必要があります:</p>
+							<p>Now add your user name to vboxusers:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
+							<p>Next:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<!--- ####
 					<h3>Installing sidux to the virtual machine</h3>
@@ -691,7 +669,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 05/04/2009 0050hrs UTC</div>
+	<div id="rev">Page last revised 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

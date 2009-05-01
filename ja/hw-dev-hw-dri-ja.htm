@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by muchan  11/Jan/2009 1600 UTC -->
+<!-- Last translation revision by muchan  28/Apr/2009 2237 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -41,7 +41,7 @@
 				<li><a href="wel-quickstart-ja.htm#welcome-quick">sidux Quick Start Guide</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-ja.htm">ISO Releases, Download Mirrors and Burning</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="cd-dl-burning-ja.htm">ISO リリース、ダウンロードミラーとCD作成</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="cd-content-ja.htm#cd-content">ISOと要求仕様</a></li>
 				<li><a href="sys-admin-release-ja.htm#rolling">ローリングノート</a></li>
@@ -50,7 +50,7 @@
 				<li><a href="cd-dl-burning-ja.htm#burn-nero">WindowsでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#burn-linux">LinuxでISOを焼くには</a></li>
 				<li><a href="cd-dl-burning-ja.htm#xdelta">xdeltaパッチング</a></li>
-				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso script</a></li>
+				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gui">burniso スクリプト</a></li>
 				<li><a href="cd-no-gui-burn-ja.htm#burning-no-gen">GUIなしでISOを焼くには</a></li>
 			</ul>
 		</li>
@@ -150,7 +150,7 @@
 				<li><a href="internet-connecting-ja.htm#netcardconfig">インターネットに接続 -Ceni</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-ja.htm">dist-upgrade and package management</a>
+		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-apt-ja.htm">dist-upgrade とパッケージ管理</a>
 			<ul class="sub-menu" id="sm13">
 				<li><a href="sys-admin-apt-ja.htm#apt-cook">APTの手引き、ソースリストについて</a></li>
 				<li><a href="sys-admin-meta-ja.htm#meta-pack">メタ・パッケージのインストーラーMeta-Package Installer</a></li>
@@ -222,21 +222,45 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 	</div>
 	<div class="divider" id="non-free-3d">
+<!--- ####
 		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+#### -->
+		<h2>nVidiaのクローズソースバイナリードライバーをdmakmsで自動インストール</h2>
+<!--- ####
 							<p>Prepare the module:</p>
+#### -->
+							<p>まずモジュールの準備:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+<!--- ####
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">nvidia-kernel-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file.</p>
+#### -->
+							<p>次にnvidiaドライバーのためのdmakms(Dynamic Module-Assistant Kernel Module Support)を有効にして、今後カーネルが更新されたときnvidiaモジュールも自動的に準備されるようにします。そのためには<span class="highlight-3">/etc/default/dmakms </span>の設定ファイルに<span class="highlight-3">nvidia-kernel-source</span>を加えます。</p>
+							
+<!--- ####
+							<p>Then:</p>
+#### -->
+							<p>それから:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 </pre>
-							<p>Next alter xorg.conf:</p>
+<!--- ####
+							<p>Followed by:</p>
+#### -->
+							<p>さらに続けて:</p>
+<pre>
+apt-get install nvidia-glx
+</pre>
+							<p>次にxorg.confに変更を加えます:</p>
 <pre>
 sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
+<!--- ####
 						      <p>Reboot PC for installation of the module to take effect.</p>
-						      <p>Read:</p>
+#### -->
+						      <p>PCを再起動してモジュールが有効になっているか確かめます。</p>
+						      <p>つまり:</p>
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
@@ -293,7 +317,10 @@ init 5 &amp;&amp; exit
 								#### -->
 								<p>カードによっては3Dがサポートされていることもありますが、たいていは2Dのみのサポートです。</p>
 
+<!--- ####
 							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+#### -->
+							<p><span class="highlight-3">いままでバイナリードライバーを使っていたのをオープンソースドライバーに切り替えたい場合、/etc/X11/xorg.confを修正する必要があります。ただ編集の失敗などによりあとで泣くことのないように、修正を始める前にまずバックアップコピーを作りましょう。</span></p>
 
 							<!--- ####
 							<p>To edit /etc/X11/xorg.conf right click it, open it with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">ati</span></p>
@@ -575,7 +602,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 		<p>これであなたのNTFSパーティションは<b>rw</b>(読み書きモード)でマウントされていて、データの書き込みができるるはずです。 警告を繰り返しますが <span class="highlight-3">これは緊急の場合に使うもので、日々の仕事につかうのにはお勧めできません！</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 20/04/2009 1130 UTC </div>
+	<div id="rev">Page last revised 24/04/2009 1145 UTC </div>
 
 </div>
 </body>

@@ -327,7 +327,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Instalacja siduksa przy pomocy VirtualBox</h2>
-							<p>VirtualBox jest idealny dla 32-bitowych maszyn. Dla  64bit użyj QEMU.</p>
+							<p>The Steps:.</p>
 						<ul>
  							<li>1. utwórz obraz twardego dysku dla VirtualBox</li>
  							<li>2. uruchom iso systemu przy pomocy VirtualBox</li>
@@ -339,31 +339,31 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Miejsce na twardym dysku:</span> chociaż VirtualBox jes bardzo mały (typowa instalacja zmajmie około 30 MB twardego dysku), to wirtualne maszyny wymagają całkiem dużych plików na dysku, które reprezentują własne twarde dyski. Więć, aby zainstalować np. MS Windows XP (TM), będziesz potrzebować plik, który może mieć kilka GB. Aby mieć siduksa w VirtualBox, potrzebujesz przydzielić 5 GB na obraz dysku plus powierzchnię na swap.</p>
 
-							<p class="highlight-3">Upewnij się, że dokonałeś aktualizacji systemu, przed instalacją modułów wirtualnej maszyny po instalacji nowego kernela, w przeciwnym razie otrzymasz niezgodność wersji gcc, uniemożliwiającą budowę modułu.(Uwaga dotyczy kompilacji wszystkich zewnętrznych modułów) </p>
-
-						<h4>Mechanizm:</h4>
-<pre>
-Zainstaluj pakiet virtualbox
-Kliknij Aplikacje &gt; Narzędzia systemowe &gt;InnoTek VirtualBox - Virtual Machine
-Stwórz VM, włóż płytę z systemem operacyjnym do napędu, zainstaluj i uruchom ponownie
-</pre>
-
-				<h3>Instalacja:</h3>
+				<h3>Installation:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose 
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+</pre>
+						 <h6>64 bit</h6>
+<pre>
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Następnie zapisujesz informacje identyfikujące obecny system operacyjny w formie:</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-virtualbox-ose-module-$(uname -r)
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<p class="highlight-3">Musisz też wykonać polecenie:</p>
+							<p>Now add your user name to vboxusers:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
+							<p>Next:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Instalacja siduksa na wirtualnej maszynie</h3>
 							<p>Użyj kreatora virtualboksa do stworzenia nowej maszyny wirtualnej dla siduksa. Następnie postępuj według instrukcji dla zwykłej instalacji siduksa.</p>
@@ -487,7 +487,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 05/04/2009 0050hrs UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

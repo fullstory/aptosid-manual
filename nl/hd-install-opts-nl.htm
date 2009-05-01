@@ -328,7 +328,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installeren van sidux in VirtualBox</h2>
-							<p>VirtualBox is ideaal voor 32bit machines. Voor 64bit gebruik dan QEMU.</p>
+							<p>The Steps:</p>
 						<ul>
  							<li>1. creeer een harddisk image voor VirtualBox</li>
  							<li>2. start de ISO op met VirtualBox</li>
@@ -340,31 +340,31 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Hard disk ruimte:</span> VirtualBox zelf heeft niet veel nodig, bij een normale installatie ongeveer 30 MB harddisk ruimte. De virtual machines zullen echter veel grotere bestanden op de harddisk opeisen, deze ziet de virtual machine dan als zijn eigen harddisk. Dus, om bijvoorbeeld MS Windows XP (TM) te installeren, zul je een bestand nodig hebben van meerdere GBs! Voor sidux in een VirtualBox is ca. 5 GB ruimte nodig voor je image en een swap allocation.</p>
 
-							<p class="highlight-3">Indien je een nieuwe kernel geïnstalleerd hebt, doe dan eerst een dist-upgrade voordat je virtual machine modules gaat installeren, anders krijg je een gcc mismatch foutmelding, omdat de module niet gebouwd kan worden (dit geldt voor elke externe module).</p>
-
-						<h4>Het mechanisme:</h4>
-<pre>
-Installeer de virtualbox pakket
-Klik op Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Maak een VM, plaats een Operating Systeem-CD in je CDRom drive en installeer en doe een reboot van het gast OS.
-</pre>
-
-				<h3>Installatie:</h3>
+				<h3>Installation:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose 
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+</pre>
+						 <h6>64 bit</h6>
+<pre>
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Hierna sla je de informatie van het huidige besturingssysteem op via:</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-virtualbox-ose-module-$(uname -r)
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<p class="highlight-3">Je moet het volgende ook uitvoeren om virtualbox te kunnen starten als betreffende gebruiker:</p>
+							<p>Now add your user name to vboxusers:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
+							<p>Next:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Het installeren van sidux in een virtual machine</h3>
 							<p>Gebruik de virtualbox wizard om een nieuwe virtual machine voor sidux te creëren. Volg dan de instructies voor een normale sidux installatie.</p>
@@ -482,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 05/04/2009 0050hrs UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 24/04/2009 0300hrs UTC</div>
 </div>
 </body>
 </html>

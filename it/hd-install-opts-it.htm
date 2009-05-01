@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 07/04/2009 14.25 UTC -->
+<!-- Last translation revision by alessiog75 on 23/04/2009 19.35 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by alessiog75 2009.03.16 2100 hrs UTC -->
@@ -326,7 +326,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installare sidux con VirtualBox</h2>
-							<p>VirtualBox-ose è ideale per macchine a 32bit mentre QEMU lo è per quelle a 64bit.</p>
+							<p>Passi da fare:</p>
 						<ul>
  							<li>1. creare una immagine disco fisso per VirtualBox</li>
  							<li>2. avviare la iso con VirtualBox</li>
@@ -338,33 +338,30 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Spazio sul disco fisso:</span> mentre VirtualBox in sé è piuttosto "magro" (una tipica installazione necessiterà soltanto di ~30 MB), le macchine virtuali richiedono invece dei file grandi sul disco per emulare i propri dischi emulati. Così per installare MS Windows XP (TM), ad esempio, servirà un file che può crescere facilmente fino a parecchi GB. Per sidux sarà necessario allocare in VirtualBox una immagine di 5 giga oltre ad una partizione di swap.</p>
 
-							<p class="highlight-3">Fare un dist-upgrade prima di installare i moduli per le macchine virtuali dopo l'installazione di un nuovo kernel o si otterrà un "gcc mismatch, failed module build error", tradotto "errore di compilazione del modulo per discrepanza in gcc" (questo è valido per ogni modulo esterno).</p>
-
-						<h4>Il meccanismo:</h4>
-<pre>
-Installare il pacchetto virtualbox
-Premere Applications > System Tools > InnoTek VirtualBox - Virtual Machine
-Creare una VM (macchina virtuale), mettere un CD di un sistema operativo nel lettore cd e installarlo. Riavviare.
-</pre>
-
-				<h3>Installazione</h3>
+				<h3>Installazione:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
 </pre>
-
-							<p>Salvare l'informazione che identifica il corrente sistema nella struttura:</p>
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+						 <h6>64 bit</h6>
 <pre>
-virtualbox-ose-module-$(uname -r)
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
-							<p class="highlight-3">Si deve eseguire la seguente stringa:</p>
+							<p>quindi fare il copia e incolla di questa linea nel terminale:</p>
 <pre>
-adduser &lt;username&gt; vboxusers
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-
-
+							<p>adesso aggiungere il nome utente a vboxusers:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+							<p>quindi:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">infine fare il log out della sessione e poi di nuovo il log in ed avviare Virtualbox dal Menu</p>
 
 					<h3>Installare sidux nella macchina virtuale</h3>
 							<p>Usare il wizard di virtualbox per creare una nuova macchina virtuale per sidux. Poi seguire le istruzioni per una normale installazione di sidux.</p>
@@ -485,7 +482,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 05/04/2009 0050hrs UTC</div>
+	<div id="rev">Page last revised 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

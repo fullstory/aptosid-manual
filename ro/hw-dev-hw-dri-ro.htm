@@ -213,30 +213,36 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
-							<p>Prepare the module:</p>
+		<h2>Drivere de sursa inchisa, binare pentru: nVidia cu dmakms</h2>
+							<p>Pregateste modulul:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add 'nvidia-kernel-source' to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. Then:</p>
+							<p>Apoi activeaza Dynamic Module-Assistant Kernel Module Support (dmakms) pentru nvidia, asfel incat urmatoarea data cand kernel-ul Linux este actualizat un modul nvidia este pregatit deasemeni, fara interventie manuala. Ca sa efectuati aceasta, adaogati <span class="highlight-3">nvidia-kernel-source</span> la <span class="highlight-3">/etc/default/dmakms </span>dosarul configiratie.</p>
+							
+							<p>Apoi:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 </pre>
-							<p>Next alter xorg.conf:</p>
+							<p>Urmat de:</p>
+<pre>
+apt-get install nvidia-glx
+</pre>
+							<p>Apoi schimbati xorg.conf:</p>
 <pre>
 sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
-						      <p>Reboot PC for installation of the module to take effect.</p>
-						      <p>Read:</p>
+						      <p>Reboot PC pentru ca instalarea modulului sa fie efectuata.</p>
+						      <p>Citeste:</p>
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
 						      
 		</div>
 		<div class="divider" id="native-nv-ati">
-			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel</h2>
+			<h2>Drivere de sursa deschisa Xorg pentru nVidia, ATI, Radeon, Intel</h2>
 
-							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
+							<p>Drivere de sursa deschisa Xorg pentru nVidia, ATI, Radeon, Intel sunt preinstalate cu sidux.</p>
 
 							<p>Driverele X.Org pentru serverele X (vedeţi xserver-xorg pentru descriere) oferă suport 2d pentru placile  NVIDIA Riva, TNT, GeForce, şi Quadro , pentru plăcile ATI Mach, Rage, Radeon, şi FireGL plus pentru sub-driverele  'atimisc', 'r128' şi 'radeon'. Pentru seriile Intel free se oferă suport în 3d.</p>
 
@@ -255,9 +261,9 @@ sau
 xserver-xorg-video-intel
 init 5 &amp;&amp; exit
 </pre>
-							<p>For some cards it may add 3D support, however it is usually 2D.</p>
+							<p>Pentru anumite  card-uri s-ar putea adaoga suport 3D,dar de obicei este suficient 2D.</p>
 
-							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+							<p><span class="highlight-3">Daca ati folosit drivere de sursa inchisa  si doriti sa reveniti la drivere de sursa deschisa va trebui sa editati /etc/X11/xorg.conf,DAR MAI INTAI TREBUIE SA FACETI O COPIE "BACK UP", deoarece editand /etc/X11/xorg.conf incorect va rezulta in multe lacrimi varsate de dvs.</span></p>
 
 							<p>Pentru a edita /etc/xorg.conf faceţi clic dreapta pe el şi-l deschideţi cu permisiune root . Găsiţi secţiunea care citeşte SECTION DEVICE şi schimbaţi driverul de display pentru a fi <span class="highlight-2">nv</span> sau <span class="highlight-2">ati</span>. <span class="highlight-2">intel</span>.</p>
 
@@ -273,17 +279,17 @@ init 5 &amp;&amp; exit
 
 	</div>
 	<div class="divider" id="non-free-firmware">
-				<h2>Firmware drivers</h2>
-							<p>The required firmware can be determined with the following device/ firmware enumeration or by using the newly developed fw-detect script (packaged in sidux-scripts).</p>
+				<h2>Drivere Firmware</h2>
+							<p>Firmware-ul necesar poate fi determinat cu  urmatorul dispozitiv/ firmware enumerare sau folosind recentul text dezvoltat fw-detect  (gasit in sidux-scripts).</p>
 <pre>
 $ fw-detect
 </pre>
-							<p> <span class="highlight-3">It is good practice to do a modprobe -r &lt;modulename&gt; before  modprobe &lt;modulename&gt;, especially for intel</span>.</p>
+							<p> <span class="highlight-3">Este un obicei bun sa efectuati un modprobe -r &lt;modulename&gt; inainte modprobe &lt;modulename&gt;, in special pentru intel</span>.</p>
 
 				<ul>
 					<li>
 						Atari DSP56k support:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under <span class="highlight-3">/lib/firmware/dsp56k/</span>.
+						adu firmware-ul din <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> si pune-l sub <span class="highlight-3">/lib/firmware/dsp56k/</span>.
 					</li>
 
 					<li>
@@ -505,7 +511,7 @@ exit
 
 
 		
-			<div id="rev">Content last revised 20/04/2009 1130 UTC</div>	
+			<div id="rev">Content last revised 24/04/2009 1145 UTC</div>	
 
 </div>
 </div>

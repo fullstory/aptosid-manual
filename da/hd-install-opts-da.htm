@@ -324,7 +324,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installering af sidux med VirtualBox</h2>
-							<p>VirtualBox er ideelt til 32bit maskiner. For 64bit kan QEMU bruges.</p>
+							<p>The Steps:</p>
 						<ul>
  							<li>1. opret et harddiskimage til VirtualBox</li>
  							<li>2. boot iso'en med VirtualBox</li>
@@ -336,31 +336,31 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Harddisk plads:</span> VirtualBox selv tager ikke meget mere end ca 30 mb, men de virtuelle maskiner kræver ret store filer til at repræsentere deres harddisk plads. For at installere for eksempel MS Windows XP (TM), får du brug for en fil der nemt kan vokse til flere GB i størrelse. For at installere sidux i VirtualBox skal du allokere cirka 5 gb og en yderligere plads til swap.</p>
 
-							<p class="highlight-3">Husk at dist-upgrade før du installerer virtual machine moduler efter installation af en ny kernel, ellers vil du få en gcc mismatch og "failed module build error" (Dette gælder for ethvert eksternt modul). </p>
-
-						<h4>The mechanism:</h4>
-<pre>
-Installer virtualbox pakken
-Klik Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Opret en VM, smid en OS-CD i dit CD-drev og installer. Genstart
-</pre>
-
 				<h3>Installation:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose 
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+</pre>
+						 <h6>64 bit</h6>
+<pre>
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Du gemmer så informationen der identificerer det nuværende operativ system i strukturen:</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-virtualbox-ose-module-$(uname -r)
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<p class="highlight-3">Du skal gøre følgende:</p>
+							<p>Now add your user name to vboxusers:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
+							<p>Next:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Installering af sidux i virtual machine</h3>
 							<p>Brug virtualbox's wizard til at oprette en ny virtuel maskine til sidux, og følg så instruktionerne som for en regulær sidux installetion.</p>
@@ -475,7 +475,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 05/04/2009 0050hrs UTC</div>
+			<div id="rev"> Content last revised 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

@@ -327,7 +327,7 @@ $ man fll-iso2usb
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Инсталиране на sidux във VirtualBox</h2>
-							<p>VirtualBox-ose е идеална за 32bit компютри. За 64bit използвайте QEMU.</p>
+							<p>The Steps:</p>
 						<ul>
  							<li>1. Създайте файл за образ за виртуалния хард-диск във VirtualBox</li>
  							<li>2. Стартирайте sidux iso-образа във VirtualBox</li>
@@ -339,37 +339,30 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Дисково пространство:</span> Докато самата VirtualBox е много икономична (типичната инсталация се нуждае само от 30 MB дисково пространство), за виртуалните машини ще трябват доста големи файлове, които да имитират техните хард-дискове. Така че, за да инсталирате например MS Windows XP (TM) като виртуална машина, използвания файл с лекота ще "порасне" до десетки GB. За да използвате sidux във VirtualBox, трябва да предвидите 5 gig файл плюс място за swap.</p>
 
-							<p class="highlight-3">Ако сте обновявали или преинсталирали ядрото, уверете се че сте обновили системата (извършили сте dist-upgrade) преди да инсталирате модулите за виртуални машини - иначе може да получите gcc несъвместимост, или грешки за неуспешна компилация на модулите. (Това е в сила за който и да е външен модул на ядрото) </p>
-
-						<h4>Как работи всичко това:</h4>
-<pre>
-Инсталирайте virtualbox пакета (подробни инструкции по-долу)
-Стартирайте VirtualBox от  Applications &gt; System Tools &gt;InnoTek VirtualBox - Virtual Machine
-Във VirtualBox създайте нова виртуална машина, 
-сложете инсталационното CD в CD/DVD устройството (или използвайте директно iso-образ за стартиране),
-стартирайте виртуалната машина, 
-инсталирайте, 
-и рестартирайте виртуалната машина.
-</pre>
-
-				<h3>Инсталация на VirtualBox пакета:</h3>
+				<h3>Installation:</h3>
+						 <h6>32 bit</h6>
 <pre>
 apt-get update
-apt-get install virtualbox-ose 
-m-a a-i virtualbox-ose
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
 </pre>
-
-							<p>Сега съхраняваме информацията за текущата версия на ядрото:</p> 
-	<!-- echo virtualbox-ose-module-$(uname -r) -->
+						 <h6>64 bit</h6>
 <pre>
-virtualbox-ose-module-$(uname -r)
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
-							<p class="highlight-3">Ще трябва да добавите вашето потребителско име (username) в групата "vboxusers" на VirtualBox потребителите (които имат право да стартират VirtualBox):</p>
+							<p>Then copy and paste this line into the terminal:</p>
 <pre>
-adduser &lt;вашето-потребителско-име&gt; vboxusers 
+sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-
-
+							<p>Now add your user name to vboxusers:</p>
+<pre>
+adduser &lt;username&gt; vboxusers 
+</pre>
+							<p>Next:</p>
+<pre>
+modprobe vboxdrv
+</pre>
+							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Инсталиране на sidux като виртуална машина</h3>
 							<p>Използвайте графичните средства на virtualbox (wizard) за създаването на нова виртуална машина за sidux. След като я стартирате от sidux iso-образ или live-CD, следвайте инструкциите за стандартна инсталация на sidux.</p>
@@ -490,7 +483,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 		
 	</div>
-	<div id="rev">Page last revised 05/04/2009 0050hrs UTC</div>
+	<div id="rev">Page last revised 24/04/2009 0300hrs UTC</div>
 
 </div>
 </body>

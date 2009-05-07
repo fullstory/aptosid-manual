@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision par alphad 05/03/2009 0100 UTC-->
+<!-- Last translation revision par Sephi 06/05/2009 1051 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC, last trans update Sephi 2009.04.28 -->
@@ -194,17 +194,17 @@
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Démarrer depuis une image ISO ("fromiso")</h2>
 	
-							<p  class="highlight-2">Pour une utilisation ordinaire, nous recommanderons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
+							<p  class="highlight-2">Pour une utilisation ordinaire, nous recommandons le système de fichiers ext3, utilisé par défaut par sidux et bien maintenu.</p>
 
-							<p>Le code de démarrage fromiso vous permet de démarrer à partir d'une copie sur une partition de disque dur (ext2/3) de l'image du Live-CD, ce qui permet une utilisation en mode "Live" nettement accélérée (L'installation depuis un système démarré "fromiso" est également plus rapide).</p>
+							<p>Le code de démarrage fromiso vous permet de démarrer à partir d'une copie sur une partition de disque dur (ext2/3) de l'image du Live-CD, ce qui permet une utilisation en mode "Live" nettement accélérée (l'installation depuis un système démarré "fromiso" est également plus rapide).</p>
 
-							<p>'fromiso' permet d'exploiter le débit de transfert des disques durs, nettement supérieur à celui de CD/DVD-ROM, et c'est ce qui explique l'accération. Cela permet aussi de pouvoir exploiter son lecteur/graveur de CD/DVD qui à ce moment là, se trouve libéré. Comme alternative, il existe également la possibilité de démarrer à partir de QEMU.</p>
+							<p>'fromiso' permet d'exploiter le débit de transfert des disques durs, nettement supérieur à celui des CD/DVD-ROM, et c'est ce qui explique l'accération. Cela permet aussi de pouvoir exploiter son lecteur/graveur de CD/DVD qui à ce moment là se trouve libéré. Comme alternative, il existe également la possibilité de démarrer à partir de QEMU.</p>
 
 				<h5>Ce qu'il vous faudra:</h5>
 
-							<p>* un grub opérationnel (sur disquette, disque dur, ou live-cd)<br />
-							* une image ISO de sidux, par exemple : sidux.iso et un système de fichiers GNU/Linux ext2/3 <br />
-							* Si vous changez le nom de l'image pour adopter par exemple, le nom simplifié sidux.ISO, vous devrez en conséquence modifier les commandes nécessaires afin d'intégrer cette modification (souvenez-vous que le système d'identification des fichiers unix est sensible à la casse !).</p>
+							<p>* Un grub opérationnel (sur disquette, disque dur, ou live-cd)<br />
+							* Une image ISO de sidux, par exemple : sidux.iso et un système de fichiers GNU/Linux ext2/3 <br />
+							* Si vous changez le nom de l'image pour adopter par exemple, le nom simplifié sidux.ISO, vous devrez en conséquence modifier les commandes nécessaires afin d'intégrer cette modification (souvenez-vous que le système d'identification des fichiers Unix est sensible à la casse !).</p>
 
 <!--- ####							
 				<h4 class="highlight-3">Process:</h4>
@@ -234,67 +234,71 @@ initrd (hd0,4)/sidux/initrd.img
 </pre>
 							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
 #### -->
-				<h4 class="highlight-3">Processus:</h4>
-							<p>Choisir un endroit ou copier l'ISO et les deux fichiers dont nous avons besoin, nous aurons anisi des noms simplifiés. Pour cela créez 1 repertoire: Par exemple "/media/sdaX", (sda1 ou 2, ou 5, ou 6,...) créer le dossier "sidux" et y copier l'ISO:</p>
+				<h4 class="highlight-3">Processus :</h4>
+							<p>Choisir un endroit où copier l'ISO et les deux fichiers dont nous avons besoin, nous aurons anisi des noms simplifiés. Pour cela créez un repertoire : par exemple "/media/sdaX", (sda1 ou 2, ou 5, ou 6,...) puis créer le dossier "sidux" et y copier l'ISO :</p>
 <pre>$ sux
 mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
-							<p>Ensuite monter le fichier image (On peut aussi utiliser mc [midnight commander], puisque de façon transparente et automatique il monte les fichiers ISO et vous permet de copier les fichiers nécessaire.):</p>
+							<p>Monter ensuite le fichier image (on peut aussi utiliser mc [midnight commander], puisque de façon transparente et automatique il monte les fichiers ISO et vous permet de copier les fichiers nécessaires) :</p>
 										
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
-							<p>Maintenant copier les fichiers vmlinuz et initrd.img de l'image montée vers le répertoire de destination <span class="highlight-3">selon le chemin à spécifier vers votre propre disque dur::A titre d'exemple :</span></p>
+							<p>Maintenant copier les fichiers vmlinuz et initrd.img de l'image montée vers le répertoire de destination <span class="highlight-3">selon le chemin à spécifier vers votre propre disque dur. À titre d'exemple :</span></p>
 
 <pre>
 cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Customiser ensuite le grub, pour cela éditer le fichier<span class="highlight-3"> /boot/grub/menu.lst </span> et ajouter les lignes suivantes <span class="highlight-3"> APRES le ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">Les variables du disques dur vous sont propres::ce qui suit n'est qu'un exemple:</span> </p>
+							<p>Modifier ensuite le fichier de configuration de grub. Pour cela éditer le fichier<span class="highlight-3"> /boot/grub/menu.lst </span> et ajouter les lignes suivantes <span class="highlight-3"> APRES le ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE les caractères spéciaux tels que * ne sont pas autorisés dans les noms de fichiers! </span> <span class="highlight-3">Les variables du disque dur vous sont propres, ce qui suit n'est qu'un exemple :</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>Au redémarrage vous aurez un nouveau menu au grub pour permettre de démarrer l'ISO. Lorsque vous mettez à jour votre sidux.iso, et les fichiers vmlinuz et intird.img, le menu.lst du grub n'a pas besoin d'être modifié.</p>
+							<p>Au redémarrage vous aurez un nouvel élément dans le menu de grub pour permettre de démarrer l'ISO. Lorsque vous mettrez à jour votre sidux.iso et les fichiers vmlinuz et intird.img, le menu.lst de grub n'aura pas besoin d'être modifié.</p>
 
 							</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>General information on fromiso with persist</h2>
+		<h2>Information générale sur fromiso avec persist</h2>
 
-				<h3>fromiso and persist on a HD</h3>
+				<h3>fromiso et persist sur un disque dur</h3>
 
-							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
+							<p>Vous pouvez avoir un système live persistant sur un disque
+              inscriptible en combinant une installation fromiso avec le code de
+              démarrage persist. Le code de démarrage par défaut est simplement
+              : </p>
 
 <pre>
 persist
 </pre>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
+							<p>sidux utilise aufs pour activer ce que l'on appelle "copie à l'écriture" sur votre ISO, pour vous permettre de créer et de mettre à jour des fichiers et des répertoires tout en gardant les nouveaux fichiers en mémoire. Le code de démarrage <span class="highlight-3">persist</span> va stocker vos nouveaux fichiers sur la même partition que celle utilisée pour stocker votre image ISO.</p>
 
-							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
+							<p><span class="highlight-3">fromiso</span> vous met à disposition un système live qui contient toutes les fonctionnalités automatiques du live CD sidux. Cela permet de bénéficier de fonctionnalités telles que la configuration automatique du matériel. En contrepartie cela signifie aussi que les mêmes fichiers devront être recréés à chaque démarrage, à moins que vous n'utilisiez des codes de démarrage aditionnels.</p> 
 
-							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
+							<p>L'utilisation de <span class="highlight-3">persist</span> avec d'autres codes de démarrage spécifiques à sidux tels que noxorgconf, nonetwork, etc signifie qu'il n'aura pas à recréer les mêmes fichiers à chaque démarrage.</p>
 
-							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
+							<p>L'utilisation de persist signifie aussi que vous pouvez installer des paquets depuis apt et avoir à disposition les applications installées et n'importe quelles autres données sauvées par vous-mêmes au prochain démarrage.</p>
 
-				<h3>fromiso and persist on a bootable USB Key</h3>
-							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+				<h3>fromiso et persist sur une clef USB bootable</h3>
+							<p>L'utilisation de la persistance est idéale lorsqu'elle est faite en conjonction avec l'outil install-usb-gui pour créer votre propre disque flash de démarrage avec vos fichiers et les applications dont vous avez besoin.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Vos fichiers seront stockés dans un sous-répertoire de votre disque. Ce sous-répertoire est créé s'il n'existe pas encore quand les codes de démarrage <span class="highlight-3">fromiso </span> et <span class="highlight-3">persist</span> sont utilisés conjointement. </p>
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+							<p>L'utilisation de <span class="highlight-3">persist</span> sur un système de fichiers FAT, comme c'est souvent le cas sur les installations DOS/Windows 9x et par défaut sur la plupart des périphériques flash, requiert que vous créiez un gros fichier unique qui sera utilisé comme périphérique de bouclage (loop) puis que vous le formatiez.</p>
 
-							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">Sur les clefs USB, ext2 et vfat sont les systèmes de fichiers recommandés car ils sont les plus à même d'être compatibles entre les différentes plateformes, ce qui est utile lors d'une utilisation de récupération de fichiers. Un pilote MS Windows &#8482; permet l'écriture sur les partitions de type ext2. Les réécriture sur les périphériques de type flash dépendent des spécifications de votre clef USB.</span></p>
 
-					<h6>ext2/3 file systems</h6>
-							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+					<h6>systèmes de fichiers ext2/3</h6>
+							<p>Avec ext2/3 la partition sera utilisée dans son intégralité. La racine actuelle est utilisée est un répertoire /fll est créé. Ce répertoire est utilisé pour persister l'utilisation de l'intégralité de l'espace libre sur le périphérique pour le système persisté.</p>
 
-					<h6>vfat file system</h6>
-							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+					<h6>système de fichiers vfat</h6>
+          <p>Quand vfat est utilisé, la persistance est assurée grâce à un fichier dont la taille ne peut excéder 2GB et ne peux pas être inférieure à 100MB (car il serait alors inutile). Ce fichier devrait être nommé <span class="highlight-3">sidux-rw</span>. En partant du principe que le disque que vous voulez utiliser est monté en écriture sur /media/sdb1 et que vous voulez créer un fichier de 1GB à utiliser comme disque persistant, vous pouvez alors utiliser les commandes suivantes (pas besoin d'être connecté en root si vous pouvez écrire dans le fichier).</p>
 
 <pre>
 disc="/media/sdb1" 
@@ -304,39 +308,39 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 </pre>
 
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Les partitions NTFS, souvent utilisées sur les installations de Windows NT/2000/XP (TM) ne peuvent EN AUCUN CAS être utilisées pour faire de la persistance.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installation of sidux on a USB-device</h2>
+		<h2>Installation de sidux sur un disque USB</h2>
 
-							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+							<p>L'installation de sidux sur une clef ou un disque USB est aussi simple qu'une installation normale sur disque dur. Suivez simplement ce guide.</p>
 
-				<h5>Two kinds of installation to USB</h5> 
-							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
-							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
+				<h5>Deux types d'installation sur USB</h5> 
+							<p>1) - fromiso (pour créer un disque USB bootable depuis un système installé vous aurez besoin du fichier sidux.iso)<br />
+							2) - complète (l'installation complète sur un disque USB se fait de la même façon qu'une installation normale sur disque dur en utilisant l'installateur standard).</p>
 
-				<h3>USB fromiso Installation</h3>
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+				<h3>Installation USB avec fromiso</h3>
+							<p> <span class="highlight-3">Formatez votre périphérique en ext2 ou fat32 avant de commencer.</span></p>
 
-							<p>If 'install-sidux-usb-gui' is not present on your installation 'apt-get install fll-iso2usb'.</p>
+							<p>Si le programme 'install-sidux-usb-gui' n'est pas présent sur votre installation, lancez 'apt-get install fll-iso2usb'.</p>
 
-							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
+							<p>L'installation <span class="highlight-3">fromiso</span> se fait depuis <span class="highlight-3">Kmenu &gt; System &gt; install-sidux-usb-gui</span> sur un système installé sur disque dur, ou en cliquant sur l'icône <span class="highlight-3">sidux Installer</span> dans l'ISO et en choisissant <span class="highlight-3">Install to USB (installer sur USB)</span>. Il est en général conseillé d'installer 'fromiso' sur la première partition du disque USB.</p>
 
-							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
+							<p>Vous aurez l'occasion de choisir la langue, la zone horaire et d'autres codes de démarrage ainsi que d'activer ou non la persistance via une case à cocher.</p>
 
-							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
+              <p>Vous avez maintenant une clef USB bootable. Si vous n'avez pas activé la persistance, vous pouvez encore l'activer en ajoutant <span class="highlight-3">persist</span> à la ligne de démarrage sur l'écran de démarrage grub, ou en l'ajoutant en dur à la ligne #kopt= dans le fichier menu.lst.</p>
 
 
-						<h6>Terminal example:</h6>
+						<h6>Exemple dans un terminal :</h6>
 <pre>
 fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
 </pre>
-							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
+							<p>Cela installera l'image ISO sur le périphérique USB <span class="highlight-3">sdb</span> avec la persistance, toram, la localisation norvégienne et la zone horaire Pacifique/Auckland /NZL) ajoutées à la ligne de démarrage par défaut de grub.</p>
 
-							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
+							<p>La configuration de X (carte graphique, clavier, souris) ainsi que le fichier de configuration des interfaces réseau n'ont pas été sauvegardés, ce qui rend cette installation idéale à utiliser sur d'autres ordinateurs.</p>
 
-							<p>For more documentation including customisation options see:</p>
+							<p>Pour une documentation plus complète comprenant des options de personnalisation, veuillez vous référer à :</p>
 
 <pre>
 $ man fll-iso2usb
@@ -345,31 +349,31 @@ $ man fll-iso2usb
 			<!--- ####
 			<h3>Full installation (behaves as normal HD installation)</h3>
 			#### -->
-			<h3> L'installation totale (se fait comme sur un disque dur ordinaire)</h3>
+			<h3>Installation complète (se fait comme sur un disque dur ordinaire)</h3>
 							<p>L'espace disque minimal recommandé pour votre clé usb sera:<br />
 							Pour sidux "LITE", 1.7 Go PLUS l'espace voulu pour vos données,<br />
 							Pour sidux "FULL", 3.5 Go PLUS l'espace voulu pour vos données</p>
 
 							<p> <span class="highlight-3">Formatez au préalable votre clé en ext3 et partitionnez le disque dur USB ou la clé comme vous le feriez pour un PC standard.</span></p>
 
-							<p>Démarrez l'installation du Live-ISO et choisir la partition d'installation de sidux sur la clé USB, par exemple <span class="highlight-3">sdbX </span>et suivre le prompt de l'installateur sidux. Lisez <a href="hd-install-fr.htm#Installation">Installer sur son DDur</a></p>
+							<p>Démarrer l'installation du Live-ISO et choisir la partition d'installation de sidux sur la clé USB, par exemple <span class="highlight-3">sdbX </span>et suivre les questions posées par l'installateur sidux. Lisez <a href="hd-install-fr.htm#Installation">Installer sur son DDur</a></p>
 
-							<p><span class="highlight-3">Pour démarrer de votre dique dur externe ou de votre clé USB. Votre BIOS devrait le permettre.</span></p>
+							<p><span class="highlight-3">Pour démarrer de votre dique dur externe ou de votre clé USB, votre BIOS doit d'abord en être capable et l'option "Démarrer depuis USB" doit être activée.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installer sidux avec VirtualBox</h2>
-							<p>The Steps:</p>
+							<p>Les étapes :</p>
 						<ul>
- 							<li>1. Créez une image-disque pour Virtualbox.</li>
+ 							<li>1. Créez une image disque pour Virtualbox.</li>
  							<li>2. Démarrez l'iso avec Virtualbox</li>
- 							<li>3. installez sidux sur votre image-disque</li>
+ 							<li>3. installez sidux sur votre image disque</li>
 						</ul>
 
-				<h4>Requis minimaux</h4>
-							<p><span class="highlight-3">1 Go re RAM recommandés</span>: dans l'idéal, 512 Mo pour le système hébergé, 512 Mo pour l'hôte. (ça peut tourner avec moins de ram, mais n'attendez pas une grande performance à ce moment là...).</p>
+				<h4>Configuration minimale requise</h4>
+							<p><span class="highlight-3">1 Go de RAM recommandés</span>: dans l'idéal, 512 Mo pour le système hébergé, 512 Mo pour l'hôte. (ça peut tourner avec moins de ram, mais n'attendez pas une grande performance à ce moment là...).</p>
 
-							<p><span class="highlight-3">Espace disque:</span> VirtualBox en soi a beau être léger (une installation de base occupe autour de 30 Mo d'espace disque), les machines émulées elles, nécessitent pour fonctionner de disposer d'un espace disque plutôt conséquent, afin de suffire à héberger leurs propres espaces disques de stockage. Dans ces conditions, pour installer Windows XP&reg;, par exemple, vous aure besoin d'un espace suceptible de s'étendre sur un bon nombre de Gigas...Pour utiliser sidux sous virtualbox vous devrez allouer une taille image de 5 gig en plus du swap.</p>
+							<p><span class="highlight-3">Espace disque:</span> VirtualBox en soi a beau être léger (une installation de base occupe autour de 30 Mo d'espace disque), les machines émulées elles, nécessitent pour fonctionner de disposer d'un espace disque plutôt conséquent, afin de suffire à héberger leurs propres espaces disques de stockage. Dans ces conditions, pour installer Windows XP&reg;, par exemple, vous aure besoin d'un espace suceptible de s'étendre sur un bon nombre de Gigas...Pour utiliser sidux sous virtualbox vous devrez allouer une taille image de 5 GB en plus du swap.</p>
 
 				<h3>Installation:</h3>
 						 <h6>32 bit</h6>
@@ -383,19 +387,19 @@ apt-get update
 apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Then copy and paste this line into the terminal:</p>
+							<p>Copiez-collez ensuite ceci dans le terminal :</p>
 <pre>
 sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<p>Now add your user name to vboxusers:</p>
+							<p>Ajoutez ensuite votre utilisateur au groupe vboxusers :</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
-							<p>Next:</p>
+							<p>Puis :</p>
 <pre>
 modprobe vboxdrv
 </pre>
-							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+							<p class="highlight-3">Pour finir déconnectez-vous de votre environnement graphique puis reconnectez-vous et démarrer VirtualBox depuis le menu.</p>
 							
 					<h3>Installer sidux sur la machine virtuelle</h3>
 
@@ -412,25 +416,25 @@ modprobe vboxdrv
 							<p>Les étapes:</p>
 
 						<ul>
- 							<li>1. créer une image-disque pour qemu</li>
+ 							<li>1. créer une image disque pour qemu</li>
  							<li>2. démarrer l'iso avec qemu</li>
- 							<li>3. installer sur l'image-disque</li>
+ 							<li>3. installer sur l'image disque</li>
 						</ul>
 
  			<h4>Créer une image-disque</h4>
 
-							<p>Pour utiliser qemu vous aurez probablement besoin d'une image-disque (image de disque dur). Il s'agit d'un simple fichier qui stocke le contenu d'un disque dur virtuel (émulé).</p>
+							<p>Pour utiliser qemu vous aurez probablement besoin d'une image disque (image de disque dur). Il s'agit d'un simple fichier qui stocke le contenu d'un disque dur virtuel (émulé).</p>
 
 							<p>Utilisez cette commande:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-							<p>Elle crée un fichier image appelé "sidux.qcow". Le paramètre "3G" spécifie sa taille, qui est de 3 Go. Vous pouvez également utiliser le paramètre M pour les mégaoctets (par exemple "800M". Vous n'avez pas trop à vous inquiéter de la taille du disque, car le format qcow compresse l'image de sorte qu'elle n'occupe pas plus d'espace que ce qui est effectivement occupé par les données une fois compressées.</p>
+							<p>Elle créera un fichier image appelé "sidux.qcow". Le paramètre "3G" spécifie sa taille, qui est de 3 Go. Vous pouvez également utiliser le paramètre M pour les mégaoctets (par exemple "800M". Vous n'avez pas trop à vous inquiéter de la taille du disque, car le format qcow compresse l'image de sorte qu'elle n'occupe pas plus d'espace que ce qui est effectivement occupé par les données une fois compressées.</p>
 
 
-			<h4>Installer le système d'exploitation.</h4>
+			<h4>Installer le système d'exploitation</h4>
 
-							<p>C'est la première fois que vous utilisez cet émulateur. <span class="highlight-3">Une bonne chose à savoir, c'est que quand vous cliquez dans la fenêtre de qemu, il préempte le pointeur de la souris. pour le libérer vous n'avez qu'à presser sur votre clavier la combinaison :</span></p>
+							<p>C'est la première fois que vous allez devoir démarrer l'émulateur. <span class="highlight-3">Une bonne chose à savoir : quand vous cliquez dans la fenêtre de qemu, il capture le pointeur de la souris. Pour le libérer vous n'avez qu'à presser sur votre clavier la combinaison :</span></p>
 <pre>
 Ctrl+Alt
 </pre>
@@ -458,7 +462,7 @@ qemu [votre_image_disque]
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
-							<p>Substituez l'image de le recouvrement à votre image_de_base (dans notre cas sidux.qcow). Après quoi vous pouvez lancer qemu avec:</p>
+							<p>Remplacez l'image de recouvrement à votre image_de_base (dans notre cas sidux.qcow). Après quoi vous pouvez lancer qemu avec:</p>
 <pre>
 qemu [image_de_recouvrement]
 </pre>
@@ -467,9 +471,9 @@ qemu [image_de_recouvrement]
 
 				<h4>Utiliser une partition réelle quelconque en tant que partition primaire unique d'une image disque</h4>
 
-							<p>Il peut être requis parfois d'utiliser qemu à l'émulation d'une de ses partitions systèmes réelles (par exemple, pour démarrer en même temps votre système réel ou qemu utilisant une partition spécifique comme racine). Vous pouvez y parvenir en utilisant le RAID logiciel en mode linéaire (il vous faudra le pilote de noyau linear.ko) ainsi qu'un périphérique loopback : l'astuce consiste à préempter dynamiquement un master boot record (MBR) sur la partition que vous souhaitez intégrer à une image disque qemu brute.</p>
+							<p>Il peut arrivez que vous vouliez utiliser une de vos partitions système dans qemu (par exemple, pour démarrer en même temps votre système réel ou qemu utilisant une partition spécifique comme racine). Vous pouvez y parvenir en utilisant le RAID logiciel en mode linéaire (il vous faudra le pilote de noyau linear.ko) ainsi qu'un périphérique loopback : l'astuce consiste à ajouter un master boot record (MBR) à la fin de la partition que vous souhaitez intégrer à une image disque qemu brute.</p>
 
-							<p>Supposons que vous disposez d'une partition non-montée /dev/sdaN dont vous voudriez faire du système de fichiers, une partie de votre image disque qemu. Vous commencerez par créer un petit fichier pour stocker le MBR:</p>
+							<p>Supposons que vous disposez d'une partition non montée /dev/sdaN dont vous voudriez faire du système de fichiers une partie de votre image disque qemu. Vous commencerez par créer un petit fichier pour stocker le MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -482,11 +486,11 @@ losetup -f /chemin/du/mbr
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-							<p>Le résultat /dev/md0 est ce que vous allez utiliser comme disque image qemu (n'oubliez pas de fixer les permissions de sorte que l'émulateur puisse y avoir accès). La dernière (et peut-être la plus perverse) des étapes consiste à régler la configuration du disque (géométrie et table des partitions) en sorte que le point d'origine du MBR coincide avec celui de /dev/md0 (un offset d'exactement 16*512 = 16384 octets dans cet exemple). Réalisez cette étape en utilisant fdisk sur la machine hôte, et non depuis l'émulateur : la routine détection brute des disques utilisée par qemu produit en effet souvent des offset non-arrondis au kilooctet (de type 31.5 KB, comme dans la section précédente) et qui ne seraient pas gérables par le RAID logiciel. Ainsi, depuis la machine hôte: </p>
+							<p>Le résultat /dev/md0 est ce que vous allez utiliser comme disque image qemu (n'oubliez pas de fixer les permissions de sorte que l'émulateur puisse y avoir accès). La dernière (et peut-être la plus perverse) des étapes consiste à régler la configuration du disque (géométrie et table des partitions) de telle sorte que le point d'origine du MBR coincide avec celui de /dev/md0 (un offset d'exactement 16*512 = 16384 octets dans cet exemple). Réalisez cette étape en utilisant fdisk sur la machine hôte, et non depuis l'émulateur : la routine de détection brute des disques utilisée par qemu produit en effet souvent des offset non-arrondis au kilooctet (de type 31.5 KB, comme dans la section précédente) et qui ne seraient pas gérables par le RAID logiciel. Ainsi, depuis la machine hôte: </p>
 <pre>
  fdisk /dev/md0
 </pre>
-							<p>Puis, créez une partition primaire unique correspondant à /dev/sdaN, et manipulez la commande 'sector du menu expert, en sorte que le premier cylindre (où cette première partition est sensée démarrer), coïncide avec la taille du MBR. Quand finalement vous activez la fonction 'w' pour sauver votre réglage dans un fichier, l'opération est terminée. Vous disposez d'une partition que vous pouvez monter directement depuis votre machine hôte, et qui fait également partie d'une image disque qemu :</p>
+							<p>Créez ensuite une partition primaire unique correspondant à /dev/sdaN, et utilisez la commande 's'ector du menu expert, de telle sorte que le premier cylindre (où cette première partition est censée démarrer) coïncide avec la taille du MBR. Quand finalement vous activez la fonction 'w' pour sauver votre réglage dans un fichier, l'opération est terminée. Vous disposez d'une partition que vous pouvez monter directement depuis votre machine hôte, et qui fait également partie d'une image disque qemu :</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
@@ -500,7 +504,7 @@ major=0
 </pre>
 							<p>Pour automatiser la création du périphérique /dev/kqemu, utilisez cette commande :</p>
 <pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
+echo "options kqemu major=0" &gt;&gt; /etc/modprobe.conf
 </pre>
 							<p>Ceci empêchera modprobe.conf de vérifier systématiquement que l'option de module soit ajoutée à chaque lancement de celui-ci.</p>
 

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by HarzG 04/01/2009 2130 UTC -->
+<!-- Last translation revision by HarzG 01/05/2009 0930 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by HarzG 2009.03.21 1045 hrs UTC -->
@@ -213,27 +213,42 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
-							<p>Prepare the module:</p>
+		<h2>Binary, closed source drivers voor nVidia met dmakms</h2>
+							<p>Voorbereiding:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">nvidia-kernel-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file.</p>
+							<p>Hierna wordt de Dynamic Module-Assistant Kernel Module Support (dmakms) voor nvidia geactiveerd. De volgende keer dat een update van de Linux kernel plaatsvindt, is de nvidia module hierop voorbreid zonder handmatige aanpassingen. Dat wordt gedaan door de <span class="highlight-3">nvidia-kernel-source</span> aan de <span class="highlight-3">/etc/default/dmakms </span>configuratie  toe te voegen.</p>
 							
-							<p>Then:</p>
+							<p>Dan:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 </pre>
-							<p>Followed by:</p>
+							<p>Vervolgens:</p>
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Next alter xorg.conf:</p>
+							<p>Tenslotte wordt xorg.conf aangepast:</p>
 <pre>
 sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
-						      <p>Reboot PC for installation of the module to take effect.</p>
-						      <p>Read:</p>
+						      <p>Na een reboot van de pc werkt de module.</p>
+
+					<h4>Laden van de module mislukt</h4>
+					
+							<p>Als het laden van de nvidia module, om welke reden dan ook, mislukt [nieuw xorg component, een fs probleem of als X niet meer start na een reboot]:</p>
+<pre>
+modprobe nvidia 
+</pre>
+							<p>Dan reboot de computer.</p> 
+							
+							<p>Als de module nog steeds niet geladen wordt:</p>
+ <pre>
+ m-a a-i -f nvidia-kernel-source 
+</pre>
+							<p>Hiermee wordt een rebuild van de module uitgevoerd, <span class="highlight-3">hierna rebooten.</span></p>
+							
+						      <p>Lees:</p>
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
@@ -261,9 +276,9 @@ init 5 &amp;&amp; exit
 </pre>
 							<p>Bij sommige kaarten wordt 3D ondersteuning aangeboden, standaard is de 2D weergave.</p>
 
-							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+							<p><span class="highlight-3">Als je proprietaire drivers gebruikt en je wilt overstappen naar opensource drivers, dan moet de /etc/X11/xorg.conf aangepast worden. MAAK EERST EEN BACKUP VAN xorg.conf, want als de aanpassing van /etc/X11/xorg.conf mislukt, dan kan je dat veel tijd kosten om het te herstellen.</span></p>
 
-							<p>Om /etc/xorg.conf te veranderen: rechtsklik erop, open de file met rootpermissies. Vind de sectie: SECTION DEVICE en verander de display driver naar <span class="highlight-2">nv</span> OF <span class="highlight-2">ati</span>OR <span class="highlight-2">intel</span>.</p>
+							<p>Om /etc/xorg.conf te veranderen: rechtsklik erop, open de file met rootpermissies. Vind de sectie: SECTION DEVICE en verander de display driver naar <span class="highlight-2">nv</span> OF <span class="highlight-2">ati</span> OF <span class="highlight-2">intel</span>.</p>
 
 							<p class="highlight-2">Het aanpassen van xorg.conf is helemaal voor je eigen risico!!</p>
 							
@@ -299,7 +314,7 @@ apt-get install atmel-firmware
 
 					<li>
 						Broadcom, b43/ b43legacy wlan:<br />
-						While this shouldn't be required for most 802.11b/g wlan cards anymore, the proprietary firmware gets preferred by b43, in case it is installed.
+						Hoewel het voor de meeste 802.11b/g wlan cards niet meer nodig is, wordt de proprietaire firmware door b43 gebruikt als deze geïnstalleerd is.
 <pre>
 apt-get install b43-fwcutter
 </pre>
@@ -508,7 +523,7 @@ exit
 </pre>
 							<p>Je NTFS-partitie zou nu gemount moeten zijn met <b>rw</b> rechten en je kan gegevens daar opslaan. <span class="highlight-3">Gebruik het als het niet anders kan, het wordt niet geadviseerd voor dagelijks gebruik.</span></p>
 		</div>	
-	<div id="rev">Pagina het laatst gewijzigd op 24/04/2009 1145 UTC </div>
+	<div id="rev">Pagina het laatst gewijzigd op 02/05/2009 0050 UTC </div>
 
 </div>
 </body>

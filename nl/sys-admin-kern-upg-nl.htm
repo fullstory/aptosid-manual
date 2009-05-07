@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision HarzG 04/04/2008 2100 UTC -->
+<!-- Last translation revision HarzG 02/05/2009 1015 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainer  HarzG, eislon -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by HarzG 2009.03.21 1045 hrs UTC -->
@@ -212,7 +212,7 @@ apt-get update
 <pre>
 apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
-							<p>Reboot to use the new kernel</p>
+							<p>Hierna rebooten om de nieuwe kernel te gebruiken.</p>
 
 							<p>Geeft de nieuwe kernel problemen, dan kun je altijd herstarten met een oudere kernel versie.</p>
 
@@ -246,7 +246,7 @@ cat /proc/modules
 		<div class="divider" id="dmakms">
 			<h2>Installeren van modules met Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
-							<p>dmakms is handig om kernel modules te installeren welke nog niet bestaan voor de sidux kernel en deze is ontworpen om automatisch de kernel modules te installeren met module-assistant <span class="highlight-3">(m-a)</span> when upgrading or installing new Linux kernels.</p>
+							<p>dmakms is handig om kernel modules te installeren welke nog niet bestaan voor de sidux kernel en deze is ontworpen om automatisch de kernel modules te installeren met module-assistant <span class="highlight-3">(m-a)</span> tijdens upgrading of de installatie van nieuwe Linux kernels.</p>
 							
 <pre>
 apt-get install dmakms module-assistant
@@ -270,23 +270,37 @@ speakup-source - Source of the speakup kernel modules
 m-a prepare
 m-a a-i speakup-source
 </pre>
-							<p>Activeer nu de Dynamic Module-Assistant Kernel Module Support voor speakup, zodat de volgende keer de speakup module voorbereid is voor intergratie in een nieuwe Linux kernel zodat dit geen handmatige actie meer is. Om dit te doen, voeg je het volgende toe <span class="highlight-3">speakup-source</span> aan de <span class="highlight-3">/etc/default/dmakms </span>configuratie bestand. </p>
+							<p>Activeer nu de Dynamic Module-Assistant Kernel Module Support voor speakup, zodat de volgende keer de speakup module voorbereid is voor intergratie in een nieuwe Linux kernel zodat geen handmatige actie meer nodig is. Om dit te doen, voeg je het volgende toe <span class="highlight-3">speakup-source</span> aan de <span class="highlight-3">/etc/default/dmakms </span>configuratie bestand. </p>
 <pre>
 mcedit /etc/default/dmakms
 speakup-source
 </pre>
 
-							<p>Herhaal het proces voor elke andere module-assistant compatibal kernel module pakket.</p>
+							<p>Herhaal het proces voor elk ander compatibel kernel module pakket.</p>
 
-							<p>A linux-headers package must be installed for every linux-image package for module-assistant to compile kernel modules.</p>
+							<p>Een linux-headers package moet geïnstalleerd zijn voor elke linux-image package voor de module-assistant om kernel modules te compileren.</p>
+							
+					<h4>Laden van de module mislukt</h4>
+					
+							<p>Als het laden van de nvidia module, om welke reden dan ook, mislukt [nieuw xorg component, een fs probleem of als X niet meer start na een reboot]:</p>
+<pre>
+modprobe &lt;module&gt; 
+</pre>
+							<p>Dan reboot de computer.</p> 
+							
+							<p>Als de module nog steeds niet geladen wordt:</p>
+ <pre>
+ m-a a-i -f module-source 
+</pre>
+							<p>Hiermee wordt een rebuild van de module uitgevoerd, <span class="highlight-3">hierna rebooten.</span></p>
 
-			 <h5> How It Works</h5>
+			 <h5>Hoe werkt dat</h5>
 
-							<p>Dynamic Module-Assistant Kernel Module Support consists of a single initscript (/etc/init.d/dmakms) that is executed at boot time or by a script that is triggered after installation of new linux-image Debian packages.</p>
+							<p>Dynamic Module-Assistant Kernel Module Support bevat een initscript (/etc/init.d/dmakms) dat tijdens het booten uitgevoerd wordt of door een script dat gestart wordt na de installatie van nieuwe Linux-image Debian packages.</p>
 
-							<p>On each boot, /etc/init.d/dmakms is run to discover if each module source package listed in /etc/default/dmakms has provided a module package for the running Linux kernel, calling module-assistant to build and install a module package as required.</p>
+							<p>Bij elke boot start /etc/init.d/dmakms om te onderzoeken of er voor alle bekende module source packages in de /etc/default/dmakms een actueel module package bestaat voor de nu werkende Linux kernel. Indien nodig wordt de module-assistant gestart om een module package te compileren en te installeren.</p>
 
-							<p>When a new linux-image Debian package is installed, /etc/init.d/dmakms is executed via a postinst hook script with two arguments, 'start' and the 'version string' of the Linux kernel to prepare new module package(s) for. At this time, the module packages listed in the /etc/default/dmakms configuration file are processed with module-assitant, and derived module packages are scheduled for installation at shutdown time. <span class="highlight-3">The reason for installation to occur at shutdown time is because it is necessary to delay the installation until such a time that apt/dpkg are not locked by another process</span>.</p>
+							<p>Als een nieuww Linux-image Debian package geïnstalleerd is, wordt /etc/init.d/dmakms uitgevored via een postinst hook script met twee opdrachten, 'start' en de 'version string' van de Linux kernel om nieuwe module package(s) voor te bereiden. De module packages die in de  /etc/default/dmakms configuratie voorkomen, worden met de module-assitant gecompileerd en geïnstalleerd bij de volgende shutdown. <span class="highlight-3">De reden om de volgende shutdown te kiezen is, dat op dat moment apt/dpkg niet geblokkeerd wordt door een ander process</span>.</p>
 
 <pre>
 $ /usr/share/doc/dmakms
@@ -315,7 +329,7 @@ kernel-remover
 
 </div>
 			
-	<div id="rev">Inhoud het laatst gewijzigd op 20/04/2009 08005 UTC</div>
+	<div id="rev">Inhoud het laatst gewijzigd op 02/05/2009 0200 UTC</div>
 
 </div>
 </body>

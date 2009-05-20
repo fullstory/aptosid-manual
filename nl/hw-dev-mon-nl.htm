@@ -228,7 +228,7 @@ ctrl+alt+backspace
 
 							<p class="highlight-2">Je gaat hier de xorg config bestanden wijzigen, maak eerst een backup van je xorg.conf, voordat je verder gaat!</p>
 
-							<p>Een van de grootste voordelen van xorg 7.3 is hotplug. Met xrandr kun je een hoofdscherm en een tweede scherm configureren zonder het herstarten van X. xrandr vervangt xinerama en mergedFB. Als xrandr 1.2 ingeschakeld is, kan de "oude manier van configureren" van xorg.conf ( xinerama en mergedFB) mogelijk niet meer werken.</p>
+							<p>Een van de grootste voordelen van xorg 7.4 is hotplug. Met xrandr kun je een hoofdscherm en een tweede scherm configureren zonder het herstarten van X. xrandr vervangt xinerama en mergedFB. Als xrandr 1.2 ingeschakeld is, kan de "oude manier van configureren" van xorg.conf ( xinerama en mergedFB) mogelijk niet meer werken.</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded sidux install -->
 
 				<h5>Ondersteunde Videokaart Drivers</h5>
@@ -241,7 +241,7 @@ ctrl+alt+backspace
 						</ul>
 
 			<h3>Voorbereiding voor xrandr configuraties van een PC met Dualhead</h3>
-							<p><span class="highlight-2">Notitie:</span> Ideaal, zou het zijn als je continue 2 monitoren bij je PC gebruikt, om dan je <span class="highlight-3"> xorg.conf</span> aan te passen om dit blijvend te configureren.</p>
+							<p><span class="highlight-2">Notitie:</span> Ideaal zou het zijn, als je continue 2 monitoren bij je PC gebruikt, om dan je <span class="highlight-3"> xorg.conf</span> aan te passen om dit blijvend te configureren.</p>
 
 							<p>Een laptop/notebook moet dynamisch geconfigureerd worden (in tegenstelling tot een PC met 2 monitoren) en als je gaat rebooten, moet je helemaal onieuw beginnen, tenzij je je dual-head geconfigureerd hebt met de parameters voor xrandr en deze dan middels een copy/paste in een script plaatst in<span class="highlight-3"> ~/.kde/Autostart/</span>.</p>
 
@@ -258,7 +258,7 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
    720x400        70.1
 </pre>
 
-							<p>Hier zie je alleen vga, voor de PC  (zie Appendix A voor output naam beschrijving). Je ziet welke resoluties ondersteund worden door het scherm en (wat belangrijk is voor dual head) de maximale schermgrootte, hier 1024x768.</p>
+							<p>Hier zie je alleen vga, voor de PC  (zie Appendix A voor output naam beschrijving). Je ziet welke resoluties ondersteund worden door het scherm en (wat belangrijk is voor dual head) de maximale schermgrootte, hier 2048x768).</p>
 
 							<p>Sluit nu je andere beeldscherm aan en laat xrandr nog een keer lopen:</p>
 <pre>
@@ -329,7 +329,7 @@ xrandr --output VGA --off --output LVDS --mode 1280x800
 							<p>Mit Intel gma ist de maximale resolutie met 2048x2048 vastgelegd (virtual screen). Het is dus niet mogelijk twee schermen tegelijk in een hoge resolutie te laten werken, beiden kunnen wel met 1024x768 werken:</p>
 -->
 						<h5>Meerdere display desktop</h5>
-							<p>De intel gma heeft een limiet van 2048x2048 voor de virtueel beelscherm, daarom kan deze niet beide schermen naast elkaar weergeven op de hoogste resolutie, beide schermen op 1024x768 werkt wel goed:</p>
+							<p>Intel GMA &lt;=945GM/GMS heeft geen 3d ondersteuning met een virtual screen &gt;2048x2048, daarom kunnen deze beide schermen niet naast elkaar worden weergeven in de hoogste resolutie. Beide schermen op 1024x768 werkt overigens wel goed:</p>
 
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
@@ -375,24 +375,11 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
- 
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
-EndSection
- 
+
 Section "Device"
         Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
         Driver    "ati"
@@ -426,8 +413,7 @@ EndSection
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -488,14 +474,13 @@ Output names:
 
 					<h5>Appendix B</h5>
 
-						<h6>xorg.conf confomr xorg 7.3:</h6>
+						<h6>xorg.conf confomr xorg 7.4:</h6>
 
 							<p>NB: Eeen seriele muis werkt niet met deze instellingen! Maak een backup van xorg.conf voordat je instellingen aanpast!</p>
 <pre>
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -516,42 +501,6 @@ Section "Module"
         Load            "bitmap"        # bitmap-fonts
         Load            "freetype"
         Load            "record"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
 EndSection
 
 #This section is most important for xrandr, remove everything except the following:
@@ -607,7 +556,7 @@ EndSection
 
 
 		</div>	
-	<div id="rev">Pagina het laatst gewijzigd op 10/01/2009 2345 UTC</div>
+	<div id="rev">Pagina het laatst gewijzigd op 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

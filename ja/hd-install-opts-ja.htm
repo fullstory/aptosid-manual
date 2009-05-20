@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by muchan 06/Oct/2008 2256 UTC -->
+<!-- Last translation revision by muchan 20/Mai/2009 1155 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC -->
@@ -274,38 +274,86 @@ initrd (hd0,4)/sidux/initrd.img
 							<p>次にシステムを再起動するとGRUBメニューにISOイメージから起動する行が表示されます。<br />(ISOファイル名をsidux.isoとしてコピーしてあったら後にISOイメージとvmlinuzとintird.imgをアップデートしたときGRUBメニューは変更しないでそのまま使えます。） </p>
 	</div>
 	<div class="divider" id="fromiso-persist">
+<!--- ####
 		<h2>General information on fromiso with persist</h2>
+#### -->
+		<h2>fromiso と persist について</h2>
 
+<!--- ####
 				<h3>fromiso and persist on a HD</h3>
+#### -->
+				<h3>ハードディスクからの fromiso と persist</h3>
 
+<!--- ####
 							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
+#### -->
+							<p>fromiso の設定と persist の起動オプションを組み合わせれば、ハードディスクを使った持続的なライブシステムができます。デフォルトとして使う起動オプションは:</p>
 
 <pre>
 persist
 </pre>
 
+<!--- ####
 							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
+#### -->
+							<p>sidux は aufs を使って、いわゆる "copy on write" (書き込み時コピー)という方法で新しいファイルをメモリーに保存することで、 ISOイメージ上のファイルシステムに新しいファイルやフォルダーを作成したり、もとからあるファイルに変更を加えたりできるようにしています。起動オプションに <span class="highlight-3">persist</span> を使うと、新しいファイルをハードディスクの fromiso のISOイメージのあるのと同じパーティションに保存します。</p>
 
+<!--- ####
 							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
+#### -->
+							<p><span class="highlight-3">fromiso</span> でライブシステムを起動すると sidux のライブISOの自動機能が実行され、ハードウェアが自動的に設定されたりする利点がありますが、それは同時に、起動のたびに同じファイルを繰り返し作成している、ということです。</p> 
 
+<!--- ####
 							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
+#### -->
+							<p>ところが起動オプションに、noxorgconf, nonetwork といった sidux 独自のオプションと合わせて <span class="highlight-3">persist</span> を使うことで、同じファイルを起動のたびに作成する必要がなくなります。</p>
 
+<!--- ####
 							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
+#### -->
+							<p>起動オプションに persist を使うということは、apt を使ってパッケージをインストールしたり、プログラムや保存したデータを次に起動したときにも使えるということでもあります。</p>
 
+<!--- ####
 				<h3>fromiso and persist on a bootable USB Key</h3>
+#### -->
+				<h3>USBキーからの fromiso と persist</h3>
+<!--- ####
 							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+#### -->
+							<p>持続モードの理想的な使い方は install-usb-gui ツールを使って必要なファイルやソフトウェアをあらかじめ用意した起動フラッシュメモリを作ることかもしれません。</p>
 
+<!--- ####
 							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+#### -->
+							<p>新しく作られたファイルはUSBドライブのサブフォルダに保存されます。<span class="highlight-3">fromiso </span> と <span class="highlight-3">persist</span> が一緒に使われたとき、このサブフォルダがUSBドライブ上にあるかチェックされ、ないときは自動的に作成されます。 </p>
 
+<!--- ####
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
+#### -->
+							<p><span class="highlight-3">persist</span> を市販のフラッシュドライブのデフォルトで、DOSやWindows9xで広く使われていた FAT ファイルシステムで使うにはひとつの大きなファイルをループデバイスとして作成し、フォーマットします。</p>
 
+<!--- ####
 							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+#### -->
+							<p><span class="highlight-3"> USBフラッシュドライブでは ext2 と VFAT システムを推薦します。MS Windows&#8482;用のドライバもあるためデータ交換に使うときより多くのプラットフォームで使うことができ、またもしもの場合のデータ救済の可能性も高いでしょう。Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
+<!--- ####
 					<h6>ext2/3 file systems</h6>
+#### -->
+					<h6>ext2/3 ファイルシステム</h6>
+<!--- ####
 							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+#### -->
+							<p> ext2/3 の場合、パーティション全体が使われます。現行システムのrootが使われ ライブモードのメカニズムとして/fll というディレクトリが作成され残りのスペースが持続モードのファイル保存用に使われます。</p>
 
+<!--- ####
 					<h6>vfat file system</h6>
+#### -->
+					<h6>VFAT ファイルシステム</h6>
+<!--- ####
 							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+#### -->
+							<p>VFAT が使われると、持続モードのファイル保存スペースとして最大２Gb、最小100Mbが使えます。(それ以下では役にたたないでしょう)　このファイルに<span class="highlight-3">sidux-rw</span>という名前をつけます。 仮にこのディスクが /media/sdb1 として書き込み可能にマウントされているとして、ここに持続モード用に1Gbの保存スペースを作ろうとする場合、次のコマンドを使います。(書き込みが可能でさえあれば、rootでなくてもかまいません。）</p>
 
 <pre>
 disc="/media/sdb1" 
@@ -314,29 +362,64 @@ mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
 </pre>
 
-
+<!--- ####
 							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+#### -->
+							<p class="highlight-2">Windows NT/2000/XP(TM)のインストールに使われている NTFS システムでは持続モードはできません。</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
+<!--- ####
 		<h2>Installation of sidux on a USB-device</h2>
+#### -->
+		<h2>siduxを USB ドライブにインストール</h2>
 
+<!--- ####
 							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+#### -->
+							<p>sidux をUSBスティックやUSBハードディスクにインストールするのは普通のハードディスクにインストールするのと同じように簡単です。</p>
 
+<!--- ####
 				<h5>Two kinds of installation to USB</h5> 
+#### -->
+				<h5>二種類のUSBインストール</h5> 
+<!--- ####
 							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
+#### -->
+							<p>1) - fromiso インストール(HDにインストールされたシステムから機動可能な sidux USBを作成するには sidux のISOファイルが必要です。<br />
+<!--- ####
 							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
+#### -->
+							2) - 通常のフルインストール (ハードディスクまたはフラッシュメモリのUSBドライブに sidux をフルインストールするのは通常のインストーラプログラムを使います。)</p>
 
+<!--- ####
 				<h3>USB fromiso Installation</h3>
+#### -->
+				<h3>USB fromiso インストール</h3>
+<!--- ####
 							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
+#### -->
+							<p> <span class="highlight-3">準備としてあらかじめデバイスを ext2 または ext3 にフォーマットします。</span></p>
 
+<!--- ####
 							<p>If 'install-sidux-usb-gui' is not present on your installation 'apt-get install fll-iso2usb'.</p>
+#### -->
+							<p>もし install-sidux-usb-gui というプログラムがなかったら、'apt-get install fll-iso2usb' のコマンドでインストールします。</p>
 
+<!--- ####
 							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
+#### -->
+							<p><span class="highlight-3">fromiso</span> インストールは通常のHD上にインストールされたシステムからの <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> か、またはライブモードから<span class="highlight-3">sidux Installer</span> のアイコンをクリックして、<span class="highlight-3">Install to USB</span>を選択するかして、インストーラをスタートします。この方法で USB デバイスの最初のパーティションに 'fromiso' モードのシステムをインストールします。</p>
 
+<!--- ####
 							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
+#### -->
+							<p>デフォルトで使用する言語、タイムゾーンその他のオプションや persist モードで起動するかなどをチェックボックスで設定します。</p>
 
+<!--- ####
 							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
+#### -->
+							<p>これで機動可能なUSBデバイスができました。あとからpersist モードを使いたくなった場合は機動時のGRUBのコマンド行に <span class="highlight-3">persist</span> を加えるか、または menu.lst の #kopt= の行に persist と書き込みます。.</p>
 
 
 						<h6>Terminal example:</h6>

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 11/01/2009 11.30 UTC -->
+<!-- Last translation revision by alessiog75 on 15/05/2009 17.30 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by alessiog75 2009.03.16 2100 hrs UTC -->
@@ -228,7 +228,7 @@ ctrl+alt+backspace
 
 							<p class="highlight-2">Si dovrà modificare il file di configurazione di X.Org quindi PER FAVORE fare una copia di sicurezza del file xorg.conf, prima di fare qualsiasi cosa!</p>
 
-							<p>Uno dei più grandi vantaggi di xorg 7.3 è l'hotplug. Con xrandr si possono configurare gli schermi primario e secondario senza riavviare X. xrandr rimpiazza xinerama e mergedFB. Con xrandr 1.2 abilitato, il "vecchio modo di configurare" xorg.conf (xinerama e mergedFB) potrebbe non funzionare più.</p>
+							<p>Uno dei più grandi vantaggi di xorg 7.4 è l'hotplug. Con xrandr si possono configurare gli schermi primario e secondario senza riavviare X. xrandr rimpiazza xinerama e mergedFB. Con xrandr 1.2 abilitato, il "vecchio modo di configurare" xorg.conf (xinerama e mergedFB) potrebbe non funzionare più.</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded sidux install -->
 
 				<h5>Driver di Schede Supportate</h5>
@@ -258,7 +258,7 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
    720x400        70.1
 </pre>
 
-							<p>Qui si può vedere una sola vga per il PC (leggere l'Appendice A per la spiegazione sui nomi di output). Vedere le risoluzioni che sono supportate da quello schermo e, cosa importante per la configurazione del doppio monitor, la massima risoluzione dello schermo (in questo caso 1024x768).</p>
+							<p>Qui si può vedere una sola vga per il PC (leggere l'Appendice A per la spiegazione sui nomi di output). Vedere le risoluzioni che sono supportate da quello schermo e, cosa importante per la configurazione del doppio monitor, la massima risoluzione dello schermo (in questo caso 2048x768).</p>
 
 							<p>Ora connettere lo schermo esterno e lanciare di nuovo il comando xrandr:</p>
 <pre>
@@ -315,7 +315,7 @@ xrandr --output VGA --off --output LVDS --mode 1280x800
 </pre>
 
 						<h5>Desktop a monitor multiplo</h5>
-							<p>Siccome il gma intel ha come limite 2048x2048 per lo schermo virtuale, non può mettere entrambi gli schermi in alta risoluzione; entrambi lavorano bene a 1024x768:</p>
+							<p>Dal momento che Intel GMA &lt;=945GM/GMS perde il supporto al 3D con uno schermo virtuale &gt;2048x2048, non può mettere entrambi gli schermi in alta risoluzione; questi lavorano bene a 1024x768:</p>
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
 </pre>
@@ -342,22 +342,9 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 				<h4>Esempio di un PC configurato in permanenza con due monitor con xrandr</h4>
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
 
 Section "Device"
@@ -367,11 +354,11 @@ Section "Device"
         Option    "monitor-VGA-0" "ACER AL512"
         Option    "monitor-DVI-0" "VIEWSONIC E70"
 EndSection
-
+ 
 Section "Monitor"
         Identifier      "ACER AL512"
 EndSection
-
+ 
 Section "Monitor"
         Identifier      "VIEWSONIC E70"
         Option    "RightOf" "ACER AL512"
@@ -379,7 +366,7 @@ Section "Monitor"
         Modeline "1024x768_85.00"  94.39  1024 1088 1200 1376  768 769 772 807  -HSync +Vsync
         Option    "PreferredMode" "1024x768_85.00"
 EndSection
-
+ 
 Section "Screen"
         Identifier      "Default Screen"
         Device    "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
@@ -389,12 +376,11 @@ Section "Screen"
                 Virtual  2048 768
         EndSubSection
 EndSection
-
+ 
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -446,14 +432,13 @@ Output names (nomi di output):
 
 					<h5>Appendice B</h5>
 
-						<h6>xorg.conf, il modo xorg 7.3:</h6>
+						<h6>xorg.conf, il modo xorg 7.4:</h6>
 
 							<p>Nota: Un mouse seriale non funziona con questa configurazione! Fare una copia di salvataggio del file xorg.conf prima di fare dei cambiamenti!</p>
 <pre>
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -474,42 +459,6 @@ Section "Module"
         Load            "bitmap"        # bitmap-fonts
         Load            "freetype"
         Load            "record"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
 EndSection
 
 #Questa sezione è la più importante per xrandr, rimuove ogni cosa eccetto le seguenti:
@@ -563,7 +512,7 @@ EndSection
 							<p>NOTA: serviranno le informazioni di configurazione del secondo monitor. Per ottenerle staccare un monitor e avviare il PC con il liveCD per generare un xorg.conf, copiarlo, poi ripetere la procedura con il secondo monitor.</p>
 
 		</div>
-	<div id="rev">Page last revised 10/01/2009 2345 UTC</div>
+	<div id="rev">Page last revised 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

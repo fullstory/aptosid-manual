@@ -231,7 +231,7 @@ siduxcc
 
 							<p class="highlight-2"> O schimbare iminentă a fișierului  xorg.conf este prevăzută, de aceea , vă rugăm, vă rugăm, să faceți un  back-up la xorg.conf înainte de a face orice altă operație   !</p>
 
-							<p> Versiunea xorg 7.3, este hotplug, printre altele. Prin  xrandr se pot  configura ambele  monitoare fără a restarta X. xrandr înlocuiește  xinerama și mergedFB. De la versiunea  xrandr 1.2 "vechiul stil de  configurare" din xorg ( xinerama și mergedFB) poare să nu mai funcționeze .</p>
+							<p> Versiunea xorg 7.4, este hotplug, printre altele. Prin  xrandr se pot  configura ambele  monitoare fără a restarta X. xrandr înlocuiește  xinerama și mergedFB. De la versiunea  xrandr 1.2 "vechiul stil de  configurare" din xorg ( xinerama și mergedFB) poare să nu mai funcționeze .</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded sidux install -->
 
 				<h5> Driverele pentru plăcile suporte</h5>
@@ -262,7 +262,7 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
    720x400        70.1
 </pre>
 
-							<p> Aici apare doar monitorul vga atașat la pc (pentru explicații detaliate asupra termenilor folosiți citiți  Appendix A ). Se pot remarca  resoluțiile suportate de către acest monitor și valoarea maxima pentu acest monitor, în acest exemplu  1024x768, valoare importantă în cazul unui dublu-monitor.</p>
+							<p> Aici apare doar monitorul vga atașat la pc (pentru explicații detaliate asupra termenilor folosiți citiți  Appendix A ). Se pot remarca  resoluțiile suportate de către acest monitor și valoarea maxima pentu acest monitor, în acest exemplu  2048x768, valoare importantă în cazul unui dublu-monitor.</p>
 
 							<p> Acum puteți conecta un alt monitor extern și rula  din nou xrandr:</p>
 <pre>
@@ -317,7 +317,7 @@ xrandr --output VGA --off --output LVDS --mode 1280x800
 </pre>
 				
 				<h5>Desktop cu mai multe monitoare</h5>
-							<p> Cum gama pe intel este limitată la  2048x2048 pentru monitoare virtuale, nu este posibil să folosim ambele monitoare cu  rezoluție înaltă, dar în schimb la  rezoluția  1024x768 ambele pot lucra fără probleme :</p>
+							<p> As intel GMA &lt;=945GM/GMS looses 3d support with a virtual screen &gt;2048x2048, nu este posibil să folosim ambele monitoare cu  rezoluție înaltă, dar în schimb la  rezoluția  1024x768 ambele pot lucra fără probleme :</p>
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
 </pre>
@@ -345,24 +345,11 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 				<h4> Un exemplu de xorg.conf pentru un pc cu dublu-monitor permanent configurat cu xrandr </h4>
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
- 
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
-EndSection
- 
+
 Section "Device"
         Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
         Driver    "ati"
@@ -396,8 +383,7 @@ EndSection
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -450,14 +436,13 @@ Output names:
 
 					<h5>Appendix B</h5>
 
-						<h6> Configurația specifică versiunii 7.3 a xorg:</h6>
+						<h6> Configurația specifică versiunii 7.4 a xorg:</h6>
 
 							<p>Notă: Un șoarece serial ttyS0 nu va funcționa cu această  configurație! Salvați  xorg.conf înainte de a face orice schimbare!</p>
 <pre>
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -480,42 +465,6 @@ Section "Module"
         Load            "record"
 EndSection
 
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
-EndSection
-
 #This section is most important for xrandr, remove everything except the following:
 Section "Monitor"
         Identifier      "Monitor0"
@@ -525,7 +474,7 @@ EndSection
 Section "Device"
         Identifier      "Card0"
         Driver          "intel"
-        #This is just optional, "XAA" is probably more stable for the majority of users
+          #This is just optional, "XAA" is probably more stable for the majority of users
         Option          "AccelMethod" "EXA"
 EndSection
 
@@ -568,7 +517,7 @@ EndSection
 
 
 		</div>	
-	<div id="rev">Page last revised 10/01/2009 2345 UTC</div>
+	<div id="rev">Page last revised 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

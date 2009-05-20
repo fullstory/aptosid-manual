@@ -191,21 +191,33 @@
 	<div class="divider" id="part-example">
 
 		<h2 id="top-header">Rozmiary partycji i przykłady</h2>
-		<p  class="highlight-2">Dla zwykłego użytku zalecamy ext3, jest to domyślny system plików dla sidux.com i posiada dobre wsparcie techniczne.</p>
+							 <p  class="highlight-2">Dla zwykłego użytku zalecamy ext3, jest to domyślny system plików dla sidux.com i posiada dobre wsparcie techniczne.</p>
 
-		<p>Przy pomocy menadżera partycji <a href="part-gparted-pl.htm">gparted</a> twarde dyski są partycjonowane i/lub formatowane. Program posiada graficzny interfejs i jego obsługa jest intuicyjna.</p>
+							<p>Przy pomocy menadżera partycji <a href="part-gparted-pl.htm">gparted</a> twarde dyski są partycjonowane i/lub formatowane. Program posiada graficzny interfejs i jego obsługa jest intuicyjna.</p>
 
-		<p>Gparted może również zmniejszyć lub przesunąć partycje, także NTFS. Gparted nie jest jeszcze ukończony i został oznaczony przez twórców jako produkt eksperymentalny, ale jeśli będziesz postępować rozważnie, nie powinieneś napotkać żadnych problemów. <a href="http://gparted.sourceforge.net/">Patrz: pełna dokumentacja gparted</a>. Zmiany na partycjach NTFS mogą być też dokonywane przy pomocy komercyjnych narzędzi takich jak Partition Magic (TM) i Acronis (TM).</p>
+							<p>Gparted can also shrink or move partitions and also manipulate NTFS partitions [with a special caveat that once you alter an NTFS partition you must reboot immediately before doing any other operations ]. <a href="http://gparted.sourceforge.net/">Patrz: pełna dokumentacja gparted</a>. Zmiany na partycjach NTFS mogą być też dokonywane przy pomocy komercyjnych narzędzi takich jak Partition Magic (TM) i Acronis (TM).</p>
 
-		<p class="highlight-2"> ZAWSZE TWÓRZ KOPIĘ ZAPASOWĄ SWOICH DANYCH!</p>
+							<p class="highlight-2"> ZAWSZE TWÓRZ KOPIĘ ZAPASOWĄ SWOICH DANYCH!</p>
+	
+							<p>Should a partition show up as mounted, unmount the device, including swap with a right click on the partition icons in gparted or via a terminal, for example:</p>
+<pre>
+umount /dev/sda1
+</pre>
+							
+							<p>The swap partiton can be unmounted in a terminal with: </p>
+							
+<pre>
+swapoff -a
+</pre>
+							<p>In principle, 5 GB is more than sufficient for a hd-install, but you won't have much fun with this. A reasonable minimum install should have 12 GB. For those new to linux, we suggest only 2 partitions for a start (root/home and swap), because this simplifies your first install quite a bit, then establish extra partitions for a separate  /home and additional data partitions.</p>
 
-		<p>Jeśli partycja pojawi się jako zamontowana, musimy zamknąć menadżera partycji i odmontować urządzenie (kliknij prawym klawiszem na ikonę zamontowanego urządzenia  ->unmount). Jeśli masz partycję swap, odmontuj ją przy pomocy:<span class="highlight-3">"sudo swapoff -a"</span> w konsoli. Po wykonaniu tego zadania, możemy uruchomić ponownie menadżera partycji. W zasadzie 3 gb wystarczy do instalacji na dysku, ale nie będzie z tym wiele zabawy. Rozsądne minimum to 5 - 8 gb. Dla nowych użytkowników linuksa zalecamy tylko 2 partycje (partycja systemowa i swap), ponieważ to upraszcza nieco twoją pierwszą instalację. Lepiej założyć dodatkową partycję dla /home.</p>
+							<p>You really should have a swap partition (equivalent to the windows swapfile, but is much more effective). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span>.</p>
 
-		<p>Zaawansowani użytkownicy mogą również posiadać dodatkowe partycję dla /var, /tmp, ...itp, dla specjalnych celów. Omawianie szczegółów nie jest jednak tematem tej instrukcji. Powinieneś mieć partycję swap (odpowiednik pliku swap w windows, ale o wiele bardziej efektywny). Do zwykłego użytku partycja swap powinna być dwa razy większa niż ram. <span class="highlight-3">Standardowym systemem plików dla sidux.com jest ext3.</span></p>
+							<p>For data-exchange with a Windows installation you should use vfat (fat32) or ext2 as an MS Windows™ driver is available for data-swapping. [XFS is not supported].</p>
 
-		<p>Do wymiany danych z windows, musisz użyć vfat (fat32). [XFS is not supported and whomever wants to use XFS for / (root) must create an extra /boot partition (ext2) or use lilo (because grub doesn't work with xfs reliably). The installer at this point supports xfs on / only through editing the file ~/.siduxconf.]</p>
-
-		<p>Jeśli stworzysz więcej niż jedną partycję, powinieneś zapisać ich nazwy! Po wykonaniu tych operacji, zapisz zmiany (ikona z dyskietką) i zamknij menadżera partycji. Poniżej znajdują się proste przykłady różnych rozmiarów dysków i sposobów użycia systemu.</p>
+							<p>Whomever creates more than 1 partition should write their names down for reference! </p>
+							
+							<p>Here are some simple examples for different hd-sizes and different types of use, everything rounded off.</p>
 
 <h5>Konfiguracja próbna - dysk 60GB, gdzie windows zajmuje całkiem sporo przestrzeni</h5>
 		<table>
@@ -413,13 +425,13 @@
 </div>
 
 
-		<p>To rozmieszczenie jest doradzane, kiedy jest mało miejsca na twardym dysku (np. na laptopie). Windows jest zainstalowany na oddzielnej partycji o rozmiarze 3-5 GB. Wszystkie programy i pliki są na drugiej, większej partycji. Jeśli ma się do dyspozycji więcej miejsca na dysku, można zrobić tą partycję większą lub podzielić programy i dane windows między dwie partycje.</p>
+							<p>To rozmieszczenie jest doradzane, kiedy jest mało miejsca na twardym dysku (np. na laptopie). Windows jest zainstalowany na oddzielnej partycji o rozmiarze 3-5 GB. Wszystkie programy i pliki są na drugiej, większej partycji. Jeśli ma się do dyspozycji więcej miejsca na dysku, można zrobić tą partycję większą lub podzielić programy i dane windows między dwie partycje.</p>
 
 		<h5>Podsumowanie</h5>
-		<p>Dla sidux.com bez specjalnych aplikacji multimedialnych czy gier 5 GB wystarczy, na dane masz partycję fat32. Istnieje wiele sposobów partycjonowania dysku. Te przykłady powinny wystarczyć na początek. Można także rozważyć dodanie drugiego dysku, aby zwiększyć wydajność, komfort i bezpieczeństwo. <span class="highlight-2">W tym przypadku windows należy zawsze instalować na pierwszym dysku twardym!</span></p>
+						      <p>Istnieje wiele sposobów partycjonowania dysku. Te przykłady powinny wystarczyć na początek. Można także rozważyć dodanie drugiego dysku, aby zwiększyć wydajność, komfort i bezpieczeństwo. <span class="highlight-2">W tym przypadku windows należy zawsze instalować na pierwszym dysku twardym!</span></p>
 
 	
-			<div id="rev">Content last revised 30/06/2007 1329 UTC</div>
+			<div id="rev">Content last revised 12/05/2009 0335 UTC</div>
 </div>
 </body>
 </html>

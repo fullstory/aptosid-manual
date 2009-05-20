@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision ceti 22/04/2009 1025 UTC-->
+<!-- Last translation revision ceti 18/05/2009 1625 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC trans ceti 23.04.2009 -->
@@ -193,7 +193,7 @@
 		<h2 id="top-header">Resoluções de Tela e Monitores</h2>
 
 			<h4>xrandr</h4>
-				<h5>Placas Suportadas</h5>
+				<h5>Placas suportadas</h5>
 						<ul>
 							<li> xserver-xorg-video-intel (desde a versão 2.0)</li>
 							<li>nv (a partir da versão 2.1) para G80, portanto cobre GeForce 8800</li>
@@ -215,7 +215,7 @@ xrandr --output VGA --mode 1440x900
 <pre>
 siduxcc
 </pre>
-							<p>e siga as instruções. Se preferir, use a interface gráfica:<span class="highlight-3">Kmenu > Sistema > sidux Control Center > Exposição</span></p>
+							<p>... e siga as instruções. Se preferir, use a interface gráfica:< span class="highlight-3">Kmenu > Sistema > sidux Control Center > Exposição</span></p>
 
 							<p>Se o X não reiniciar automaticamente, pressione a seguinte combinação de teclas:</p>
 <pre>
@@ -228,7 +228,7 @@ ctrl+alt+backspace
 
 							<p class="highlight-2">Você está na iminência de alterar seu 'xorg.conf'; portanto, por favor: antes de mais nada, faça uma cópia desse arquivo de configuração!!</p>
 
-							<p>Uma das grandes vantagens do Xorg 7.3 é o hotplug. Com o xrandr, você pode configurar suas telas primária e secundária, sem a necessidade de reiniciar o X. O xrandr substitui tanto o xinerama quanto o mergedFB. Com o xrandr 1.2 habilitado, configurar o xorg.conf à maneira antiga (xinerama e mergedFB) pode não funcionar mais.</p>
+							<p>Uma das grandes vantagens do Xorg 7.4 é o hotplug. Com o xrandr, você pode configurar suas telas primária e secundária, sem a necessidade de reiniciar o X. O xrandr substitui tanto o xinerama quanto o mergedFB. Com o xrandr 1.2 habilitado, configurar o xorg.conf à maneira antiga (xinerama e mergedFB) pode não funcionar mais.</p>
 							<!-- mergedFB não funciona mais com um dist-upgrade do sidux -->
 
 				<h5>Placas suportadas</h5>
@@ -276,7 +276,7 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
    720x400        70.1
 </pre>
 
-							<p>Aqui temos apenas o VGA (veja o Apêndice A para uma explicação sobre os nomes usados). Pode-se ver também as resoluções suportadas e (o que é importante no caso de dois monitores), o tamanho máximo da tela (neste caso, 1024x768).</p>
+							<p>Aqui temos apenas o VGA (veja o Apêndice A para uma explicação sobre os nomes usados). Pode-se ver também as resoluções suportadas e (o que é importante no caso de dois monitores), o tamanho máximo da tela (neste caso, 2048x768).</p>
 
 							<p>Agora, conecte sua tela externa e torne a rodar xrandr:</p>
 <pre>
@@ -332,7 +332,7 @@ xrandr --output VGA --mode 1024x768 --output LVDS --mode 1024x768
 xrandr --output VGA --off --output LVDS --mode 1280x800
 </pre>
 						<h5>Múltiplas telas em desktops</h5>
-							<p>Como as placas Intel têm uma limitação de 2048x2048 para telas virtuais, não é possível colocar ambas as telas lado a lado usando resoluções muito altas, mas 1024x768 funciona bem:</p>
+							<p>Como Intel GMA &lt;=945GM/GMS perde suporte a 3D com uma tela virtual &gt;2048x2048, não é possível colocar ambas as telas lado a lado usando resoluções muito altas, mas 1024x768 funciona bem:</p>
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
 </pre>
@@ -357,24 +357,11 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 				<h4>Exemplo de um xorg.conf para um PC permanentemente configurado para dois monitores/telas, com o xrandr</h4>
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
- 
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
-EndSection
- 
+
 Section "Device"
         Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
         Driver    "ati"
@@ -408,8 +395,7 @@ EndSection
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -457,14 +443,13 @@ Nomes de saída:
 
 					<h5>Apêndice B</h5>
 
-						<h6>o xorg.conf do xorg 7.3</h6>
+						<h6>o xorg.conf do xorg 7.4</h6>
 
 							<p>Nota: mouses seriais não funcionam com esta configuração! Faça uma cópia do arquivo antes de alterar qualquer coisa!</p>
 <pre>
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -487,43 +472,7 @@ Section "Module"
         Load            "record"
 EndSection
 
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
-EndSection
-
-#Esta seção é mais importante para o xrandr; remova tudo, exceto as seguintes linhas:
+#This section is most important for xrandr, remove everything except the following:
 Section "Monitor"
         Identifier      "Monitor0"
         Option  "DPMS"  "true"
@@ -575,7 +524,7 @@ EndSection
 
 
 		</div>	
-	<div id="rev">Page last revised 10/01/2009 2345 UTC</div>
+	<div id="rev">Page last revised 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

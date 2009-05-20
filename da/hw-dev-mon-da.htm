@@ -228,7 +228,7 @@ ctrl+alt+backspace
 
 							<p class="highlight-2">Du skal til at redigere i din xorg config fil, HUSK at lave en backup af denne inden du redigerer den!</p>
 
-							<p>En af de største fordele ved xorg 7.3 er hotplug. Med xrandr kan du konfigurere din primære og sekundære skærm uden at genstarte X. xrandr erstatter xinerama og mergedFB. Med xrandr 1.2 aktiveret virker den gamle måde at konfigurere xorg.conf på muligvis ikke mere (xinerama og mergedFB).</p>
+							<p>En af de største fordele ved xorg 7.4 er hotplug. Med xrandr kan du konfigurere din primære og sekundære skærm uden at genstarte X. xrandr erstatter xinerama og mergedFB. Med xrandr 1.2 aktiveret virker den gamle måde at konfigurere xorg.conf på muligvis ikke mere (xinerama og mergedFB).</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded sidux install -->
 
 				<h5>Understøttede drivere</h5>
@@ -258,7 +258,7 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
    720x400        70.1
 </pre>
 
-							<p>Her kan du kun se vga for maskinen (se Appendix A for forklaringer på navne i output fra xrandr). Du kan se opløsningerne der er understøttet af denne skærm samt (vigtigt for dual-head) du kan se den maksimale skærmstørrelse (her er denne 1024x768).</p>
+							<p>Her kan du kun se vga for maskinen (se Appendix A for forklaringer på navne i output fra xrandr). Du kan se opløsningerne der er understøttet af denne skærm samt (vigtigt for dual-head) du kan se den maksimale skærmstørrelse (her er denne 2048x768).</p>
 
 							<p>Forbind nu din sekundære skærm og kør xrandr igen:</p>
 <pre>
@@ -315,7 +315,7 @@ xrandr --output VGA --off --output LVDS --mode 1280x800
 </pre>
 				
 						<h5>Multiple display desktop</h5>
-							<p>Intel har en begrænsning på 2048x2048 for virtuelle skærme, du kan ikke sætte to skærme ved siden af hinanden i høj opløsning, men begge ved for eksempel 1024x768 virker fint:</p>
+							<p>As intel GMA &lt;=945GM/GMS looses 3d support with a virtual screen &gt;2048x2048, du kan ikke sætte to skærme ved siden af hinanden i høj opløsning, men begge ved for eksempel 1024x768 virker fint:</p>
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
 </pre>
@@ -340,24 +340,11 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 				<h4>Et eksempel på en maskine permanent konfigureret til dual monitors med xrandr</h4>
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
- 
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
-EndSection
- 
+
 Section "Device"
         Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
         Driver    "ati"
@@ -391,8 +378,7 @@ EndSection
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -444,14 +430,13 @@ Output names:
 
 					<h5>Appendix B</h5>
 
-						<h6>xorg.conf the xorg 7.3 way:</h6>
+						<h6>xorg.conf the xorg 7.4 way:</h6>
 
 							<p>Bemærk: En seriel mus vil ikke fungere med denne konfiguration! Tag en sikkerhedskopi af din xorg.conf før du foretager nogle ændringer!</p>
 <pre>
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -472,42 +457,6 @@ Section "Module"
         Load            "bitmap"        # bitmap-fonts
         Load            "freetype"
         Load            "record"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
 EndSection
 
 #This section is most important for xrandr, remove everything except the following:
@@ -565,7 +514,7 @@ EndSection
 
 
 		</div>	
-	<div id="rev">Page last revised 10/01/2009 2345 UTC</div>
+	<div id="rev">Page last revised 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

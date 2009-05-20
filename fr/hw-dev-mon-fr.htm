@@ -255,9 +255,9 @@ ctrl+alt+retour
 							<p class="highlight-2">Vous vous apprêtez à éditer les fichiers de configuration X de xorg, alors s'il vous plait, s'il vous plait, faites une sauvegarde de xorg.conf avant de vous mettre à essayer quoique ce soit!</p>
 
 							<!--- ####
-							<p>One of the greatest advantages of xorg 7.3 is hotplug. With xrandr you can configure your primary and secondary screen without restarting X. xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p>
+							<p>One of the greatest advantages of xorg 7.4 is hotplug. With xrandr you can configure your primary and secondary screen without restarting X. xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p>
 							#### -->
-							<p>Un des plus grands avantage de xorg 7.3 est la détection à la volée. Avec xrandr vous pouvez configurer votre ecran principal et secondaire sans avoir besoin de redémarrer X.
+							<p>Un des plus grands avantage de xorg 7.4 est la détection à la volée. Avec xrandr vous pouvez configurer votre ecran principal et secondaire sans avoir besoin de redémarrer X.
 							xrandr est le remplaçant de xinerama, mergeFB,...De ce fait, si le pilote xrandr 1.2 est activé, la "vieille façon de configurer" xorg.conf pourra ne plus fonctionner.</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded sidux install -->
 
@@ -309,9 +309,9 @@ VGA-0 connected 1024x768+0+0 (normal left inverted right x axis y axis) 304mm x 
 </pre>
 
 							<!--- ####
-							<p>Here you see that only vga, for the PC  (see Appendix A for output name explanation). You see the resolutions that are supported by that screen and (which is important for dual head) the maximum screen size (here 1024x768).</p>
+							<p>Here you see that only vga, for the PC  (see Appendix A for output name explanation). You see the resolutions that are supported by that screen and (which is important for dual head) the maximum screen size (here 2048x768).</p>
 							#### -->
-							<p>Vous pouvez voir ici que l'écran vga, pour les PC (consultez l'Appendix A pour les explications des codes de sortie). Vous voyez les résolutions supportées par cet écran et le plus important pour les couples d'écran, la résolution maximum (ici 1024x768).</p>
+							<p>Vous pouvez voir ici que l'écran vga, pour les PC (consultez l'Appendix A pour les explications des codes de sortie). Vous voyez les résolutions supportées par cet écran et le plus important pour les couples d'écran, la résolution maximum (ici 2048x768).</p>
 
 							<!--- ####
 							<p>Now connect your other external screen and run xrandr again:</p>
@@ -391,9 +391,9 @@ xrandr --output VGA --off --output LVDS --mode 1280x800
 						#### -->
 						<h5>Bureaux multiples:</h5>
 							<!--- ####
-							<p>As intel gma has a limitation of 2048x2048 for the virtual screen, the cannot put both screens next to each other in high resolution, both at 1024x768 work well:</p>
+							<p>As intel GMA &lt;=945GM/GMS looses 3d support with a virtual screen &gt;2048x2048, the cannot put both screens next to each other in high resolution, both at 1024x768 work well:</p>
 							#### -->
-							<p>Le chipset intel gma est limité à une résolution de 2048x2048 pour l'écran virtuel, on ne peut mettre les deux écrans simultanément à cette haute résolution, les deux à 1024x768 marchent bien, on aura donc:</p>
+							<p>As intel GMA &lt;=945GM/GMS looses 3d support with a virtual screen &gt;2048x2048, on ne peut mettre les deux écrans simultanément à cette haute résolution, les deux à 1024x768 marchent bien, on aura donc:</p>
 <pre>
 xrandr --output LVDS --mode 1024x768 --output VGA --mode 1024x768 --left-of LVDS
 </pre>
@@ -433,24 +433,11 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 				<h4>Un exemple de xorg.conf pour ordinateur avec double-moniteur permanent avec xrandr</h4>
 
 <pre>
-Section "InputDevice"
-        Identifier      "Generic Keyboard"
-        Driver    "kbd"
-        Option    "CoreKeyboard"
-        Option    "XkbRules"        "xorg"
-        Option    "XkbModel"        "pc104"
-        Option    "XkbLayout"       "us"
+Section "ServerLayout"
+        Identifier      "XFree86 Configured"
+        Screen          0       "Screen0"       0       0
 EndSection
- 
-Section "InputDevice"
-        Identifier      "Configured Mouse"
-        Driver    "mouse"
-        Option    "CorePointer"
-        Option    "Device"    "/dev/input/mice"
-        Option    "Protocol"                "ImPS/2"
-        Option    "Emulate3Buttons" "true"
-EndSection
- 
+
 Section "Device"
         Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
         Driver    "ati"
@@ -484,8 +471,7 @@ EndSection
 Section "ServerLayout"
         Identifier      "Default Layout"
         Screen    "Default Screen"
-        InputDevice     "Generic Keyboard"
-        InputDevice     "Configured Mouse"
+
 EndSection
 </pre>
 
@@ -552,9 +538,9 @@ Nom des sorties:
 					<h5>Appendix B</h5>
 
 						<!--- ####
-						<h6>xorg.conf the xorg 7.3 way:</h6>
+						<h6>xorg.conf the xorg 7.4 way:</h6>
 						#### -->
-						<h6>xorg.conf "version 7.3"</h6>
+						<h6>xorg.conf "version 7.4"</h6>
 
 							<!--- ####
 							<p>Note: A serial mouse won't work with this configuration! Backup your xorg.conf before making changes!</p>
@@ -564,7 +550,6 @@ Nom des sorties:
 Section "ServerLayout"
         Identifier      "XFree86 Configured"
         Screen          0       "Screen0"       0       0
-        InputDevice     "Touchpad"
 EndSection
 
 Section "Files"
@@ -585,42 +570,6 @@ Section "Module"
         Load            "bitmap"        # bitmap-fonts
         Load            "freetype"
         Load            "record"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Keyboard0"
-        Driver          "kbd"
-        Option          "XkbRules"              "xorg"
-        Option          "XkbModel"              "pc105"
-        Option          "XkbLayout"             "de"
-        Option          "XkbVariant"            "nodeadkeys"
-        Option          "XkbOptions"            "lv3:rwin_switch"
-EndSection
-
-Section "InputDevice"
-        Identifier      "Touchpad"
-        Driver          "synaptics"
-        Option  "LeftEdge"      "100"
-        Option  "RightEdge"     "1120"
-        Option  "TopEdge"       "50"
-        Option  "BottomEdge"    "310"
-        Option  "FingerLow"     "20"
-        Option  "FingerHigh"    "30"
-        Option  "MaxTapTime"    "150"
-        Option  "MaxTapMove"    "220"
-        Option  "MaxDoubleTapTime"      "180"
-        Option  "VertScrollDelta"       "20"
-        Option  "HorizScrollDelta"      "50"
-        Option  "MinSpeed"      "0.94"
-        Option  "MaxSpeed"      "1"
-        Option  "AccelFactor"   "0.0015"
-        Option  "SHMConfig"     "on"
-#switch two/three-finger-tap:
-        Option "TapButton2" "3"
-        Option "TapButton3" "2"
-#scroll with two fingers:
-        Option "VertTwoFingerScroll"  "1"
-        Option "HorizTwoFingerScroll" "0"
 EndSection
 
 # Cette section est la plus importante pour xrandr. Enlevez tout sauf le suivant:
@@ -681,7 +630,7 @@ obtenir un double affichage avec les pilotes propriétaires Nvidia, utilisez sim
 
 
 		</div>	
-	<div id="rev">Dernière révision le 10/01/2009 2345 UTC</div>
+	<div id="rev">Dernière révision le 16/05/2009 1350 UTC</div>
 
 </div>
 </body>

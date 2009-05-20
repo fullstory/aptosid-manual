@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - Upgrade BIOS FreeDOS </title>
+	<title>sidux Manuals - Обновяване на BIOS-а през FreeDOS</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -191,30 +191,30 @@
 <div id="main-page">
 	<div class="divider" id="bois-prep">
 
-		<h2 id="top-header">Upgrading the BIOS with FreeDOS</h2>
+		<h2 id="top-header">Обновяване на BIOS-а през FreeDOS</h2>
 
-							<p>You may want, or have a need, to update the BIOS of your PC, when the manufacturer of the motherboard announces some improvement of BIOS software. The installer program usually offered is an application to run MS-DOS.</p>
+							<p>Понякога може да се налага да обновите BIOS-а на компютъра - когато производителя пусне нова, подобрена версия на BIOS софтуера за вашия модел дънна платка. Обикновено инсталационната програма за обновяване трябва да бъде стартирана под MS-DOS.</p>
 
-							<p>This is a way to update BIOS from a USB in linux. This will work with USB keys, USB sticks and with micro/mini/SD cards (with a suitable adapter).</p>
+							<p>Но има начин да обновите BIOS-а в Линукс, през USB. Това ще работи с USB устройства за данни (флашки) и micro/mini/SD карти (с подходящ адаптер за включването им).</p>
 
-							<p>Firstly, your BIOS needs to allow booting from USB - and be compatible with USB harddisks. Some BIOSes accept USB Floppies, CD-ROMs or ZIP drives, although these might be usable, it may be more difficult to implement the upgrade, however you may have no other choice, (netbooks in particular).</p>
+							<p>Съществуващия BIOS трябва да може да стартира (boot) компютъра от USB (вместо от хард-диска или сиди-дивиди устройството) - и да е съвместим с USB хард-дискове. Някои BIOS-и приемат "USB флопи", "USB CD-ROM" или USB ZIP drive - макар че тези варианти може и да е възможно да бъдат използвани - при тях обновяването ще бъде по-трудно (макар че може и да нямате друг избор, например за някои netbook модели).</p>
 
 
-				<h3>You need three things:</h3>
+				<h3>Трябват ви три неща:</h3>
 						<ol>
-							<li>A USB stick, preferably &lt;2 GB (FAT16 doesn't allow more than 2 GB), and the base FreeDOS (fdbasecd.iso) install only uses 5.8 MB. <span class="highlight-3">FAT16 is the recommended format as FAT32 is not detected as bootable by every BIOS</span>.</li>
+							<li>USB устройство за данни (флашка), за предпочитане &lt;2 GB (FAT16 не разрешава повече от 2 GB); инсталацията на FreeDOS сама по себе си (fdbasecd.iso) използва само 5.8 MB. <span class="highlight-3">FAT16 се препоръчва тъй като не всеки BIOS разпознава FAT32 като стартируема (bootable) файлова система</span>.</li>
 
-							<li>A FreeDOS install medium <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a>.</li>
+							<li>Инсталационен образ на FreeDOS <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a>.</li>
 
-							<li>qemu (apt-get install qemu), qemu is needed for the installer, basically the emulated qemu BIOS makes your USB stick appear to FreeDOS as an ordinary harddisk, so you can install as usual (and avoids burning the FreeDOS CD).</li>
+							<li>qemu (инсталирайте с "apt-get install qemu"), qemu е нужно за инсталатора, емулираният qemu BIOS прави така че FreeDOS да "вижда" USB флашката като обикновен хард-диск, така че да можете да инсталирате по обичайния начин (и така няма нужда да записвате специално FreeDOS CD).</li>
 						</ol>
 
-				<h5><span class="highlight-2">This is absolutly critical: at no stage is the USB stick to be mounted. Be very careful to select the correct device node, otherwise all data on the wrong disk will be erased without any redress, i.e. your main hard drive.</span></h5>
+				<h5><span class="highlight-2">Това е много важно: в нито един момент USB флашката не бива да бъде монтирана. Много внимавайте да изберете правилното устройство (в примера по-долу, /dev/sdb е флашката), иначе всички данни на грешния диск ще бъдат загубени безвъзвратно!</span></h5>
 
 	<div class="spacer02"></div>
-							<p>Plug in your USB stick, <span class="highlight-2">remember, don't mount it</span>. Check dmesg (the last messages,if you just plugged it in), which device node got assigned to your USB stick lets assumes <span class="highlight-3">/dev/sdb</span>  .</p>
+							<p>Сложете USB флашката, <span class="highlight-2">запомнете, не я монтирайте</span>. Проверете dmesg (последните съобщения в лога, ако току-що сте я пъхнали), кое устройство е присвоено на USB флашката ви. По-нататък приемаме, че това е <span class="highlight-3">/dev/sdb</span>  .</p>
 
-							<p>Clear your USB stick,<span class="highlight-3">all data will be lost</span>, you could also clear all of it, instead of just the first 16 MB. </p>
+							<p>Изтрийте USB флашката,<span class="highlight-3">всички данни ще бъдат загубени</span>, може да я изтриете и цялата, вместо само първите 16 MB. </p>
 
 
 <pre>
@@ -225,8 +225,8 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 16+0 records out
 16777216 bytes (17 MB) copied, 2.35751 s, 7.1 MB/s
 </pre> 
-					<h3>Partitioning the USB stick</h3>
-							<p>Partitioning and formatting your USB stick correctly is probably the hardest part.</p>
+					<h3>Разделяне на USB-то</h3>
+							<p>Правилното разделяне и форматиране на USB флашката, е може би най-трудната част.</p>
 
 							<p>Set the partition label to FAT16, on &lt;2 GB sticks (it offers better compatibility overall).</p>
 

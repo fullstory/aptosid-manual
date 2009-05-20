@@ -192,21 +192,33 @@
 	<div class="divider" id="part-example">
 
 		<h2 id="top-header">Partitions størrelser og eksempler</h2>
-		<p  class="highlight-2">Til normal anvendelse anbefaler vi Ext3 filsystemet, det er standard filsystemet på sidux, og det er godt vedligeholdt.</p>
+							 <p  class="highlight-2">Til normal anvendelse anbefaler vi Ext3 filsystemet, det er standard filsystemet på sidux, og det er godt vedligeholdt.</p>
 
-		<p>Med partitionsmanageren <a href="part-gparted-da.htm">gparted</a> partitionerer og formatterer du harddiske. Programmet har en GUI funktionerne er ligetil.</p>
+							<p>Med partitionsmanageren <a href="part-gparted-da.htm">gparted</a> partitionerer og formatterer du harddiske. Programmet har en GUI funktionerne er ligetil.</p>
 
-		<p>Gparted kan også mindske eller flytte partitioner, og også NFTS-partitioner. Gparted er ikke fuldstændig færdigudviklet, og betegnes stadig som eksperimentiel software, men hvis du anvender det efter følgende retningslinier burde du ikke få problemer. <a href="http://gparted.sourceforge.net/">Se den fulde dokumentation for gparted</a>. Ændringer til ntfs-partitions kan også udføres med proprietære værktøjer såsom Partition Magic (TM) og Acronis (TM).</p>
+							<p>Gparted can also shrink or move partitions and also manipulate NTFS partitions [with a special caveat that once you alter an NTFS partition you must reboot immediately before doing any other operations ].  <a href="http://gparted.sourceforge.net/">Se den fulde dokumentation for gparted</a>. Ændringer til ntfs-partitions kan også udføres med proprietære værktøjer såsom Partition Magic (TM) og Acronis (TM).</p>
 
-		<p class="highlight-2">TAG ALTID EN SIKKERHEDSKOPI AF DINE VIGTIGE DATA!</p>
+							<p class="highlight-2">TAG ALTID EN SIKKERHEDSKOPI AF DINE VIGTIGE DATA!</p>
 
-		<p>Skulle en partition dukke op som monteret, så bliver vi nødt til at lukke partitionsmanageren og derefter af-montere drevet (højre-klik den monterede enheds ikon på skrivebordet og vælg 'unmount'). Skulle du have en swap partition kan du af-montere den med :<span class="highlight-3">"sudo swapoff -a"</span> i en konsol. Nu kan vi starte partitionsmanageren igen. i princippet er 3 GB mere end nok til en harddisk installation af siux, men det vil aldrig blive særligt sjovt med så lidt. 5-8 GB er et godt bud på en fornuftig størrelse. For dem der er nybegyndere med linux, anbefaler vi kun at oprette 2 partitioner til en start (root og swap), fordi det gør harddisk installationen lettere at overskue. Det har fordele (et omstridt emne!) at oprette en separat partition til /home.</p>
+							<p>Should a partition show up as mounted, unmount the device, including swap with a right click on the partition icons in gparted or via a terminal, for example:</p>
+<pre>
+umount /dev/sda1
+</pre>
+							
+							<p>The swap partiton can be unmounted in a terminal with: </p>
+							
+<pre>
+swapoff -a
+</pre>
+							<p>In principle, 5 GB is more than sufficient for a hd-install, but you won't have much fun with this. A reasonable minimum install should have 12 GB. For those new to linux, we suggest only 2 partitions for a start (root/home and swap), because this simplifies your first install quite a bit, then establish extra partitions for a separate  /home and additional data partitions.</p>
 
-		<p>Erfarne brugere kan have separate partitioner til /var, /tmp, ...osv, ad forskellige årsager. At gå i detaljer med dette her er for vidtgående. Du burde virkelig have en swap partition (det svarer til windows pagefile, bare meget mere effektivt). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span></p>
+							<p>You really should have a swap partition (equivalent to the windows swapfile, but is much more effective). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span>.</p>
 
-		<p>Til data udveksling med eventuelle Windows installationer kan du bruge vfat (fat32), [XFS is not supported and whomever wants to use XFS for / (root) must create an extra /boot partition (ext2) or use lilo (because grub doesn't work with xfs reliably). The installer at this point supports xfs on / only through editing the file ~/.siduxconf.]</p>
+							<p>For data-exchange with a Windows installation you should use vfat (fat32) or ext2 as an MS Windows™ driver is available for data-swapping. [XFS is not supported].</p>
 
-		<p>Alle der opretter mere end 1 partition bør skrive deres navne ned til senere! Når alt dette e rgjort kan du gemme ændringerne (floppy ikonet) og lukke partitionsmanageren. Her følger nu nogle enkle eksempler på forskellige harddisk størrelser, og forskellige anvendelser. Alle tal er afrundet.</p>
+						      <p>Alle der opretter mere end 1 partition bør skrive deres navne ned til senere!</p> 
+						      
+						      <p>Her følger nu nogle enkle eksempler på forskellige harddisk størrelser, og forskellige anvendelser. Alle tal er afrundet.</p>
 
 <h5>Test konfiguration, 60GB - på en maskine hvor Windows tager det meste af pladsen</h5>
 		<table>
@@ -413,12 +425,12 @@
 </div>
 
 
-		<p>Det sidste eksempel er en fornuftig løsning, når der ikke er meget harddisk plads til rådighed (f.eks. på en bærbar). Windows installeres på en separat 3-5 GB partition med intet andet på. Alle programmer og filer findes så på den anden større partition (programmer installeres her). Hvis der er mere plads til rådighed kan man vælge at dele windows programmerne og data ud på 2 separate partitioner.</p>
+							<p>Det sidste eksempel er en fornuftig løsning, når der ikke er meget harddisk plads til rådighed (f.eks. på en bærbar). Windows installeres på en separat 3-5 GB partition med intet andet på. Alle programmer og filer findes så på den anden større partition (programmer installeres her). Hvis der er mere plads til rådighed kan man vælge at dele windows programmerne og data ud på 2 separate partitioner.</p>
 
 		<h5>Generelt</h5>
-		<p>Til sidux, uden noget specielt multimedia software eller nogen spil, er 5 GB tilstrækkeligt. Til data der skal anvendes af både linux og windows (musik, film, etc) kan du anvende fat32-partitioner. Eller Ext2, idet der findes en driver til Windows, der gør det muligt at læse Ext2 partitionerne. Der er mange måder at partitionere dine harddiske på. Disse eksempler skulle være nok til at få dig igang. Det kan desuden anbefales at anvende en sekundær harddisk for at øge både ydelsen, komforten og sikkerheden. <span class="highlight-2">I det tilfælde at du har flere harddiske skal du altid placere windows på den første harddisk!</span></p>
+						      <p>Til data der skal anvendes af både linux og windows (musik, film, etc) kan du anvende fat32-partitioner. Eller Ext2, idet der findes en driver til Windows, der gør det muligt at læse Ext2 partitionerne. Der er mange måder at partitionere dine harddiske på. Disse eksempler skulle være nok til at få dig igang. Det kan desuden anbefales at anvende en sekundær harddisk for at øge både ydelsen, komforten og sikkerheden. <span class="highlight-2">I det tilfælde at du har flere harddiske skal du altid placere windows på den første harddisk!</span></p>
 
-			<div id="rev">Content last revised 30/06/2007 1329 UTC</div>
+			<div id="rev">Content last revised 12/05/2009 0335 UTC</div>
 </div>
 </body>
 </html>

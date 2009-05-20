@@ -192,14 +192,15 @@
 	<div class="divider" id="part-example">
 		<h2 id="top-header">Размеры разделa: примеры</h2>
 
-		<p class="highlight-2">Для нормального употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
+							 <p class="highlight-2">Для нормального употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
 
-		<p>Менеджер разделов gparted&nbsp;позволяет осуществить разбиение и форматирование жестких дисков. Приложение имеет графический  и интуитивно понятный интерфейс</p>
-		<p>Gparted может уменьшать и соответственно перемещать,&nbsp;также разделы NTFS. Gparted еще не разработан полностью и текущая версия рассматривается как экспериментальная, однако исходя из опыта, может быть использован без проблем. <a href="http://gparted.sourceforge.net/">Здесь обширная документация для GParted.</a>. Изменения в разделах NTFS &nbsp;также могут, проводится с патентованными приложениями (например, Partition Magic (TM), Acronis (TM)).</p>
+							<p>Менеджер разделов gparted&nbsp;позволяет осуществить разбиение и форматирование жестких дисков. Приложение имеет графический  и интуитивно понятный интерфейс</p>
+		
+							<p>Gparted can also shrink or move partitions and also manipulate NTFS partitions [with a special caveat that once you alter an NTFS partition you must reboot immediately before doing any other operations ]. <a href="http://gparted.sourceforge.net/">Здесь обширная документация для GParted.</a>. Изменения в разделах NTFS &nbsp;также могут, проводится с патентованными приложениями (например, Partition Magic (TM), Acronis (TM)).</p>
 
 		<p class="highlight-2">ВСЕГДА ДЕЛАЙТЕ РЕЗЕРВНОЕ КОПИРОВАНИЕ ВАЖНЫХ ДАННЫХ!</p>
 
-		<p>В случае, когда раздел оказывается смонтированным, необходимо выйти из gparted&nbsp;и отмонтировать соответствующий раздел. (Правый щелчок на символ устройства на рабочем столе -&gt; откроет соответствующее меню), если раздел swap существует, операции с ним возможно осуществить в консоли:</p>
+		<!--<p>В случае, когда раздел оказывается смонтированным, необходимо выйти из gparted&nbsp;и отмонтировать соответствующий раздел. (Правый щелчок на символ устройства на рабочем столе -&gt; откроет соответствующее меню), если раздел swap существует, операции с ним возможно осуществить в консоли:</p>
 
 <pre>sudo swapoff -a</pre>
 
@@ -209,9 +210,26 @@
 
 		<p>Для обмена данными с Windows выбор vfat (Fat32) [XFS is not supported and whomever wants to use XFS for / (root) must create an extra /boot partition (ext2) or use lilo (because grub doesn't work with xfs reliably). The installer at this point supports xfs on / only through editing the file ~/.siduxconf.]</p>
 
-		<p>Создавая несколько разделов, запоминайте их обозначения (или запишите)! В конце изменений подтвердите свой выбор, дождитесь окончания всех операций и выйдите из  gparted (символ дискет и соответственно Edit &gt; Apply All Operations).</p>
+		<p>Создавая несколько разделов, запоминайте их обозначения (или запишите)! В конце изменений подтвердите свой выбор, дождитесь окончания всех операций и выйдите из  gparted (символ дискет и соответственно Edit &gt; Apply All Operations).</p>-->
+							<p>Should a partition show up as mounted, unmount the device, including swap with a right click on the partition icons in gparted or via a terminal, for example:</p>
+<pre>
+umount /dev/sda1
+</pre>
+							
+							<p>The swap partiton can be unmounted in a terminal with: </p>
+							
+<pre>
+swapoff -a
+</pre>
+							<p>In principle, 5 GB is more than sufficient for a hd-install, but you won't have much fun with this. A reasonable minimum install should have 12 GB. For those new to linux, we suggest only 2 partitions for a start (root/home and swap), because this simplifies your first install quite a bit, then establish extra partitions for a separate  /home and additional data partitions.</p>
 
-		<p>Здесь несколько простых примеров с дисками различной величины, всё округлено.</p>
+							<p>You really should have a swap partition (equivalent to the windows swapfile, but is much more effective). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span>.</p>
+
+							<p>For data-exchange with a Windows installation you should use vfat (fat32) or ext2 as an MS Windows™ driver is available for data-swapping. [XFS is not supported].</p>
+
+							<p>Whomever creates more than 1 partition should write their names down for reference! </p>
+							
+							<p>Здесь несколько простых примеров с дисками различной величины, всё округлено.</p>
 
 <h5>Образ 1, 60 ГБ - Исходя из значений на том компьютере, где уже есть Windows.</h5>
 		<table>
@@ -419,13 +437,13 @@
 	<div class="spacer05"></div>
 </div>
 
-		<p>Это - вариант, подходящий если  на жестком диске очень мало места (например, на портативном компьютере). Раздел с Windows занимает 3-5 ГБ. Все приложения и файлы будут расположены на втором и самом большом разделе. Имея в своем распоряжении больше места на жестком диске, этот раздел возможно увеличивать или разделить программы Windows и файлы на 2 раздела.</p>
+							<p>Это - вариант, подходящий если  на жестком диске очень мало места (например, на портативном компьютере). Раздел с Windows занимает 3-5 ГБ. Все приложения и файлы будут расположены на втором и самом большом разделе. Имея в своем распоряжении больше места на жестком диске, этот раздел возможно увеличивать или разделить программы Windows и файлы на 2 раздела.</p>
 
 		<h5>Общее примечание</h5>
-		<p>Для sidux, без каких-нибудь особенных мультимедийных приложений или игр, 5 ГБ вполне достаточно, для данных создается раздел fat32. Кроме того нужно не забыть оставить 500 МБ для swap. Для разделения дисков существует большое количество удобных методов, но для первого раза должно быть достаточно приведенных примеров. Использование второго жесткого диска является рациональным для повышения эксплуатационных показателей, комфортности и надёжности или безопасности. <span class="highlight-2">При этом Windows всегда принадлежит первому жесткому диску!</span></p>
+							<p>Для разделения дисков существует большое количество удобных методов, но для первого раза должно быть достаточно приведенных примеров. Использование второго жесткого диска является рациональным для повышения эксплуатационных показателей, комфортности и надёжности или безопасности. <span class="highlight-2">При этом Windows всегда принадлежит первому жесткому диску!</span></p>
 
 	
-			<div id="rev">Content last revised 30/06/2007 1329 UTC</div>
+			<div id="rev">Content last revised 12/05/2009 0335 UTC</div>
 </div>
 </body>
 </html>

@@ -17,6 +17,7 @@
         <![endif]-->
 </head>
 <body id="part">
+<!-- Last translation revision by Sephi 12/05/2009 1054 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
 <!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
 <!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC, last trans update Sephi 2009.04.28 -->
@@ -198,18 +199,18 @@
 
 							<p>À l'aide du gestionnaire de partitions <a href="part-gparted-fr.htm">GParted</a> il vous est possible de partitionner et/ou formater les disques durs. Le programme est doté d'une interface graphique aisée à prendre en main.</p> 
 
-							<p>GParted peut aussi déplacer ou réduire l'encombrement des partitions. GParted a beau se trouver encore au stade du développement, le projet se déclarant expérimental, vous devriez en l'utilisant avec doigté, obtenir avec lui des résultats satisfaisants. <a href="http://gparted.sourceforge.net/">Consultez la documentation complète de GParted</a>.Les changements sur les partitions NTFS peuvent aussi s'opérer avec des outils propriétaires de type Partition Magic&reg; ou Partition Expert&reg;.</p>
+							<p>Gparted peut aussi redimensionner ou déplacer des partitions et manipuler des partitions NTFS [avec un inconvénient particulier qui est que lorsque vous modifiez une partition NTFS vous devez redémarrer immédiatement avant de faire une autre opération]. <a href="http://gparted.sourceforge.net/">Consultez la documentation complète de GParted</a>. Les changements sur les partitions NTFS peuvent aussi s'opérer avec des outils propriétaires de type Partition Magic&reg; ou Partition Expert&reg;.</p>
 
 							<p class="highlight-2">SAUVEGARDEZ TOUJOURS VOS DONNÉES!</p>
 
-							<p>Si une partition est figurée comme montée, il est toujours préférable de fermer le gestionnaire de partitions pour la démonter avant de le relancer. Le démontage direct est bien plus rapide, notamment par clic-droit sur l'icône de la partition concernée figurant dans le répertoire "Périphériques de stockage" puis "Démonter" ou "Enlever en toute sécurité".</p>
+							<!--<p>Si une partition est affichée comme étant montée, il est toujours préférable de fermer le gestionnaire de partitions pour la démonter avant de le relancer. Le démontage direct est bien plus rapide, notamment par clic-droit sur l'icône de la partition concernée figurant dans le répertoire "Périphériques de stockage" puis "Démonter" ou "Enlever en toute sécurité".</p>
 
 							<p>Il en va de même pour les partitions de swap actives, qui elles aussi doivent être désactivées. Ceci s'opère au moyen de la commande :</p>
 <pre>
 sudo swapoff -a
 </pre>
 
-							<p>commande en console root, qui désactive toutes les partitions de swap de l'ordinateur.</p>
+							<p>qui désactive toutes les partitions de swap de l'ordinateur.</p>
 
 							<p>Ceci fait, relancez votre gestionnaire de partitions. Le principe voudrait que 3 Go suffisent pour une installation sur disque dur. Vous pouvez vous y essayer mais à seule fin de test, car sur un espace aussi restreint, vous n'aurez guère d'aise ni de plaisir à découvrir sidux. L'espace disque minimal serait plutôt compris entre 5 et 8 Go. Pour les débutants sous GNU/Linux, nous suggérons la possibilité de se limiter à deux partitions seulement, racine et swap, car cela simplifie la première installation. Notez qu'il soit quand même plus indiqué d'établir le répertoire /home sur une partition séparée spécifique.</p>
 
@@ -217,13 +218,29 @@ sudo swapoff -a
 
 							<p>Pour la partition racine, /, celle sur laquelle sidux et ses programmes (et vos données, si vous ne séparez pas /home) seront installés, le système de fichier approprié sera <span class="highlight-3">ext3.</span></p>
 
-							<p>Pour échanger quotidiennement des fichiers avec une installation de Windows&reg;, vous devrez utiliser le système de fichiers vfat (fat32).[ [XFS is not supported and whomever wants to use XFS for / (root), devra créer une partition /boot en ext2 ou avoir recours au chargeur de démarrage Lilo, car GRUB ne fonctionne pas en liaison à XFS. L'installeur actuel ne gère XFS que pour la partition / (racine) et encore, en éditant manuellement le fichier ~/.siduxconf.]</p>
+							<p>Pour échanger quotidiennement des fichiers avec une installation de Windows&reg;, vous devrez utiliser le système de fichiers vfat (fat32).[ [XFS is not supported and whomever wants to use XFS for / (root), devra créer une partition /boot en ext2 ou avoir recours au chargeur de démarrage Lilo, car GRUB ne fonctionne pas en liaison à XFS. L'installeur actuel ne gère XFS que pour la partition / (racine) et encore, en éditant manuellement le fichier ~/.siduxconf.]</p>-->
+							
+							<p>Si une partition apparaît comme montée, démontez-la, ainsi que la swap via un clic droit sur les icônes des partitions dans gparted, ou depuis un terminal. Par exemple :</p>
+<pre>
+umount /dev/sda1
+</pre>
+							
+							<p>La partition swap peut être démontée dans un terminal avec :</p>
+							
+<pre>
+swapoff -a
+</pre>
+							<p>En principe, 5 GB est amplement suffisant pour une installation sur disque dur, mais cela ne vous laissera pas vraiment l'occasion de vous amuser. Une installation minimale raisonnable devrait avoir environ 12 GB d'espace. Pour les néophytes de Linux, nous suggérons de ne créer que 2 partitions pour commencer (root/home et swap), car cela simplifiera quelque peu votre première installation. Vous pourrez ensuite créer des nouvelles partitions pour un /home séparé et d'autres partitions de données supplémentaires.</p>
 
+							<p>Vous devriez vraiment avoir une partition d'échange (équivalente au fichier d'échange de Windows, mais bien plus efficace). Pour une utilisation normale, <span class="highlight-3">la partition d'échange devrait être dimensionnée au moins au double de votre quantité de ram</span>.</p>
+
+							<p>Pour un échange de données avec une installation Windows, vous devriez utiliser vfat (fat32) ou ext2. Un driver MS Windows™ permettant l'écriture sur ext2 est disponible [XFS n'est pas supporté].</p>
+							
 							<p>Qui souhaite créer plus d'une partition aura grand avantage à noter ses caractéristiques et identifiants pour plus tard ! Votre partitionnement achevé, sauvez vos changements et fermez le gestionnaire de partitions.</p>
 
 							<p>Voici quelques exemples pour différents types d'usages et différentes tailles arrondies de disques durs, et qui pourront vous aider à vous faire une idée de la forme que pourrait prendre votre installation de sidux.</p>
 
-<h5>Config d'essai - 60GB pour un pc sur lequel windows occupe pas mal d'espace</h5>
+<h5>Config d'essai - 60GB pour un PC sur lequel windows occupe pas mal d'espace</h5>
 		<table>
   			<tbody>
     				<tr>
@@ -242,7 +259,7 @@ sudo swapoff -a
       					<td>sda5</td>
       					<td>30GB</td>
       					<td>FAT32</td>
-      					<td>Données partagées entre Win et Linux</td>
+      					<td>Données partagées entre Windows et Linux</td>
     				</tr>
     				<tr>
       					<td>sda6</td>
@@ -301,7 +318,7 @@ sudo swapoff -a
 			</tbody>
 		</table>
 	<div class="spacer05"></div>
-<h5>PC Standard avec Windows : 120 GO à dédié au meilleur des deux mondes.</h5>
+<h5>PC Standard avec Windows : 120 GO pour tirer le meilleur parti des deux mondes</h5>
 		<table>
 			<tbody>
     				<tr>
@@ -332,7 +349,7 @@ sudo swapoff -a
       					<td>sda7</td>
       					<td>70GB</td>
       					<td>FAT32</td>
-      					<td>Données partagées WindowsXP-Linux</td>
+      					<td>Données partagées Windows XP - Linux</td>
     				</tr>
     				<tr>
       					<td>sda8</td>
@@ -391,7 +408,7 @@ sudo swapoff -a
   			</tbody>
 		</table>
 	<div class="spacer05"></div>
-<h5>Linux and Windows on 20 GB</h5>
+<h5>Linux et Windows sur 20 GB</h5>
 		<table>
   			<tbody>
     				<tr>
@@ -431,9 +448,7 @@ sudo swapoff -a
 
 							<p>Cette répartition n'est à conseiller que dès lors que l'espace disque disponible est à ce point exigu (ex: portable). Windows lui-même est installé seul sur une partition séparée allant de 3 à 5 Go. Tous ses programmes et fichiers sont sur la deuxième partition. Si vous disposez d'un peu plus d'espace, vous pouvez faire cette deuxième partition plus grande ou séparer les programmes windows des données en deux partitions distinctes.</p> 
 
-		
-							<p>Pour sidux sans application multimédia spéciale et sans jeux, 5 Go sont suffisants ; pour stocker les données, la partition fat32 est disponible.</p>
-
+              <!--<p>That said, on a small computer like this, a single installation of sidux, with 8 GB for root, 500 MB of swap (except for a laptop using "suspend to disk", for which 2 GB would still be required), and the rest for /home would be a great choice too.</p>  -->
    							<p>Ceci dit sur un petit ordinateur de cet ordre une installation de sidux seule, avec 8 Go de racine, 500 Mo de swap (sauf pour un portable utilisant "suspend to disk", pour lequel 2Go de swap resteraient indispensables), et le reste pour /home, serait un choix tout aussi pratique.</p>  
 
 							<p>Ces exemples devraient suffire dans un premier temps. Il est bien d'ajoûter un disque dur supplémentaire pour optimiser l'espace, les performances et la sécurité. Si ce devait être votre choix <span class="highlight-2">Disposez toujours MS Windows&reg; sur la première partition du premier disque dur de l'ordinateur!</span></p>

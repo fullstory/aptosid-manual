@@ -18,12 +18,14 @@
 </head>
 <body id="welcome">
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
-<!--Welcome to the  sidux-manual Operating System Manual version-01.86.2009.03.16 -->
-<!-- menu last updated by bluewater 2009.03.16 0020 hrs UTC, last trans update Sephi 2009.04.28 -->
-<a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" id="menu-header" /></a>
+<!--sidux-manual Operating System Manual menu-version-01.87.2009.05.25 -->
+<!-- menu last updated by bluewater 2009.05.25 0735 hrs UTC -->
+	<div id="menu-header">
+<a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
+	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-fr.htm#search-on"><img
-      src="../lib/logos/kappfinder.png" title="Search Manual" alt="Search" /> Rechercher en ligne / hors ligne</a> </li>
+      src="../lib/logos/manual-search-22x22.png" title="Search Manual" alt="Search" /> Rechercher en ligne / hors ligne</a> </li>
 		<li><a href="http://manual.sidux.com/meta-manual">Méta-Manuel de sidux</a></li>
 	</ul>
 	<div id="flags-2">
@@ -42,9 +44,9 @@
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a
-      href="cd-dl-burning-fr.htm">Distributions ISO, Miroirs de téléchargement et gravure</a>
+      href="cd-dl-burning-fr.htm">ISO Content, Releases, Download Mirrors and Burning</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-fr.htm#cd-content">Image ISO et configuration système requise</a></li>
+				<li><a href="cd-content-fr.htm#cd-content">ISO Content and system requirements</a></li>
 				<li><a href="sys-admin-release-fr.htm#rolling">Notes de distribution</a></li>
 				<li><a href="cd-dl-burning-fr.htm#download-sidux">Miroirs de téléchargement, Télécharger et graver le fichier ISO</a></li>
 				<li><a href="cd-dl-burning-fr.htm#md5">Vérification de la la somme md5</a></li>
@@ -169,6 +171,7 @@
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-fr.htm">Administration Système</a>
 			<ul class="sub-menu" id="sm13">
+				<li><a href="hd-install-fr.htm#adduser">Adding a new user</a></li>
 				<li><a href="home-fr.htm#home-bu">Déplacer /home</a></li>
 				<li><a href="siduxcc-fr.htm#siduxcc">Centre de contrôle sidux</a></li>
 				<li><a href="sys-admin-rdiff-fr.htm#rdiff">Sauvegarde avec rdiff</a></li>
@@ -192,25 +195,36 @@
 <div id="main-page">
 	<div class="divider" id="rsync">
 			<h2 id="top-header">Sauvegarder avec rsync</h2>
+							<p>rsync is a tool used to backup and synchronise your files. (It can be run on a variety of *nix ports).</p>
+							
+							 <p class="highlight-2">Une limitation de Rsync réside dans son INCAPACITÉ à copier des fichiers d'une machine distante à une autre machine distante. Pour ce faire, il vous faudrait copier la source sur votre système local en préalable, pour l'adresser ensuite à la seconde machine distante.</p>
+							
+							 <p>With sidux you have choices how to initiate the proccess, DIY or via a deb package in Debian sid:</p>
+							 
+				<h5>For the deb package:</h5>
+<pre>
+apt-get install luckybackup
+</pre>
 
-<p>Ce qui suit vous apporte quelques connaissances pratiques sur ce que peut faire rsync et quelques exemples de codes utilisables dans vos propres scripts de sauvegarde.</p>
+				    <h6>What follows from here is the DIY version</h6>
+							<p>Ce qui suit vous apporte quelques connaissances pratiques sur ce que peut faire rsync et quelques exemples de codes utilisables dans vos propres scripts de sauvegarde.</p>
 
-<p>rsync est un programme de sauvegarde de fichiers particulièrement facile à utiliser ; il permet des sauvegardes rapides des fichiers et répertoires. C'est possible grâce à l'utilisation de routines particulièrement astucieuses, vérifiant si les fichiers ont pu être modifiés, et sélectionnant pour le traitement et la copie, les seuls objets qui l'aient effectivement été. Rsync utilise aussi un outil de compression accélérant le processus de duplication <span class=" highlight-3">(lorsqu'on lui adresse explicitement l'option -z)</span>. Voici quelques détails de son fonctionnement:</p>
+							<p>rsync est un programme de sauvegarde de fichiers particulièrement facile à utiliser ; il permet des sauvegardes rapides des fichiers et répertoires. C'est possible grâce à l'utilisation de routines particulièrement astucieuses, vérifiant si les fichiers ont pu être modifiés, et sélectionnant pour le traitement et la copie, les seuls objets qui l'aient effectivement été. Rsync utilise aussi un outil de compression accélérant le processus de duplication <span class=" highlight-3">(lorsqu'on lui adresse explicitement l'option -z)</span>. Voici quelques détails de son fonctionnement:</p>
 
-<p>Le programme rsync détecte les fichiers et répertoires qu'il est nécessaire de copier en vérifiant si certains de leurs attributs ont changé (par exemple leur dernière date/heure de modification, ou leur taille), et si c'est le cas en déduit qu'il s'agit de quelque chose qui n'a pas été sauvegardé auparavant. Ce processus de sélection est particulièrement rapide.</p>
+							<p>Le programme rsync détecte les fichiers et répertoires qu'il est nécessaire de copier en vérifiant si certains de leurs attributs ont changé (par exemple leur dernière date/heure de modification, ou leur taille), et si c'est le cas en déduit qu'il s'agit de quelque chose qui n'a pas été sauvegardé auparavant. Ce processus de sélection est particulièrement rapide.</p>
 
-<p>Lorsque rsync a achevé la création de la liste à utiliser, la copie des fichiers/répertoires modifiés est réalisée très vite parce qu'une routine de compression s'exécute durant le processus de copie, avant l'envoi, et que c'est une fois les copies reçues à leur adresse de destination, qu'elles sont décompressées "à la volée".</p>
+							<p>Lorsque rsync a achevé la création de la liste à utiliser, la copie des fichiers/répertoires modifiés est réalisée très vite parce qu'une routine de compression s'exécute durant le processus de copie, avant l'envoi, et que c'est une fois les copies reçues à leur adresse de destination, qu'elles sont décompressées "à la volée".</p>
 
-<p>rsync peut dupliquer des fichiers:<br />
+							 <p>rsync peut dupliquer des fichiers:<br />
 							* d'un système local vers lui-même,<br />
  							* d'un système local vers une machine distante,<br />
 							* d'une machine distante vers une machine locale.</p>
 
-<p>Il utilise indifférament le client <a href="ssh-fr.htm">ssh</a> par défaut, ou un démon rsync activé sur chacune des machines utilisée, machine source et machine cible. Ses pages man précisent, que si vous êtes en mesure de vous connecter à un système en utilisant ssh, rsync le pourra aussi.</p>
+							<p>Il utilise indifférament le client <a href="ssh-fr.htm">ssh</a> par défaut, ou un démon rsync activé sur chacune des machines utilisée, machine source et machine cible. Ses pages man précisent, que si vous êtes en mesure de vous connecter à un système en utilisant ssh, rsync le pourra aussi.</p>
 
-<p class="highlight-3">Une limitation de Rsync réside dans son INCAPACITÉ à copier des fichiers d'une machine distante à une autre machine distante. Pour ce faire, il vous faudrait copier la source sur votre système local en préalable, pour l'adresser ensuite à la seconde machine distante.</p>
+							<p class="highlight-3">Une limitation de Rsync réside dans son INCAPACITÉ à copier des fichiers d'une machine distante à une autre machine distante. Pour ce faire, il vous faudrait copier la source sur votre système local en préalable, pour l'adresser ensuite à la seconde machine distante.</p>
 
-<p>Pour fournir un exemple de cette logique, imaginons disposer de trois ordinateurs;</p>
+							<p>Pour fournir un exemple de cette logique, imaginons disposer de trois ordinateurs;</p>
 
 <pre>
 neo – notre système local
@@ -219,7 +233,7 @@ trinity – une autre machine distante
 </pre>
 
 
-<p>Vous voulez utiliser rsync à copier, synchroniser les répertoires de données inclus dans /home/utilisateur/repertoire_de_donnees de plusieurs machines entre elles. Chaque système "appartient à" un utilisateur spécifique, en d'autres mots un utilisateur précis utilise tel ou tel système précis, qui est sensé être utilisé comme "source" pour les deux autres machines. Vous allez donc devoir lancer la commande rsync sur le système "local" de départ seulement, que nous avons appelé neo :</p> 
+							<p>Vous voulez utiliser rsync à copier, synchroniser les répertoires de données inclus dans /home/utilisateur/repertoire_de_donnees de plusieurs machines entre elles. Chaque système "appartient à" un utilisateur spécifique, en d'autres mots un utilisateur précis utilise tel ou tel système précis, qui est sensé être utilisé comme "source" pour les deux autres machines. Vous allez donc devoir lancer la commande rsync sur le système "local" de départ seulement, que nous avons appelé neo :</p> 
 
 
 <pre>
@@ -228,7 +242,7 @@ l'utilisateur principal de morpheus est tartie
 l'utilisateur principal de trinity est taylar
 </pre>
 
-<p>Récapitulons : ce que nous voulons est sauvegarder et/ou synchroniser les données suivantes :</p>
+							<p>Récapitulons : ce que nous voulons est sauvegarder et/ou synchroniser les données suivantes :</p>
 
 <pre>
 le contenu de /home/cuddles/repertoire_de_donnees de neo
@@ -239,7 +253,7 @@ le contenu de /home/taylar/repertoire_de_donnees de trinity
  vers neo et morpheus.
 </pre>
 
-<p>Le problème avec rsync, du fait de son impossibilité à synchroniser d'une machine distante à une autre, va se poser au moment de sauvegarder trinity vers morpheus ou morpheus vers trinity.</p>   
+							<p>Le problème avec rsync, du fait de son impossibilité à synchroniser d'une machine distante à une autre, va se poser au moment de sauvegarder trinity vers morpheus ou morpheus vers trinity.</p>   
 
 <pre>
 neo --> morpheus – c'est bon, local vers machine distante
@@ -252,22 +266,22 @@ trinity --> morpheus – machine distante vers machine distante
 				 – ne marchera pas
 </pre>
 
-<p>Pour résoudre cette limitation, il va falloir légèrement modifier le schéma de rsync. Nous allons réaliser ceci :</p>
+							<p>Pour résoudre cette limitation, il va falloir légèrement modifier le schéma de rsync. Nous allons réaliser ceci :</p>
 
 <pre>
 morpheus --> trinity – deviendra: morpheus --> neo &amp; neo --> trinity
 trinity --> morpheus – deviendra: trinity --> neo &amp; neo --> morpheus
 </pre>
 
-<p>Nous créerons donc une étape supplémentaire qui, considérant que toute manière, nous voulons que l'intégralité des données soit bien présente sur la machine neo, ne revient qu'à un changement de source, sans incidence sur le résultat voulu. Cela va nous garantir que toutes nos sauvegardes soient bonnes et que rien n'y manque.</p>
+							<p>Nous créerons donc une étape supplémentaire qui, considérant que toute manière, nous voulons que l'intégralité des données soit bien présente sur la machine neo, ne revient qu'à un changement de source, sans incidence sur le résultat voulu. Cela va nous garantir que toutes nos sauvegardes soient bonnes et que rien n'y manque.</p>
 
-<p class="highlight-3">Prenez bien en compte cette limitation de rsync lorsque vous concevez vos procédures de sauvegardes et synchronisation avec cet outil.</p>				
+							<p class="highlight-3">Prenez bien en compte cette limitation de rsync lorsque vous concevez vos procédures de sauvegardes et synchronisation avec cet outil.</p>				
 
 	<h5>Utiliser la syntaxe nom d'hôte à nom d'hôte avec rsync.</h5>
 
-<p>Comme il est décrit plus haut, utiliser neo, morpheus ou trinity en lieu et place de leurs adresses IP physiques, est une méthode propre et facile pour rendre les choses plus lisibles. Pouvoir utiliser la syntaxe nom d'hôte à nom d'hôte avec rsync s'obtient facilement.</p>
+							<p>Comme il est décrit plus haut, utiliser neo, morpheus ou trinity en lieu et place de leurs adresses IP physiques, est une méthode propre et facile pour rendre les choses plus lisibles. Pouvoir utiliser la syntaxe nom d'hôte à nom d'hôte avec rsync s'obtient facilement.</p>
 
-<p>Quand vous éditerez le fichier /etc/hosts, pour ajoûter aux adresses IP les noms d'hôtes qui y correspondent, vous écrirez dans les lignes supérieures du fichier ces traductions :</p>				
+							<p>Quand vous éditerez le fichier /etc/hosts, pour ajoûter aux adresses IP les noms d'hôtes qui y correspondent, vous écrirez dans les lignes supérieures du fichier ces traductions :</p>				
 
 <pre>
 192.168.1.15	 neo
@@ -275,34 +289,34 @@ trinity --> morpheus – deviendra: trinity --> neo &amp; neo --> morpheus
 192.168.1.17	 trinity
 </pre>
 
-<p>La première ligne traduit l'adresse IP 192.168.1.15 en "neo", la deuxième 192.168.1.16 en “morpheus”, et la troisième 192.168.1.17 en “trinity”. Après l'édition et la sauvegarde du fichier /etc/hosts, vous allez ainsi pouvoir indifférament utiliser les IP ou les noms d'hôtes. Vous en comprendrez l'intérêt quand par exemple vous changerez l'IP d'une machine. Imaginons que vous changiez celle de neo de 192.168.1.15 en 192.168.1.25 </p> 
+							<p>La première ligne traduit l'adresse IP 192.168.1.15 en "neo", la deuxième 192.168.1.16 en “morpheus”, et la troisième 192.168.1.17 en “trinity”. Après l'édition et la sauvegarde du fichier /etc/hosts, vous allez ainsi pouvoir indifférament utiliser les IP ou les noms d'hôtes. Vous en comprendrez l'intérêt quand par exemple vous changerez l'IP d'une machine. Imaginons que vous changiez celle de neo de 192.168.1.15 en 192.168.1.25 </p> 
 				
-<p>Si tous vos scripts utilisent l'IP, vous devrez les localiser tous et y modifier l'adresse IP. Si vos scripts usent de noms d'hôtes, seuls les fichiers /etc/hosts nécessiteront d'être réédités, pour que tous vos scripts continuent à fonctionner. C'est particulièrement pratique lorsque vous gérez beaucoup de scripts utilisant des connexions distantes. Ceci d'autre part rend vos scripts bien plus lisibles.</p> 
+							<p>Si tous vos scripts utilisent l'IP, vous devrez les localiser tous et y modifier l'adresse IP. Si vos scripts usent de noms d'hôtes, seuls les fichiers /etc/hosts nécessiteront d'être réédités, pour que tous vos scripts continuent à fonctionner. C'est particulièrement pratique lorsque vous gérez beaucoup de scripts utilisant des connexions distantes. Ceci d'autre part rend vos scripts bien plus lisibles.</p> 
 
 				
 
 		<h4>rsync, et les deux façons de l'utiliser.</h4>
 
-<p>La première méthode avec rsync <b>"pousse"</b> les fichiers vers une cible, et la seconde les <b>"tire"</b> depuis une source. Chacune à ses avantages et ses inconvénients. Voyons ce qu'il en est pour chacune au travers d'une explication dans laquelle nous supposerons qu'une des machine est locale et l'autre distante, afin de rendre les choses plus explicites.</p> 
+							<p>La première méthode avec rsync <b>"pousse"</b> les fichiers vers une cible, et la seconde les <b>"tire"</b> depuis une source. Chacune à ses avantages et ses inconvénients. Voyons ce qu'il en est pour chacune au travers d'une explication dans laquelle nous supposerons qu'une des machine est locale et l'autre distante, afin de rendre les choses plus explicites.</p> 
 				
-<p><b>"pousser"</b> - le système de fichiers local héberge les fichiers et répertoires sources, et la cible est une machine distante. La commande rsync est lancée depuis le système local, et pousse les données vers la machine distante.</p>
+							<p><b>"pousser"</b> - le système de fichiers local héberge les fichiers et répertoires sources, et la cible est une machine distante. La commande rsync est lancée depuis le système local, et pousse les données vers la machine distante.</p>
 
-<p>Les avantages:<br />
-	*Vous pouvez faire les sauvegardes de plusieurs systèmes vers une cible.<br />
-	*Le processus de sauvegarde est réparti sur chaque machine et pas sur une seule qui l'assurerait à elle seule.<br />
-	*Si un système est plus rapide qu'un autre, il peut finir rapidement et être opérationnel pour d'autres tâches.</p>
+							<p>Les avantages:<br />
+							*Vous pouvez faire les sauvegardes de plusieurs systèmes vers une cible.<br />
+							*Le processus de sauvegarde est réparti sur chaque machine et pas sur une seule qui l'assurerait à elle seule.<br />
+							*Si un système est plus rapide qu'un autre, il peut finir rapidement et être opérationnel pour d'autres tâches.</p>
 
-<p>Les inconvévients:<br />				
-	*Si vous utilisez un script programmé avec cron, vous allez devoir mettre-à-jour et changer les crontabs de tous les systèmes en jeu, ainsi que chacune des versions locales du script.<br />
-	*Votre procédure de sauvegarde n'a aucun moyen de détecter si la partition cible du système distant est effectiment montée, et pourrait dans certains cas ne rien sauvegarder sur la cible.</p>				
+							<p>Les inconvévients:<br />				
+							*Si vous utilisez un script programmé avec cron, vous allez devoir mettre-à-jour et changer les crontabs de tous les systèmes en jeu, ainsi que chacune des versions locales du script.<br />
+							*Votre procédure de sauvegarde n'a aucun moyen de détecter si la partition cible du système distant est effectiment montée, et pourrait dans certains cas ne rien sauvegarder sur la cible.</p>				
 
 				
-<p><b>"Tirer"</b> - Le système distant héberge les fichiers et répertoires sources et la cible est la machine locale. La commande est lancée depuis la machine locale qui "tire" les données de la machine distante.</p> 
+							<p><b>"Tirer"</b> - Le système distant héberge les fichiers et répertoires sources et la cible est la machine locale. La commande est lancée depuis la machine locale qui "tire" les données de la machine distante.</p> 
 				
-<p>Les avantages:<br />
-	*Un système unique est dédié au contrôle des sauvegardes de toutes les machines du réseau : il s'agit donc de sauvegarde dite centralisée. <br />
-	*Si vous utilisez un script, il n'existe que sur une seule machine, et sa configuration, mise-à-jour et modification en sont d'autant plus simplifiées. Dans la même logique un seul fichier crontab contrôle la programmation chronologique de l'exécution du script.<br />
-	*Le script dispose des moyens de vérifier et monter si c'est nécessaire, le système de fichiers de la partition cible.</p>
+							<p>Les avantages:<br />
+							*Un système unique est dédié au contrôle des sauvegardes de toutes les machines du réseau : il s'agit donc de sauvegarde dite centralisée. <br />
+							*Si vous utilisez un script, il n'existe que sur une seule machine, et sa configuration, mise-à-jour et modification en sont d'autant plus simplifiées. Dans la même logique un seul fichier crontab contrôle la programmation chronologique de l'exécution du script.<br />
+							*Le script dispose des moyens de vérifier et monter si c'est nécessaire, le système de fichiers de la partition cible.</p>
 
 	
 
@@ -331,7 +345,7 @@ trinity --> morpheus – deviendra: trinity --> neo &amp; neo --> morpheus
 rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>Voyons ensemble des parties de cette commande:</p>
+							<p>Voyons ensemble des parties de cette commande:</p>
 
 
 <pre>
@@ -339,13 +353,13 @@ le chemin des fichiers sources est: morpheus:/home/tartie
 et celui de la cible: /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>tout le contenu de /home/tartie... va être sauvegardé dans /media/sda7/SysBackups/morpheus/home, donnant un résultat comme ceci :</p>
+							<p>tout le contenu de /home/tartie... va être sauvegardé dans /media/sda7/SysBackups/morpheus/home, donnant un résultat comme ceci :</p>
 
 <pre>
 /media/sda7/SysBackups/morpheus/home/tartie...
 </pre>
 
-<p>il est à noter que la seule raison qui place /tartie dans /home provienne de la syntaxe de désignation de la CIBLE et non de celle de la SOURCE. la "source" ne sélectionne que d'où viennent les données et pas où elles vont aller. C'est la "cible" qui désigne à rsync où copier, les données qu'il récupère de la "source". Voyens cet exemple :</p>
+							<p>il est à noter que la seule raison qui place /tartie dans /home provienne de la syntaxe de désignation de la CIBLE et non de celle de la SOURCE. la "source" ne sélectionne que d'où viennent les données et pas où elles vont aller. C'est la "cible" qui désigne à rsync où copier, les données qu'il récupère de la "source". Voyens cet exemple :</p>
 
 
 <pre>
@@ -353,9 +367,9 @@ rsync [...] /home/user/data/files /media/sda7/SysBackups/neo
 </pre>
 
 
-<p>Dans la commande ci-dessus, seul le répertoire source /files et ce qu'il contient, sera copié sous le répertoire cible /neo, et nous n'obtiendrons pas /media/sda7/SysBackups/neo/home/user/data/files </p>
+							<p>Dans la commande ci-dessus, seul le répertoire source /files et ce qu'il contient, sera copié sous le répertoire cible /neo, et nous n'obtiendrons pas /media/sda7/SysBackups/neo/home/user/data/files </p>
 				
-<p>Soyez attentif à ces considérations lorsque vous créez vos commandes de sauvegarde avec rsync.</p>
+							<p>Soyez attentif à ces considérations lorsque vous créez vos commandes de sauvegarde avec rsync.</p>
 
 		<h5>Explications sur les options:</h5>
 
@@ -379,7 +393,7 @@ L'option -a est considérée comme un équivalent à : -rlptgoD qui signifie:
 --exclude = une syntaxe qui permet d'exclure certains fichiers ou répertoire du processus. par exemple, --exclude=“*~” excluerait TOUT fichier ou répertoire dont le nom se terminerait par un tilde du processus de sauvegarde. Un seul et unique schéma d'exclusion est admissible avec l'option --exclude, et donc si vous voulez en utiliser plusieurs, il vous faudra ajoûter autant de lignes --exclude que nécessaires dans votre commande. 
 </pre>
 
-<p>En complément, voici quelques autres options de commandes utiles:</p>
+							<p>En complément, voici quelques autres options de commandes utiles:</p>
 
 <pre>
 -c – ajoûte un nouveau niveau de vérification des sources, au moment de leur comparaison à la copie sur la cible après l'achèvement du processus ; ceci conduit le processus de copie à prendre plus de temps, et rsync opérant systématiquement des vérifications, il s'agit d'une forme de redondance, conduisant à ne pas recourir a priori à cette option.
@@ -387,7 +401,7 @@ L'option -a est considérée comme un équivalent à : -rlptgoD qui signifie:
 --dry-run – littéralement "lancement à sec", autrement dit, vous retournera ce qui aurait été transféré en cas de commande effective, comme le font par exemple les commandes apt-get install ou apt-get dist-upgrade, quand on leur adresse l'option -s.
 </pre>
 
-<p>Notre commande se termine systématiquement par l'adresse du répertoire source que suit celle du répertoire cible.</p>
+							<p>Notre commande se termine systématiquement par l'adresse du répertoire source que suit celle du répertoire cible.</p>
 
 			<h5>Exemples de commandes:</h5>
 
@@ -395,44 +409,43 @@ L'option -a est considérée comme un équivalent à : -rlptgoD qui signifie:
 rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>Cette commande va sauvegarder tous les fichiers répertoires inclus dans /home/tartie vers le système dont le nom d'hôte est "morpheus", pour les disposer dans le répertoire  /media/sda7/SysBackups/morpheus/home  – préservant la structure d'arborescence du répertoire source /tartie.</p>
+							<p>Cette commande va sauvegarder tous les fichiers répertoires inclus dans /home/tartie vers le système dont le nom d'hôte est "morpheus", pour les disposer dans le répertoire  /media/sda7/SysBackups/morpheus/home  – préservant la structure d'arborescence du répertoire source /tartie.</p>
 
 
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” /home/tartie neo:/media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>Cette commande est l'équivalent en mode "pousser" de la commande précédente. Elle va pousser tous les fichiers répertoires inclus dans /home/tartie vers la machine neo et dans le même répertoire. Notez qu'un système est considéré "distant" dès lors que son chemin est précédé du signe “:”.</p>
+							<p>Cette commande est l'équivalent en mode "pousser" de la commande précédente. Elle va pousser tous les fichiers répertoires inclus dans /home/tartie vers la machine neo et dans le même répertoire. Notez qu'un système est considéré "distant" dès lors que son chemin est précédé du signe “:”.</p>
 
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” /home/cuddles /media/sda7/SysBackups/neo/home
 </pre>
 
-<p>Cette commande réalise une synchronisation de réperoire local à répertoire local puisqu'aucun chemin n'est précédé de “:”. Elle sauvegardera la zone /home/cuddles vers le répertoire /media/sda7/SysBackups/neo/home de la même machine.</p>
+							<p>Cette commande réalise une synchronisation de réperoire local à répertoire local puisqu'aucun chemin n'est précédé de “:”. Elle sauvegardera la zone /home/cuddles vers le répertoire /media/sda7/SysBackups/neo/home de la même machine.</p>
 
 
-<p>Voyons maintenant ce que l'usage de multiples options d'exclusion peut donner:</p>
+							<p>Voyons maintenant ce que l'usage de multiples options d'exclusion peut donner:</p>
 
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” --exclude=”*.c” --exclude=”*.o” "/*" /media/sda7/SysBackups/neo
 </pre>
 
-<p>La commande ci-dessus va sauvegarder TOUT les fichiers et répertoires situés sous racine de la machine locale vers /media/sda7/SysBackups/neo – sauf que cette sauvegarde excluera tout fichier ou répertoire se terminant par un “~”, ou un “.c”, ou un “.o”. </p>
+							<p>La commande ci-dessus va sauvegarder TOUT les fichiers et répertoires situés sous racine de la machine locale vers /media/sda7/SysBackups/neo – sauf que cette sauvegarde excluera tout fichier ou répertoire se terminant par un “~”, ou un “.c”, ou un “.o”. </p>
 
 
 
-<p class="highlight-2">Ci-dessous figure un exemple de commande rsync à éviter et qui retournerait des erreurs. Un exemple de commande rsync forcément inopérante puisque de machine distante à machine distante:</p>
+							<p class="highlight-2">Ci-dessous figure un exemple de commande rsync à éviter et qui retournerait des erreurs. Un exemple de commande rsync forcément inopérante puisque de machine distante à machine distante:</p>
 
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie trinity:/home
 </pre>
 
-<p class="highlight-2">Comme il est spécifié plus haut : ça ne marche pas avec rsync !</p>
+							<p class="highlight-2">Comme il est spécifié plus haut : ça ne marche pas avec rsync !</p>
 
-<p>Pour finir et pour la route, voyons ce qu'une commande rsync de machine distante à locale donnerait en remplaçant les noms d'hôte par les IP.</p> 
+							<p>Pour finir et pour la route, voyons ce qu'une commande rsync de machine distante à locale donnerait en remplaçant les noms d'hôte par les IP.</p> 
 
-
-<p>La même commande est ici successivement écrite en utilisant les noms d'hôte puis les IP.</p>
+							<p>La même commande est ici successivement écrite en utilisant les noms d'hôte puis les IP.</p>
 
 <pre>
 rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7/SysBackups/morpheus/home
@@ -442,11 +455,11 @@ rsync -agEvz --delete-after --exclude=”*~” morpheus:/home/tartie /media/sda7
 rsync -agEvz --delete-after --exclude=”*~” 192.168.1.16:/home/tartie /media/sda7/SysBackups/morpheus/home
 </pre>
 
-<p>Certes, vous n'êtes pas obligés d'utiliser les noms d'hôtes, mais vous conviendrez que ce soit un tantinet plus simple.</p>
+							<p>Certes, vous n'êtes pas obligés d'utiliser les noms d'hôtes, mais vous conviendrez que ce soit un tantinet plus simple.</p>
 
-<p>Vous devriez à présent être en mesure de concevoir une commande simple pour rsync, en vous inspirant des exemples fournis, jusqu'à obtenir les formes qui correspondront à vos besoins.</p>
+							<p>Vous devriez à présent être en mesure de concevoir une commande simple pour rsync, en vous inspirant des exemples fournis, jusqu'à obtenir les formes qui correspondront à vos besoins.</p>
 	</div>
-			<div id="rev">Dernière Révision le 09/09/2007 à 5H21 UTC</div>
+			<div id="rev">Dernière Révision le 24/05/2009 1515 UTC</div>
 
 
 </div>

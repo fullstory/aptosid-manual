@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision par Sephi 28/04/2009 1247 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
-<!--sidux-manual Operating System Manual menu-version-01.87.2009.05.25 -->
-<!-- menu last updated by bluewater 2009.05.25 0735 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.88.2009.05.30 -->
+<!-- menu last updated by bluewater 2009.05.30 0800 hrs UTC last translation by LjanA 2009.05.28 1235 hrs UTC-->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -30,7 +30,7 @@
 		<li><a href="http://manual.sidux.com/meta-manual">Méta-Manuel de sidux</a></li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/sidux-language-64.png" title="Choisir une autre langue - Choose another language" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-100x64.png" title="Choisir une autre langue - Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
 		<li  onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-fr.htm">Manuel du système sidux</a>
@@ -47,7 +47,7 @@
 		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a
       href="cd-dl-burning-fr.htm">ISO Content, Releases, Download Mirrors and Burning</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-fr.htm#cd-content">ISO Content and system requirements</a></li>
+				<li><a href="cd-content-fr.htm#cd-content">Contenu de l'ISO et système requis</a></li>
 				<li><a href="sys-admin-release-fr.htm#rolling">Notes de distribution</a></li>
 				<li><a href="cd-dl-burning-fr.htm#download-sidux">Miroirs de téléchargement, Télécharger et graver le fichier ISO</a></li>
 				<li><a href="cd-dl-burning-fr.htm#md5">Vérification de la la somme md5</a></li>
@@ -201,7 +201,7 @@
 
 					<h5>Sources List</h5>
 
-							<p>De ce fait, vous souhaiterez probablement ajoûter les sources contrib/ non-free à votre fichier  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span> et vous configurer un accès à Internet:</p>
+							<p>De ce fait, vous souhaiterez probablement ajoûter les sources contrib/ non-free à vos fichiers  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list et /etc/apt/sources.list.d/sidux.list</span> ou <span class="highlight-3">/etc/apt/sources.list</span> et vous configurer un accès à Internet:</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
@@ -224,7 +224,7 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Activez ensuite le support du module de noyau module-assistant dynamique [Dynamic Module-Assistant Kernel Module Support] (dmakms) pour nvidia afin que la prochaine fois que le noyau Linux sera mis à jour, un module nvidia soit préparé pour ce dernier sans intervention manuelle. Pour cela, ajoutez <span class="highlight-3">nvidia-kernel-source</span> au fichier de configuration <span class="highlight-3">/etc/default/dmakms</span>.</p>
+							<p>Activez ensuite le support du module de noyau module-assistant dynamique [Dynamic Module-Assistant Kernel Module Support] (dmakms) pour nvidia afin que la prochaine fois que le noyau Linux soit mis à jour, un module nvidia soit automatiquement préparé pour ce dernier sans intervention manuelle. Pour cela, ajoutez <span class="highlight-3">nvidia-kernel-source</span> au fichier de configuration <span class="highlight-3">/etc/default/dmakms</span>.</p>
 							
 							<p>Puis:</p>
 <pre>
@@ -240,19 +240,19 @@ sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Redémarrez votre ordinateur pour que l'installation du module prenne effet.</p>
 
-					<h4>Module load failure</h4>
+					<h4>Échec du chargement du module</h4>
 					
-							<p>Should nvidia fail to load, for whatever reason [new xorg component, a fs problem or if X doesnt start after reboot] :</p>
+							<p>Si le module nvidia venait à échouer à se charger, pour quelque raison que ce soit [nouveaux composant xorg, problème de système de fichier ou si X ne se lance plus aau redémarrage] :</p>
 <pre>
 modprobe nvidia 
 </pre>
-							<p>Then reboot the computer.</p> 
+							<p>Puis, redémarrez votre ordinateur.</p> 
 							
-							<p>Should the module still fail to load:</p>
+							<p>Si le module nvidia venait à nouveau à échouer à se charger :</p>
  <pre>
  m-a a-i -f nvidia-kernel-source 
 </pre>
-							<p>This rebuilds the module <span class="highlight-3">then reboot.</span></p>
+							<p>Ceci reconstruit le module <span class="highlight-3">puis redémarrez.</span></p>
 							
 						      <p>Pour finir, lisez:</p>
 <pre>
@@ -284,21 +284,23 @@ init 5 &amp;&amp; exit
 							<p>Quelques cartes graphiques ont d'office le support 3D, cependant dans la généralité des cas c'est la 2D.</p>
 
 							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
-
-							<p>Pour éditer /etc/X11/xorg.conf, vous devez être root. Trouvez-y la section intitulée <b>Section "Device"</b>, et changez-y le pilote graphique à la ligne <b>Driver</b> par <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
-
-							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
 							
-							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
+							<p><span class="highlight-3">Si vous avez jusque là utilisé les pilotes propriétaires et voudriez revenir aux pilotes libres, vous devrez éditer le fichier /etc/X11/xorg.conf, DANS CE CAS VOUS DEVEZ EN FAIRE UNE COPIE DE SAUVEGARDE EN PRÉALABLE, car éditer /etc/X11/xorg.conf de manière éronnée peut vous faire beaucoup de peine...</span></p>
 
-							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
+							<p>Pour éditer /etc/X11/xorg.conf, vous devez être root. Trouvez-y la section intitulée <b>Section "Device"</b>, et changez-y le pilote graphique à la ligne <b>Driver</b> par <span class="highlight-2">nv</span> OU <span class="highlight-2">ati</span> OU <span class="highlight-2">intel</span>.</p>
+
+							<p class="highlight-2">Vous éditez xorg.conf à vos risques et périls !!</p>
+							
+							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">Plus d'info se rapportant au cas Intel</a></p>
+
+							<p><a href= "http://www.x.org/wiki/radeon">Plus d'info se rapportant au cas ati radeon</a></p>
 
 							<p><a href= "http://xorg.freedesktop.org">Plus d'informations sur X.Org ici</a></p>
 
 	</div>
 	<div class="divider" id="non-free-firmware">
 				<h2>Firmware drivers</h2>
-							<p>Le firmware requis peut être déterminé par le peripherique suivant / firmware enumeration ou en utilisant le tout nouveau script fw-detect (contenu dans sidux-scripts).</p>
+							<p>Le firmware requis peut être déterminé par le péripherique suivant / firmware enumeration ou en utilisant le tout nouveau script fw-detect (contenu dans sidux-scripts).</p>
 <pre>
 $ fw-detect
 </pre>
@@ -306,19 +308,19 @@ $ fw-detect
 
 				<ul>
 					<li>
-						Atari DSP56k support:<br />
+						Support Atari DSP56k :<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/dsp56k/</span>.
 					</li>
 
 					<li>
-						Atmel AT76c50x 11 MBit/s wlan:<br />
+						Contrôleur WIFI Atmel AT76c50x 11 MBit/s:<br />
 <pre>
 apt-get install atmel-firmware
 </pre>
 					</li>
 
 					<li>
-						Broadcom, b43/ b43legacy wlan:<br />
+						Contrôleur WIFI Broadcom, b43/ b43legacy :<br />
 						Bien qu'il ne soit plus requis pour la plupart des cartes wifi 802.11b/g, le firmware proprietaire est préféré pour le b43, dans le cas où il est installé.
 <pre>
 apt-get install b43-fwcutter
@@ -326,14 +328,14 @@ apt-get install b43-fwcutter
 					</li>
 
 					<li>
-						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
+						  Chipset Bluetooth Broadcom Blutonium (BCM2033):<br />
 <pre>
 apt-get install bluez-firmware
 </pre>
 					</li>
 
 					<li>
-						Cameras basés sur Vision's CPiA2:<br />
+						Cameras basées sur Vision's CPiA2:<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/cpia2/</span>.
 					</li>
 
@@ -343,22 +345,22 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
-						Digital Audio Broadcasting (DAB) Receiver for USB and Linux:<br />
+						Récepteur Digital Audio Broadcasting (DAB) pour USB et Linux:<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/dabusb/</span>.
 					</li>
 
 					<li>
-						Eagle USB ADSL modem:<br />
+						Model Eagle USB ADSL::<br />
 						Récuperer le firmware de <a href="http://eagle-usb.org/ueagle-atm/non-free/">http://eagle-usb.org/ueagle-atm/non-free/</a> et copiez le dans <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
-						EMI 2|6 USB Audio interface:<br />
+						Carte son EMI 2|6 USB:<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/emi26/</span>.
 					</li>
 
 					<li>
-						EMI 6|2m USB Audio interface:<br />
+						Carte son EMI 6|2m USB :<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/emi62/</span>.
 					</li>
 
@@ -368,7 +370,7 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
-						DVB firmware pour divers cartes DVB TV (most budget cards won't need this):<br />
+						DVB firmware pour divers cartes DVB TV (la plupart des cartes bon marché n'auront pas besoin de ceci):<br />
 						Récuperer le firmware de (vérifier avec dmesg) <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> et copiez le dans <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
@@ -415,12 +417,12 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
-						Korg 1212 IO audio device:<br />
+						Carte son Korg 1212 IO:<br />
 						Récuperer le firmware de <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> et copiez le dans <span class="highlight-3">/lib/firmware/korg/</span>.
 					</li>
 
 					<li>
-						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+						Contrôleurs WIFI RaLink rt61 and rt73 54 MBit/s:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
@@ -515,7 +517,7 @@ apt-get install zd1211-firmware
 
 <h2>Comment accéder aux partitions NTFS en écriture avec ntfs-3g</h2>
 
-							<p class="highlight-2"><b>Soyez avertis</b>: Si le pilote ntfs-3g est désormais réputé 'stable', n'en usez jamais sans disposer d'une sauvegarde externe de vos données, et quoiqu'il arrive, jamais sur un système de production ! Si vous le faites quand-même, et vous perdez des données, ce sera votre faute ; vous l'utilisez à vos risques et périls !</p>
+							<p class="highlight-2"><b>Soyez-en avertis !</b>: Si le pilote ntfs-3g est désormais réputé 'stable', n'en usez jamais sans disposer d'une sauvegarde externe de vos données, et quoiqu'il arrive, jamais sur un système de production ! Si vous le faites quand-même, et vous perdez des données, ce sera votre faute ; vous l'utilisez à vos risques et périls !</p>
 
 							<p>Ouvrez une console/terminal et entrez-y la commande suivante: (reportez-vous à <a href="part-cfdisk-fr.htm" >Partitionnement des DDurs - Identification des disques</a></p>
 <pre >su
@@ -525,10 +527,10 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 Pour sortir de la console entrez : exit
 </pre>
 
-							<p>Dès lors votre volume NTFS peut être monté <b>rw</b> (read and write) et vous devriez être en mesure d'y écrire des données. Mais encore une fois, soyez prudent ! <span class="highlight-3">Usez-en dans les situations d'urgence ; cette méthode n'est pas recommandée pour un usage permanent quotidien.</span></p>
+							<p>Dès lors votre volume NTFS peut être monté <b>rw</b> en lecture et écriture (read and write) et vous devriez être en mesure d'y écrire des données. Mais encore une fois, soyez prudent ! <span class="highlight-3">Usez-en dans les situations d'exception ; cette méthode n'est pas recommandée pour un usage permanent quotidien. Pour échanger au quotidien préférez la fat32.</span></p>
 
 		</div>	
-	<div id="rev">Dernière actualisation le 02/05/2009 0050 UTC </div>
+	<div id="rev">Dernière actualisation le 28/05/2009 1722 UTC </div>
 
 </div>
 </body>

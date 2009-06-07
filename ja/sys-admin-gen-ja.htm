@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body id="sys-admin">
-<!-- Last translation revision muchan 11/Jan/2009 1133 UTC -->
+<!-- Last translation revision muchan 04/Jun/2009 1043 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
 <!--sidux-manual Operating System Manual menu-version-01.88.2009.05.30 -->
 <!-- menu last updated by bluewater 2009.05.30 0800 hrs UTC -->
@@ -193,23 +193,41 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="start-services">
+<!--- ####
 		<h2 id="top-header">Enabling services in sidux</h2>
+#### -->
+		<h2 id="top-header">sidux システム上でサービスを使うには</h2>
 
+<!--- ####
 				<h3>insserv (Pontos 2008-04 and forward ): To start/stop already installed services:</h3>
+#### -->
+				<h3>insserv (Pontos 2008-04 以降のリリース): すでにインストールされているサービスをスタート/ストップするには:</h3>
+<!--- ####
 							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p> 
+#### -->
+							<p><span class="highlight-2"><span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>と insserv の man ページを注意深く読んでください:</span></p> 
 <pre>
  $ man insserv 
  $ man invoke-rc.d 
  $ man update-rc.d 
  google LSB headers
 </pre>
+<!--- ####
 							<p>All access to the init scripts by Debian packages’ maintainer scripts should be done through <span class="highlight-3">invoke-rc.d</span>.</p>
+#### -->
+							<p>Debian のパッケージからインストールされたinit script の変更は <span class="highlight-3">invoke-rc.d</span> だけを使います。.</p>
 
+<!--- ####
 							<p>For 'start':</p>
+#### -->
+							<p>スタートするには:</p>
 <pre>
 invoke-rc.d &lt;service&gt; start
 </pre>
+<!--- ####
 							<p>For 'stop':</p>
+#### -->
+							<p>ストップするには:</p>
 <pre>
 invoke-rc.d &lt;service&gt; stop
 </pre>
@@ -217,19 +235,29 @@ invoke-rc.d &lt;service&gt; stop
 <pre>
 invoke-rc.d &lt;service&gt; restart
 </pre>
+<!--- ####
 							<p>To prevent services running at-startup</p>
+#### -->
+							<p>起動の際に自動的にスタートしないようにするには:</p>
 <pre>
 update-rc.d &lt;service&gt; remove
-[will remove all startup links]
+[このサービスのスタートアップリンクがすべて削除されます]
 </pre>
+<!--- ####
 							<p>To make sure a service runs at boot [not always required]</p>
+#### -->
+							<p>起動の際に必ず自動的にスタートするようにするには [このコマンドは必要とは限りません]</p>
 <pre>
 update-rc.d &lt;service&gt; defaults
-[will make startup links]
+[このサービスのスタートアップリンクが作成されます]
 </pre>
 
+<!--- ####
 					<h3>Older Installs (before Pontos 2008-04)</h3>
-						<h3>insserv on installed systems before Pontos 2008-04</h3>
+#### -->
+					<h3>Pontos 2008-04 以前のリリース</h3>
+						<h3>Pontos 2008-04 以前のシステムでも insserv がインストールされていたら前の項目にしたがってください</h3>
+
 
 <!--- ####
 							<p> <span class="highlight-2">Warning: Older installs will not get insserv automatically, due to users own initscripts or symlinks. It is NOT recommended to install insserv on installations prior to Pontos. This package should be used with care, as incorrect or missing LSB dependencies of existing initscripts can lead to an unbootable system. Installing insserv on an existing install may require some manual changes. </span></p>
@@ -239,25 +267,40 @@ update-rc.d &lt;service&gt; defaults
 <!--- ####
 							<p><span class="highlight-2">Read <a href="http://wiki.debian.org/LSBInitScripts/DependencyBasedBoot"> read the Debian documentation notes</a>, and release notes before installing and enabling insserv.</span></p>
 #### -->
-							<p><span class="highlight-2"> insserv をインストールし、有効二する前に必ず<a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> Debian documentation notes</a>とリリースノートを読んでください。</span></p>
+							<p><span class="highlight-2"> insserv をインストールし、有効にする前に必ず<a href="http://svn.debian.org/wsvn/initscripts-ng/trunk/src/insserv/debian/README.Debian?op=file&amp;rev=0"> Debian documentation notes</a>とリリースノートを読んでください。</span></p>
 	</div>
 	<div class="divider" id="bum">
+<!--- ####
 			<h2>Boot-Up Manager (bum) - Graphical services configuration tool</h2>
+#### -->
+			<h2>ブートアップマネージャ(bum) - サービス設定用のGUIツール</h2>
 
+<!--- ####
 							<p>If the logic of a debian system boot up sequence is not very clear and familiar to you, you should not play with symlinks, permissions and so forth. In order to avoid messing up your system. Boot-Up Manager will help you to automate your configuration.</p>
+#### -->
+							<p>Debian のブートアップシーケンスの論理によく親しんでいない人はシンボリックリンクやパーミッションなどを気軽にいじったり、実験したりするべきではありません。システムが滅茶苦茶になる恐れがあります。ブートアップマネージャを使って設定を自動的に行った方が安全です。</p>
 
+<!--- ####
 							<p>Boot-Up Manager is a GUI runlevel configuration editor which allows  you to configure what init services are invoked when the system boots up or reboots.  It displays a list of every service which could be started at boot.  You can toggle individual services on and off.</p>
+#### -->
+							<p>ブートアップマネージャはランレベル設定のGUIエディタで、システムの起動の際にどのサービスをスタートするかなどの設定ができます。起動時の自動スタートが可能なサービスの一覧が表示されて、個々のサービスのOn/Off設定ができます。</p>
 
 <pre>
 apt-get install bum
 </pre>
+<!--- ####
 							<p>To use the Boot-Up Manager GUI:</p>
+#### -->
+							<p>ブートアップマネージャを使うには:</p>
 <pre>
 $ sux
 password:
 bum
 </pre>
+<!--- ####
 						  <p> <a href ="http://www.marzocca.net/linux/bumdocs.html"> Detailed documentation on Boot-Up Manager (bum)</a>. </p>
+#### -->
+						  <p> <a href ="http://www.marzocca.net/linux/bumdocs.html"> ブートアップマネージャ(bum)の詳細はこちらへ</a>. </p>
 						  
 		</div>
 		<div>
@@ -444,28 +487,17 @@ apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::O
 				#### -->
 				<p>GTKを使ってるアプリケーションは一般にKDEのデフォルトと相性がよくありません。 この問題はつぎのコマンドで解決できます:</p>
 <pre>
-apt-get install gtk2-engines gtk-qt-engine
+apt-get install gtk2-engines gtk-qt-engine-kde4
 </pre>
-				<!--- ####
-				<p>In the control center you will have a new gtk menu item, set it to use clearlooks and have the fonts set to use KDE fonts.</p>
-				#### -->
-				<p>KDEのコントロールセンターにgtkのメニューが追加されているはずです。 ここでclearlooksとKDEフォントを使うように設定します。</p> 
-				<!--- ####
-				<p>In case of stability problems which occured in the past, but not since 2006 please remove or purge gtk-qt-engine, the settings are are kept in $HOME , and there are no dependencies which could be removed by it:</p>
-				#### -->
+<!--- ####
+							<p>In <span class="highlight-3">System Settings >Appearance </span> you will have a new menu item called <span class="highlight-3">GTK Styles and Fonts</span>. Set 'GTK Styles' to use 'Clearlooks' and have the 'GTK Fonts' set to use 'KDE fonts' <span class="highlight-3">or </span> experiment with the various options to suit your preferences.</p>
+#### -->
+							<p><span class="highlight-3">System Settings >Appearance </span> のメニューに新しく<span class="highlight-3">GTK Styles and Fonts</span>が入りました。 'GTK Styles' に 'Clearlooks' を選び、'GTK Fonts' を'KDE fonts' に設定します。<span class="highlight-3">もしくは </span> 自分で色々なオプションを試してみてください。.</p>
 
-				<p>過去にgtk-qt-engineのためシステムが不安定になる問題がありました。 2006年以降にはこの問題は起きていませんが、上の方法を試してシステムがおかしくなった場合はgtk-qt-engineをromoveまたはpurgeしてください。 設定は$HOMEディレクトリに残りますから依存関係のために設定が消えることはありません:</p>
-
-<pre>
-apt-get remove gtk-qt-engine
-または
-apt-get remove --purge gtk-qt-engine
-</pre>
-
-				<!--- ####
-				<p>This MAY fix your font rendering in gtk apps</p>
-				#### -->
-				<p>上記の方法でgtkのアプリケーションのフォントを修正できる*かも*しれない、というだけです</p>
+							<!--- ####
+							<p>This MAY fix your font rendering in gtk apps</p>
+							#### -->
+							<p>上記の方法でgtkのアプリケーションのフォントを修正できる*かも*しれない、というだけです</p>
 
 	</div>
 	<div class="divider" id="cups">
@@ -508,7 +540,7 @@ http://localhost:631
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">この話題についてはsiduxフォーラムにもっと詳しいことがでています</a></p>
 	</div>
 
-			<div id="rev">Content last revised 21/04/2009 0445 UTC </div>
+			<div id="rev">Content last revised 04/06/2009 0845 UTC </div>
 
 </div>
 </body>

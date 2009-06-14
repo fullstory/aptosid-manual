@@ -19,10 +19,10 @@
 <body>
 <!-- Last translation revision by mrowl 05/05/2009 0050 UTC -->
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess zolix-->
-<!--sidux-manual Operating System Manual menu-version-01.88.2009.05.30 -->
-<!-- menu last updated by bluewater 2009.05.30 0800 hrs UTC-->
+<!--sidux-manual Operating System Manual menu-version-01.89.2009.06.14 -->
+<!-- menu last updated by bluewater 2009.06.14 0530 hrs UTC -->
 	<div id="menu-header">
-<a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
+	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-hu.htm#search-on"><img src="../lib/logos/manual-search-22x22.png" title="Search Manual" alt="Search" /> Keresés Online Offline</a> </li>
@@ -108,9 +108,11 @@
 				<li><a href="hw-dev-mon-hu.htm#mon-res">Képernyő-felbontás és monitorok</a></li>
 				<li><a href="hw-dev-mon-hu.htm#xrandr">Dual monitorok és az xrandr</a></li>
 				<li><a href="hw-dev-mon-hu.htm#mon-binary">Dual monitorok (bináris meghajtók)</a></li>
-				<li><a href="hw-dev-hw-dri-hu.htm#non-free-3d">Zárt forrású meghajtók nVidia és ATi kártyákhoz</a></li>
-				<li><a href="hw-dev-hw-dri-hu.htm#native-nv-ati">Szabad forrású X.Org meghajtók nVidia, ATI, Radeon, Intel kártyákhoz</a></li>
-				<li><a href="hw-dev-hw-dri-hu.htm#non-free">Zárt meghajtókat igénylő hardverek</a></li>
+				<li><a href="hw-dev-hw-dri-hu.htm#non-free-3d">Zárt forrású meghajtók nVidia kártyákhoz</a></li>
+				<li><a href="hw-dev-hw-dri-hu.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
+				<li><a href="hw-dev-hw-dri-hu.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
+				<li><a href="hw-dev-hw-dri-hu.htm#non-free">Adding non-free to Sources List</a></li>
+				<li><a href="hw-dev-hw-dri-hu.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-hu.htm">Ablakkezelők</a>
@@ -192,11 +194,42 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-		<div class="divider" id="non-free">
+		<div class="divider" id="native-nv-ati">
 			<h2>Nem nyílt forráskódú meghajtókat igényló hardverek</h2>
 							<p class="highlight-3">A különböző országokban alkalmazott jogszabályok összetettsége miatt a sidux live-cd csak ún. dfsg-free szoftvereket szállít.</p>
+							
+			<h2>Szabad forráskódú meghajtók nVidia, ATI, Radeon és Intel videokártyákhoz</h2>
 
-					<h5>Forráslista</h5>
+							<p>A nyílt forráskódú meghajtók a felsorolt típusú videokártyákhoz telepítve vannak a sidux rendszerben. </p>
+							
+							<p>Intel drivers should work perfectly for 2D and 3D video acceleration as the drivers are included in the Intel free series.</p>
+							
+							
+							<!--<p>Telepítésük:</p>
+<pre>
+Lépj ki a desktop manager és válts át szöveges képernyő üzemmódba a Ctrl+Alt+F1 megnyomásával.
+Lépj be root-ként,
+majd írd be az init 3 parancsot.
+(ez biztosítja, hogy az X ne futhasson)
+apt-get update
+apt-get install xserver-xorg-video-nv
+vagy
+apt-get install xserver-xorg-video-ati
+init 5 &amp;&amp; exit
+</pre>
+							<p>Néhány kártyához már létezik 3D támogatás is, azonban leggyakrabban csak a 2D támogatott.</p>-->
+
+							<p><span class="highlight-3">Amennyiben zárt forráskódú meghajtókat használtál és szeretnél visszatérni nyílt forráskódúakra, szerkesztened kell a /etc/X11/xorg.conf fájlt, DE ELŐTTE KÉSZÍTS MENTÉST A FÁJLRÓL, mert a /etc/X11/xorg.conf helytelen szerkesztése rengeteg szenvedést tud okozni.</span></p>
+
+							<p>Az /etc/X11/xorg.conf szerkesztéséhez root jogok kellenek. Keresd meg SECTION DEVICE bekezdést és változtasd meg annak driver részét  <span class="highlight-2">nv</span>, <span class="highlight-2">ati</span> vagy <span class="highlight-2">intel</span> szövegre (to name but a few).</p>
+
+							<p class="highlight-2">A xorg.conf szerkesztését csak saját felelősségedre végezd!!</p>
+
+							<p>További információk az <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
+
+	</div>
+		<div class="divider" id="non-free">
+					<h2>Forráslista</h2>
 
 							<p>Mivel a sidux iso csak dfsg-free szoftvert tartalmaz, valószínűleg ki kell majd bővíteni a rendszert contrib / non-free forrásokkal is a <span class="highlight-3"> /etc/apt/sources.list.d/debian.list és /etc/apt/sources.list.d/sidux.list</span> vagy <span class="highlight-3">/etc/apt/sources.list</span> fájlokban:</p>
 <pre>
@@ -214,6 +247,7 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
+
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Bináris, zárt forráskódú meghajtó az nVidia kártyákhoz dmakms-sel</h2>
@@ -221,7 +255,11 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Ezután aktiválni kell az úgynevezett dmakms (Dynamic Module-Assistant Kernel Module Support) támogatást az nVidia-hoz, ennek eredményeképpen a kernel frissítésekor az nVidia meghajtó is automatikusan fog frissülni. Ehhez az <span class="highlight-3">nvidia-kernel-source</span> sort hozzá kell adni a <span class="highlight-3">/etc/default/dmakms </span>konfigurációs fájlhoz.</p>
+							<p>Ezután aktiválni kell az úgynevezett dmakms (Dynamic Module-Assistant Kernel Module Support) támogatást az nVidia-hoz, ennek eredményeképpen a kernel frissítésekor az nVidia meghajtó is automatikusan fog frissülni. Ehhez az <span class="highlight-3">nvidia-kernel-source</span> sort hozzá kell adni a <span class="highlight-3">/etc/default/dmakms </span>konfigurációs fájlhoz:</p>
+							
+<pre>
+echo nvidia-kernel-source >> /etc/default/dmakms
+</pre>
 
 							<p>Majd:</p>
 <pre>
@@ -257,42 +295,23 @@ $ /usr/share/doc/dmakms
 </pre>
 
 		</div>
-		<div class="divider" id="native-nv-ati">
-			<h2>Szabad forráskódú meghajtók nVidia, ATI, Radeon és Intel videokártyákhoz</h2>
+	<div class="divider" id="non-free-3d-2">
+			<h2>ATI, Radeon and other video drivers</h2>
+			
+					  <h6>2D Drivers</h6>
+							<p>Az X.Org X szerver meghajtói (lásd xserver-xorg további meghatározásért) 2D támogatást biztosítanak NVIDIA Riva, TNT, GeForce, és Quadro  kártyákhoz, valamint az ATI Mach, Rage, Radeon, és FireGL kártyáihoz sorban az atimisc, r128 és radeon al-meghajtókkal. Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
+							
+					  <h6>3D Drivers</h6>
+							<p>Some ATI cards also support 3D, so far up to the r5xx chipsets.</p>
+							
+							<p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p>
 
-							<p>A nyílt forráskódú meghajtók a felsorolt típusú videokártyákhoz telepítve vannak a sidux rendszerben. </p>
-
-							<p>Az X.Org X szerver meghajtói (lásd xserver-xorg további meghatározásért) 2D támogatást biztosítanak NVIDIA Riva, TNT, GeForce, és Quadro  kártyákhoz, valamint az ATI Mach, Rage, Radeon, és FireGL kártyáihoz sorban az atimisc', 'r128' és 'radeon' al-meghajtókkal. Az Intel szabad sorozathoz pedig 3D támogatást is biztosítanak.</p>
-
-							<p>Telepítésük:</p>
 <pre>
-Lépj ki a KDE-ből és válts át szöveges képernyő üzemmódba a Ctrl+Alt+F1 megnyomásával.
-Lépj be root-ként,
-majd írd be az init 3 parancsot.
-(ez biztosítja, hogy az X ne futhasson)
-apt-get update
-apt-get install xserver-xorg-video-nv
-vagy
-apt-get install xserver-xorg-video-ati
-init 5 &amp;&amp; exit
+apt-get install firmware-linux
 </pre>
-							<p>Néhány kártyához már létezik 3D támogatás is, azonban leggyakrabban csak a 2D támogatott.</p>
-
-							<p><span class="highlight-3">Amennyiben zárt forráskódú meghajtókat használtál és szeretnél visszatérni nyílt forráskódúakra, szerkesztened kell a /etc/X11/xorg.conf fájlt, DE ELŐTTE KÉSZÍTS MENTÉST A FÁJLRÓL, mert a /etc/X11/xorg.conf helytelen szerkesztése rengeteg szenvedést tud okozni.</span></p>
-
-							<p>Az /etc/X11/xorg.conf szerkesztéséhez root jogok kellenek. Keresd meg SECTION DEVICE bekezdést és változtasd meg annak driver részét  <span class="highlight-2">nv</span>, <span class="highlight-2">ati</span> vagy <span class="highlight-2">intel</span> szövegre.</p>
-
-							<p class="highlight-2">A xorg.conf szerkesztését csak saját felelősségedre végezd!!</p>
-
-							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">Információ az Intel kártyák támogatásáról</a></p>
-
-							<p><a href= "http://www.x.org/wiki/radeon">További információ az ATI Radeon-ról</a></p>
-
-							<p><a href= "http://www.x.org/wiki/radeonhd">További információ az ATI Radeonhd-ről</a></p>
-
-							<p><a href= "http://xorg.freedesktop.org">További információk az X.Org-ról</a></p>
-
-	</div>
+							<p>Then reboot the computer.</p>
+							
+		</div>
 	<div class="divider" id="non-free-firmware">
 				<h2>Firmware meghajtók</h2>
 							<p>A szükséges firmware-ek a következőkben tárgyalt eszköz / firmware lista alapján, illetve az újonnan kifejlesztett fw-detect szkript segítségével telepíthetőek (ez a sidux-scripts csomagban található).</p>
@@ -525,7 +544,7 @@ Kilépés a konzolból: exit
 
 		</div>
 
-	<div id="rev">Az oldal utoljára frissítve 02/05/2009 0050 UTC </div>
+	<div id="rev">Az oldal utoljára frissítve 13/06/2009 0940 UTC </div>
 
 </div>
 </body>

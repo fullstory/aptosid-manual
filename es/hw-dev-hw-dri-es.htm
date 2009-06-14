@@ -19,10 +19,10 @@
 <body>
 <!-- Last translation revision by Richard 01/06/2009 1400 UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard -->
-<!--sidux-manual Operating System Manual menu-version-01.88.2009.05.30 -->
-<!-- menu last updated by bluewater 2009.05.30 0800 hrs UTC last translation Richard 2009.06.01 1300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.89.2009.06.14 -->
+<!-- menu last updated by bluewater 2009.06.14 0530 hrs UTC -->
 	<div id="menu-header">
-<a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
+	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Search Manual" alt="Search" />Buscar</a> </li>
@@ -108,9 +108,11 @@
 				<li><a href="hw-dev-mon-es.htm#mon-res">Resolución de Pantalla y Monitores</a></li>
 				<li><a href="hw-dev-mon-es.htm#xrandr">Monitores  Dual y 'xrandr'</a></li>
 				<li><a href="hw-dev-mon-es.htm#mon-binary">Monitores Duales (utilizando binarios)</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d">Drivers Binarios, No-libre para Nvidia/ATI</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#non-free">Hardware con Necesidades No-libres</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">Drivers Libres de Xorg para Nvidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d">Drivers Binarios, No-libre para Nvidia</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free">Adding non-free to Sources List</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-es.htm">Gestor de Ventanas</a>
@@ -191,12 +193,44 @@
 		</li>
 	</ul>
 <!-- menu ends here --> </div>
-<div id="main-page">
-	<div class="divider" id="non-free">
-				<h2>Datos para hardware con necesidades no-libres</h2>
+<div id="main-page">		
+      <div class="divider" id="native-nv-ati">
+      				<h2>Datos para hardware con necesidades no-libres</h2>
 							<p class="highlight-3">Debido a la complejidad de la ley, sidux solamente proveerá software Debian dfsg-free.</p>
+							
+			<h2>Drivers de Fuente Abierto para nVidia, ATI, Radeon y Intel</h2>
 
-					<h5>sources.list</h5>
+							<p>Los drivers de fuente abierto para nVidia, ATI, Radeon y Intel están instalado con sidux.</p>
+
+							<p>Intel drivers should work perfectly for 2D and 3D video acceleration as the drivers are included in the Intel free series.</p>
+
+				<!--<p>Para instalarlo:</p>
+<pre>
+Salir de desktop manager, va al modo texto a través
+de Ctrl+Alt+F1 y login como root y entra: init 3
+(este debe decir que el X no esta
+ejecutando), entonces:
+# apt-get update
+#apt-get install xserver-xorg-video-nv
+ó
+#apt-get install xserver-xorg-video-ati
+ó
+xserver-xorg-video-intel
+# init 5 &amp;&amp; exit
+</pre>
+							<p>Para algunas tarjetas puede agregar soporte para 3D pero nomalmente es solamente 2D.</p>-->
+
+							<p><span class="highlight-3">Si estaba usando drivers proprietario, pero desea revertir a drivers de fuente abierto, primero tiene que editar: /etc/X11/xorg.conf . ¡¡SIN EMBARGO, TIENE QUE HACER UN RESPALDO ANTES!!  La edición incorrecto del /etc/X11/xorg.conf, resultará en muchas lagrimas por el editor</span>.</p>
+
+							<p>Para editar /etc/X11/xorg.conf, clic derecho, Abrirlo con permisos de raíz (root). Busca la sección que dice SECTION DEVICE y cambiarlo a leer <span class="highlight-2">nv</span> ó <span class="highlight-2">ati</span> Ó <span class="highlight-2">intel</span> (to name but a few).</p>
+
+							<p class="highlight-2">¡¡La edición de "xorg.conf" es enteramente a su riego!!</p>
+							
+							<p>Más información sobre <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
+
+	</div>
+	<div class="divider" id="non-free">
+		      <h2>sources.list</h2>
 
 							<p><b>sidux</b> solamente contiene software dfsg-free, probablemente desea agregar "contrib y non-free" al  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list y /etc/apt/sources.list.d/sidux.list</span> o <span class="highlight-3">/etc/apt/sources.list</span> y asegurar que tiene acceso a internet:</p>
 <pre>
@@ -214,6 +248,7 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
+
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Drivers binarios, de fuente cerrado para: nVidia con dmakms</h2>
@@ -221,7 +256,11 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Entonces activar "Dynamic Module-Assistant Kernel Module Support" (dmakms) para Nvidia, así que la próxima vez que el kernel de Linux está actualizado, un modulo Nvidia será preparado también, sin intervención manual. Para lograr eso, agregue <span class="highlight-3">nvidia-kernel-source</span> a el archivo de configuración del <span class="highlight-3">/etc/default/dmakms </span>.</p>
+							<p>Entonces activar "Dynamic Module-Assistant Kernel Module Support" (dmakms) para Nvidia, así que la próxima vez que el kernel de Linux está actualizado, un modulo Nvidia será preparado también, sin intervención manual. Para lograr eso, agregue <span class="highlight-3">nvidia-kernel-source</span> a el archivo de configuración del <span class="highlight-3">/etc/default/dmakms </span>:</p>
+							
+<pre>
+echo nvidia-kernel-source >> /etc/default/dmakms
+</pre>
 							
 							<p>Entonces:</p>
 <pre>
@@ -257,44 +296,24 @@ $ /usr/share/doc/dmakms
 </pre>
 						      
 		</div>
-		<div class="divider" id="native-nv-ati">
-			<h2>Drivers de Fuente Abierto para nVidia, ATI, Radeon y Intel</h2>
+	<div class="divider" id="non-free-3d-2">
+			<h2>ATI, Radeon and other video drivers</h2>
+			
+					  <h6>2D Drivers</h6>
+							<p>Los drivers para el x servidor de  X.Org (ver xserver-xorg para una descripción más completo) proveas apoyo en 2D para los tarjetas de Nvidia Riva, TNT, GeForce, y Quadro y el ATI Mach, Rage, Radeon, y FireGL cards, junta con los atimisc, r128 y radeon sub-drivers.  Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
+							
+					<h6>3D Drivers</h6>
+							<p>Some ATI cards also support 3D, so far up to the r5xx chipsets.</p>
+							
+							<p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p>
 
-							<p>Los drivers de fuente abierto para nVidia, ATI, Radeon y Intel están instalado con sidux.</p>
-
-							<p>Los drivers para el x servidor de  X.Org (ver xserver-xorg para una descripción más completo) proveas apoyo en 2D para los tarjetas de Nvidia Riva, TNT, GeForce, y Quadro y el ATI Mach, Rage, Radeon, y FireGLcards, junta con los atimisc', 'r128' y 'radeon' sub-drivers.  También provea apoyo para el Intel free series en 3d</p>
-
-				<p>Para instalarlo:</p>
 <pre>
-Salir de KDE, va al modo texto a través
-de Ctrl+Alt+F1 y login como root y entra: init 3
-(este debe decir que el X no esta
-ejecutando), entonces:
-# apt-get update
-#apt-get install xserver-xorg-video-nv
-ó
-#apt-get install xserver-xorg-video-ati
-ó
-xserver-xorg-video-intel
-# init 5 &amp;&amp; exit
+apt-get install firmware-linux
 </pre>
-							<p>Para algunas tarjetas puede agregar soporte para 3D pero nomalmente es solamente 2D.</p>
-
-							<p><span class="highlight-3">Si estaba usando drivers proprietario, pero desea revertir a drivers de fuente abierto, primero tiene que editar: /etc/X11/xorg.conf . ¡¡SIN EMBARGO, TIENE QUE HACER UN RESPALDO ANTES!!  La edición incorrecto del /etc/X11/xorg.conf, resultará en muchas lagrimas por el editor</span>.</p>
-
-							<p>Para editar /etc/X11/xorg.conf, clic derecho, Abrirlo con permisos de raíz (root). Busca la sección que dice SECTION DEVICE y cambiarlo a leer <span class="highlight-2">nv</span> ó <span class="highlight-2">ati</span> Ó <span class="highlight-2">intel</span>.</p>
-
-							<p class="highlight-2">¡¡La edición de "xorg.conf" es enteramente a su riego!!</p>
+							<p>Then reboot the computer.</p>
 							
-							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">Más información sobre Intel</a></p>
-	
-							<p><a href= "http://www.x.org/wiki/radeon">Más información sobre ati radeon</a></p>
-							
-							<p><a href= "http://www.x.org/wiki/radeonhd">Más información sobre ati radeonhd</a></p>
+		</div>
 
-							<p>Más: <a href="http://xorg.freedesktop.org">Más información sobre X.Org</a></p>
-
-	</div>
 	<div class="divider" id="non-free-firmware">
 				<h2>Firmware drivers</h2>
 							<p> El firmware requerida puede ser determinado con el siguiente enumeración del dispositivo / firmware, o a través del script nuevo, fw-detect (empaquetada en sidux-scripts).</p>
@@ -525,7 +544,7 @@ Para salir del consola, entrar: exit
 							<p>Ahora, el volumen de NTFS debe ser montado <b>rw</b> (leer/escribir) y debe ser posible de escribir datos en el. <br />¡Pero, una vez más, Precaución! <span class="highlight-3">Usalo solamente para situaciones de emergencia, no esta recomendada para uso diario.</span></p>
 
 	</div>
-	<div id="rev">Contenido modificado el 02/05/2009 0050 UTC </div>
+	<div id="rev">Contenido modificado el 13/06/2009 0940 UTC </div>
 
 
 </div>

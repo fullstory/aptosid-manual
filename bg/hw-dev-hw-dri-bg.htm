@@ -19,10 +19,10 @@
 <body>
 <!-- Last translation revision bluewater 19/05/2008 0600 UTC-->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.88.2009.05.30 -->
-<!-- menu last updated by bluewater 2009.05.30 0800 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.89.2009.06.14 -->
+<!-- menu last updated by bluewater 2009.06.14 0530 hrs UTC -->
 	<div id="menu-header">
-<a href="http://sidux.com/"><img src="../lib/logos/sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
+<a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-bg.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Търсене в ръководството" alt="Търсене" />Търсене</a> </li>
@@ -108,9 +108,11 @@
 				<li><a href="hw-dev-mon-bg.htm#mon-res">Разделителна способност на екрана и монитори</a></li>
 				<li><a href="hw-dev-mon-bg.htm#xrandr">Двумониторен режим и xrandr</a></li>
 				<li><a href="hw-dev-mon-bg.htm#mon-binary">Двумониторен режим (несвободни драйвери)</a></li>
-				<li><a href="hw-dev-hw-dri-bg.htm#non-free-3d">Несвободни бинарни драйвери за Nvidia / ATI видеокарти</a></li>
-				<li><a href="hw-dev-hw-dri-bg.htm#native-nv-ati">Свободни xorg драйвери за nVidia, ATI, Radeon, Intel видеокарти</a></li>
-				<li><a href="hw-dev-hw-dri-bg.htm#non-free">Други несвободни драйвери</a></li>
+				<li><a href="hw-dev-hw-dri-bg.htm#non-free-3d">Несвободни бинарни драйвери за Nvidia  видеокарти</a></li>
+				<li><a href="hw-dev-hw-dri-bg.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
+				<li><a href="hw-dev-hw-dri-bg.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
+				<li><a href="hw-dev-hw-dri-bg.htm#non-free">Adding non-free to Sources List</a></li>
+				<li><a href="hw-dev-hw-dri-bg.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-bg.htm">Прозоречни мениджъри</a>
@@ -192,11 +194,46 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-		<div class="divider" id="non-free">
-			<h2>Инструкции за хардуер който изисква несвободен софтуер</h2>
+		<div class="divider" id="native-nv-ati">
+					<h2>Инструкции за хардуер който изисква несвободен софтуер</h2>
 							<p class="highlight-3">Поради сложностите на закона, sidux live-cd-то предоставя само dfsg-свободен софтуер.</p>
+							
+			<h2>Свободни, с отворен код драйвери за nVidia, ATI, Radeon, Intel</h2>
 
-					<h5>"Sources List" файлове</h5>
+							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
+
+							<p>Intel drivers should work perfectly for 2D and 3D video acceleration as the drivers are included in the Intel free series.</p>
+							
+
+							
+<!--							<p>За да инсталирате свободния драйвер:</p>
+<pre>
+Излезте от desktop manager с комбинацията Ctrl+Alt+F1 - отивате в текстов екранен режим
+логнете се като root
+напишете init 3
+(това е нужно за да се уверим че X не работи във фонов режим)
+apt-get update
+apt-get install xserver-xorg-video-nv
+ИЛИ
+apt-get install xserver-xorg-video-ati
+ИЛИ
+xserver-xorg-video-intel
+init 5 &amp;&amp; exit
+</pre>
+							<p>За някои карти това може да добави и 3D поддръжка, макар че обикновено е 2D.</p>-->
+
+							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
+
+							<p>За да промените /etc/X11/xorg.conf цъкнете с десен бутон на мишката, и го отворете с права на root. Намерете секцията SECTION DEVICE, и променете в реда за видео драйвера името му, със <span class="highlight-2">nv</span> ИЛИ <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>  (to name but a few)..</p>
+							
+							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
+							
+							<p>Повече информация за <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
+
+	</div>
+
+		<div class="divider" id="non-free">
+					<h2>"Sources List" файлове</h2>
 
 							<p>Тъй като sidux iso-образа съдържа само dfsg-свободен софтуер, сигурно ще искате да добавите  contrib/ и non-free към редовете във вашите файлове <span class="highlight-3"> /etc/apt/sources.list.d/debian.list и /etc/apt/sources.list.d/sources.list и /etc/apt/sources.list.d/sidux.list</span> или <span class="highlight-3">/etc/apt/sources.list</span> и да се уверите че имате интернет:</p>
 <pre>
@@ -221,7 +258,11 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">nvidia-kernel-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file.</p>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support (dmakms) for nvidia, so that the next time the Linux kernel is updated a nvidia module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">nvidia-kernel-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file:</p>
+							
+<pre>
+echo nvidia-kernel-source >> /etc/default/dmakms
+</pre>
 							
 							<p>Then:</p>
 <pre>
@@ -255,50 +296,24 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
-
-						      
 		</div>
-		<div class="divider" id="native-nv-ati">
-			<h2>Свободни, с отворен код драйвери за nVidia, ATI, Radeon, Intel</h2>
-
-							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux.</p>
-
-							<p>Свободните драйверите за X сървъра предоставяни от X.Org (вижте xserver-xorg за подробности), обезпечават поддръжка за 2d графика за NVIDIA Riva, TNT, GeForce, и Quadro  видеокартите; ATI Mach, Rage, Radeon, и FireGL видеокартите, както и  atimisc', 'r128' and 'radeon' под-драйверите. За свободните чипове от Intel, е налична също така и 3D функционалност.</p>
-
-							<p>За да инсталирате свободния драйвер:</p>
-<pre>
-Излезте от KDE с комбинацията Ctrl+Alt+F1 - отивате в текстов екранен режим
-логнете се като root
-напишете init 3
-(това е нужно за да се уверим че X не работи във фонов режим)
-apt-get update
-apt-get install xserver-xorg-video-nv
-ИЛИ
-apt-get install xserver-xorg-video-ati
-ИЛИ
-xserver-xorg-video-intel
-init 5 &amp;&amp; exit
-</pre>
-							<p>За някои карти това може да добави и 3D поддръжка, макар че обикновено е 2D.</p>
-
-							<p><span class="highlight-3">If you have been running proprietary drivers and wish to revert back to opensource drivers you need to edit /etc/X11/xorg.conf, HOWEVER YOU MUST MAKE A BACKUP COPY FIRST, as editing /etc/X11/xorg.conf incorrectly will result in many tears by you.</span></p>
-
-							<p>За да промените /etc/X11/xorg.conf цъкнете с десен бутон на мишката, и го отворете с права на root. Намерете секцията SECTION DEVICE, и променете в реда за видео драйвера името му, със <span class="highlight-2">nv</span> ИЛИ <span class="highlight-2">ati</span> OR <span class="highlight-2">intel</span>.</p>
-							
-							<p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p>
-							
-							<p><a href= "http://www.x.org/wiki/IntelGraphicsDriver">More information about Intel</a></p>
-							
-							<p><a href= "http://www.x.org/wiki/radeon">More information about ati radeon</a></p>
-							
-							<p><a href= "http://www.x.org/wiki/radeonhd">More information about ati radeonhd</a></p>
-						
-
-							<p><a href= "http://xorg.freedesktop.org">Повече информация за X.Org</a></p>
+	<div class="divider" id="non-free-3d-2">
+			<h2>ATI, Radeon and other video drivers</h2>
 			
-	</div>
+					  <h6>2D Drivers</h6>
+							<p>Свободните драйверите за X сървъра предоставяни от X.Org (вижте xserver-xorg за подробности), обезпечават поддръжка за 2d графика за NVIDIA Riva, TNT, GeForce, и Quadro  видеокартите; ATI Mach, Rage, Radeon, и FireGL видеокартите, както и  atimisc, r128 and radeon под-драйверите. Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
+							
+					  <h6>3D Drivers</h6>
+							<p>Some ATI cards also support 3D, so far up to the r5xx chipsets.</p>
+							
+							<p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p>
 
-	</div>
+<pre>
+apt-get install firmware-linux
+</pre>
+							<p>Then reboot the computer.</p>
+							
+		</div>
 	<div class="divider" id="non-free-firmware">
 				<h2>Firmware drivers</h2>
 							<p>Необходимия firmware може да бъде определен използвайки следната номерация на устройство/firmware , или чрез използване на новия скрипт на sidux, fw-detect (намира се в пакета sidux-scripts).</p>
@@ -528,7 +543,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Сега вашият NTFS-раздел би трябвало да е монтиран <b>rw</b> (с права и за четене, и за запис), и би трябвало да можете да записвате на него. Но отново, внимавайте! <span class="highlight-3">Използвайте само в крайни ситуации, не се препоръчва за ежедневна употреба.</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 02/05/2009 0050 UTC </div>
+	<div id="rev">Page last revised 13/06/2009 0940 UTC </div>
 
 </div>
 </body>

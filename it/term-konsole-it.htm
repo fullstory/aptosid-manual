@@ -20,12 +20,12 @@
 <!-- Last translation revision by alessiog75 on 02/05/2009 12.35 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, speedygeo, zenren, -->
 <!--sidux-manual Operating System Manual menu-version-01.89.2009.06.14 -->
-<!-- menu last updated by bluewater 2009.06.14 0530 hrs UTC -->
+<!-- menu last updated by alessiog75 on 2009.06.15 1730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
 	<ul id="top-list">
-		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/manual-search-22x22.png" title="Ricerca sul manuale" alt="Ricerca" /> Ricerca Online Offline</a> </li>
+		<li><a href="manual-search-it.htm#search-on"><img src="../lib/logos/manual-search-22x22.png" title="Ricerca sul manuale" alt="Ricerca" />Ricerca Online Offline</a></li>
 		<li><a href="http://manual.sidux.com/meta-manual">sidux - Meta-Manuale</a></li>
 	</ul>
 	<div id="flags-2">
@@ -43,9 +43,9 @@
 				<li><a href="wel-quickstart-it.htm#welcome-quick">sidux - Guida d'avvio rapida</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-it.htm">ISO Content, Releases, Download Mirrors and Burning</a>
+		<li  onmouseover="showHide( 2 );" onmouseout="startTime();" ><a href="cd-dl-burning-it.htm">Contenuto della ISO, Rilasci, Mirror per i Download e Masterizzazione</a>
 			<ul class="sub-menu" id="sm2">
-				<li><a href="cd-content-it.htm#cd-content">ISO Content and system requirements</a></li>
+				<li><a href="cd-content-it.htm#cd-content">Contenuto della ISO e requisiti di sistema</a></li>
 				<li><a href="sys-admin-release-it.htm#rolling">Note di rilascio dinamiche</a></li>
 				<li><a href="cd-dl-burning-it.htm#download-sidux">Mirror sidux, download e masterizzazione</a></li>
 				<li><a href="cd-dl-burning-it.htm#md5">Somma md5</a></li>
@@ -109,10 +109,10 @@
 				<li><a href="hw-dev-mon-it.htm#xrandr">Doppio schermo e xrandr</a></li>
 				<li><a href="hw-dev-mon-it.htm#mon-binary">Doppio schermo (usando i binaries)</a></li>
 				<li><a href="hw-dev-hw-dri-it.htm#non-free-3d">Binari, driver non-liberi per: nVidia</a></li>
-				<li><a href="hw-dev-hw-dri-it.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
-				<li><a href="hw-dev-hw-dri-it.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
-				<li><a href="hw-dev-hw-dri-it.htm#non-free">Adding non-free to Sources List</a></li>
-				<li><a href="hw-dev-hw-dri-it.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-it.htm#non-free-3d-2">Driver non-liberi per ATI, Radeon ed altri</a></li>
+				<li><a href="hw-dev-hw-dri-it.htm#non-free-firmware">Hardware che necessita di driver e firmware non-liberi</a></li>
+				<li><a href="hw-dev-hw-dri-it.htm#non-free">Aggiungere non-free al Sources List</a></li>
+				<li><a href="hw-dev-hw-dri-it.htm#native-nv-ati">Driver xorg open source per nVidia, ATI, Radeon, Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-it.htm">Gestori di finestre</a>
@@ -247,19 +247,37 @@ sux
 
 							<p>L'usuale comando per diventare root è "su" ma se si utilizza <span class="highlight-3">sux</span>, si possono avviare applicazioni con interfaccia grafica (applicazioni GUI/X11) dalla linea di comando, cioè permette a root di lanciare applicazioni grafiche, poiché <span class="highlight-3">sux</span> è un involucro (wrapper) attorno al comando standard "su" che trasferisce le credenziali X all'utente cui punta.</p>
 
+							<p> Esempi di attività con applicazioni X11 avviate via sux possono essere: usare un elaboratore di testo come kwrite o kate per modificare file di root; fare partizionamenti con  gparted o lanciare un file manager a interfaccia grafica (Xapp) come dolphin o thunar. <!--Si possono anche alterare dei file di root cliccando il file col tasto destro del mouse e scegliendo "modifica come root" e immettendo la password (di root) che naturalmente verrà richiesta in quanto viene richiamato kdesu.--></p>
+
+				<h6>KDE options</h6>
+							<p>To start krunner in KDE:</p>
+<pre>
+Alt+F2
+</pre>
+							<p>or right-click on the desktop and choose:</p>
+<pre>
+Run Command
+</pre>
+							 <p>then:</p>
+							 
+<pre>
+kdesu &lt;Application&gt;
+</pre>
 							<p>Alcune applicazioni KDE richiedono <span class="highlight-3">dbus-launch</span> prima del nome dell'applicazione:</p>
 <pre>
 dbus-launch &lt;applicazione&gt;
 </pre>
+					  <h6>Other Desktop WIndow Manager options</h6>
 							<p>Un'altra opzione generica comune a tutti i maggiori Desktop Manager è:</p>
 <pre>
 Alt+F2 su-to-root -X -c &lt;applicazione&gt;
 </pre>
+					<h2>sudo is not supported</h2>
+							<p>sudo is not enabled by default on installation to hard disk. It is available for use while booted live since no root password is set. The reasoning behind this is so that if an attacker gets hold of the users password, they do not immediately get full super-user priviledges and make potentially damaging changes to your system.</p>
+					
+							<p>Another issue with sudo is that it leads to running a root application with a users configuration, which may override or change permissions. In some cases, this can subsequently make an application unusable for the user. Use <span class="highlight-3">sux</span> as recommended!</p>
 
-							<p> Esempi di attività con applicazioni X11 avviate via sux possono essere: usare un elaboratore di testo come kwrite o kate per modificare file di root; fare partizionamenti con  gparted o lanciare un file manager a interfaccia grafica (Xapp) come dolphin o thunar. <!--Si possono anche alterare dei file di root cliccando il file col tasto destro del mouse e scegliendo "modifica come root" e immettendo la password (di root) che naturalmente verrà richiesta in quanto viene richiamato kdesu.--></p>
-
-							<p>Tutto questo significa che, diversamente da "sudo", non può semplicemente venire chiunque sul sistema e digitando "sudo" fare cambiamenti potenzialmente dannosi.</p>
-
+					  <h2>Being in root</h2>
 							<p class="highlight-2">ATTENZIONE: Mentre si è nel sistema come root, esso non si opporrà nel fare cose potenzialmente pericolose come cancellare file importanti, ecc. . Si deve essere assolutamente sicuri riguardo alle cose che si stanno facendo perché è davvero possibile danneggiare seriamente il sistema.</p>
 
 							<p class="highlight-2">In nessuna circostanza si dovrebbe essere come root in una console/terminale per lanciare applicazioni che un utente normale usa per il suo lavoro quotidiano, coma spedire posta, creare fogli elettronici o navigare in internet e cosi via.</p>
@@ -273,6 +291,10 @@ Alt+F2 su-to-root -X -c &lt;applicazione&gt;
 
 <pre>
 $ man nome-comando
+</pre>
+							<p>or</p>
+<pre>
+$ man -k &lt;keyword&gt;
 </pre>
 
 							<p>Questo porta in console la "manual-page" per quel comando. Navigare su e giù con i tasti del cursore. Ad esempio provare:</p>
@@ -355,7 +377,7 @@ Welcome to sidux-manuals http://manual.sidux.com
 
 	</div>
 
-	<div id="rev">Page last revised  26/04/2009 0535 UTC</div>
+	<div id="rev">Page last revised  19/06/2009 0805 UTC</div>
 
 </div>
 </body>

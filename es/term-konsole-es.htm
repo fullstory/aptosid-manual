@@ -56,10 +56,10 @@
 				<li><a href="cd-no-gui-burn-es.htm#burning-no-gen">Quemar sin GUI</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="live-mode-es.htm">LiveISO: el modo en Vivo</a>
+		<li  onmouseover="showHide( 3 );" onmouseout="startTime();" ><a href="live-mode-es.htm">LiveCD: el modo en Vivo</a>
 			<ul class="sub-menu" id="sm3">
 				<li><a href="live-mode-es.htm#rootpw">Clave raíz del LiveCd</a></li>
-				<li><a href="live-mode-es.htm#live-cd-installsoft">Instalar Software con el LiveISO</a></li>
+				<li><a href="live-mode-es.htm#live-cd-installsoft">Instalar Software con el LiveCD</a></li>
 				<li><a href="live-mode-es.htm#ntfs-3g">ntfs-3g: Escribir en Particiones NTFS</a></li>
 			</ul>
 		</li>
@@ -109,10 +109,10 @@
 				<li><a href="hw-dev-mon-es.htm#xrandr">Monitores  Dual y 'xrandr'</a></li>
 				<li><a href="hw-dev-mon-es.htm#mon-binary">Monitores Duales (utilizando binarios)</a></li>
 				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d">Drivers Binarios, No-libre para Nvidia</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#non-free">Adding non-free to Sources List</a></li>
-				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free-3d-2">Drivers No-libres para ATI, Radeon y otras</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free-firmware">Hardware que require Driver de Firmware No-libre</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#non-free">Agregando "non-free" a 'sources.list'</a></li>
+				<li><a href="hw-dev-hw-dri-es.htm#native-nv-ati">Drivers FOSS de Xorg para nVidia, ATI, Radeon e Intel</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-es.htm">Gestor de Ventanas</a>
@@ -248,20 +248,40 @@ sux
 </pre>
 
 							<p>El comando común para volverse en raíz, es "su". Utilizando <span class="highlight-3">sux</span> en lugar de su le permite ejecutar aplicaciones GUI/X11 de la línea de comando y permita que el raíz iniciar aplicaciones gráficas. <span class="highlight-3">sux</span> es un envoltorio para el comando estándar que transfiera sus credenciales X, al usuario destinatorio.</p>
+							
 
+							<p>Un ejemplo de ejecutar un aplicación de X11 vía sux es el uso de un editor de texto como kate para editar un archivo de root, para hacer particionamiento con gparted o con un manejador de archivos como dolphin or thunar. <!--También puede alterar archivos root con un clic derecho, y escoger "editar como raíz", entra su clave de raíz, que lo llame el "kdesu" para validar la contraseña.--></p>
+
+				<h6>KDE options</h6>
+							<p>To start krunner in KDE:</p>
+<pre>
+Alt+F2
+</pre>
+							<p>or right-click on the desktop and choose:</p>
+<pre>
+Run Command
+</pre>
+							 <p>then:</p>
+							 
+<pre>
+kdesu &lt;Application&gt;
+</pre>
 							<p>Algunas aplicaciones de KDE require <span class="highlight-3">dbus-launch</span> en frente del aplicación:</p>
 <pre>
 dbus-launch &lt;Aplicación&gt;
 </pre>
+					  <h6>Other Desktop WIndow Manager options</h6>
 							<p>Otro opción generica a los Gestores de Escritorios mayores es:</p>
 <pre>
 Alt+F2 su-to-root -X -c &lt;Aplicación&gt;
 </pre>
+	
+					<h2>sudo is not supported</h2>
+							<p>sudo is not enabled by default on installation to hard disk. It is available for use while booted live since no root password is set. The reasoning behind this is so that if an attacker gets hold of the users password, they do not immediately get full super-user priviledges and make potentially damaging changes to your system.</p>
+					
+							<p>Another issue with sudo is that it leads to running a root application with a users configuration, which may override or change permissions. In some cases, this can subsequently make an application unusable for the user. Use <span class="highlight-3">sux</span> as recommended!</p>
 
-							<p>Un ejemplo de ejecutar un aplicación de X11 vía sux es el uso de un editor de texto como kate para editar un archivo de root, para hacer particionamiento con gparted o con un manejador de archivos como dolphin or thunar. <!--También puede alterar archivos root con un clic derecho, y escoger "editar como raíz", entra su clave de raíz, que lo llame el "kdesu" para validar la contraseña.--></p>
-
-							<p>A diferencia de 'sudo', 'sux' quiere decir que nadie puede venir y tipear 'sudo' y hace cambios potencialmente dañinos al sistema.</p>
-
+					  <h2>Being in root</h2>
 							<p class="highlight-2">AVISO: Mientras que estas trabajando como root (raíz), el sistema no hará nada de inhibir que hace cosas peligrosas como borrar archivos importantes, etc. Tiene que estar seguro que vas hacer, por que es posible de hacer daño serio al sistema.</p>
 
 							<p class="highlight-2">Baja ningún circunstancias debe estar ejecutando como root en una consola/terminal para ejecutar aplicaciones que un usuario normal utiliza para sus actividades productivos día a día, por ejemplo, correo electrónica, trabajando con aplicaciones ofimáticas, surfeando internet, etcétera.</p>
@@ -274,6 +294,10 @@ Alt+F2 su-to-root -X -c &lt;Aplicación&gt;
 
 <pre>
 $ man "comando"
+</pre>
+							<p>or</p>
+<pre>
+$ man -k &lt;keyword&gt;
 </pre>
 
 							<p>Este traerá unas páginas man para este comando. Navega arriba y abajo con las flechas. Como un ejemplo, probar con:</p>
@@ -356,7 +380,7 @@ Bienvenidos al Manual de sidux
 
 
 	</div>
-			<div id="rev">Contenido modificado el  26/04/2009 0535 UTC</div>
+			<div id="rev">Contenido modificado el  19/06/2009 0805 UTC</div>
 
 </div>
 </body>

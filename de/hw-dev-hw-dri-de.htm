@@ -17,16 +17,16 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Sat, 13 Jun 2009 17:07:37 +0200 -->
+<!-- Last translation revision hubi Sat, 18 Jul 2009 16:24:21 +0200 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
-		<li><a href="http://manual.sidux.com/meta-manual">Community Software Picks</a></li>
+		<li><a href="http://manual.sidux.com/meta-manual">Softwaretipps der Community</a></li>
 	</ul>
 	<div id="flags-2">
 			<a href="../flag-index.html"><img src="../lib/logos/sidux-lang-100x64.png" title="Wählen Sie eine andere Sprache - Choose another language" alt="lang-switch" /></a>
@@ -245,6 +245,8 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms</h2>
+							<p><span class="highlight-3">VORBEMERKUNG: Verwenden Sie "apt-cache search nvidia" und "apt-cache show &lt;package&gt;" zur Ermittlung des korrekten Treibers. Im Augenblick unterstützt Debian Sid 3D nur für Treiber &ge; GeForce 6xxx. Für ältere Karten lesen Sie <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> (en) .</span></p>
+							
 							<p>Vorbereitung des Moduls:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -264,13 +266,25 @@ apt-get install nvidia-glx
 </pre>
 							<p>Danach ändert man xorg.conf:</p>
 <pre>
-sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Der PC muss neu gestartet werden, damit die Modulinstallation vollendet wird.</p>
 						      
+						      <p>Nach einer Aktualisierung von xorg muss nur nvidia-glx neu installiert werden:</p>
+<pre>
+apt-get install --reinstall nvidia-glx
+</pre>
+
+						      <p>Vorgehen, wenn ein neuer Nvidia-Treiber in Debian Sid via apt zur Verfügung steht:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+apt-get install --reinstall nvidia-glx
+</pre>
+						      <p>Ein Neustart des PCs ist erforderlich, damit das neue Modul verwendet wird.</p>
+						      
 					<h4>Wenn das Modul nicht lädt</h4>
 					
-							<p>Falls nvidia - aus welchem Grund auch immer (neue Xorg-Komponente o.a.) - nicht lädt:</p>
+							<p>Falls nvidia - aus welchem Grund auch immer nicht lädt:</p>
 <pre>
 modprobe nvidia 
 </pre>
@@ -313,12 +327,22 @@ $ fw-detect
 </pre>
 							<p> <span class="highlight-3">Es ist ratsam, <em>modprobe -r &lt;modulename&gt;</em> vor <em>modprobe &lt;modulename&gt;</em> durchzuführen, besonders bei Intel-Chips.</span>.</p>
 
+							<p> <span class="highlight-3">Um Firmware von git-Repos installieren zu können, muss git-core installiert werden:</span></p>
+<pre>
+apt-get install git-core
+</pre>
 				<ul>
 					<li>
 						Atari DSP56k:<br />
 						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3">/lib/firmware/dsp56k/</span>.
 					</li>
 
+					<li>
+						ATi r128 und Radeon r100-r780 (Grafikkarten)<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
 					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
@@ -335,10 +359,26 @@ apt-get install b43-fwcutter
 					</li>
 
 					<li>
-						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
+						Broadcom Blutonium Bluetooth Chipset (BCM2033):<br />
 <pre>
 apt-get install bluez-firmware
 </pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII Netzwerkadapter (BCM5706/5708/5709/5716, bnx), Ethernet:<br />
+<pre>
+apt-get install firmware-bnx2
+</pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII 10Gb Netzwerkadapter (BCM57710/57711/57711E, bnx2x), Ethernet:<br />
+<pre>
+apt-get install firmware-bnx2x
+</pre>
+					</li>
+					<li>
+						Broadcom Tigon3 (tg3), Ethernet:<br />
+						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
 					</li>
 
 					<li>
@@ -353,7 +393,9 @@ apt-get install bluez-firmware
 
 					<li>
 						Digital Audio Broadcasting (DAB) Empfänger für USB und Linux:<br />
-						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3">/lib/firmware/dabusb/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -387,36 +429,27 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
+						Intel CPUs:<br />
+<pre>
+apt-get install intel-microcode
+</pre>
+					</li>
+					<li>
+						Intel e100 (82559 D101M/ D101M, 82551-F, 82551-10), 100 MBit/s Ethernet:<br />
+<pre>apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
 						Intel ipw2100 (11 MBit/s) und Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
 </pre>
-
-						<i>ipw2100-firmware und ipw2200-firmware muss entfernt werden, falls bereits vorhanden.</i>
 					</li>
-
 					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan und Intel ipw4965, iwl1000/ iwl5xxx, iwl6000, iwl6050/ iwlagn, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						Mit Stand 2009-02-14 deckt firmware-iwlwifi noch nicht ipw5xxx ab.<br />
-						Man erhält die Firmware von <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> und speichert sie in <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -428,13 +461,29 @@ apt-get install firmware-iwlwifi
 						Korg 1212 IO Audiogerät:<br />
 						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3">/lib/firmware/korg/</span>.
 					</li>
-
+					<li>
+						Matrox MGA 100-450 Grafikkarten:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						nVidia Grafikkarten:<br />
+						3D-Beschleunigung ist mit freien Treibern noch nicht möglich.
+					</li>
 					<li>
 						RaLink rt61 und rt73 54 MBit/s wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
 					</li>
+					<li>
+						RaLink rt2860 und rt2870 (staging) wlan:<br />
+<pre>
+apt-get install firmware-ralink
+</pre>
+					</li>
+					
 					<li>
 						SMC ISA/MCA Token Ring Adapter:<br />
 						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3">/lib/firmware/</span>.
@@ -490,8 +539,10 @@ m-a a-i acx100
 					</li>
 
 					<li>
-						USB KLSI KL5USB101-based Ethernet device:<br />
-						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3">/lib/firmware/kaweth/</span>.
+						USB KLSI KL5USB101-based Ethernet-Device:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -517,8 +568,10 @@ apt-get install zd1211-firmware
 </pre>
 					</li>
 				</ul>
-
-   							<p>Wir versuchen, Pakete für legal verteilbare Firmware in den non-free-Repositorys von sidux zur Verfügung zu stellen, aber nicht alle Anbieter erlauben dies.</p>
+				
+							<p>Sollten Sie .debs für Firmware im Voraus benötigen, zum Beispiel für einen USB-Speicher, können diese als zip- oder tar.gz-Datei von <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a>heruntergeladen werden.</p>
+							
+							<p>Wir versuchen, Pakete für legal verteilbare Firmware in den non-free-Repositorys von sidux zur Verfügung zu stellen, aber nicht alle Anbieter erlauben dies.</p>
 
 		</div>
 		<div class="divider" id="hd-ntfs3g">
@@ -539,7 +592,7 @@ exit  ## mit diesem Befehl wird die Konsole verlassen
 							Aber noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 13/06/2009 0940 UTC</div>
+	<div id="rev">Page last revised 18/07/2009 0300 UTC</div>
 
 </div>
 </body>

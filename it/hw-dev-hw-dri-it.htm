@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by alessiog75 on 02/05/2009 12.40 UTC-->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75, zenren, -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
@@ -259,6 +259,8 @@ fix.contrib fix.non-free
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Driver a sorgente chiuso, binari per: nVidia con dmakms</h2>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							
 							<p>Prepara il modulo:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -279,13 +281,25 @@ apt-get install nvidia-glx
 </pre>
 							<p>Poi modifica xorg.conf:</p>
 <pre>
-sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Riavviare il sistema perché venga eseguita l'installazione del modulo.</p>
 
+						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+<pre>
+apt-get install --reinstall nvidia-glx
+</pre>
+
+						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+apt-get install --reinstall nvidia-glx
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      
 					<h4>Errore nel caricamento del modulo</h4>
 					
-							<p>Se nvidia non si dovesse caricare per qualsiasi motivo (nuovo componente X.Org, problema sul filesystema oppure se X non parte dopo il riavvio) eseguire:</p>
+							<p>Se nvidia non si dovesse caricare per qualsiasi motivo eseguire:</p>
 <pre>
 modprobe nvidia 
 </pre>
@@ -330,11 +344,22 @@ $ fw-detect
 
 							<p> <span class="highlight-3">È buona pratica fare un modprobe -r &lt;nomemodulo&gt; prima di modprobe &lt;nomemodulo&gt;, specialmente se si utilizza intel</span>.</p>
 
+							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+<pre>
+apt-get install git-core
+</pre>
+
 				<ul>
 					<li>
 						Supporto per Atari DSP56k:<br /> prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel .git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/ linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/dsp56k/.
 					</li>
 
+					<li>
+						ATi r128 and Radeon r100-r780 graphics<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
 					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
@@ -357,6 +382,22 @@ apt-get install bluez-firmware
 </pre>
 					</li>
 					<li>
+						Broadcom NetXtremeII network adapters (BCM5706/5708/5709/5716, bnx), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2
+</pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII 10Gb network adapters (BCM57710/57711/57711E, bnx2x), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2x
+</pre>
+					</li>
+					<li>
+						Broadcom Tigon3 (tg3), ethernet:<br />
+						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
+					</li>
+					<li>
 						Macchine fotografiche basate su Vision CPiA2:<br />
 						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel .git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/ linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/cpia2/.
 					</li>
@@ -366,7 +407,9 @@ apt-get install bluez-firmware
 					</li>
 					<li>
 						Digital Audio Broadcasting (DAB) Receiver for USB and Linux:<br />
-						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel .git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/ linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/dabusb/.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 					<li>
 						Eagle USB ADSL modem:<br />
@@ -393,33 +436,27 @@ apt-get install bluez-firmware
 						prendere il firmware da <a href="http://dl.ivtvdriver.org/ivtv/firmware/">http://dl.ivtvdriver.org/ivtv/ firmware/</a> e metterlo in /lib/firmware/.
 					</li>
 					<li>
-						Intel ipw2100 (11 MBit/s) e Intel ipw2200 (54 MBit/s) wlan:<br />
+						Intel CPUs:<br />
+<pre>
+apt-get install intel-microcode
+</pre>
+					</li>
+					<li>
+						Intel e100 (82559 D101M/ D101M, 82551-F, 82551-10), 100 MBit/s ethernet:<br />
+<pre>apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
 </pre>
-						<i>Rimuovere ipw2100-firmware e ipw2200-firmware, se già installati.</i>
 					</li>
 					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan and Intel ipw4965, iwl1000/ iwl5xxx, iwl6000, iwl6050/ iwlagn, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						Al 14/02/2009, firmware-iwlwifi non comprende ancora ipw5xxx, prendere il firmware da <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> e metterlo in <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 					<li>
 						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
@@ -429,12 +466,25 @@ apt-get install firmware-iwlwifi
 						Korg 1212 IO audio device:<br />
 						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel .git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/ linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/korg/.
 					</li>
+
+					<li>
+						Matrox MGA 100-450 graphics:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
 					<li>
 						schede grafiche nVidia:<br />
 						l'accelerazione 3D non è ancora possibile con i driver liberi.
 					</li>
 					<li>
 						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+<pre>
+apt-get install firmware-ralink
+</pre>
+					</li>
+					<li>
+						RaLink rt2860 and rt2870 (staging) wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
@@ -484,7 +534,9 @@ m-a a-i acx100
 					</li>
 					<li>
 						USB KLSI KL5USB101-based Ethernet device:<br />
-						prendere il firmware da <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel .git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/ linux-firmware-from-kernel.git</a> e metterlo in /lib/firmware/kaweth/.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 					<li>
 						USB TI 3410/5052 serial device:<br />
@@ -508,6 +560,9 @@ apt-get install zd1211-firmware
 </pre>
 					</li>
 				</ul>
+				
+							<p>Should you need to prefetch firmware .debs, to put on a usb-key for example, you can download them as either a zip or tar.gz file from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></p>
+							
 							<p>Cercheremo di fornire i pacchetti per i firmware legalmente ridistribuibili sui nostri archivi software "non-free" ma non tutti i produttori lo permettono.</p>
 
 		</div>
@@ -529,7 +584,7 @@ Per uscire dalla console digitare: exit
 							 <p>Ora il volume NTFS dovrebbe essere montato <b>rw</b> e si dovrebbe essere in grado di scrivere i dati su di esso. Ma, di nuovo, stare attenti! <span class="highlight-3">Usarlo soltanto in situazioni di emergenza, non è raccomandato per un uso su base giornaliera.</span></p>
 
 		</div>
-	<div id="rev">Page last revised 13/06/2009 0940 UTC </div>
+	<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
 
 </div>
 </body>

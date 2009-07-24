@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by muchan  05/May/2009 2237 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -293,6 +293,8 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
 #### -->
 		<h2>nVidiaのクローズソースバイナリードライバーをdmakmsで自動インストール</h2>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							
 <!--- ####
 							<p>Prepare the module:</p>
 #### -->
@@ -325,22 +327,34 @@ apt-get install nvidia-glx
 </pre>
 							<p>次にxorg.confに変更を加えます:</p>
 <pre>
-sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 <!--- ####
 						      <p>Reboot PC for installation of the module to take effect.</p>
 #### -->
 						      <p>PCを再起動してモジュールが有効になっているか確かめます。</p>
 
+						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+<pre>
+apt-get install --reinstall nvidia-glx
+</pre>
+
+						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+apt-get install --reinstall nvidia-glx
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      
 <!--- ####
 					<h4>Module load failure</h4>
 #### -->
 					<h4>モジュールのロードに失敗したら</h4>
 					
 <!--- ####
-							<p>Should nvidia fail to load, for whatever reason [new xorg component, a fs problem or if X doesnt start after reboot] :</p>
+							<p>Should nvidia fail to load, for whatever reason:</p>
 #### -->
-							<p>何らかの原因(新しいXorgコンポーネント、ファイルシステムの問題、または再起動のあとXがスターとしないなど)でnVidiaドライバモジュールのロードに失敗したら:</p>
+							<p>Should nvidia fail to load, for whatever reason:</p>
 <pre>
 modprobe nvidia 
 </pre>
@@ -405,6 +419,11 @@ $ fw-detect
 #### -->
 							<p> <span class="highlight-3"> (とくに Intel のモジュールについて、) modprobe &lt;modulename&gt; を実行する前にいつも一度 modprobe -r &lt;modulename&gt;　を実行するのはいい習慣です。</span>.</p>
 
+							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+<pre>
+apt-get install git-core
+</pre>
+
 				<ul>
 					<li>
 						Atari DSP56k support:<br />
@@ -414,6 +433,12 @@ $ fw-detect
 						<a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> からファームウェアをダウンロードして <span class="highlight-3">/lib/firmware/dsp56k/ に保存する。</span>.
 					</li>
 
+					<li>
+						ATi r128 and Radeon r100-r780 graphics<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
 					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
@@ -435,6 +460,22 @@ apt-get install b43-fwcutter
 apt-get install bluez-firmware
 </pre>
 					</li>
+					<li>
+						Broadcom NetXtremeII network adapters (BCM5706/5708/5709/5716, bnx), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2
+</pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII 10Gb network adapters (BCM57710/57711/57711E, bnx2x), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2x
+</pre>
+					</li>
+					<li>
+						Broadcom Tigon3 (tg3), ethernet:<br />
+						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
+					</li>
 
 					<li>
 						Cameras based on Vision's CPiA2:<br />
@@ -448,7 +489,9 @@ apt-get install bluez-firmware
 
 					<li>
 						Digital Audio Broadcasting (DAB) Receiver for USB and Linux:<br />
-						<a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> からファームウェアをダウンロードして <span class="highlight-3">/lib/firmware/dabusb/</span> に保存。
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -485,36 +528,27 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
+						Intel CPUs:<br />
+<pre>
+apt-get install intel-microcode
+</pre>
+					</li>
+					<li>
+						Intel e100 (82559 D101M/ D101M, 82551-F, 82551-10), 100 MBit/s ethernet:<br />
+<pre>apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
 						Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
 </pre>
-
-						<i> ipw2100-firmware または ipw2200-firmware がインストールされていたら削除すること</i>
 					</li>
-
 					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan and Intel ipw4965, iwl1000/ iwl5xxx, iwl6000, iwl6050/ iwlagn, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						As at 2009-02-14, firmware-iwlwifi does not cover ipw5xxx yet, 
-						<a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> をダウンロードして <span class="highlight-3">/lib/firmware/</span> に保存。
 					</li>
 
 					<li>
@@ -528,7 +562,23 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
+						Matrox MGA 100-450 graphics:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						nVidia graphics:<br />
+						3d acceleration isn't possible with free drivers yet.
+					</li>
+					<li>
 						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+<pre>
+apt-get install firmware-ralink
+</pre>
+					</li>
+					<li>
+						RaLink rt2860 and rt2870 (staging) wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
@@ -589,7 +639,9 @@ m-a a-i acx100
 
 					<li>
 						USB KLSI KL5USB101-based Ethernet device:<br />
-						<a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> からファームウェアをダウンロードして <span class="highlight-3">/lib/firmware/kaweth/</span> に保存。
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -615,6 +667,9 @@ apt-get install zd1211-firmware
 </pre>
 					</li>
 				</ul>
+				
+							<p>Should you need to prefetch firmware .debs, to put on a usb-key for example, you can download them as either a zip or tar.gz file from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></p>
+							
 							<!--- ####
 							<p>We try to provide packages for legally redistributable firmware from our non-free repositories, but not all vendors allow this.</p>
 							#### -->
@@ -649,7 +704,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 		<p>これであなたのNTFSパーティションは<b>rw</b>(読み書きモード)でマウントされていて、データの書き込みができるるはずです。 警告を繰り返しますが <span class="highlight-3">これは緊急の場合に使うもので、日々の仕事につかうのにはお勧めできません！</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 13/06/2009 0940 UTC </div>
+	<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
 
 </div>
 </body>

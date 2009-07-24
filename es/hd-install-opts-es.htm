@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 01/06/2009 1400hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -194,78 +194,78 @@
 <div id="main-page">
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Arrancando "fromiso"</h2>
-							<p  class="highlight-2">Para uso normal, recomendamos el sistema de archivos, ext3.  Es el sistema preseleccionada por sidux y esta bien mantenido.</p>
+							<p  class="highlight-2">Para un uso normal recomendamos el sistema de archivos ext3. Es el sistema preseleccionado por sidux y está bien mantenido.</p>
 
-							<p>Con este cheatcode puede arrancar desde un ISO grabado en el disco duro, lo cual es mucho más rápido que desde una CD (una instalación al DD sólo lleva una fracción del tiempo. Varias personas dicen reporte entre 4 y 8  minutos; es tan veloz como el relámpago).</p>
+							<p>Con este cheatcode puede arrancar desde un ISO grabado en el disco duro, lo cual es mucho más rápido que hacerlo desde un CD (una instalación al DD sólo lleva un poco de tiempo). </p>
 
-							<p>Este es, por supuesto, mucho más rápido que desde un CD/DVD-ROM, deja el disco disponible. Como alternativa, puede usar el VMware también.</p>
+							<p>Esto es, por supuesto, mucho más rápido que arrancar desde un CD/DVD-ROM y deja el disco disponible. Como alternativa, también puede usar el VMware.</p>
 
 				<h6>Requerimientos:</h6>
 
-		   					 <p>* un Grub funcionando (en un floppy, un instalación en DD o un LiveCD)<br />
-								* un imagen ISO de sidux, por ejemplo, sidux.iso y un sistema de archivos como el ext2/3 <br />
-								* si el imagen ISO suya ha sido renombrado, a sidux.ISO, tendrar que modificar los comandos de acuerdo, en vista que el sistema de archivos de unix es sensible a letra mayúscula/minúscula.</p>
+		   					 <p>* un Grub funcionando (ya sea en un floppy, en una instalación en DD o en un LiveCD)<br />
+								* una imagen ISO de sidux, por ejemplo, sidux.iso y un sistema de archivos como el ext2/3 <br />
+								* si su imagen ISO ha sido renombrado a sidux.ISO en lugar de sidux.iso, tendrá que modificar los comandos ya que el sistema de archivos de unix es sensible a las letras mayúsculas/minúsculas.</p>
 
 				<h4 class="highlight-3">Proceso:</h4>
-							<p>Escoje un lugar para el iso y 2 archivos que necesitamos, para conseguir nombres más cortos. Así que crear un directorio base, por ejemplo, "/media/sdaX", (sda1, 2, 5, 6 ó lo que sea) crea el directorio "sidux" y copiar el iso hacia el:</p>
+							<p>Escoja un lugar para el iso y 2 archivos que necesitaremos así que busque nombres cortos. Tendrá que crear un directorio base, por ejemplo, "/media/sdaX", (sda1, 2, 5, 6 ó lo que sea), cree el directorio "sidux" y copie el iso en él:</p>
 <pre>$ sux
 mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
-							<p>Ahora montar el imagen ISO (Alternativamente el mc {midnight commander} puede ser usado, porque se auto-monta el archivo .iso, y permite copiar los archivos del .iso que necesita.):</p>
+							<p>Ahora monte la imagen ISO (Alternativamente el mc [midnight commander] puede usarse porque automonta el archivo .iso, y permite copiar los archivos del .iso que necesita.):</p>
 										
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
-							<p>Ahora, copiar los archivos, vmlinuz y initrd.img, desde el .iso montada hacia el directorio <span class="highlight-3">  Sustituye el variable del disco duro para el *suyo*. :: Este es un ejemplo solamente:</span></p>
+							<p>Ahora, copie los archivos, vmlinuz y initrd.img, desde el .iso montado hacia el directorio <span class="highlight-3">  Sustituya la variable del disco duro por el *suyo*. :: Esto es un ejemplo solamente:</span></p>
 
 <pre>
 cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Próximo, tiene que personalizar el Grub. Entonces, editar el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue las siguientes líneas <span class="highlight-3"> DESPUÉS del ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: no están permitidos los comodines en la línea de comando de grub! </span> <span class="highlight-3"> Sustituye el variable del disco duro para el *suyo*. :: Este es un ejemplo solamente:</span> </p>
+							<p>A continuación tiene que personalizar el Grub. Para ello edite el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue las siguientes líneas <span class="highlight-3"> DESPUÉS del ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: no están permitidos los comodines en la línea de comando de grub! </span> <span class="highlight-3"> Sustituya la variable del disco duro por el *suyo*. :: Esto es un ejemplo solamente:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>Con el próximo inicialización, tendra un nuevo renglon en el menu de Grub para arrancar el imagen ISO. Si se actualiza los archivos  sidux.iso, vmlinuz y intird.img con lanzamientos más reciente, el menu.lst de grub no necesita ser modificado.</p>
+							<p>En la próxima inicialización tendrá un nuevo renglón en el menu de Grub para arrancar la imagen ISO. Si los archivos  sidux.iso, vmlinuz y intird.img se actualizan con lanzamientos más recientes, el menu.lst de grub no necesitará ser modificado.</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Información General sobre 'fromiso' con 'persist'</h2>
 
-				<h3>'fromiso' y 'persist' en una DD</h3>
+				<h3>'fromiso' y 'persist' en un disco duro</h3>
 
-							<p>Puede tener un sistema persistente en un disco escribible a través de combinar una configuración 'fromiso' con el cheatcode 'persist'. El acción por defecto es simplemente:</p>
+							<p>Puede tener un sistema persistente en un disco escribible a través de combinar una configuración 'fromiso' con el cheatcode 'persist'. La acción por defecto es simplemente:</p>
 
 <pre>
 persist
 </pre>
 
-							<p>sidux utiliza aufs para activar lo que se llama COW (copiar al escribir) sobre el ISO para permitir escribir nuevos archivos y carpetas, y actualizar existentes por mantener las nuevas archivos en memoria. Con el <span class="highlight-3">persist</span> cheatcode, el sistema almacena los nuevas archivos en el mismo partición del disco duro donde esta almacenda el imagen ISO para el 'fromiso'.</p>
+							<p>sidux utiliza aufs para activar lo que se llama COW (copiar al escribir) sobre el ISO para permitir escribir nuevos archivos y carpetas y actualizar los existentes para mantener los nuevos archivos en memoria. Con el cheatcode <span class="highlight-3">persist</span> el sistema almacena los nuevos archivos en la misma partición del disco duro donde está almacenda la imagen ISO para el 'fromiso'.</p>
 
-							<p><span class="highlight-3">fromiso</span> le da un sistema vivo que realiza todos las carácteristicas del sidux Live ISO. Este tiene el beneficio de hacer cosas tales como configurar automáticamente el hardware, pero también implica que se recreará los mismos archivos cada vez que iniciar con el, a menos que añadir códigos chuletas (cheatcodes) adicionales.</p> 
+							<p><span class="highlight-3">fromiso</span> le da un sistema vivo que realiza todos las carácteristicas del sidux Live ISO. Esto tiene el beneficio de hacer cosas tales como configurar automáticamente el hardware, pero también implica que se recrearán los mismos archivos cada vez que inicie el ordenador con él, a menos que añada códigos chuletas (cheatcodes) adicionales.</p> 
 
-							<p>Utilizar el <span class="highlight-3">persist</span> junto con otros códigos especificas de sidux tales como noxorgconf, nonetwork, significa que no recrearar los mismos archivos cada vez que inicializar la maquina.</p>
+							<p>Utilizar el <span class="highlight-3">persist</span> junto con otros códigos especificas de sidux tales como noxorgconf, nonetwork, significa que no recreará los mismos archivos cada vez que inicialice la máquina.</p>
 
-							<p>El uso de 'persist' también significa que puede instalar paquetes con apt y tener la aplicación y cualquier datos guardado disponible para uso el próximo vez que iniciar con el dispositivo.</p>
+							<p>El uso de 'persist' también supone que puede instalar paquetes con apt y tener la aplicación y cualesquiera datos guardados disponibles para su uso la próxima vez que desee iniciar con el dispositivo.</p>
 
 				<h3>'fromiso' and 'persist' en un pendrive USB arrancable</h3>
-							<p>Quizás el uso ideal para la persistencia es en conjunto con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesitas.</p>
+							<p>Quizás el uso ideal para "persist" es usarlo conjuntamente con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesite.</p>
 
-							<p>Sus archivos será almacenado en un subcarpeta en el drive. Este subcarpeta es creado si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes están usado conjuntamente.</p>
+							<p>Sus archivos serán almacenados en un subcarpeta en el drive. Se crea esta subcarpeta si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes están siendo usados conjuntamente.</p>
 
-							<p><span class="highlight-3">persist</span> en un sistema de archivos FAT, comunmente usado para instalaciones de DOS/Windows 9x instalaciones y usualmente encontradas en dispositivas flash, requiere la creación de un solo archivo grande para usar como un dispositivo bucle, entonces dar formato a este archivo.</p>
+							<p><span class="highlight-3">persist</span> en un sistema de archivos FAT, que es el comunmente usado en las instalaciones de DOS/Windows 9x y que usualmente se encuentran en los dispositivos flash, requiere la creación de un solo archivo grande para usar como un dispositivo bucle, entonces dar formato a este archivo.</p>
 
-							<p><span class="highlight-3">En los pendrives USB, ext2 y vfat son el sistema de archivos recommendado y más probable de rendir mejor habilidad de multi-plataforma para recuperación de datos, cuando es más necesitada, porque un driver de MS Windows&#8482; esta disponible para intercambiar datos. Propiedades reescrible a dispositivos tipo flash están contingente en las especificaciones del dispositivo USB.</span></p>
+							<p><span class="highlight-3">En los pendrives USB, ext2 y vfat son los sistema de archivos recommendados y los más apropiados para rendir mejor como multi-plataforma para recuperación de datos cuando es más necesario, porque un driver de MS Windows&#8482; está disponible para intercambiar datos. El modo de reescribir en dispositivos de tipo flash depende de las especificaciones del dispositivo USB.</span></p>
 
 					<h6>Sistemas de Archivos ext2/3</h6>
-							<p>Con el ext2/3 la partición completo será utilizado, el raíz corriente es usado y una carpeta /fll esta creado lo cual esta utilizado para el 'persist' permitiendo el uso de todo el espacio libre del dispositivo para el sistema 'persist'.</p>
+							<p>Con el sistema ext2/3 la partición completa será utilizada, se usará la raíz corriente y una carpeta /fll será creada para ser utilizada por el 'persist', permitiendo el uso de todo el espacio libre del dispositivo para el sistema 'persist'.</p>
 
 					<h6>Sistemas de Archivos vfat</h6>
-							<p>Cuando se usa vfat, la persistencia es logrado a través de un archivo que puede ser un máximo de 2GB pero no menos de 100MB (porque no sirve). Este archivo debe ser llamada <span class="highlight-3">sidux-rw</span>. Asumiendo que el disco que desea usar es montado y escribilbe en /media/sdb1 y que desea crear un archivo de 1GB para uso como el drive persistente, puede usar las siguientes commandos (no tiene que ser root, si tiene acceso de escribir al archivo).</p>
+							<p>Cuando se usa vfat, la persistencia se logra a través de un archivo que puede tener un máximo de 2GB pero no menos de 100MB (porque no podría usarse). Este archivo debe ser llamado <span class="highlight-3">sidux-rw</span>. Asumiendo que el disco que desea usar ya está montado y es escribible en /media/sdb1 y que desea crear un archivo de 1GB para uso como el drive persistente, puede usar los siguientes comandos (no tiene que ser root, si tiene acceso para escribir en el archivo).</p>
 
 <pre>
 disc="/media/sdb1" 
@@ -275,73 +275,73 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 </pre>
 
 
-							<p class="highlight-2">Particiones NTFS, comunmente utilizado para instalaciones de Windows NT/2000/XP (TM), NO PUEDE SER usado para persistencia.</p>
+							<p class="highlight-2">Las particiones NTFS, comunmente utilizadas para instalaciones de Windows NT/2000/XP (TM), NO PUEDEN SER usadas para la persistencia.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Instalación de sidux en un dispositivo-USB</h2>
+		<h2>Instalación de sidux en un dispositivo USB</h2>
 
-							<p>Para realizar una instalación de sidux en un dispositivo USB, pen or disco, es tan facil como una instalación al disco duro. Solamente sigue este guía simple:</p>
+							<p>Realizar una instalación de sidux en un dispositivo USB, ya sea un pendrive o un disco externo, es tan fácil como una instalación en el disco duro. Solamente siga esta guía simple:</p>
 
-				<h5>Dos tipos de instalacion al USB</h5> 
+				<h5>Dos tipos de instalacion en USB</h5> 
 							<p>1) - fromiso (para crear un USB iniciable desde un sistema instalado, necesita tener un sidux.iso)<br />
-							2) - full (una instalación completo a un dispositivo USB, pen o disco, porta como una instalación normal al disco duro y es realizado a través del instalador normal).</p>
+							2) - full (una instalación completa en un dispositivo USB, pendrive o disco, es como una instalación normal al disco duro y se realiza a través del instalador normal).</p>
 
 				<h3>Instalación USB fromiso</h3>
-							<p> <span class="highlight-3">Pre-formato el dispositivo con ext2 ó el fat32 antes de proceder.</span></p>
+							<p> <span class="highlight-3">Preformatear el dispositivo con ext2 o con fat32 antes de comenzar.</span></p>
 
-							<p>Si 'install-sidux-usb-gui' no está presente en la instalación, 'apt-get install fll-iso2usb'.</p>
+							<p>Si 'install-sidux-usb-gui' no está presente en la instalación, instálelo mediante la orden 'apt-get install fll-iso2usb'.</p>
 
-							<p>El instalación <span class="highlight-3">fromiso</span> esta realizado a través del <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> en un sistema instalado al disco duro, o haga clic en <span class="highlight-3">sidux Installer Icon </span> en el ISO, y seleccionar <span class="highlight-3">Install to USB</span>. Es mayormente recommendado instalar 'fromiso' en la primer partición del dispositivo USB.</p>
+							<p>La instalación <span class="highlight-3">fromiso</span> se realiza a través del <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> en un sistema instalado en el disco duro, o haga clic en el ícono <span class="highlight-3">sidux Installer</span> en el ISO, y seleccione <span class="highlight-3">Install to USB</span>. Está principalmente recomendado instalar 'fromiso' en la primera partición del dispositivo USB.</p>
 
-							<p>Tendra la oportunidad de seleccionar otras idiomas, zona horarios, y otras chuletas (bootcodes) y de escoger si o no activar el 'persist' a través de una cajita de selección.</p>
+							<p>Tendrá la oportunidad de seleccionar otros idiomas, zonas horarias, y otras chuletas (bootcodes) y de escoger si activar o no el 'persist' a través de una cajita de selección.</p>
 
-							<p>Ahora tendra un pendrive arrancable. Si no activaste 'persist' puede activarlo por añadir <span class="highlight-3">persist</span> en la línea de comando de Grub o escribir lo permanentemente en la línea #kopt= línea en el 'menu.lst'.</p>
+							<p>Ahora tendrá un pendrive arrancable. Si no activó 'persist' puede activarlo añadiendo <span class="highlight-3">persist</span> en la línea de comando de Grub o escribirlo permanentemente en la línea #kopt= línea en el 'menu.lst'.</p>
 
 
 						<h6>Ejemplo del Terminal:</h6>
 <pre>
 fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
 </pre>
-							<p>Este instala el imagen ISO al dispositivo USB <span class="highlight-3">sdb</span> con 'persist', 'toram', localización de idioma Noruego y la zona horario de Pacific/Auckland (NZL) en la línea de comando de Grub.</p>
+							<p>Este ejemplo instala la imagen ISO en el dispositivo USB <span class="highlight-3">sdb</span> con 'persist', 'toram', localización de idioma Noruego y zona horaria de Pacifico/Auckland (NZL) en la línea de comando de Grub.</p>
 
-							<p>Su configuración X (tarjeta video, teclado, ratón) ni el archivo de interfaces de red NO ha sido almacenado, lo cual hace ideaol para uso en otros computadores.</p>
+							<p>NO han sido almacenados ni su configuración X (tarjeta video, teclado, ratón) ni el archivo de interfaces de red, lo cual lo hace ideal para ser usado en otros computadores.</p>
 
-							<p>Para más inforamción incluyendo opciones de personalización, ver:</p>
+							<p>Para más inforamación incluyendo opciones de personalización, vea:</p>
 
 <pre>
 $ man fll-iso2usb
 </pre>
 
 
-			<h3>Instalación completo (comporta como una instalación normal al DD)</h3>
+			<h3>Instalación completa (como una instalación normal al disco duro)</h3>
 
-							<p>Los tamaños mínimos de palitos USB son los siguientes:<br />
-							para sidux "LITE", 1.7 GB, MAS espacio para los datos,<br />
-							para sidux "FULL", 3.5 GB, MAS espacio para los datos.</p>
+							<p>Los tamaños mínimos de pendrives USB son los siguientes:<br />
+							para sidux "LITE", 1.7 GB, MÁS espacio para los datos,<br />
+							para sidux "FULL", 3.5 GB, MÁS espacio para los datos.</p>
 
-							<p> <span class="highlight-3">Pre-formato el dispositivo con ext3 y particiona el USB-HD o USB-pendrive como para un PC estándar.</span></p>
+							<p> <span class="highlight-3">Preformatee el dispositivo con ext3 y particione el USB-HD o USB-pendrive como si fuera un PC estándar.</span></p>
 
-							<p>Empieza la instalació desde el LiveCD y escoger la partición en el USB dispositivo, donde sidux será instalado, popr ejemplo: <span class="highlight-3">sdbX </span> y sigue los prompts del instalador de sidux. Leer <a href="hd-install-es.htm#Installation">Instalando al Disco Duro</a></p>
+							<p>Comience la instalació desde el LiveCD y escoja la partición en el dispositivo USB donde sidux será instalado, por ejemplo: <span class="highlight-3">sdbX </span> y siga los prompts del instalador de sidux. Lea <a href="hd-install-es.htm#Installation">Instalando en el Disco Duro</a></p>
 
-							<p><span class="highlight-3">Para iniciar desde el USB-HD o USB-pendrive, 'Iniciar del USB' ('Boot from USB') tiene que ser activado en el BIOS.</span></p>
+							<p><span class="highlight-3">El arranque desde el USB-HD o USB-pendrive, 'Iniciar del USB' ('Boot from USB') tiene que ser activado en el BIOS.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Instalar sidux con VirtualBox</h2>
 							<p>Los Pasos:</p>
 						<ul>
- 							<li>1. Crear un imagen de disco duro para VirtualBox</li>
- 							<li>2. Arranca el iso con VirtualBox</li>
- 							<li>3. Instalar en el imagen de disco duro</li>
+ 							<li>1. Crear un imagen del disco duro para VirtualBox</li>
+ 							<li>2. Arrancar el iso con VirtualBox</li>
+ 							<li>3. Instalar en la imagen del disco duro</li>
 						</ul>
 
 				<h4>Requerimientos</h4>
-							<p><span class="highlight-3">RAM recomendado: 1 gig </span>: Idealmente, 512 MB para el huesped y 512 MB para el anfitrión (puede funcionar con menos, pero no espera buen rendimiento).</p>
+							<p><span class="highlight-3">RAM recomendado: 1 giga </span>: Idealmente, 512 MB para el "invitado" y 512 MB para el "anfitrión" (puede funcionar con menos, pero no espere un buen rendimiento).</p>
 
-							<p><span class="highlight-3">Espacio en el disco duro:</span> Aunque el VirtualBox mismo es bastante liviano (una instalación tipica solamente requiere unas 30 MB en el disco duro), las maquinas virtuales se requieren archivos enormes en el disco para reprewsentar su propio almacenamiento de disco duro. Entonces, para instalar MS Windows XP (TM), por ejemplo, necesitará un archivo que puede alcanzar varios GB de tamaño. Para correr sidux en VirtualBox necesitar asignar un imagen de 5 gig más un partición o archivo de intercambio.</p>
+							<p><span class="highlight-3">Espacio en el disco duro:</span> Aunque el VirtualBox en sí mismo es bastante liviano (una instalación tipica solamente requiere unos 30 MB en el disco duro), las maquinas virtuales usan archivos enormes en el disco para representar su propio almacenamiento de disco duro. Entonces, para instalar MS Windows XP (TM), por ejemplo, necesitará un archivo que puede alcanzar varios GB de tamaño. Para correr sidux en VirtualBox necesitará asignar una imagen de 5 gigas más una partición o archivo de intercambio.</p>
 
-				<h3>Installation:</h3>
+				<h3>Instalación:</h3>
 						 <h6>32 bit</h6>
 <pre>
 apt-get update
@@ -353,7 +353,7 @@ apt-get update
 apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Entonces, copiar y pegar este línea en un terminal:</p>
+							<p>Entonces copie y pegue esta línea en un terminal:</p>
 <pre>
 sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
@@ -361,16 +361,16 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
-							<p>Próximo:</p>
+							<p>A continuación:</p>
 <pre>
 modprobe vboxdrv
 </pre>
-							<p class="highlight-3">Al fin, logout para salir del escritorio, hacer un nuevo login, y iniciar Virtualbox desde el Menú.</p>
+							<p class="highlight-3">Al fin, salga del escritorio, haga un nuevo login para volver a entrar y inicie Virtualbox desde el Menú.</p>
 
-					<h3>Instalar sidux a la maquina virtual</h3>
-							<p>Usa el asistente de virtualbox para crear una nueva maquina virtual para sidux, entonces sigue las instrucciones para una instalación normal de sidux.</p>
+					<h3>Instalar sidux en la maquina virtual</h3>
+							<p>Use el asistente de virtualbox para crear una nueva maquina virtual para sidux, entonces siga las instrucciones para una instalación normal de sidux.</p>
 
-							<p><a href="http://www.virtualbox.org/">VirtualBox tiene un archivo de ayuda comprensivo que puede bajar</a> </p>
+							<p><a href="http://www.virtualbox.org/">VirtualBox tiene un archivo de ayuda que puede bajar desde aquí</a> </p>
 
 	</div>
 	<div class="divider" id="qemu">
@@ -378,112 +378,112 @@ modprobe vboxdrv
 		<ol>
  			<li>Crear un imagen del disco duro para qemu</li>
  			<li>Arrancar el ISO con qemu</li>
- 			<li>Instalar en el imagen</li>
+ 			<li>Instalar en la imagen</li>
 		</ol>
 
- 			<h4>Creando el imagen del disco duro</h4>
+ 			<h4>Creando la imagen del disco duro</h4>
 
-				<p>Para ejecutar qemu, probablemente necesitará un imagen del disco duro. Este es un archivo que almacena los contenidos del disco duro emulado.</p>
+				<p>Para ejecutar qemu probablemente necesitará una imagen del disco duro. Ésta es un archivo que almacena los contenidos del disco duro emulado.</p>
 
-				<p>Usa el comando:</p>
+				<p>Use el comando:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>para crear el archivo imagen, "sidux.qcow". El parámetro "3G" especifica el tamaño del disco emulado -en este caso, 3 GB. Puede usar el sufijo M para indicar megabytes (por ejemplo, "256M"). No preocupa demasiado acerca del tamaño del disco -el formato qcow comprimas el imagen para que el espacio vació no aumenta el tamaño del archivo.</p>
+				<p>para crear el archivo imagen, "sidux.qcow". El parámetro "3G" especifica el tamaño del disco emulado -en este caso, 3 GB. Puede usar el sufijo M para indicar megabytes (por ejemplo, "256M"). No preocupe demasiado acerca del tamaño del disco -el formato qcow comprime la imagen para que el espacio vacio no aumente el tamaño del archivo.</p>
 
 
 			<h4>Instalando el sistema operativo</h4>
 
-				<p>Esta es la primera vez que necesita iniciar el emulador. Una cosa a recordar: cuando pinchas dentro de la ventana qemu, el puntero del mouse es agarrado. Para soltarlo, oprima el Ctrl+Alt.</p>
+				<p>Esta es la primera vez que necesitará iniciar el emulador. Una cosa a recordar: cuando pinche dentro de la ventana qemu, el puntero del ratón queda bloqueado. Para soltarlo, oprima Ctrl+Alt.</p>
 
-				<p>Si necesita hacer un floppy de arranque, ejecuta el Qemu con:</p>
+				<p>Si necesita hacer un floppy de arranque, ejecute Qemu con:</p>
 <pre>
 qemu -floppy sidux.iso -net nic -net user -m 512 \
 -boot d sidux.qcow
 </pre>
 
-				<p>Si el CD-ROM es arrancable, ejecuta el Qemu con:</p>
+				<p>Si el CD-ROM es arrancable, ejecute Qemu con:</p>
 <pre>
 qemu -cdrom sidux.iso -net nic -net user -m 512 \
 -boot d sidux.qcow
 </pre>
-				<p>Ahora, instalar sidux como lo haría al instalarlo en un disco duro verdadero.</p>
+				<p>Ahora puede instalar sidux como lo haría al instalarlo en un disco duro verdadero.</p>
 
 
 			<h4>Correr el sistema</h4>
 
-				<p>Para poner en función el sistema, sólo tipear:</p>
+				<p>Para poner en funcionamiento el sistema, sólo escriba:</p>
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Es una buena idea utilizar imágenes sobrepuestos (overlay). Así, puede crear un imagen del disco duro una vez y decir a Qemu almacenar los cambios en un archivo externo. Evitas toda la inestabilidad, porque es tan fácil de regresar a una estado previo, más estable.</p>
+				<p>Es una buena idea utilizar imágenes sobrepuestas (overlay). Así, puede crear un imagen del disco duro una vez y decir a Qemu que almacene los cambios en un archivo externo. Evita así la inestabilidad, porque es fácil regresar a un estado previo más estable.</p>
 
-				<p>Para crear una imagen sobrepuesto (overlay), tipear:</p>
+				<p>Para crear una imagen sobrepuesta (overlay), escriba:</p>
 <pre>
 qemu-img create -b [[base''image]]  \
 -f qcow [[overlay''image]]
 </pre>
-				<p>Sustituye el imagen del disco duro para el imagen_base (en nuestro caso, con sidux.qcow). Después, puede ejecutar el qemu con:</p>
+				<p>Sustituye la imagen del disco duro por la imagen_base (en nuestro caso, sidux.qcow). Después, ya puede ejecutar qemu con:</p>
 <pre>
 qemu [overlay_image]
 </pre>
-				<p>El image original será dejado sin tocar. La única problema, el imagen base no puede ser renombrado ni mudado. El sobrepuesto (overlay) lo busca el imagen base con su ruta completa.</p>
+				<p>La imagen original será dejada sin tocar. El único problema es que la imagen base no puede ser renombrada ni cambiada. El overlay busca la imagen base con su ruta completa.</p>
 
 
-			<h4>Usando cualquier partición verdadero como la partición primario de un imagen de disco duro.</h4>
+			<h4>Usando cualquier partición verdadera como la partición primaria de una imagen de disco duro.</h4>
 
-				<p>A veces, puede desea utilizar una de las otras particiones de adentro de qemu (por ejemplo, si desea arrancar tanto la máquina actual o qemu utilizando un otra partición como root). Puede hacer esto con un software RAID en modo línear (necesitas el interprete del kernel, linear.ko) y un dispositivo loopback: el truco es dinámicamente anteponer un registro maestro de arranque (MBR) a la partición verdadera que desea embedir en el imagen raw del disco qemu.</p>
+				<p>A veces, puede desear utilizar una de las otras particiones dentro de qemu (por ejemplo, si desea arrancar tanto la máquina actual como qemu utilizando otra partición como root). Puede hacer esto con un software RAID en modo líneal (necesitará el interprete del kernel, linear.ko) y un dispositivo loopback: el truco es anteponer dinámicamente un registro maestro de arranque (MBR) en la partición verdadera que desea incrustar en la imagen raw del disco qemu.</p>
 
-				<p>Suponga que tiene una partición sencilla, no montado /dev/sdaN con algunos sistema de archivos que desea hacerlo parte de un imagen de disco qemu. Primero, crea un pequeño archivo para guardar el MBR:</p>
+				<p>Suponga que tiene una partición sencilla, no montada /dev/sdaN con algunos sistemas de archivos que desea hacerlos parte de una imagen de disco qemu. Primero, cree un pequeño archivo para guardar el MBR:</p>
 <pre>
 dd if=/dev/zero of=/ruta/al/mbr count=32
 </pre>
-				<p>Aquí, un archivo de 16 KB (32 * 512 bytes) es creado. Es importante de no hacerlo demasiado pequeño (aun que el MBR solamente necesita una sóla bloque de 512 bytes), porque los más pequeño que es, lo más pequeño sera el tamaño del "chunk" del software RAID tendrá que ser, que puede impactar negativamente el rendimiento. Configurar un dispositivo loopback al archivo MBR:</p>
+				<p>Aquí se crea un archivo de 16 KB (32 * 512 bytes). Es importante no hacerlo demasiado pequeño (aunque el MBR solamente necesita un sólo bloque de 512 bytes), porque contra más pequeño sea, menor tendrá que ser el tamaño del "chunk" del software RAID, lo que puede tener consecuancias negativas en el rendimiento. Ahora configure un dispositivo loopback en el archivo MBR:</p>
 <pre>
 losetup -f /ruta/al/mbr
 </pre>
-				<p>Asumimos que el dispositivo es /dev/loop0, porque no estuvimos usando otros loopbacks. Próximo, crear el imagen del disco unido ("merged") MBR + /dev/sdaN utilizando software RAID:</p>
+				<p>Asumimos que el dispositivo es /dev/loop0, porque no estuvimos usando otros loopbacks. A continuación cree una imagen del disco unido ("merged") MBR + /dev/sdaN utilizando software RAID:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16  \
  --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>El resultante, /dev/md0 es lo que va a usar como el imagen de disco raw del qemu (no olvide de corregir los permiso para que el emulador puede accesarlo). El ultimo (y algo delicado) paso es de fijar la configuración (geometría del disco y la tabla de particiones) tanto que punto de inicialización de la partición primario en el MBR es igual al aquel de /dev/sdaN adentro el /dev/md0 (un  "offset" de exactamente, 16 * 512 = 16384 bytes en este ejemplo). Haga esto con el fdisk en la máquina de hospedaje, y no en el emulador: la rutina de detección del disco raw de qemu frecuentemente resulta en "offsets" no redondeable en kilobytes (tales como, 31.5 KB, como en la sección previo) que no puede ser manejada por el código del software RAID. Entonces, desde el hospedaje:</p>
+				<p>El resultado /dev/md0 es lo que va a usar como la imagen de disco raw del qemu (no olvide corregir los permisos para que el emulador pueda acceder). El último (y algo delicado) paso es la configuración (geometría del disco y la tabla de particiones) de forma que el punto de inicialización de la partición primaria en el MBR sea igual que el de /dev/sdaN dentro de /dev/md0 (un  "offset" de exactamente, 16 * 512 = 16384 bytes en este ejemplo). Haga esto con el fdisk en la máquina de hospedaje, y no en el emulador: la rutina de detección del disco raw de qemu resulta frecuentemente en "offsets" no redondeables en kilobytes (tales como, 31.5 KB, como en la sección previa) que no puede ser manejada por el código del software RAID. Entonces, desde el hospedaje haga:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Allí, crea una sóla partición primario que corresponda a /dev/sdaN, y juega con el comando "s"ector de la menú e"x"pert hasta que la primer cilindro (donde la primero partición empieza), es igual a la tamaño del MBR. Finalmente, "w"rite (escribir) el resultado al archivo: cuando esta lista. Ahora tienes una partición que puede montar directamente desde el hospedaje, tanto como parte del imagen de disco qemu:</p>
+				<p>Cree allí una sola partición primaria que corresponda a /dev/sdaN, y juegue con el comando "s"ector del menú e"x"pert hasta que el primer cilindro (donde empieza la primera partición), sea igual al tamaño del MBR. Finalmente, "w"rite (escriba) el resultado en el archivo cuando esté listo. Ahora tiene una partición que puede montar directamente desde el hospedaje, como parte de la imagen de disco qemu:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Puede, por supuesto, con seguridad fija cualquier gestionador de arranque en este imagen del disco utilizando el qemu, con la condición que la partición original /boot/sdaN se contiene las herramientas necesarias.</p>
+				<p>Puede, por supuesto, establecer con seguridad cualquier gestor de arranque en esta imagen del disco utilizando el qemu, con la condición de que la partición original /boot/sdaN contenga las herramientas necesarias.</p>
 
 
 
 			<h4>Utilizando el modulo de aceleración de QEMU</h4>
 
-				<p>Los desarrolladores de Qemu ha creado un modulo opcional para el kernel para acelerar Qemu a, a veces, cerca de niveles de operación nativo. Este puede ser cargado con la opción</p>
+				<p>Los desarrolladores de Qemu ha creado un modulo opcional del kernel para acelerar Qemu, consiguiendo a veces casi los niveles de operación originales. Esto puede ser cargado con la opción</p>
 <pre>
 major=0
 </pre>
-				<p>para automatizar la creación del dispositivo /dev/kqemu requerido. La siguiente comando:</p>
+				<p>para automatizar la creación del dispositivo /dev/kqemu requerido. El siguiente comando:</p>
 <pre>
 echo "options kqemu major=0" &gt;&gt; /etc/modprobe.conf
 </pre>
-				<p>Este le modifica el modprobe.conf para asegurar que el modulo opcional es cargada cada vez que el modulo es cargado .</p>
+				<p>modifica el modprobe.conf para asegurar que el modulo opcional es cargado cada vez junto con el modulo.</p>
 
 <pre>
 qemu [...] -kernel-kqemu
 </pre>
-				<p>Este activa la virtualización completo y así mejora la velocidad de operación considerable.</p>
+				<p>Esta orden activa la virtualización completamente y así mejorará la velocidad de operación de forma considerable.</p>
 
 			<h4>Para activar Qemu:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 -net user -m 512
 </pre>
-		<p><a href="http://bellard.org/qemu/qemu-doc.html">La documentación oficial del proyecto QEMU</a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Algunos contenidos sobre QEMU para el Manual de sidux fue accesado de este sitio web bajo el GNU FDL 1.2 (Free Documentation License) y modificado para el manual-sidux.</a> </p>
+		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Documentación oficial del proyecto QEMU</a> </p>
+		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Se accedió a algunos contenidos sobre QEMU para el Manual de sidux desde este sitio web bajo el GNU FDL 1.2 (Free Documentation License) y fueron modificados para el manual-sidux.</a> </p>
 
 
 	</div>

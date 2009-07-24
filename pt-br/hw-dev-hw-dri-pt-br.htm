@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 16/06/2009 1034 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -250,6 +250,8 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Drivers binários de código fechado para nVidia, com dmakms</h2>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to acertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							
 							<p>Prepare o módulo:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -270,10 +272,22 @@ apt-get install nvidia-glx
 </pre>
 							<p>Em seguida, altere o arquivo xorg.conf:</p>
 <pre>
-sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Reinicie seu PC para que a instalação do módulo tenha efeito</p>
 
+						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+<pre>
+apt-get install --reinstall nvidia-glx
+</pre>
+
+						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+apt-get install --reinstall nvidia-glx
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      
 					<h4>Falha no carregamento do módulo</h4>
 					
 							<p>Se o carregamento do módulo nVidia falhar, por um motivo ou outro, (um componente novo do xorg, um problema no sistema de arquivos, uma recusa do X em iniciar):</p>
@@ -319,6 +333,11 @@ $ fw-detect
 </pre>
 							<p> <span class="highlight-3">Uma boa prática é comandar um modprobe -r &lt;nome do módulo&gt; antes de  modprobe </span>.</p>
 
+							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+<pre>
+apt-get install git-core
+</pre>
+
 				<ul>
 					<li>
 						Atari DSP56k:<br />
@@ -326,11 +345,16 @@ $ fw-detect
 					</li>
 
 					<li>
+						ATi r128 and Radeon r100-r780 graphics<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
 apt-get install atmel-firmware
 </pre>
-					</li>
 
 					<li>
 						Broadcom, b43/ b43legacy wlan:<br />
@@ -340,10 +364,26 @@ apt-get install b43-fwcutter
 </pre>
 					</li>
 					<li>
-						Chipset Broadcom Blutonium Bluetooth (BCM2033):<br />
+						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
 <pre>
 apt-get install bluez-firmware
 </pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII network adapters (BCM5706/5708/5709/5716, bnx), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2
+</pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII 10Gb network adapters (BCM57710/57711/57711E, bnx2x), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2x
+</pre>
+					</li>
+					<li>
+						Broadcom Tigon3 (tg3), ethernet:<br />
+						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
 					</li>
 
 					<li>
@@ -358,7 +398,9 @@ apt-get install bluez-firmware
 
 					<li>
 						Receiver Digital Audio Broadcasting (DAB) para USB e Linux:<br />
-						Baixe o firmware em <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e coloque-o em <span class="highlight-3">/lib/firmware/dabusb/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -392,36 +434,27 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
-						Intel ipw2100 (11 MBit/s) e Intel ipw2200 (54 MBit/s) wlan:<br />
+						Intel CPUs:<br />
+<pre>
+apt-get install intel-microcode
+</pre>
+					</li>
+					<li>
+						Intel e100 (82559 D101M/ D101M, 82551-F, 82551-10), 100 MBit/s ethernet:<br />
+<pre>apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
 </pre>
-
-						<i>Remova o firmware de ipw2100 e ipw2200, se estiver instalado.</i>
 					</li>
-
 					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan and Intel ipw4965, iwl1000/ iwl5xxx, iwl6000, iwl6050/ iwlagn, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
-					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						Pelo menos até esta data (14.02.2009), o firmware-iwlwifi não cobre ipw5xxx ainda.
-						Baixe o firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> e coloque-o em <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
@@ -435,7 +468,23 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
-						RaLink rt61 e rt73 54 MBit/s wlan:<br />
+						Matrox MGA 100-450 graphics:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						nVidia graphics:<br />
+						3d acceleration isn't possible with free drivers yet.
+					</li>
+					<li>
+						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+<pre>
+apt-get install firmware-ralink
+</pre>
+					</li>
+					<li>
+						RaLink rt2860 and rt2870 (staging) wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
@@ -496,7 +545,9 @@ m-a a-i acx100
 
 					<li>
 						Dispositivo ethernet USB KLSI KL5USB101-based:<br />
-						Baixe o firmware em <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> e coloque-o em <span class="highlight-3">/lib/firmware/kaweth/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -522,6 +573,9 @@ apt-get install zd1211-firmware
 </pre>
 					</li>
 				</ul>
+				
+							<p>Should you need to prefetch firmware .debs, to put on a usb-key for example, you can download them as either a zip or tar.gz file from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></p>
+							
 							<p>Tentamos oferecer pacotes para firmware legalmente redistribuível em nossos repositórios 'non-free', mas nem todo fabricante permite isso.</p>
 
 		</div>
@@ -541,7 +595,7 @@ Para sair do terminal, digite: exit
 							<p>Agora seu volume NTFS deve estar montado <b>rw</b> e você será capaz de armazenar dados nele. Repetimos, porém: <span class="highlight-3">use apenas em situações emergenciais, NUNCA no dia-a-dia!!!</span></p>
 
 		</div>	
-				<div id="rev">Page last revised 13/06/2009 0940 UTC </div>
+				<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
 
 </div>
 </body>

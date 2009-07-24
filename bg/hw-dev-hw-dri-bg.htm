@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 19/05/2008 0600 UTC-->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -252,6 +252,9 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to acertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							<!--<p><span class="highlight-3">NOTE: This is for drivers for cards  &ge; GeForce 6xxx.  Drivers &lt; GeForce 6xxx will not work with kernel 2.6.30 at this point.</span></p>-->
+
 							<p>Prepare the module:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -270,15 +273,28 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
+
 							<p>Next alter xorg.conf:</p>
 <pre>
-sed -i s/nv\"/nvidia\"/ /etc/X11/xorg.conf
+sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Reboot PC for installation of the module to take effect.</p>
 						      
-				<h4>Module load failure</h4>
+						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+<pre>
+apt-get install --reinstall nvidia-glx
+</pre>
+
+						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+<pre>
+m-a a-i nvidia-kernel-source
+apt-get install --reinstall nvidia-glx
+</pre>
+						      <p>Reboot PC for installation of the module to take effect.</p>
+						      
+					<h4>Module load failure</h4>
 					
-							<p>Should nvidia fail to load, for whatever reason [new xorg component, a fs problem or if X doesnt start after reboot] :</p>
+							<p>Should nvidia fail to load, for whatever reason:</p>
 <pre>
 modprobe nvidia 
 </pre>
@@ -320,12 +336,22 @@ $ fw-detect
 </pre>
 							<p> <span class="highlight-3">Добра практика е да извършите modprobe -r &lt;modulename&gt; преди modprobe </span></p>
 
+							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+<pre>
+apt-get install git-core
+</pre>
 				<ul>
 					<li>
 						Поддръжка за Atari DSP56k:<br />
 						свалете firmware от <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и го сложете във  <span class="highlight-3">/lib/firmware/dsp56k/</span>.
 					</li>
 
+					<li>
+						ATi r128 and Radeon r100-r780 graphics<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
 					<li>
 						Atmel AT76c50x 11 MBit/s wlan:<br />
 <pre>
@@ -340,12 +366,27 @@ apt-get install atmel-firmware
 apt-get install b43-fwcutter
 </pre>
 					</li>
-
 					<li>
 						Broadcom Blutonium Bluetooth chipset (BCM2033):<br />
 <pre>
 apt-get install bluez-firmware
 </pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII network adapters (BCM5706/5708/5709/5716, bnx), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2
+</pre>
+					</li>
+					<li>
+						Broadcom NetXtremeII 10Gb network adapters (BCM57710/57711/57711E, bnx2x), ethernet:<br />
+<pre>
+apt-get install firmware-bnx2x
+</pre>
+					</li>
+					<li>
+						Broadcom Tigon3 (tg3), ethernet:<br />
+						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
 					</li>
 
 					<li>
@@ -360,7 +401,9 @@ apt-get install bluez-firmware
 
 					<li>
 						Digital Audio Broadcasting (DAB) Receiver за USB и Linux:<br />
-						свалете firmware от <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dabusb;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и го сложете във  <span class="highlight-3">/lib/firmware/dabusb/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -394,38 +437,28 @@ apt-get install bluez-firmware
 					</li>
 
 					<li>
-						Intel ipw2100 (11 MBit/s) и Intel ipw2200 (54 MBit/s) wlan:<br />
+						Intel CPUs:<br />
+<pre>
+apt-get install intel-microcode
+</pre>
+					</li>
+					<li>
+						Intel e100 (82559 D101M/ D101M, 82551-F, 82551-10), 100 MBit/s ethernet:<br />
+<pre>apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) wlan:<br />
 <pre>
 apt-get install firmware-ipw2x00
 </pre>
-
-						<i>Remove ipw2100-firmware и ipw2200-firmware, ако вече е инсталиран.</i>
 					</li>
-
 					<li>
-						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan:<br />
+						Intel ipw3945/ iwlwifi, 54 Mbit/s wlan and Intel ipw4965, iwl1000/ iwl5xxx, iwl6000, iwl6050/ iwlagn, draft-n wlan:<br />
 <pre>
 apt-get install firmware-iwlwifi
 </pre>
 					</li>
-
-					<li>
-
-						Intel ipw4965/ iwlwifi, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-					</li>
-
-					<li>
-						Intel ipw5xxx/ iwlagn, draft-n wlan:<br />
-<pre>
-apt-get install firmware-iwlwifi
-</pre>
-						As at 2009-02-14, firmware-iwlwifi does not cover ipw5xxx yet, fetch the firmware <a href=" http://www.intellinuxwireless.org/?n=Downloads"> iwlwifi-5000-ucode-*.tar.gz</a> and place it under <span class="highlight-3">/lib/firmware/</span>.
-					</li>
-
-
 					<li>
 						Intersil prism54 (p54pci/ p54usb), 54 MBit/s wlan:<br />
 						свалете firmware от <a href="http://jbnote.free.fr/prism54usb/">http://jbnote.free.fr/prism54usb/</a> и го сложете във  <span class="highlight-3">/lib/firmware/</span>.
@@ -437,11 +470,28 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
+						Matrox MGA 100-450 graphics:<br />
+<pre>
+apt-get install firmware-linux
+</pre>
+					</li>
+					<li>
+						nVidia graphics:<br />
+						3d acceleration isn't possible with free drivers yet.
+					</li>
+					<li>
 						RaLink rt61 and rt73 54 MBit/s wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
 					</li>
+					<li>
+						RaLink rt2860 and rt2870 (staging) wlan:<br />
+<pre>
+apt-get install firmware-ralink
+</pre>
+					</li>
+					
 					<li>
 						SMC ISA/MCA Token Ring adapter:<br />
 						свалете firmware от <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и го сложете във  <span class="highlight-3">/lib/firmware/</span>.
@@ -497,7 +547,9 @@ m-a a-i acx100
 
 					<li>
 						USB KLSI KL5USB101-based Ethernet device:<br />
-						свалете firmware от <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=kaweth;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и го сложете във  <span class="highlight-3">/lib/firmware/kaweth/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
 					</li>
 
 					<li>
@@ -522,6 +574,9 @@ apt-get install zd1211-firmware
 </pre>
 					</li>
 				</ul>
+				
+							<p>Should you need to prefetch firmware .debs, to put on a usb-key for example, you can download them as either a zip or tar.gz file from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></p>
+							
 							<p>Опитваме се да обезпечим пакети за микрокода който може да се разпространява легално от нашите несвободни хранилища (non-free repositories), но не всички производители го позволяват.</p>
 
 		</div>
@@ -541,7 +596,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Сега вашият NTFS-раздел би трябвало да е монтиран <b>rw</b> (с права и за четене, и за запис), и би трябвало да можете да записвате на него. Но отново, внимавайте! <span class="highlight-3">Използвайте само в крайни ситуации, не се препоръчва за ежедневна употреба.</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 13/06/2009 0940 UTC </div>
+	<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
 
 </div>
 </body>

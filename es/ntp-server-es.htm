@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 24/01/2009 1400 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -200,26 +200,26 @@
 apt-cache search ntp
 apt-get update &amp;&amp; apt-get install  ntp ntp-doc
 update-rc.d -f ntp defaults
-(ejecuta update-rc.d más tarde, después de hacer unas configuraciones
+(ejecuta update-rc.d más tarde, después de hacer unas configuraciones)
 </pre>
 
-				<p>Busca la documentación en su sistema en </p>
+				<p>Busque la documentación en su sistema en </p>
 <pre>
 /usr/share/doc/ntp-doc/html/index.html 
-(y anotarlo!)
 </pre>
+y anótelo!
+<br><br>
+				<p>Es un documento grande y no todo es aplicable, pero tiene toda la información sobre NTP.</p>
 
-				<p>Es una documento grande, y no todo se aplica, pero lo tiene todo sobre NTP.</p>
+				<p>El ntp no se activará hasta un nuevo arranque; antes debe fijar la hora tan exactamente como sea posible.</p>
 
-				<p>El ntp no se activará hasta una nueva arranque, pero debe fijar la hora tan exacto como posible, antes.</p>
-
-				<p>ntp consigue la hora de la lista de servidoras en /etc/ntp.conf, lo cual es el archivo principal a editar.</p>
-				<p>Ambos, el ntpdate y el ntpd daemon [llamada ntp] llama a las servidores en orden de la lista de servidores de horario cerca del comienzo de /etc/ntp.conf. Aquí esta un lista por un ejemplo:</p>
+				<p>ntp consigue la hora de la lista de servidores en /etc/ntp.conf que es el archivo principal a editar.</p>
+				<p>Ambos, el ntpdate y el ntpd daemon [llamado ntp] buscan los servidores según la lista de servidores de horario en el comienzo de /etc/ntp.conf. Esta es, por ejemplo, un lista:</p>
 
 <pre>
  pool.ntp.org mapa a más de 100 NTP servidoras de baja nivel.
 # Su servidor escoja una diferente, cada vez que arranque.
-#  *** Considera juntándose al grupo! ***
+#  *** Considere juntánrse al grupo! ***
 #  ***  <a href="http://www.pool.ntp.org/#join">http://www.pool.ntp.org/#join</a>  ***
 server 192.168.3.24
 server ntp.blueyonder.co.uk
@@ -231,49 +231,49 @@ server 1.europe.pool.ntp.org
 server 2.europe.pool.ntp.org
 </pre>
 
-				<p>La primera es la otra computador en el mismo red, también ejecutando ntp [en aquella es el 'servidor 192.168.3.1']</p>
-				<p>La segunda es el servidor de horario del ISP donde tu esta conectado.</p>
-				<p>Próxima hay algunas del grupo, uk.pool.ntp.org, entonces algunas europeos por buena suerte. Además, su propio ISP muchas veces tiene un timeserver, puede verificar con ejecutar esto:</p>
+				<p>La primera entrada es otro odenador en la misma red que también ejecuta ntp [es el 'servidor 192.168.3.24']</p>
+				<p>La segunda es el servidor de horario del ISP donde usted está conectado.</p>
+				<p>Las siguientes son algunos del grupo uk.pool.ntp.org, algunos de ellos europeos, por buena suerte. Además, su propio ISP muchas veces tiene un timeserver; puede verificar esto ejecutando:</p>
 
 <pre>
 ntpdate -v
 </pre>
 
 
-				<p>Este no se cambia nada, pero se retorna un resultado horario, algo como este:</p>
+				<p>Esto no cambia nada, pero retorna un resultado horario, algo como este:</p>
 <pre>
 # ntpdate -v 192.168.3.24
 19 Sep 19:09:27 ntpdate[13329]: ntpdate 4.2.2@1.1532-o Wed Aug  9 12:08:54 UTC 2006 (1)
 </pre>
-							<p><a href=" http://www.pool.ntp.org/zone/%40"> Una lista completo de servidores de tiempo están aquí:  http://www.pool.ntp.org/</a></p>
+							<p><a href=" http://www.pool.ntp.org/zone/%40"> Una lista completa de servidores de tiempo está aquí:  http://www.pool.ntp.org/</a></p>
 
-				<p>Entonces, si deja permitir acceso a su máquinas locales:</p>
+				<p>Entonces, puede permitir el acceso a sus máquinas locales:</p>
 <pre>
 # Usuarios locales puede interrogar el servidor ntp más a fondo.
 restrict 127.0.0.1 nomodify
 restrict 192.168.3.0/24
 </pre>
 
-				<p>Ahora quieres propagar:</p>
+				<p>Ahora, para extender las hora (broadcast) a toda la red:</p>
 <pre>
-# Si desea suministrar la hora al sub-red local, cambia la próxima línea:
-# (Otra vez, la dirección es sólo por ejemplo.)
+# Si desea suministrar la hora a la sub-red local, cambie la próxima línea:
+# (Otra vez, la dirección es sólo un ejemplo.)
 broadcast 192.168.3.255
 </pre>
 
-				<p>El archivo ntp.conf es un poco curioso, se lo trata como un archivo de diferencias si sólo haga clic en el. OK,  antes que se arrancas el ntp, tiene que corregir y fijar la hora, por ejemplo:</p>
+				<p>El archivo ntp.conf es un poco extraño: es tratado como un archivo de diferencias sólo si hace clic en el. Antes de arrancar el ntp tiene que corregir y fijar la hora, por ejemplo:</p>
 <pre>
 # ntpdate -u -b uk.pool.ntp.org
 19 Sep 19:19:33 ntpdate[15641]: step time server 62.3.200.116 offset 0.001523 sec
 </pre>
 
 
-				<p>Entonces arranca el ntp, como un servicio, para comenzar con cada arranca de la sistema operativo [por ejemplo, rearranque (reboot)] después que el ntp ha ejecutado por unas momentos, haga:</p>
+				<p>Para arrancar el ntp como un servicio para que comience con cada arranque del sistema operativo [por ejemplo en un rearranque (reboot)] después que el ntp haya funcionado durante unos momentos, haga:</p>
 <pre>
 ntpq -pn
 </pre>
 
-				<p>Si todo esta bien, debe ver algo como esto:</p>
+				<p>Si todo está bien, debe ver algo como esto:</p>
 <pre>
 # ntpq -pn
 remote           refid          st t cuando poll llega  demoro   offset  jitter
@@ -290,7 +290,7 @@ remote           refid          st t cuando poll llega  demoro   offset  jitter
  192.168.3.255   .BCST.          16 u    -   64    0    0.000    0.000   0.001
 </pre>
 
-				<p>El asterisco en la 3er línea de este ejemplo: *82.219.3.1, se muestra el servidor horario activo, que esta considerado el más apropiado al momento. Este quiere decir que ya tienes la hora correcto, y se usa el puerto 123. Un ejemplo de una línea de iptables es:</p>
+				<p>El asterisco en la tercera línea de este ejemplo: *82.219.3.1, muestra el servidor horario activo, que está considerado el más apropiado en este momento. Esto quiere decir que ya tiene la hora correcta y se está usando el puerto 123. Un ejemplo de una línea de iptables es:</p>
 <pre>
 # Network Time Protocol (NTP) Server
 $IPT -A udp_inbound -p UDP -s 0/0 --destination-port 123 -j ACCEPT

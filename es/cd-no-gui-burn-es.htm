@@ -19,8 +19,8 @@
 <body id="cd">
 <!-- Last translation revision by Richard 01/06/2009 1400 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -194,19 +194,20 @@
 <div id="main-page">
 	<div class="divider" id="burning-no-gui">
 		<h2 id="top-header">Quemando CD/DVD sin GUI</h2>
-			<h6><span class="highlight-2">ESTE ES MUY IMPORTANTE:</span><span class="highlight-3"> sidux, como un Live-CD de Linux, es basado en tecnología de alta compresión, y por eso, cuidado especial es requerido al momento de quemar el imagen ISO. Sólo usa media de CD [o DVD+RW] de alta calidad, y quemarlo en <span class="highlight-2">modo-DAO/SAO (disco/sesión-a-la-vez)</span> y a la velocidad más bajo por el tipo de disco, idealmente 8x]</span></h6>
+			<h6><span class="highlight-2">ESTO ES MUY IMPORTANTE:</span><span class="highlight-3"> sidux, como Live-CD de Linux, está basado en tecnología de alta compresión, y por eso se requiere un cuidado especial en el momento de quemar la imagen ISO. Sólo use un CD [o DVD+RW] de alta calidad, y quémelo en <span class="highlight-2">modo-DAO/SAO (disco/sesión-a-la-vez)</span> y a la velocidad más baja según el tipo de disco, idealmente a no más de 8x</span></h6>
+	</span></h6>
 	<div class="spacer02"></div>
 
 			<h2>burniso</h2>
 		
-							<p>Si desea quemar un CD/DVD, no es necesario un GUI para hacerlo.</p>
+							<p>Si desea quemar un CD/DVD, no es necesario un GUI (interfaz gráfica) para hacerlo.</p>
 
-							<p>Los problemas quemando mayormente ocurre con el frontend (k3b, nautilus, arson) no tanto con el backend (growisofs, wodim o cdrdao).</p>
+							<p>Los problemas quemando mayormente ocurren con el frontend (k3b, nautilus, arson) no tanto con el backend (growisofs, wodim o cdrdao).</p>
 
-							<p><span class="highlight-3">sidux provee un script listo para quemar un ISO de sidux, llamada 'burniso'.</span></p>
+							<p><span class="highlight-3">sidux provee un script listo para quemar un ISO de sidux, llamado 'burniso'.</span></p>
 
 
-							<p>burniso se quema imagenes ISO en media, utilizando el modo Disk-At-Once y una velocidad preseleccionada de 8x, a través del wodim. </p>
+							<p>burniso quema imagenes ISO en CDs o DVDs utilizando el modo Disk-At-Once y con una velocidad preseleccionada de 8x, a través del wodim. </p>
 <pre>
 apt-get install sidux-scripts
 </pre>
@@ -218,18 +219,18 @@ $ cd /dir/que_contiene/su/ISO
 <pre>
 $ burniso
 </pre>
-							<p>Todos los imagenes ISO en el directorio corriente serán mostrado, y después de la selección de un ISO, empieza a quemar el imágen, entonces asegurar que tiene un media insertado.</p>
+							<p>Todas las imágenes ISO en el directorio corriente serán mostradas, y después de haber seleccionado un ISO, empieza a quemar la imagen, por lo que tiene que estar seguro de que tiene un disco insertado.</p>
 
 	</div>
 	<div class="divider" id="burn-no-gui-gen">
 					<h2>Que dispositivos a usar, como $user:</h2>
 
-							<p>Para dispositivos ATAPI podemos averiguar:</p>
+							<p>Para comprobar qué opciones y capacidades en dispositivos ATAPI:</p>
 
 							<p>wodim:</p>
  <pre>
 $ wodim --devices
-wodim: Sobrevista de drives acesibles (2 encontrado) :
+wodim: Detalle de drives acesibles (2 encontrado) :
 ---------------------------------------------------------
  0  dev='/dev/scd0'      rwrw-- : 'AOPEN' 'CD-RW CRW2440'
  1  dev='/dev/scd1'      rwrw-- : '_NEC' 'DVD_RW ND-3540A'
@@ -244,7 +245,7 @@ $ wodim dev=/dev/scd0 driveropts=help -checkdrive
 $ wodim -prcap
 </pre>
 
-					<h4>Aquí hay algunos ejemplos útil:</h4>
+					<h4>Aquí hay algunos ejemplos útiles:</h4>
 
 					<h5>Info sobre un CD/DVD en blanco:</h5>
 <pre>
@@ -254,12 +255,12 @@ $ wodim dev=/dev/scd0 -atip
 <pre>
 $ cdrdao disk-info --device ATA:1,0,0
 </pre>
-							<p>ó, como se menciono arriba:</p>
+							<p>ó, como se menciona arriba:</p>
 <pre>
 cdrdao disk-info --device ATA:1,0,0 )
 </pre>
 
-					<h5>Borrar un disco re-escribible:</h5>
+					<h5>Borrar un disco reescribible:</h5>
 <pre>
 $ wodim -blank=fast -v dev=/dev/scd0
 </pre>
@@ -288,11 +289,11 @@ $ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 </pre>
 
-					<h5>Quemar un imagen ISO:</h5>
+					<h5>Quemar una imagen ISO:</h5>
 <pre>
 $ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
-							<p>Si recibes un error <span class="highlight-3">driveropts</span>, es porque el <span class="highlight-3">burnfree</span> está deprecado para algunas dispositivos, entonces útiliza:</p>
+							<p>Si recibe un error <span class="highlight-3">driveropts</span>, es porque el <span class="highlight-3">burnfree</span> no ha sido cargado por algunos dispositivos, entonces haga:</p>
 
 <pre>
 $ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overburn -v something.iso
@@ -302,13 +303,13 @@ $ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overbu
 $ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
-					<h5>Crear un imagen ISO con todos los archivos (y subdirectorios) de un directorio.</h5>
-							<p>Este puede ser quemado con el comando dado arriba (Quemar imagen ISO):</p>
+					<h5>Crear una imagen ISO con todos los archivos (y subdirectorios) de un directorio.</h5>
+							<p>Puede ser hecho con el comando indicado arriba (Quemar imagen ISO):</p>
 <pre>
 $ genisoimage -o myImage.iso -r -J -l directory
 </pre>
 
-							<p>Con un quemador DVD, también puede usar growisofs para quemar en DVD, como quemar un imagen ISO en DVD:</p>
+							<p>Si tiene un quemador de DVD también puede usar growisofs para quemar DVD, igual como quemar un imagen ISO en DVD:</p>
 <pre>
 $ growisofs -dvd-compat -Z /dev/dvd=image.iso
 </pre>
@@ -323,7 +324,7 @@ $ growisofs -Z /dev/dvd -R -J datei1 datei2 datei3 ...
 $ growisofs -M /dev/dvd -R -J otro archivo y otro archivo...
 </pre>
 
-					<h5>Para finalizar la sesión, usa el comando:</h5>
+					<h5>Para finalizar la sesión, use el comando:</h5>
 <pre>
 $ growisofs -M /dev/dvd=/dev/zero
 </pre>

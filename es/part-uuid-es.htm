@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 28/02/2009 0300 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.13 -->
-<!-- menu last updated by bluewater 2009.07.13 0500 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
+<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -195,13 +195,13 @@
 	<div class="divider" id="uuid">
 			<h2 id="top-header">Reconstrucción del fstab</h2>
 
-							<p>Para mostrar información sobre una partición nuevamente creado (por ejemplo, sda6 ó sdb7), que no aparece en el fstab o no han podido montar; entonces, en una consola como usuario ($), tipear el siguiente comando:</p>
+							<p>Para mostrar información sobre una partición nuevamente creada (por ejemplo, sda6 ó sdb7), que no aparece en el fstab o no se ha podido montar, en una consola como usuario ($) escriba la siguiente orden:</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
 </pre>
 
-							<p>que muestra salida como esto (negrito es solamente para resaltar):</p>
+							<p>que muestra una salida como esta (la negrita es solamente para resaltar):</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
@@ -211,7 +211,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
-							<p>En este ejemplo, <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> es la entrada faltante. La proximo paso es entra la información del partición UUID en el /etc/fstab. Utiliza un editor de texto (como el kate o kwrite) con privilegios de raiz (root):</p>
+							<p>En este ejemplo, <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> es la entrada que falta. El próximo paso es entrar la información de la partición UUID en el /etc/fstab. Utilice un editor de texto (como kate o kwrite) con privilegios de root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
@@ -232,32 +232,33 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 
-							<p>En este caso, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> es la entrada faltante y es agregada a /etc/fstab:</p>
+							<p>En este caso, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> es la entrada faltante y se agrega a /etc/fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">Nota: los nombres de puntas de monturas (en fstab) tiene que ser directorios existente, sidux crea estos directorios durante la instalación bajo /media, y pueden ser nombrado sda1, sda2, ...,disk0, disk1<br />
-					los puntas de monturas para fstab para particiones creado después de la instalación inicial, tendra que ser creado y agregado manualmente.</h5>
+					<h5 class="highlight-3">Nota: los nombres de los puntos de monaje (en fstab) tieneb que ser directorios existentes, sidux los crea durante la instalación bajo <b>/media</b>, y pueden ser nombrados como sda1, sda2, ...,disk0, disk1...<br />
+					los puntos de montaje para fstab para particiones que se hayan creado después de la instalación inicial, tendrán que ser creados y agregados manualmente.</h5>
 
 	<div class="divider" id="uuid-fstab">
-			<h2>Sobrevista: UUID, Etiqueta (Label) de Partición y fstab</h2>
-							<p>Nombramiento de dispositivos en bloque con carácter persistente han sido posible a travéz de la introducción de "udev" y tiene algunas ventajas sobre el nombramiento según el basado en el "bus".</p>
+<br clear="all"><br clear="all">
+			<h2>Visión de conjunto: UUID, Etiqueta (Label) de Partición y fstab</h2>
+							<p>Los nombres persistentes de dispositivos de bloque han sido posibles a través de la introducción de "udev" y tiene algunas ventajas sobre el nombramiento basado en el "bus".</p>
 
-							<p>Mientras que las distribuciones de Linux están evolviendo y la detección de hardware es más confiable, hay un número de problemas nuevas y cambios:<br /> <b>1)</b>Si tiene más de una controlador de sata/scsi o de ide, el orden en que están agregado es al azar. Este puede resultar en nombres de dispositivos como el hdX y hdY variando al azar con cada arranque. Lo mismo para los sdX y sdY. Nombramientos persistentes permite que el usuario no tiene que preocupar por esto en lo menor.<br /> 
-							<b>2)</b> Con la introducción de apoyo para la nueva libata pata, todos los dispositivos hdX serán dispositivos sdX en algún momento en el futuro. De nuevo, con nombramiento persistente, puede ser que ni se nota el cambio.<br /> 
-							<b>3)</b> Máquinas con ambos controladores sata e ide son bastante común hoy en día. Con los cambios libata mencionada arriba, la primer problema puede ser más común, así que ambos discos sata e ide tendrán nombres sdX.</p>
+							<p>A medida que las distribuciones de Linux están evolucionando y la detección de hardware es más fiable, aparecen problemas nuevos y cambios:<br /> <br clear="all"><b>1)</b>Si tiene más de un controlador de sata/scsi o de ide, el orden en que están agregados es al azar. Esto puede tener como consecuencia nombres de dispositivos como el hdX y hdY variando al azar con cada arranque. Lo mismo ocurre en los sdX y sdY. Los nombres permanentes permiten que el usuario no tenga que preocuparse por esto.<br /> 
+							<b>2)</b> Con la introducción del nuevo apoyo para libata pata, todos los dispositivos hdX serán dispositivos sdX en algún momento del futuro. De nuevo, con nombre permanente puede ser que ni se note el cambio.<br /> 
+							<b>3)</b> Máquinas con ambos controladores sata e ide son bastante comunes hoy en día. Con los cambios libata mencionados arriba, el primer problema puede ser más común, así que ambos discos sata e ide tendrán nombres sdX.</p>
 
 							<p class="highlight-3">Por preselección sidux usará "UUID" en el fstab cuando se instala.</p>
 
-							<p>Hay otros razones, pero estos son los más críticos, ahora y en el futuro. Es por eso que sidux promueve el cambio a un eschema de nombramiento persistente en la configuración.</p>
+							<p>Hay otras razones, pero estas son las más críticas, ahora y en el futuro. Es por esto que sidux promueve el cambio a un esquema de nombres permanentes en la configuración.</p>
 
-			<h2>Los cuatros eschemas diferentes para nombramientos persistentes:</h2>
+			<h2>Los cuatros esquemas diferentes para nombres permanentes:</h2>
 
-					<h4>1. Nombramientos persistentes por "UUID"</h4>
+					<h4>1. Nombres persistentes por "UUID"</h4>
 
-							<p>UUID = Identificador Universalmente Único (Universally Unique Identifier) y es un mecanismo para proveer cada sistema de archivos con una identificación única. Es diseñada para que colisiones son muy poco probable. Todos las sistemas de archivos de Linux (incluyendo el swap) apoya el UUID. Los sistemas de archivos FAT y NTFS no apoya el UUID, pero todavía están listado en "by-uuid" con una identificador único:</p>
+							<p>UUID = Identificador Universalmente Único (Universally Unique Identifier) es un mecanismo para proporcionar una identificación única a cada sistema de archivos. Fue diseñado para que las colisiones sean muy poco probables. Todos los sistemas de archivos de Linux (incluyendo el swap) se basan en UUID. Los sistemas de archivos FAT y NTFS no soportan el UUID, pero a pesar de ello están listado en "by-uuid" con un identificador único:</p>
 <pre>
 $ /bin/ls -lF /dev/disk/by-uuid/
 total 0
@@ -269,12 +270,12 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 912c7844-5430-4eea-b55c-e23f8959a8ee -&gt
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -&gt; ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -&gt; ../../sdb2
 </pre>
-							<p>Como puede observar, los particiones fat y ntfs tienen nombres más cortos (sda6 y sdb1), pero todavía están listado por uuid.</p>
+							<p>Como puede observar, las particiones fat y ntfs tienen nombres más cortos (sda6 y sdb1), pero también están listadas por UUID.</p>
 
 
-					<h4>2. Nombramientos persistentes por "LABEL" (etiqueta)</h4>
+					<h4>2. Nombres permanentes por "LABEL" (etiqueta)</h4>
 
-							<p>Casi todos los tipos de sistemas de archivos pueden usar un "label". Todos los particiones que tiene una están listada en el directorio /dev/disk/by-label:</p>
+							<p>Casi todos los tipos de sistemas de archivos pueden usar una etiqueta. Todas los particiones que tienen una están listadas en el directorio /dev/disk/by-label:</p>
 <pre>
 $ ls -lF /dev/disk/by-label
 total 0
@@ -286,43 +287,44 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 root -&gt; ../../sda1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -&gt; ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -&gt; ../../sdb1
 </pre>							
-							<p>Aunque los etiquetas puede tener nombres más reconocibles, tiene que actuar con precaución para evitar conflictos de nombres.</p>
+							<p>Puesto que las etiquetas pueden tener nombres más parecidos, tiene que actuar con precaución para evitar conflictos de nombres.</p>
 
-							<p>Puede cambiar estas etiquetas de la sistema de archivos utilizando estos comandos:</p>
+							<p>Puede cambiar estas etiquetas del sistema de archivos utilizando estas órdenes:</p>
 <pre>
-* swap: Crear un nuevo área de intercambio, así: mkswap -L &lt;label&gt; /dev/XXX
+* swap: Crear una nueva área de intercambio, así: mkswap -L &lt;label&gt; /dev/XXX
 * ext2/ext3: e2label /dev/XXX &lt;label&gt;
 * reiserfs: reiserfstune -l &lt;label&gt; /dev/XXX
 * jfs: jfs_tune -L &lt;label&gt; /dev/XXX
 * xfs: xfs_admin -L &lt;label&gt; /dev/XXX
-* fat/vfat: No hay una herramienta en Linux para cambiar el etiqueta (label), pero al crear la sistema de archivos, utilizar mkdosfs -n &lt;label&gt; &lt;otras opciones&gt;.
-También puede cambiar la etiqueta de una sistema de archivos utilizando Windows.
+* fat/vfat: No hay una herramienta en Linux para cambiar el etiqueta (label), pero al crear el sistema de archivos, 
+utilice mkdosfs -n &lt;label&gt; &lt;otras opciones&gt;.
+También puede cambiar la etiqueta de un sistema de archivos utilizando Windows.
 * ntfs: ntfslabel /dev/XXX &lt;label&gt; o cambiarlo en Windows. 
 </pre>
-							<p class="highlight-3">Ten cuidada: Los "label"s tiene que estar única para que este funciona", se aplica igualmente a palitos USB/firewire y a discos duros. El sintaxis: LABEL=/ UUID=  es preferido sobre el /dev/disk/by-*/ para particiones del tipo UN*X</p>
+							<p class="highlight-3">Tenga cuidado: Las etiquetas tienen que ser <b>únicas</b> para que el sistema funcione: esto se aplica igualmente a lápices USB/firewire y a discos duros. La sintaxis: LABEL=/ UUID=  es preferible a la /dev/disk/by-*/ para particiones del tipo UN*X</p>
 
 
-					<h4>3. Nombramientos persistentes por "id"</h4>
+					<h4>3. Nombres permanentes por "id"</h4>
 
-							<p>by-id  : crear un nombre único dependiendo en el número serial del diapositiva</p>
+							<p>by-id  : crea un nombre único dependiendo del número de serie del dispositivo</p>
 
-					<h4>4. Nombramientos persistentes por "path"</h4>
-							<p>by-path : crear un nombre único dependiendo en la ruta física más corto (según el sysfs). Ambos contiene cadenas para indicar a que sub-sistema les pertenecen y así no están apto para resolver las problemas mencionada en el principio de este titulo. No serán discutido más aquí.</p>
+					<h4>4. Nombres permanentes por "path"</h4>
+							<p>by-path : crea un nombre único dependiendo de la ruta física más corta (según el sysfs). Ambos contienen cadenas para indicar a qué sub-sistema pertenecen por lo que no son aptos para resolver los problemas mencionados al principio de este titulo. No será discutido más aquí.</p>
 
-					<h4>Activando nombramiento persistente</h4>
+					<h4>Activando los nombres permanentes</h4>
 
-							<p>Una vez decidido cual método a utilizar, activamos nombramiento persistente en el sistema:</p>
+							<p>Una vez decidido qué método vamos a utilizar, activamos el nombramiento permanente en el sistema:</p>
 
 					<h4>En fstab</h4>
 
-							<p>Activar el nombramiento persistente en /etc/fstab es ffácil solamente reemplazar el nombre del dispositivo en el primer columna por el nuevo nombre persistente. En este ejemplo, reemplazar el /dev/sda7 por una de los siguientes:</p>
+							<p>Activar el nombre permanente en /etc/fstab es fácil: solamente reemplace el nombre del dispositivo en la primera columna por el nuevo nombre permanente. En este ejemplo, reemplace el /dev/sda7 por uno de los siguientes:</p>
 <pre>
 /dev/disk/by-label/home ó
 /dev/disk/by-uuid/31f8eb0d-612b-4805-835e-0e6d8b8c5591 
 </pre>
-							<p>Haga lo mismo para todos los particiones en el archivo fstab.</p>
+							<p>Haga lo mismo para todas las particiones en el archivo fstab.</p>
 
-							<p>En vez de dar el dispositivo explicitamente, puede indicar la sistema de archivos que es de ser montado por su UUID o etiqueta de volumen (label), por escribir LABEL=&lt;label&gt; ó UUID=&lt;uuid&gt;, por ejemplo:</p>
+							<p>En vez de dar el dispositivo explícitamente, puede indicar el sistema de archivos que ha de ser montado por su UUID o etiqueta de volumen (label) mediante la indicación LABEL=&lt;label&gt; ó UUID=&lt;uuid&gt;, por ejemplo:</p>
 <pre>
 LABEL=Boot
 </pre>							
@@ -330,28 +332,29 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-				<h4>Nombres persistentes en el gestor de inicialización</h4>
+				<h4>Nombres permanentes en el gestor de arranque</h4>
 
-							<p>Para utilizar nombres persistentes en el gestor de inicialización, todos los siguientes requisitos tiene que ser cumplidos:<br /> <b>1)</b> Estar utilizando un imagen: mkinitcpio initramfs<br /> <b>2)</b> Tener activado el "udev" en /etc/mkinitcpio.conf<br /> <b>3)</b> Cuando el imagen initramfs fue generado, tener instalada la versión101-3 ó mayor de klibc-udev (por que el nombramiento persistente no funciona en versiones anteriores). Al actualizar el klibc-udev de una versión previo, si deseas utilizar nombramiento persistente, regenerar el imagen initramfs antes que rearranca.</p>
+							<p>Para utilizar nombres permanentes en el gestor de arranque todos los requisitos siguientes tienen que ser cumplidos:<br /> <b>1)</b> Estar utilizando una imagen mkinitcpio initramfs<br /> <b>2)</b> Tener activado el "udev" en /etc/mkinitcpio.conf<br /> <b>3)</b> Cuando la imagen initramfs fue generada, tuvo que tener instalada la versión 101-3 ó más nueva de klibc-udev (por que el nombre permanente no funciona en versiones anteriores). Al actualizar el klibc-udev de una versión previa, si desea utilizar nombres permanentes hay que regenerar la imagen initramfs antes de rearrancar.</p>
 
-							<p>En el ejemplo arriba, el /dev/sda1 es la partición raíz (root). En el archivo de grub, menu.lst, la línea del kernel parece como esto:</p>
+							<p>En el ejemplo de arriba, el /dev/sda1 es la partición raíz (root). En el archivo menu.lst de grub, la línea del kernel aparece así:</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
 </pre>
-							<p>Dependiendo en cual eschema de nombramiento prefieres, cambialo a uno de lo siguiente:</p>
+							<p>Según qué formato de nombres prefiera, cámbielo a uno de los siguientes:</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
 </pre>
-							<p>ó</p>
+							<p>ó bien</p>
 <pre>
 kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
 </pre>
 
-							<p>Hay una manera alternativa de utilizar un "label" embedido en la sistema de archivo. Por ejemplo, si la (como arriba) sistema de archivos en /dev/sda1 es etiquetado "root", darás este línea a grub:</p>
+							<p>Hay una manera alternativa de utilizar un "label" empotrado en el sistema de archivos. Por ejemplo, si el sistema de archivos (como en el cuadro de arriba) en /dev/sda1 es etiquetado "root", deberá dar esta línea a grub:</p>
 <pre>
  kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 </pre>
-							<p>(source:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> quien utilizo. <a href="http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Contenido desde el wiki.archlinux.org fue declarada de ser acesible bajo el GNU Free Documentation License 1.2 ) y ha sido re-editado para uso en los manuales de sidux</p>
+							<p>Fuente: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> que a su vez utilizó <a href="http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> El contenido del wiki.archlinux.org fue declarado acesible bajo la GNU Free Documentation License 1.2 y ha sido reeditado para uso en los manuales de sidux</p>
+<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Más información acerca de la identificación en lissot.net</a> </p>
 
 	</div>
 			<div id="rev">Content last revised 22/01/2009 1300 UTC</div>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!--Last translation revision by RoEn 29/06/2008 0345 UTC -->
-<div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
-<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
+<!--Last translation revision by kostiagol 31/07/2009 1800 UTC -->
+<div id="menu"> <!-- menu starts here ru language maintained by kostiagol, RoEn -->
+<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
+<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" /></a>
 	</div>
@@ -51,7 +51,6 @@
 				<li><a href="cd-dl-burning-ru.htm#md5">Проверка ISO-образа с md5</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-nero">Запись ISO-образа в Windows</a></li>
 				<li><a href="cd-dl-burning-ru.htm#burn-linux">Запись ISO-образа в Linux</a></li>
-				<li><a href="cd-dl-burning-ru.htm#xdelta">Xdelta патчи</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gui">Скрипт burniso</a></li>
 				<li><a href="cd-no-gui-burn-ru.htm#burning-no-gen">Запись ISO-образа в консоли</a></li>
 			</ul>
@@ -65,7 +64,7 @@
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="term-konsole-ru.htm">Терминал и оболочка</a>
 			<ul class="sub-menu" id="sm4">
-				<li><a href="term-konsole-ru.htm#sux"> Команда: sux</a></li>
+				<li><a href="term-konsole-ru.htm#sux"> Команда:  sux / sudo</a></li>
 				<li><a href="term-konsole-ru.htm#term-kon">Терминал и оболочка</a></li>
 				<li><a href="term-konsole-ru.htm#cli-help">Помощь в терминале</a></li>
 				<li><a href="term-konsole-ru.htm#term-cmds">Команды в терминале</a></li>
@@ -207,66 +206,66 @@
 							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
-				<h4 class="highlight-3">Способ действия:</h4>
-							<p>Мы выбираем место для ISO и двух файлов, которые являются обязательными для заполнения. Для того, чтобы получить короткий путь, создаем базовый каталог "sidux" в "/media/sdaX" (в раздел sda1 или в то, что куда-либо) и двигаем ISO в этот каталог:</p>
+				<h4 class="highlight-3">Процесс:</h4>
+							<p>Мы выбираем место для ISO и двух файлов, которые нам потребуются. Создаём базовый каталог "sidux" в "/media/sdaX" (в раздел sda1,2,3 или какой вам подходит) и перемещаем ISO в этот каталог:</p>
 <pre>$ sux
 mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
-							<p>Мы смонтируем ISO-образ. Альтернативно мы можем използьовать приложение mc [midnight commander], так как этот файловый менеджер смонтирует ISO-образы автоматически. Это позволяет отдельные файлы из ISO скопировать:</p>
+							<p>Теперь смонтируем ISO-образ. Для этой цели можно воспользоваться программой mc [midnight commander], так как этот файловый менеджер смонтирует ISO-образы автоматически. Это позволяет копировать отдельные файлы с ISO:</p>
 										
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
-							<p>Теперь мы скопируем файлы vmlinuz и initrd.img из смонтированного ISO образ в каталог. <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span></p>
+							<p>Теперь скопируем файлы vmlinuz и initrd.img из смонтированного ISO образа в каталог. <span class="highlight-3">Название жесткого диска и место куда копируем, Вы установите сами, это лишь пример:</span></p>
 
 <pre>
 cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
 cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
 umount /mnt
 </pre>
-							<p>Следующим шагом настроим grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него после строки <span class="highlight-3"> ### END DEBIAN AUTOMAGIC KERNELS LIST</span> <span class="highlight-2">следующие строки. ЗАМЕЧАНИЕ: Не используйте нерегулярные буквы в конфигурационном файле grub!</span> <span class="highlight-3">Название жесткого диска, куда копируем, мы можем только сами знать. Это лишь пример:</span> </p>
+							<p>Следующий шаг настройка grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него после строки <span class="highlight-3"> ### END DEBIAN AUTOMAGIC KERNELS LIST</span> <span class="highlight-2">следующие строки. ЗАМЕЧАНИЕ: Не используйте нерегулярные буквы в конфигурационном файле grub!</span> <span class="highlight-3">Название жесткого диска и куда копируем, зависит от вас, это лишь пример:</span></p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
 kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,4)/sidux/initrd.img
 </pre>
-							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа. Если файлы sidux.iso, vmlinuz и intird.img заменяются на новые версии, включение в файле menu.lst не должно быть измененым.</p>
+							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа. Если файлы sidux.iso, vmlinuz и intird.img заменяются на новые версии, содержимое файла menu.lst уже не придётся менять.</p>
 	</div>
 	<div class="divider" id="fromiso-persist">
-		<h2>General information on fromiso with persist</h2>
+		<h2>Общая информация об использовании fromiso и persist</h2>
 
-				<h3>fromiso and persist on a HD</h3>
+				<h3>fromiso и persist на жёстком диске</h3>
 
-							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
+							<p>Вы можете иметь постоянную live систему на жестком диске, совмещая fromiso с ключом persist:</p>
 
 <pre>
 persist
 </pre>
 
-							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
+							<p>sidux использует aufs для реализации возможности "copy on write" для перезаписи содержимого ISO, добавления пакетов, обновления системы и прочего. Ключ <span class="highlight-3">persist</span>, позволит сохранить Ваши новые файлы на том-же диске, где хранится образ ISO.</p>
 
-							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
+							<p><span class="highlight-3">fromiso</span> даёт Вам live систему, которая выполняет все автоматические функции что и sidux live ISO. Выгода от этого в том, что, например, при запуске будет проходить настройка оборудования, однако это означает, что все настроечные файлы будут пересоздаваться заново, если вы не воспользуетесь дополнительными ключами.</p> 
 
-							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
+							<p>Если использовать <span class="highlight-3">persist</span> с другими, специфическими для sidux ключами, как например, noxorgconf, nonetwork, то эти настроечные файлы не будут затронуты при запуске.</p>
 
-							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
+							<p>Использование ключа persist позволит Вам устанавливать дополнительные пакеты из apt и не терять изменений при перезагрузке..</p>
 
-				<h3>fromiso and persist on a bootable USB Key</h3>
-							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+				<h3>fromiso и persist на загружаемом USB носителе</h3>
+							<p>Наверное лучшим примером использования persistence - это использование его вкупе с install-usb-gui для создания собственной загружаемой системы на USB накопителе, с добавлением нужных Вам приложений.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<p>Ваши файлы будут сохранены в папке на носителе. Папка будет создана и использована, только если ключи <span class="highlight-3">fromiso и</span>  <span class="highlight-3">persist</span> используются вместе. </p>
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
 
-							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">Для USB-флэшек рекомендуется использовать ext2 и vfat, для лучшей кроссплатформенной поддержки are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows™ driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
-					<h6>ext2/3 file systems</h6>
-							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+					<h6>Файловая система ext2/3</h6>
+							<p>Если Вы используете ext2/3, то раздел будет использован полностью под корневой раздел и папку /fll , которая будет создана для сохранения (persistence).</p>
 
-					<h6>vfat file system</h6>
-							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
+					<h6>Файловая система vfat</h6>
+							<p>Если Вы используете vfat? то persistence ограничивается файлом не более 2GB и не менее 100MB (так как меньший объём лишён всякого смысла). Этот файл должен называться <span class="highlight-3">sidux-rw</span>. Предположим что диск который Вы хотите использовать смонтирован с возможностью записи в /media/sdb1 и Вы хотите создать файл в 1GB для использования сохранённой системы (persistent). Для этого введите следующие команды (это можно делать с правами пользователя, если вы имеете доступ на запись в файл).</p>
 
 <pre>
 disc="/media/sdb1" 
@@ -276,61 +275,61 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} && echo 'y' | LANG
 </pre>
 
 
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
+							<p class="highlight-2">Разделы NTFS, часто используемые в Windows NT/2000/XP (TM) нельзя использовать для сохранённой системы (persistence).</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Установка sidux на USB устройвство</h2>
 
-							<p>Установка sidux на USB-флэшку или USB-жесткий диск теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
+							<p>Установка sidux на USB-накопители теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
 
 				<h5>Два способа установки sidux на USB-флэшку</h5> 
 							<p>1) способ fromiso (чтобы создать загрузочное USB устройство с установленной системой, Вам нужно sidux.iso)<br />
-							2) полная (этот способ придерживаться себя как полная на жесткий диск и проводится с помощью обычной программой установки).</p>
+							2) полная (этот способ такой-же как и полная установка на жесткий диск и проводится с помощью обычной программой установки).</p>
 
-				<h3>Установки sidux по способу fromiso</h3>
-							<p> <span class="highlight-3">Перед началом установки должно USB устройвство отформатировано с ext2 или VFAT файлых системами.</span></p>
+				<h3>Установка sidux по способу fromiso</h3>
+							<p> <span class="highlight-3">Перед началом установки надо отформатировать USB накопитель в файловую систему ext2 или VFAT..</span></p>
 
-							<p>Если приложение install-sidux-usb-gui не присутствует на Вашей системе, установите ее командой 'apt-get install fll-iso2usb'.</p>
+							<p>Если приложение install-sidux-usb-gui в Вашей системе отсутствует, установите его командой 'apt-get install fll-iso2usb'.</p>
 
 							<p>Установка <span class="highlight-3">fromiso</span> производится через <span class="highlight-3">Kmenu -> System -> install-sidux-usb-gui</span> при установленной системеили, или, нажав на <span class="highlight-3">кнопку sidux инсталлятора </span> при Live-CD, и выбрав вариант установки <span class="highlight-3">Install to USB</span>. В большинстве случаев предоставляются инсталлировать "fromiso" на первом разделе USB устройства.</p>
 
-							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
+							<p>Вам предоставится возможность настроить язык, региональные настройки и другие загрузочные ключи, а так же активация сохранения системы(persist).</p>
 
-							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
+							<p>После установки у Вас будет система на загружаемом USB устройстве. Если Вы не активировали сохранение (persist), Вы всегда сможете сделать это добавив <span class="highlight-3">persist</span> непосредственно в строку загрузчика grub, или изменив строку #kopt= line в файле menu.lst.</p>
 
 
-						<h6>Terminal example:</h6>
+						<h6>ример установки из консоли:</h6>
 <pre>
 fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
 </pre>
-							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
+							<p>Это установит образ ISO на USB устройство <span class="highlight-3">sdb</span> с загрузочными ключами persist, toram, норвежским языком и временной зоной Pacific/Auckland (NZL).</p>
 
-							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
+							<p>Настройки X сервера(видео карты, клавиатуры, мыши) и сети не будут сохраняться, это очень удобно для использования на нескольких компьютерах.</p>
 
-							<p>For more documentation including customisation options see:</p>
+							<p>Чтобы узнать больше о возможностях этой программы, введите:</p>
 
 <pre>
 $ man fll-iso2usb
 </pre>
-			<h3>Полная установка (в качестве обычной установки на HD)</h3>
+			<h3>Полная установка (как на обычный жёсткий диск)</h3>
 
-							<p>Рекомендованной минимальной величиной для установки на USB-флэшку является:<br />
-							- для sidux "Lite" 1.7 ГБ. К этому добавляется место, необходимое для данных; <br /> 
-							- для sidux "Full" 3.5 ГБ. К этому также добавляется место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендовано для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
+							<p>Для полной установки на USB носитель требуется:<br />
+							- для sidux "Lite" 1.7 ГБ плюс место для данных; <br /> 
+							- для sidux "Full" 3.5 ГБ. И также добавьте место для данных.<br /><br /> <span class="highlight-3">Поэтому рекомендуется для установки Lite на USB-Stick минимум 2 ГБ, для установки Full на USB-Stick минимум 3 ГБ.</span></p>
 
-							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
+							<p> <span class="highlight-3">Отформатируйтe раздел в на USB-носителе в формат ext3, как при обычной установке.</span></p>
 
-							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ru.htm#Installation">Installing to your HD</a></p>
+							<p>Запустите установку в Live-ISO и выберите раздел на USB-носителе, например <span class="highlight-3">sdbX</span> следуйте указаниям проводника. Прочтите <a href="hd-install-ru.htm#Installation">Установка на жёсткий диск</a>.</p>
 
-							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
+							<p><span class="highlight-3">Для того чтобы загрузиться с USB-носителя, надо активировать опцию 'Boot from USB' в BIOS'е Вашего компьютера.</span></p>
 
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Инсталляция sidux в VirtualBox</h2>
 							<p>Шаги:</p>
 						<ul>
- 							<li>1. Создайте целевой жесткий диск средствами VirtualBox</li>
+ 							<li>1. Создайте виртуальный жесткий диск средствами VirtualBox</li>
  							<li>2. Осуществите загрузку VirtualBox с ISO-образа </li>
  							<li>3. Произведите инсталляцию на созданный жесткий диск</li>
 						</ul>
@@ -352,11 +351,11 @@ apt-get update
 apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
 </pre>
 
-							<p>Then copy and paste this line into the terminal:</p>
+							<p>А теперь скопируйте эту строку в терминал:</p>
 <pre>
 sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
-							<p>Now add your user name to vboxusers:</p>
+							<p>Теперь добавьте себя в группу vboxusers:</p>
 <pre>
 adduser &lt;username&gt; vboxusers 
 </pre>
@@ -364,10 +363,10 @@ adduser &lt;username&gt; vboxusers
 <pre>
 modprobe vboxdrv
 </pre>
-							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+							<p class="highlight-3">И наконец выйдите и войдите снова (не перезагружаясь) и запустите Virtualbox из Меню.</p>
 							
 					<h3>Инсталляция sidux в виртуальную машину</h3>
-							<p>Встроенными средствами (wizard) virtualbox создайте новую виртуальную машину для sidux, а далее пользуйтесь инструкцией для обычной установки sidux.</p>
+							<p>С помощью проводника (wizard) virtualbox создайте новую виртуальную машину для sidux, а далее пользуйтесь инструкцией для обычной установки sidux.</p>
 
 							<p><a href="http://www.virtualbox.org/">VirtualBox имеет полноценную помошь Help в формате .pdf, которую Вы можете загрузить.</a> </p>
 
@@ -382,9 +381,7 @@ modprobe vboxdrv
 
 		</ul>
 
- 			<h4>
-          Создание виртуальных жестких дисков (ISO)
-        </h4>
+ 			<h4>Создание виртуальных жестких дисков (ISO) </h4>
 
 				<p>Чтобы qemu работал, он нуждается в имидже жестких дисков. Это файл, который несет содержание эмулируемого жесткого диска.</p>
 
@@ -392,7 +389,7 @@ modprobe vboxdrv
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Этим создается файл имиджа с именем "sidux.qcow". Параметр "3G" указывает величину диска, в данном случае 3 ГБ. Суффикс М используется для мегабайт (например "256M"). Не беспокоитесь о величине диска - формат qcow архивирует имидж, так что неиспользованное место не прибавляется к величине файла.</p>
+				<p>Этим создается файл образа с именем "sidux.qcow". Параметр "3G" указывает величину диска, в данном случае 3 ГБ. Суффикс М используется для мегабайт (например "256M"). Не беспокоитесь о величине диска - формат qcow архивирует образ, так что неиспользованное место не прибавляется к величине файла.</p>
 
 
 			<h4>Инсталляция операционной системы</h4>
@@ -416,24 +413,24 @@ qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Хорошей идеей является применение т.н. "напластованных имиджей " (overlay images). Таким образом, имидж должен создается только один раз, а  все изменения qemu сохраняет вне этого имиджа. Cистема становится более стабильной, кроме того появляется возможность просто возвратится к предыдущему состоянию инсталляции.</p>
+				<p>Хорошей идеей является применение т.н. "многослойных образов" (overlay images). Таким образом, образ должен создается только один раз, а  все изменения qemu сохраняет вне этого образа. Cистема становится более стабильной, кроме того появляется возможность просто возвратится к предыдущему состоянию инсталляции.</p>
 
-				<p>Для создания "напластованного имиджа" (overlay image), вводят:</p>
+				<p>Для создания "многослойного образа" (overlay image), вводят:</p>
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
-				<p>Теперь имидж жестких дисков заменяет базовый имидж (base_image), в нашем случае sidux.qcow, и qemu можно запускать следующим способом:</p>
+				<p>Теперь образ жестких дисков заменяет базовый образ (base_image), в нашем случае sidux.qcow, и qemu можно запускать следующим способом:</p>
 <pre>
 qemu [overlay_image]
 </pre>
-				<p>Оригинальный имидж остается неприкосновенным. Однако необходимо обратить внимание на то, что этот базовый имидж не может ни переименовываться, ни перемещаться, так как оверлей нуждается&nbsp;в точном, абсолютном пути базового имиджа.</p>
+				<p>Оригинальный образ остается неприкосновенным. Однако необходимо обратить внимание на то, что этот базовый образ не может ни переименовываться, ни перемещаться, так как оверлей нуждается&nbsp;в точном, абсолютном пути базового образа.</p>
 
 
-			<h4>Использование физического раздела как первоначального раздела имиджа жестких дисков.</h4>
+			<h4>Использование физического раздела как первоначального раздела образа жестких дисков.</h4>
 
-				<p>Иногда хотелось бы использовать системный раздел из qemu (например, как настоящую, так и виртуальную инсталляцию qemu запускать с данного раздела как root). Это возможно посредством Software-RAID в линейном режиме (для этого необходим модуль ядра linear.ko) и устройство Loopback: При этом фокус состоит в том, что Master Boot Record (MBR)&nbsp;ставят динамично в начале реального раздела, который должен встраиваться в qemu имидж Raw Disk.</p>
+				<p>Иногда хотелось бы использовать системный раздел из qemu (например, как настоящую, так и виртуальную инсталляцию qemu запускать с данного раздела как root). Это возможно посредством Software-RAID в линейном режиме (для этого необходим модуль ядра linear.ko) и устройство Loopback: При этом фокус состоит в том, что Master Boot Record (MBR) ставят динамично в начале реального раздела, который должен встраиваться в qemu образа Raw Disk.</p>
 
-				<p>Предположим, имеют простой, не включенный раздел /dev/sdaN с файловой системой, который должен&nbsp;стать частью имиджа жестких дисков qemu. Сперва создают маленький файл, который должен содержать MBR:</p>
+				<p>Предположим, имеют простой, не включенный раздел /dev/sdaN с файловой системой, который должен стать частью образа жестких дисков qemu. Сперва создают маленький файл, который должен содержать MBR:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
@@ -441,7 +438,7 @@ dd if=/dev/zero of=/path/to/mbr count=32
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Мы исходим из того, что устройство  называется /dev/loop0, так как еще никакого иного Loopback не существует. Следующий шаг - это объединение&nbsp;"merged" имиджа с MBR +/dev/sdaN при использовании Software-RAIDS:</p>
+				<p>Мы исходим из того, что устройство называется /dev/loop0, так как еще никакого иного Loopback не существует. Следующий шаг - это объединение&nbsp;"merged" образа с MBR + /dev/sdaN при использовании Software-RAIDS:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
@@ -454,13 +451,13 @@ losetup -f /path/to/mbr
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Конечно, можно использовать любой загрузчик для имиджа жестких дисков с qemu, который поддерживается оригинальным разделом, содержащим необходимые приложения, &nbsp;/boot/sdaN.</p>
+				<p>Конечно, можно использовать любой загрузчик для образа жестких дисков с qemu, который поддерживается оригинальным разделом, содержащим необходимые приложения, &nbsp;/boot/sdaN.</p>
 
 
 
 			<h4>Модуль QEMU Accelerator</h4>
 
-				<p>Разработчики qemu создали опциональный модуль ядра, чтобы qemu мог набирать скорость почти до уровня реальной системы. Загрузить этот модуль можно так:</p>
+				<p>Разработчики qemu создали дополнительный модуль ядра, чтобы qemu мог набирать скорость почти до уровня реальной системы. Загрузить этот модуль можно так:</p>
 <pre>
 major=0
 </pre>

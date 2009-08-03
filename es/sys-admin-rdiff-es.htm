@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 18/12/2007 1830hrs UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.91.2009.07.21 -->
-<!-- menu last updated by bluewater 2009.07.21 0800 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
+<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -51,7 +51,6 @@
 				<li><a href="cd-dl-burning-es.htm#md5">Suma de verificación, md5</a></li>
 				<li><a href="cd-dl-burning-es.htm#burn-nero">Quemar en Windows</a></li>
 				<li><a href="cd-dl-burning-es.htm#burn-linux">Quemar en Linux</a></li>
-				<li><a href="cd-dl-burning-es.htm#xdelta">Parches con xdelta</a></li>
 				<li><a href="cd-no-gui-burn-es.htm#burning-no-gui">Script para quemar ISO</a></li>
 				<li><a href="cd-no-gui-burn-es.htm#burning-no-gen">Quemar sin GUI</a></li>
 			</ul>
@@ -65,7 +64,7 @@
 		</li>
 		<li  onmouseover="showHide( 4 );" onmouseout="startTime();" ><a href="term-konsole-es.htm">Terminal/Consola</a>
 			<ul class="sub-menu" id="sm4">
-				<li><a href="term-konsole-es.htm#sux">sux</a></li>
+				<li><a href="term-konsole-es.htm#sux"> sux / sudo</a></li>
 				<li><a href="term-konsole-es.htm#term-kon">Terminal (Consola)</a></li>
 				<li><a href="term-konsole-es.htm#cli-help">Ayuda en línea de Comando</a></li>
 				<li><a href="term-konsole-es.htm#term-cmds">Comandos del terminal de Linux</a></li>
@@ -193,85 +192,85 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="rdiff">
-			<h2 id="top-header">Respaldando a sistema con rdiff-backup</h2>
-				<p>rdiff-backup es una herramienta para respaldar sus archivos. (Puede ser utilizado en cualquier variedad de *nix).</p>
+			<h2 id="top-header">Copias de seguridad de un sistema con rdiff-backup</h2>
+				<p>rdiff-backup es una herramienta para respaldar sus archivos. (Puede ser utilizada en cualquier variedad de *nix).</p>
 
-				<p class="highlight-2">Ejecuta los comandos como root en una consola, a menos que se le indique otra cosa.</p>
+				<p class="highlight-2">Ejecute los comandos como root en una consola, a menos que se le indique otra cosa.</p>
 
-				<p>*Para recuperar de un dist-upgrade, kernel-upgrade fallido, etc., (y también para restaurar archivos individuos).<br /> *solamente respalda lo que han sido cambiado como rsync (así que cada respaldo no lleva tanto tiempo).<br /> *mantenga una historia de cambios (esto permite que puede restaurar un archivo borrado hace tres semanas!)<br /> *realiza respaldos seguros sobre una red (usando ssh).<br /> *respalda particiones aunque estén montados (facilita la automatización de un respaldo diario ... no tiene que desmontar).<br /> *puede restaurar todo si el disco duro se muere y tiene que reemplazarlo con otro.<br /> *Respaldar redes grandes (sin problemas en Linux, más difícil con Windows) y es usado bastante por negocios.<br /> *es una aplicación manejado por la línea de comando, así que es bueno para aquellos que le gustan hacer cosas tales como automatizar respaldos con poder (por ejemplo, un script de bash llamado por cron).<br /> *recuerda y tratar con permisos y dueños de archivos, y además tratar con enlaces simbólicos (y todo este tipo de cosas) así cuando hagas la restauración, se encuentra las cosas exactamente como estaban.</p>
+				<p>*Sirve para la recuperación de un dist-upgrade, kernel-upgrade fallido, etc., (y también para restaurar archivos concretos).<br /> *solamente respalda lo que ha sido cambiado desde el último rsync (así que cada respaldo lleva poco tiempo).<br /> *mantiene un historial de cambios (esto permite que pueda restaurar un archivo borrado hace tres semanas!)<br /> *realiza respaldos seguros sobre una red (usando ssh).<br /> *respalda particiones aunque estén montadas (facilita la automatización de una copia de seguridad diaria ... no tiene que desmontar).<br /> *puede restaurarlo todo si el disco duro se muere y tiene que reemplazarlo por otro.<br /> *Respalda redes grandes (sin problemas en Linux, más difícil con Windows) y es bastante usado en el ámbito empresarial .<br /> *es una aplicación manejada por la línea de órdenes, así que es bueno para quienes gustan de automatizar respaldos (por ejemplo, con un script de bash lanzado por cron).<br /> *recuerda y maneja permisos y dueños de archivos, y también enlaces simbólicos (y todo este tipo de cosas); así cuando restaure, se encuentrará todo exactamente como estaba.</p>
 
-			<h6>Lo que vas a necesitar</h6>
-				<p>rdiff-backup 	mantenga una copia (no comprimida) de los archivos que están respaldando, y también mantenga una historia (respaldos incrementales), que significa que el espacio de respaldo tiene que ser más grande de lo que estas respaldando. Si están respaldando datos ocupando 100 giga de espacio, puede necesitar 120 giga de espacio (preferiblemente en un otro disco duro separado!).</p>
+			<h6>Lo que va a necesitar</h6>
+				<p>rdiff-backup mantiene una copia (no comprimida) de los archivos que está respaldando y también mantiene un historial (respaldos incrementales), lo que significa que el espacio para las copias de seguridad tiene que ser mayor que lo que está respaldando. Si, por ejemplo, está respaldando datos que ocupan 100 gigas de espacio, puede necesitar 120 gigas (preferiblemente en otro disco duro separado!).</p>
 
-			<h6>Como configurarlo</h6>
-				<p>Vamos a definir un caso hipotético:<br /> * un disco duro de 100 gigabytes (sda) esta en uso, con la montura sda1 usado para el partición /root (raíz) y la montura sda5 usado para almacenar musica y otros archivos; mientras que la montura sda6 es usado para swap.<br /> * en un otro disco duro de 200 giga (sdb) que no esta siendo utilizado por la sistema, con una sóla montura sdb1 ... vamos a utilizar este para nuestros respaldos.<br /> * la dirección IP es 192.168.0.1</p>
+			<h6>Cómo configurarlo</h6>
+				<p>Vamos a definir un caso hipotético:<br /> * un disco duro de 100 gigabytes (sda) está en uso, con sda1 montado para la partición /root (raíz) y sda5 montado para almacenar musica y otros archivos, mientras que  sda6 se usa para swap.<br /> * hay otro disco duro de 200 gigas (sdb) que no está siendo utilizado por el sistema, con una sóla montura sdb1 ... vamos a utilizar éste para nuestros respaldos.<br /> * la dirección IP es 192.168.0.1</p>
 
-				<p>La primera cosa ha hacer es instalar rdiff-backup:</p>
+				<p>Lo primero que hay que hacer es instalar rdiff-backup:</p>
 <pre>
 # apt-get install rdiff-backup
 </pre>
-				<p>Ahora, aunque podemos respaldar cualquier directorio, este caso hipotética es para respaldar particiones enteros --deseamos respaldar el sda1 y sda5 (no queremos respaldar el sda6), entonces creamos unas directorios para almacenar los datos:</p>
+				<p>Ahora, aunque ya podemos respaldar cualquier directorio, como en este caso hipotético vamos a guardar particiones enteras --deseamos respaldar el sda1 y sda5 (no queremos respaldar el sda6)--, entonces creamos unos directorios para almacenar los datos:</p>
 <pre>
 # mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/root
 # mkdir -p /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
-				<p>Se necesita distinguir la dirección IP por que si desea utilizar este computador de respaldar otro (cubierto más adelante).</p>
+				<p>Es necesario dar la dirección IP por si desea utilizar este ordenador para respaldar otro (hablaremos de esto más adelante).</p>
 
-			<h6>Respaldando</h6>
+			<h6>Haciendo copias de seguridad</h6>
 
-				<p>rdiff-backup usa el sintaxis <span class="highlight-3">rdiff-backup fuente-dir destinación-dir</span>. Nota: siempre especifica nombres de directorios, no los nombres de archivos.</p>
+				<p>rdiff-backup usa la sintaxis <span class="highlight-3">rdiff-backup dir-fuente dir-destino</span>. Nota: especifique siempre nombres de directorios, no nombres de archivos.</p>
 
-				<p>Para respaldar el sda5, ejecuta:</p>
+				<p>Para respaldar el sda5, ejecute:</p>
 <pre>
 # rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
-				<p>Y para respaldar la partición-raíz, ejecuta:</p>
+				<p>Y para respaldar la partición-raíz, haga:</p>
 <pre>
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
 </pre>
-				<p>Cualquier error del tipo "AF_UNIX ruta demasiado largo" puede ser ignorado sin perjuicio. Esto puede llevar bastante tiempo, porque es la primera vez que la partición esta siendo respaldado, entonces el rdiff-backup tendrá que respaldar la partición entero (no solamente las diferencias). Nota que tampoco deseamos respaldar /tmp por que este siempre esta cambiando, ni el /proc ni /sys, en vista que estos no contiene archivos verdaderas de datos, ni tampoco deseamos respaldar puntos de monturas. Si incluya respaldos para monturas, estará respaldando el sdb1, y podemos entrar en un circulo infinito! Una manera de evitar eso es de respaldar las monturas separadamente.</p>
+				<p>Cualquier error del tipo "AF_UNIX_ruta_demasiado_larga" será ignorado. Esto puede llevar bastante tiempo, ya que es la primera vez que la partición esta siendo respaldada y rdiff-backup tendrá que respaldar la partición entera (no solamente las diferencias). Note que tampoco deseamos respaldar /tmp ya que siempre está cambiando, ni el /proc ni /sys, pues no contienen verdaderos archivos de datos, ni tampoco deseamos respaldar puntos de montaje. Si incluye respaldos para montajes, estará respaldando el sdb1, y podemos entrar en un bucle infinito! Una manera de evitar esto es respaldar separadamente los puntos de montaje.</p>
 
-				<p>Ahora, la razón porque se usa '/proc/*' en vez de solamente '/proc' es que este causa que se respalda el nombre del directorio, /proc, pero se ignorar todo su contendido. Lo mismo para /tmp, /sys y  aún más ingenioso todos los nombres de las puntos de monturas.</p>
+				<p>La razón porque se usa '/proc/*' en vez de solamente '/proc' es que así causaría el respaldo del nombre del directorio, /proc, pero se ignoraría todo su contendido. Lo mismo para /tmp, /sys y, aún más interesante, todos los nombres de los puntos de montaje.</p>
 
-				 <p>Así, si destrozas su partición-raíz y hagas una restauración completa, /tmp, /proc, /sys y todos los demás nombres de puntos de monturas serán creado (justamente como deben ser). Si el /tmp no existe cuando el X arranque, puede quejar).  Ver la página man para más información sobre --exclude y --include).</p>
+				 <p>Así, si destroza su partición-raíz y hace una restauración completa, /tmp, /proc, /sys y todos los demás nombres de puntos de montaje serán creados de nuevo (justamente lo que debe ser). Si /tmp no existe cuando el X arranque, pueden haber problemas. Vea la página <i>man</i> sobre --exclude y --include para más información).</p>
 
-			<h6>Restaurando directorios de un respaldo</h6>
+			<h6>Restaurando directorios desde un respaldo</h6>
 
-				<p>rdiff-backup usa el sintaxis:</p>
+				<p>rdiff-backup usa la sintaxis:</p>
 <pre>
-rdiff-backup -r &lt;from-when&gt; &lt;source-dir&gt; &lt;dest-dir&gt;
+rdiff-backup -r &lt;desde_donde&gt; &lt;directorio_fuente&gt; &lt;directorio_destino&gt;
 </pre>
-				<p>Ahora, si accidentalmente borra el directorio /media/sda7/photos, puede restaurarlo ejecutando lo siguiente:</p>
+				<p>Ahora, si accidentalmente borra el directorio /media/sda7/photos por ejemplo, puede restaurarlo ejecutando lo siguiente:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5/photos /media/sda5/photos
 </pre>
-				<p>El opción "-r now" significa restaurar desde el respaldo más reciente. Si estuvo respaldando todo periódicamente (quizás con crontab), y no realiza que el directorio de fotos estaba perdido hasta unas días después, necesitará restaurar de un respaldo de hace unas días (y no del "now", en vista que el último respaldo dice que /photos no existe). O quizás solamente quieres volver a una versión previa de algo.</p>
+				<p>La opción "-r now" significa restaurar desde el respaldo más reciente. Si estuvo respaldando todo periódicamente (quizás con crontab), y no se dio cuenta de que el directorio de fotos estaba perdido hasta unos días después, necesitará restaurar desde un respaldo más antiguo (y no del último ("now"), en vista que este último dice que /photos no existe). O quizás solamente quiera volver a una versión previa de algo.</p>
 
-				<p>Si desea restaurar desda hace tres días, entonces utiliza "-r 3D", pero como dice en el pagina man, nota:</p>
+				<p>Si desea restaurar desde hace tres días, entonces utilice "-r 3D", pero como dice en la pagina man, note que:</p>
 
-				<p class="highlight-1">"3D" refiere a la instante 72 horas antes del presente, y si no existe respaldo creado justo a este momento, el rdiff-backup restaura el estado grabado para el respaldo previo. Por ejemplo, en el caso arriba, si "3D" fue utilizado, y hubo respaldos de hace 2 días y 4 días, el directorio sera restaurado a como era hace 4 días (entonces, tiene que pensar un poco antes que lleva a cabo la restauración).</p>
+				<p class="highlight-1">"3D" refiere al instante 72 horas antes del presente, y si no existe respaldo creado justo en ese momento, el rdiff-backup restaurará lo que fue grabado en el respaldo previo. Por ejemplo, en el caso de arriba, si "3D" fue utilizado y hubieron respaldos de hace 2 días y 4 días, el directorio será restaurado a como era hace 4 días (entonces, tiene que pensar un poco antes de llevar a cabo la restauración).</p>
 
-				<p>Utiliza lo siguiente para una lista de fechas y horas de cuando fue realizados respaldos para el sda5:</p>
+				<p>Utilice lo siguiente para obtener una lista de fechas y horas de cuándo fueron realizados los respaldos del sda5:</p>
 <pre>
 # rdiff-backup -l /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 			<h5>Restaurando particiones</h5>
 
-				<p>También puede restaurar particiones enteros (mounts), después de todo, una punta de montura es actualmente una directorio.</p>
+				<p>También puede restaurar particiones enteras (puntos de montaje); después de todo, un punto de montaje no es otra cosa que un directorio.</p>
 
-				<p class="highlight-2">PRECAUCIÓN:  No restaurar la partición-raíz mientras que estas arrancado en el! Con un sólo comando puedo perder todos sus archivos en todos los particiones, incluyendo todos los respaldos en un disco duro separado!! rdiff-backup haga exactamente lo que esta instruido --si el respaldo para la partición-raíz tiene puntas de monturas vacíos, entonces para restaurar todos a como esta el respaldo, tiene que borrar todo en las puntas de monturas para poder hacer todos igual como el respaldo.</p>
+				<p class="highlight-2">PRECAUCIÓN:  No restaure la partición raíz si ha arrancado desde allí! Con una sola orden puede perder todos sus archivos en todas las particiones, incluyendo todos los respaldos en un disco duro separado!! rdiff-backup hace exactamente lo que se le ordena --si el respaldo para la partición-raíz tiene puntos de montaje vacíos, entonces para restaurarlos todos a como están en el respaldo tiene que borrar todo en los puntos de montaje para poder hacerlos iguales al respaldo.</p>
 
-				<p>Restaura el sda5 desde el último respaldo, simplemente ejecuta:</p>
+				<p>Para restaurar el sda5 desde el último respaldo, simplemente ejecute:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/sda5 /media/sda5
 </pre>
 			<h5>Restaurando la partición-raíz</h5>
 
-				<p>Pero para restaurar la partición-raíz, no es tan sencillo. No se restaura la partición-raíz mientras que esta montado (ver la PRECAUCIÓN arriba). Es realmente útil de poder restaurar la partición-raíz, así que si hace un desastre instalando/actualizando, o instalando un kernel nuevo, etc, tienes el confort de que se puede retroceder hacia donde estaba antes, y sólo necesitas unas 20 minutos.</p>
+				<p>Pero restaurar la partición raíz no es tan sencillo. No se puede restaurar la partición raíz mientras está montada (ver la PRECAUCIÓN arriba). Es realmente útil poder restaurar la partición raíz, así que si ocurre un desastre instalando/actualizando, o instalando un kernel nuevo, etc, tiene la tranquilidad de que podrá retroceder hasta donde estaba antes, y sólo necesitará unos 20 minutos.</p>
 
-				<p>Un manera de restaurar la partición-raíz es de arrancar en una partición de Linux extra, si tiene una en el disco duro. Entonces, puedes restaurar la partición que deseas, por que ahora no esta montado como /root. Después de restaurar la partición, volver arrancar en el, y será exactamente como estaba cuando lo respaldaran --exactamente! Este es por mucho el método más fácil.</p>
+				<p>Una manera de restaurar la partición raíz es arrancar desde una partición de Linux extra, si tiene una en el disco duro. Entonces podrá restaurar la partición que desee ya que ahora no estará montada como /root. Después de restaurar la partición, vuelva a arrancar desde allí, y quedará exactamente como estaba cuando hizo el respaldo! Este es con diferencia el método más fácil.</p>
 
-				<p>Otra manera de restaurar la partición-raíz es arrancar con el LiveCD de sidux y llevar a cabo la restauración desde allí. El rdiff-backup es incluido en sidux. En el caso que la versión del LiveCD de sidux no contiene rdiff, puede tipear en la linea de comando de Grub (ver Opciones de Arranque, Cheatcodes), el cheatcode "unionfs" y eso te permite instalar aplicaciones usando el LiveCD. Solamente arranca y entrar los siguientes comandos:</p>
+				<p>Otra manera de restaurar la partición-raíz es arrancar con el LiveCD de sidux y llevar a cabo la restauración desde allí. El rdiff-backup está incluido en sidux. En el caso de que la versión del LiveCD de sidux no contega rdiff, puede escribir en la línea de comando de Grub (ver Opciones de Arranque, Cheatcodes), el cheatcode "unionfs" y eso le permite instalar aplicaciones usando el LiveCD. Tan solo arranque y entre los siguientes comandos:</p>
 <pre>
 $ sudo su
 # wget -O /etc/apt/sources.list http://sidux.com/files/misc/sources.list
@@ -290,55 +289,60 @@ $ sudo su
 $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
-				<p>Es recomendado que cualquiera haciendo un respaldo del partición-raíz (con la intención de restaurarlo si es necesario), debe comprobar que funciona el proceso de restauración. Nada es peor que pensar que todo esta bien, y luego encontrar algo inesperado durante una emergencia.</p>
+				<p>Se recomienda que cuando haga un respaldo de la partición raíz con la intención de restaurarla si es necesario, compruebe que funciona el proceso de restauración. Nada es peor que pensar que todo está bien y luego encontrarse algo inesperado durante una emergencia.</p>
 
-			<h5>Respaldando otros PCs</h5>
+							<p>Si el disco duro ha cambiado o ha sido vuelto a formatear, compruebe los UUIDs, (o etiquetas), en <span class=highlight-3>/boot/grub/menu.lst</span> y <span class=highlight-3>/etc/fstab</span>, y cámbielos adecuadamente. Una manera fácil de conocer la información que permita alterar en caso necesario el menu.lst y el fichero fstab es hacer como root:</p>
 
-				<p>Puede respaldar otro PC en el PC local, mientras que el PC local puede ssh a la otro PC (y que tiene espacio en su disco duro). El servidor ssh (sshd) tiene que ser ejecutando en un PC remoto. Los demás PCs no tienen que ser en el LAN local, puede ser en cualquier parte del mundo.</p>
+<pre>
+blkid
+</pre>
+			<h5>Copias de seguridad de otros PCs</h5>
 
-				<p>Asumimos que el PC remoto tiene los siguiente:<br /> 1) un disco duro de 100 giga (sda) en uso, con solamente monturas,<br /> 2) el sda1 esta utilizado para la partición-raíz,<br /> 3) en el sda5 estamos almacenando archivos temporales que no desea respaldar,<br /> 4) y el sda6 es el swap para la dirección IP: 192.168.0.2</p>
+				<p>Puede respaldar otro PC desde el PC local, siempre que el PC local pueda hacer ssh al otro PC y que tenga espacio suficiente en su disco duro. El servidor ssh (sshd) tiene que estar ejecutándose en el PC remoto. Los demás PCs no tienen por qué estar en el LAN local, puede estar en cualquier parte del mundo.</p>
 
-				<p>Nota: ambos discos duros de 100 giga normalmente no puede ser respaldado en el disco de 200 giga con rdiff-backup (por falta de espacio para los archivos incrementales), pero en vista de que no estamos respaldando el sda5 en el PC remoto (y por que los discos duros usualmente no estan 100% lleno, aún que 	no siempre cuenta en eso) entonces puede calcular que hay suficiente espacio. Cada vez que rdiff-backup realiza un respaldo, más archivos incrementales están creados, y este necesita más y más espacio.</p>
+				<p>Asumimos que el PC remoto tiene lo siguiente:<br /> 1) un disco duro de 100 gigas (sda) en uso, con solo montajes,<br /> 2) sda1 está siendo utilizado por la partición raíz,<br /> 3) en sda5 tenemos almacenandos archivos temporales que no deseamos respaldar,<br /> 4) sda6 es el swap <br /> 5) y la dirección IP es 192.168.0.2</p>
 
-				<p>Puede decir a rdiff-backup de solamente guarda un máximo de respaldos de 1 mes (este comando se muestra más adelante), y este se requiere menos espacio que decir a rdiff-backup de mantener respaldos de datos de un año. Y, por supuesto, si desea tener un año de respaldos de datos, entonces hay que tener suficiente espacio en el disco duro para almacenar un año de respaldos con su archivos incrementales.</p>
+				<p>Nota: ambos discos duros de 100 gigas normalmente no podrán ser respaldados en el disco de 200 gigas con rdiff-backup (por falta de espacio para los archivos incrementales), pero en vista de que no estamos respaldando el sda5 en el PC remoto (y porque los discos duros usualmente no estan llenos al 100%, aún que no siempre cuente con esto), entonces puede considerar que hay suficiente espacio. Cada vez que rdiff-backup realiza un respaldo se crean más archivos incrementales, y esto necesita más y más espacio.</p>
 
-				<p>La primer cosa de hacer es instalar el rdiff-backup en el PC remoto también, (tanto como en cada computador que desea respaldar, incluyendo el servidor de respaldo tiene que tener el rdiff-backup instalado).</p>
+				<p>Puede ordenar a rdiff-backup que solamente guarde un máximo de respaldos durante 1 mes (este comando se muestra más adelante), y así necesitará menos espacio que si mantuviera las copias de datos de un año. Y, por supuesto, si desea tener un año de respaldos de datos, entonces hay que tener suficiente espacio en el disco duro para almacenar un año de respaldos con sus archivos incrementales.</p>
 
-				<p>Para respaldar el PC remoto en un PC local, ejecuta en el PC local (por ejemplo: 192.168.0.1):  <span class="highlight-4">Nota el uso del doble colon :: </span></p>
+				<p>Lo que hay que hacer en primer lugar es también instalar el rdiff-backup en el PC remoto, (igual que en cada computador que desee respaldar: todos, incluyendo el servidor de respaldo, tienen que tener el rdiff-backup instalado).</p>
+
+				<p>Para respaldar el PC remoto en un PC local, ejecute en el PC local (cuya IP es por ejemplo: 192.168.0.1):  <span class="highlight-4">Fíjese en el uso de los dos puntos dobles :: </span></p>
 <pre>
 # mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
-				<p>Ahora si deseas restaurar un directorio en el PC remoto, iniciar la restauración en el PC local o en el PC remoto.</p>
+				<p>Ahora si desea restaurar un directorio en el PC remoto, puede iniciar la restauración desde el PC local o desde el remoto.</p>
 
-				<p>Este es como podía restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC remoto:</p>
+				<p>Así es cómo podría restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC remoto:</p>
 <pre>
 # rdiff-backup -r now 192.168.0.1::/media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games /usr/local/games
 </pre>
-				<p>Este es como podía restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC local:</p>
+				<p>Y así cómo podría restaurar el directorio /usr/local/games en un PC remoto, iniciándolo desde el PC local:</p>
 <pre>
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root/usr/local/games 192.168.0.2::/usr/local/games
 </pre>
-				<p>Utiliza la misma sintaxis cuando restaura la partición-raíz desde un LiveCD (donde el PC remoto ha sido arrancado via un LiveCD --ver arriba).</p>
+				<p>Se utiliza la misma sintaxis cuando se restaura la partición raíz desde un LiveCD (donde el PC remoto ha sido arrancado via un LiveCD --ver arriba).</p>
 
 			<h5>Automatizando respaldos:</h5>
 
-				<p>Si esta respaldando desde otro PCs hacia un PC local, la primer cosa de hacer es activar los login's de ssh sin clave usando claves ssh. <span class="highlight-2">Nota que este es hablando de hacer un login ssh como root. Este puede ser fijado para que solamente comandos de rdiff-backup están ejecutado, pero eso es más allá del alcance de este tópica. Por favor, referirse a <a href="ssh-es.htm#ssh-s">Configuración SSH </a>. </span>Estamos asumiendo confianza total, y vamos a configurar la manera más sencilla de lograr logins sin clave.</p>
+				<p>Si está respaldando desde otro PC hacia un PC local, la primer cosa a hacer es activar los logins de ssh sin clave usando claves ssh. <span class="highlight-2">Note que estamos hablando de hacer un login ssh como root. Esto puede ser fijado para que solamente comandos de rdiff-backup sean ejecutados como root, pero esto está más allá del alcance de este capítulo. Por favor, vea <a href="ssh-es.htm#ssh-s">Configuración SSH </a>. </span>Estamos dando por sentado una total confianza, y vamos a configurar la manera más sencilla de lograr logins sin clave.</p>
 
 				<p>Desde el PC local, haga lo siguiente:</p>
 <pre>
 # [ -f /root/.ssh/id_rsa ] || ssh-keygen -t rsa -f /root/.ssh/id_rsa
 </pre>
-				<p>Y oprima Enter dos veces para claves en blanco. Entonces, entra:</p>
+				<p>Y oprima Enter dos veces para dar claves en blanco. A continuación entre:</p>
 <pre>
 # cat /root/.ssh/id_rsa.pub | ssh 192.168.0.2 'mkdir -p /root/.ssh;\<!--dunno if this is wrong-->
 &gt; cat - &gt;&gt;/root/.ssh/authorized_keys2'
 </pre>
-				<p>Se le va a pedir su clave de raíz.</p>
+				<p>Le va a pedir su clave como root.</p>
 
-				<p>Ahora puede "ssh" al PC remoto como raíz sin tener que tipear un clave, y el respaldo con rdiff-backup puede ser automatizado.</p>
+				<p>Ahora puede hacer "ssh" al PC remoto como root sin tener que entrar una clave, y el respaldo con rdiff-backup puede ser automatizado.</p>
 
-				<p>Próxima, crea un script de bash que contiene todos los comandos de rdiff-backup. Nuestro script puede parecer como esto:</p>
+				<p>A continuación, cree un script de bash que contenga todos los comandos de rdiff-backup. Nuestro script puede parecerse a esto:</p>
 
 
 <pre>
@@ -347,30 +351,30 @@ RDIFF=/usr/bin/rdiff-backup
 echo
 echo "=======Respaldando 192.168.0.1 root======="
 ${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' / /media/sdb1/rdiff-backups/192.168.0.1/root
-echo "(y purgar incrementos mayor que 1 mes)"
+echo "(y purgar incrementos mayores de 1 mes)"
 ${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/root
 echo
-echo "=======Respaldando 192.168.0.1 montura sda5======="
+echo "=======Respaldando 192.168.0.1 montaje sda5======="
 ${RDIFF} --ssh-no-compression --exclude /media/sda5/myjunk /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
-echo "(y purgar incrementos mayor que 1 mes)"
+echo "(y purgar incrementos mayores de 1 mes)"
 ${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.1/sda5
 echo
 echo "=======Respaldando 192.168.0.2 root======="
 $${RDIFF} --ssh-no-compression --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' --exclude '/mnt/*/*' 192.168.0.2::/media/sdb1/rdiff-backups/192.168.0.2/root
-echo "(y purgar incrementos mayor que 1 mes)"
+echo "(y purgar incrementos mayores de 1 mes)"
 ${RDIFF} --remove-older-than 1M --force /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 
-				<p>Ahora, puede nombrar este script de bash, "myrdiff-backups.bash" y colocarlo en /usr/local/bin en nuestro servidor de respaldos local, y cambiarlo a ser ejecutable. Ejecuta el script para asegurar que funciona.</p>
+				<p>Ahora puede nombrar este script de bash como "myrdiff-backups.bash" y colocarlo en /usr/local/bin en nuestro servidor de respaldos local, y dándole permisos para ser ejecutable. Ejecute el script para asegurarse de que funciona.</p>
 
-				<p>Y últimamente, configurar cron para llamarlo cada noche a las 8 PM. El siguiente línea en el crontab de root debe servir, llama</p>
+				<p>Y finalmente, configure cron para llamarlo cada noche a las 8 PM. La siguiente línea en el crontab de root debe servir como llamada</p>
 <pre>
 # crontab -e
 y insertar la línea siguiente
 0 20 * * * /usr/local/bin/myrdiff-backups.bash
 </pre>
-			<div id="rev">Content last revised 19/07/2009 1230 UTC</div>
+			<div id="rev">Content last revised 24/07/2009 1440 UTC</div>
 </div>
 </div>
 </body>

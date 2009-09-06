@@ -236,10 +236,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 				<h3>fromiso and persist on a HD</h3>
 
-							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. The default is simply:</p>
+							<p>You can have a persistent live system on a writable disc by combining a fromiso setup with the persist cheatcode. When the fromiso uses ext2/ext3 system the default is simply:</p>
 
 <pre>
 persist
+</pre>
+							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p>
+<pre>
+persist=/sidux/sidux-rw
 </pre>
 
 							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
@@ -250,58 +254,67 @@ persist
 
 							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
 
-				<h3>fromiso and persist on a bootable USB Key</h3>
-							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need.</p>
+				<h3>fromiso and persist on a bootable USB-sticks/SSD-cards</h3>
+							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need. Your files will be stored in a subfolder on the drive.</p>
 
-							<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>
+							<!--<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>-->
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
 
-							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Rewrites to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">On USB-sticks/SSD-cards, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Read/writes to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
-					<h6>ext2/3 file systems</h6>
-							<p>With ext2/3 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
+					<h6>ext2 file systems</h6>
+							<p>With ext2 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
 
+<!--
+<pre>
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+</pre>
+-->
 					<h6>vfat file system</h6>
 							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
-
 <pre>
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
-
-
 							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installation of sidux on a USB-device</h2>
+		<h2>Installation of sidux on USB/SSD devices</h2>
 
-							<p>To do an installation of sidux on a USB-Stick or a USB-HD is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+							<p>To do an installation of sidux on a USB-stick/SSD-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
-				<h5>Two kinds of installation to USB</h5> 
-							<p>1) - fromiso (to create a bootable USB from an installed system you need to have a sidux.iso)<br />
-							2) - full (the full installation to a USB HD/stick behaves as normal HD installation and is done through the normal installer).</p>
+				<h5>Requirements:</h5>    
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							
+							<p>A sidux.iso image.</p>
+							
+				<h5>Two kinds of installation to USB/SSD</h5>
+					  <ul>
+							<li>1) - fromiso </li>
+							<li>2) - full (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+					  </ul>
+				<h3>USB/SSD fromiso Installation</h3>
+							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 
-				<h3>USB fromiso Installation</h3>
-							<p> <span class="highlight-3">Pre format your device with ext2 or fat32 before proceeding.</span></p>
-
-							<p>If 'install-sidux-usb-gui' is not present on your installation 'apt-get install fll-iso2usb'.</p>
-
-							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> on a HD installed system, or clicking on <span class="highlight-3">sidux Installer Icon </span> on the ISO, and choosing <span class="highlight-3">Install to USB</span>. It is mostly directed to install 'fromiso' on the first partition the USB stick.</p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
 							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
 
-							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen, or hardcoding it into #kopt= line in the menu.lst.</p>
+							<p>You now have a bootable USB/SSD. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Terminal example:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
+fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, toram, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
+							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
 
 							<p>Your X (video card, keyboard, mouse) configuration or your network interfaces file  have not been stored, which makes it ideal to use on other computers.</p>
 
@@ -311,18 +324,43 @@ fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Paci
 $ man fll-iso2usb
 </pre>
 
+			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+							sidux "LITE" needs 2.5 gig PLUS you need data space,<br />
+							sidux "FULL" needs 4 gig PLUS you need data space</p>
 
-			<h3>Fuld installation (som en normal installation til harddisk)</h3>
-							<p>Den anbefalede minimunsstørrelse for en usb-nøgle:<br />
-							sidux "LITE" kræver ca. 1.7gig PLUS plads til ekstra data,<br />
-							sidux "FULL" kræver ca. 3.5gig PLUS plads til ekstra data</p>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
 
-							<p> <span class="highlight-3">Pre format your device with ext3 and partition the USB-HD or USB-Key as you would a standard PC.</span></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-da.htm#Installation">Installing to your HD</a></p>
 
-							<p>Start the installation from the Live-ISO and choose the partition on the USB-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-da.htm#Installation">Installing to your HD</a></p>
+							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
+							
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+						<ul>
+							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							
+							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							
+							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
+						</ul>
 
-							<p><span class="highlight-3">To boot from your USB-HD or USB-Key. 'Boot from USB' must be enabled in your BIOS.</span></p>
+	</div>
+	<div class="divider" id="usb-hdd">
+				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
+							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
+							
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
+							
+							<p>Read <a href="hd-install-da.htm#Installation">Installing to your HD</a></p>
+							
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+							
+						<ul>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+
+							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+						</ul>
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installering af sidux med VirtualBox</h2>
@@ -477,7 +515,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 24/04/2009 0300hrs UTC</div>
+			<div id="rev"> Content last revised 30/08/2009 1350 UTC</div>
 
 </div>
 </body>

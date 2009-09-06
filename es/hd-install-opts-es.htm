@@ -237,10 +237,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 				<h3>'fromiso' y 'persist' en un disco duro</h3>
 
-							<p>Puede tener un sistema persistente en un disco escribible a través de combinar una configuración 'fromiso' con el cheatcode 'persist'. La acción por defecto es simplemente:</p>
+							<p>Puede tener un sistema persistente en un disco escribible a través de combinar una configuración 'fromiso' con el cheatcode 'persist'. When the fromiso uses ext2/ext3 system the default is simply:</p>
 
 <pre>
 persist
+</pre>
+							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p>
+<pre>
+persist=/sidux/sidux-rw
 </pre>
 
 							<p>sidux utiliza aufs para activar lo que se llama COW (copiar al escribir) sobre el ISO para permitir escribir nuevos archivos y carpetas y actualizar los existentes para mantener los nuevos archivos en memoria. Con el cheatcode <span class="highlight-3">persist</span> el sistema almacena los nuevos archivos en la misma partición del disco duro donde está almacenda la imagen ISO para el 'fromiso'.</p>
@@ -251,17 +255,25 @@ persist
 
 							<p>El uso de 'persist' también supone que puede instalar paquetes con apt y tener la aplicación y cualesquiera datos guardados disponibles para su uso la próxima vez que desee iniciar con el dispositivo.</p>
 
-				<h3>'fromiso' and 'persist' en un pendrive USB arrancable</h3>
-							<p>Quizás el uso ideal para "persist" es usarlo conjuntamente con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesite.</p>
+				<h3>'fromiso' and 'persist' en un pendrive USB-sticks/SSD-cards arrancable</h3>
+							<p>Quizás el uso ideal para "persist" es usarlo conjuntamente con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesite. Your files will be stored in a subfolder on the drive.</p>
 
-							<p>Sus archivos serán almacenados en un subcarpeta en el drive. Se crea esta subcarpeta si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes están siendo usados conjuntamente.</p>
+							<!--<p>Sus archivos serán almacenados en un subcarpeta en el drive. Se crea esta subcarpeta si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes están siendo usados conjuntamente.</p>-->
 
 							<p><span class="highlight-3">persist</span> en un sistema de archivos FAT, que es el comunmente usado en las instalaciones de DOS/Windows 9x y que usualmente se encuentran en los dispositivos flash, requiere la creación de un solo archivo grande para usar como un dispositivo bucle, entonces dar formato a este archivo.</p>
 
-							<p><span class="highlight-3">En los pendrives USB, ext2 y vfat son los sistema de archivos recommendados y los más apropiados para rendir mejor como multi-plataforma para recuperación de datos cuando es más necesario, porque un driver de MS Windows&#8482; está disponible para intercambiar datos. El modo de reescribir en dispositivos de tipo flash depende de las especificaciones del dispositivo USB.</span></p>
+							<p><span class="highlight-3">En los pendrives USB-sticks/SSD-cards, ext2 y vfat son los sistema de archivos recommendados y los más apropiados para rendir mejor como multi-plataforma para recuperación de datos cuando es más necesario, porque un driver de MS Windows&#8482; está disponible para intercambiar datos. El modo de reescribir en dispositivos de tipo flash depende de las especificaciones del dispositivo USB-sticks/SSD-cards.</span></p>
 
-					<h6>Sistemas de Archivos ext2/3</h6>
-							<p>Con el sistema ext2/3 la partición completa será utilizada, se usará la raíz corriente y una carpeta /fll será creada para ser utilizada por el 'persist', permitiendo el uso de todo el espacio libre del dispositivo para el sistema 'persist'.</p>
+					<h6>Sistemas de Archivos ext2</h6>
+							<p>Con el sistema ext2 la partición completa será utilizada, se usará la raíz corriente y una carpeta /fll será creada para ser utilizada por el 'persist', permitiendo el uso de todo el espacio libre del dispositivo para el sistema 'persist'.</p>
+<!--
+<pre>
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+</pre>
+-->
 
 					<h6>Sistemas de Archivos vfat</h6>
 							<p>Cuando se usa vfat, la persistencia se logra a través de un archivo que puede tener un máximo de 2GB pero no menos de 100MB (porque no podría usarse). Este archivo debe ser llamado <span class="highlight-3">sidux-rw</span>. Asumiendo que el disco que desea usar ya está montado y es escribible en /media/sdb1 y que desea crear un archivo de 1GB para uso como el drive persistente, puede usar los siguientes comandos (no tiene que ser root, si tiene acceso para escribir en el archivo).</p>
@@ -270,7 +282,7 @@ persist
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
 
 
@@ -278,31 +290,35 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Instalación de sidux en un dispositivo USB</h2>
+		<h2>Instalación de sidux en un dispositivo USB/SSD devices</h2>
 
-							<p>Realizar una instalación de sidux en un dispositivo USB, ya sea un pendrive o un disco externo, es tan fácil como una instalación en el disco duro. Solamente siga esta guía simple:</p>
+							<p>Realizar una instalación de sidux en un dispositivo USB-stick/SSD-card, es tan fácil como una instalación en el disco duro. Solamente siga esta guía simple:</p>
 
-				<h5>Dos tipos de instalacion en USB</h5> 
-							<p>1) - fromiso (para crear un USB iniciable desde un sistema instalado, necesita tener un sidux.iso)<br />
-							2) - full (una instalación completa en un dispositivo USB, pendrive o disco, es como una instalación normal al disco duro y se realiza a través del instalador normal).</p>
+				<h5>Requirements:</h5>    
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							
+							<p>A sidux.iso image.</p>
+							
+				<h5>Two kinds of installation to USB/SSD</h5>
+					  <ul>
+							<li>1) - fromiso </li>
+							<li>2) - full (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+					  </ul>
+				<h3>USB/SSD fromiso Installation</h3>
+							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 
-				<h3>Instalación USB fromiso</h3>
-							<p> <span class="highlight-3">Preformatear el dispositivo con ext2 o con fat32 antes de comenzar.</span></p>
-
-							<p>Si 'install-sidux-usb-gui' no está presente en la instalación, instálelo mediante la orden 'apt-get install fll-iso2usb'.</p>
-
-							<p>La instalación <span class="highlight-3">fromiso</span> se realiza a través del <span class="highlight-3">Kmenu>System>install-sidux-usb-gui</span> en un sistema instalado en el disco duro, o haga clic en el ícono <span class="highlight-3">sidux Installer</span> en el ISO, y seleccione <span class="highlight-3">Install to USB</span>. Está principalmente recomendado instalar 'fromiso' en la primera partición del dispositivo USB.</p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
 							<p>Tendrá la oportunidad de seleccionar otros idiomas, zonas horarias, y otras chuletas (bootcodes) y de escoger si activar o no el 'persist' a través de una cajita de selección.</p>
 
-							<p>Ahora tendrá un pendrive arrancable. Si no activó 'persist' puede activarlo añadiendo <span class="highlight-3">persist</span> en la línea de comando de Grub o escribirlo permanentemente en la línea #kopt= línea en el 'menu.lst'.</p>
+							<p>Ahora tendrá un USB/SSD arrancable. Si no activó 'persist' puede activarlo añadiendo <span class="highlight-3">persist</span> en la línea de comando de Grub. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Ejemplo del Terminal:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
+fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-							<p>Este ejemplo instala la imagen ISO en el dispositivo USB <span class="highlight-3">sdb</span> con 'persist', 'toram', localización de idioma Noruego y zona horaria de Pacifico/Auckland (NZL) en la línea de comando de Grub.</p>
+							<p>Este ejemplo instala la imagen ISO en el dispositivo USB <span class="highlight-3">sdb</span> con 'persist', localización de idioma Noruego y zona horaria de Pacifico/Auckland (NZL) en la línea de comando de Grub.</p>
 
 							<p>NO han sido almacenados ni su configuración X (tarjeta video, teclado, ratón) ni el archivo de interfaces de red, lo cual lo hace ideal para ser usado en otros computadores.</p>
 
@@ -313,18 +329,42 @@ $ man fll-iso2usb
 </pre>
 
 
-			<h3>Instalación completa (como una instalación normal al disco duro)</h3>
+			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+							sidux "LITE" needs 2.5 gig PLUS you need data space,<br />
+							sidux "FULL" needs 4 gig PLUS you need data space</p>
 
-							<p>Los tamaños mínimos de pendrives USB son los siguientes:<br />
-							para sidux "LITE", 1.7 GB, MÁS espacio para los datos,<br />
-							para sidux "FULL", 3.5 GB, MÁS espacio para los datos.</p>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
 
-							<p> <span class="highlight-3">Preformatee el dispositivo con ext3 y particione el USB-HD o USB-pendrive como si fuera un PC estándar.</span></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-es.htm#Installation">Installing to your HD</a></p>
 
-							<p>Comience la instalació desde el LiveCD y escoja la partición en el dispositivo USB donde sidux será instalado, por ejemplo: <span class="highlight-3">sdbX </span> y siga los prompts del instalador de sidux. Lea <a href="hd-install-es.htm#Installation">Instalando en el Disco Duro</a></p>
+							<p><span class="highlight-3">El arranque desde el USB/SSD, 'Iniciar del USB' ('Boot from USB') tiene que ser activado en el BIOS.</span></p>
 
-							<p><span class="highlight-3">El arranque desde el USB-HD o USB-pendrive, 'Iniciar del USB' ('Boot from USB') tiene que ser activado en el BIOS.</span></p>
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+						<ul>
+							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							
+							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							
+							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
+						</ul>
+	</div>
+	<div class="divider" id="usb-hdd">
+				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
+							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
+							
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
+							
+							<p>Read <a href="hd-install-es.htm#Installation">Installing to your HD</a></p>
+							
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+							
+						<ul>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+
+							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+						</ul>
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Instalar sidux con VirtualBox</h2>
@@ -487,7 +527,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 
 	</div>
 		<div class="spacer05"></div>
-	<div id="rev">Contenido revisado el 24/04/2009 0300hrs UTC</div>
+	<div id="rev">Contenido revisado el 30/08/2009 1350 UTC</div>
 
 </div>
 </body>

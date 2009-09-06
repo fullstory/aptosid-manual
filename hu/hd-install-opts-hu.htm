@@ -231,10 +231,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 				<h3>fromiso, mint állandó rendszer (persist) a merevlemezen</h3>
 
-							<p>Lehetőség van rra, hogy az előbb leírt fromiso live rendszer megőrizze a beállításait a merevlemezen. Ennek beállításához az alábbi boot paraméter megadására van szükség:</p>
+							<p>Lehetőség van rra, hogy az előbb leírt fromiso live rendszer megőrizze a beállításait a merevlemezen. When the fromiso uses ext2/ext3 system the default is simply:</p>
 
 <pre>
 persist
+</pre>
+							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p>
+<pre>
+persist=/sidux/sidux-rw
 </pre>
 
 							<p>A sidux az aufs fájlrendszert használja az úgynevezett "copy on write", felülírás helyett másolás működéshez. Ez teszi lehetővé, hogy az ISO fájlban lévő fájlok és mappák megváltoztathatók legyenek - ilyenkor az eredetiekről másolat készül a memóriába, és a változtatás is ott tárolódik. A <span class="highlight-3">persist</span> boot paraméter segítségével a változtatott fájlok ugyanazon a merevlemez partíción fognak tárolódni, ahol a fromiso ISO képfájl.</p>
@@ -245,26 +249,34 @@ persist
 
 							<p>A persist használatával lehetőség nyílik arra is, hogy csomagokat telepítsünk az apt segítsévégel, és minden telepített alkalmazás vagy adat a következő bootoláskor is rendelkezésre fog állni.</p>
 
-				<h3>fromiso és persist használata bootolható USB pen-nel</h3>
-							<p>Az állandó rendszer ideálisan használható egy bootolható USB pendrive-ra való telepítéssel (az install-usb-gui eszköz használatával), amelyen megtalálható minden fájl és szoftver, amely a napi használathoz szükséges.</p>
+				<h3>fromiso és persist használata bootolható USB-sticks/SSD-cards</h3>
+							<p>Az állandó rendszer ideálisan használható egy bootolható USB pendrive-ra való telepítéssel (az install-usb-gui eszköz használatával), amelyen megtalálható minden fájl és szoftver, amely a napi használathoz szükséges. Your files will be stored in a subfolder on the drive.</p>
 
-							<p>A megváltoztatott fájlok a meghajtón egy alkönyvtárban lesznek eltárolva. Ez az alkönyvtár automatikusan létrejön a <span class="highlight-3">fromiso </span> és <span class="highlight-3">persist</span> cheat kódok együttes használatakor.</p>
+							<!--<p>A megváltoztatott fájlok a meghajtón egy alkönyvtárban lesznek eltárolva. Ez az alkönyvtár automatikusan létrejön a <span class="highlight-3">fromiso </span> és <span class="highlight-3">persist</span> cheat kódok együttes használatakor.</p>-->
 
 							<p>DOS és Windows 9x rendszereken a FAT fájlrendszer az alapértelmezett, és az USB meghajtók is leggyakrabban ilyen fájlrendszerrel formázva kerülnek forgalomba. A <span class="highlight-3">persist</span> funkció ebben az esetben egyetlen nagy fájlt hoz létre, amely loop device-ként egy teljes fájlrendszert fog magában foglalni.</p>
 
-							<p><span class="highlight-3">Az USB meghajtóknál ajánlott az ext2 vagy a VFAT fájlrendszerek használata; mivel legvalószínűbben ezek biztosítják a több platformos elérést abban az esetben, ha az adatokat vissza kell menteni. (Az MS Windows&#8482;-hoz létezik támogatás az adatcseréhez.) A flash meghajtó dokumentációjában megtalálható, hogy az adott típust hány írási műveletre tervezték.</span></p>
+							<p><span class="highlight-3">Az USB-sticks/SSD-cards meghajtóknál ajánlott az ext2 vagy a VFAT fájlrendszerek használata; mivel legvalószínűbben ezek biztosítják a több platformos elérést abban az esetben, ha az adatokat vissza kell menteni. (Az MS Windows&#8482;-hoz létezik támogatás az adatcseréhez.) A flash meghajtó dokumentációjában megtalálható, hogy az adott típust hány írási műveletre tervezték.</span></p>
 
-					<h6>ext2/3 fájlrendszerek</h6>
+					<h6>ext2 fájlrendszerek</h6>
 							<p>Ezen fájlrendszerek esetén a teljes partíció felhasználásra kerül, és a /fll könyvtár automatikusan létrejön a bootolások között megőrzendő adatok tárolására. A tárolható adatok mennyiségét csak a pendrive kapacitása korlátozza.</p>
+<!--
+<pre>
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+</pre>
+-->
 
 					<h6>VFAT fájlrendszer</h6>
 							<p>VFAT használata esetén az állandó rendszer egy minimum 100Mb-os, maximum 2Gb-ra növekvő fájl létrehozásával lehetséges. A fájl neve kötelezően <span class="highlight-3">sidux-rw</span>. Tegyük fel, hogy a lemez fel van csatolva írható módon a /media/sdb1 alá, és egy 1Gb-s fájlt szeretnénk létrehozni az állandó fájljaink tárolásához (nem szükséges root felhasználóval dolgozni, amennyiben a fájl írható):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux 
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
 
 
@@ -272,31 +284,35 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>A sidux telepítésére USB meghajtóra</h2>
+		<h2>A sidux telepítésére USB/SSD devices meghajtóra</h2>
 
-							<p>A telepítés elvégzése USB penre vagy egy USB merevlemezre hasonlóan egyszerű, mint a merevlemezre való telepítés. Lásd a következő útmutatót:</p>
+							<p>A telepítés elvégzése USB-stick/SSD-card merevlemezre hasonlóan egyszerű, mint a merevlemezre való telepítés. Lásd a következő útmutatót:</p>
 
-				<h5>Az USB-re telepítés két fajtája</h5>
-							<p>1) - fromiso (már telepített rendszer alól bootolható USB meghajtó létrehozása, amelyhez szükséges a sidux.iso képfájl megléte is)<br />
-							2) - full (teljes telepítés, melynek során az USB meghajtót úgy kezeljük, mint egy merevlemezt, és a normál telepítő eljárást használjuk).</p>
+				<h5>Requirements:</h5>    
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							
+							<p>A sidux.iso image.</p>
+							
+				<h5>Two kinds of installation to USB/SSD</h5>
+					  <ul>
+							<li>1) - fromiso </li>
+							<li>2) - full (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+					  </ul>
+				<h3>USB/SSD fromiso Installation</h3>
+							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 
-				<h3>USB fromiso telepítés</h3>
-							<p> <span class="highlight-3">Formázd le ext2 vagy fat32 fájlrendszerrel a meghajtót a telepítés megkezdése előtt.</span></p>
-
-							<p>Ha az 'install-sidux-usb-gui' nincs telepítve a működő rendszeren, telepítsd a 'apt-get install fll-iso2usb' paranccsal.</p>
-
-							<p>Ha már merevlemezre telepített rendszerről telepítünk, a <span class="highlight-3">fromiso</span> telepítés a <span class="highlight-3"> K menü > System > install-sidux-usb-gui</span> paranccsal indítható. Az ISO-n a <span class="highlight-3">sidux Installer ikon</span>-ra kattintással, majd a <span class="highlight-3">Install to USB</span> opció kiválasztásával indítható a folyamat. Legtöbb esetben a 'fromiso' az USB diszk első partíciójára telepítendő.</p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
 							<p>Lehetőség van a nyelv, időzóna és egyéb boot paraméterek kiválasztására, illetve az állandó rendszer (persist) kiválasztására egy jelölőnégyzettel.</p>
 
-							<p>A telepítés végeztével elkészül a bootolható USB diszk. Ha a 'persist' opciót nem választottuk ki, erre később is van lehetőség a <span class="highlight-3">persist</span> opció hozzáadásával a grub képernyőn, vagy állandóvá tehető a #kopt= sorba való beírással a menu.lst fájlban.</p>
+							<p>A telepítés végeztével elkészül a bootolható USB/SSD. Ha a 'persist' opciót nem választottuk ki, erre később is van lehetőség a <span class="highlight-3">persist</span> opció hozzáadásával a grub képernyőn. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Parancssori példa:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=hu tz=Europe/Budapest
+fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-							<p>Ez telepíti az ISO képfájlt az <span class="highlight-3">sdb</span> USB lemezre állandó rendszerként, memóriába olvasással, magyar nyelvű lokalizációval és Europe/Budapest (Magyarország) időzónával.</p>
+							<p>This installs  the  iso  image  to  the  USB device <span class="highlight-3">sdb</span> with persist, Norwegian language localisation and Pacific/Auckland (NZL) time on the grub default line.</p>
 
 							<p>Az X.Org (videokártya, billentyűzet, egér) beállítások, illetve a hálózati beállítások nem kerülnek eltárolásra - ez ideálissá teszi az USB lemezt arra, hogy több számítógépen is használhassuk.</p>
 
@@ -306,18 +322,42 @@ fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=hu tz=Euro
 $ man fll-iso2usb
 </pre>
 
-			<h3>Teljes telepítés (úgy működik, mint a normál HD telepítés)</h3>
+			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+							sidux "LITE" needs 2.5 gig PLUS you need data space,<br />
+							sidux "FULL" needs 4 gig PLUS you need data space</p>
 
-							<p>A javasolt legkisebb pendrive méret:<br />
-							sidux "KDE-Lite" - 1.7 GB, plusz az adatok részére fenntartott terület<br />
-							sidux "KDE-Full" - 3.5 GB, plusz az adatok részére fenntartott terület</p>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
 
-							<p> <span class="highlight-3">A partíciók elkészítése és előformázása hasonlóan zajlik, mintha egy standard PC-n.</span></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-hu.htm#Installation">Installing to your HD</a></p>
 
-							<p>A Live CD-ről indított rendszernél a szokásos telepítést elindítva kiválasztandó az USB eszközön lévő partíció, amelyre a sidux rendszert telepíteni szeretnénk (például <span class="highlight-3">sdbX </span>), majd meg kell adni a válaszokat a telepítő által feltett szokásos kérdésekre. Lásd még: <a href="hd-install-hu.htm#Installation">Telepítés merevlemezre</a></p>
+							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
 
-							<p><span class="highlight-3">Az USB merevlemezről vagy USB penről való rendszerindításhoz a BIOS-ban engedélyezni kell az 'Indítás USB-ről' ('Boot from USB') opciót.</span></p>
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+						<ul>
+							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							
+							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							
+							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
+						</ul>
+	</div>
+	<div class="divider" id="usb-hdd">
+				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
+							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
+							
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
+							
+							<p>Read <a href="hd-install-hu.htm#Installation">Installing to your HD</a></p>
+							
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+							
+						<ul>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+
+							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+						</ul>
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>sidux telepítése VirtualBox alá</h2>
@@ -477,7 +517,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Az oldal utoljára módosítva 24/04/2009 0300hrs UTC </div>
+	<div id="rev">Az oldal utoljára módosítva 30/08/2009 1350 UTC </div>
 
 </div>
 </body>

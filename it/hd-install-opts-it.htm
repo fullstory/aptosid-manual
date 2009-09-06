@@ -237,10 +237,14 @@ initrd (hd0,4)/sidux/initrd.img
 
 				<h3>fromiso e persist su di un HD</h3>
 
-							<p>Si può avere un sistema live persistente su di un disco scrivibile attraverso un setup fromiso con l'opzione persist. Il default è semplicemente:</p>
+							<p>Si può avere un sistema live persistente su di un disco scrivibile attraverso un setup fromiso con l'opzione persist. When the fromiso uses ext2/ext3 system the default is simply:</p>
 
 <pre>
 persist
+</pre>
+							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p>
+<pre>
+persist=/sidux/sidux-rw
 </pre>
 
 							<p>sidux utilizza aufs per abilitare quello che è conosciuto come "copy on write" sulla ISO per permettere di scrivere nuovi file e directory ed aggiornare quelli esistenti mantenendo i nuovi file in memoria. Con l'opzione <span class="highlight-3">persist</span>, i nuovi file verranno salvati nella stessa partizione che viene utilizzata per l'immagine ISO.</p>
@@ -251,17 +255,25 @@ persist
 
 							<p>Utilizzare persist significa anche che si possono installare pacchetti da apt ed avere l'applicazione ed ogni dato che si è salvato disponibile ed accessibile al prossimo riavvio.</p>
 
-				<h3>fromiso e persist su di una chiavetta USB</h3>
-							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno.</p>
+				<h3>fromiso e persist su di una chiavetta USB-sticks/SSD-cards</h3>
+							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno. Your files will be stored in a subfolder on the drive.</p>
 
-							<p>I file verranno immagazzinati in una sotto directory del drive. Questa viene creata se non esiste quando vengono usate insieme le opzioni <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span>.</p>
+							<!--<p>I file verranno immagazzinati in una sotto directory del drive. Questa viene creata se non esiste quando vengono usate insieme le opzioni <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span>.</p>-->
 
 							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
 
-							<p><span class="highlight-3">Nelle chiavette USB, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB.</span></p>
+							<p><span class="highlight-3">Nelle chiavette USB-sticks/SSD-cards, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB-sticks/SSD-cards.</span></p>
 
-					<h6>ext2/3 file system</h6>
-							<p>Con ext2/3 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
+					<h6>ext2 file system</h6>
+							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
+<!--
+<pre>
+disc="/media/sdb1" 
+size=1024 
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+</pre>
+-->
 
 					<h6>vfat file system</h6>
 							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">sidux-rw</span>. Assumiamo il fatto che il disco che si vuole utilizzare è montato e scrivibile e si trovi su /media/sdb1, si vuole creare un file di 1GB da utilizzare come drive persistente si possono utilizzare i seguenti comandi (non c'è necessità di essere root se si può scrivere il file):</p>
@@ -270,7 +282,7 @@ persist
 disc="/media/sdb1" 
 size=1024 
 mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
 
 
@@ -278,31 +290,35 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installare sidux su di una periferica USB</h2>
+		<h2>Installare sidux su di una periferica USB/SSD devices</h2>
 
-							<p>Fare una installazione di sidux su di una chiavetta USB o su di un HardDisk USB è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
+							<p>Fare una installazione di sidux su di una chiavetta USB-stick/SSD-card è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
 
-				<h5>Due tipi di installazione su USB</h5>
-							<p>1) - fromiso (per creare una USB avviabile da un sistema installato, c'è bisogno di una sidux.iso)<br />
-							2) - full (l'installazione completa su USB HD/chiavetta si comporta come una normale installazione su hard disk ed è fatta attraverso il programma di installazione normale).</p>
+				<h5>Requirements:</h5>    
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							
+							<p>A sidux.iso image.</p>
+							
+				<h5>Two kinds of installation to USB/SSD</h5>
+					  <ul>
+							<li>1) - fromiso </li>
+							<li>2) - full (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+					  </ul>
+				<h3>USB/SSD fromiso Installation</h3>
+							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 
-				<h3>Installazione USB fromiso</h3>
-							<p> <span class="highlight-3">Pre formattare la periferica con ext2 o fat32 prima di procedere.</span></p>
-
-							<p>Se "install-sidux-usb-gui" non è presente nell'installazione che è stata fatta si può ottenere con "apt-get install fll-iso2usb".</p>
-
-							<p>L'installazione <span class="highlight-3">fromiso</span> viene fatta attraverso <span class="highlight-3">Kmenu > Sistema > install-sidux-usb-gui</span> su di un sistema installato su hard disk oppure cliccando su <span class="highlight-3">sidux Installer Icon </span> nella ISO live e scegliendo <span class="highlight-3">Install to USB</span>. È la scelta preferita per installare 'fromiso' nella prima partizione della chiavetta USB.</p>
+							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
 							<p>Viene data la possibilità di scegliere la lingua, il fuso orario ed altre opzioni d'avvio e se attivare oppure no persist tramite una checkbox.</p>
 
-							<p>Adesso si ha una chiavetta USB avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio, oppure mettendola nella linea #kopt= nel file menu.lst.</p>
+							<p>Adesso si ha una chiavetta USB/SSD avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Esempio da terminale:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Pacific/Auckland
+fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-							<p>Questo comando installa l'immagine ISO nella periferica USB <span class="highlight-3">sdb</span> con persist, toram, localizzazione per la lingua Norvegese e fuso orario di Pacific/Auckland (NZL) nella linea di default di grub.</p>
+							<p>Questo comando installa l'immagine ISO nella periferica USB <span class="highlight-3">sdb</span> con persist, localizzazione per la lingua Norvegese e fuso orario di Pacific/Auckland (NZL) nella linea di default di grub.</p>
 
 							<p>La configurazione di X (scheda video, tastiera, mouse) oppure il file con le interfacce di rete non sono stati salvati, questo lo rende ideale per l'utilizzo in altri computer.</p>
 
@@ -312,19 +328,42 @@ fll-iso2usb -D /dev/sdb --iso /home/sidux/sidux.iso -p  -- toram lang=no tz=Paci
 $ man fll-iso2usb
 </pre>
 
+			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+							sidux "LITE" needs 2.5 gig PLUS you need data space,<br />
+							sidux "FULL" needs 4 gig PLUS you need data space</p>
 
-			<h3>Installazione completa (si comporta come una normale installazione su hard disk)</h3>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
 
-							<p>Dimensione minima della chiavetta USB:<br />
-							per una sidux "LITE" sono necessari 1.7giga OLTRE allo spazio per i dati,<br />
-							per una sidux "FULL" sono necessari 3.5giga OLTRE allo spazio per i dati</p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-it.htm#Installation">Installing to your HD</a></p>
 
-							<p> <span class="highlight-3">Formattare prima la periferica con ext3 e partizionare l'HD USB oppure la chiavetta USB come per un comune PC.</span></p>
+							<p><span class="highlight-3">Per avviare dall'USB/SSD, 'Boot from USB' deve essere abilitato nel BIOS.</span></p>
 
-							<p>Avviare l'installazione dalla ISO Live e scegliere la partizione nella periferica USB dove si vuole installare sidux, per esempio <span class="highlight-3">sdbX</span> e seguire le indicazioni del programma di installazione. Leggere <a href="hd-install-it.htm#Installation">Installare sul disco fisso</a></p>
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+						<ul>
+							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							
+							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							
+							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
+						</ul>
+	</div>
+	<div class="divider" id="usb-hdd">
+				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
-							<p><span class="highlight-3">Per avviare dall'HD USB oppure dalla chiavetta USB. 'Boot from USB' deve essere abilitato nel BIOS.</span></p>
+							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
+							
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
+							
+							<p>Read <a href="hd-install-it.htm#Installation">Installing to your HD</a></p>
+							
+							<p><span class="highlight-3">Other note worthy points are: </span></p>
+							
+						<ul>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
+							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+						</ul>
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installare sidux con VirtualBox</h2>
@@ -484,7 +523,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 24/04/2009 0300hrs UTC</div>
+	<div id="rev">Page last revised 30/08/2009 1350 UTC</div>
 
 </div>
 </body>

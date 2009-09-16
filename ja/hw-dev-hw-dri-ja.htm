@@ -292,9 +292,11 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 		<h2>Binary, closed source drivers for: nVidia with dmakms</h2>
 #### -->
 		<h2>nVidiaのクローズソースバイナリードライバーをdmakmsで自動インストール</h2>
-							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 choices, current Debian Sid 3D drivers  and legacy Debian Sid  3D drivers.</p>
 							
-<!--- ####
+					<h5>For current 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
+
+							<!--- ####
 							<p>Prepare the module:</p>
 #### -->
 							<p>まずモジュールの準備:</p>
@@ -345,7 +347,17 @@ apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reboot PC for installation of the module to take effect.</p>
 						      
-<!--- ####
+					<h5>For legacy 3d nvidia drivers &ge; GeForce 5xxx :</h5>
+<pre>
+m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
+</pre>
+
+							<p>Alter dmakms:</p>
+<pre>
+echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
+</pre>	      
+      
+					<!--- ####
 					<h4>Module load failure</h4>
 #### -->
 					<h4>モジュールのロードに失敗したら</h4>
@@ -378,6 +390,8 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
+
+							   <p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
 
 		</div>
 	<div class="divider" id="non-free-3d-2">
@@ -473,7 +487,10 @@ apt-get install firmware-bnx2x
 					</li>
 					<li>
 						Broadcom Tigon3 (tg3), ethernet:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
+<pre>
+apt-get install firmware-linux
+</pre>
+
 					</li>
 
 					<li>
@@ -703,7 +720,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 		<p>これであなたのNTFSパーティションは<b>rw</b>(読み書きモード)でマウントされていて、データの書き込みができるるはずです。 警告を繰り返しますが <span class="highlight-3">これは緊急の場合に使うもので、日々の仕事につかうのにはお勧めできません！</span></p>
 
 		</div>	
-	<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
+	<div id="rev">Page last revised 10/09/2009 0725 UTC </div>
 
 </div>
 </body>

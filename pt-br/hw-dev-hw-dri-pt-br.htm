@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision ceti 11/08/2009 1601 UTC-->
+<!-- Last translation revision ceti 10/09/2009 1610 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
 <!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
 <!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
@@ -249,13 +249,15 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Drivers binários de código fechado para nVidia, com dmakms</h2>
-							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to acertain the correct driver for you. Currently Debian sid only supports 3d nvidia drivers  &ge; GeForce 6xxx. For cards older than the 6xxx series see <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							<p><span class="highlight-3">NOTA: Use 'apt-cache search nvidia' e 'apt-cache show &lt;package&gt;' para descobrir o driver certo para você. Basicamente, há duas possibilidades: drivers 3D correntes do Debian Sid e drivers 3D legados ('legacy 3D drivers') do Debian Sid.</p>
 							
+					<h5>Para os drivers 3D nVidia correntes: &ge; GeForce 6xxx :</h5>
+
 							<p>Prepare o módulo:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Então ative o Dynamic Module-Assistant Kernel Module Support (dmakms) para nNidia, de forma que, da próxima vez que o kernel for atualizado, um módulo nVidia também será preparado para ele, sem intervenção manual. Para isso, adicione <span class="highlight-3">nvidia-kernel-source</span> ao arquivo de configuração <span class="highlight-3">/etc/default/dmakms </span>:</p>
+							<p>Então ative o Dynamic Module-Assistant Kernel Module Support (dmakms) para NVidia, de forma que, da próxima vez que o kernel for atualizado, um módulo nVidia também será preparado para ele, sem intervenção manual. Para isso, adicione <span class="highlight-3">nvidia-kernel-source</span> ao arquivo de configuração <span class="highlight-3">/etc/default/dmakms </span>:</p>
 							
 <pre>
 echo nvidia-kernel-source >> /etc/default/dmakms
@@ -273,20 +275,30 @@ apt-get install nvidia-glx
 <pre>
 sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
-						      <p>Reinicie seu PC para que a instalação do módulo tenha efeito</p>
+						      <p>Reinicie seu PC para que a instalação do módulo faça efeito.</p>
 
-						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+						      <p>Quando o Xorg for atualizado, você vai precisar somente de reinstalar nvidia-glx:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+						      <p>Quando um novo driver da nVidia estiver disponível:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
-						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Reinicie sua máquina para que a instalação do módulo faça efeito.</p>
 						      
+					<h5>Para os drivers nVidia legados &ge; GeForce 5xxx :</h5>
+<pre>
+m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
+</pre>
+
+							<p>Altere o dmakms:</p>
+<pre>
+echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
+</pre>	      
+      
 					<h4>Falha no carregamento do módulo</h4>
 					
 							<p>Se o carregamento do módulo nVidia falhar, por um motivo ou outro, (um componente novo do xorg, um problema no sistema de arquivos, uma recusa do X em iniciar):</p>
@@ -305,6 +317,9 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
+
+							   <p>Você também pode ler <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> para outras opções.</p>
+							   
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon e outros drivers de vídeo</h2>
@@ -332,7 +347,7 @@ $ fw-detect
 </pre>
 							<p> <span class="highlight-3">Uma boa prática é comandar um modprobe -r &lt;nome do módulo&gt; antes de  modprobe </span>.</p>
 
-							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+							<p> <span class="highlight-3">Para instalar firmare pelos repositórios git, você precisa de:</span></p>
 <pre>
 apt-get install git-core
 </pre>
@@ -344,7 +359,7 @@ apt-get install git-core
 					</li>
 
 					<li>
-						ATi r128 and Radeon r100-r780 graphics<br />
+						Placas de vídeo ATI r128 e Radeon r100-r780:<br />
 <pre>
 apt-get install firmware-linux
 </pre>
@@ -369,20 +384,23 @@ apt-get install bluez-firmware
 </pre>
 					</li>
 					<li>
-						Broadcom NetXtremeII network adapters (BCM5706/5708/5709/5716, bnx), ethernet:<br />
+						Placas de rede Broadcom NetXtremeII (BCM5706/5708/5709/5716, bnx), ethernet:<br />
 <pre>
 apt-get install firmware-bnx2
 </pre>
 					</li>
 					<li>
-						Broadcom NetXtremeII 10Gb network adapters (BCM57710/57711/57711E, bnx2x), ethernet:<br />
+						Placas de rede Broadcom NetXtremeII 10Gb (BCM57710/57711/57711E, bnx2x), ethernet:<br />
 <pre>
 apt-get install firmware-bnx2x
 </pre>
 					</li>
 					<li>
 						Broadcom Tigon3 (tg3), ethernet:<br />
-						fetch the firmware from <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> and place it under /lib/firmware/tigon/.
+<pre>
+apt-get install firmware-linux
+</pre>
+
 					</li>
 
 					<li>
@@ -473,17 +491,17 @@ apt-get install firmware-linux
 </pre>
 					</li>
 					<li>
-						nVidia graphics:<br />
-						3d acceleration isn't possible with free drivers yet.
+						Placas de vídeo nVidia:<br />
+						Aceleração 3D ainda não é possível com os drivers livres.
 					</li>
 					<li>
-						RaLink rt61 and rt73 54 MBit/s wlan:<br />
+						RaLink rt61 e rt73 54 MBit/s wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
 					</li>
 					<li>
-						RaLink rt2860 and rt2870 (staging) wlan:<br />
+						RaLink rt2860 e rt2870 (staging) wlan:<br />
 <pre>
 apt-get install firmware-ralink
 </pre>
@@ -594,7 +612,7 @@ Para sair do terminal, digite: exit
 							<p>Agora seu volume NTFS deve estar montado <b>rw</b> e você será capaz de armazenar dados nele. Repetimos, porém: <span class="highlight-3">use apenas em situações emergenciais, NUNCA no dia-a-dia!!!</span></p>
 
 		</div>	
-				<div id="rev">Page last revised 18/07/2009 0300 UTC </div>
+				<div id="rev">Page last revised 10/09/2009 0725 UTC </div>
 
 </div>
 </body>

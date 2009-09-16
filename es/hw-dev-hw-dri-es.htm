@@ -219,7 +219,7 @@ xserver-xorg-video-intel
 
 							<p><span class="highlight-3">Si estaba usando drivers proprietarios pero desea pasar a drivers de fuente abierta, primero tiene que editar: /etc/X11/xorg.conf . ¡¡ATENCIÓN: TIENE QUE HACER UN RESPALDO ANTES!!  La edición incorrecta de /etc/X11/xorg.conf puede darle muchos problemas</span>.</p>
 
-							<p>Para editar /etc/X11/xorg.conf,  ábralo con permisos de root. Busque la sección SECTION DEVICE y cámbielo donde lea <span class="highlight-2">nv</span> o <span class="highlight-2">ati</span> o <span class="highlight-2">intel</span> (para nombrar sólo algunos).</p>
+							<p>Para editar /etc/X11/xorg.conf, ábralo con permisos de root. Busque la sección SECTION DEVICE y cámbielo donde lea <span class="highlight-2">nv</span> o <span class="highlight-2">ati</span> o <span class="highlight-2">intel</span> (para nombrar sólo algunos).</p>
 
 							<p class="highlight-2">¡¡La edición de "xorg.conf" corre enteramente a su riesgo!!</p>
 							
@@ -249,8 +249,10 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Controladores binarios no libres para nVidia con dmakms</h2>
-							<p><span class="highlight-3">NOTA: Use apt-cache search nvidia y apt-cache show &lt;package&gt; para hallar el controlador correcto para su máquina. Debian sid sólo soporta normalmente los controladores 3d de nvidia &ge; GeForce 6xxx. Para tarjetas más viejas que 6xxx series vea <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia y apt-cache show &lt;package&gt; para determinar el controlador correcto para usted. Básicamente son posibles dos elecciones: controladores actuales de 3D para Debian Sid y controladores antiguos de 3D para Debian Sid.</p>
 							
+					<h5>Para los controladores actuales 3d nvidia  &ge; GeForce 6xxx :</h5>
+
 							<p>Prepare el módulo:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -287,6 +289,16 @@ apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reinicie el PC para que la instalación del módulo tenga efecto.</p>
 						      
+					<h5>Para controladores antiguos 3D nvidia &ge; GeForce 5xxx :</h5>
+<pre>
+m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
+</pre>
+
+							<p>Cambie dmakms:</p>
+<pre>
+echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
+</pre>	      
+      
 					<h4>Fallo en la carga del Módulo</h4>
 					
 							<p>Si el módulo de Nvidia falla al cargar por cualquier razón [nuevo componente de xorg, un problema del sistema de archivos o si el sistema X no arranca después de una reinicialización]:</p>
@@ -305,6 +317,8 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
+
+							   <p>Puede también leer <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> para otras opciones.</p>
 						      
 		</div>
 	<div class="divider" id="non-free-3d-2">
@@ -384,16 +398,19 @@ apt-get install firmware-bnx2x
 					</li>
 					<li>
 						Broadcom Tigon3 (tg3), ethernet:<br />
-						consiga el firmware desde <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> y colóquelo en /lib/firmware/tigon/.
+<pre>
+apt-get install firmware-linux
+</pre>
+
 					</li>
 
 					<li>
-						Cameras basado en Vision's CPiA2:<br />
+						Cámaras basadas en Vision's CPiA2:<br />
 						baje el firmware desde <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> y ubíquelo en <span class="highlight-3">/lib/firmware/cpia2/</span>.
 					</li>
 
 					<li>
-						Computone IntelliPort Plus dispositivo serial:<br />
+						Dispositivo serial Computone IntelliPort Plus :<br />
 						bajar el firmware desde <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> y ubicarlo en <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
@@ -595,7 +612,7 @@ Para salir del consola, entrar: exit
 							<p>Ahora, el volumen de NTFS debe ser montado como <b>rw</b> (leer/escribir) y debe ser posible escribir datos en él. <br />¡Pero, una vez más, <b>Precaución!</b><span class="highlight-3">Úselo solamente para situaciones de emergencia, no está recomendado para un uso diario.</span></p>
 
 	</div>
-	<div id="rev">Contenido modificado el 18/07/2009 0300 UTC <!--timestamp date to be as is--> </div>
+	<div id="rev">Contenido modificado el 10/09/2009 0725 UTC <!--timestamp date to be as is--> </div>
 
 
 </div>

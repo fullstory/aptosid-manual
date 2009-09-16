@@ -193,7 +193,7 @@
 <div id="main-page">
 		<div class="divider" id="native-nv-ati">
 						<h2>Указания к аппаратным средствам, которые нуждаются в проприетарных модулях</h2>
-							<p class="highlight-3">В соответствиии с нормами права применительно лицензионного програмного обеспечения на sidux live-cd включает только ПО совместимое с dfsg-free.</p>
+							<p class="highlight-3">В соответствии с нормами права применительно лицензионного программного обеспечения sidux live-cd включает только ПО совместимое с dfsg-free.</p>
 							
 			<h2>Свободные драйвера Xorg для Nvidia, ATI, Radeon и Intel</h2>
 
@@ -203,7 +203,7 @@
 							
 							<!--<p>Для установки:</p>
 <pre>
-выйти из desktop manager одновременным нажатием Ctrl+Alt+F1 в текстовую консоль и зарегестрироваться в системе суперпользователем root
+выйти из desktop manager одновременным нажатием Ctrl+Alt+F1 в текстовую консоль и зарегистрироваться в системе суперпользователем root
 выполнить команду "init 3"
 (приводящую к остановке X-сервера)
 apt-get update
@@ -228,7 +228,7 @@ init 5 &amp;&amp; exit
 	<div class="divider" id="non-free">
 			<h2>Файл "Sources List"</h2>
 
-							<p>Поэтому необходимо раскомментировать строку содержащую contrib/non-free в  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> or <span class="highlight-3">/etc/apt/sources.list</span>.</p>
+							<p>Поэтому необходимо раскомментировать строку содержащую contrib/non-free в  <span class="highlight-3"> /etc/apt/sources.list.d/debian.list and /etc/apt/sources.list.d/sidux.list</span> или <span class="highlight-3">/etc/apt/sources.list</span>.</p>
 <pre>
 # See sources.list(5) for more information, especially
 # Remember that you can only use http, ftp or file URIs
@@ -246,9 +246,11 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 </pre>
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers for: nVidia через dmakms</h2>
-							<p><span class="highlight-3">ВНИМАНИЕ: Воспользуйтесь apt-cache search nvidia и apt-cache show &lt;package&gt; чтобы найти подходящий драйвер. В данный момент Debian sid поддерживает 3d драйвера nvidia не ниже &ge; GeForce 6xxx. За драйверами для более старых карт, обращайтесь на <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a></span></p>
+		<h2>Бинарные, закрытые драйвера от nVidia, установка через dmakms</h2>
+							<p><span class="highlight-3">Примечание: Для того чтобы подобрать правильный драйвер воспользуйтесь командами apt-cache search nvidia и apt-cache show &lt;package&gt;. В Debian Sid есть два 3D драйвера, новый и устаревший (legacy).</p>
 							
+					<h5>Установка нового драйвера для карты&ge; GeForce 6xxx :</h5>
+
 							<p>Подготовка модуля:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -284,6 +286,17 @@ m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>И перезагрузитесь, чтобы изменения вступили в силу.</p>
+						      
+					<h5>Для устаревших карт серии &ge; GeForce 5xxx :</h5>
+<pre>
+m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
+</pre>
+
+							<p>Потом в dmakms:</p>
+<pre>
+echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
+</pre>	      
+      
 					<h4>Ошибка загрузки модуля</h4>
 					
 							<p>Если модуль nvidia не загрузился, попробуйте:</p>
@@ -302,6 +315,8 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
+
+							   <p>Также поищите информации на <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a>.</p>
 						      
 		</div>
 
@@ -329,7 +344,7 @@ apt-get install firmware-linux
 <pre>
 $ fw-detect
 </pre>
-							<p> <span class="highlight-3">Рекомендуется проводить modprobe -r &lt;modulename&gt; перед  modprobe, особенно при чипах Intel</span></p>
+							<p> <span class="highlight-3">Рекомендуется проводить modprobe -r &lt;modulename&gt; перед  modprobe, особенно на чипах Intel</span></p>
 
 							<p> <span class="highlight-3">Чтобы установить микропрограммы из репозитория git, введите:</span></p>
 <pre>
@@ -349,7 +364,7 @@ apt-get install firmware-linux
 </pre>
 					</li>
 					<li>
-						Безпроводные 11 MБит/сек карты Atmel AT76c50x:<br />
+						Беспроводные 11 MБит/сек карты Atmel AT76c50x:<br />
 <pre>
 apt-get install atmel-firmware
 </pre>
@@ -383,16 +398,19 @@ apt-get install firmware-bnx2x
 					</li>
 					<li>
 						Broadcom Tigon3 (tg3), ethernet:<br />
-						Скачайте микропрограмму <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните в /lib/firmware/tigon/.
+<pre>
+apt-get install firmware-linux
+</pre>
+
 					</li>
 
 					<li>
-						Вебкэмы на базе Vision's CPiA2:<br />
+						Вебкамеры на базе Vision's CPiA2:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/cpia2/</span>.
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи Computone IntelliPort Plus:<br />
+						USB-последовательные интерфейсные преобразователи Computone IntelliPort Plus:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
@@ -424,7 +442,7 @@ apt-get install firmware-linux
 					</li>
 
 					<li>
-						DVB-микропрограммное обеспечение для различных карт цифрового телевидения (большинство бюджетных карт не нуждаеться в этом):<br />
+						DVB-микропрограммное обеспечение для различных карт цифрового телевидения (большинство бюджетных карт не нуждается в этом):<br />
 						Скачивайте микропрограммное обеспечение с fetch the needed firmware (check dmesg) from <a href="http://www.linuxtv.org/downloads/firmware/">http://www.linuxtv.org/downloads/firmware/</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
@@ -458,7 +476,7 @@ apt-get install firmware-iwlwifi
 					</li>
 
 					<li>
-						Безпроводные 54 MБит/сек карты Intersil prism54 (p54pci/p54usb):<br />
+						Беспроводные 54 MБит/сек карты Intersil prism54 (p54pci/p54usb):<br />
 						Скачайте микропрограммное обеспечение с <a href="http://jbnote.free.fr/prism54usb/">http://jbnote.free.fr/prism54usb/</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
@@ -504,12 +522,12 @@ apt-get install firmware-ralink
 					</li>
 
 					<li>
-						DVB-УСБ-карты цифрового телевидения Technotrend/Hauppauge Nova-USB:<br />
+						DVB-USB-карты цифрового телевидения Technotrend/Hauppauge Nova-USB:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/ttusb-budget/</span>.
 					</li>
 
 					<li>
-						Безпроводные карты Texas Instruments ACX100 (22 MБит/сек) и ACX111 (54 MБит/сек):
+						Беспроводные карты Texas Instruments ACX100 (22 MБит/сек) и ACX111 (54 MБит/сек):
 <pre>
 m-a a-i acx100
 </pre>
@@ -518,40 +536,40 @@ m-a a-i acx100
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи USB 3com HomeConnect (aka vicam):<br />
+						USB-последовательные интерфейсные преобразователи USB 3com HomeConnect (aka vicam):<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/vicam/</span>.
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи USB ConnectTech WhiteHEAT:<br />
+						USB-последовательные интерфейсные преобразователи USB ConnectTech WhiteHEAT:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните их в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи USB Inside Out Edgeport:<br />
+						USB-последовательные интерфейсные преобразователи USB Inside Out Edgeport:<br />
 
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/edgeport/</span>.
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи USB Keyspan USA-xxx:<br />
+						USB-последовательные интерфейсные преобразователи USB Keyspan USA-xxx:<br />
 						Скачивайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/keyspan/</span>.
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразователи USB Keyspan PDA:<br />
+						USB-последовательные интерфейсные преобразователи USB Keyspan PDA:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/keyspan_pda/</span>.
 					</li>
 
 					<li>
-						Сетовые устройств на базе USB KLSI KL5USB101:<br />
+						Сетевые устройств на базе USB KLSI KL5USB101:<br />
 <pre>
 apt-get install firmware-linux
 </pre>
 					</li>
 
 					<li>
-						УСБ-последовательные интерфейсные преобразовател USB TI 3410/5052:<br />
+						USB-последовательные интерфейсные преобразователь USB TI 3410/5052:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и с <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> и сохраните их в каталоге <span class="highlight-3"> /lib/firmware/</span>.
 					</li>
 
@@ -562,12 +580,12 @@ apt-get install firmware-linux
 					</li>
 
 					<li>
-						Безпроводные 11 MБит/сек карты ZyDAS zd1201:<br />
+						Беспроводные 11 MБит/сек карты ZyDAS zd1201:<br />
 						Скачайте микропрограммное обеспечение с <a href="http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz">http://surfnet.dl.sourceforge.net/sourceforge/linux-lc100020/zd1201-0.14-fw.tar.gz</a> и сохраните его в каталоге <span class="highlight-3">/lib/firmware/</span>.
 					</li>
 
 					<li>
-						Безпроводные 54 MБит/сек карты ZyDAS zd1211:<br />
+						Беспроводные 54 MБит/сек карты ZyDAS zd1211:<br />
 <pre>
 apt-get install zd1211-firmware
 </pre>
@@ -596,7 +614,7 @@ exit #команда для выхода из консоли
 							<p>И еще раз наше предупреждение: <i>Этот метод действия упомянут исключительно для ситуаций, в которых нет никаких других альтернативных решений. Для ежедневного использования этот метод действий не рекомендуется!</i></p>
 </div>
 		
-		<div id="rev">Содержание, последний раз пересмотрено 18/07/2009 0300 UTC </div>
+		<div id="rev">Содержание, последний раз пересмотрено 10/09/2009 0725 UTC </div>
 </div>
 </div>
 </body>

@@ -244,8 +244,10 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms</h2>
-							<p><span class="highlight-3">VORBEMERKUNG: Verwenden Sie "apt-cache search nvidia" und "apt-cache show &lt;package&gt;" zur Ermittlung des korrekten Treibers. Im Augenblick unterstützt Debian Sid 3D nur für Treiber &ge; GeForce 6xxx. Für ältere Karten lesen Sie <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> (en) .</span></p>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 choices, current Debian Sid 3D drivers  and legacy Debian Sid  3D drivers.</p>
 							
+					<h5>For current 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
+
 							<p>Vorbereitung des Moduls:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
@@ -281,6 +283,16 @@ apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Ein Neustart des PCs ist erforderlich, damit das neue Modul verwendet wird.</p>
 						      
+					<h5>For legacy 3d nvidia drivers &ge; GeForce 5xxx :</h5>
+<pre>
+m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
+</pre>
+
+							<p>Alter dmakms:</p>
+<pre>
+echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
+</pre>	      
+      
 					<h4>Wenn das Modul nicht lädt</h4>
 					
 							<p>Falls nvidia - aus welchem Grund auch immer nicht lädt:</p>
@@ -299,6 +311,8 @@ modprobe nvidia
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
+
+							   <p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
 						      
 		</div>
 	<div class="divider" id="non-free-3d-2">
@@ -377,7 +391,10 @@ apt-get install firmware-bnx2x
 					</li>
 					<li>
 						Broadcom Tigon3 (tg3), Ethernet:<br />
-						man erhält die Firmware von <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=tigon;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git</a> und speichert sie in <span class="highlight-3"> /lib/firmware/tigon/</span>.
+<pre>
+apt-get install firmware-linux
+</pre>
+
 					</li>
 
 					<li>
@@ -591,7 +608,7 @@ exit  ## mit diesem Befehl wird die Konsole verlassen
 							Aber noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 18/07/2009 0300 UTC</div>
+	<div id="rev">Page last revised 10/09/2009 0725 UTC</div>
 
 </div>
 </body>

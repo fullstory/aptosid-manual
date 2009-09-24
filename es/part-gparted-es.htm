@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 01/06/2009 2000hrs UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-es.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveISO</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
-				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade'</a></li>
+				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade' - Vista general</a></li>
+				<li><a href="sys-admin-apt-es.htm#du-st">Actualizar el sistema instalado: 'dist-upgrade' - Los pasos</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-es.htm">Administración del Sistema</a>
@@ -193,120 +194,148 @@
 <div id="main-page">
 	<div class="divider" id="partition">
 		<h2 id="top-header">Como particionar el DD (Disco Duro) (utilizando GParted)</h2>
-			<h5><span class="highlight-2">AVISO: para nombramiento de discos </span><a href="part-uuid-es.htm"> Por favor referirse a UUID, etiqueta (label) de Partición y fstab, en vista de que sidux ahora por preselección se utiliza el UUID</a></h5>
+			<h5><span class="highlight-2">AVISO: para nombramiento de discos </span><a href="part-uuid-es.htm"> Por favor referirse a UUID, etiqueta (label) de Partición y fstab, en vista de que en sidux ahora por preselección se utiliza el UUID</a></h5>
 
-			<h5>Herramientas de particionamiento puede solicitar un clave de raíz, en una consola, teclea <span class="highlight-3">sux</span> entonces entra el clave de raíz. Ningun clave es fijado en un Live-ISO, entonces teclea <span class="highlight-3">sux</span> y oprima "Enter". Ver: <a href="live-mode-es.htm" >Live Mode (Modo vivo)</a></h5>
+			<h5>Las herramientas de particionamiento pueden solicitar una clave de root; en una consola, teclee <span class="highlight-3">sux</span> y entre la clave de root. Ninguna clave está fijada en el Live-ISO; teclee simplemente <span class="highlight-3">sux</span> y oprima "Enter". Ver: <a href="live-mode-es.htm" >Live Mode (Modo vivo)</a></h5>
 
 	<div class="spacer02"></div>
-	
-							<p class="highlight-2">SIEMPRE RESPALDA SUS DATOS!</p>
-							
-				<h3>Prólogo</h3>
-							<p>Una partición tiene que tener un sistema de archivos. Linux sabe como usar varios sistemas de archivos. Hay Ext3, Ext2, Reiserfs y por los más experimentados el XFS y JFS. Ext2 es útil como una formato de almacenamiento en vista de que hay una intérprete (driver) disponible para MS Windows&#8482; para intercambiar datos. [Linux puede leer y escribir en sistemas FAT.]</p>
+							<p class="warning-box">Después de redimensionar una partición NTFS, es necesario re-arrancar con MS Windows. <b>NO</b> haga otra operación en esa partición antes de arrancar o tendrá errores. <a href="part-gparted-es.htm#ntfs"> Lea esto, por favor.</a></p>
 
-							<p  class="highlight-2">Para uso normal, recomendamos el sistema de archivos ext3, que es el sistema de archivos pre-selecciónada por sidux y es bien mantenido.</p>
-		
+							<p class="highlight-2">Siempre respalde sus datos!</p>
+
+				<h3>Prólogo</h3>
+							<p>Una partición tiene que tener un sistema de archivos. Linux sabe cómo usar varios sistemas de archivos. Ext3 es el formato recomendado por sidux. Ext2 es útil como un formato de almacenamiento puesto que hay un intérprete (driver) disponible para MS Windows&#8482; para intercambiar datos. [Linux puede leer y escribir en sistemas FAT.]</p>
+
+							<p  class="highlight-2">Para uso normal, recomendamos el sistema de archivos ext3, que es el sistema de archivos pre-seleccionado por sidux y es bien mantenido.</p>
+
 							<p>La siguiente información ha sido extraído de la documentación Oficial de GParted y ha sido modificado para servir de guía al uso de Gparted con sidux, y no debe ser tomado como una guía definitiva. E&amp;OE</p>
 
 							<p>Para la documentación completa, ver <a href="http://gparted.sourceforge.net">GParted</a></p>
-		
-		<h2>Utilizando GParted</h3>
-							<p>Crear y manejar particiones no es algo que se realiza todos los días. Por eso, es una buena idea leer esta guía por lo menos una vez, para estar cómodo con los conceptos y algunas de los paneles que aparezcarán.</p>
-		
+
+		<h3>Utilizando GParted</h3>
+							<p>Crear y manejar particiones no es algo que se realice todos los días. Por eso, es una buena idea 
+							leer esta guía por lo menos una vez, para estar cómodo con los conceptos y algunos de los paneles que
+							 aparecerán.</p>
+
 		<ul>
 			<li>
 
-							<p>Cuando se ejecuta GPARTED, una ventana se abriera y todos los dispositivos se escanearan.</p>
-		
-							<p>Si pinchas en el clave "menú" (arriba a la izquierdo), un menú saliente se presenta. Puede seleccionar para re-leer la desplegué de los dispositivos en su sistema. También, un atajo de teclado esta disponible para fácilmente re-leer la información de la pantalla. Con una segundo selección, puede escoger el disco duro cuyo particiones desea modificar. Este es útil si tiene más de uno disco duro para particionar o si desea particionar varios dispositivos externos, como los palitos de USB.</p>
-		
+							<p>Cuando se ejecuta GPARTED, una ventana se abrirá y todos los dispositivos se escanearán.</p>
+
+							<p>Si pincha en el "menú" (arriba a la izquierda), se presenta un menú emergente. Puede seleccionar
+							 para releer el despliegue de los dispositivos en su sistema. También, un atajo de teclado está disponible
+							  para releer fácilmente la información de la pantalla. Con una segunda selección, puede escoger el disco
+							   duro cuyas particiones desea modificar. Esto es útil si tiene más de un disco duro para particionar 
+							   o si desea particionar varios dispositivos externos, como las llaves USB.</p>
+
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted02-en.png"  title="Gparted Devices View" alt="gparted" /></div>
 			</li>
 			<li>
 				<h3>Editar</h3>
-							<p>Se abre una ventana desde lo cual puede ver los tipos de archivos soportados y algunas opciones para ediciones de particiones.</p>
-		
-							<p>El menú es el segundo de la izquierda. Se muestra dos funciones en gris, los cuales serán muy útil:<br /> 
+							<p>Se abre una ventana desde la cual puede ver los tipos de archivos soportados y algunas opciones
+							 para editar las particiones.</p>
+
+							<p>El menú es el segundo de la izquierda. Se muestra dos funciones en gris, las cuales serán muy útiles:<br />
 							<span class="highlight-3">Deshacer</span> (Undo) y <br />
 							<span class="highlight-3">Aplicar </span>(Apply) y <br />
-							<span class="highlight-3">también permite accesar/ver otras áreas. </span><br />
-							Estas opciones también puede ser vistos:</p>
+							<span class="highlight-3">también permite acceder/ver otras áreas. </span><br />
+							Estas opciones también puede ser vistas:</p>
 			</li>
 			<li>
 				<h3>Ver (View)</h3>
 				<ul>
 					<li>
 						<h4>Información de dispositivos</h4>
-							<p>El panel de <b>Información del Disco Duro</b> muestra detalles acerca del disco duro, tales como el Modelo, Tamaño, etcétera. Este panel es muy útil en un sistema con múltiples discos duros, donde esta información sera utilizado para confirmar que el disco duro siendo examinado es el disco que desea modificar.</p>
+							<p>El panel de <b>Información del Disco Duro</b> muestra detalles acerca del disco duro, tales como el modelo,
+							 tamaño, etcétera. Este panel es muy útil en un sistema con múltiples discos duros, donde esta información 
+							 será utilizada para confirmar que el disco duro que está siendo examinado es el disco que desea modificar.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted03-en.png" title="Gparted Harddisk Information"  alt="operation view" /></div>
 					</li>
 					<li>
 						<h4>Operaciones pendientes</h4>
-							<p>A la pie de la ventana es una lista de operaciones pendientes. Este información es útil porque provee una información de la partición que se harán cambios.</p>
+							<p>Al pie de la ventana hay una lista de operaciones pendientes. Esta información es útil porque indica
+							 la información de la partición en la que se harán los cambios.</p>
 
 					</li>
 				</ul>
 			</li>
 			<li>
 				<h3>Dispositivo</h3>
-							<p>El dispositivo permite fijar una etiqueta al disco, si la etiqueta del disco que ya tiene no es apropiado, puede cambiarlo utilizando este opción.</p>
+							<p>El dispositivo permite fijar una etiqueta al disco; si la etiqueta del disco que ya tiene no es apropiado, 
+							puede cambiarla utilizando este opción.</p>
 			</li>
 			<li>
 				<h3>Menú de la partición</h3>
-							<p>El menú es de alta importancia. Le permite realizar muchas operaciones, algunas son peligrosos.</p>
+							<p>Este menú es muy importante. Le permite realizar muchas operaciones, algunas de ellas son peligrosas.</p>
 
-							<p><b>Borrar (Delete)</b> es seleccionado si decide borrar una partición. Para realizar la borrada, primero tiene que seleccionar la partición.</p>
+							<p><b>Borrar (Delete)</b> es seleccionado si decide borrar una partición. Para realizar el borrado, 
+							primero tiene que seleccionar la partición.</p>
 
 							<p><b>Redimensionar/Mover</b> es una función útil.</p>
 
 			</li>
 			<li>
 				<h3>Creando una nueva partición</h3>
-							<p>En la barra de herramientas, el botón  <b>Nuevo (New)</b> permite crear una nueva partición, si ya, ha seleccionado una área no alocado. Una nueva ventana aparece, y puede escoger el tamaño deseado, si la partición sera una Primario, Extendido o una particón Logical, y la sistema de archivos.</p>	
+							<p>En la barra de herramientas, el botón <b>Nuevo (New)</b> permite crear una nueva partición si ha
+							 seleccionado una área vacía. Aparece una nueva ventana, y puede escoger el tamaño deseado y si la
+							  partición sera primaria, extendida o una particón lógica y el sistema de archivos.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted07-en.png"  title="Gparted New Partition" alt="file system" /></div>
 			</li>
 			<li>
-				<h3>¿Si hace un error?</h3>
-							<p>Si ha cometido un error, puede usar el botón de Borrar (Delete) para borrar la partición escogido, o si todavía no han aplicado su decisión de seguir adelante, puede usar el botón de Deshacer (Undo).</p>
+				<h3>¿Si comete un error?</h3>
+							<p>Si ha cometido un error, puede usar el botón de Borrar (Delete) para borrar la partición escogida, 
+							o si todavía no ha pulsado seguir adelante puede usar el botón de deshacer (Undo).</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted04-en.png"   title="Gparted Delete" alt="delete" /></div>
 			</li>
 			<li>
 				<h3>Redimensionar/Mover</h3>
-							<p>Cuando desea redimensionar una partición que ha seleccionado, pinchar en el botón de <b>Redimensionar/Mover  (Resize/Move)</b>:  y una nueva ventana emergente aparecer. Utiliza el mouse para reducir (o aumentar) la partición o si deseas, puede usar las flechas.</p>
+							<p>Cuando desea redimensionar una partición que ha seleccionado, pinchar en el botón de <b>Redimensionar/Mover
+							 (Resize/Move)</b>:  y una nueva ventana emergente aparecerá. Utilice el ratón para reducir (o aumentar) la
+							  partición o si lo desea puede usar las flechas.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted05-en.png"    title="Gparted Resize" alt="resize / move" /></div>
 
-							<p>Después de que ha dado el comando de Redimensionar, pinchar en Aplicar, por que ningún operaciones afecta el disco duro hasta que pinchar en Aplicar (Apply).</p>
+							<p>Después de que haya dado el comando de Redimensionar, pinche en Aplicar, ya que ninguna operación
+							 afecta el disco duro hasta que pinche en Aplicar (Apply).</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted09-en.png"     title="Gparted Apply"  alt="operation view" /></div>
-							<p>La duración de las operaciones depende en el tamaño nuevo de la Partición.</p>
-					
-							<p><b>Después de modificar la tabla de particiones, por favor salga de sidux y re-arrancar su sistema en sidux de nuevo, para leer de nuevo la nueva tabla de particiones.</b></p>
+							<p>La duración de las operaciones depende del nuevo tamaño de la partición.</p>
+
+							<p><b>Después de modificar la tabla de particiones, por favor salga de sidux y rearranque su sistema
+							  para que sidux lea otra vez la nueva tabla de particiones.</b></p>
 			</li>
 		</ul>
 
 	</div>
 	<div class="divider" id="ntfs">
 		<h2>Redimensionando una partición NTFS</h2>
-		
-							<p class="warning-box">Después de redimensionar una partición NTFS, es necesario re-arrancar con MS Windows. <b>NO</b> haga otra operación en esa partición antes de arrancar o tendrá errores</p>
-		
+
+							<p class="warning-box">Después de redimensionar una partición NTFS, es necesario rearrancar con MS Windows.
+							 <b>NO</b> haga otra operación en esa partición antes de arrancar o tendrá errores</p>
+
 						<ul>
-							<li>Después del re-arranque en MS Windows&#8482;, el sistema mostrará una pantalla especial, con una mensaje preguntando acerca de la consistencia de disco duro: Verificando el sistema de archivos en el disco C:</li>
-	
-							<li>Deja que el AUTOCHK corra: NT necesita verificar su sistema de archivos después de la operación de redimensionamiento.</li>
-			
-							<li>Después de este proceso, el computador, automáticamente se rearrancará por una segunda vez. Esto es para asegurar que todo funcione perfectamente.</li>
-			
-							<li>Después del rearranque, el Windows XP estará bien, pero tiene que dejar que la sistema arranca completamente, llegando a la pantalla de hacer login a Windows!</li>
+							<li>Después del rearranque en MS Windows&#8482;, el sistema mostrará una pantalla especial, con un
+							 mensaje preguntando acerca de la consistencia de disco duro: verificando el sistema de archivos en el disco C:
+							 </li>
+
+							<li>Deje que el AUTOCHK corra: NT necesita verificar su sistema de archivos después de 
+							la operación de redimensionamiento.</li>
+
+							<li>Después de este proceso el computador rearrancará automáticamente por una segunda vez. Esto es para
+							 asegurar que todo funcione perfectamente.</li>
+
+							<li>Después del rearranque, el Windows XP estará bien, pero tiene que dejar que la sistema arranque
+							 completamente llegando hasta la pantalla de hacer login a Windows!</li>
 						</ul>
-		
-							<p><b>Documentación completa de GParted:</b>:  Para leer la documentación por completo incluyendo, el, "How-To Copy Partitions" (como copiar particiones), por favor ir a <a href="http://gparted.sourceforge.net">GParted</a></p>
+
+							<p><b>Documentación completa de GParted:</b>:  Para leer la documentación por completo incluyendo el
+							 "How-To Copy Partitions" (como copiar particiones), por favor vaya a 
+							 <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
-				<div id="rev">Contenido modificado el 15/04/2009 0100hrs UTC</div>
+				<div id="rev">Contenido modificado el 18/09/2009 0645hrs UTC</div>
 
 </div>
 </body>

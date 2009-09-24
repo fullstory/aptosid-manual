@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -163,7 +163,8 @@
 				<li><a href="siduxcc-bg.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-bg.htm#live-cd-upgrade">Обновяване от Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-bg.htm#kern-upgrade">Обновяване на ядрото</a></li>
-				<li><a href="sys-admin-apt-bg.htm#apt-upgrade">Обновяване на инсталирана система - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-bg.htm#apt-upgrade">Обновяване на инсталирана система - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-bg.htm#du-st">Обновяване на инсталирана система -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-bg.htm">Системно  администриране</a>
@@ -197,32 +198,33 @@
 			<h5>Partitioning tools may request a root password, type <span class="highlight-3">sux</span> then your password. On a Live-ISO none is set <span class="highlight-3">sux</span> then press 'enter' . Вижте: <a href="live-mode-bg.htm" >Режим LiveCD</a></h5>
 
 	<div class="spacer02"></div>
+							<p class="warning-box">Промяната на размера на NTFS раздел изисква незабавно след прилагането му да рестартирате системата! НЕ ИЗВЪРШВАЙТЕ никакви действия повече върху този раздел преди да сте рестартирали - ако го направите, ще получите грешки.<a href="part-gparted-bg.htm#ntfs"> Please read this.</a></p>
 
 						      <p class="highlight-2">ВИНАГИ ПРАВЕТЕ РЕЗЕРВНО КОПИЕ (backup) НА ДАННИТЕ!</p>
-		
+
 					<h3>Основи</h3>
 							<p>Физическият диск може да бъде разделен на един или повече раздели (partitions). Всеки раздел (partition) трябва да има определена файлова система. Linux може да използва различни файлови системи. Ext3 е препоръчваната файлова система за sidux. ext2 е удобна за файлова система за съхраняване на данни, тъй като съществува драйвер за MS Windows&#8482; чрез който можем да получим достъп до нея под Windows (и например, да споделяме файлове между Linux и Windows ако имаме дуал-бут система).</p>
 
 							<p  class="highlight-2">За нормална употреба препоръчваме файловата система ext3, тя е файловата система по подразбиране за sidux, отлично поддържана и надеждна.</p>
-		
+
 							<p>Информацията по-долу е взета от Официалната Документация на GParted, и модифицирана за да ви ориентира за използването на GParted под sidux (и не трябва да бъде възприемана буквално като завършено ръководство). E&amp;OE</p>
 
 							<p>За пълната документация се обърнете към <a href="http://gparted.sourceforge.net">GParted</a></p>
-		
+
 		<h2>Използване на GParted</h2>
 							<p>Създаването и администрирането на дисковите раздели не е нещо което се върши ежедневно. Затова, е добра идея да прочетете ръководството изцяло, за да усвоите концепцията.</p>
-		
+
 		<ul>
 			<li>
 							<p>Когато GParted се стартира, дисковете се сканират и се отваря прозорец.</p>
-		
+
 							<p>Първата опция от падащото меню горе вляво (Refresh Devices), може да бъде използвана за да ре-сканира и покаже актуалното състояние на дисковете в системата по всяко време. Същото може да постигнете с Ctrl-R. От втората опция в менюто (Devices), избирате диска, с чиито раздели искате да работите. Това е нужно когато имате повече от един хард-диск, или външни дискове като например USB флаш диск. С опцията Show Features от менюто, можете да получите повече подробности.</p>
-		
+
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted02-en.png"   title="Gparted Devices View" alt="gparted" /></div>
 			</li>
 			<li>
 				<h3>Редакция (Edit)</h3>
-							<p>Менюто за редакция (Edit) има три жизненоважни функции:<br /> 
+							<p>Менюто за редакция (Edit) има три жизненоважни функции:<br />
 							<span class="highlight-3">Undo last operations (отменя измененията в списъка)</span><br />
 							<span class="highlight-3">Apply (прилага измененията в списъка)</span><br />
 							<span class="highlight-3">Clear all operations (изчиства всички изменения в списъка)</span>.</p>
@@ -280,7 +282,7 @@
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted09-en.png"     title="Gparted Apply"  alt="operation view" /></div>
 
 							<p>Времето което заема операцията зависи от размера на раздела който се обработва.</p>
-					
+
 							<p><span class="highlight-2">След завършване на манипулациите с разделянето на диска, задължително трябва да рестартирате системата - за да може sidux да прочете новата таблица с раздели.</span></p>
 			</li>
 		</ul>
@@ -288,22 +290,22 @@
 	</div>
 	<div class="divider" id="ntfs">
 		<h2>Преоразмеряване на NTFS раздели</h2>
-		
+
 							<p class="warning-box">Промяната на размера на NTFS раздел изисква незабавно след прилагането му да рестартирате системата! НЕ ИЗВЪРШВАЙТЕ никакви действия повече върху този раздел преди да сте рестартирали - ако го направите, ще получите грешки.</p>
-		
+
 						<ul>
 							<li>След рестарта в MS Windows&#8482; системата в началото ще покаже специално съобщение на chkdsk за проверка на диска  (Checking file system on c:) - не го прекъсвайте а оставете Windows да извърши проверката до края</li>
-	
+
 							<li>Оставете AUTOCHK да завърши: Windows NT трябва да провери своята файлова система след операцията по промяна на размера.</li>
-			
+
 							<li>На края на този процес, компютърът ще рестартира автоматично за втори път.</li>
-			
+
 							<li>След рестарта, Windows ще бъде наред, но трябва да го изчакате да се зареди напълно!</li>
 						</ul>
-		
+
 							<p><b>Пълната документация за GParted: </b>За запознаване с пълната документация (на английски), включително "копиране на раздели", отидете на <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
-				<div id="rev">Content last revised 15/04/2009 0100hrs UTC</div>
+				<div id="rev">Content last revised 18/09/2009 0645hrs UTC</div>
 
 </div>
 </body>

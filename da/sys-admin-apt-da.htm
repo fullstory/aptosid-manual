@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision by zonker 23/08/2008 2020 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-da.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-da.htm#live-cd-upgrade">Opgradering med Live- ISO</a></li>
 				<li><a href="sys-admin-kern-upg-da.htm#kern-upgrade">Opgradere kernel</a></li>
-				<li><a href="sys-admin-apt-da.htm#apt-upgrade">Opgradering af Systemet - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-da.htm#apt-upgrade">Opgradering af Systemet - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-da.htm#du-st">Opgradering af Systemet - dist-upgrade -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-da.htm">System Administration</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>I denne findes to filer med navnene:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Dette gør det lettere at skifte fil-spejl (automaiseret), og det gør det sikrer at erstatte lister.</p>
@@ -222,12 +223,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Yderligere information om non-free behov kan findes i vores altid opdaterede <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>  Fra og med 28/02/2008 0800 hrs UTC er de:</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.de.debian.org/debian unstable main contrib non-free
 # deb-src http://ftp.de.debian.org/debian unstable main contrib non-free
@@ -248,7 +243,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>OBS: I dette eksempel indikerer ftp.de at de tyske repositorier (filspejle) anvendes. Du kan redigere denne fil (som root) til for eksempel ftp.dk, ftp.uk eller ftp.de (de fleste lande har lokale filspejle), for derigennem at anvende de repositorier som er tættest på dig. På denne måde kan filoverførselshastigheden øges, og båndbredde spares.</p>
 
 							<p>For at kunne modtage opdateret information om pakkerne anvender APT en database. Databasen indeholder pakkenavnet, men også en oversigt over hvilke andre pakker der er nødvendige for en given pakke (-afhængigheder/ dependencies). Programmet apt-get anvender denne database når den installerer de pakker du har valgt for at løse alle eventuelle afhængigheder, og garanterer på den måde at programmerne vil fungere. Kommandoen der opdaterer denne database er 'apt-get update' (det følgende eksempel er fra en tysk sidux installation):</p>
- 
+
 <pre># apt-get update
 	(which returns)
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -258,15 +253,15 @@ Get:4 http://ftp.de.debian.org unstable Release.gpg [189B]
 Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Installering af nye pakker</h2>
- 
+
 			<p>Hvis vi antager at databasen er opdateret og navnet på den pakke du gerne vil installere er kendt, så vil den følgende kommando installere pakken (i dette eksempel 'qemu') og alle dependencies (senere vil vi vise hvordan du søger efter og finder pakker.)</p>
 
- 
+
 <pre># apt-get install qemu
 Reading package lists... Done
 Building dependency tree... Done
@@ -282,9 +277,9 @@ After unpacking 11.9MB of additional disk space will be used.
 Do you want to continue [Y/n]? n
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Afinstallation af/ sletning af en pakke</h2>
 							<p>Similarly it should come as no surprise that the following will deinstall a package, however it will not remove the dependencies: </p>
 
@@ -307,7 +302,7 @@ Removing gaim ...
 
 			<p>I det viste eksempel bliver pakken gaim afinstalleret, men programmets konfigurationsfiler bliver ikke fjernet sammen med programmet når du anvender 'remove' kommandoen. Du kan anvende disse konfigurationsfiler hvis du senere installerer gaim igen.</p>
 			<p>Hvis du vil have konfigurationsfilerne slette samtidigt med at du afinstallerer programmet bruger du kommandoen 'apt-get --purge remove':</p>
- 
+
 <pre>
 # apt-get --purge remove gaim
 # apt-get remove --purge gaim
@@ -367,7 +362,7 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-		<h2>System opgradering - dist-upgrade</h2>
+		<h2>System opgradering - dist-upgrade - Overview</h2>
 
 							<p>Hvis hele systemet skal opgraderes da opnås dette gennem en <span class="highlight-3">dist-upgrade</span>. Du bør altid kontrollere om der i øjeblikket findes advarsler mod dette på <a href="http://sidux.com">sidux</a> hjemmeside, og om der findes advarsler mod de pakker som dit system vil opgradere. Hvis du har brug at holde en pakke tilbage så den ikke opgraderes, -sætte den på <span class="highlight-3">hold</span> kan du kigge her og se hvordan du gør <a href="sys-admin-apt-da.htm#apt-downgrade">Nedgradere eller 'Hold' en pakke</a></p>
 
@@ -380,29 +375,16 @@ apt-get install kmahjongg
 			<p>Efter at databasen er blevet opdateret kan man finde ud af hvilke pakker der findes opdateringer til/ nye versioner af: (first install apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 			<p>Opdatering af en enkelt pakke, inklusiv pakkens dependencies,  (for eksempel pakken gcc-4.0) kan gøres med:</p>
 
- 
+
 
 <pre>
 # apt-get install gcc-4.0
@@ -412,13 +394,13 @@ Building dependency tree... Done
 gcc-4.0 is already the newest version.
 0 upgraded, 0 newly installed, 0 to remove and xxx not upgraded
 </pre>
-		
+
 		<h3>Kun downloade pakker</h3>
 
 							<p class="highlight-3">En smart metode til at se hvilke pakker der kan opgraderes er anvendelse af -d parameteren:</p>
 
 <pre>
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>-d parameteren tillader dig at hente alle de pakker der skal opgraderes uden faktisk at installere nogen af dem, fra en konsol. Dette kan du for eksempel gøre mens du er logget ind i X (den grafiske brugerflade), du kan så udføre den faktiske dist-upgrade på et senere tidspunkt fra init 3. Du kan så kontrollere eventuelle advarsler og eventuelt afbryde processen.</p>
 
@@ -434,40 +416,38 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-(Y will download the upgraded packages without touching the installed system)
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p><span class="highlight-3">Y </span> will download the upgraded packages without touching the installed system.</p>
 
 							<p>Efter 'dist-upgrade -d' er færsig med at hente pakkerne og du ønsker at udføre dist-upgrade, hvad enten øjeblikkeligt efter eller på et senere tidspunkt, så følg venligst følgende retningslinier:</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">DU MÅ ALDRIG NOGENSINDE OVERHOVEDET udføre 'dist-upgrade' eller 'upgrade' mens du er i X (den grafiske brugerflade).<div  class="highlight-4">  Du skal altid undersøge om der skulle være eventuelle advarsler på <a href="http://sidux.com">sidux</a> hjemmesiden. Advarslerne er der af gode grunde, og er nødvendige fordi Debian sid/unstable bliver opdateret på en daglig basis.</div>
 <pre>
-Log ud KDE. 
+Log ud KDE.
 Gå til tekst-mode ved at taste Ctrl+Alt+F1
 log på som root, og skriv så init 3
-apt-get update 
+apt-get update
 apt-get dist-upgrade
 apt-get clean
 init 5 &amp;&amp; exit
 </pre>
 			<div class="highlight-2">UDFØR ALDRIG DIST-UPGRADE [eller UPGRADE] med adept, aptitude eller synaptic <a href="sys-admin-apt-en.htm#apt-upgrade"> Read 'Upgrade of an Installed System' </a> </div>
 
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 			<p class="highlight-2">Nu er du advaret hvis du skulle vælge ikke at udføre din dist-upgrade i init 3 tilstand...</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>De gode grunde til IKKE at anvende NOGET SOM HELST ANDET end apt-get til dist-upgrade</h4>
 
@@ -488,16 +468,16 @@ init 5 &amp;&amp; exit
 			<p>En anden meget nyttig kommando i APT-systemet er apt-cache; det søger APT-databasen og viser dig information om pakker; for eksempel: for at få vist en liste over alle pakker der indeholder eller nævner "sidux" og "manual" gør du følgende:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-da - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Ønsker du yderligere information om en bestemt pakke, kan du bruge:</p>
 
@@ -517,18 +497,8 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Alle installerbare versioner af en bestemt pakke (afhængig af din sources.list) kan vises med:</p>
 
@@ -553,6 +523,8 @@ apt-get install packagesearch
 
 							<p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>On initial use you may be prompted to install deborphan. Please use with care.</p>
 
 							<p>Search can be done by</p>
@@ -566,12 +538,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>Additionally a lot of information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p>
-							
+
 
 	</div>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">En fuldstændig beskrivelse af APT-Systemet kan findes ved APT-HOWTO</a> </p>
+			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">En fuldstændig beskrivelse af APT-Systemet kan findes ved APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 15/03/2009 0025hrs UTC </div>
+			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </div>

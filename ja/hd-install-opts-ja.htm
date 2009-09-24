@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by muchan 20/Mai/2227 1155 UTC -->
+<!-- Last translation revision by muchan 17/Sep/2009 1130 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-ja.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-ja.htm#live-cd-upgrade">アップグレード用のLive- ISO</a></li>
 				<li><a href="sys-admin-kern-upg-ja.htm#kern-upgrade">カーネルのアップグレード</a></li>
-				<li><a href="sys-admin-apt-ja.htm#apt-upgrade">システムのアップグレード -- dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-ja.htm#apt-upgrade">システムのアップグレード -- dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-ja.htm#du-st">システムのアップグレード -- dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-ja.htm">システムアドミン</a>
@@ -295,7 +296,10 @@ initrd (hd0,4)/sidux/initrd.img
 persist
 </pre>
 
+							<!--- ####
 							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p>
+#### -->
+							<p>fromiso が VFATのファイルシステムを使う場合は Linux のファイルシステムを内容としてふくむファイルを使う必要があります。起動オプションは次のようになります:</p>
 <pre>
 persist=/sidux/sidux-rw
 </pre>
@@ -394,20 +398,44 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 #### -->
 							<p>sidux をUSBスティックやUSBハードディスクにインストールするのは普通のハードディスクにインストールするのと同じように簡単です。</p>
 
+							<!--- ####
 				<h5>Requirements:</h5>    
+#### -->
+				<h5>必要条件:</h5>    
+				<!--- ####
 							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+#### -->
+							<p>USB 2.0 プロトコルとUSB/SSDからの起動をサポートしているPC。</p>
 							
+							<!--- ####
 							<p>A sidux.iso image.</p>
+#### -->
+							<p>siduxのISOファイル.</p>
 							
+							<!--- ####
 				<h5>Two kinds of installation to USB/SSD</h5>
+#### -->
+				<h5>二種類のUSB/SSDインストール</h5>
 					  <ul>
 							<li>1) - fromiso </li>
+							<!--- ####
 							<li>2) - full (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+#### -->
+							<li>2) - 通常のフルインストール (インストーラプログラムからUSB/SSD のディスクに通常のハードディスクと同じようにインストールする。)</li>
 					  </ul>
+					  <!--- ####
 				<h3>USB/SSD fromiso Installation</h3>
+#### -->
+				<h3>USB/SSD への fromiso インストール</h3>
+				<!--- ####
 							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
+#### -->
+							<p> <span class="highlight-3">まず準備としてUSB/SSDデバイスを ext2 または FAT32 にフォーマットします。(２GB以上) このデバイスにはパーティションが一つだけになるようにして、このパーティションを起動可能にします。(BIOSによってはこれをしないと起動できないことがあるため) 。</span></p>
 
+							<!--- ####
 							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
+#### -->
+							<p><span class="highlight-3">fromiso</span> インストールはハードディスクにインストールされたシステムからは<span class="highlight-3">Menu>System>install-sidux-to-usb</span>で実行できます。ライブCDの場合は<span class="highlight-3">sidux Installer アイコン</span> からインストーラを実行して、<span class="highlight-3">Install to USB</span>を選びます。</p>
 
 <!--- ####
 							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
@@ -446,44 +474,95 @@ fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pac
 $ man fll-iso2usb
 </pre>
 
+<!--- ####
 			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+#### -->
+			<h3>USB/SSD への通常の(ハードディスクへのインストールと同じ)フルインストール</h3>
+			<!--- ####
 							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+#### -->
+							<p>最小限のサイズとしてUSB/SSD デバイスは:<br />
+							<!--- ####
 							sidux "LITE" needs 2.5 gig PLUS you need data space,<br />
+#### -->
+							"LITE" バージョンのsiduxはシステムに2.5GB <br />
+							<!--- ####
 							sidux "FULL" needs 4 gig PLUS you need data space</p>
-
+#### -->
+							"FULL" バージョンのsidux はシステムに 4 GBe</p>
+							<p>程度は必要でしょう。これにユーザーとして必要なデータスペースを計算してサイズを決めてください。</p>
+							<!--- ####
 							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
+#### -->
+							<p> <span class="highlight-3">準備としてデバイスを</span> <span class="highlight-2">ext2 </span><span class="highlight-3">にフォーマットしてから普通のハードディスクと同じようにパーティションします。</span></p>
 
+							<!--- ####
 							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ja.htm#Installation">Installing to your HD</a></p>
+#### -->
+							<p>ライブCDからインストーラを起動してUSB/SSDデバイスのパーティションを sidux のインストール先として選びます。インストーラのダイアログ上で例としてば<span class="highlight-3">sdbX </span>を選び、インストーラの指示に従ってインストールします。詳しくは<a href="hd-install-ja.htm#Installation">ハードディスクへのインストール</a>を参照。</p>
 
 <!--- ####
 							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
 #### -->
-							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
+							<p><span class="highlight-3">USB/SSDデバイスから起動するには BIOS の設定で 'Boot from USB' が有効になっていなくてはなりません。</span></p>
 
+							<!--- ####
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
+#### -->
+							<p><span class="highlight-3">その他のポイントとして: </span></p>
 						<ul>
+						<!--- ####
 							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+#### -->
+							<li>USB/SSD へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
 							
+							<!--- ####
 							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+#### -->
+							<li>他のPCで USB/SSD から起動する場合、そのPCのハードディスクにアクセスするにはfstabを修正する必要があるでしょう。</li>
 							
+							<!--- ####
 							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
+#### -->
+							<li>他のPCからも起動することを念頭に入れている場合は "fromiso" と "persist" のオプションを使うほうがいいでしょう。</li>
 						</ul>
 	</div>
 	<div class="divider" id="usb-hdd">
+	<!--- ####
 				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
+#### -->
+				<h3>USBのハードディスクのパーティションにフルインストールする</h3>
 
+				<!--- ####
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
+#### -->
+							<p>USB ハードディスクへのインストールには（とくにMSや他のディストロから来た新しいユーザーにとって）魅力があります。sidux をUSB ハードディスクにインストールすれば、そのPCを複数のシステムで起動するための(パーティショニング、GRUB設定などの)ややこしい作業を避けることができるからです。</p>
 							
+							<!--- ####
 							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
+#### -->
+							<p>ライブモードからインストーラを起動して <span class="highlight-3">USBインストールではなく、普通のインストールをはじめて</span> sidux システムをインストールしたいパーティション、例として <span class="highlight-3">sdbX </span> を選び、インストーラの指示に従います。GRUBはUSBハードディスクのパーティションにインストールします。</p>
 							
+							<!--- ####
 							<p>Read <a href="hd-install-ja.htm#Installation">Installing to your HD</a></p>
+#### -->
+							<p>詳しくは<a href="hd-install-ja.htm#Installation">ハードディスクへのインストール</a>参照。</p>
 							
+							<!--- ####
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
+#### -->
+							<p><span class="highlight-3">その他のポイントとして: </span></p>
 							
 						<ul>
+						<!--- ####
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+#### -->
+							<li>USB/SSD へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
 
+							<!--- ####
 							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+#### -->
+							<li>このシステムを他のPCでも使いたい場合は、ハードディスクのアクセスのため fstab を変更したり、X ウィンドウの設定のため xorg.conf を修正したり、ネットワーク設定を変更したりする必要があるでしょう。</li>
 						</ul>
 	</div>
 	<div class="divider" id="vtbox">

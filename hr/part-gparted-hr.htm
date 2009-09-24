@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision 27/10/2007 1500 UTC-->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -145,7 +145,8 @@
 				<li><a href="siduxcc-hr.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-hr.htm#live-cd-upgrade">Upgrade koristeći Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-hr.htm#kern-upgrade">Obnoviti kernel</a></li>
-				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Obnoviti instaliran sistem - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Obnoviti instaliran sistem - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-hr.htm#du-st">Obnoviti instaliran sistem -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-hr.htm">Internet i umrežavanje</a>
@@ -196,36 +197,37 @@
 			<h5><span class="highlight-2">POZOR: Da namjestite HD ime </span><a href="part-uuid-hr.htm">Molimo vas da se odnosite na UUID, označivanje Particija i fstab, standardno sidux koristi UUID</a></h5>
 
 			<h5>Partitioning tools may request a root password, type <span class="highlight-3">sux</span> then your password. On a Live-ISO none is set <span class="highlight-3">sux</span> then press 'enter' . Vidite: <a href="live-mode-hr.htm" >Live Modus</a></h5>
-			
-	<div class="spacer02"></div>
 
-							<p class="highlight-2">UVIJEK OSIGURAJTE PODATKE!</p>
-		
+	<div class="spacer02"></div>
+							<p class="warning-box">Za mijenjanje veličine NTFS particije je potreban restart sistema! NEMOJTE druge operacije izvoditi prije reboota, ili će te dobiti greške. <a href="part-gparted-hr.htm#ntfs"> Please read this.</a></p>
+
+							<p class="highlight-2">Uvijek osigurajte podatke!</p>
+
 				<h3>Basics</h3>
 							<p>Particija mora imati file-sistem. Linux pozna različite file-sisteme za korištaj. Tu je ReiserFS, Ext3, i za profesionalce XFS i JFS. Ext2 je koristan kao format za spremanje datoteka zato što ima MS Windows&#8482; pogonitelj za miješanje podataka.</p>
 
 							<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 file-sistem, to je glavni file-sistem za sidux i dobro podržavan.</p>
-		
+
 							<p>Sljedeće informacije preuzete su sa GParted Oficijalne dokumentacije i modificirane su da budu vodič za korištaj GParted sa siduxom, i nisu namjenene da budu definitivan vodič.</p>
 
 							<p>Za cijelu dokumentaciju vidite <a href="http://gparted.sourceforge.net">GParted</a></p>
-		
+
 		<h2>Koristiti GParted</h2>
 							<p>Kreiranje i podržaj Particija nije baš tipičan posao za svaki dan. Zato je dobra idea, da pročitate ovaj vodič jedan put, da upoznate koncepte panela koje će se pojaviti.</p>
-		
+
 		<ul>
 			<li>
 
 							<p>Ako GParted radi, jedan prozor je otvoren, i uređaji su skenirane.</p>
-		
+
 							<p>Ako kliknete na menu keyword (lijevo na gore), jedan pop down je prezentiran. Možete izabrati da aktualizirah prikaz Uređaja na vašem sistemu. Tipkovnica(Keyboard) kratica je dostupna da lagano možete aktualizirati informacije. Sa drugim izborom, vi možete izabrati Hard-disk na kojemu su Particije koje hoćete da modificirate. To je korisno ako imate više nego jedan hard-disk. This is useful if you have more than one hard drive or wish to partition  external drives like a USB stick.</p>
-		
+
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted02-en.png"  title="Gparted Devices View" alt="gparted" /></div>
 			</li>
 			<li>
 				<h3>Edit</h3>
 							<p>Otvori novi Prozor di možete da vidite podržavane tipove datoteka i nekoliko opcija za uređivanje Particija.</p>
-		
+
 							<p>Taj meni je drugi sa desne strane. Pokazuje vam 2 sive funkcije koje su dosta korisne:<br />
 							<span class="highlight-3">Undo</span><br />
 							<span class="highlight-3">Apply</span><br />
@@ -281,7 +283,7 @@
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted09-en.png"     title="Gparted Apply"  alt="operation view" /></div>
 
 							<p>Trajanje operacija je ovisno o novoj veličini Particije.</p>
-					
+
 							<p><b>Poslije manipuliranja Particijske table molimo vas odjavite se od sidux i&nbsp;restartujte vaš sistem u sidux da ponovo učitate novu Particijsku tablu.</b></p>
 						</li>
 					</ul>
@@ -289,22 +291,22 @@
 	</div>
 	<div class="divider" id="ntfs">
 		<h2>Mijenjanje veličine NTFS particija</h2>
-		
+
 							<p class="warning-box">Za mijenjanje veličine NTFS particije je potreban restart sistema! NEMOJTE druge operacije izvoditi prije reboota, ili će te dobiti greške.</p>
-		
+
 						<ul>
 							<li>Poslije boot-up u MS Windows&#8482;, sistem će vam pokazati specijalni screen, i vijest pitajući vas o konzistentnosti vašeg Uređaja : Checking(provjera) file system on c :</li>
-	
+
 							<li>Pustite AUTOCHK da radi: NT treba da provjeri svoj file-sistem poslije mijenjanja veličine.</li>
-			
+
 							<li>Na kraju tog procesa, računalo će automatski restartovati. To osigura da su sistemi perfektne.</li>
-			
+
 							<li>Poslije novog startanja, Windows XP će biti u redu, ali morate dopustiti da sistem sredi boot, i čekajte na login screen!</li>
 						</ul>
-		
+
 							<p><b>Full(Cjela) GParted dokumentacija: </b>Da pročitate cijelu dokumentaciju uključujući, kako da kopirate particije molimo vas da posjetite <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
-				<div id="rev">Content last revised 15/04/2009 0100hrs UTC</div>
+				<div id="rev">Content last revised 18/09/2009 0645hrs UTC</div>
 
 </div>
 </body>

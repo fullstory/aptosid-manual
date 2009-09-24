@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision  28/10/2007 1400 UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -145,7 +145,8 @@
 				<li><a href="siduxcc-hr.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-hr.htm#live-cd-upgrade">Upgrade koristeći Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-hr.htm#kern-upgrade">Obnoviti kernel</a></li>
-				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Obnoviti instaliran sistem - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-hr.htm#apt-upgrade">Obnoviti instaliran sistem - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-hr.htm#du-st">Obnoviti instaliran sistem -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="internet-connecting-hr.htm">Internet i umrežavanje</a>
@@ -196,7 +197,7 @@
 
 		<h3>Što znači apt?</h3>
  							<p>APT je kratica za Advanced Packaging Tool i sastoji se od kolekcije programa i skriptova koje pomažu sysadministratoru (u vašem slučaju root) s instalacijom i menadžmentom deb-datoteka, čak i sistemu da zna što je instalirano.</p>
-		
+
 		<div class="divider" id="sources-list">
 			<h2>Sources List</h2>
  							<p>The "APT" -system needs a config-file that contains information about the locations of the installable and upgradeable packages and is commonly referred to as a <span class="highlight-3">sources.list</span>.</p>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>Inside the folder are 2 files called:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>This has the benefit of easier (automated) mirror switching, and makes it safer to replace lists.</p>
@@ -213,7 +214,7 @@
 							<p>You can also add your own <span class="highlight-3">/etc/apt/sources.list.d/*.list </span>files</p>
 
  					<h3>sidux ISOs koriste sljedeću sources.list kao standard:</h3>
-			
+
 
 <pre>
 # Free University Berlin/ spline (Student Project LInux NEtwork), Germany
@@ -223,12 +224,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Dodatni podatci za non-free potrebe možete naći uvijek u našoj, stalno ponovljenoj <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>  28/02/2008 0800 sati UTC to su:</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -247,9 +242,9 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 </pre>
 
 							<p>Bilješka: U ovom primjeru ftp.us označuje da koristi njemačke repozitorije. Možete editirati tu datoteku, kao root, da koristite najbliže repozitorije, samo promijenite zemlju, promijenite ftp.us sa ftp.nl, ili ftp.uk. Većina zemalja ima lokalne mirrore. Iskoristivost pojasne širine je sačuvana; brzine poboljšane.</p>
- 
+
 							<p>Da vam je moguće da dobijete najnovije informacije o paketima koje APT koristi. Ta baza podataka sadrži pakete ali isto sadrži funkcijske zavisnosti za druge pakete, koje su korištene da programi rade kako treba. Program apt-get koristi tu bazu podataka kad instalira vaše izabrane pakete i riješi funkcijske zavisnosti, i tako garantirah da paketi rade kako treba. Ponavljanje te baze podataka obavite s naredbom apt-get update.</p>
- 
+
 <pre># apt-get update
 	(which returns)
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -260,15 +255,15 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Instalirati novi paket</h2>
- 
+
 			<p>Pretpostavljamo da je apt-baza podataka na novom stanju i ime paketa poznato, onda sljedeća naredba će instalirati paket zvan qemu i sve funkcijske zavisnosti: (poslije ćemo još vidjeti kako se traže paketi.)</p>
 
- 
+
 <pre># apt-geta install qemu
 Reading package lists... Done
 Building dependency tree... Done
@@ -284,7 +279,7 @@ After unpacking 11.9MB of additional disk space will be used.
 Do you want to continue [Y/n]? n
 
 </pre>
- 
+
 	</div>
 	<div class="divider" id="apt-delete">
 		<h2>Izbrisati paket</h2>
@@ -307,7 +302,7 @@ Removing qemu ...
 
 			<p>U tom zadnjem slučaju config-datoteke od paketa "gaim" (kako je postavljeno) nisu izbrisane sa sistema. Možete ih koristiti kad ponovo instalirate isti paket, i onda će raditi sa tim postavkama</p>
 			<p>Ako hoćete da izbrišete config-datoteke, upišite naredbu:</p>
- 
+
 <pre>
 # apt-get --purge remove  gaim
 Reading package lists... Done
@@ -368,7 +363,7 @@ apt-get install kmahjongg
 		</div>
 
 	<div class="divider" id="apt-upgrade">
-		<h2>Upgrade instaliranog sistema - dist-upgrade</h2>
+		<h2>Upgrade instaliranog sistema - dist-upgrade - Overview</h2>
 
 							<p>If the whole system is to be upgraded this is achieved through a <span class="highlight-3">dist-upgrade</span>. You should always check Current Warnings on the <a href="http://sidux.com">sidux</a> main web site, and check the warnings against the packages that your system wants to dist-upgrade. If you need to <span class="highlight-3">hold</span> a package refer to <a href="sys-admin-apt-hr.htm#apt-downgrade">Downgrade and Hold a package</a></p>
 
@@ -381,29 +376,16 @@ apt-get install kmahjongg
 			<p>Poslije ponavljanja baze podataka, možemo pronaći koji paketi imaju nove/novije verzije: (first install apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 			<p>Obnavljanje jednog paketa uključujući funkcijske zavisnosti možete na primjer (za gcc-4.0) obaviti sa:</p>
 
- 
+
 
 <pre>
 apt-get install gcc-4.0
@@ -434,39 +416,37 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-<span class="highlight-3">Y will download the upgraded packages without touching the installed system</span>
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p><span class="highlight-3">Y </span> will download the upgraded packages without touching the installed system.</p>
 
 							<p>After the 'dist-upgrade -d' has downloaded, and wish to complete the dist-upgrade,  immediately or at a later time,  please follow these instructions:</p>
-				
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
+
 
 <div class="box block">
 			<p><span class="highlight-2">NIKADA nemojte obaviti dist-upgrade niti upgrade dok ste u X.</span><span  class="highlight-4">  Uvijek provjerite aktualna upozorenja na <a href="http://sidux.com">sidux</a> glavnoj web site. Ta upozorenja su tu, zato što je Debian sid/unstable i ponovljeni je svaki dan.</span> </p>
-			
-<pre>Odjavite se od KDE. 
-Uđite u textmodus s Ctrl+Alt+F1 ; 
-prijavite se kao root, i onda upišite init 3 ; 
+
+<pre>Odjavite se od KDE.
+Uđite u textmodus s Ctrl+Alt+F1 ;
+prijavite se kao root, i onda upišite init 3 ;
 apt-get update ; apt-get dist-upgrade ;
 apt-get clean
 init 5 &amp;&amp; exit
 </pre>
 		<span class="highlight-2">[NIKADA DIST-UPGRADE [ili UPGRADE] s adept ili synaptic <a href="sys-admin-apt-hr.htm#apt-upgrade"> Pogledajte na "Upgrade instaliranog sistema" </a>]:</span>
-	
+
 	</div>
 
 						<p class="highlight-2">Ako ne uđete u init 3, to je vaš problem, upozorili smo vas!!!!!!!!!!!!!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 			<h5>Razlozi zašto da NE koristite nista drugo osim apt-get za dist-upgrade</h5>
 
@@ -487,16 +467,16 @@ init 5 &amp;&amp; exit
 			<p>Druga vrlo korisna naredba u APT-sistemu je apt-cache; to pretraži APT-bazu podataka i prikazuje informacije o paketima; na primjer listu svih paketa, koje sadržavaju ili adresiraju prema "sidux" i "manual" dobijete sa:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Ako su vam potrebne informacije o jednim specijalnom paketu, možete koristiti:</p>
 
@@ -516,18 +496,8 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Sve verzije paketa koje se mogu instalirati (ovisi isto o vašoj sources.list datoteki) možete polistati sa:</p>
 
@@ -552,6 +522,8 @@ apt-get install packagesearch
 
 							<p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>On initial use you may be prompted to install deborphan. Please use with care.</p>
 
 							<p>Search can be done by</p>
@@ -565,12 +537,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>Additionally a lot of information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p>
-							
+
 
 	</div>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
+			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">A complete description of the APT-System can be found at APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 15/03/2009 0025hrs </div>
+			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </div>

@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last file translation revision  Adriana 29/02/20078 1200 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="La pagina sidux.com forums şi wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-ro.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-ro.htm#live-cd-upgrade">Actualizarea folosind Live - ISO</a></li>
 				<li><a href="sys-admin-kern-upg-ro.htm#kern-upgrade">Actualizarea kernel</a></li>
-				<li><a href="sys-admin-apt-ro.htm#apt-upgrade">Actualizarea sistemului instalat -  dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-ro.htm#apt-upgrade">Actualizarea sistemului instalat -  dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-ro.htm#du-st">Actualizarea sistemului instalat -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-ro.htm">Administrarea Sistemului</a>
@@ -206,7 +207,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>In fisier sunt doua dosare numite:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Acesta are beneficiul unei schimbari de oglindire priorica (automata), ceea ce face posibila o inlocuire a listelor, mult mai sigura.</p>
@@ -223,12 +224,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Viitoare intrări  pentru driverele non-free pot fi găsite aici : <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>  La 28/02/2008 0800 hrs UTC ele erau :</p>
 <pre>
-#Vezi sources.list(5)pentru infoematii aditionale, in special
-# Noteaza ca nu poti folosi decit  http, ftp or file URIs
-# CDROMs sunt accesibile prin unealta apt-cdrom.
-# The /etc/apt/sources.list.d/ directory va ofera on mod de a adauga add sources.list
-# Intrari in dosare separate care sirsesc in sources.list file.
-
 # Instabil
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -249,7 +244,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>NOTĂ : În acest exemplu  ftp.us indică folosirea repositoriului german .Se poate edita acest fişier , ca root , să folosească repositoriul cel mai apropiat de dumneavoastră schimbând ţara ,ex.schimbaţi ftp.us în ftp.ro , sau ftp.uk . Majoritatea ţărilor au servere locale . În felul acesta lăţimea de bandă este conservata ; viteza îmbunătăţită .</p>
 
 							<p>Pentru a obţine informaţii proaspete despre pachete APT foloseste o bază de date .  Această bază de date conţine atât pachetele principale dar şi alte pachete necesare acestora să funcţioneze corect (numite dependinţe ). Programul apt-get foloseşte această bază de date când instalează pachetele alese de dumneavoastră şi pentru a rezolva toate dependinţele şi prin aceasta se garantează că pachetele instalate vor lucra . Împrospătarea acestei baze de date se face cu comanda  apt-get update .</p>
- 
+
 <pre># apt-get update
 	(care va aduce )
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -260,15 +255,15 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Instalarea unui nou pachet </h2>
- 
+
 			<p>Presupunând că baza de date APT este updatată şi numele pachetului de instalat cunoscut atunci comanda următoare va instala un pachet numit ca în exemplu împreună cu toate toate dependinţele sale : (mai departe vom vedea cum căutam şi găsim pachete.)</p>
 
- 
+
 <pre># apt-get install qemu
 Reading package lists... Done
 Building dependency tree... Done
@@ -284,9 +279,9 @@ After unpacking 11.9MB of additional disk space will be used.
 Do you want to continue [Y/n]? n
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Ştergerea unui pachet</h2>
 							<p>Similarly it should come as no surprise that the following will deinstall a package, however it will not remove the dependencies: </p>
 
@@ -309,7 +304,7 @@ Removing gaim ...
 
 			<p>În acest ultim caz fişierul de configurare al pachetului 'gaim' (practic modul cum este setat) nu a fost şters din sistem . Îl puteţi folosi când instalaţi acelaşi pachet din nou şi va functiona cu aceste setari .</p>
 			<p>Dacă doriţi ca şi fişierul de configurare să fie şters lansaţi comanda :</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -372,7 +367,7 @@ apt-get install kmahjongg
 		</div>
 
 	<div class="divider" id="apt-upgrade">
-		<h2>Upgrade-ul unui Sistem Instalat - dist-upgrade</h2>
+		<h2>Upgrade-ul unui Sistem Instalat - dist-upgrade - Overview</h2>
 
 							<p>Daca intregul sistem trebuie sa fie imbunatatit, aceasta actiune este obtinuta prin <span class="highlight-3">dist-upgrade</span>. Verifica intotdeauna anunturile de alerta curente pe <a href="http://sidux.com">sidux</a> main web site,si verifica alertele impotriva pachetelor pe care sistemul vrea sa le 'dist-upgrade". Daca ai nevoie sa <span class="highlight-3">retii</span> un pachet, refera-te la  <a href="sys-admin-apt-ro.htm#apt-downgrade">Downgrade and Hold a package</a></p>
 
@@ -385,29 +380,16 @@ apt-get install kmahjongg
 			<p>După ce baza de date a fost updatată , se poate afla care pachete au versiuni noi sau mai noi : (instalati mai intii apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 			<p>Update-ul unui singur pachet , inclusiv dependinţele sale poate fi făcut (de exemplu la  gcc-4.0)  cu :</p>
 
- 
+
 
 <pre>
 # apt-get install gcc-4.0
@@ -422,8 +404,8 @@ gcc-4.0 is already the newest version.
 
 							<p class="highlight-3">O optiune putin cunoscuta, dar fantastica, de a verifica, ce pachete sunt in dist-upgrade este -d flag:</p>
 
-<pre> 
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+<pre>
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>The -d allows va permite sa  descarcati  dist-upgrade fara sa-l instalati in timp ce sinteti X de la consola si va permite sa efectuati dist-upgrade-ul in 'init 3' mai tirziu. Aceasta va da sansa de asemeni sa verificati alertele impotriva listei, ceea ce va ofera, cu intelepciune, optiunea de a continua sau de a termina astfel.</p>
 
@@ -439,43 +421,40 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-<span class="highlight-3">Y - veti descarca pachetele imbunatatite fara a va atinge de sistemul instalat </span>
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p><span class="highlight-3">Y </span> veti descarca pachetele imbunatatite fara a va atinge de sistemul instalat.</p>
 
 							<p>După ce  'dist-upgrade -d'  a făcut descărcarea , şi doriţi să finalizaţi procesul de dist-upgrade,  imediat sau altă dată ,  vă rugăm urmaţi instrucţiunile :</p>
-				
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">ABSOLUT NICIODATĂ să nu faceţi dist-upgrade şi nici măcar upgrade în timp ce lucraţi  în X<div class="highlight-4"> Întotdeauna verificaţi Current Warnings de pe pagina principală <a href="http://sidux.com">sidux</a> . Aceste avertismente există acolo cu un motiv bine întemeiat şi din cauza naturii unstable şi a update-ului zilnic.</div>
 <pre>
-Log out of KDE. 
-Go to Textmode by doing Ctrl+Alt+F1 
-logon as root, and then in type init 3 
+Log out of KDE.
+Go to Textmode by doing Ctrl+Alt+F1
+logon as root, and then in type init 3
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 
 </pre>
 			<div class="highlight-2">NICIODATĂ NU FACEŢI DIST-UPGRADE [sau UPGRADE] cu adept, synaptic sau aptitude.</div>
 
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 
 			<p class="highlight-2">Dacă nu intraţi în init 3 , ei bine , greu de voi ,, aţi fost avertizaţi !!!!!!!!!!!!!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Motivele pentru care NU TREBUIE să folosiţi altceva în afară de apt-get pentru dist-upgrade</h4>
 
@@ -497,16 +476,16 @@ init 5 &amp;&amp; exit
 			<p>O altă comandă foarte utilă în APT-system este  apt-cache; aceasta caută în APT-Database şi arată informaţiile despre pachete ; de ex. o listă a tuturor pachetelor care conţin termenii  "sidux" şi "manual" se obţine prin :</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Dacă doriţi informaţii mai în amănunt despre un anumit pachet puteţi folosi :</p>
 
@@ -526,18 +505,8 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Toate versiunile instalabile ale unui pachet  (depind şi de sources.list ) pot fi listate tipărind :</p>
 
@@ -562,6 +531,8 @@ apt-get install packagesearch
 
 							<p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>On initial use you may be prompted to install deborphan. Please use with care.</p>
 
 							<p>Search can be done by</p>
@@ -575,12 +546,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>Additionally a lot of information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p>
-							
+
 
 	</div>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">O descriere completă despre Sistemul APT poate fi găsită la  APT-HOWTO</a> </p>
+			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">O descriere completă despre Sistemul APT poate fi găsită la  APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 15/03/2009 0025hrs UTC</div>
+			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC</div>
 
 
 </div>

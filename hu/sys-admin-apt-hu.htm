@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 10/01/2008 0400 UTC -->
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-hu.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-hu.htm#live-cd-upgrade">Frissítés a LiveCD használatával</a></li>
 				<li><a href="sys-admin-kern-upg-hu.htm#kern-upgrade">A kernel frissítése</a></li>
-				<li><a href="sys-admin-apt-hu.htm#apt-upgrade">Telepített rendszer frissítése -  dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-hu.htm#apt-upgrade">Telepített rendszer frissítése -  dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-hu.htm#du-st">Telepített rendszer frissítése -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-hu.htm">Rendszeradminisztráció</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>A könyvtárban két fájl található:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> és<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> és<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Ennek előnye az egyszerűbb (automatikus) tükörszerver váltás és a listák biztonságosabb kezelése.</p>
@@ -222,12 +223,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>További, mindig friss non-free forrásokat is tartalmazó listák a <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> és <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a> címeken találhatók. A 2008.02.28. 0800 UTC szerinti állapot:</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -247,7 +242,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>MEGJEGYZÉS: Példánkban az ftp.us mutatja, hogy USA-ban található tárolókat használtuk. Rootként szerkesztheted ezt a fájlt, beállíthatod, hogy a hozzád legközelebb eső tárolókra hivatkozzon. Egyszerűen változtasd meg az ország jelét oly módon, hogy az ftp.us-ből legyen például ftp.hu, vagy ftp.de. A legtöbb országban található helyi tükörszerver, így jobb sávszélességet kaphatunk, a letöltés is sokkal gyorsabb lehet.</p>
 
 							<p>A csomagok frissített információinak tárolására az APT egy adatbázist használ. Ez az adatbázis tartalmazza a csomagokat és azt, hogy milyen további csomagok szükségesek egy adott csomag működéséhez (ezt hívjuk függőségnek). Azt apt-get program ezt az adatbázist használja, amikor telepíti az általad kiválasztott csomagokat, megkeresi benne a függőségeket, így biztosítva, hogy választott csomag működjék. Az adatbázis frissítése az apt-get update parancs kiadásával történik.</p>
- 
+
 <pre># apt-get update
 	(amelynek kimenete: )
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -258,15 +253,15 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Új csomag telepítése</h2>
- 
+
 			<p>Tegyük fel, hogy az apt-adatbázis friss, a csomag nevét ismerjük, így a következő parancs feltelepíti például a qemu nevű csomagot és annak valamennyi függőségét: (a továbbiakban megtudhatod majd, hogyan keress és találj meg csomagokat.)</p>
 
- 
+
 <pre># apt-get install qemu
 Reading package lists... Done
 Building dependency tree... Done
@@ -282,9 +277,9 @@ After unpacking 11.9MB of additional disk space will be used.
 Do you want to continue [Y/n]? n
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Csomag törlése</h2>
 							<p>Similarly it should come as no surprise that the following will deinstall a package, however it will not remove the dependencies: </p>
 
@@ -308,7 +303,7 @@ Removing gaim ...
 			<p>Ebben az esetben a "gaim" nevű csomag beállító-fájljai nem lettek törölve. Felhasználhatók ha ugyanazt a csomagot újratelepíted, így az eredeti beállításokkal fog ismét működni.</p>
 
 			<p>Ha a beállító-fájlokat is törölni akarod, így add ki a parancsot:</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -351,7 +346,7 @@ dpkg --get-selections | grep hold
 							<p>A lépések bemutatásához a <span class="highlight-3">kmahjongg</span>-ot használjuk példaként:</p>
 
 							<ol>
-							<li><pre>Engedélyezd a testing forrásokat a <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>-ben<br />(töröld a sor eleji # karaktert) így valami hasonlót fogsz kapni: <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>							
+							<li><pre>Engedélyezd a testing forrásokat a <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>-ben<br />(töröld a sor eleji # karaktert) így valami hasonlót fogsz kapni: <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
 							<li><pre>apt-get update</pre></li>
 							<li><pre>apt-get install kmahjongg/testing </pre></li>
 							<li>Tedd a frissen telepített csomagot visszatartott (hold) státuszba:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
@@ -368,7 +363,7 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-				<h2>Telepített rendszer frissítése - dist-upgrade</h2>
+				<h2>Telepített rendszer frissítése - dist-upgrade - Overview</h2>
 
 							<p>Ha a teljes rendszert frissíteni akarod, megteheted a <span class="highlight-3">dist-upgrade</span> segítségével. Mindig olvasd el az érvényes figyelmeztetéseket (Current Warnings) a <a href="http://sidux.com">sidux</a> fő honlapján és ellenőrizd le, hogy a figyelmeztetésben foglaltak érintik-e a te rendszereden lévő, frissítendő csomagokat is. Ha szükséges, tedd <span class="highlight-3">visszatartott (hold)</span> státuszba a csomagot, a <a href="sys-admin-apt-hu.htm#apt-downgrade">Csomag visszaállítása és/vagy visszatartása</a> című fejezetben foglaltak szerint.</p>
 
@@ -381,29 +376,16 @@ apt-get install kmahjongg
 			<p>Az adatbázis frissítése után megkeresheted mely csomagokból van új, vagy frissített verzió: (ehhez először az apt-show-versions csomag telepítése szükséges)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 			<p>Egy csomag és annak függőségei (pl. gcc-4.0) a következők szerint frissíthető:</p>
 
- 
+
 
 <pre>
 apt-get install gcc-4.0
@@ -434,41 +416,39 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-<span class="highlight-3">Y (yes) válasz esetén letölti a frissített csomagokat, de a rendszeren nem végez változtatásokat.</span>
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p><span class="highlight-3">Y (yes) </span> válasz esetén letölti a frissített csomagokat, de a rendszeren nem végez változtatásokat.</p>
 
 							<p>Miután a "dist-upgrade -d" elkészült a letöltéssel és szeretnéd a rendszerfrissítést befejezni akár azonnal, akár később, kövesd az alábbi instrukciókat:</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">SOHA NE végezz dist-upgrade, vagy upgrade műveleteket amíg fut a grafikus felület.<div class="highlight-4"> Mindig olvasd el az Aktuális Figyelmezetéseket (Current Warnings) a  <a href="http://sidux.com">sidux</a> fő honlapján. E figyelmeztetések azért vannak, mert a rendszer a Debian fejlesztői ágra (sid) épül, ami naponta változik.</div>
 <pre>
-Jelentkez ki a KDE-ből. 
-Lépj át szöveges módba a Ctrl+Alt+F1 megnyomásával. 
-Jelentkezz be root-ként, majd add ki az "init 3" parancsot. 
+Jelentkez ki a KDE-ből.
+Lépj át szöveges módba a Ctrl+Alt+F1 megnyomásával.
+Jelentkezz be root-ként, majd add ki az "init 3" parancsot.
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 </pre>
 			<div class="highlight-2">SOHA NE FUTTASS DIST-UPGRADE [vagy UPGRADE] műveletet adept, synaptic vagy aptitude használatával. </div>
 
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 
 					<p class="highlight-2">Ha nem lépsz át 3-as futási szintre (init 3), rendben, a te dolgod... de szóltunk!!!!!!!!!!!!!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Az Okok, hogy dist-upgrade elvégzéséhez miért NE használj mást mint az apt-get</h4>
 
@@ -490,16 +470,16 @@ init 5 &amp;&amp; exit
 			<p>Egy másik igen hasznos eszköze az APT-rendszernek az apt-cache; keresni tud az APT-adatbázisnan és információkat jelenít meg a csomagokról. Például azoknak a csomagoknak a kilistázása, amelyek tartalmazzák, vagy hivatkoznak a "sidux" és "manual" kifejezésekre, így történik:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Ha bővebb információt szeretnél egy adott csomagról:</p>
 
@@ -519,18 +499,8 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Egy csomag minden telepíthető verziója (ez függ a sources.list tartalmától) megtekinthető az alábbiak szerint:</p>
 
@@ -556,6 +526,8 @@ apt-get install packagesearch
 
 							<p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>On initial use you may be prompted to install deborphan. Please use with care.</p>
 
 							<p>Search can be done by</p>
@@ -569,12 +541,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>Additionally a lot of information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p>
-							
+
 
 	</div>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Az APT-rendszer teljes leírása megtalálható az APT-HOWTO lapjain.</a> </p>
+			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Az APT-rendszer teljes leírása megtalálható az APT-HOWTO lapjain.</a> </p>
 
-			<div id="rev">Az oldal utoljára frissítve 15/03/2009 0025hrs UTC </div>
+			<div id="rev">Az oldal utoljára frissítve 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </div>

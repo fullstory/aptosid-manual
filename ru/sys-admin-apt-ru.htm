@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by blumkina 17/04/2009 1400 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by kostiagol, RoEn -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-ru.htm#siduxcc">Центр управления</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с Live ISO</a></li>
 				<li><a href="sys-admin-kern-upg-ru.htm#kern-upgrade">Обновление ядра</a></li>
-				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление системы - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление системы - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-ru.htm#du-st">Обновление системы -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-ru.htm">Системное администрирование</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>В этом каталоге находятся 2 файла::<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> и<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> и<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Это имеет то преимущество, что выбрать желаемое зеркало можно легче (mirror switching)  и в том числе легче сделать добавление или замену источника списка.</p>
@@ -223,12 +224,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>Сведения по включению источников несвободного ПО содержатся в нашем регулярно обновляемом source.list по адресу: <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> и <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>. Состояние на 28.февраля 2008, 8.00 UTC :
         </p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -248,7 +243,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 				<p>ПРИМЕЧАНИЕ: В этом примере используются немецкие репозитории. Вы можете отредактировать данный файл по собственному усмотрению, выбрав наиболее близкие к Вам репозитории (просто заменив обозначение страны, например ftp.de на ftp.ru). Во многих странах существуют локальные репозиторию. При этом ширина канала остается фиксированной, а скорость возрастает.</p>
 
 			<p>Для поддержания информации о доступных пакетах в актуальном состоянии APT использует собственную базу данных. В ней, помимо информации о самих пакетах, содержится информация о необходимых для установки и работы дополнительных пакетах(т.н. зависимости). При установке выбранного пакета  apt-get  использует эту базу данных для установки также и всех необходимых для удовлетворения зависимостей пакетов, гарантируя тем самым работоспособность выбранного Вами. Обновление данной БД осуществляется с помощью  'apt-get update'.</p>
- 
+
 <pre># apt-get update
 	...
 Получено:1 http://sidux.com sid Release.gpg [189B]
@@ -259,15 +254,15 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 Получено:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Установка новых пакетов</h2>
- 
+
 			<p>Предполагая, что пакет выбран, а база данных APT  обновлена, следующей командой можно установить выбранный пакет (например gaim):</p>
 
- 
+
 <pre># apt-get install gaim                                                                                                    02 Июл Пнд 0:51
 Чтение списков пакетов... Готово
 Построение дерева зависимостей
@@ -294,9 +289,9 @@ Conf gaim (1:2.0.0+fake.2 Debian:unstable)
 ...
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Удаление пакета</h2>
 							<p>Не удивляйтесь что при удалении пакета, все его зависимости (пакеты от которых он зависит) останутся: </p>
 
@@ -317,7 +312,7 @@ Rev gaim [0.60]...
 </pre>
 
 			<p>В данном примере конфигурационный файл пакета 'gaim' не удаляется из системы и буде использован для восстановления сохраненных настроек в случае повторной установки  'gaim'. Для удаления из системы конфигурационных файлов вместе с выбранным пакетом используют следующую команду:</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -379,7 +374,7 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-					<h2>Обновление установленной системы - dist-upgrade</h2>
+					<h2>Обновление установленной системы - dist-upgrade - Overview</h2>
 
 							<p>Полное обновление системы осуществляется с <span class="highlight-3">dist-upgrade</span>. Всегда предварительно ознакомьтесь с существующими предупреждениями (Current Warnings) на главном сайте <a href="http://sidux.com">sidux</a>,  а также с предупреждениями относительно непосредственно обновляемых системой пакетов! В случае необходимости пакет нужно <span class="highlight-3">заморозить</span> читайте в главе <a href="sys-admin-apt-ru.htm#apt-downgrade">Понижение версии пакета</a></p>
 
@@ -392,29 +387,16 @@ apt-get install kmahjongg
 			<p>После обновления базы данных  APT  следующей командой можно узнать какие именно пакеты доступны к обновлению: (first install apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 			<p>Обновление единичного пакета вместе с зависимостями (например gcc-4.0)возможно следующей командой:</p>
 
- 
+
 
 <pre>
 apt-get install gcc-4.0
@@ -429,8 +411,8 @@ apt-get install gcc-4.0
 
 							<p class="highlight-3">Хорошая, но малоизвестная возможность проверить какие пакеты  затрагивает 'dist-upgrade' состоит в использовании флага -d:</p>
 
-<pre> 
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+<pre>
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>Данную команду можно использовать даже в Х-сессии ( в любом графическом эмуляторе терминала, таком как konsole), отложив 'dist-upgrade' в текстовом режиме на "потом". А заодно появляется возможность проверить предупреждения по загруженным пакетам с тем, чтобы принять обновление или отказаться.</p>
 
@@ -446,41 +428,39 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 Пакеты, которые будут обновлены:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 обновлено 35, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 6 пакетов не обновлено.
 Необходимо скачать 23,4MБ архивов.
 После данной операции, объём занятого дискового пространства возрастёт на 594КB.
-Хотите продолжить [Д/н]?
-
-<span class="highlight-3">Нажмите Y для загрузки пакетов</span>
+Хотите продолжить [Д/н]?<span class="highlight-3">Y </span>
 </pre>
+							<p>Нажмите<span class="highlight-3">Y </span> для загрузки пакетов.</p>
 
 							<p>После окончания выполнения 'dist-upgrade -d', собираясь  завершить dist-upgrade немедленно или когда-либо позже, следуйте приведенной ниже инструкции:</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">НИКОГДА не выполняйте ни dist-upgrade ни upgrade, не остановив сервер Х.<div class="highlight-4"> Всегда предварительно ознакомьтесь с предупреждениями по обновлениям на главном сайте <a href="http://sidux.com">sidux</a> . Эти предупреждения размещаются по причине нестабильности и ежедневных обновлений!</div>
 <pre>
-Log out of KDE. 
-Go to Textmode by doing Ctrl+Alt+F1 
-logon as root, and then in type init 3 
+Log out of KDE.
+Go to Textmode by doing Ctrl+Alt+F1
+logon as root, and then in type init 3
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 </pre>
 			<div class="highlight-2">НИКОГДА не выполняйте команды "DIST-UPGRADE" или "UPGRADE" в графическом интерфейсе X, а также с помощью программ adept, synaptic или aptitude.</div>
 
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 
 							<p class="highlight-2">Если вы не перейдёте на init-level 3 (режим текстовой консоли), что делать, Вас предупредили!!!!!!!!!!!!!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Причины использования только 'apt-get' для 'dist-upgrade'</h4>
 
@@ -502,16 +482,16 @@ init 5 &amp;&amp; exit
 			<p>Еще одна очень удобная команда из системы  APT- apt-cache; с ее помощью осуществляется поиск и отображение информации о пакете  в APT-Database; например перечень всех пакетов, содержащих в названии "sidux" и "manual" можно получить таким способом:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Расширенная информация о конкретном пакете доступна после выполнения:</p>
 
@@ -531,19 +511,9 @@ Size: 818060
 MD5sum: 966e148481dc112f03baf9a3cc6fff14
 SHA1: e0216db010d8c21225ac8cb3025f76483ee8579b
 SHA256: a2390bd6899790267357e732ad092e0012cc3628da66afbf3b96f6fd74f0ab71
-Description: the official Russian sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+Description: the official en sidux manual
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Все доступные версии пакета ( их перечень зависит от содержимого sources.list) получаем так:</p>
 
@@ -568,6 +538,8 @@ apt-get install packagesearch
 
 							<p>После первого старта этой программы нужно выбрать в меню Packagesearch > Preferences опцию <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>При этом может появиться окно с информацией о том, что отсутствует deborphan. Информации deborphan нужно использовать крайне осторожно.</p>
 
 							<p>На выбор предоставлены следующие критерии поиска:</p>
@@ -581,12 +553,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>Дополнительно предлагается большое количество информации к пакетам Debian, например, какие файлы находятся в одном пакете. Дальнейшую информацию по использованию packagesearch можно найти в меню Help > Contents. В настоящее время информация имеется только на английском.</p>
-							
+
 
 	</div>
-						<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Полное описание системы APT можно найти в APT-HOWTO Debian.</a>. </p>
+						<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Полное описание системы APT можно найти в APT-HOWTO Debian.</a>. </p>
 
-			<div id="rev">Содержание, последний раз пересмотрено 15/03/2009 0025hrs UTC </div>
+			<div id="rev">Содержание, последний раз пересмотрено 17/09/2009 0740 hrs UTC</div>
 </div>
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ceti 06/05/2009 2255 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-pt-br.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-pt-br.htm#live-cd-upgrade">Atualizando pelo Live- ISO</a></li>
 				<li><a href="sys-admin-kern-upg-pt-br.htm#kern-upgrade">Atualizando o kernel</a></li>
-				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema -  dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema -  dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-pt-br.htm#du-st">Atualizando todo o sistema -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-pt-br.htm">Administração do Sistema</a>
@@ -193,8 +194,10 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Como Instalar Novos Kernels</h2>
-					<h4>Os kernels do sidux ficam no APT.  <a href="cd-dl-burning-pt-br.htm#download-sidux">Favor escolher o espelho mais próximo e alterar sua sources.list.</a></h4>
-
+					<h5><span class="highlight-3">The sidux kernels are in the sidux repo as a .deb and automatically included in a dist-upgrade.</span></h5>
+<div class="spacer01"></div>
+							<h5><span class="highlight-3">The sidux kernels are in the sidux repo as a .deb and automatically included in a dist-upgrade.</span></h5>
+<div class="spacer01"></div>
 							<p>Os kernels estão disponíveis nos seguintes formatos:</p>
 						<ul>
   							<li><b>sidux-686</b> - kernel para a família de processadores i686, com dual core ou não e outras CPUs</li>
@@ -202,7 +205,7 @@
   							<li><b>sidux-amd64</b> - kernel para a plataforma de 64 bit</li>
 						</ul>
 
-					<h5>Para uma instalação manual, eis os passos a serem seguidos:</h5>
+					<h5>Steps to do it manually without dist-upgrading are:</h5>
 
 						<p><b>1.</b> Abra o terminal e torne-se root; depois digite:</p>
 
@@ -215,7 +218,7 @@ apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
 							<p>Para usar o novo kernel, é necessário reiniciar o computador</p>
 
-							<p>Se ele trouxer problemas, você pode reiniciar a máquina e escolher um kernel antigo.</p>
+							<p><span class="highlight-3">Se ele trouxer problemas, você pode reiniciar a máquina e escolher um kernel antigo.</span></p>
 
 					<h5>Módulos</h5>
 
@@ -231,7 +234,7 @@ apt-cache search 2.6.*.slh.*-sidux
 
 
  							<p>Para instalar os módulos necessários (por exemplo, virtual-ose e qc-usb):</p>
- 
+
  <pre>
 apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXEMPLO)
 apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXEMPLO)
@@ -248,11 +251,11 @@ cat /proc/modules
 			<h2>Como instalar módulos com o Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
 							<p>O dmakms é útil na instalação de módulos do kernel que não são preparados antecipadamente para o kernel do sidux. O dmakms destina-se a automatizar a instalação dos módulos com o module-assistant <span class="highlight-3">(m-a)</span> quando atualizando ou instalando novos kernels.</p>
-							
+
 <pre>
 apt-get install dmakms module-assistant
 </pre>
-							<p>Antes de ativar o Dynamic Module-Assistant Kernel Module Support, use o module-assistant para instalar o(s) módulo(s) desejado(s) para o kernel rodando atualmente. Para mais informações sobre module-assistant queira ler, por favor, sua página de manual:</p> 
+							<p>Antes de ativar o Dynamic Module-Assistant Kernel Module Support, use o module-assistant para instalar o(s) módulo(s) desejado(s) para o kernel rodando atualmente. Para mais informações sobre module-assistant queira ler, por favor, sua página de manual:</p>
 <pre>
 man m-a
 </pre>
@@ -280,18 +283,18 @@ speakup-source
 							<p>Repita o mesmo processo para todos os outros pacotes de módulos do kernel compatíveis com o module-assistant.</p>
 
 							<p>Um pacote 'linux-headers' deve ser instalado para cada pacote com uma imagem do kernel correspondente, para que o module-assistant possa compilar os módulos do kernel.</p>
-							
+
 					<h4>Falha no carregamento do módulo</h4>
-					
+
 							<p>Se houver falha no carregamento do módulo, por qualquer motivo (um novo componente do xorg, um problema no sistema de arquivos ou uma recusa do X em reiniciar após um reboot] :</p>
 <pre>
-modprobe &lt;módulo&gt; 
+modprobe &lt;módulo&gt;
 </pre>
-							<p>Daí, reinicie o computador.</p> 
-							
+							<p>Daí, reinicie o computador.</p>
+
 							<p>Se ainda assim o módulo se recusar a ser carregado:</p>
  <pre>
- m-a a-i -f module-source 
+ m-a a-i -f module-source
 </pre>
 							<p>Isso reconstrói o módulo. <span class="highlight-3">Agora reinicie.</span></p>
 
@@ -329,8 +332,8 @@ kernel-remover
 							<p>Alternativamente, você pode usar o siduxcc, que também usa o script kernel-remover. </p>
 
 	</div>
-	
-	<div id="rev">Content last revised 02/05/2009 0200 UTC</div>
+
+	<div id="rev">Content last revised 17/09/2009 0800 UTC</div>
 
 </div>
 </body>

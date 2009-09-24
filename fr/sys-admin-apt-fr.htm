@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision par LjanA 04/06/2009 18H20 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->s
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-fr.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-fr.htm#live-cd-upgrade">Mettre à niveau à partir d'un Live- ISO</a></li>
 				<li><a href="sys-admin-kern-upg-fr.htm#kern-upgrade">Mise à niveau du noyau</a></li>
-				<li><a href="sys-admin-apt-fr.htm#apt-upgrade">Mettre à niveau un système installé - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-upgrade">Mettre à niveau un système installé - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-fr.htm#du-st">Mettre à niveau un système installé -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-fr.htm">Administration Système</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>Dans ce répertoire se trouvent deux fichiers :<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> and<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Ceci présente l'avantage de faciliter les modifications de miroirs ( automatisation), et rend les changements de listes plus sûrs.</p>
@@ -222,12 +223,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Des entrées additionnelles pour la récupération d'outils non-libres, sont disponibles sur <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> and <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>, et mises-à-jour régulièrement.  Par exemple au 28/02/2008 à 08H00 UTC elles sont :</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -247,7 +242,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>NOTE: Dans cet exemple, ftp.us indique le recours à des miroirs aux USA. Vous pouvez éditer votre fichier, afin d'utiliser des miroirs plus proches de vous, en changeant simplement l'abréviation de pays, par exemple en remplaçant ftp.us par ftp.fr ou ftp.ca. Il existe des miroirs debian dans de très nombreux pays. Ainsi la bande passante sera utilisée de manière intelligente et la vitesse améliorée.</p>
 
 							<p>Pour actualiser son information relative aux paquets disponibles dans des version à jour, APT utilise une base de données. Cette base de données stocke l'information sur chaque paquet (paquets et paquetages sont utilisés indifférament), mais également celle se rapportant à d'autres paquetages pouvant se révéler indispensables pour que tel ou tel paquet fonctionne (on appelle ceci les dépendances). Le programme apt-get consulte cette base de données lorsqu'il installe un paquet à votre demande ; il en identifie grâce à elle les dépendances, vous assurant ainsi que le paquet logiciel choisi fonctionne. La mise-à-jour de la base de données s'opère par la commande apt-get update.</p>
- 
+
 <pre># apt-get update
 	(which returns)
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -258,17 +253,17 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
 
 							<p>Dans sidux, veillez à mettre-à-jour votre base de données chaque jour où vous souhaitez apporter une modification à votre système de paquetages, c'est-à-dire avant d'installer un ou plusieurs paquets de logiciels.</p>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Installer un nouveau paquet</h2>
- 
+
 							<p>On suppose qu'en vertu de ce qui est dit au paragraphe précédent, votre base de données APT est à jour et que le nom du paquet est connu. Dans ce cas, la commande suivante va servir à installer par exemple, le paquet qemu, ainsi que ses dépendances : (nous verrons plus loin comment rechercher et trouver des paquets.)</p>
 
- 
+
 <pre># apt-get install qemu
 Lecture de la liste des paquets... Done
 Construction de l'arbre des dépendances... Done
@@ -284,9 +279,9 @@ Après le dépaquetage 11.9MB d'espace disque additionnel seront utilisés.
 Voulez-vous continuer [O/n]? n
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Désinstaller un paquet</h2>
 							<p>Similarly it should come as no surprise that the following will deinstall a package, however it will not remove the dependencies: </p>
 
@@ -310,7 +305,7 @@ Suppression de gaim ...
 						<p>Dans l'exemple précédent les fichiers de configuration du paquetage 'gaim' (ses préférences, etc.) ne sont pas effacés du système. Vous pouvez les réutiliser en réinstallant le même paquet à nouveau, qui utilisera ces réglages.</p>
 
 						<p>Si vous désirez que les fichiers de configuration soient enlevés eux aussi, utilisez la commande :</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -333,7 +328,7 @@ Purge des fichiers de configuration de gaim...
 		</div>
 	<div class="divider" id="apt-downgrade">
 			<h2>Retourner à une version antérieure et/ou conserver un paquet</h2>
-		
+
 							<p>Il est parfois nécessaire de revenir à une version antérieure d'un paquetage ou de le garder en l'état, du fait qu'un bug important compromette la version la plus récente que vous auriez installé. </p>
 
 					<h3>Pour conserver un paquet en l'état</h3>
@@ -371,7 +366,7 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-		<h2>Mise-à-niveau de toute une installation- dist-upgrade</h2>
+		<h2>Mise-à-niveau de toute une installation- dist-upgrade - Overview</h2>
 
 							<!--- ####
 							<p>If the whole system is to be upgraded this is achieved through a <span class="highlight-3">dist-upgrade</span>. You should always check Current Warnings on the <a href="http://sidux.com">sidux</a> main web site, and check the warnings against the packages that your system wants to dist-upgrade. If you need to <span class="highlight-3">hold</span> a package refer to <a href="sys-admin-apt-fr.htm#apt-downgrade">Downgrade and Hold a package</a></p>
@@ -396,29 +391,16 @@ apt-get install kmahjongg
 							<p>Après la mise-à-jour de la base de données par apt-get update, il est possible de lister les logiciels nouveaux et ceux pour lesquels une mise-à-jour est disponible: (il faut installer apt-show-versions en préalable)</p>
 
 <pre>
-#  apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 							<p>La mise-à-jour individuelle d'un paquetage et de ses dépendances utilise la même syntaxe que l'installation, comme cet exemple (pour gcc-4.0):</p>
 
- 
+
 
 <pre>
 apt-get install gcc-4.0
@@ -439,7 +421,7 @@ gcc-4.0 est déjà la version la plus récente.
 							<p class="highlight-3">Assez peu connue, mais cependant pratique, il existe une option -d dans apt-get :</p>
 
 <pre>
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>dist-upgrade avec l'option -d (d=download) vous permet de télécharger les paquets de "dist-upgrade" pendant que vous êtes dans X ; les paquets sont télechargés mais ne sont ni décompressés ni installés, ce qui vous permet de faire le vrai "dist-upgrade" plus tard dans init 3, et vous donne aussi l'opportunité de vérifier les alertes pour la liste des paquets, parce que vous avez le choix de continuer ou de suspendre le téléchargement des paquet en cours.</p>
 
@@ -455,22 +437,18 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-<span class="highlight-3">O téléchargera les paquets mis-à-jour sans rien modifier au système installé</span>
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p><span class="highlight-3">O </span> téléchargera les paquets mis-à-jour sans rien modifier au système installé.</p>
 
 							<p>Les téléchargements répondant à la commande 'dist-upgrade -d' terminés, si vous désirez finaliser aussitôt la mise-à-niveau (dist-upgrade) de votre installation, ou si vous préférez y procéder plus tard, suivez alors ces instructions :</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 		<div class="highlight-2">ENCORE UNE FOIS ! JAMAIS ET EN AUCUN CAS, IL NE FAUT PROCÉDER À UN UPGRADE OU DIST-UPGRADE EN ÉTANT CONNECTÉ DANS L'ENVIRONNEMENT GRAPHIQUE X !<div class="highlight-4"> ET D'AUTRE PART CONSULTEZ TOUJOURS LES AVERTISSEMENTS POUVANT ÊTRE PUBLIÉS SUR LE SITE DE <a href="http://sidux.com">sidux</a>. Ces avertissements sont fréquents, destinés à prévenir de mises-à-jours à des périodes où les miroirs seraient incomplets, ou quand des évolutions drastiques empêchent pour quelques jours, des blocs entiers de logiciels d'être opérationnels après leur mise-à-niveau. Ceci est lié à la vocation de Debian SID (Still In Development), aussi appelée Debian Unstable, dont les paquets évoluent sur une base quotidenne.</div>
@@ -481,16 +459,18 @@ Loguez-vous en tant que root, puis entrez init 3
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 </pre>
 		<div class="highlight-2">JAMAIS ET EN AUCUN CAS, IL NE FAUT PROCÉDER À UN UPGRADE OU DIST-UPGRADE avec adept, synaptic ou aptitude.</div>
 
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 
 
 							<p class="highlight-2">Si vous ne passez pas en mode init 3, et bien tant pis pour vous...on vous aura avertis !</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Quelques explications sur les raisons d'employer APT-GET et RIEN D'AUTRE pour un dist-upgrade</h4>
 
@@ -512,17 +492,16 @@ init 5 &amp;&amp; exit
 							<p>Une commande vraiment très utile du système APT est apt-cache; celle-ci parcourt la base de données APT et vous fournit en retour des informations sur les paquets. Ainsi par exemple, si vous souhaitez connaître le nom de paquets contenant dans leur nom ou leur description les termes "sidux" et "manual" , faites:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-fr - the official fr sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 							<p>Pour obtenir une information détaillée se rapportant à un paquetage particulier, utilisez apt-cache show, comme ceci:</p>
 
@@ -543,18 +522,7 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.
+ This manual is divided into common sections, for example, .......
 </pre>
 
 							<p>Bien sûr beaucoup d'information sur les paquets Debian se présente encore en anglais. Si plus de traducteurs bénévoles contribuaient à traduire ces informations en version francophone, cela aiderait bien des personnes. En effet, le système APT est désormais capable d'afficher l'information dans la langue du système, dès lors que cette traduction existe.</p>
@@ -584,6 +552,8 @@ apt-get install packagesearch
 
 							<p>Lorsque vous démarrerez la recherche de paquets Debian pour la première fois, vous devrez fixer la valeur de Packagesearch &gt; Preferences afin d'utiliser <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>Lors du premier démarrage il est aussi possible qu'il vous demande d'installer deborphan. Soyez très prudent lorsque vous utilisez ce logiciel.</p>
 
 							<p>La recherche peut être réalisée par</p>
@@ -597,12 +567,12 @@ apt-get install packagesearch
 						</ul>
 
  							<p>De plus, une grande quantité d'information concernant les paquets est affichée. Parmi ces informations, on pourra retrouver par exemple les fichiers contenus dans un paquet. Veuillez lire la section Aide &gt; Contenu (Help &gt; Content) pour des explications complètes sur la façon d'utiliser cette application. Pour l'instant l'interface n'est disponible qu'en anglais.</p>
-							
+
 
 	</div>
-<p>Rappel : vous trouverez l'intégralité de l'information sur le système APT à la page <a href= "http://www.debian.org/doc/user-manuals#apt-howto">APT-HOWTO</a> ou en installant le paquet apt-howto-fr, disponible en version texte ou html.</p>
+<p>Rappel : vous trouverez l'intégralité de l'information sur le système APT à la page <a href="http://www.debian.org/doc/manuals/apt-howto/">APT-HOWTO</a> ou en installant le paquet apt-howto-fr, disponible en version texte ou html.</p>
 
-			<div id="rev">Dernière actualisation le 15/03/2009 0025hrs UTC </div>
+			<div id="rev">Dernière actualisation le 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </div>

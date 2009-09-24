@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision hubi Mo 16. Mär 02:53:50 CET 2009 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="sys-admin-kern-upg-de.htm#kern-upgrade">Aktualisierung des Kernels</a></li>
 				<li><a href="sys-admin-apt-de.htm#apt-cache">Programmsuche mit apt-cache</a></li>
 				<li><a href="sys-admin-apt-de.htm#gui-pacsea">GUI-Paketsuche mit packagesearch</a></li>
-				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Upgrade eines installierten Systems - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-de.htm#apt-upgrade">Upgrade eines installierten Systems - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-de.htm#du-st">Upgrade eines installierten Systems -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-de.htm">Systemadministration</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span></p>
 
 							 <p>Innerhalb dieses Verzeichnisses befinden sich zwei Dateien:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> und<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> und<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Dies hat den Vorteil, dass leichter automatisch aus Spiegelservern gewählt werden kann ("mirror switching"), und auch das Ergänzen oder Austauschen von Quell-Listen ist so einfacher zu gestalten.</p>
@@ -223,12 +224,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Weitere Einträge für non-free findet man in der immer aktuellen <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list.</a> und <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>.  Am 28/02/2008 0800 UTC lautete sie:</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -247,9 +242,9 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 </pre>
 
 							<p>ZUR BEACHTUNG: in diesem Beispiel wird der US-amerikanische Debian-Spiegelserver beginnend mit ftp.us verwendet. Diese Einstellung kann als root geändert werden, indem der Landes-Code angepasst wird (zum Beispiel: ftp.at, ftp.de). Die meisten Länder haben lokale Debian-Spiegelserver zur Verfügung. Dies bietet für den Anwender eine höhere Anbindungsgeschwindigkeit und spart auch Bandbreite.</p>
- 
+
 							<p>Um aktualisierte Informationen über die Pakete zu erhalten, wird eine Datenbank mit den benötigten Einträgen vorgehalten. Das Programm apt-get benutzt sie bei der Installation eines Pakets, um alle Abhängigkeiten aufzulösen und somit zu garantieren, dass die ausgewählten Pakete funktionieren. Die Erstellung bzw. Aktualisierung dieser Datenbank wird mit dem Befehl 'apt-get update' durchgeführt.</p>
- 
+
 <pre># apt-get update
 	(mit folgender Ausgabe)
 Get:1 http://sidux.com sid Release.gpg [189B]
@@ -260,15 +255,15 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2> Wie Installiere ich ein neues Paket?</h2>
- 
+
 							<p>Vorausgesetzt, dass die APT-Datenbank aktualisiert ist und der Name des Pakets bekannt ist, reicht folgender Befehl (weiter unten wird gezeigt, wie man ein Paket finden kann):</p>
 
- 
+
 <pre># apt-get install gaim
 Paketlisten werden gelesen... Fertig
 Abhängigkeitsbaum wird aufgebaut... Fertig
@@ -302,9 +297,9 @@ Richte libgstreamer0.10-0 ein (0.10.10-2) ...
 Richte gaim ein (2.0.0+beta5-8) ...
 
 </pre>
- 
+
  </div>
-	<div class="divider" id="apt-delete"> 
+	<div class="divider" id="apt-delete">
 		<h2>Entfernen eines Pakets:</h2>
 							<p>Der nächste Befehl entfernt ein Paket. Abhängigkeiten werden nicht mit vom System entfernt:</p>
 
@@ -325,7 +320,7 @@ Entferne gaim ...
 </pre>
 
 							<p>In dem letzten Fall werden die Konfigurationsdateien nicht vom System entfernt, sie können bei einer späteren Neuinstallation des Programmpakets (im Beispielfall gaim) wieder verwendet werden. Sollen auch die Konfigurationsdateien entfernt werden, dann wird folgender Aufruf benötigt:</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -389,7 +384,7 @@ apt-get install kmahjongg
 		</div>
 
 	<div class="divider" id="apt-upgrade">
-		<h2>Aktualisierung des installierten Systems - dist-upgrade</h2>
+		<h2>Aktualisierung des installierten Systems - dist-upgrade - Overview</h2>
 
 							<p>Eine Aktualisierung des ganzen Systems wird mit diesem Befehl durchgeführt: <span class="highlight-3">dist-upgrade</span>. Vor einer solchen Maßnahme sollten die aktuellen Upgradewarnungen auf der Hauptseite von <a href="http://sidux.com">sidux</a> beachtet werden, um zu prüfen, ob Pakete des eigenen Systems betroffen sind. Wenn ein installiertes Paket behalten, also auf <span class="highlight-3">hold</span> gesetzt werden sollte, verweisen wir auf den Abschnitt <a href="sys-admin-apt-de.htm#apt-downgrade">Downgrade bzw. "Hold" eines Pakets</a>.</p>
 
@@ -401,20 +396,17 @@ apt-get install kmahjongg
 
 		<p>Nachdem die interne Datenbank aktualisiert wurde, kann man herausfinden, für welche Pakete eine neuere Version existiert (zuerst muss apt-show-versions installiert werden):</p>
 
-<pre># apt-show-versions -u
+<pre>
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1</pre>
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
+</pre>
 
 		<p>Die Aktualisierung eines einzelnes Pakets (hier z. B. debtags-1.6.6.0) kann unter Berücksichtigung der Abhängigkeiten vorgenommen werden mit:</p>
 
- 
+
 
 <pre># apt-get install debtags-1.6.6.0
 Paketlisten werden gelesen... Fertig
@@ -441,7 +433,7 @@ Installiere neue Version der Konfigurationsdatei /etc/debtags/sources.list ...
 		<h3>(Nur) Downloaden:</h3>
 							<p class="highlight-3">Eine wenig bekannte, aber großartige Möglichkeit ist die Option -d:</p>
 <pre>
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>-d ermöglicht, die Pakete eines dist-upgrades lokal zu speichern, ohne dass sie installiert werden. Dies kann in einer Konsole durchgeführt werden, während man in X ist. Der dist-upgrade selbst kann zu einem späteren Zeitpunkt in init 3 erfolgen. Dadurch erhält man auch die Möglichkeit, nach eventuellen Warnungen zu recherchieren und danach zu entscheiden, ob man die Aktualisierung durchführen möchte oder nicht:</p>
 
@@ -457,43 +449,41 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Möchten Sie fortfahren [J/n]?
-J
-<span class="highlight-3">J lädt die zu aktualisierenden bzw. neu zu installierenden Pakete, ohne das installierte System zu verändern</span>
+Möchten Sie fortfahren [J/n]?<span class="highlight-3">J </span>
 </pre>
+							<p><span class="highlight-3">J </span> lädt die zu aktualisierenden bzw. neu zu installierenden Pakete, ohne das installierte System zu verändern.</p>
 
 							<p>Nach dem Download der Pakete mittels 'dist-upgrade -d' können diese jederzeit nach folgendem Muster installiert werden:</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">Bitte NIEMALS eine Systemaktualisierung in der graphischen Umgebung X durchführen.<div class="highlight-4">  Besuchen Sie vor einer Systemaktualisierung die <a href="http://sidux.com">sidux-Homepage</a>, um eventuelle Upgradewarnungen in Erfahrung zu bringen. Diese Warnungen sind wegen der Struktur von Debian sid/unstable notwendig, welches täglich neue Programmpakete in seine Repositorien aufnimmt.</div>
 <pre>
 # Aus der KDE-Desktopumgebung abmelden
-# In den Textmodus gehen mit Ctrl+Alt+F1 
+# In den Textmodus gehen mit Ctrl+Alt+F1
 # Einloggen als root
 init 3
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 </pre>
 
-		<div class="highlight-2">Bitte NIEMALS eine Systemaktualisierung mit einem Programm wie synaptic, adept, aptitude oder kpackage durchführen!</div> </div>
+		<div class="highlight-2">Bitte NIEMALS eine Systemaktualisierung mit einem Programm wie synaptic, adept, aptitude oder kpackage durchführen!</div>
 
 	</div>
 	</div>
 <div class="spacer02"></div>
 
 							<p class="highlight-2">Warnhinweis: Eine Systemaktualisierung, die nicht im Runlevel 3 (init 3) durchgeführt wird, kann große, nicht unterstützbare Probleme mit sich bringen!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Gründe, warum man nur apt-get für eine Systemaktualisierung verwenden soll</h4>
 
@@ -506,23 +496,23 @@ init 5 &amp;&amp; exit
 				<p>Im Gegensatz dazu führt apt-get ausschließlich das durch, was angefragt ist. Bei unvollständigen Abhängigkeiten in Sid, sprich: wenn das System bricht (dies kann in Sid bei Strukturänderungen vorkommen), können die Ursachen genau festgestellt und dadurch repariert oder umgangen werden. Das eigene System "bricht" nicht. Falls also eine Systemaktualisierung dem Gefühl nach das halbe System löschen möchte, überlässt apt-get dem Administrator die Entscheidung, was zu tun ist, und handelt nicht eigenmächtig.</p>
 
 				<p>Dies ist der Grund, warum Debian-Builds apt-get nutzen und nicht andere Paketmanager.</p>
-	
+</div>
 	<div class="divider" id="apt-cache">
 			<h2>Mit apt-cache nach Programmpaketen suchen</h2>
 
 			<p>Ein sehr nützlicher Befehl im APT-System ist apt-cache, damit werden die APT-Datenbank durchsucht und Informationen über die Pakete ausgegeben; z. B. die Liste aller Pakete, die "sidux" und "manual" enthalten oder ansprechen, erhält man durch folgenden Befehl:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 	<p>Möchte man mehr Informationen über die aktuellen Versionen eines Pakets, dann benutzt man:</p>
 
@@ -541,19 +531,9 @@ Size: 388860
 MD5sum: e73f66e8dc90c57e764411a099d45ebc
 SHA1: a0a63fa991cab09e4422f26fdb0c4c5ac7b27bdd
 SHA256: e177819755f0d04cfe7c455e2bd4257063b7bb5521af6df7d7dd3b30727b2bb2
-Description: the official de sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+Description: the official en sidux manual
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Alle installierbaren Versionen des Pakets (abhängig von der sources.list) können folgendermaßen aufgelistet werden:</p>
 
@@ -578,6 +558,8 @@ apt-get install packagesearch
 
 							<p>Nach dem ersten Start von packagesearch muss in Packagesearch>Preferences <span class="highlight-3">apt-get</span> gewählt werden.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>Beim ersten Start kann auch ein Infofenster das Fehlen von deborphan bemängeln. Die Informationen von deborphan bitte mit größter Vorsicht verwenden.</p>
 
 							<p>Folgende Suchkriterien stehen zur Auswahl:</p>
@@ -595,7 +577,7 @@ apt-get install packagesearch
 			<p><a href= "http://www.debian.org/doc/manuals/apt-howto/index.de.html">Eine vollständige Beschreibung des APT-Systems findet man in Debians APT-HOWTO</a> </p>
 
 	</div>
-	<div id="rev">Content last revised 15/03/2009 0025hrs UTC </div>
+	<div id="rev">Content last revised 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </body>

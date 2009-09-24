@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 10/01/2008 0400 UTC -->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-bg.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-bg.htm#live-cd-upgrade">Обновяване от Live-CD</a></li>
 				<li><a href="sys-admin-kern-upg-bg.htm#kern-upgrade">Обновяване на ядрото</a></li>
-				<li><a href="sys-admin-apt-bg.htm#apt-upgrade">Обновяване на инсталирана система - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-bg.htm#apt-upgrade">Обновяване на инсталирана система - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-bg.htm#du-st">Обновяване на инсталирана система -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-bg.htm">Системно  администриране</a>
@@ -205,7 +206,7 @@
 							<span class="highlight-3">/etc/apt/sources.list.d/</span><br />се интерпретират като файлове с източници.</p>
 
 							 <p>В нея има 2 файла, наречени:<br />
-							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> и<br />  
+							<span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> и<br />
 							<span class="highlight-3">/etc/apt/sources.list.d/sidux.list  </span></p>
 
 							<p>Използването на повече от един конфигурационен файл за настройка на източниците, има предимството че така е по-лесно и по-безопасно да се превключват източниците.</p>
@@ -222,12 +223,6 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 
 							<p>Пълните настройки за включването на хранилищата за свободен и несвободен софтуер, са винаги достъпни по адресите <a href="http://sidux.com/files/misc/sources.list.d/sidux.list">sidux.list</a> и <a href="http://sidux.com/files/misc/sources.list.d/debian.list">debian.list</a>. Към 28/02/2008 0800 часа UTC, те са:</p>
 <pre>
-# See sources.list(5) for more information, especially
-# Remember that you can only use http, ftp or file URIs
-# CDROMs are managed through the apt-cdrom tool.
-# The /etc/apt/sources.list.d/ directory provides a way to add sources.list
-# entries in separate files that end with sources.list file.
-
 # Unstable
 deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 #deb-src http://ftp.us.debian.org/debian/ unstable main contrib non-free
@@ -247,7 +242,7 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 							<p>Забележка: Тук ftp.us в името на хоста показва, че се използват хранилищата разположени в САЩ. Може да промените файла (като root), за да използвате хранилища географски по-близо разположени до вас - просто променете абревиатурата на страната, например променете навсякъде ftp.us частта от името на хоста, на ftp.nl, ftp.uk и т.н.(за България използвайте ftp.bg). Повечето страни имат локални дубликати на хранилищата - и скоростта ще бъде значително по-висока, а трафика по-малък.</p>
 
 							<p>APT използва собствена, локална база от данни с информация за пакетите.  Тя съдържа не само имената на пакетите, но и данни за това кой пакет от кои други пакети се нуждае за да работи (така наречените зависимости). Програмата apt-get използва тази база от данни, при инсталацията на избраните за добавяне пакети - за да може да удовлетвори всички зависимости или отстрани възникналите конфликти, по този начин гарантирайки работоспособността на новоинсталираните софтуерни пакети. Обновяването на тази база от данни (синхронизирането й със съответната актуална информация в онлайн-хранилището), се извършва с командата apt-get update.</p>
- 
+
 <pre># apt-get update
 	(което извежда )
 	......
@@ -259,15 +254,15 @@ Get:5 http://sidux.com sid Release [34.1kB]
 Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
 </pre>
 
- 
+
 	</div>
- 
+
 	<div class="divider" id="apt-install">
  		<h2>Инсталиране на нови пакети</h2>
- 
+
 			<p>При положение че базата от данни на Apt е синхронизирана (apt-get update) и името на пакета който искаме да инсталираме е известно, следната команда ще инсталира например пакета наречен qemu заедно с всички негови зависимости: (по-нататък ще бъде обяснено как да търсите и намирате конкретни пакети)</p>
 
- 
+
 <pre># apt-get install qemu
 Reading package lists... Done
 Building dependency tree... Done
@@ -283,9 +278,9 @@ After unpacking 11.9MB of additional disk space will be used.
 Do you want to continue [Y/n]? n
 
 </pre>
- 
- 
-	<div class="divider" id="apt-delete"> 
+
+
+	<div class="divider" id="apt-delete">
 		<h2>Премахване (деинсталиране) на пакет</h2>
 							<p>По подобен начин, пакетите могат и лесно да бъдат деинсталирани (но зависимостите им - т.е. допълнителните пакети които при инсталацията са били добавени "поради зависимости" към основния пакет - няма да се деинсталират) </p>
 
@@ -309,7 +304,7 @@ Removing gaim ...
 							<p>В този случай пакетът gaim ще бъде изтрит, но неговите файлове с настройки остават в системата. Те евентуално ще бъдат преизползвани отново - т.е. ако инсталирате същия пакет отново на по-късен етап, той ще работи с предишните настройки.</p>
 
 							<p>Ако искате да премахнете и настройките на пакета, използвайте командата:</p>
- 
+
 <pre>
 apt-get --purge remove gaim
 </pre>
@@ -352,7 +347,7 @@ dpkg --get-selections | grep hold
 							<p>Като пример е използван пакета <span class="highlight-3">kmahjongg</span> който да бъде понижен от unstable до testing версия, и блокиран от обновяване:</p>
 
 							<ol>
-							<li>включете/разкоментирайте testing хранилищата в  <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(махнете #), така че реда да стане<br /><pre> deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>							
+							<li>включете/разкоментирайте testing хранилищата в  <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(махнете #), така че реда да стане<br /><pre> deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
 							<li>Синхронизирайте базата преди да правите каквито и да е промени<pre>apt-get update</pre></li>
 							<li>Инсталирайте kmahjongg изрично от testing хранилището<pre>apt-get install kmahjongg/testing </pre></li>
 							<li>Забранете обновяването на новоинсталирания пакет със:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
@@ -369,7 +364,7 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-				<h2>Обновяване на инсталирана система - dist-upgrade</h2>
+				<h2>Обновяване на инсталирана система - dist-upgrade - Overview</h2>
 
 							<p>Ако цялата система (т.е. всички пакети в нея) трябва да бъде обновена, това се извършва с <span class="highlight-3">dist-upgrade</span>. Винаги проверявайте текущите предупреждения онлайн на основния уебсайт на <a href="http://sidux.com">sidux</a>, и ги сравнявайте с пакетите които вашата система иска да обнови при dist-upgrade. Ако трябва за блокирате от обновяване (<span class="highlight-3">hold</span>) конкретен пакет, обърнете се към   <a href="sys-admin-apt-bg.htm#apt-downgrade">Понижаване във версия (downgrade) и/или задържане на версия на пакети (Hold)</a></p>
 
@@ -382,29 +377,16 @@ apt-get install kmahjongg
 							<p>След като базата от данни на apt е синхронизирана, по следния начин могат да бъдат изведени пакетите които имат нови и/или обновени версии: (първо обаче инсталирайте apt-show-versions)</p>
 
 <pre>
-# apt-show-versions -u
+apt-show-versions -u
 libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
 passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
 teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1libpam-runtime/unstable upgradeable from 0.79-1 to 0.79-3
-passwd/unstable upgradeable from 1:4.0.12-5 to 1:4.0.12-6
-teclasat/unstable upgradeable from 0.7m02-1 to 0.7n01-1
-libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3
-fonts-ttf-west-european/unstable upgradeable from 1.3-9 to 1.3-1-1
-fonts-ttf-decoratives/unstable upgradeable from 1.3-1 to 1.3-1-1
-sysv-rc/unstable upgradeable from 2.86.ds1-3 to 2.86.ds1-4
-libpam0g/unstable upgradeable from 0.79-1 to 0.79-3
-unionfs-utils/unstable upgradeable from 1.0.14+cvs2005092318w-M1 to 1.0.14+cvs2005092908w-M1
+libpam-modules/unstable upgradeable from 0.79-1 to 0.79-3.........
 </pre>
 
 							<p>Обновяването до най-последната версия на вече инсталиран пакет заедно с всички негови зависимости (например  gcc-4.0), се извършва със:</p>
 
- 
+
 
 <pre>
 apt-get install gcc-4.0
@@ -419,7 +401,7 @@ gcc-4.0 is already the newest version.
 							<p class="highlight-3">За да видите кои пакети са за обновяване, използвайте -d опцията:</p>
 
 <pre>
-apt-get update &amp;&amp; apt-get dist-upgrade -d 
+apt-get update &amp;&amp; apt-get dist-upgrade -d
 </pre>
 							<p>С -d ще бъдат свалени пакетите зе обновяване от dist-upgrade, но без да бъдат инсталирани. Може да го правите докато сте в X конзолата, и да извършите dist-upgrade инсталацията извън графичния интерфейс в ниво на работа 3 (init 3) по-късно. Така също можете да проверите предупрежденията и да ги сравните със списъка ви от пакети за обновяване - след което да продължите или да откажете инсталацията - например</p>
 
@@ -435,41 +417,39 @@ The following packages have been kept back:
   git-core git-gui git-svn gitk icedove libmpich1.0ldbl
 The following packages will be upgraded:
   alsa-base bsdutils ceni configure-ndiswrapper debhelper
-  discover1-data elinks file fuse-utils gnucash
-  gnucash-common initscripts isdnutils-base libaprutil1
-  libcapi20-3 libdvdread3 libfuse2 libmagic1 libvlc0
-  linux-sound-base locales mount mozilla-plugin-vlc
-  python-glade2 python-gtk2 siduxcc siduxcc-common strace
-  sysv-rc sysvinit sysvinit-utils tzdata util-linux vlc
-  vlc-nox
+  discover1-data elinks file fuse-utils gnucash.........
 35 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
 Need to get 23.4MB of archives.
 After this operation, 594kB of additional disk space will be used.
-Do you want to continue [Y/n]?
-
-<span class="highlight-3">Потвърждаването с Y ще свали обновените пакети, без да ги инсталира в системата</span>
+Do you want to continue [Y/n]?<span class="highlight-3">Y </span>
 </pre>
+							<p>Потвърждаването с <span class="highlight-3">Y </span> ще свали обновените пакети, без да ги инсталира в системата.</p>
 
 							<p>Изчакайте 'dist-upgrade -d' да завърши свалянето на пакетите от интернет. Когато по-късно искате да довършите инсталацията им с dist-upgrade, следвайте инструкциите:</p>
+	      </div>
+	      <div class="divider" id="du-st">
+				      <h3> dist-upgrade - The Steps</h3>
 
 <div class="box block">
 			<div class="highlight-2">НИКОГА не извършвайте dist-upgrade обновяване докато сте в графичния интерфейс на X<div class="highlight-4"> Винаги проверявайте текущите предупреждения на основния уебсайт на <a href="http://sidux.com">sidux</a>. Целта им е да ви предпазят от възможни проблеми, и те се обновяват ежедневно.</div>
 <pre>
-Излезте от KDE. 
-Отидете в текстова конзола с комбинацията Ctrl+Alt+F1 
+Излезте от KDE.
+Отидете в текстова конзола с комбинацията Ctrl+Alt+F1
 Логнете се като root, и въведете командите
-init 3 
+init 3
 apt-get update
 apt-get dist-upgrade
 apt-get clean
-init 5 &amp;&amp; exit 
+init 5 &amp;&amp; exit
 </pre>
 			<div class="highlight-2">НИКОГА НЕ ИЗВЪРШВАЙТЕ DIST-UPGRADE [или UPGRADE] с adept, synaptic или aptitude:</div>
-	</div>	
+	</div>
 	</div>
 <div class="spacer02"></div>
 
 				<p class="highlight-2">Ако не преминете в init 3 - е добре, рискът си е ваш,, ние ви предупредихме!!!!!!!!!!!!!</p>
+	</div>
+	<div class="divider" id="whyno">
 
 				<h4>Причини поради които за обновяване в sidux НЕ ТРЯБВА ДА ИЗПОЛЗВАТЕ нищо друго освен dist-upgrade</h4>
 
@@ -491,16 +471,16 @@ init 5 &amp;&amp; exit
 			<p>Друга полезна команда от комплекта програми на APT, е apt-cache; с нея може да се претърсва базата от данни на APT за пакетите и информацията за тях. Например за да бъде изведен списъка на всички пакети които съдържат, или се отнасят за "sidux" и "manual", синтаксисът е:</p>
 
 <pre>$ apt-cache search sidux manual
-sidux-manual-de - the official de sidux manual
-sidux-manual-ro - the official ro sidux manual
-sidux-manual-hr - the official hr sidux manual
+.......
 sidux-manual-common - the official sidux manual - common files
-sidux-manual-en - the official en sidux manual
-sidux-manual-ru - the official ru sidux manual
-sidux-manual-dk - the official dk sidux manual
+sidux-manual-es - the official Spanish sidux manual
+sidux-manual-de - the official German sidux manual
+sidux-manual-el - the official Greek sidux manual
 sidux-manual - the official sidux manual - all languages
-sidux-manual-nl - the official nl sidux manual
-sidux-manual-es - the official es sidux manual</pre>
+sidux-manual-pt-br - the official Brazilian Portuguese sidux manual
+sidux-manual-en - the official English sidux manual
+sidux-manual-reader - sidux manual reader
+</pre>
 
 		<p>Ако искате повече подробности за специфичен пакет, използвайте:</p>
 
@@ -520,18 +500,8 @@ MD5sum: 60f2175c3c5709745a4b4256ccc3c49d
 SHA1: e275a0b27628b6aa210a4ced48d3646b438e78b8
 SHA256: 2792580c7a091521301064180a1d0d8901f0a4af407b90432b9f8d8b6b3603ca
 Description: the official en sidux manual
- This manual is divided into common sections, for example, a subject pertaining
- to partitioning is found in Partitioning your Hard Drive, and topics regarding
- the Internet/WIFI are grouped in Internet and Networking. There are some
- topics that cannot be grouped or require stand-alone status.
- .
- As with any new documentation there will be errors/mistakes/typos, although we
- hope otherwise regarding errors and mistakes (typos we can live with) please
- forgive us.
- .
- As the body of work grows, more documentation will be added and we at sidux are
- sure that this will prove to be a very valuable resource for you and we thank
- you for being a part of sidux.</pre>
+ This manual is divided into common sections, for example, .......
+</pre>
 
 		<p>Всички версии на пакета достъпни за инсталиране (те зависят от източниците и хранилищата в sources.list), може да видите чрез:</p>
 
@@ -557,6 +527,8 @@ apt-get install packagesearch
 
 							<p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p>
 
+							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+
 							<p>On initial use you may be prompted to install deborphan. Please use with care.</p>
 
 							<p>Search can be done by</p>
@@ -572,9 +544,9 @@ apt-get install packagesearch
  							<p>Additionally a lot of information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p>
 
 	</div>
-			<p><a href= "http://www.debian.org/doc/user-manuals#apt-howto">Пълно описание на APT-системата може да намерите в APT-HOWTO</a> </p>
+			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Пълно описание на APT-системата може да намерите в APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 15/03/2009 0025hrs UTC </div>
+			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC </div>
 
 </div>
 </div>

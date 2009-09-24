@@ -19,8 +19,8 @@
 <body id="part">
 <!-- Last translation revision by LjanA 04/06/2009 1713H UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA and Sephi-->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.08.05 2340 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->s
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-fr.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-fr.htm#live-cd-upgrade">Mettre à niveau à partir d'un Live- ISO</a></li>
 				<li><a href="sys-admin-kern-upg-fr.htm#kern-upgrade">Mise à niveau du noyau</a></li>
-				<li><a href="sys-admin-apt-fr.htm#apt-upgrade">Mettre à niveau un système installé - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-fr.htm#apt-upgrade">Mettre à niveau un système installé - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-fr.htm#du-st">Mettre à niveau un système installé -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-fr.htm">Administration Système</a>
@@ -194,12 +195,14 @@
 	<div class="divider" id="partition">
 		<h2 id="top-header">Partitionner votre disque dur en utilisant  GParted</h2>
 			<h5><span class="highlight-2">ATTENTION: pour désigner les partitions dans les fichiers de configuration</span>,<a href="part-uuid-fr.htm"> veuillez vous référer désormais à UUID, Labels de Partitions et fstab, puisque sidux utilise à present UUID par défaut.</a></h5>
-			
+
 			<h5>L'outil de partitionnement pourra vous demander un mot-de-passe root. Le cas échéant entrez votre mot-de-passe. Sur le Live-CD/DVD aucun mot de passe n'est configuré par défaut, Gparted se lance immédiatement. Reportez-vous pour plus d'info, à la section : <a href="live-mode-fr.htm" >Mode Live</a></h5>
-			
-	<div class="spacer02"></div>	
-							<p class="highlight-2">N'OUBLIEZ JAMAIS DE SAUVEGARDER VOS DONNÉES !</p>
-	
+
+	<div class="spacer02"></div>
+							<p class="warning-box">Modifier l'occupation d'une partition NTFS (par exemple pour réduire l'espace encombré par MS Windows&#8482;) va nécessiter de redémarrer le système sous Windows ! SURTOUT, N'EFFECTUEZ AUCUNE AUTRE OPÉRATION QUE LA MODIFICATION DE TAILLE SUR CETTE PARTITION AVANT CE REDÉMARRAGE ! Dans le cas contraire vous obtiendriez des erreurs. <a href="part-gparted-fr.htm#ntfs"> Please read this.</a></p>
+
+							<p class="highlight-2">N'oubliez jamais de sauvegarder vos données !</p>
+
 				<h3>Les bases</h3>
 
 							<p>Une partition doit être équipée d'un système de fichiers. GNU/Linux permet d'en utiliser un certain nombre. Il existe Reiserfs, Ext3, et pour les utilisateurs chevronnés XFS et JFS. Ext2 peut se révéler pratique, mais pour le simple stockage de données, depuis qu'un pilote MS Windows&#8482; permet de l'exploiter.</p>
@@ -209,24 +212,24 @@
 							<p>La version de GParted documentée ici est la 0.3.1.1.. Extraite du manuel officiel de GParted, l'information que vous trouverez ici a été modifiée afin de constituer un guide pour utiliser GParted dans sidux. Elle ne doit donc pas être interprêtée comme un guide absolu d'utilisation.</p>
 
 							<p>Vous trouverez la documentation intégrale existant pour GParted à <a href="http://gparted.sourceforge.net">la section GParted de Sourceforge.net.</a></p>
-		
-				
+
+
 			<h3>Utilisation de GParted</h3>
 
 							<p>Créer et gérer des partition ne sont pas des fonctionnalités utilisées quotidiennement. Dans cette mesure, il est sage de lire ce guide une première fois, afin de se familiariser avec les concepts et l'ergonomie qu'il aborde.</p>
-		
+
 		<ul>
 			<li>
 			<h3>Genéralités</h3>
 
 							<p>Au lancement de GParted, une fenêtre s'ouvre et la détection de vos disques durs démarre. Elle peut prendre un certain temps. Soyez patients.</p>
-		
+
 							<p>Si vous cliquez sur le menu GParted, situé en haut à gauche, il se déroule et vous pouvez par exemple, y demander le rafraîchissement des informations affichées sur les disques de votre système. Vous noterez qu'un raccourci-clavier Control+R donne accès à la même fonction. La deuxième option de ce menu vous permet de choisir quel disque dur vous désirez modifier ; c'est utile quand vous en avez plus d'un. La troisième option vous affiche, sous forme de tableau, les opérations qu'il est possible d'effectuer à l'aide de GParted, en fonction du type d'élément que vous désirez modifier, et du type de modification souhaitée.</p>
 
 							<p class="warning-box">Seules peuvent être modifiées les partitions non-montées, les partitions de swap inactives, les tables de partitions dont aucun lecteur ou volume de swap ne se trouverait en cours d'utilisation.</p>
 
 							<p>En règle générale, le statut actif d'un volume est signalé par GParted par l'affichage d'une icône de verrou dans la ligne lui correspondant.</p>
-		
+
 		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-01-devices-fr.png" title="Gparted vue des disques" alt="vue des disques" /></div>
 			</li>
 			<li>
@@ -236,7 +239,7 @@
 
 							<p>Ce deuxième menu ouvre vers les différents choix à cet égard. Il permet alternativement la déprogrammation d'une opération ou de toute la programmation, ou commande l'effectuation de ce que vous aurez programmé. Tant que vous n'avez pas choisi:<br />
 							<span class="highlight-3">Apply All Operations</span><br />
-							<span class="highlight-3">Effectuez tout</span><br /> 
+							<span class="highlight-3">Effectuez tout</span><br />
 							<span class="highlight-3">Rien n'est réellement modifié.</span></p>
 			</li>
 			<li>
@@ -257,7 +260,7 @@
 			</li>
 			<li>
 			<h3>Périphérique</h3>
-		
+
 							<p>Le menu Périphérique vous permet de modifier si nécessaire le Label d'une partition, si celui-ci ne vous convenait pas ou serait inexistant.</p>
 			</li>
 			<li>
@@ -274,7 +277,7 @@
 
 		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-03-umount_swapoff-fr.png" title="Gparted unmount swapoff" alt="unmount swapoff" /></div>
 
-							<p>Notez que dans l'image ci-dessus, l'action sur la partition est commandée à partir d'un clic-droit à la souris sur le volume concerné, celui-ci donnant accès au menu contextuel correspondant à la partition sélectionnée.</p> 
+							<p>Notez que dans l'image ci-dessus, l'action sur la partition est commandée à partir d'un clic-droit à la souris sur le volume concerné, celui-ci donnant accès au menu contextuel correspondant à la partition sélectionnée.</p>
 
 							<p><b>Redimensionner/Déplacer</b> peut être utile.</p>
 
@@ -283,7 +286,7 @@
 		<div class="screenshot"><img src="../lib/images-fr/gparted-fr/gparted-04-partition-fr.png" title="Gparted menu partition" alt="menu partition" /></div>
 			</li>
 			<li>
-		
+
 		<h3>Créer une nouvelle partition</h3>
 
 							<p>Le bouton <b>"Nouveau"</b> à l'extrême gauche de la barre d'icônes, comme le choix "Nouveau" du menu de Partition, vous permet de créer une nouvelle partition, toujours dans un espace libre préalablement sélectionné. Son activation provoque l'ouverture d'une fenêtre de dialogues où vous pouvez alors choisir le type de partition, primaire, étendue ou logique, sa taille, ainsi que le système de fichier dont elle sera équipée.</p>
@@ -307,7 +310,7 @@
 							<p>Comme pour toutes vos commandes, il faudra demander d'effectuer réellement l'opération à partir du menu d'Édition ou l'icône ad hoc, pour qu'elle soit réalisée.</p>
 
 							<p>La durée des opérations dépendra de la taille des partitions et de leur nombre.</p>
-					
+
 							<p><b>Après toute modification effective du partitionnement ou des systèmes de fichiers de vos disques, il est recommandé de quitter sidux et de rédémarrer le système afin de permettre la redétection fraîche de vos tables de partitions.</b></p>
 			</li>
 		</ul>
@@ -315,22 +318,22 @@
 	</div>
 	<div class="divider" id="ntfs">
 		<h2>Changer la taille d'une partition NTFS</h2>
-		
+
 							<p class="warning-box">Modifier l'occupation d'une partition NTFS (par exemple pour réduire l'espace encombré par MS Windows&#8482;) va nécessiter de redémarrer le système sous Windows ! SURTOUT, N'EFFECTUEZ AUCUNE AUTRE OPÉRATION QUE LA MODIFICATION DE TAILLE SUR CETTE PARTITION AVANT CE REDÉMARRAGE ! Dans le cas contraire vous obtiendriez des erreurs. </p>
-		
+
 						<ul>
 							<li>Au lancement de MS Windows&#8482;, le système va afficher un écran spécial, affichant un message proposant de vérifier le système de fichiers de C:\ (ou en tout cas de la partition NTFS concernée), afin d'en vérifier l'intégrité.</li>
-	
+
 							<li>Laissez AUTOCHK s'effectuer: NT requiert la vérification de son système de fichiers après l'opération.</li>
-			
+
 							<li>L'ordinateur va automatiquement redémarrer une nouvelle fois à la fin du processus de vérification. Ceci va vous confirmer que tout s'est bien passé.</li>
-			
+
 							<li>Après ce redémarrage-là, Windows XP se portera très bien, mais vous devrez être patient et laisser s'achever sa longue séquence de démarrage et attendre pour obtenir l'affichage de sa fenêtre de connexion !</li>
 						</ul>
-		
+
 							<p><b>La documentation complète de GParted : </b> pour la découvrir et lire aussi comment copier des partitions avec GParted, consultez <a href="http://gparted.sourceforge.net">la section GParted de Sourceforge.net.</a></p>
 	</div>
-				<div id="rev">Dernière actualisation le 15/04/2009 0100hrs UTC</div>
+				<div id="rev">Dernière actualisation le 18/09/2009 0645hrs UTC</div>
 
 </div>
 </body>

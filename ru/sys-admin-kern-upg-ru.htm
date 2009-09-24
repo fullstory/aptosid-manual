@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by RoEn 08/03/2008 1000 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by kostiagol, RoEn -->
-<!--sidux-manual Operating System Manual menu-version-01.92.2009.07.31 -->
-<!-- menu last updated by bluewater 2009.07.31 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.93.2009.09.20 -->
+<!-- menu last updated by bluewater 2009.09.18 0740 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" /></a>
 	</div>
@@ -164,7 +164,8 @@
 				<li><a href="siduxcc-ru.htm#siduxcc">Центр управления</a></li>
 				<li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с Live ISO</a></li>
 				<li><a href="sys-admin-kern-upg-ru.htm#kern-upgrade">Обновление ядра</a></li>
-				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление системы - dist-upgrade</a></li>
+				<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновление системы - dist-upgrade - Overview</a></li>
+				<li><a href="sys-admin-apt-ru.htm#du-st">Обновление системы -  dist-upgrade - The Steps</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 13 );" onmouseout="startTime();" ><a href="sys-admin-gen-ru.htm">Системное администрирование</a>
@@ -193,8 +194,8 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Обновление ядра</h2>
-					<h4>Ядра sidux'a находятся в apt. <a href="cd-dl-burning-ru.htm#download-sidux">Выбирайте близлежащий зеркальный сервер и адаптируйте Ваш $sources.list</a>:</h4>
-
+					<h5><span class="highlight-3">The sidux kernels are in the sidux repo as a .deb and automatically included in a dist-upgrade.</span></h5>
+<div class="spacer01"></div>
 							<p>Ядра доступны для следующих архитектур:</p>
 						<ul>
   							<li><b>sidux-686</b> - Ядро для процессоров архитектуры i686 одно/двух и более ядерных</li>
@@ -202,7 +203,7 @@
   							<li><b>sidux-amd64</b> - Ядро для 64бит sidux</li>
 						</ul>
 
-					<h5>Обновление вручную из консоли:</h5>
+					<h5>Steps to do it manually without dist-upgrading are:</h5>
 
 						<p><b>1.</b> Вводите как root в консоли:</p>
 
@@ -215,10 +216,10 @@ apt-get install linux-image-2.6-sidux-686 linux-headers-2.6-sidux-686
 </pre>
 
 
-							<p>Если с новым ядром будут проблемы, Вы можете перезагрузить и выбрать старое ядро.</p>
+							<p><span class="highlight-3">Если с новым ядром будут проблемы, Вы можете перезагрузить и выбрать старое ядро.</span></p>
 
 					<h5>Модули</h5>
- 							<p> Чтобы найти в каких модулях Вы нуждаетесь, следующая команда даст Вам список текущих доступных модулей. Скопируйте эту линию в Ваш терминал: </p> 
+ 							<p> Чтобы найти в каких модулях Вы нуждаетесь, следующая команда даст Вам список текущих доступных модулей. Скопируйте эту линию в Ваш терминал: </p>
 
 <pre>
 apt-cache search 2.6.*.slh.*-sidux| awk '/modules/{print $1}'
@@ -231,7 +232,7 @@ apt-cache search 2.6.*.slh.*-sidux
 							<p>Перезагрузитесь в новое ядро</p>
 
  							<p>Чтобы устанавливать необходимые модули (например для virtual-ose и qc-usb):</p>
- 
+
  <pre>
 apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
@@ -243,18 +244,18 @@ apt-get install qc-usb-modules-2.6.24-2.6.24.2.slh.7-sidux-686 (EXAMPLE)
 <pre>
 ls /sys/module/
 или
-cat /proc/modules 
+cat /proc/modules
 </pre>
 	</div>
 		<div class="divider" id="dmakms">
 			<h2>Установка модулей с помощью Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
 							<p>dmakms удобен для автоматической сборки отсутствующих модулей нового ядра sidux, которые Вы ему укажете отслеживать, он использует module-assistant <span class="highlight-3">(m-a)</span> для сборки и установки модулей.</p>
-							
+
 <pre>
 apt-get install dmakms module-assistant
 </pre>
-							<p>Перед тем как активировать Dynamic Module-Assistant Kernel Module Support, установите все необходимые модули с помощью module-assistant для уже установленного ядра. За подробной информацией обращайтесь к странице руководства module-assistant:</p> 
+							<p>Перед тем как активировать Dynamic Module-Assistant Kernel Module Support, установите все необходимые модули с помощью module-assistant для уже установленного ядра. За подробной информацией обращайтесь к странице руководства module-assistant:</p>
 <pre>
 man m-a
 </pre>
@@ -282,18 +283,18 @@ speakup-source
 							<p>Повторите этот процесс для каждого модуля (совместимого с module-assistant).</p>
 
 							<p>для того чтобы module-assistant мог собирать модули, необходимо чтобы было установлено не только ядро, но и заголовки ядра (headers).</p>
-							
+
 					<h4>Ошибка загрузки модуля ядра</h4>
-					
+
 							<p>Если модуль не загрузился после перезагрузки, не важно по какой причине [новый компонент xorg, проблемы с файловой системой, или X-сервер не стартует] :</p>
 <pre>
-modprobe &lt;модуль&gt; 
+modprobe &lt;модуль&gt;
 </pre>
-							<p>Потом перезагрузите компьютер.</p> 
-							
+							<p>Потом перезагрузите компьютер.</p>
+
 							<p>если модуль всё равно не загружается:</p>
  <pre>
- m-a a-i -f module-source 
+ m-a a-i -f module-source
 </pre>
 							<p>Так Вы пересоберёте модуль <span class="highlight-3">теперь опять перезагрузитесь.</span></p>
 
@@ -331,8 +332,8 @@ kernel-remover
 							<p>siduxcc использует скрипт kernel-remover.</p>
 
 	</div>
-	
-	<div id="rev">Содержание, последний раз пересмотрено 02/05/2009 0200 UTC</div>
+
+	<div id="rev">Содержание, последний раз пересмотрено 17/09/2009 0800 UTC</div>
 
 </div>
 </body>

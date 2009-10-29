@@ -162,7 +162,7 @@
 				<li><a href="sys-admin-apt-es.htm#gui-pacsea">Buscar Paquete con GUI</a></li>
 				<li><a href="siduxcc-es.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveISO</a></li>
-				<li><a href="sys-admin-apt-locarmirr-es.htm#approx">dist-upgrade of multiple PCs on a LAN</a></li>
+				<li><a href="sys-admin-apt-locarmirr-es.htm#approx">dist-upgrade de varios PCs en una red local</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade' - Vista general</a></li>
 				<li><a href="sys-admin-apt-es.htm#du-st">Actualizar el sistema instalado: 'dist-upgrade' - Los pasos</a></li>
@@ -193,21 +193,21 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="approx">
-		<h2 id="top-header">dist-upgrade of PCs where bandwidth/speed is a problem</h2>
+		<h2 id="top-header">Hacer dist-upgrade de varios PCs cuando la velocidad de conexión es un problema</h2>
 
-							<p>For users that have more than 1 PC, or those who have more than 1 PC and face bandwidth restrictions, or those who need to get a PC up to date when there are ISP speed restrictions and/or mixed with bandwidth restrictions, there are solutions to help keep all the PCs maintained to an 'up to date' state, whether its on a permanent or temporary LAN.</p>
+							<p>Para aquellos ususarios que tienen más de un PC, o aquellos que se enfrentan con problemas de ancho de banda en su conexión a internet, o cuando quieren actualizar un PC teniendo restricciones de la velocidad por parte de su ISP, hay soluciones para que puedan mantener sus PCs actualizados, tanto si están en una red temporal como permanente.</p>
 
-							<p>The solution is to use a local archive mirror on one of the PCs in which other PCs on the LAN can use to dist-upgrade with thus conserving bandwidth usage for really important day to day activities.</p>
+							<p>La solución es usar un archivo como espejo local en uno de los PCs sobre el cual los demás PCs de la LAN podrán usar para hacer dist-upgrade, conservando así el ancho de banda para los usos cotidianos.</p>
 
 							<!--<p>There are various caching solutions to suit your needs: approx, apt-cacher, and squid to name just 3. sidux recommends approx.</p>-->
 
-				 <h3>Prerequisites</h3>
-							<p>Ensure that you have 6 gig of freespace available for the cache.</p>
+				 <h3>Requisitos previos</h3>
+							<p>Compruebe que tiene 6 gigas de espacio libre para la cache.</p>
 
-		<h2>Using approx as a local archive mirror</h2>
-							<p>When the client PC asks for files it will provide cached ones, provided you have run <span class="highlight-3">apt-get update</span>, <span class="highlight-3">dist-upgrade -d</span> or <span class="highlight-3">dist-upgrade</span> on the PC that is hosting an <span class="highlight-3">approx server</span>.</p>
+		<h2>Uso de approx como un espejo local de archivo</h2>
+							<p>Cuando el PC cliente solicite ficheros, los proporcionará como cache, si previamente ha dado la orden <span class="highlight-3">apt-get update</span>, <span class="highlight-3">dist-upgrade -d</span> o <span class="highlight-3">dist-upgrade</span> en el PC que está albergando un <span class="highlight-3">servidor approx</span>.</p>
 
-				<h4>Step 1: Configuring the Server for Clients to use approx</h4>
+				<h4>Paso 1: Configuración del servidor approx</h4>
 <pre>
 apt-get install approx
 </pre>
@@ -215,60 +215,60 @@ apt-get install approx
 <pre>
 mcedit /etc/approx/approx.conf
 </pre>
-							<p>Enable the <span class="highlight-3">approx.conf</span> file to use the online mirrors:</p>
+							<p>Permitir al fichero <span class="highlight-3">approx.conf</span> usar los espejos online:</p>
 <pre>
-# Here are some examples of remote repository mappings.
-# See http://www.debian.org/mirror/list for mirror sites.
+# Estos son algunos ejemplos de repositorios remotos.
+# Vea http://www.debian.org/mirror/list para los sitios de espejo.
 
-debian http://ftp.iinet.net.au/debian/ <span class="highlight-3">&lt;&lt; change to your local debian mirror</span>
+debian http://ftp.iinet.net.au/debian/ <span class="highlight-3">&lt;&lt; cambie a su espejo debian más cercano</span>
 sidux http://sidux.net/debian/
 </pre>
-							<p><span class="highlight-3"> Apply the same style of syntax to other repositories that you want locally mirror.</span></p>
+							<p><span class="highlight-3"> Haga lo mismo, con igual sintaxis, a los demás repositorios que quiera reflejar localmente.</span></p>
 
-							<p>Start the approx server with:</p>
+							<p>Arranque el servidor approx con:</p>
 <pre>
 update-inetd --enable approx
 </pre>
-							<p>If it fails to work, reboot the PC that you have installed approx on to act as a server as approx is known to be stubborn to start.</p>
+							<p>Si no arranca, reinicie el ordenador en el que ha instalado approx, ya que se sabe que este programa a veces cuesta de arrancar.</p>
 
-							<p>After the reboot run <span class="highlight-3">apt-get update</span> and <span class="highlight-3">dist-upgrade</span> or <span class="highlight-3">dist-upgrade -d</span>. This will ensure that approx can access the latest packages for your client PCs unless there are some packages installed on the client PCs that are not on the host server. Should this be the case approx will go and get the appropriate packages.</p>
+							<p>Después de volverlo a arrancar, haga <span class="highlight-3">apt-get update</span> y <span class="highlight-3">dist-upgrade</span> o <span class="highlight-3">dist-upgrade -d</span>. Esto permitirá que approx pueda acceder a los últimos paquetes para sus PCs clientes, a no ser que hayan algunos paquetes instalados en los clientes que no se encuentren en el servidor. Si tal es el caso, approx los descargará después.</p>
 
-							<p>The packages accumulate in <span class="highlight-3">/var/cache/approx</span> which is populated after the first run of the clients.</p>
+							<p>Los paquetes se almacenan en <span class="highlight-3">/var/cache/approx</span> que se llena la primera vez que los clientes hacen dist-upgrade.</p>
 
-				  <h4>Step 2: Configuring the Clients to use the approx Server</h4>
+				  <h4>Paso 2: Configuración de los clientes para usar el servidor approx</h4>
 
-							<p>First: alter <span class="highlight-3">/etc/apt/sources.list.d/*.list</span> files to use approx as your debian and sidux mirrors.</p>
+							<p>Primeramente cambie los ficheros <span class="highlight-3">/etc/apt/sources.list.d/*.list</span> para usar approx como su espejo pa ra debian y sidux.</p>
 
  <!--<h6>This para is most likely complete and utter rubbish, but put here as a reminder maybe better adding an approx.list and renaming the debian and sidux .lists </h6>
 <p></p>-->
-							<p>With mcedit, comment out your current direct link URLs (place a <span class="highlight-3">#</span> in front of them) and add the following lines and save the changes, for example:</p>
+							<p>Con mcedit comente (es decir, deje sin efecto poniendo un signo <span class="highlight-3">#</span> delante) sus enlaces directos URL, añada las líneas siguientes y guarde los cambios, por ejemplo:</p>
 
-					  <h6>Debian sources list</h6>
+					  <h6>Lista de fuentes debian</h6>
 <pre>
 mcedit /etc/apt/sources.list.d/debian.list
 </pre>
 
 <pre>
-#deb your current debian mirror
+#deb su actual espejo debian
 
 deb http://approx:9999/debian/ sid main contrib non-free
 </pre>
 
-					  <h6>sidux sources list</h6>
+					  <h6>Lista de fuentes sidux</h6>
 <pre>
 mcedit /etc/apt/sources.list.d/sidux.list
 </pre>
 
 <pre>
-#deb your current sidux mirror
+#deb su actual espejo sidux
 
 deb http://approx:9999/sidux/ sid main fix.main
 </pre>
-					  <h6>Other sources lists</h6>
-						      <p>Apply the same style of syntax reflecting other sources.list files as required.</p>
+					  <h6>Otras listas de fuentes</h6>
+						      <p>Haga lo mismo, con igual sintaxis, para reflejar otras listas de fuentes, según sus necesidades.</p>
 
-					  <h6>Proxy Hosts</h6>
-						      <p>Next edit <span class="highlight-3">/etc/hosts</span> to add the local proxy to access the IP address of your server:</p>
+					  <h6>Anfitriones proxy</h6>
+						      <p>A continuación edite <span class="highlight-3">/etc/hosts</span> para añadir el proxy local para acceder a la dirección IP de su servidor:</p>
 
 <pre>
 mcedit /etc/hosts
@@ -278,7 +278,7 @@ mcedit /etc/hosts
 10.1.1.X approx
 </pre>
 
-						      <p>Now run <span class="highlight-3">apt-get update</span> and <span class="highlight-3">dist-upgrade</span> or <span class="highlight-3">dist-upgrade -d</span>.  The first run on each of your client PCs will be slow and may even time out, so try it again. Subsequent runs should provide you with the long term gains you are looking for.</p>
+						      <p>Ahora dé las órdenes <span class="highlight-3">apt-get update</span> y <span class="highlight-3">dist-upgrade</span> o <span class="highlight-3">dist-upgrade -d</span>. La primera vez que lo haga en cada uno de sus PCs clientes, el tiempo de espera será muy largo, por lo que, si acaso, inténtelo otra vez. Las siguientes veces que haga el proceso, obtendrá los beneficios de ahorro de tiempo que estaba buscando.</p>
 
 
 

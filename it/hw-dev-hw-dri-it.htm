@@ -20,8 +20,8 @@
 <body>
 <!-- Last translation revision by alessiog75 on 02/05/2009 12.40 UTC-->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
-<!--sidux-manual Operating System Manual menu-version-01.94.2009.10.17 -->
-<!-- menu last updated by alessiog75 2009.10.21   1215 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
+<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
@@ -68,6 +68,7 @@
 				<li><a href="term-konsole-it.htm#sux">Privilegi di root con  sux / sudo</a></li>
 				<li><a href="term-konsole-it.htm#term-kon">Terminale / Konsole</a></li>
 				<li><a href="term-konsole-it.htm#cli-help">Aiuto nella linea di comando</a></li>
+				<li><a href="help-it.htm#init3-tools">Strumenti in modalità testo da conoscere (tty) and init 3</a></li>
 				<li><a href="term-konsole-it.htm#term-cmds">Lista dei comandi da terminale</a></li>
 				<li><a href="term-konsole-it.htm#shell-scripts">Installare scripts.sh</a></li>
 			</ul>
@@ -217,18 +218,18 @@ deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.con
 
 							<p>I driver open source Xorg per nVidia, ATi, Radeon, Intel sono preinstallati in sidux.</p>
 
-							<p>Intel drivers should work perfectly for 2D and 3D video acceleration as the drivers are included in the Intel free series.</p>
+							<p> I driver Intel dovrebbero funzionare perfettamente per l'accelerazione video 2D e 3D video perchè sono inclusi nella serie libera di Intel.</p>
 
-							<p><span class="highlight-3"> Note: If xorg.conf does not exist, and you require it to be present for some reason, in a terminal run:</span></p>
+							<p><span class="highlight-3"> Nota: Se il file xorg.conf non esiste ed vi è necessario che ci sia per qualsiasi ragione, dentro un terminale lanciate:</span></p>
 <pre>
 X -configure
 </pre>
-							<p>This command writes an xorg.conf and places it in /root directory and names it <span class="highlight-3">xorg.conf.new</span> and contains the essential information. Next step is move and rename it:</p>
+							<p> Questo comando scrive un file xorg.conf e lo mette nella cartella /root chiamandolo <span class="highlight-3">xorg.conf.new</span> e contiene le informazioni essenziali. Il prossimo passo è spostare questo file e rinominarlo:</p>
 <pre>
 mv /root/xorg.conf.new /etc/X11/xorg.conf
 </pre>
 
-							<p>Per modificare il file /etc/X11/xorg.conf cliccarci sopra con il tasto destro ed aprirlo con i permessi di root. Trovare la sezione intitolata SECTION DEVICE e cambiare il display driver in <span class="highlight-2">nv</span> OPPURE <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>Per modificare il file /etc/X11/xorg.conf cliccarci sopra con il tasto destro ed aprirlo con i permessi di root. Trovare la sezione intitolata SECTION DEVICE e cambiare il display driver in <span class="highlight-2">nv</span> OPPURE <span class="highlight-2">radeon</span> OPPURE ancora <span class="highlight-2">intel</span> (per citarne alcune).</p>
 
 							<p class="highlight-2">Modificare xorg.conf è interamente a vostro rischio!!!</p>
 
@@ -239,7 +240,7 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 	<div class="divider" id="non-free-3d">
 		<h2>Driver a sorgente chiuso, binari per: nVidia con dmakms</h2>
 
-							<p>New installs will need to ensure that <span class="highlight-3">xorg.conf </span> exists in <span class="highlight-3">/etc/X11</span>. If it does not exist, create a file called xorg.conf.dmakms and copy into it the following:</p>
+							<p> Nelle nuove installazioni assicurarsi che il file <span class="highlight-3">xorg.conf </span> esista nella cartella <span class="highlight-3">/etc/X11</span>. Se non esistesse, create un file chiamamto xorg.conf.dmakms e copiateci dentro il seguente testo:</p>
 
 <pre>
 # /etc/X11/xorg.conf (Xorg X Window System server configuration file)
@@ -252,16 +253,16 @@ Section "Device"
 	 BusID		 "PCI:1:0:0"
  EndSection
 </pre>
-							<p>Save and move the file to /etc/X11:</p>
+							<p>Salvate e spostate il file dentro /etc/X11:</p>
 <pre>
 mv xorg.conf.dmakms /etc/X11/xorg.conf
 </pre>
 
-							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 choices, current Debian Sid 3D drivers  and legacy Debian Sid  3D drivers.</span></p>
+							<p><span class="highlight-3">NOTA: Usate apt-cache search nvidia e apt-cache show &lt;nome-pacchetto&gt; per accertarvi del driver corretto per voi. Ci sono essenzialmente 2 scelte: i driver correnti di Debian Sid 3D e i driver legacy (datati) Debian Sid 3D.</span></p>
 
-					<h5>For current 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
+					<h5>Per i driver correnti 3d di nvidia &ge; GeForce 6xxx :</h5>
 
-							<p>Prepara il modulo:</p>
+							<p>Preparare il modulo:</p>
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
@@ -279,30 +280,30 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Poi modifica xorg.conf:</p>
+							<p>Poi modificare xorg.conf:</p>
 <pre>
 sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
 </pre>
 						      <p>Riavviare il sistema perché venga eseguita l'installazione del modulo.</p>
 
-						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+						      <p>Quando xorg si aggiorna voi dovete solo reinstallare nvidia-glx:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+						      <p>Quando un nuovo driver Debian sid nvidia diventa disponibile mediante apt:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
-						      <p>Reboot PC for installation of the module to take effect.</p>
+						      <p>Riavviare il PC perchè abbia effetto l'installazione del modulo.</p>
 
-					<h5>For legacy 3d nvidia drivers &ge; GeForce 5xxx :</h5>
+					<h5>Per i driver legacy (datati) 3d nvidia &ge; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
 
-							<p>Alter dmakms:</p>
+							<p>Modificare dmakms:</p>
 <pre>
 echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
 </pre>
@@ -326,24 +327,24 @@ m-a a-i -f nvidia-kernel-source
 $ /usr/share/doc/dmakms
 </pre>
 
-							   <p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
+							   <p>Potetre anche leggere <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> per altre opzioni.</p>
 
 		</div>
 	<div class="divider" id="non-free-3d-2">
-			<h2>ATI, Radeon and other video drivers</h2>
+			<h2>ATI, Radeon and altri driver video</h2>
 
 					  <h6>2D Drivers</h6>
-							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2D for NVIDIA Riva, TNT, GeForce, and Quadro cards and the ATI Mach, Rage, Radeon, and FireGL cards along with atimisc, r128, r6xx/r7xx and radeon sub-drivers. Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
+							<p>I driver per il server X X.Org (guardare xserver-xorg per una ulteriore descrizione) forniscono il supporto in 2D per le schede NVIDIA Riva, TNT, GeForce e Quadro e per qeulleATI Mach, Rage, Radeon e FireGL cards insieme ai timisc, r128, r6xx/r7xx e i radeon sub-driver. Entrambi Radeon e Intel supportano l'accelarazione 2d (xv texturizzato) per far mostrare i video.</p>
 
 					  <h6>3D Drivers</h6>
-							<p>Open source 3D drivers are included for the Intel free series. Some ATI cards also support 3D, so far up to the r5xx chipsets.</p>
+							<p>I dirver 3D Open source sonon inclusi per la serie libera di Intel.Anche alcune schede ATI supportano il 3D, fino ai chipset della serie r5xx.</p>
 
-							<p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p>
+							<p>Per ereditare automaticamente i firmware non-free nuovamente pacchettizzati quando vengono agigornati  per le schede video 2D e 3D:</p>
 
 <pre>
 apt-get install firmware-linux
 </pre>
-							<p>Then reboot the computer.</p>
+							<p>Poi riavviate il computer.</p>
 
 		</div>
 
@@ -353,9 +354,9 @@ apt-get install firmware-linux
 <pre>
 $ fw-detect
 </pre>
-							<p>The output of fw-detect describes the commands needed to install and activate the firmware:</p>
+							<p>La risposta di fw-detect descrive i comandi da usare per installare e attivare il firmware:</p>
 
-							<p>Example:</p>
+							<p>Esempio:</p>
 <pre>
 #Detected driver that requires firmware to operate
 #Follow these instructions to obtain the correct firmware
@@ -366,11 +367,11 @@ modprobe -r zd1211rw
 modprobe zd1211rw
 </pre>
 
-							<p> <span class="highlight-3">To install firmware from git repos, you need to:</span></p>
+							<p> <span class="highlight-3">Per installare del firmware dai repository git, lanciate in un terminale il seguente comando:</span></p>
 <pre>
 apt-get install git-core
 </pre>
-							<p><span class="highlight-3">Should you need to prefetch firmware .debs, to put on a usb-key for example, you can download them as either a zip or tar.gz file from <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></span></p>
+							<p><span class="highlight-3"> Se doveste andare a prendere dei firmware .debs, ad esempio per attivare una chiavetta usb, potreste scaricarli sia come file zip o come tar.gz da: <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a></span></p>
 
 							<p>Cercheremo di fornire i pacchetti per i firmware legalmente ridistribuibili sui nostri archivi software "non-free" ma non tutti i produttori lo permettono.</p>
 	</div>
@@ -389,6 +390,9 @@ apt-get install git-core
 					    <a href="#modem">Modem</a></h4></li>
 					<li class="fwindex"><h4>
 					    <a href="#serial">Serial/USB</a></h4></li>
+
+				</ul>
+				<ul id="fwul-1">
 
 					<li class="fwindex"><h4>
 					     <a href="#audio">Audio</a></h4></li>
@@ -1179,7 +1183,7 @@ Per uscire dalla console digitare: exit
 							 <p>Ora il volume NTFS dovrebbe essere montato <b>rw</b> e si dovrebbe essere in grado di scrivere i dati su di esso. Ma, di nuovo, stare attenti! <span class="highlight-3">Usarlo soltanto in situazioni di emergenza, non è raccomandato per un uso su base giornaliera.</span></p>
 
 		</div>
-	<div id="rev">Page last revised 29/10/2009 1040 UTC </div>
+	<div id="rev">Page last revised 29/10/2009 1345 UTC </div>
 
 </div>
 </body>

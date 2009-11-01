@@ -216,7 +216,7 @@ mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
 							<p>Dan wordt het ISO-bestand gemount met:</p>
-										
+
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt/test
 </pre>
@@ -254,7 +254,7 @@ persist=/sidux/sidux-rw
 
 							<p>sidux gebruikt aufs om de modus "copy on write" in te schakelen voor je ISO. Hierdoor kunnen nieuwe bestanden en mappen aangemaakt worden en bestaande bestanden/mappen bewerkt worden omdat die in het geheugen worden bewaard. De <span class="highlight-3">persist</span> cheatcode bewaard de nieuwe/gewijzigde bestanden in dezelfde partitie waar ook je fromiso ISO image staat.</p>
 
-							<p><span class="highlight-3">fromiso</span> biedt je een  live systeem dat alle automatische mogelijkheden heeft net als de sidux live-CD. Hierdoor wordt de hardware automatisch geconfigureerd maar het betekent ook dat telkens dezelfde ongewijzigde bestanden bij elke boot worden getoond - tenzij je gebruikt een aanvullend boot-commando.</p> 
+							<p><span class="highlight-3">fromiso</span> biedt je een  live systeem dat alle automatische mogelijkheden heeft net als de sidux live-CD. Hierdoor wordt de hardware automatisch geconfigureerd maar het betekent ook dat telkens dezelfde ongewijzigde bestanden bij elke boot worden getoond - tenzij je gebruikt een aanvullend boot-commando.</p>
 
 							<p>Met <span class="highlight-3">persist</span> en andere specifieke sidux cheatcodes zoals noxorgconf, nonetwork, kan een veranderde situatie worden bewaard.</p>
 
@@ -273,8 +273,8 @@ persist=/sidux/sidux-rw
 							<p>Met ext2 wordt de hele partitie gebruikt. De actuele root partitie wordt in combinatie met een map /fll gebruikt (die wordt op de stick aangemaakt). In de /fll worden alle data van/voor persist modus bewaard.</p>
 <!--
 <pre>
-disc="/media/sdb1" 
-size=1024 
+disc="/media/sdb1"
+size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
@@ -284,10 +284,10 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p>Als vfat wordt gebruikt, wordt een bestand voor persistance aangemaakt dat maximaal 2GB groot mag zijn maar niet kleiner dan 100MB (anders heeft het geen zin). Dat bestand wordt <span class="highlight-3">sidux-rw</span> genoemd. Als de disk/stick die je wilt gebruiken gemounted en beschrijfbaar is als /media/sdb1 en je wilt een 1GB groot bestand aanmaken voor de persistent drive, dan kan je de volgende commando's gebruiken (het is niet nodig om root te zijn om dat bestand aan te maken).</p>
 
 <pre>
-disc="/media/sdb1" 
-size=1024 
-mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+disc="/media/sdb1"
+size=1024
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
 
 
@@ -299,11 +299,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>De installatie van sidux op een USB-stick/SSD-card is niet moeilijker als een normale HD-installatie. Voer hiervoor de onderstaande stappen uit.</p>
 
-				<h5>Requirements:</h5>    
+				<h5>Requirements:</h5>
 							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
-							
+
 							<p>A sidux.iso image.</p>
-							
+
 				<h5>Two kinds of installation to USB/SSD</h5>
 					  <ul>
 							<li>1) - fromiso </li>
@@ -348,9 +348,9 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
 						<ul>
 							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
-							
+
 							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
-							
+
 							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
 						</ul>
 	</div>
@@ -358,13 +358,13 @@ $ man fll-iso2usb
 				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
-							
+
 							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
-							
+
 							<p>Read <a href="hd-install-nl.htm#Installation">Installing to your HD</a></p>
-							
+
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
-							
+
 						<ul>
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
@@ -403,7 +403,7 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
 							<p>Voeg nu je gebruikersnaam toe aan vboxusers:</p>
 <pre>
-adduser &lt;username&gt; vboxusers 
+adduser &lt;username&gt; vboxusers
 </pre>
 							<p>Voer nu het volgende uit:</p>
 <pre>
@@ -525,9 +525,9 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">De officiële documentatie van het QEMU Project </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Sommige teksten voor QEMU voor het sidux-handleiding was vanaf deze site onder GNU Free Documentation License 1.2 benaderd en veranderd voor deze sidux-handleiding</a> </p>
 
-		
+
 	</div>
-			<div id="rev"> Inhoud het laatst aangepast op 30/08/2009 1350 UTC</div>
+			<div id="rev"> Inhoud het laatst aangepast op 01/11/2009 1345 UTC</div>
 </div>
 </body>
 </html>

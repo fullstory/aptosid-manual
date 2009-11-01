@@ -215,7 +215,7 @@ mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
 							<p>Agora, monte a ISO (você pode usar, alternativamente, o mc [midnight commander] para isso, pois ele automonta de forma transparente arquivos .iso e deixa que você copie os arquivos necessários):</p>
-										
+
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
@@ -253,7 +253,7 @@ persist=/sidux/sidux-rw
 
 							<p>O sidux usa o aufs para habilitar o que é conhecido como "copy on write" em sua ISO, o que permite que você crie novos arquivos e pastas e atualize os já existentes, mantendo-os na memória. O cheatcode <span class="highlight-3">persist</span> irá armazenar seus novos arquivos na mesma partição que você usa para armazenar sua imagem ISO fromiso.</p>
 
-							<p><span class="highlight-3">fromiso</span> proporciona um sistema live com todos os recursos automáticos de uma ISO live do sidux. Isto traz o benefício de, por exemplo, configurar automaticamente seu hardware, mas também significa que os mesmos arquivos serão sempre recriados a cada inicialização (a menos que você use códigos adicionais).</p> 
+							<p><span class="highlight-3">fromiso</span> proporciona um sistema live com todos os recursos automáticos de uma ISO live do sidux. Isto traz o benefício de, por exemplo, configurar automaticamente seu hardware, mas também significa que os mesmos arquivos serão sempre recriados a cada inicialização (a menos que você use códigos adicionais).</p>
 
 							<p>Usar <span class="highlight-3">persist</span> juntamente com outros cheatcodes específicos do sidux, como noxorgconf, nonetwork, resulta na não criação dos mesmos arquivos a cada novo reboot.</p>
 
@@ -272,8 +272,8 @@ persist=/sidux/sidux-rw
 							<p>Com ext2 toda a partição será utilizada. Além disso, o root atual é aproveitado e um diretório /fll é criado para persistência; isso permite o uso de todo o espaço livre para o persist.</p>
 <!--
 <pre>
-disc="/media/sdb1" 
-size=1024 
+disc="/media/sdb1"
+size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
@@ -283,10 +283,10 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p>Quando se usa vfat, a persistência é obtida através de um arquivo cujo tamanho máximo não pode ultrapassar 2GB (já o tamanho mínimo não pode ser inferior a 100MB, o que o tornaria inútil). Esse arquivo precisa ser nomeado <span class="highlight-3">sidux-rw</span>. Vamos supor que o disco que você pretende usar esteja montado e tenha permissão de escrita em /media/sdb1 e que você deseja criar um arquivo de 1GB para usar como drive de persistência: digite os seguintes comandos, como usuário (desde que você possa escrever no arquivo):</p>
 
 <pre>
-disc="/media/sdb1" 
-size=1024 
-mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+disc="/media/sdb1"
+size=1024
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
 
 
@@ -298,11 +298,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>Instalar o sidux em pendrives ou cartões SSD é tão fácil quanto uma instalação em um HD tradicional. Basta seguir as instruções abaixo.</p>
 
-				<h5>Requisitos:</h5>    
+				<h5>Requisitos:</h5>
 							<p>* qualquer PC com suporte a USB 2.0 e capaz de ser inicializado por USB/SSD.</p>
-							
+
 							<p>* uma imagem sidux.iso.</p>
-							
+
 				<h5>Dois tipos de instalação em dispositivos USB/SSD:</h5>
 					  <ul>
 							<li>1) - fromiso </li>
@@ -346,9 +346,9 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Outras observações importantes: </span></p>
 						<ul>
 							<li>Uma instalação em dispositivos USB ou cartões SSD será, normalmente, direcionada para uso no PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que os drivers não livres da placa de vídeo provavelmente não estarão instalados e nem os 'cheatcodes' pré-configurados (com exceção do cheatcode VESA já declarado no menu.lst).</li>
-							
+
 							<li>Após dar o boot do dispositivo USB/SSD em outro PC, será necessário alterar o arquivo fstab (que está em /etc) para que as partições do HD fiquem acessíveis.</li>
-							
+
 							<li>"fromiso" com "persist" é a melhor escolha se sua intenção primeira for portabilidade.</li>
 						</ul>
 	</div>
@@ -356,13 +356,13 @@ $ man fll-iso2usb
 				<h3>Instalação completa em um HD-USB, como se fosse em uma partição</h3>
 
 							<p>O HD-USB tem uma grande vantagem (particularmente para novos usuários vindos do Windows ou de outra distro), que é permitir instalar o sidux e depois conectar o dispositivo a um PC sem a necessidade de configurá-lo para boots múltiplos, isto é, sem que seja necessário reparticionar a máquina, fazer alterações no GRUB etc.</p>
-							
+
 							<p>Inicie pelo Live-CD/DVD (ou por uma pendrive ou cartão SSD), <span class="highlight-3">como se fosse uma instalação normal, não como uma instalação para USB</span> e escolha a partição no dispositivo onde o sidux ficará (por exemplo, <span class="highlight-3">sdbX) </span> e siga as instruções do instalador. O GRUB deve ser escrito na partição do HD-USB.</p>
-							
+
 							<p>Leia <a href="hd-install-pt-br.htm#Installation">Instalando no HD</a>.</p>
-							
+
 							<p><span class="highlight-3">Outras observações importantes:</span></p>
-							
+
 						<ul>
 							<li>Uma instalação no HD-USB será direcionada para o PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que o HD-USB não deverá estar com os drivers não livres da placa de vídeo instalados nem com as 'cheatcodes' pré-configuradas (com exceção, provavelmente, da cheatcode VESA já aposta no menu.lst).</li>
 
@@ -400,7 +400,7 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
 							<p>Agora adicione seu nome de usuário ao vboxusers:</p>
 <pre>
-adduser &lt;usuário&gt; vboxusers 
+adduser &lt;usuário&gt; vboxusers
 </pre>
 							<p>A seguir:</p>
 <pre>
@@ -525,9 +525,9 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Documentação oficial do Projeto QEMU </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Parte do que está escrito sobre o QEMU neste Manual do sidux foi conseguido acessando-se este site, sob a GNU Free Documentation License 1.2 e modificada para este manual.</a> </p>
 
-		
+
 	</div>
-	<div id="rev">Page last revised 30/08/2009 1350 UTC</div>
+	<div id="rev">Page last revised 01/11/2009 1345 UTC</div>
 
 </div>
 </body>

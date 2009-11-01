@@ -217,7 +217,7 @@ mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
 							<p>Now mount the ISO image (Alternatively mc [midnight commander] can be used, as it transparently auto-mounts .iso files and lets you copy out the files needed.):</p>
-										
+
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
@@ -255,7 +255,7 @@ persist=/sidux/sidux-rw
 
 							<p>sidux uses aufs to enable what is known as "copy on write" over your ISO to allow you to write new files and folders and update existing ones by keeping the new files in memory. The <span class="highlight-3">persist</span> cheatcode, will store your new files on the same hard drive partition as you use to store your fromiso ISO image.</p>
 
-							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p> 
+							<p><span class="highlight-3">fromiso</span> gives you a live system which performs all the automatic features of the sidux live ISO. This has the benefit of doing things like automatically configuring the hardware but it also means  that it will recreate the same files each time you boot up unless you use additional codes.</p>
 
 							<p>Using <span class="highlight-3">persist</span> along with other sidux specific cheatcodes such as noxorgconf, nonetwork, means that it will not recreate the same files each time you boot up. </p>
 
@@ -275,8 +275,8 @@ persist=/sidux/sidux-rw
 
 <!--
 <pre>
-disc="/media/sdb1" 
-size=1024 
+disc="/media/sdb1"
+size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
@@ -284,10 +284,10 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 					<h6>vfat file system</h6>
 							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
 <pre>
-disc="/media/sdb1" 
-size=1024 
-mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+disc="/media/sdb1"
+size=1024
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
 							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
 
@@ -297,11 +297,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>To do an installation of sidux on a USB-stick/SSD-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
-				<h5>Requirements:</h5>    
+				<h5>Requirements:</h5>
 							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
-							
+
 							<p>A sidux.iso image.</p>
-							
+
 				<h5>Two kinds of installation to USB/SSD</h5>
 					  <ul>
 							<li>1) - fromiso </li>
@@ -341,13 +341,13 @@ $ man fll-iso2usb
 							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Read <a href="hd-install-ro.htm#Installation">Installing to your HD</a></p>
 
 							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
-							
+
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
 						<ul>
 							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
-							
+
 							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
-							
+
 							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
 						</ul>
 
@@ -356,13 +356,13 @@ $ man fll-iso2usb
 				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
-							
+
 							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
-							
+
 							<p>Read <a href="hd-install-ro.htm#Installation">Installing to your HD</a></p>
-							
+
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
-							
+
 						<ul>
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
@@ -401,7 +401,7 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
 							<p>Now add your user name to vboxusers:</p>
 <pre>
-adduser &lt;username&gt; vboxusers 
+adduser &lt;username&gt; vboxusers
 </pre>
 							<p>Next:</p>
 <pre>
@@ -433,7 +433,7 @@ modprobe vboxdrv
 				<p>Folosiţi comanda :</p>
 
 <pre>
-   qemu-img create -f qcow sidux.qcow 3G   
+   qemu-img create -f qcow sidux.qcow 3G
 </pre>
 				<p>pentru a crea fişierul imagine numit "sidux.qcow" . Parametrul "3G" specifică mărimea fişierului de pe disc - în acest caz 3 GB . Se poate folosi sufixul  M pentru megabytes ( de exemplu "256M"). Nu trebuie să vă ingrijoraţi prea tare în legătura cu mărimea discului - formatul qcow compresează imaginea în aşa fel incât spaţiul gol nu se adaugă la mărimea fişierului .</p>
 
@@ -445,11 +445,11 @@ modprobe vboxdrv
 				<p>Dacă va trebui să folosiţi o dischetă de boot , rulaţi QEMU cu :</p>
 
 <pre>
-    qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow 
+    qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
 				<p>Dacă CD-ROM-ul  este bootabil , rulaţi Qemu cu :</p>
 <pre>
-   qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow 
+   qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
 				<p>Acum instalaţi sidux ca şi cum l-aţi instala pe un Hard Disc real</p>
 
@@ -458,18 +458,18 @@ modprobe vboxdrv
 
 				<p>Pentru a porni sistemul trebuie doar să tastaţi :</p>
 <pre>
- qemu [hd_image] 
+ qemu [hd_image]
 </pre>
 				<p>O idee bună este să folosiţi imagini suprapuse . În felul acesta veţi crea imaginea de Hard Disc o dată si veţi instrui QEMU să scrie schimbările într-un fişier extern . Veţi scăpa de instabilitate astfel , pentru că puteţi uşor reveni la o stare iniţială a sistemului .</p>
 
 				<p>Pentru a crea o imagine suprapusă tipăriţi :</p>
 <pre>
- qemu-img create -b [[base''image]] -f qcow [[overlay''image]] 
+ qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
 
 				<p>Substituirea imaginii de bază de pe Hard Disc ( în cazul nostru sidux.qcow). După aceasta puteţi rula  qemu cu :</p>
 <pre>
-   qemu [overlay_image] 
+   qemu [overlay_image]
 </pre>
 				<p>Imaginea originală va fi lăsată intacta . Un pont , imaginea de bază nu poate fi redenumită sau mutată , imaginea suprapusă totdeauna îşi va aminti calea către imaginea de bază .</p>
 
@@ -480,25 +480,25 @@ modprobe vboxdrv
 
 				<p>Să presupunem că aveţi o partiţie nemontată , cu ceva fişiere pe ea ,  /dev/sdaN , pe care vreţi să o faceţi parte a imaginii de disc qemu . Mai întâi trebuie sa creaţi un mic fişier care să conţină MBR :</p>
 <pre>
-  dd if=/dev/zero of=/path/to/mbr count=32 
+  dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
 				<p>Aici , un fişier de 16 KB (32 * 512 bytes) este creat . Este important să nu fie făcut prea mic (chiar dacă MBR are nevoie doar de un singur block de 512 bytes ) , căci cu cât mai mic va fi cu atat mai mică va trebui să fie şi informaţia despre dispozitivul RAID  ceea ce va avea impact asupra performanţei . Apoi , veţi seta un dispozitiv virtual in fişierul MBR :</p>
 <pre>
- losetup -f /path/to/mbr 
+ losetup -f /path/to/mbr
 </pre>
 				<p>Să presupunem că dispozitivul rezultat este /dev/loop0 , pentru că noi nu am folosit încă alte dispozitive virtuale . Următorul pas este sa creăm imaginea de disc comună MBR+/dev/sdaN folosind  software RAID :</p>
 <pre>
 
   modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN 
+ mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
 				<p>Rezultatul , /dev/md0 , este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator ) . Ultimul  ( şi cumva inşelator ) pas este să setezi configuraţia discului ( geometria discului şi tabela de partiţii ) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 ( un offset de exact 16 * 512 = 16384 bytes în acest exemplu ) . Faceţi acest lucru folosind fdisk de pe computerul gazdă , nu în emulator : din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca in sectiunea precedenta ) iar acestea nu pot fi interpretate de codul software RAID . De acolo , de pe computerul gazdă :</p>
 <pre>
-  fdisk /dev/md0 
+  fdisk /dev/md0
 </pre>
 				<p>Creaţi o singură partiţie primară corespunzătoare /dev/sdaN , si jucaţi-vă cu comanda 's'ector din meniul 'x'pert până când primul cilindru ( de unde incepe prima partiţie ) , se potriveşte cu mărimea din MBR . La sfârşit  folosiţi 'w'rite pentru a scrie rezultatul în fişier : asta e tot . Aveţi acum o partiţie pe care o puteţi monta şi de pe computerul gazdă şi care este parte a imaginii de disc qemu :</p>
 <pre>
-  qemu -hdc /dev/md0 [...]  
+  qemu -hdc /dev/md0 [...]
 </pre>
 
 				<p>Puteţi , bineânţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare .</p>
@@ -509,31 +509,31 @@ modprobe vboxdrv
 
 				<p>Programatorii de qemu au creat un modul de kernel optional care accelerează qemu pană aproape a lucra în timp real . Acesta trebuie încărcat cu opţiunea :</p>
 <pre>
-  major=0 
+  major=0
 </pre>
 				<p>pentru a crea automat dispozitivul  /dev/kqemu cerut . Următoarea  comandă : </p>
 
 <pre>
-  echo "options kqemu major=0" >> /etc/modprobe.conf 
+  echo "options kqemu major=0" >> /etc/modprobe.conf
 </pre>
 				<p>Aceasta va schimba modprobe.conf pentru a se asigura că optiunea din modul va fi adaugată de fiecare dată când modulul este încărcat .</p>
 
 <pre>
-  qemu [...] -kernel-kqemu 
+  qemu [...] -kernel-kqemu
 </pre>
 				<p>Aceasta va realiza virtualizarea completa care va imbunataţi considerabil viteza .</p>
 
 			<h4>Pentru a activa  qemu:</h4>
 
 <pre>
-  qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512 
+  qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 </pre>
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Documentaţia Oficială a Proiectului QEMU  </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Anumit conţinut din manualul de sidux despre QEMU a fost transpus pe această pagină sub GNU Free Documentation License 1.2  şi modificat pentru manualul de sidux</a> </p>
 
-		
+
 	</div>
-			<div id="rev"> Page last revised 30/08/2009 1350 UTC</div>
+			<div id="rev"> Page last revised 01/11/2009 1345 UTC</div>
 
 </div>
 </body>

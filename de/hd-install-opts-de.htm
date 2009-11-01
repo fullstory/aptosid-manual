@@ -199,7 +199,7 @@
 		<h2 id="top-header">Booten "fromiso"</h2>
 
 		<p  class="highlight-2">Für normalen Gebrauch empfehlen wir das Standarddateisystem von sidux, ext3, welches von den Maintainern gut betreut ist.</p>
-		
+
 		<p>Dieser Cheatcode startet aus einer ISO-Datei auf der Festplatte (ext2/3). Das ist viel schneller als von einer CD (Festplatten-Installationen "fromiso" dauern nur einen Bruchteil der Zeit).</p>
 
 		<p>Dies ist natürlich viel schneller als von einem CD/DVD-Laufwerk, und das Laufwerk steht gleichzeitig zur Verfügung. Alternativ kann man auch QEMU verwenden.</p>
@@ -217,7 +217,7 @@ mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
 							<p>Das ISO-Abbild wird eingebunden (alternativ kann dazu mc [midnight commander] benutzt werden, da dieser Dateimanager ISO-Abbilder automatisch einbindet und damit einzelne Dateien aus dem ISO kopiert werden können):</p>
-										
+
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
@@ -256,7 +256,7 @@ persist=/sidux/sidux-rw
 
 							<p>sidux verwendet aufs, um "copy on write" über eine ISO zu ermöglichen, womit man Verzeichnisse und Daten neu anlegen bzw. aktualisieren kann, indem neue Daten im Speicher vorgehalten werden. Mit der Bootoption <span class="highlight-3">persist</span> werden die neuen Daten auf der gleichen Festplatte abgespeichert, welche auch Speicherort für die fromiso-Abbilddatei ist.</p>
 
-							<p><span class="highlight-3">fromiso</span> ermöglicht ein Live-System, welches alle automatisierten Fähigkeiten einer sidux-Live-CD bietet. Dies hat den Vorteil, dass zum Beispiel die Hardware automatisch erkannt wird, es bedeutet aber auch, dass nach einem Neustart ein unveränderter Datensatz wieder zur Verfügung steht, solange man nicht andere Anweisungen gibt.</p> 
+							<p><span class="highlight-3">fromiso</span> ermöglicht ein Live-System, welches alle automatisierten Fähigkeiten einer sidux-Live-CD bietet. Dies hat den Vorteil, dass zum Beispiel die Hardware automatisch erkannt wird, es bedeutet aber auch, dass nach einem Neustart ein unveränderter Datensatz wieder zur Verfügung steht, solange man nicht andere Anweisungen gibt.</p>
 
 							<p>Die Verwendung von <span class="highlight-3">persist</span> gemeinsam mit anderen sidux spezifischen Bootoptionen wie noxorgconf oder nonetwork bedeutet, dass beim Booten nicht mehr der gleiche, unveränderte Datensatz aufgerufen wird.</p>
 
@@ -276,8 +276,8 @@ persist=/sidux/sidux-rw
 
 <!--
 <pre>
-disc="/media/sdb1" 
-size=1024 
+disc="/media/sdb1"
+size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
@@ -287,25 +287,25 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p>Wenn vfat verwendet wird, wird der persist-Modus mittels einer Datei ermöglicht, die maximal 2GB groß sein kann, aber mindestens 100MB groß sein soll (weniger macht keinen Sinn). Diese Datei sollte  <span class="highlight-3">sidux-rw</span> benannt werden. Angenommen das zu verwendende Speichergerät ist schreibbar auf /media/sdb1 eingebunden und es soll eine Datei mit der Größe von 1GB für den persist-Modus angelegt werden, kann folgender Befehl verwendet werden (man muss nicht root sein):</p>
 
 <pre>
-disc="/media/sdb1" 
-size=1024 
-mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+disc="/media/sdb1"
+size=1024
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
 
 							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP (TM)) können NICHT auf diese Weise benutzt werden.</p>
 
 	</div>
-	<div class="divider" id="usb-hd"> 
+	<div class="divider" id="usb-hd">
 		<h2>Installation von sidux auf USB-Stick/SSD-Karte</h2>
 
 							<p>sidux auf USB-Stick/SSD-Karte zu installieren ist genauso einfach wie eine normale Festplatteninstallation. Hier eine einfache Anleitung.</p>
 
-				<h5>Voraussetzungen:</h5>    
+				<h5>Voraussetzungen:</h5>
 							<p>Jeder PC mit USB 2.0 und Bootfähigkeit von USB/SSD.</p>
-							
+
 							<p>Eine Abbilddatei sidux.iso.</p>
-							
+
 				<h5>Zwei Wege der Installation nach USB/SSD</h5>
 					  <ul>
 							<li>1) fromiso </li>
@@ -350,9 +350,9 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Weiters ist zu beachten: </span></p>
 						<ul>
 							<li>Eine USB/SSD-Installation ist üblicherweise an den PC gebunden, auf welchem die Installation durchgeführt wurde. Falls man wünscht, die Installation auch auf anderen PCs zu nutzen, sollten keine proprietären Grafiktreiber bzw. Bootoptionen vorkonfiguriert sein. Ausnahme ist die vesa-Bootoption in menu.lst. Für dies alles muss man nach einer erfolgreichen Installation selbst Sorge tragen.</li>
-							
+
 							<li>Nach dem Booten mit einem USB/SSD-Speicher auf einem anderen PC muss fstab angepasst werden, um die Festplatten des PCs ansprechen zu können.</li>
-							
+
 							<li>"fromiso" mit "persist" ist eine bessere Option, falls mehrere PCs genutzt werden sollen.</li>
 						</ul>
 	</div>
@@ -360,13 +360,13 @@ $ man fll-iso2usb
 				<h3>Vollständige Installation auf eine USB-Festplatte ist gleich einer Installation auf eine Partition</h3>
 
 							<p>Eine USB-Festplatteninstallation ist besonders für Anwender, die von Windows kommen oder andere Linux-Distributionen nutzen, attraktiv: man kann sidux auf eine USB-Festplatte installieren und muss sich nach dem Anstecken der Festplatte nicht um eine Dual-Boot-Konfiguration kümmern (Neupartitionierung, Grub-Anpassung u.a. fallen weg).</p>
-							
+
 							<p>Die Installation wird von der Live-ISO (oder von einem USB/SSD-Speicher) <span class="highlight-3">wie eine Standard-Installation und nicht wie eine USB-Installation</span> durchgeführt. Man wählt die Partition auf der USB-Festplatte, wohin sidux installiert werden soll, zum Beispiel <span class="highlight-3">sdbX</span>, und folgt den Anweisungen des Installationsprogramms. Grub muss auf die Partition der USB-Festplatte geschrieben werden.</p>
-							
+
 							<p>Weitere Informationen unter <a href="hd-install-de.htm#Installation">Installation auf eine Festplatte</a></p>
-							
+
 							<p><span class="highlight-3">Weiters ist zu beachten: </span></p>
-							
+
 						<ul>
 							<li>Eine USB-Festplatteninstallation ist üblicherweise an den PC gebunden, auf welchem die Installation durchgeführt wurde. Falls man wünscht, die Installation auch auf anderen PCs zu nutzen, sollten keine proprietären Grafiktreiber bzw. Bootoptionen vorkonfiguriert sein. Ausnahme ist die vesa-Bootoption in menu.lst. Für dies alles muss man nach einer erfolgreichen Installation selbst Sorge tragen.</li>
 
@@ -404,7 +404,7 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
 							<p>Danach wird der Benutzername der Gruppe vboxusers zugefügt:</p>
 <pre>
-adduser &lt;username&gt; vboxusers 
+adduser &lt;username&gt; vboxusers
 </pre>
 							<p>Nun:</p>
 <pre>
@@ -526,10 +526,10 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Die offizielle englischsprachige Dokumentation des QEMU-Projekts </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Einige Abschnitte für QEMU wurden für das sidux-Handbuch  unter der GNU Free Documentation License 1.2 verwendet und für das sidux-Handbuch angepasst. Die Übersetzung ins Deutsche erfolgte durch das sidux-Team.</a> </p>
 
-		
+
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised  30/08/2009 1350 UTC</div>
+	<div id="rev">Content last revised 01/11/2009 1345 UTC</div>
 
 
 </div>

@@ -198,15 +198,15 @@
 		<h2 id="top-header">Установка "fromiso"</h2>
 
 							<p  class="highlight-2">Для обычного употребления мы рекомендуем файловою систему ext3. Ext3 является стандартной файловой системой для sidux, кроме того, она хорошо поддерживается (maintained).</p>
-		
+
 							<p>В данном случае для загрузки используется ISO-образ на жестком диске. Это намного быстрее чем чем установка с CD (в случае "fromiso"&nbsp;все происходит гораздо быстрее, по некоторым утверждениям менее 4х минут, но даже 6-8 минут - тоже &nbsp;быстро).</p>
 
 							<p>Это, конечно, гораздо быстрее, чем с CD, плюс остается в полном распоряжении дисковод. Альтернативно можно использовать <a href="hd-install-opts-ru.htm">QEMU</a>.</p>
 
 				<h5>Предполагаемые условия</h5>
 
-							<p>* Функционирующая установка с boot-менеджером Grub (на дискетe, установка на жестких дисках или Live-CD)<br /> 
-							* ISO-образ sidux.iso и файловая система ext2/3 <br /> 
+							<p>* Функционирующая установка с boot-менеджером Grub (на дискетe, установка на жестких дисках или Live-CD)<br />
+							* ISO-образ sidux.iso и файловая система ext2/3 <br />
 							* Если ISO-образ был переименован (например, на sidux.ISO), необходимо  соответствующим образом изменить аргументы команды, так как система наименования файлов Unix/Linux  различает верхний и нижний регистр имен.</p>
 
 				<h4 class="highlight-3">Процесс:</h4>
@@ -216,7 +216,7 @@ mkdir -p /media/sdaX/sidux
 mv sidux.iso /media/sdaX/sidux
 </pre>
 							<p>Теперь смонтируем ISO-образ. Для этой цели можно воспользоваться программой mc [midnight commander], так как этот файловый менеджер смонтирует ISO-образы автоматически. Это позволяет копировать отдельные файлы с ISO:</p>
-										
+
 <pre>
 mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 </pre>
@@ -252,7 +252,7 @@ persist=/sidux/sidux-rw
 
 							<p>sidux использует aufs для реализации возможности "copy on write" для перезаписи содержимого ISO, добавления пакетов, обновления системы и прочего. Ключ <span class="highlight-3">persist</span>, позволит сохранить Ваши новые файлы на том-же диске, где хранится образ ISO.</p>
 
-							<p><span class="highlight-3">fromiso</span> даёт Вам live систему, которая загружается с ISO образа, находящегося на носителе и выполняет все автоматические функции что и sidux live ISO. Выгода от этого в том, что, например, при запуске будет проходить настройка оборудования, однако это означает, что все настроечные файлы будут пересоздаваться заново, если вы не воспользуетесь дополнительными ключами.</p> 
+							<p><span class="highlight-3">fromiso</span> даёт Вам live систему, которая загружается с ISO образа, находящегося на носителе и выполняет все автоматические функции что и sidux live ISO. Выгода от этого в том, что, например, при запуске будет проходить настройка оборудования, однако это означает, что все настроечные файлы будут пересоздаваться заново, если вы не воспользуетесь дополнительными ключами.</p>
 
 							<p>Если использовать <span class="highlight-3">persist</span> с другими, специфическими для sidux ключами, как например, noxorgconf, nonetwork, то эти настроечные файлы не будут затронуты при запуске.</p>
 
@@ -271,8 +271,8 @@ persist=/sidux/sidux-rw
 							<p>Если Вы используете ext2, то раздел будет использован полностью под корневой раздел и папку /fll , которая будет создана для сохранения (persistence).</p>
 <!--
 <pre>
-disc="/media/sdb1" 
-size=1024 
+disc="/media/sdb1"
+size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
@@ -282,10 +282,10 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p>Если Вы используете vfat? то persistence ограничивается файлом не более 2GB и не менее 100MB (так как меньший объём лишён всякого смысла). Этот файл должен называться <span class="highlight-3">sidux-rw</span>. Предположим что диск который Вы хотите использовать смонтирован с возможностью записи в /media/sdb1 и Вы хотите создать файл в 1GB для использования сохранённой системы (persistent). Для этого введите следующие команды (это можно делать с правами пользователя, если вы имеете доступ на запись в файл).</p>
 
 <pre>
-disc="/media/sdb1" 
-size=1024 
-mkdir /media/sdb1/sidux 
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.vfat ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
+disc="/media/sdb1"
+size=1024
+mkdir /media/sdb1/sidux
+dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
 
 
@@ -297,11 +297,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>Установка sidux на USB-stick/SSD-card теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
 
-				<h5>Требования:</h5>    
+				<h5>Требования:</h5>
 							<p>Любой компьютер, который поддерживает протокол USB 2.0 может загружаться с USB/SSD.</p>
-							
+
 							<p>Образ диска sidux.iso.</p>
-							
+
 				<h5>Два способа установки на USB/SSD</h5>
 					  <ul>
 							<li>1) - fromiso </li>
@@ -351,13 +351,13 @@ $ man fll-iso2usb
 				<h3>Full installation to a USB Hard Disk Drive like an installation to a partition</h3>
 
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install sidux to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
-							
+
 							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where sidux is to be installed, for example <span class="highlight-3">sdbX </span>and follow the sidux installer prompts. Grub must be written to the USB HDD partition.</p>
-							
+
 							<p>Read <a href="hd-install-ru.htm#Installation">Installing to your HD</a></p>
-							
+
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
-							
+
 						<ul>
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
@@ -396,14 +396,14 @@ sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
 </pre>
 							<p>Теперь добавьте себя в группу vboxusers:</p>
 <pre>
-adduser &lt;username&gt; vboxusers 
+adduser &lt;username&gt; vboxusers
 </pre>
 							<p>Next:</p>
 <pre>
 modprobe vboxdrv
 </pre>
 							<p class="highlight-3">И наконец выйдите и войдите снова (не перезагружаясь) и запустите Virtualbox из Меню.</p>
-							
+
 					<h3>Инсталляция sidux в виртуальную машину</h3>
 							<p>С помощью проводника (wizard) virtualbox создайте новую виртуальную машину для sidux, а далее пользуйтесь инструкцией для обычной установки sidux.</p>
 
@@ -518,10 +518,10 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Официальная документация проекта QEMU</a>.</p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Несколько разделов руководства QEMU были использованы для руководства sidux на базе GNU Free Documentation License 1.2 и приспособлены для руководства sidux. Перевод на русский язык произведен группой sidux.</a> </p>
 
-		
+
 	</div>
 
-	<div id="rev">Содержание, последний раз пересмотрено 30/08/2009 1350 UTC  </div>
+	<div id="rev">Содержание, последний раз пересмотрено 01/11/2009 1345 UTC  </div>
 </div>
 </body>
 </html>

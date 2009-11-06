@@ -365,7 +365,7 @@ $ man fll-iso2usb
 						<ul>
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
-							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
 	</div>
 	<div class="divider" id="vtbox">
@@ -383,29 +383,20 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Дисково пространство:</span> Докато самата VirtualBox е много икономична (типичната инсталация се нуждае само от 30 MB дисково пространство), за виртуалните машини ще трябват доста големи файлове, които да имитират техните хард-дискове. Така че, за да инсталирате например MS Windows XP (TM) като виртуална машина, използвания файл с лекота ще "порасне" до десетки GB. За да използвате sidux във VirtualBox, трябва да предвидите 5 gig файл плюс място за swap.</p>
 
 				<h3>Installation:</h3>
-						 <h6>32 bit</h6>
+
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+apt-get install virtualbox-ose-qt virtualbox-ose-source
 </pre>
-						 <h6>64 bit</h6>
+
+						      <p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
+
+						      <p class="highlight-3">Next, log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+
+						      <p>dkms and dmakms can coexist on the same installation, read:</p>
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
+man dkms
+man dmakms
 </pre>
-							<p>Then copy and paste this line into the terminal:</p>
-<pre>
-sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
-</pre>
-							<p>Now add your user name to vboxusers:</p>
-<pre>
-adduser &lt;username&gt; vboxusers
-</pre>
-							<p>Next:</p>
-<pre>
-modprobe vboxdrv
-</pre>
-							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<h3>Инсталиране на sidux като виртуална машина</h3>
 							<p>Използвайте графичните средства на virtualbox (wizard) за създаването на нова виртуална машина за sidux. След като я стартирате от sidux iso-образ или live-CD, следвайте инструкциите за стандартна инсталация на sidux.</p>
@@ -526,7 +517,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 01/11/2009 1345 UTC</div>
+	<div id="rev">Page last revised 05/11/2009 1540 UTC</div>
 
 </div>
 </body>

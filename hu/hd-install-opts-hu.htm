@@ -359,7 +359,7 @@ $ man fll-iso2usb
 						<ul>
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
-							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.v</li>
 						</ul>
 	</div>
 	<div class="divider" id="vtbox">
@@ -377,30 +377,20 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Lemez terület:</span> Míg maga a VirtualBox program kis helyet foglal (egy tipikus telepítés nagyjából 30 MB-ot igényel), a virtuális gépek virtuális merevlemezei igen méretes tárhelyet igényelnek - például a MS Windows XP (TM) telepítése után a helyigény sok gigabájtra is nőhet. A sidux VirtualBoxban való használatához 5 GB lemezképfájl szükséges, plusz némi swap terület.</p>
 
 				<h3>A Virtualbox telepítése</h3>
-						 <h6>32 bit-es változat</h6>
+
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
-</pre>
-						 <h6>64 bit-es változat</h6>
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
+apt-get install virtualbox-ose-qt virtualbox-ose-source
 </pre>
 
-							<p>Másold és futtasd le egy parancssori ablakban:</p>
+						      <p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
+
+						      <p class="highlight-3">Next, log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+
+						      <p>dkms and dmakms can coexist on the same installation, read:</p>
 <pre>
-sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
+man dkms
+man dmakms
 </pre>
-							<p>Most add hozzá a felhasználódat a vboxusers felhaszálói csoporthoz:</p>
-<pre>
-adduser &lt;felhasználóneved&gt; vboxusers
-</pre>
-							<p>Ezután:</p>
-<pre>
-modprobe vboxdrv
-</pre>
-							<p class="highlight-3">Végül lépj ki és lépj vissza a rendszerbe, és indítsd el a Virtualbox-ot a menüből.</p>
 
 					<h3>A sidux telepítése a virtuális gépre</h3>
 							<p>A VirtualBox varázslója használandó a sidux virtuális gépének létrehozására. Ezután a sidux normál telepítési utasításait kell követni.</p>
@@ -520,7 +510,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Az oldal utoljára módosítva 01/11/2009 1345 UTC </div>
+	<div id="rev">Az oldal utoljára módosítva 05/11/2009 1540 UTC</div>
 
 </div>
 </body>

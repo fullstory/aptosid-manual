@@ -430,7 +430,7 @@ $ man fll-iso2usb
 							<!--li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li-->
 							<li>Μια εγκατάσταση σε ένα USB σκληρό δίσκο συνήθως θα εξαρτάται από τον υπολογιστή στον οποίο έγινε η αρχική εγκατάσταση. Αν ο σκοπός σας είναι η χρήση του USB δίσκου και σε άλλους υπολογιστές, δεν θα πρέπει να έχει προ-ρυθμισμένα μη-ελεύθερους οδηγούς κάρτας γραφικών και cheatcodes με εξαίρεση ίσως το vesa cheatcode μέσα στο menu.lst, (αυτά θα τα τακτοποιήσετε μετά από μια επιτυχημένη εγκατάσταση).</li>
 
-							<!--li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li-->
+							<!--li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration..</li-->
 							<li>Αν θέλετε να χρησιμοποιήσετε την εγκατάσταση σε ένα άλλο μηχάνημα, προσέξτε ότι θα πρέπει να κάνετε ορισμένες αλλαγές στο fstab για να έχετε πρόσβαση στους δίσκους του υπολογιστή, στο xorg.conf και πιθανών στις ρυθμίσεις δικτύου.</li>
 						</ul>
 	</div>
@@ -456,31 +456,20 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Χωρητικότητα σκληρού δίσκου:</span>Ενώ το VirtualBox από μόνο του έχει πολύ ελαφριά αποθήκευση (μια τυπική εγκατάσταση θα χρειαστεί περί τα 30 ΜΒ του σκληρού δίσκου ), οι εικονικές μηχανές θα απαιτήσουν αρκετά μεγαλύτερα αρχεία σε δίσκο για την αποθήκευση τους, στους σκληρούς δίσκους τους. Έτσι, για να εγκαταστήσετε το MS Windows XP (TM), παραδείγματος χάριν, θα χρειαστείτε ένα αρχείο που θα αυξηθεί εύκολα σε αρκετά GB. Για να έχετε sidux σε VirtualBox πρέπει να διαθέσετε μια 5 giga εικονική κατάτμηση συν μια κατάτμηση swap.</p>
 
 				<h3>Εγκατάσταση:</h3>
-						<h6>32 bit</h6>
+
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
+apt-get install virtualbox-ose-qt virtualbox-ose-source
 </pre>
-						 <h6>64 bit</h6>
+
+						      <p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
+
+						      <p class="highlight-3">Next, log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+
+						      <p>dkms and dmakms can coexist on the same installation, read:</p>
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
+man dkms
+man dmakms
 </pre>
-							<!--p>Then copy and paste this line into the terminal:</p-->
-							<p>Μετά κάντε copy και paste αυτή την γραμμή μέσα στο τερματικό:</p>
-<pre>
-sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
-</pre>
-							<p>Τώρα προσθέστε το όνομα χρήστη σας στους χρήστες vbox (vboxusers):</p>
-<pre>
-adduser &lt;username&gt; vboxusers
-</pre>
-							<p>Μετά:</p>
-<pre>
-modprobe vboxdrv
-</pre>
-							<!--p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p-->
-							<p class="highlight-3">Τέλος αποσυνδεθείτε από την επιφάνεια εργασίας και ξανά συνδεθείτε και τρέξτε το Virtualbox από το Menu</p>
 
 					<!--h3>Installing sidux to the virtual machine</h3>-->
 					<h3>Εγκατάσταση sidux στην εικονική μηχανή</h3>
@@ -641,7 +630,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 01/11/2009 1345 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 05/11/2009 1540 UTC</div>
 
 </div>
 </body>

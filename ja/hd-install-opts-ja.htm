@@ -562,7 +562,7 @@ $ man fll-iso2usb
 							<li>USB/SSD へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
 
 							<!--- ####
-							<li>if you want to use the installation on another machine be aware that you must do some adjustments as you will need to alter fstab to access the PCs hard drives, xorg.conf probably network configuration.</li>
+							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 #### -->
 							<li>このシステムを他のPCでも使いたい場合は、ハードディスクのアクセスのため fstab を変更したり、X ウィンドウの設定のため xorg.conf を修正したり、ネットワーク設定を変更したりする必要があるでしょう。</li>
 						</ul>
@@ -606,30 +606,20 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">ハードディスクスペース:</span> VirtualBoxそのものはとても小さいプログラムです(普通にインストールすれば30MB程度のスペースしか使いません)が、バーチャルマシンはハードディスクの代わりとしてディスク上にかなり大きいファイルを必要とします。 そのため、例えばMS Windows XP(TM)をインストールするには何GBものスペースが必要になるでしょう。 siduxをVirtualBoxのゲストOSとして使うのには５GBのイメージとスワップスペースがあればいいでしょう。</p>
 
 				<h3>Installation:</h3>
-						 <h6>32 bit</h6>
+
 <pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-686
-</pre>
-						 <h6>64 bit</h6>
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-modules-2.6-sidux-amd64
+apt-get install virtualbox-ose-qt virtualbox-ose-source
 </pre>
 
-							<p>Then copy and paste this line into the terminal:</p>
+						      <p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
+
+						      <p class="highlight-3">Next, log out from the desktop and then log back in and start Virtualbox from the Menu</p>
+
+						      <p>dkms and dmakms can coexist on the same installation, read:</p>
 <pre>
-sed -i "s/^\(LOAD_VBOXDRV_MODULE\=\).*/\11/" /etc/default/virtualbox-ose
+man dkms
+man dmakms
 </pre>
-							<p>Now add your user name to vboxusers:</p>
-<pre>
-adduser &lt;username&gt; vboxusers
-</pre>
-							<p>Next:</p>
-<pre>
-modprobe vboxdrv
-</pre>
-							<p class="highlight-3">Finally log out from the desktop and then log back in and start Virtualbox from the Menu</p>
 
 					<!--- ####
 					<h3>Installing sidux to the virtual machine</h3>
@@ -857,7 +847,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 01/11/2009 1345 UTC</div>
+	<div id="rev">Page last revised 05/11/2009 1540 UTC</div>
 
 </div>
 </body>

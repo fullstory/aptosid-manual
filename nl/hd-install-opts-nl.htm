@@ -321,7 +321,7 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 						<h6>Terminal voorbeeld:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
+ fll-iso2usb -D /dev/sdb -f none --iso /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
 							<p>Hiermee wordt een ISO image op een USB device <span class="highlight-3">sdb</span> geïnstalleerd met persist, Noorse taal en Pacific/Auckland (NZL) tijdzone in de standaard Grub bootregel.</p>
 
@@ -395,8 +395,12 @@ apt-get install virtualbox-ose-qt virtualbox-ose-source
 
 							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
 
-							<!--<p class="highlight-3">Next, log out from the desktop and then log back in and start Virtualbox from the Menu</p>-->
-
+							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
+<pre>
+# By default this script does nothing.
+modprobe vboxdrv
+exit 0
+</pre>
 							<p>dkms and dmakms can coexist on the same installation, read:</p>
 <pre>
 man dkms
@@ -518,7 +522,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-		<div id="rev"> Inhoud het laatst aangepast op 07/11/2009 1350 UTC</div>
+		<div id="rev"> Inhoud het laatst aangepast op 14/11/2009 1220 UTC</div>
 </div>
 </body>
 </html>

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 07/11/2009 20.50 UTC -->
+<!-- Last translation revision by alessiog75 on 15/11/2009 23.15 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
 <!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
 <!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
@@ -319,7 +319,7 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 						<h6>Esempio da terminale:</h6>
 <pre>
-fll-iso2usb -D /dev/sdb --iso -f none /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
+ fll-iso2usb -D /dev/sdb -f none --iso /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
 							<p>Questo comando installa l'immagine ISO nella periferica USB <span class="highlight-3">sdb</span> con persist, localizzazione per la lingua Norvegese e fuso orario di Pacific/Auckland (NZL) nella linea di default di grub.</p>
 
@@ -392,9 +392,13 @@ apt-get install virtualbox-ose-qt virtualbox-ose-source
 
 							 <p>Riavviare il PC per fare in modo che il kernel acceda al modulo dopo l'installazione iniziale.</p>
 
-							 <!--<p class="highlight-3">Quindi, uscire dal desktop e riaccedere ed avviare Virtualbox dal Menu</p>-->
-
-							 <p>dkms e dmakms possono coesistere nella stessa installazione, leggere:</p>
+							<p>Quando il kernel viene aggiornato si dovrà attivare il modulo prima di avviare virtualbox per evitare messaggi d'errore. Per non intervenire manualmente  ogni volta che si fa un aggiornamento dle kernel, modificare con l'editor preferito come root <span class="highlight-3">/etc/rc.local</span> per farlo diventare così:</p>
+<pre>
+# By default this script does nothing.
+modprobe vboxdrv
+exit 0
+</pre>
+							<p>dkms e dmakms possono coesistere nella stessa installazione, leggere:</p>
 <pre>
 man dkms
 man dmakms
@@ -518,7 +522,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 07/11/2009 1350 UTC</div>
+	<div id="rev">Page last revised 14/11/2009 1220 UTC</div>
 
 </div>
 </body>

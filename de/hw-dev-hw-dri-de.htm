@@ -19,9 +19,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
-<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
-<!-- Last translation revision by hubi Sun, 15 Nov 2009 13:02:31 +0000 -->
+<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
+<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC, last trans update hubi Mon, 23 Nov 2009 10:36:50 +0000-->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -103,17 +102,17 @@
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-de.htm">Grafikkarten, Hardware, Geräte &amp; verschiedene Treiber</a>
+		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-de.htm">Grafikkarten, Hardware, Geräte, Xorg &amp; verschiedene Treiber</a>
 			<ul class="sub-menu" id="sm8">
 				<li><a href="hw-dev-hw-dri-de.htm#hd-ntfs3g">Schreiben auf NTFS-Partitionen mit ntfs-3g</a></li>
 				<li><a href="hw-dev-mon-de.htm#mon-res">Ändern der Bildschirmauflösung</a></li>
 				<li><a href="hw-dev-mon-de.htm#xrandr">Zwei Monitore und xrandr</a></li>
 				<li><a href="hw-dev-mon-de.htm#mon-binary">Zwei Monitore mit binären Grafiktreibern</a></li>
-				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d">Binäre, nicht freie Treiber für Nvidia</a></li>
+				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d">Binäre, nicht freie Treiber für Nvidia &amp; xorg.conf</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d-2">Nicht freie Treiber für ATI, Radeon und andere</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free-firmware">Hardware mit nicht freier Firmware</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free">non-free der Sources List zufügen</a></li>
-				<li><a href="hw-dev-hw-dri-de.htm#native-nv-ati">FOSS xorg-Treiber für nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-de.htm#native-nv-ati">FOSS xorg-Treiber für nVidia, ATI, Radeon, Intel &amp; xorg.conf</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-de.htm">Fenstermanager</a>
@@ -182,7 +181,8 @@
 				<li><a href="sys-admin-gen-de.htm#start-services">Dienste starten und stoppen</a></li>
 				<li><a href="sys-admin-gen-de.htm#pw-lost">Rootpasswort vergessen</a></li>
 				<li><a href="sys-admin-gen-de.htm#fonts">Schriftarten</a></li>
-				<li><a href="sys-admin-gen-de.htm#cups">CUPS</a></li>
+				<li><a href="sys-admin-gen-de.htm#cups">CUPS - Druckerserver und -client</a></li>
+				<li><a href="sys-admin-gen-de.htm#sound">Mischpulte (sound mixer)</a></li>
 				<li><a href="sys-admin-gen-de.htm#init">sidux-Runlevels - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#mbr-grub-boot">MBR-Bootsektor überschreiben</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#dual-boot">Dual- und Multibooting</a></li>
@@ -213,13 +213,16 @@ deb http://ftp.de.debian.org/debian unstable main contrib non-free
 deb http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 #deb-src http://sidux.com/debian/ sid main contrib non-free firmware fix.main fix.contrib fix.non-free
 </pre>
-			<h2>Open Source Xorg-Treiber für nVidia, ATI, Radeon, Intel</h2>
+	</div>
+	<div class="divider" id="foss-xorg">
+			<h2>Open Source Xorg-Treiber für nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
 
 							<p>Open Source Xorg-Treiber für nVidia, ATI, Radeon und Intel sind mit sidux vorinstalliert.</p>
 
 							<p>Die 2D- und 3D-Grafikbeschleunigung sollte mit Intel-Treiber ohne Probleme funktionieren. Diese Funktionalität ist in die freie Intel-Serien inkludiert.</p>
 
-							<p><span class="highlight-3">Anmerkung: Falls keine xorg.conf existiert und sie - aus welchen Gründen immer - benötigt wird, startet man in einem Terminal:</span></p>
+							<p><span class="highlight-3">Anmerkung: xorg.conf wird für Open-Source-Treiber in der Regel nicht benötigt. Falls - aus welchen Gründen immer - eine xorg.conf angelegt werden soll, startet man in einem Terminal:</span></p>
+
 <pre>
 X -configure
 </pre>
@@ -228,7 +231,7 @@ X -configure
 mv /root/xorg.conf.new /etc/X11/xorg.conf
 </pre>
 
-							<p>Um <span class="highlight-3">/etc/X11/xorg.conf</span> zu bearbeiten, muss sie mit Rootrechten geöffnet werden. Im Abschnitt <span class="highlight-1">Section "Device"</span> wird der Treiber in der Zeile "Driver" abgeändert auf <span class="highlight-2">nv</span> ODER <span class="highlight-2">radeon</span> ODER <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>Um <span class="highlight-3">/etc/X11/xorg.conf</span> zu bearbeiten, muss sie mit Rootrechten geöffnet werden. Im Abschnitt <span class="highlight-1">Section "Device"</span> wird der Treiber in der Zeile "Driver" abgeändert auf <span class="highlight-2">nv</span> ODER <span class="highlight-2">radeon</span> ODER <span class="highlight-2">intel</span> (um nur einige zu nennen).</p>
 
 							<p class="highlight-2">Ein Bearbeiten der Datei xorg.conf geschieht auf eigenes Risiko!</p>
 
@@ -238,9 +241,9 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms</h2>
+		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms &amp; xorg.conf</h2>
 
-							<p><span class="highlight-2">Neuinstallationen</span> müssen eine <span class="highlight-3">xorg.conf </span> in <span class="highlight-3">/etc/X11</span> haben. Falls diese nicht existiert, erstellt man eine <span class="highlight-4">temporäre</span> Datei <span class="highlight-4">xorg.conf.dmakms</span> im eigenen $home mit folgendem Inhalt:</p>
+							<p><span class="highlight-2">As xorg.conf is not generally needed, except if intending to run closed source video/graphic drivers, neuinstallationen</span> müssen eine <span class="highlight-3">xorg.conf </span> in <span class="highlight-3">/etc/X11</span> haben. Falls diese nicht existiert, erstellt man eine <span class="highlight-4">temporäre</span> Datei <span class="highlight-4">xorg.conf.dmakms</span> im eigenen $home mit folgendem Inhalt:</p>
 
 <pre>
 # /etc/X11/xorg.conf (Xorg X Window System server configuration file)
@@ -1061,7 +1064,7 @@ exit  ## mit diesem Befehl wird die Konsole verlassen
 							Aber noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 13/11/2009 0440 UTC</div>
+	<div id="rev">Page last revised 23/11/2009 0600 UTC</div>
 
 </div>
 </body>

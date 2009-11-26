@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by RoEn 04/06/2009 1730 UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by kostiagol, RoEn -->
-<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
-<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
+<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" /></a>
 	</div>
@@ -102,17 +102,17 @@
 				<li><a href="hd-install-opts-ru.htm#qemu">Инсталляция в QEMU</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-ru.htm">Оборудование</a>
+		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-ru.htm">Оборудование, &amp; Xorg</a>
 			<ul class="sub-menu" id="sm8">
 				<li><a href="hw-dev-hw-dri-ru.htm#hd-ntfs3g">Запись на раздел NTFS: ntfs-3g</a></li>
 				<li><a href="hw-dev-mon-ru.htm#mon-res">Разрешение экрана и мониторы</a></li>
 				<li><a href="hw-dev-mon-ru.htm#xrandr">Двойные экраны и xrandr</a></li>
 				<li><a href="hw-dev-mon-ru.htm#mon-binary">Двойные экраны (используя двоичные файлы)</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#non-free-3d">Драйверы от NVIDIA</a></li>
+				<li><a href="hw-dev-hw-dri-ru.htm#non-free-3d">Драйверы от NVIDIA &amp; xorg.conf</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free-3d-2">Несвободные драйверы для ATI, Radeon и других</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free-firmware">Аппаратное, нуждающееся в несвободной микропрограмме</a></li>
 				<li><a href="hw-dev-hw-dri-ru.htm#non-free">Добавление 'non-free' в файл sources.list</a></li>
-				<li><a href="hw-dev-hw-dri-ru.htm#native-nv-ati">Свободные драйверы xorg для nVidia, ATI, Radeon и Intel</a></li>
+				<li><a href="hw-dev-hw-dri-ru.htm#native-nv-ati">Свободные драйверы xorg для nVidia, ATI, Radeon и Intel &amp; xorg.conf</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-ru.htm">Оконный менеджер</a>
@@ -182,6 +182,7 @@
 				<li><a href="sys-admin-gen-ru.htm#pw-lost">Восстановление root-пароля</a></li>
 				<li><a href="sys-admin-gen-ru.htm#fonts">Шрифты</a></li>
 				<li><a href="sys-admin-gen-ru.htm#cups">Сервер CUPS</a></li>
+				<li><a href="sys-admin-gen-ru.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-ru.htm#init">sidux режимы загрузки - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#mbr-grub-boot">Восстановление MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#dual-boot">Мультизагрузка</a></li>
@@ -197,14 +198,13 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Запуск служб в sidux</h2>
 				<h3>Применение insserv (в Pontos 2008-04 и последующих выпусков):  для запуска / остановки уже установленных услуг:</h3>
-							<p><span class="highlight-2">Прочитайте внимательно <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, замечания по релизу и помощь по 'man pages':</span></p> 
+							<p><span class="highlight-2">Прочитайте внимательно <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, замечания по релизу и помощь по 'man pages':</span></p>
 <pre>
- $ man insserv 
- $ man invoke-rc.d 
- $ man update-rc.d 
+ $ man insserv
+ $ man invoke-rc.d
+ $ man update-rc.d
  google LSB headers
 </pre>
-							<p>Доступ к Debian скриптам получается путем <span class="highlight-3">invoke-rc.d</span>.</p>
 
 							<p>Для запуска:</p>
 <pre>
@@ -223,11 +223,19 @@
 update-rc.d &lt;service&gt; remove
 [Это позволит удалить все ссылки запуска]
 </pre>
-							<p>Чтобы при загрузке компьютера служба запускалась [редко требуется]</p> 
+							<p>Чтобы при загрузке компьютера служба запускалась [редко требуется]</p>
 <pre>
 update-rc.d &lt;service&gt; defaults
 [Это создаст необходимые начальные ссылки]
 </pre>
+
+							<p>To read the list of what services are running:</p>
+<pre>
+ls /etc/rc5.d
+</pre>
+
+							<p><span class="highlight-3">S</span> means the service will start.<br />
+							<span class="highlight-3">K</span> means service will not start.</p>
 
 					<h3>Устаревшие версии (перед Pontos 2008-04)</h3>
 						<h3>Применение insserv на существующую систему перед Pontos 2008-04</h3>
@@ -253,7 +261,7 @@ password:
 bum
 </pre>
 						  <p> <a href ="http://www.marzocca.net/linux/bumdocs.html"> Дополнительное сообщение о приложений boot-up manager (bum)</a>. </p>
-						  
+
 		</div>
 		<div>
 			<h2>Окончание службы или процесса</h2>
@@ -270,15 +278,24 @@ pkill -n service
 			<h2>Уровни запуска init в sidux</h2>
 							<p>Здесь приведен список "уровней запуска" для операционной системы sidux , пожалуйста, обратите внимание - эти уровни отличаются от порядка, принятого в debian stable:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> выключение компьютера</li>
-								<li><span class="highlight-3">init 1</span> однопользовательский режим</li>
-								<li><span class="highlight-3">init 2 </span>Многопользовательский режим без поддержки сети и без запуска сервера Х ( или остановкой , если таковой уже запущен)  </li>
-								<li><span class="highlight-3">init 3 </span>Многопользовательский режим с поддержкой сети и без графического (Х-сервер) интерфейса</li>
-								<li><span class="highlight-3">init 4 </span>Остановка Х-ов</li>
-								<li><span class="highlight-3">init 5</span> Многопользовательский режим с поддержкой сети и стартом Х-ов</li>
-								<li><span class="highlight-3">init 6 </span>Перезагрузка</li>
-							</ul>
+						<ul>
+							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+
+							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+
+							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+
+							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
+
+							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+
+							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+
+						</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Забытый пароль root</h2>
@@ -342,10 +359,10 @@ apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::O
 				<h5>Настройки GTK приложений (iceweasel).</h5>
 				<p>Внешний вид программ, базирующихся на GTK2, не впечатляет, если Вы используете их в среде KDE. Одна из возможностей решения проблемы:</p>
 <pre>
-apt-get install gtk2-engines gtk-qt-engine-kde4 
+apt-get install gtk2-engines system-config-gtk-kde gtk-qt-engine gtk2-engines-qtcurve
 </pre>
 							<p>В контрольном центре KDE <span class="highlight-3">"внешний вид и темы"</span> после инсталляции появится новый пункт меню <span class="highlight-3">Стили GTK</span>. Там можно настроить использование шрифтов KDE в приложениях GTK2, а также стиль GTK ("Clearlooks" вполне пригоден) <span class="highlight-3">или </span> экспериментировать с различными вариантами, на Ваш вкус.</p>
-							
+
 							<p>Так Вы решите и проблемы со шрифтами программ на GTK.</p>
 
 	</div>
@@ -355,9 +372,9 @@ apt-get install gtk2-engines gtk-qt-engine-kde4
 
 <pre>
 modprobe lp
-echo lp >> /etc/modules 
+echo lp >> /etc/modules
 apt-get remove --purge cupsys cups
-apt-get install cups 
+apt-get install cups
 или
 apt-get install cups cups-driver-gutenprint hplip
 </pre>
@@ -375,8 +392,46 @@ http://localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Дополнительную информацию ищите в форумах sidux.</a></p>
 	</div>
+	<div class="divider" id="sound">
+			<h2>Sound in sidux</h2>
+							<p><span class="highlight-3">Sound is muted by default in sidux.</span></p>
 
-			<div id="rev">Содержание, последний раз пересмотрено 20/07/2009 1155 UTC</div>
+							<p>The KDE version uses Kmix and XFCE uses Mixer.</p>
+
+							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
+
+					<h6>Kmix</h6>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+
+					<h6>XFCE</h6>
+
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+
+					<h6>Alsamixer</h6>
+
+							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
+<pre>
+apt-get update
+apt-get install alsa-utils
+</pre>
+
+							 <p>Set your preferred sound settings as user, then as root:</p>
+
+<pre>
+alsactl store
+</pre>
+
+			<!--		<h6>Problems</h6>
+							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
+<pre>
+alsa force-reload
+</pre>-->
+
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
+
+	</div>
+
+			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
 
 </div>
 </body>

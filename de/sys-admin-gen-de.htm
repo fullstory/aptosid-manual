@@ -17,11 +17,9 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Thu, 04 Jun 2009 17:01:10 +0200 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
-<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
-<!-- Last translation revision by hubi Mon, 19 Oct 2009 14:38:17 +0000 -->
+<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
+<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC, last trans update hubi Mon, 19 Oct 2009 14:38:17 +0000-->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -103,17 +101,17 @@
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-de.htm">Grafikkarten, Hardware, Geräte &amp; verschiedene Treiber</a>
+		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-de.htm">Grafikkarten, Hardware, Geräte, Xorg &amp; verschiedene Treiber</a>
 			<ul class="sub-menu" id="sm8">
 				<li><a href="hw-dev-hw-dri-de.htm#hd-ntfs3g">Schreiben auf NTFS-Partitionen mit ntfs-3g</a></li>
 				<li><a href="hw-dev-mon-de.htm#mon-res">Ändern der Bildschirmauflösung</a></li>
 				<li><a href="hw-dev-mon-de.htm#xrandr">Zwei Monitore und xrandr</a></li>
 				<li><a href="hw-dev-mon-de.htm#mon-binary">Zwei Monitore mit binären Grafiktreibern</a></li>
-				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d">Binäre, nicht freie Treiber für Nvidia</a></li>
+				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d">Binäre, nicht freie Treiber für Nvidia &amp; xorg.conf</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free-3d-2">Nicht freie Treiber für ATI, Radeon und andere</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free-firmware">Hardware mit nicht freier Firmware</a></li>
 				<li><a href="hw-dev-hw-dri-de.htm#non-free">non-free der Sources List zufügen</a></li>
-				<li><a href="hw-dev-hw-dri-de.htm#native-nv-ati">FOSS xorg-Treiber für nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-de.htm#native-nv-ati">FOSS xorg-Treiber für nVidia, ATI, Radeon, Intel &amp; xorg.conf</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-de.htm">Fenstermanager</a>
@@ -182,7 +180,8 @@
 				<li><a href="sys-admin-gen-de.htm#start-services">Dienste starten und stoppen</a></li>
 				<li><a href="sys-admin-gen-de.htm#pw-lost">Rootpasswort vergessen</a></li>
 				<li><a href="sys-admin-gen-de.htm#fonts">Schriftarten</a></li>
-				<li><a href="sys-admin-gen-de.htm#cups">CUPS</a></li>
+				<li><a href="sys-admin-gen-de.htm#cups">CUPS - Druckerserver und -client</a></li>
+				<li><a href="sys-admin-gen-de.htm#sound">Mischpulte (sound mixer)</a></li>
 				<li><a href="sys-admin-gen-de.htm#init">sidux-Runlevels - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#mbr-grub-boot">MBR-Bootsektor überschreiben</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#dual-boot">Dual- und Multibooting</a></li>
@@ -206,7 +205,6 @@
  $ man update-rc.d
  google LSB headers
 </pre>
-							<p>Auf Init-Skripte der Debianpakete wird durch diesen Befehl zugegriffen: <span class="highlight-3">invoke-rc.d</span>.</p>
 
 							<p>Zum Starten:</p>
 <pre>
@@ -230,6 +228,14 @@ update-rc.d &lt;service&gt; remove
 update-rc.d &lt;service&gt; defaults
 ## dies kreiert die nötigen Start-Links
 </pre>
+
+							<p>Auflistung der laufenden Dienste:</p>
+<pre>
+ls /etc/rc5.d
+</pre>
+
+							<p><span class="highlight-3">S</span> bedeutet, der Dienst startet.<br />
+							<span class="highlight-3">K</span> bedeutet, der Dienst startet nicht.</p>
 
 						<h3>insserv auf installierten Systemen vor Pontos 2008-04</h3>
 
@@ -273,14 +279,23 @@ pkill -n Prozessname
 							<p>Dies hier ist eine Liste der Runlevel, wie sie im Betriebssystem sidux festgelegt sind. Es ist zu beachten, dass sie sich von den Runlevels in Debian 'Stable' unterscheiden:</p>
 
 						<ul>
-							<li><span class="highlight-3">init 0</span> schaltet den PC aus</li>
-							<li><span class="highlight-3">init 1</span> Single User Mode (kein Mehrbenutzersystem)</li>
-							<li><span class="highlight-3">init 2</span> Mehrbenutzersystem ohne Netzwerkfähigkeit und ohne X. Der Grafikserver X kann mit diesem Befehl beendet werden.</li>
-							<li><span class="highlight-3">init 3</span> Mehrbenutzersystem mit Netzwerkfähigkeit und ohne X. Der Grafikserver X kann mit diesem Befehl beendet werden.</li>
-							<li><span class="highlight-3">init 4</span> beendet den Grafikserver X bzw. man kann booten, ohne X zu starten.</li>
-							<li><span class="highlight-3">init 5</span> Mehrbenutzersystem mit Netzwerkfähigkeit und X. Der Grafikserver X kann mit diesem Befehl gestartet werden.</li>
-							<li><span class="highlight-3">init 6</span> Reboot</li>
-							</ul>
+							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+
+							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+
+							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+
+							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
+
+							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+
+							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+
+						</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Vergessenes Rootpasswort</h2>
@@ -374,8 +389,46 @@ http://localhost:631
 
 							<p>Mehr dazu <a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">im sidux-Forum</a>.</p>
 	</div>
+	<div class="divider" id="sound">
+			<h2>Sound in sidux</h2>
+							<p><span class="highlight-3">In der Grundeinstellung ist der Ton bei sidux deaktiviert.</span></p>
 
-			<div id="rev">Content last revised 14/11/2009 0940 UTC </div>
+							<p>Als Mischersoftware verwendet die KDE-Version Kmix und die XFCE-Version Mixer.</p>
+
+							<p>Die meisten Tonprobleme lassen sich lösen, indem man auf das Sound-Ikon in der Symbolleiste klickt, den Mischer öffent und das Häkchen von "stumm" oder "mute" entfernt.</p>
+
+					<h6>Kmix</h6>
+							<p>In Kmix müssen die Kanaloptonen aktiviert werden: <span class="highlight-3">Kmix>Einstellungen>Kanäle einrichten</span>.</p>
+
+					<h6>XFCE</h6>
+
+							<p>In XFCE wird das Mischpult "Mixer" gestartet und einige Kontrollfunktionen mittels <span class="highlight-3"> Mixer>Select Controls</span> hinzugefügt.</p>
+
+					<h6>Alsamixer</h6>
+
+							<p>Wer alsamixer bevorzugt, findet diesen im Paket alsa-utils:</p>
+<pre>
+apt-get update
+apt-get install alsa-utils
+</pre>
+
+							 <p>Die bevorzugten Einstellungen werden als User durchgeführt, und als root werden die Einstellungen gespeichert:</p>
+
+<pre>
+alsactl store
+</pre>
+
+			<!--		<h6>Problems</h6>
+							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
+<pre>
+alsa force-reload
+</pre>-->
+
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> Weitere Informationen im sidux-wiki</a> (Englisch).</p>
+
+	</div>
+
+			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
 
 </div>
 </body>

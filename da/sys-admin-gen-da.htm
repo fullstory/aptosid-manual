@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision by zonker 23/08/2008 2000 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
-<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
+<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,17 +102,17 @@
 				<li><a href="hd-install-opts-da.htm#qemu">Installering af sidux med QEMU</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-da.htm">Grafikkort, Hardware Enheder og Drivere</a>
+		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-da.htm">Grafikkort, Hardware Enheder, Xorg &amp; Drivere</a>
 			<ul class="sub-menu" id="sm8">
 				<li><a href="hw-dev-hw-dri-da.htm#hd-ntfs3g">Skriv til NTFS-partitioner med ntfs-3g</a></li>
 				<li><a href="hw-dev-mon-da.htm#mon-res">Skærmopløsning og Monitors</a></li>
 				<li><a href="hw-dev-mon-da.htm#xrandr">Dual Monitors og xrandr</a></li>
 				<li><a href="hw-dev-mon-da.htm#mon-binary">Dual Monitors (med binære)</a></li>
-				<li><a href="hw-dev-hw-dri-da.htm#non-free-3d">Binære, non-free drivere til: Nvidia</a></li>
+				<li><a href="hw-dev-hw-dri-da.htm#non-free-3d">Binære, non-free drivere til: Nvidia &amp; xorg.conf</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
 				<li><a href="hw-dev-hw-dri-da.htm#non-free">Adding non-free to Sources List</a></li>
-				<li><a href="hw-dev-hw-dri-da.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-da.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel &amp; xorg.conf</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-da.htm">Window Managers</a>
@@ -181,7 +181,8 @@
 				<li><a href="sys-admin-gen-da.htm#start-services">Aktiver/ deaktiver tjenester</a></li>
 				<li><a href="sys-admin-gen-da.htm#pw-lost">Mistet root password</a></li>
 				<li><a href="sys-admin-gen-da.htm#fonts">Fonte</a></li>
-				<li><a href="sys-admin-gen-da.htm#cups">CUPS</a></li>
+				<li><a href="sys-admin-gen-da.htm#cups">CUPS - Printing System</a></li>
+				<li><a href="sys-admin-gen-da.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-da.htm#init">sidux runlevels - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Dual og Multiple Booting</a></li>
@@ -197,14 +198,13 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Opsætning af tjenester i sidux</h2>
 				<h3>insserv (Pontos 2008-04 and forward ): To start/stop already installed services:</h3>
-							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p> 
+							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p>
 <pre>
- $ man insserv 
- $ man invoke-rc.d 
- $ man update-rc.d 
+ $ man insserv
+ $ man invoke-rc.d
+ $ man update-rc.d
  google LSB headers
 </pre>
-							<p>All access to the init scripts by Debian packages’ maintainer scripts should be done through <span class="highlight-3">invoke-rc.d</span>.</p>
 
 							<p>For 'start':</p>
 <pre>
@@ -229,6 +229,14 @@ update-rc.d &lt;service&gt; defaults
 [will make startup links]
 </pre>
 
+							<p>To read the list of what services are running:</p>
+<pre>
+ls /etc/rc5.d
+</pre>
+
+							<p><span class="highlight-3">S</span> means the service will start.<br />
+							<span class="highlight-3">K</span> means service will not start.</p>
+
 					<h3>Older Installs (before Pontos 2008-04)</h3>
 						<h3>insserv on installed systems before Pontos 2008-04</h3>
 
@@ -252,7 +260,7 @@ password:
 bum
 </pre>
 						  <p> <a href ="http://www.marzocca.net/linux/bumdocs.html"> Detailed documentation on Boot-Up Manager (bum)</a>. </p>
-						  
+
 		</div>
 		<div>
 			<h2>Afslutte tjenester eller processer</h2>
@@ -268,15 +276,24 @@ pkill -n service
 			<h2>sidux runlevels - init</h2>
 							<p>Dette er listen over sidux operativ systemets runlevels, bemærk venligst at de adskiller sig fra debain stable runlevels:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span>Slukker maskinen</li>
-								<li><span class="highlight-3">init 1 </span>Single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode uden netværk, og uden X (stopper -eller starter ikke- X)</li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode med netværk, uden X (stopper -eller starter ikke- X)</li>
-								<li><span class="highlight-3">init 4 </span>Stopper -starter ikke- X</li>
-								<li><span class="highlight-3">init 5 </span> Multi-User mode med netværk og X-windows system, starter X</li>
-								<li><span class="highlight-3">init 6 </span>Genstarter maskinen</li>
-							</ul>
+						<ul>
+							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+
+							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+
+							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+
+							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
+
+							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+
+							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+
+						</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Mistet root passwords</h2>
@@ -320,7 +337,7 @@ fix-dpi-kdm
 </pre>
 				<p>Du burde så se din spi for din skærmstørrelse, men du kan også ændre på dette. Du skal gå til init 3 og tilbage for at ændringerne træder i kraft, eller genstarte.</p>
 
-				<p>Efter at du har ændret font typen eller DPI (i X eller Firefox/Iceweasel), kan det være at du skal genjustere for at få indstillingerne til at passe til dine behov, specielt efter ændring fra Bitmap Fonts til True Type Fonts eller den anden vej rundt:</p>		
+				<p>Efter at du har ændret font typen eller DPI (i X eller Firefox/Iceweasel), kan det være at du skal genjustere for at få indstillingerne til at passe til dine behov, specielt efter ændring fra Bitmap Fonts til True Type Fonts eller den anden vej rundt:</p>
 <pre>
 dpkg-reconfigure fontconfig-config
 </pre>
@@ -332,7 +349,7 @@ apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::O
 				<h5>GTK baserede programmer såsom Firefox/Icewasel</h5>
 				<p>GTK baserede programmer er -generelt set- problematiske under KDE's standard opsætning. Dette kan du løse med følgende:</p>
 <pre>
-apt-get install gtk2-engines gtk-qt-engine-kde4
+apt-get install gtk2-engines system-config-gtk-kde gtk-qt-engine gtk2-engines-qtcurve
 </pre>
 							<p>In <span class="highlight-3">System Settings >Appearance </span> you will have a new menu item called <span class="highlight-3">GTK Styles and Fonts</span>. Set 'GTK Styles' to use 'Clearlooks' and have the 'GTK Fonts' set to use 'KDE fonts' <span class="highlight-3">or </span> experiment with the various options to suit your preferences.</p>
 
@@ -345,9 +362,9 @@ apt-get install gtk2-engines gtk-qt-engine-kde4
 
 <pre>
 modprobe lp
-echo lp >> /etc/modules 
+echo lp >> /etc/modules
 apt-get remove --purge cupsys cups
-apt-get install cups 
+apt-get install cups
         ELLER
 apt-get install cups cups-driver-gutenprint hplip
 </pre>
@@ -365,8 +382,46 @@ http://localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">der er mere information i sidux forummet.</a></p>
 	</div>
+	<div class="divider" id="sound">
+			<h2>Sound in sidux</h2>
+							<p><span class="highlight-3">Sound is muted by default in sidux.</span></p>
 
-			<div id="rev">Content last revised 20/07/2009 1155 UTC  </div>
+							<p>The KDE version uses Kmix and XFCE uses Mixer.</p>
+
+							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
+
+					<h6>Kmix</h6>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+
+					<h6>XFCE</h6>
+
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+
+					<h6>Alsamixer</h6>
+
+							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
+<pre>
+apt-get update
+apt-get install alsa-utils
+</pre>
+
+							 <p>Set your preferred sound settings as user, then as root:</p>
+
+<pre>
+alsactl store
+</pre>
+
+			<!--		<h6>Problems</h6>
+							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
+<pre>
+alsa force-reload
+</pre>-->
+
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
+
+	</div>
+
+			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
 
 </div>
 </body>

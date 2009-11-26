@@ -18,8 +18,8 @@
 </head>
 <body id="sys-admin">
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-01.95.2009.10.30 -->
-<!-- menu last updated by bluewater 2009.10.30 2220 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
+<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -101,17 +101,17 @@
 				<li><a href="hd-install-opts-hr.htm#qemu">Instaliranje sidux uz pomoć QEMU</a></li>
 			</ul>
 		</li>
-		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hr.htm">Grafičke kartice, hardver, sredstvo i pogonitelji</a>
+		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hr.htm">Grafičke kartice, hardver, Xorg, sredstvo i pogonitelji</a>
 			<ul class="sub-menu" id="sm8">
 				<li><a href="hw-dev-hw-dri-hr.htm#hd-ntfs3g">Piši na NTFS-particiju sa NTFS-3g</a></li>
 				<li><a href="hw-dev-mon-hr.htm#mon-res">Rezolucije Monitora</a></li>
 				<li><a href="hw-dev-mon-hr.htm#xrandr">Dual Monitori i xrandr</a></li>
 				<li><a href="hw-dev-mon-hr.htm#mon-binary">Dual Monitori (koristeči binarne pogonitelje)</a></li>
-				<li><a href="hw-dev-hw-dri-hr.htm#non-free-3d">Binarni, non-free pogonitelji za: Nvidia</a></li>
+				<li><a href="hw-dev-hw-dri-hr.htm#non-free-3d">Binarni, non-free pogonitelji za: Nvidia &amp; xorg.conf</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free-3d-2">non-free drivers for ATI, Radeon and others</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free-firmware">Hardware needing non-free firmware drivers</a></li>
 				<li><a href="hw-dev-hw-dri-hr.htm#non-free">Adding non-free to Sources List</a></li>
-				<li><a href="hw-dev-hw-dri-hr.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel</a></li>
+				<li><a href="hw-dev-hw-dri-hr.htm#native-nv-ati">FOSS xorg drivers for nVidia, ATI, Radeon, Intel &amp; xorg.conf</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-hr.htm">Window-Menadžer</a>
@@ -180,7 +180,8 @@
 				<li><a href="sys-admin-gen-hr.htm#start-services">Servise aktivirati/deaktivirati</a></li>
 				<li><a href="sys-admin-gen-hr.htm#pw-lost">Izgubljena root lozinka</a></li>
 				<li><a href="sys-admin-gen-hr.htm#fonts">Pisma u sidux</a></li>
-				<li><a href="sys-admin-gen-hr.htm#cups">CUPS</a></li>
+				<li><a href="sys-admin-gen-hr.htm#cups">CUPS - Printing System</a></li>
+				<li><a href="sys-admin-gen-hr.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-hr.htm#init">sidux runlevels - init</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#mbr-grub-boot">Prepisati MBR bootsector</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#dual-boot">Dual i Multiple Booting</a></li>
@@ -196,14 +197,13 @@
 	<div class="divider" id="start-services">
 		<h2 id="top-header">Aktiviranje servisa u sidux</h2>
 				<h3>insserv (Pontos 2008-04 and forward ): To start/stop already installed services:</h3>
-							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p> 
+							<p><span class="highlight-2">Read <span class="highlight-3">/usr/share/doc/insserv/README.Debian</span>, the release notes and the man pages carefully:</span></p>
 <pre>
- $ man insserv 
- $ man invoke-rc.d 
- $ man update-rc.d 
+ $ man insserv
+ $ man invoke-rc.d
+ $ man update-rc.d
  google LSB headers
 </pre>
-							<p>All access to the init scripts by Debian packages’ maintainer scripts should be done through <span class="highlight-3">invoke-rc.d</span>.</p>
 
 							<p>For 'start':</p>
 <pre>
@@ -227,6 +227,14 @@ update-rc.d &lt;service&gt; remove
 update-rc.d &lt;service&gt; defaults
 [will make startup links]
 </pre>
+
+							<p>To read the list of what services are running:</p>
+<pre>
+ls /etc/rc5.d
+</pre>
+
+							<p><span class="highlight-3">S</span> means the service will start.<br />
+							<span class="highlight-3">K</span> means service will not start.</p>
 
 					<h3>Older Installs (before Pontos 2008-04)</h3>
 						<h3>insserv on installed systems before Pontos 2008-04</h3>
@@ -252,7 +260,7 @@ password:
 bum
 </pre>
 						  <p> <a href ="http://www.marzocca.net/linux/bumdocs.html"> Detailed documentation on Boot-Up Manager (bum)</a>. </p>
-						  
+
 		</div>
 		<div>
 			<h2>Killing a service or process</h2>
@@ -269,15 +277,24 @@ pkill -n service
 			<h2>sidux runlevels - init</h2>
 							<p>This is the list for the sidux operating system runlevels, please note that it does differ from debain stable runlevels:</p>
 
-							<ul>
-								<li><span class="highlight-3">init 0 </span> powers off the PC</li>
-								<li><span class="highlight-3">init 1</span> single user mode</li>
-								<li><span class="highlight-3">init 2 </span>Multi-User mode without network, and/or to stop or not enter X,  </li>
-								<li><span class="highlight-3">init 3 </span>Multi-User mode with network not running the X-windows system, and/or to stop or not enter X</li>
-								<li><span class="highlight-3">init 4 </span>to stop or not enter X</li>
-								<li><span class="highlight-3">init 5</span> Multi-User mode with network running the X-windows system, and/or to start X</li>
-								<li><span class="highlight-3">init 6 </span>reboot</li>
-							</ul>
+						<ul>
+							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+
+							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+
+							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+
+							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+
+							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
+
+							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+
+							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+
+						</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Izgubljena root lozinka</h2>
@@ -323,7 +340,7 @@ fix-dpi-kdm
 
 				Sad treba da pokaze DPI za vašu screen veličinu, ali se isto možete igrati dalje. Trebate ući u init 3 i natrag u init 5 da proradi, ili restartujte.
 
-				<p>Poslije promjene tipa pisma ili DPI (u X ili Firefox/Iceweasel), možda će vam trebati ponovno prilagođavanje da dobijete rezultate koje su po vašem ukusu, specijalno poslije promjene od Bitmap pisma na True Type pisma ili obrnutu sa:</p>		
+				<p>Poslije promjene tipa pisma ili DPI (u X ili Firefox/Iceweasel), možda će vam trebati ponovno prilagođavanje da dobijete rezultate koje su po vašem ukusu, specijalno poslije promjene od Bitmap pisma na True Type pisma ili obrnutu sa:</p>
 <pre>
 dpkg-reconfigure fontconfig-config
 </pre>
@@ -335,7 +352,7 @@ apt-get install --reinstall --yes -o DPkg::Options::=--force-confmiss -o DPkg::O
 				<h6>Firefox/Iceweasel pre-postavke</h6>
 				<p>GTK-aplikacije su problematične sa kde-standardima. to možete srediti sa,</p>
 <pre>
-apt-get install gtk2-engines gtk-qt-engine-kde4
+apt-get install gtk2-engines system-config-gtk-kde gtk-qt-engine gtk2-engines-qtcurve
 </pre>
 							<p>In <span class="highlight-3">System Settings >Appearance </span> you will have a new menu item called <span class="highlight-3">GTK Styles and Fonts</span>. Set 'GTK Styles' to use 'Clearlooks' and have the 'GTK Fonts' set to use 'KDE fonts' <span class="highlight-3">or </span> experiment with the various options to suit your preferences.</p>
 
@@ -348,7 +365,7 @@ apt-get install gtk2-engines gtk-qt-engine-kde4
 
 <pre>
 modprobe lp
-echo lp >> /etc/modules 
+echo lp >> /etc/modules
 apt-get remove --purge cupsys cups
 apt-get install cups
 	OR
@@ -367,8 +384,46 @@ http://localhost:631
 
 							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">and there is more on the sidux forums.</a></p>
 	</div>
+	<div class="divider" id="sound">
+			<h2>Sound in sidux</h2>
+							<p><span class="highlight-3">Sound is muted by default in sidux.</span></p>
 
-			<div id="rev">Content last revised 20/07/2009 1155 UTC  </div>	
+							<p>The KDE version uses Kmix and XFCE uses Mixer.</p>
+
+							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
+
+					<h6>Kmix</h6>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+
+					<h6>XFCE</h6>
+
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+
+					<h6>Alsamixer</h6>
+
+							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
+<pre>
+apt-get update
+apt-get install alsa-utils
+</pre>
+
+							 <p>Set your preferred sound settings as user, then as root:</p>
+
+<pre>
+alsactl store
+</pre>
+
+			<!--		<h6>Problems</h6>
+							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
+<pre>
+alsa force-reload
+</pre>-->
+
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
+
+	</div>
+
+			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
 
 </div>
 </body>

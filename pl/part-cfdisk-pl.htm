@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision neceron 04/10/2008 1350 UTC-->
 <div id="menu"> <!-- menu starts here pl lang maintainer neceron dongle-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Przejdź do sidux.com, forum oraz wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-pl.htm#Inst-prep">Przygotowanie do instalacji</a></li>
 				<li><a href="hd-install-pl.htm#Installation">Instalacja na dysku twardym</a></li>
 				<li><a href="hd-install-pl.htm#first-hd-boot">Pierwsze uruchomienie systemu</a></li>
-				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso'</a></li>
+				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-pl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-pl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-pl.htm#fromiso-persist">fromiso i persist</a></li>
 				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na nośniku USB</a></li>
 				<li><a href="hd-install-opts-pl.htm#vtbox">Instalacja w VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-pl.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-pl.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-pl.htm#init">Poziomy uruchamiania w sidux (runlevel)</a></li>
-				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Instalacja GRUB w MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Uruchamianie wielu systemów operacyjnych</a></li>
 				<li><a href="bios-freedos-pl.htm#bois-prep">Aktualizacja BIOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#boot-grub-floppy">Tworzenie dyskietki startowej</a></li>
+				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Grub1 - Instalacja GRUB w MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Grub1 - Uruchamianie wielu systemów operacyjnych</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#remove-grub">Usuwanie GRUB z MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#what-is-grub">Menadżer uruchamiania - GRUB</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -214,7 +220,7 @@
 							<p>Plik sidux.com<span class="highlight-3"> /etc/fstab</span> przechowuje nazwy <span class="highlight-3"> /dev/ sdaX</span> ujęte w nawias kwadratowy w liniach komentarza ponad każdą informacją o montowanej partycji. Na przykład (pogrubienie tylko dla celów przykładu). </p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>Dla partycji</h5>
 
@@ -249,35 +255,35 @@ cfdisk /dev/sda
 
 					<h5>Usuwanie partycji</h5>
 		<div class="screenshot"><img src="../lib/images-pl/cfdisk-pl/cfdisk0-pl.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
-							<p>Aby usunąć partycję, podświetl ją przy pomocy strzałek w górę i dół, wybierz polecenie</p> 
+
+							<p>Aby usunąć partycję, podświetl ją przy pomocy strzałek w górę i dół, wybierz polecenie</p>
 <pre >
 Delete
-</pre> 
-							<p>przy pomocy strzałek w lewo i prawo i wciśnij</p> 
+</pre>
+							<p>przy pomocy strzałek w lewo i prawo i wciśnij</p>
 <pre >
 Enter
 </pre>
 
 					<h5>Tworzenie nowej partycji</h5>
 		<div class="screenshot"><img src="../lib/images-pl/cfdisk-pl/cfdisk1-pl.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
-							<p>Aby stworzyć nową partycję, użyj polecenia:</p> 
+
+							<p>Aby stworzyć nową partycję, użyj polecenia:</p>
 <pre >
 New
-</pre> 
+</pre>
 							 <p>(wybierz je przy pomocy strzałek w lewo i prawo), i wciśnij enter. Musisz zdecydować między partycją <b>primary</b> i <b>logical</b>. Jeśli chcesz partycji logicznej,  program stworzy ją automatycznie. Następnie musisz wybrać wielkość partycji (w MB). Jeśli nie możesz wpisać wartości  w MB, wróć do głównego ekranu przy pomocy klawisza Esc, i wybierz MB przy pomocy polecenia </p>
 <pre >
 Units
-</pre> 
+</pre>
 
 				<h5>Typ partycji</h5>
 		<div class="screenshot"><img src="../lib/images-pl/cfdisk-pl/cfdisk2-pl.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<p>Aby ustawić typ partycji dla  <b>Linux swap</b> lub <b>Linux</b>, podświetl partycję i użyj polecenia:</p>
 <pre >
 Type
-</pre> 
+</pre>
 							<p>Otrzymasz listę różnych typów. Naciśnij spację i otrzymasz dalszą część listy. Odnajdź typ partycji, który potrzebujesz i wpisz jego numer. (<b>Linux swap</b> to typ <b>82</b>,systemy plików <b>Linux</b> to <b>83</b>)</p>
 		<div class="screenshot"><img src="../lib/images-pl/cfdisk-pl/cfdisk3-pl.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
@@ -285,13 +291,13 @@ Type
 							<p>Nie ma potrzeby czynienia partycji bootowalnej dla linuksa, ale niektóre inne systemy tego potrzebują. Podświetl partycję i wybierz polecenie. Note: When installing on a external HD then  one partition must be bootable:</p>
 <pre >
 Bootable
-</pre> 
+</pre>
 
 				<h5>Zapisanie wyniku na dysk</h5>
 							<p>Kiedy zakończysz, możesz zapisać dokonane zmiany przy użyciu polecenia Write. Tablica partycji zostanie zapisana na dysk. (jeśli pojawi się błąd dotyczący  dos, możesz go zignorować). Ponieważ proces zniszczy wszystkie dane na partycjach, które usuwasz lub zmieniasz, powinieneś być pewny, że chcesz tego, zanim wciśniesz klawisz</p>
 <pre >
 Return
-</pre> 
+</pre>
 		<div class="screenshot"><img src="../lib/images-pl/cfdisk-pl/cfdisk4-pl.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 				<h5>Wyjście</h5>
@@ -303,7 +309,7 @@ Return
 		<h2>Formatowanie partycji (po partycjonowaniu przy pomocy cfdiska)</h2>
 
 				<h5>Podstawy</h5>
-							<p>Partycja musi mieć system plików. Linux może korzystać z wielu systemów plików. Do wyboru mamy ReiserFs, Ext3, a dla doświadczonych użytkowników XFS i JFS. Ext2 jest przydatny jako format składowania danych, ponieważ istnieje sterownik dla windows umożliwiający wymianę danych między systemami.</p>
+							<p>Partycja musi mieć system plików. Linux może korzystać z wielu systemów plików. Do wyboru mamy ReiserFs, Ext3, a dla doświadczonych użytkowników XFS i JFS. Ext2 jest przydatny jako format składowania danych, ponieważ istnieje sterownik dla windows umożliwiający wymianę danych między systemami.<a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p  class="highlight-2">Dla zwykłego użytku zalecamy system plików ext3, jest to domyślny system plików dla sidux.com i posiada dobre wsparcie techniczne.</p>
 

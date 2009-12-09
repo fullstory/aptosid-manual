@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-hu.htm#Inst-prep">A telepítés előkészítése</a></li>
 				<li><a href="hd-install-hu.htm#Installation">Telepítés merevlemezre</a></li>
 				<li><a href="hd-install-hu.htm#first-hd-boot">Első rendszerindítás</a></li>
-				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso')</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso') - Overview</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-hu.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-hu.htm#fromiso-persist">'fromiso' mint állandó rendszer</a></li>
 				<li><a href="hd-install-opts-hu.htm#usb-hd">Telepítés USB-merevlemezre</a></li>
 				<li><a href="hd-install-opts-hu.htm#vtbox">sidux telepítése VirtualBox-ra</a></li>
@@ -183,12 +185,16 @@
 				<li><a href="sys-admin-gen-hu.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-hu.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-hu.htm#init">sidux futási szintek - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">MBR, felülírt boot-szektor</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Dual- és multiboot</a></li>
 				<li><a href="bios-freedos-hu.htm#bois-prep">BIOS frissítés FreeDOS-szal</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#boot-grub-floppy">Rendszerfloppi készítése</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">Grub1 - MBR, felülírt boot-szektor</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Grub1 - Dual- és multiboot</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#remove-grub">A grub eltávolítása az MBR-ből</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#what-is-grub">Grub, a boot-menedzser</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -249,7 +255,7 @@ cfdisk /dev/sda
 
 				<h5>Partíció törlése</h5>
 		<div class="screenshot"><img src="../lib/images-hu/cfdisk-hu/cfdisk0-hu.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
+
 							<p>A partíció törléséhez válasszuk ki a fel-le gombokkal, majd válasszuk ki a</p>
 <pre >
 Delete
@@ -261,7 +267,7 @@ Enter
 
 			<h5>Új partíció létrehozása</h5>
 		<div class="screenshot"><img src="../lib/images-hu/cfdisk-hu/cfdisk1-hu.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
+
 							<p>Úl partíció létrehozásához használjuk a</p>
 <pre >
 New
@@ -273,11 +279,11 @@ Units
 
 			<h5>Partíció típusának megadása</h5>
 		<div class="screenshot"><img src="../lib/images-hu/cfdisk-hu/cfdisk2-hu.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<p>A partíció típusának válasszuk a <b>Linux cserehely (swap)</b> vagy <b>Linux</b> lehetőséget; ehhez ki kell jelölni a partíciót, majd aparancs gombot: </p>
 <pre >
 Type
-</pre> 
+</pre>
 							<p>A felbukkanó listán szóközt lenyomva még több típus közül választhatunk. A kívánt típus számát be kell gépelni. (A <b>Linux cserehely</b> típusa <b>82</b>, a <b>Linux</b> fájlrendszerhez <b>83</b>-at kell megadni).</p>
 		<div class="screenshot"><img src="../lib/images-hu/cfdisk-hu/cfdisk3-hu.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
@@ -303,7 +309,7 @@ Return
 		<h2>Partíciók formázása (miután a cfdisk-kel partícionáltunk)</h2>
 
 			<h5>Az alapok</h5>
-							<p>Minden partíción kell, hogy legyen egy fájlrendszer. A Linux-szal több fájlrendszer is használható: ReiserFs, Ext3, haladó felhasználóknak az XFS vagy a JFS. Az Ext2 hasznos lehet adattárolásra, mert a Windows-hoz létezik meghajtóprogram az adatcseréhez.</p>
+							<p>Minden partíción kell, hogy legyen egy fájlrendszer. A Linux-szal több fájlrendszer is használható: ReiserFs, Ext3, haladó felhasználóknak az XFS vagy a JFS. Az Ext2 hasznos lehet adattárolásra, mert a Windows-hoz létezik meghajtóprogram az adatcseréhez. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p  class="highlight-2">Mindennapi használatra az ext3 fájlrendszert ajánljuk, mivel ez a sidux fő fájlrendszere, ezért jól karbantartott.</p>
 
@@ -319,7 +325,7 @@ mkfs -t ext3 /dev/sdb1
 							<p>A parancs sikeres lefutásáról egy üzenet tájékoztat, miszerint az ext3 partíció kiírásra került a lemezre. Ha nincs ilyen üzenet, valószínűleg a cfdisk használata során valami hiba lépett fel, vagy az sdb1 nem linux partíció. Ezt le tudjuk ellenőrizni az paranccsal:</p>
 <pre >
 fdisk -l /dev/sdb
-</pre> 
+</pre>
 
 							<p>Ha hibát találtunk, végezzük el újra a partícionálást.</p>
 

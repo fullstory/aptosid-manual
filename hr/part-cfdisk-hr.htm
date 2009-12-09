@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision 27/10/2007 1500 UTC-->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-hr.htm#Inst-prep">Priprema za instaliranje</a></li>
 				<li><a href="hd-install-hr.htm#Installation">Instaliranje na vaš HD</a></li>
 				<li><a href="hd-install-hr.htm#first-hd-boot">Prvi Boot-Up</a></li>
-				<li><a href="hd-install-opts-hr.htm#fromiso">Boot sa 'fromiso'</a></li>
+				<li><a href="hd-install-opts-hr.htm#fromiso">Boot sa 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-hr.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-hr.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-hr.htm#fromiso-persist">fromiso i persist</a></li>
 				<li><a href="hd-install-opts-hr.htm#usb-hd">Instaliranje na USB-HD</a></li>
 				<li><a href="hd-install-opts-hr.htm#vtbox">Instaliranje sidux uz pomoć VitualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-hr.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-hr.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-hr.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-hr.htm#mbr-grub-boot">Prepisati MBR bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-hr.htm#dual-boot">Dual i Multiple Booting</a></li>
 				<li><a href="bios-freedos-hr.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#boot-grub-floppy">Izraditi Boot-Floppy</a></li>
+				<li><a href="sys-admin-grub-bootman2-hr.htm#mbr-grub-boot">Grub1 - Prepisati MBR bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-hr.htm#dual-boot">Grub1 - Dual i Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#remove-grub">Brisanje grub-a sa MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-hr.htm#what-is-grub">Boot-Menadžer Grub</a></li>
+				<li><a href="sys-admin-grub2-hr.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-hr.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-hr.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-hr.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -215,7 +221,7 @@
 							<p><span class="highlight-3">/etc/fstab</span> datoteka od sidux na Live-CD ili HD instalaciji, sadrži sve <span class="highlight-3"> /dev/ sdaX</span> informacije između kvadratnih zagrada u komentiranoj liniji iznad svake linije za Uređaje. Na primjer (podebljano je samo za primjerske namjene). </p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>Za particije</h5>
 
@@ -237,66 +243,70 @@ UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=
 
 	<div class="divider" id="partition">
 		<h2>Particijonirati vaš HD koristeći cfdisk</h2>
-		<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 file-sistem, to je glavni file-sistem za sidux i dobro podržavan.</p>
-		<p>Otvoriite konsole/xterm, postanite root i startujte cfdisk:
-		<i>(ako ste na HD-installaciji morate upisati root lozinku)</i></p>
+						      <p  class="highlight-2">Za normalan korištaj preporučujemo ext3 file-sistem, to je glavni file-sistem za sidux i dobro podržavan.</p>
+
+						      <p>Otvoriite konsole/xterm, postanite root i startujte cfdisk:<i>(ako ste na HD-installaciji morate upisati root lozinku)</i></p>
 <pre>su
 cfdisk /dev/sda
 </pre>
 
 		<h5>Korisnički interface</h5>
-		<p>Na prvom screenu cfdisk navodi particijsku tabelu sa imenima i nekoliko podataka o Particijama. Na dnu screena su funkcijske tipke. Da skačete od Particije do Particije, koristite <b>dolje i gore tipke</b>. Da skačete izmedu naredbi, koristite <b>lijevo i desno tipke</b></p>
+							<p>Na prvom screenu cfdisk navodi particijsku tabelu sa imenima i nekoliko podataka o Particijama. Na dnu screena su funkcijske tipke. Da skačete od Particije do Particije, koristite <b>dolje i gore tipke</b>. Da skačete izmedu naredbi, koristite <b>lijevo i desno tipke</b></p>
 
 
 		<h5>Izbrisati Particiju</h5>
 		<div class="screenshot"><img src="../lib/images-hr/cfdisk-hr/cfdisk0-hr.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
-		<p>Da izbrišite Particiju, markirajte je sa gore i dolje tipkama, i odaberite </p> 
+
+							<p>Da izbrišite Particiju, markirajte je sa gore i dolje tipkama, i odaberite </p>
 <pre>
 Delete
-</pre> 
-		<p>naredbu sa lijevo i desno tipkama, i pritisnite</p> 
-		
+</pre>
+							<p>naredbu sa lijevo i desno tipkama, i pritisnite</p>
+
 <pre>
 Enter
 </pre>
 		<h5>Kreirati novu Particiju</h5>
+
 		<div class="screenshot"><img src="../lib/images-hr/cfdisk-hr/cfdisk1-hr.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
-		<p>Da kreirate novu Particiju, koristite naredbu:</p> 
-		
+
+							<p>Da kreirate novu Particiju, koristite naredbu:</p>
+
 <pre>
 New
-</pre> 
-		 <p>(izaberite je sa lijevo i desno tipkama), i pritisnite Enter. Morate se odlučiti između <b>primary</b> ili <b>Logične</b> Particije. Ako hoćete Logičnu particiju, program će automatski napraviti extended(prduženuili dodatnu) Particiju za vas. Onda morate izabrati veličinu particije (u MB). Ako ne možete upisati veličinu u MB, vratite se na glavni screen sa Esc tipkom, i izaberite MB s naredbom</p>
-		
+</pre>
+							<p>(izaberite je sa lijevo i desno tipkama), i pritisnite Enter. Morate se odlučiti između <b>primary</b> ili <b>Logične</b> Particije. Ako hoćete Logičnu particiju, program će automatski napraviti extended(prduženuili dodatnu) Particiju za vas. Onda morate izabrati veličinu particije (u MB). Ako ne možete upisati veličinu u MB, vratite se na glavni screen sa Esc tipkom, i izaberite MB s naredbom</p>
+
 <pre>
 Units
 </pre>
 
-		<h5>Vrsta particije</h5> 
+		<h5>Vrsta particije</h5>
 		<div class="screenshot"><img src="../lib/images-hr/cfdisk-hr/cfdisk2-hr.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
-		<p>Da postavite vrstu particije za <b>Linux swap</b> ili <b>Linux</b>, markirajte aktualnu particiju, i koristite:</p>
-		
+
+							<p>Da postavite vrstu particije za <b>Linux swap</b> ili <b>Linux</b>, markirajte aktualnu particiju, i koristite:</p>
+
 <pre>
 Type
-</pre> . 
-		<p>Dobiti će te listu od svih vrsta particija. Pritisnite space, i dobiti će te još više. Izaberite vrstu koja vam treba, i upišite broj na prompt. (<b>Linux swap</b> je vrsta <b>82</b>, <b>Linux</b> file-sisteme trebaju da dobiju vrstu <b>83</b>)</p>
+</pre> .
+							<p>Dobiti će te listu od svih vrsta particija. Pritisnite space, i dobiti će te još više. Izaberite vrstu koja vam treba, i upišite broj na prompt. (<b>Linux swap</b> je vrsta <b>82</b>, <b>Linux</b> file-sisteme trebaju da dobiju vrstu <b>83</b>)</p>
+
 		<div class="screenshot"><img src="../lib/images-hr/cfdisk-hr/cfdisk3-hr.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
 		<h5>Napraviti particiju bootable</h5>
-				<p>Nema potrebe da napravite Particiju bootable za linux ali drugi operativni sustavi trebaju baš to. Markirajte Particiju i odaberite naredbu:</p>
-		<pre>
-		Bootable
-		</pre> 
-		
-		<p>Ako ste gotovi sa podacima onda možete pisati promjene koristeći Write naredbu. Particijska tabla biti će napisana na disk. (ako vam pokaže greške u vezi DOSa, možete ih ignorirati). Sljedeća naredba će uništiti sve podatke na Particijama koje ste izbrisali ili promijenili, zato morate si biti sigurni, prije nego sto izvodite tu naredbu sa</p>
-		<pre >Return</pre> 
+						      <p>Nema potrebe da napravite Particiju bootable za linux ali drugi operativni sustavi trebaju baš to. Markirajte Particiju i odaberite naredbu:</p>
+<pre>
+Bootable
+</pre>
+
+						      <p>Ako ste gotovi sa podacima onda možete pisati promjene koristeći Write naredbu. Particijska tabla biti će napisana na disk. (ako vam pokaže greške u vezi DOSa, možete ih ignorirati). Sljedeća naredba će uništiti sve podatke na Particijama koje ste izbrisali ili promijenili, zato morate si biti sigurni, prije nego sto izvodite tu naredbu sa:</p>
+<pre>
+Return
+</pre>
 		<div class="screenshot"><img src="../lib/images-hr/cfdisk-hr/cfdisk4-hr.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 		<h5>Quit</h5>
-		<p>Da zatvorite program, odaberite Quit naredbu. Poslije nego što ste zatvorili cfdisk i prije starta sa formatiranjem ili instalacijom, trebate da restartujete box da sidux može da pročita novu Particijsku tablu.</p>
+							<p>Da zatvorite program, odaberite Quit naredbu. Poslije nego što ste zatvorili cfdisk i prije starta sa formatiranjem ili instalacijom, trebate da restartujete box da sidux može da pročita novu Particijsku tablu.</p>
 	</div>
 
 	<div class="spacer05"></div>
@@ -304,34 +314,44 @@ Type
 		<h2>Formatiranje particija (poslije Particijoniranjem sa cfdisk)</h2>
 
 		<h5>Basics</h5>
-		<p>Particija mora imati file-sistem. Linux pozna različite file-sisteme za korištaj. Tu je ReiserFs, Ext3, i za professinalce XFS i JFS. Ext3 je koristan kao format za spremanje datoteka zato što ima Windows driver za miješanje podataka.</p>
-		<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 filesistem, to je glavni filesistem za sidux i dobro podržavan.</p>
+							<p>Particija mora imati file-sistem. Linux pozna različite file-sisteme za korištaj. Tu je ReiserFs, Ext3, i za professinalce XFS i JFS. Ext2 je koristan kao format za spremanje datoteka zato što ima Windows driver za miješanje podataka.<a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
+
+							<p  class="highlight-2">Za normalan korištaj preporučujemo ext3 filesistem, to je glavni filesistem za sidux i dobro podržavan. </p>
 
 		<h5>Formatiranje</h5>
-		<p>Poslije zatvaranja <b>cfdiska</b> vratit će mo se na konzolu. Za formatiranje trebate biti root. Za formatiranje root- i/ili home particije, u ovom primjeru <b>hdb1</b>, upišemo: <i>(ako ste na HD-instalaciji morate upisati root lozinku)</i></p>
-<pre >su
+							<p>Poslije zatvaranja <b>cfdiska</b> vratit će mo se na konzolu. Za formatiranje trebate biti root. Za formatiranje root- i/ili home particije, u ovom primjeru <b>hdb1</b>, upišemo: <i>(ako ste na HD-instalaciji morate upisati root lozinku)</i></p>
+<pre >
+su
 mkfs -t ext3 /dev/hdb1
 </pre>
 
-		<p>Biti će te pitani jedno pitanje,  morate odgovoriti sa yes ako ste sigurni, da ste izabrali točnu Particiju.</p>
+							<p>Biti će te pitani jedno pitanje,  morate odgovoriti sa yes ako ste sigurni, da ste izabrali točnu Particiju.</p>
 
-		<p>Ako je naredba izvođena, dobiti će te odgovor da je ext3 formatiranje uspješno napisano na disk. Ako ne vidite to, onda nešto nije u redu sa Particijoniranjem sa cfdisk, ili hdb1 nije linux Particija. Onda to možete to provjeriti sa</p>
-		<pre >fdisk -l /dev/hdb</pre>
+							<p>Ako je naredba izvođena, dobiti će te odgovor da je ext3 formatiranje uspješno napisano na disk. Ako ne vidite to, onda nešto nije u redu sa Particijoniranjem sa cfdisk, ili hdb1 nije linux Particija. Onda to možete to provjeriti sa</p>
+<pre>
+fdisk -l /dev/hdb
+</pre>
 
-		<p>Ako nešto nije u redu, opet pokušajte particijonirati.</p>
+							<p>Ako nešto nije u redu, opet pokušajte particijonirati.</p>
 
-		<p>Ako je formatiranje sad u redu, istu proceduru koristite za home particiju, ako hoćete separatnu.</p>
+							<p>Ako je formatiranje sad u redu, istu proceduru koristite za home particiju, ako hoćete separatnu.</p>
 
-		<p>Na kraju će mo formatirati swap particiju, u ovom primjeru hdb3:</p>
-		<pre >mkswap /dev/hdb3</pre>
+							<p>Na kraju će mo formatirati swap particiju, u ovom primjeru hdb3:</p>
+<pre>
+mkswap /dev/hdb3
+</pre>
 
-		<p>poslije toga:</p>
+							<p>poslije toga:</p>
 
-		<pre >swapon /dev/hdb3</pre>
+<pre>
+swapon /dev/hdb3
+</pre>
 
-		<p>Onda provjerimo, je li swap prepoznan, upišemo u konzolu:</p>
-	<pre >swapon -s</pre>
-		<p>Nova swap particija treba sad da je prepoznata, kao:</p>
+							<p>Onda provjerimo, je li swap prepoznan, upišemo u konzolu:</p>
+<pre>
+swapon -s
+</pre>
+							 <p>Nova swap particija treba sad da je prepoznata, kao:</p>
 
 	<table class="center">
 		<tbody>
@@ -352,12 +372,15 @@ mkfs -t ext3 /dev/hdb1
 		</tbody>
 	</table>
 	<div class="spacer02"></div>
-		<p>Ako je swap Particija točno prepoznata, upišemo</p>
-		<pre >swapoff -a</pre>
-		<p>i restartujemo.</p>
+							<p>Ako je swap Particija točno prepoznata, upišemo</p>
+<pre>
+swapoff -a
+</pre>
+							<p>i restartujemo.</p>
 
 
-		<p>Sad možete startovati instalaciju.</p>
+							<p>Sad možete startovati instalaciju.</p>
+
 				<div id="rev">Content last revised 16/08/2009 0255 UTC</div>
 
 </div>

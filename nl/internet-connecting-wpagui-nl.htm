@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by HarzG 03/11/2008 1730 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainers eislon -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-nl.htm#Inst-prep">Installatie voorbereiden</a></li>
 				<li><a href="hd-install-nl.htm#Installation">Installeren naar je HD</a></li>
 				<li><a href="hd-install-nl.htm#first-hd-boot">De eerste keer opstarten</a></li>
-				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso'</a></li>
+				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-nl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso-persist">fromiso en persist</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
 				<li><a href="hd-install-opts-nl.htm#vtbox">Installeren sidux met VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-nl.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-nl.htm#sound">Geluid Mixers (Sound Mixers)</a></li>
 				<li><a href="sys-admin-gen-nl.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">MBR bootsector overschreven</a></li>
-				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Dual- en multibooting</a></li>
 				<li><a href="bios-freedos-nl.htm#bois-prep">BIOS-upgrade met FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#boot-grub-floppy">Aanmaken van een boot-diskette</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">Grub1 - MBR bootsector overschreven</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Grub1 - Dual- en multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#remove-grub">Grub uit de MBR verwijderen</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#what-is-grub">Grub de bootmanager</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -199,7 +205,7 @@
 
 		<h2 id="top-header">wpa Roaming GUI</h2>
 
-							<p>wpa-roaming is een methode waarmee je kan browsen en verbinding kan met met draadloze netwerken met en zonder een grafische desktop omgeving. Dit is erg handig voor notebook gebruikers.</p> 
+							<p>wpa-roaming is een methode waarmee je kan browsen en verbinding kan met met draadloze netwerken met en zonder een grafische desktop omgeving. Dit is erg handig voor notebook gebruikers.</p>
 
 							<p>wpasupplicant is een programma die je niet alleen kan gebruiken voor het aanmelden van draadloze netwerken met wpa-sleutels, maar voor alle draadloze netwerken. In combinatie met de "classic" /etc/network/interfaces is dat een krachtige methode netwerken te verbinden 'zonder iets te doen'. Je wordt automatisch verbonden met open netwerken of met het netwerk dat in het configuratie besatnd voorkomt. En nog eenvoudiger: als je hotplugging toestaat, dan wordt de correcte verbinding automatisch gemaakt na je login (zowel in een desktop environment (KDE) als ook in een non X session, dus een konsole-sessie).</p>
 
@@ -299,7 +305,7 @@ ifup wlan0  ## wlan0 is just a common name for a wireless interface. Take the na
 
 							<p>Met <span class="highlight-3">IDString</span> en <span class="highlight-3">Priority</span> wordt vastgelegd met welk netwerk je PC tijdens het booten (c.q. activeren van de netwerkcard) verbonden wordt. De hoogste prioriteit is <span class="highlight-3">1000</span>, de laagste is <span class="highlight-3">0</span>. De <span class="highlight-3">IDString</span> moet in <span class="highlight-3">/etc/network/interfaces</span> opgenomen zijn.</p>
 
-						<h6>De syntax voor /etc/network/interfaces.</h6> 
+						<h6>De syntax voor /etc/network/interfaces.</h6>
 							<p>Het eerste voorbeeld is voor de verbinding met een active DHCP server, het tweede is als je een vast IP adres gebruikt. Je moet dus je eigen instellingen vastleggen (hier staat een voorbeeld):</p>
 <pre>
 # id_str="home_dhcp"
@@ -398,11 +404,21 @@ network={
 							<p>Om vanaf je bureaublad snel bij de wpa_gui komen, ga je naar <span class="highlight-3">kmenu>internet>wpa_gui</span> en dan kan je met een rechtsklik bij wpa_gui een "Item toevoegen aan bureaublad".</p>
 
 					<h6>4. Verborgen SSIDs</h6>
-							<p>Verborgen SSIDs worden getoond.</p>
+							<p>Verborgen SSIDs worden getoond when <span class="highlight-3">scan_ssid=1</span> is defined in the network block.</p>
+
+					 <h6>5. Authentification algorithms</h6>
+							<p>For WPA/WPA2 encryption you need:</p>
+<pre>
+auth_alg=OPEN
+</pre>
+							<p>For static WEP encryption you might need:</p>
+<pre>
+auth_alg=SHARED
+</pre>
 
 	</div>
 
-			<div id="rev">Inhoud het laasts aangepast op 16/01/2009 0500 UTC</div>
+			<div id="rev">Content last revised 04/12/2009 1600 UTC</div>
 </div>
 </body>
 </html>

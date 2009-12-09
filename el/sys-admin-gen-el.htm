@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by edhunter  15/04/2008 0720hrs UTC -->
+<!-- Last translation revision by edhunter  01/12/2009 1130 hrs UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-el.htm#Inst-prep">Προετοιμασία Εγκατάστασης</a></li>
 				<li><a href="hd-install-el.htm#Installation">Εγκατάσταση στον σκληρό δίσκο</a></li>
 				<li><a href="hd-install-el.htm#first-hd-boot">Πρώτη εκκίνηση</a></li>
-				<li><a href="hd-install-opts-el.htm#fromiso">Εκκίνηση από το iso</a></li>
+				<li><a href="hd-install-opts-el.htm#fromiso">Εκκίνηση από το iso - Overview</a></li>
+				<li><a href="hd-install-opts-el.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-el.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-el.htm#fromiso-persist">fromiso και persist</a></li>
 				<li><a href="hd-install-opts-el.htm#usb-hd">Eγκατάσταση σε USB σκληρό δίσκο</a></li>
 				<li><a href="hd-install-opts-el.htm#vtbox">Εγκατάσταση του sidux με VirtualBox</a></li>
@@ -181,15 +183,19 @@
 				<li><a href="sys-admin-gen-el.htm#start-services">Ενεργοποίηση / Απενεργοποίηση Υπηρεσιών (Services)</a></li>
 				<li><a href="sys-admin-gen-el.htm#pw-lost">Έχασα τον κωδικό διαχειριστή (root)</a></li>
 				<li><a href="sys-admin-gen-el.htm#Fonts">Γραμματοσειρές (Fonts)</a></li>
-				<li><a href="sys-admin-gen-el.htm#cups">CUPS - Printing System</a></li>
-				<li><a href="sys-admin-gen-el.htm#sound">Sound Mixers</a></li>
+				<li><a href="sys-admin-gen-el.htm#cups">CUPS - Σύστημα Εκτύπωσης</a></li>
+				<li><a href="sys-admin-gen-el.htm#sound">Mixers Ήχου</a></li>
 				<li><a href="sys-admin-gen-el.htm#init">sidux Επίπεδα εκτέλεσης (runlevels) - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-el.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Dual και Multibooting</a></li>
 				<li><a href="bios-freedos-el.htm#bois-prep">Αναβάθμιση του BIOS με το FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#boot-grub-floppy">Δημιουργία Δισκέττας Εκκίνησης</a></li>
+				<li><a href="sys-admin-grub-bootman2-el.htm#mbr-grub-boot">Grub1 - MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Grub1 - Dual και Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#remove-grub">Απεγκατάσταση του grub από το MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#what-is-grub">O διαχειριστής εκκίνησης Grub </a></li>
+				<li><a href="sys-admin-grub2-el.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -229,13 +235,14 @@ update-rc.d &lt;υπηρεσία&gt; defaults
 [θα δημιουργήσει συνδέσμους εκκίνησης]
 </pre>
 
-							<p>To read the list of what services are running:</p>
+							<!--p>To read the list of what services are running:</p-->
+							<p>Για να δείτε ποιές υπηρεσίες τρέχουν:</p>
 <pre>
 ls /etc/rc5.d
 </pre>
 
-							<p><span class="highlight-3">S</span> means the service will start.<br />
-							<span class="highlight-3">K</span> means service will not start.</p>
+							<p><span class="highlight-3">S</span> σημαίνει ότι η υπηρεσία θα ξεκινήσει.<br />
+							<span class="highlight-3">K</span> σημαίνει ότι η υπηρεσία δεν θα ξεκινήσει.</p>
 
 					<h3>Παλαιότερες Εγκαταστάσεις (πριν την Πόντος 2008-04)</h3>
 						<h3>insserv σε συστήματα που εγκαταστάθηκαν πριν την Πόντος 2008-04</h3>
@@ -297,23 +304,35 @@ pkill -n υπηρεσία
 							<p>Αυτή είναι η λίστα των επιπέδων εκτέλεσης του λειτουργικού συστήματος sidux. Παρακαλώ προσέξτε ότι διαφέρουν από τα επίπεδα εκτέλεσης του debian stable:</p>
 
 						<ul>
-							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+							<!--li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li-->
+							<li><span class="highlight-3">runlevel 0 </span> κλείσιμο (power off) του υπολογιστή</li>
 
-							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+							<!--li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li-->
+							<li><span class="highlight-3">runlevel 1</span> single user (safety mode) (μόνο ένας χρήστης έχει πρόσβαση στο σύστημα). Daemons όπως ο apache και sshd κλείνουν. Μην μπείτε μέσα σε αυτό το επίπεδο από απομακρυσμένο σύστημα.</li>
 
-							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+							<!--li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li-->
+							<li><span class="highlight-3">runlevel 2 </span>Mode πολλών χρηστών (Multi-User) με δίκτυο και χωρίς X ή/και για σταμάτημα ή μη εκκίνηση του Χ.</li>
 
-							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+							<!--li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li-->
+							<li><span class="highlight-3">runlevel 3 </span>Mode πολλών χρηστών με δίκτυο και χωρίς X ή/και για σταμάτημα ή μη εκκίνηση του Χ (εδώ είναι που γίνεται το dist-upgrade).</li>
 
-							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+							<!--li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li-->
+							<li><span class="highlight-3">runlevel 4 </span>Mode πολλών χρηστών (Multi-User) με δίκτυο και χωρίς X ή/και για σταμάτημα ή μη εκκίνηση του Χ.</li>
 
-							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
 
-							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+							<!--li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li-->
+							<li><span class="highlight-3">runlevel 5</span> Mode πολλών χρηστών με δίκτυο και X ή/και για εκκίνηση του Χ.</li>
 
-							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+							<!--li><span class="highlight-3">runlevel 6 </span>reboot.</li-->
+							<li><span class="highlight-3">runlevel 6 </span>επανεκκίνηση</li>
+
+							<!--li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li-->
+							<li><span class="highlight-3">runlevel S </span> όπου τρέχουν υπηρεσίες η οποίες χρειάζονται για την εκκίνηση και εκτελούνται μόνο μια φορά. Δεν μπορείτε να πάτε πίσω σε αυτό εάν έχει ήδη τρέξει.</li>
 
 						</ul>
+
+
+
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Έχασα τον κωδικό υπερχρήστη</h2>
@@ -325,7 +344,7 @@ pkill -n υπηρεσία
 			<p>Ως διαχειριστής (root) προσαρτήστε (mount) το τμήμα root (για παράδειγμα το /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Τώρα κάνετε chroot στο παλιό root τμήμα με και δώστε ένα νέο password:</p>
 <pre>
@@ -429,48 +448,64 @@ http://localhost:631
 
 							<p>Μια άλλη παγίδα όταν ρυθμίζετε το cups μέσω της γραφικής (GUI) μεθόδου, είναι ότι φέρνει ένα κουτί διαλόγου (dialog box) που έχει το όνομα χρήστη σας και ζητά από εσάς να βάλετε το password αλλά αν βάλετε το password χρήστη σας δεν δουλεύει. Στην πραγματικότητα αυτό που θέλει να κάνετε είναι να αλλάξετε το όνομα χρήστη σε <span class="highlight-2">root</span> και να δώσετε το <span class="highlight-2">root password</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Υπάρχουν και περισσότερα στα sidux forums.</a></p>
+							<p><a href="http://sidux.com">Υπάρχουν και περισσότερα στα sidux forums.</a></p>
 	</div>
 	<div class="divider" id="sound">
-			<h2>Sound in sidux</h2>
-							<p><span class="highlight-3">Sound is muted by default in sidux.</span></p>
+			<!--h2>Sound in sidux</h2-->
+			<h2>Ήχος στο sidux</h2>
+							<!--p><span class="highlight-3">Sound is muted by default in sidux.</span></p-->
+							<p><span class="highlight-3">Εκ προεπιλογής ο ήχος είναι απενεργοποιημένος στο sidux.</span></p>
 
-							<p>The KDE version uses Kmix and XFCE uses Mixer.</p>
+							<!--p>The KDE version uses Kmix and XFCE uses Mixer.</p-->
+							<p>Η KDE έκδοση χρησιμοποιεί Kmix και η XFCE χρησιμοποιεί Mixer.</p>
 
-							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
+							<!--p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p-->
+							<p>Πολλές φορές αρκεί ένα κλικ στο εικονίδιο του ήχου και η αποεπιλογή του κουτιού 'Mute'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
-
+							<!--p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p-->
+							<p>Στο Kmix θα πρέπει να ενεργοποιήσετε τις επιλογές που θέλετε για τις επιλογές καναλιών ήχου, <span class="highlight-3">Kmix>Setting>Configure Channels.</span>Ή σε ένα τερματικό:</p>
+<pre>
+$ kmix
+</pre>
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<!--p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p-->
+							<p>Στο XFCE τρέξτε το mixer και προσθέστε ορισμένα κοντρόλ μέσω του <span class="highlight-3"> Multimedia>Mixer</span> και κλικ στο <span class="highlight-3">Select Controls box.</span> Ή σε ένα τερματικό:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
-							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
+							<!--p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p-->
+							<p>Αν προτιμάτε να χρησιμοποιήσετε το Alsamixer, αυτό βρίσκεται στο πακέτο alsa-utils:</p>
+
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
+							 <!--p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p-->
+							 <p>Ρυθμίστε τις επιλογές ήχου σαν <span class="highlight-2">$χρήστης</span> από το τερματικό:</p>
 
-							 <p>Set your preferred sound settings as user, then as root:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <!--p>Then as root:</p-->
+							 <p>Μετά σαν root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
 
-							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
+							  <!--p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p-->
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> Δείτε επίσης το sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+		<div id="rev">Τελευταία αναθεώρηση περιεχομένου 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

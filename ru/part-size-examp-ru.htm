@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by RoEn xx/xx/2008 0300 UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by kostiagol, RoEn -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главная страница sidux.com, форума и вики" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-ru.htm#Inst-prep">Подготовка</a></li>
 				<li><a href="hd-install-ru.htm#Installation">Инсталляция на HD</a></li>
 				<li><a href="hd-install-ru.htm#first-hd-boot">Первая загрузка</a></li>
-				<li><a href="hd-install-opts-ru.htm#fromiso">Инсталляция 'fromiso'</a></li>
+				<li><a href="hd-install-opts-ru.htm#fromiso">Инсталляция 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-ru.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-ru.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-ru.htm#fromiso-persist">Способы 'fromiso' и 'persist'</a></li>
 				<li><a href="hd-install-opts-ru.htm#usb-hd">Инсталляция на USB-HD</a></li>
 				<li><a href="hd-install-opts-ru.htm#vtbox">Инсталляция в VirtualBox</a></li>
@@ -184,16 +186,20 @@
 				<li><a href="sys-admin-gen-ru.htm#cups">Сервер CUPS</a></li>
 				<li><a href="sys-admin-gen-ru.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-ru.htm#init">sidux режимы загрузки - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-ru.htm#mbr-grub-boot">Восстановление MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-ru.htm#dual-boot">Мультизагрузка</a></li>
 				<li><a href="bios-freedos-ru.htm#bois-prep">Обновление BIOS с FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#boot-grub-floppy">Загрузочная дискета</a></li>
+				<li><a href="sys-admin-grub-bootman2-ru.htm#mbr-grub-boot">Grub1 - Восстановление MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-ru.htm#dual-boot">Grub1 - Мультизагрузка</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#remove-grub">Удаление GRUB из MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-ru.htm#what-is-grub">Менеджер загрузки GRUB</a></li>
+				<li><a href="sys-admin-grub2-ru.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-ru.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-ru.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-ru.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
-	<!-- menu ends here --> </div>
+<!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="part-example">
 		<h2 id="top-header">Размеры раздела: примеры</h2>
@@ -201,7 +207,7 @@
 							 <p class="highlight-2">Мы рекомендуем файловою систему ext3, для использования в реальных условиях. Ext3 является стандартной файловой системой для sidux и при этом хорошо поддерживается (maintained).</p>
 
 							<p>Менеджер разделов gparted&nbsp;позволяет осуществить разбивку и форматирование жестких дисков. Приложение имеет удобный и понятный графический интерфейс</p>
-		
+
 							<p>Gparted Может изменять размер разделов, двигать их, а также работать с разделами с NTFS [С оговоркой: после того как Вы измените раздел с NTFS, Вы немедленно перезагрузите компьютер ]. <a href="http://gparted.sourceforge.net/">Здесь обширная документация по GParted.</a>. Изменения в разделах NTFS &nbsp;также могут, проводится с патентованными приложениями (например, Partition Magic (TM), Acronis (TM)).</p>
 
 		<p class="highlight-2">ВСЕГДА ДЕЛАЙТЕ РЕЗЕРВНОЕ КОПИРОВАНИЕ ВАЖНЫХ ДАННЫХ!</p>
@@ -221,9 +227,9 @@
 <pre>
 umount /dev/sda1
 </pre>
-							
+
 							<p>Swap раздел отключается следующей командой: </p>
-							
+
 <pre>
 swapoff -a
 </pre>
@@ -231,10 +237,10 @@ swapoff -a
 
 							<p>Вам действительно нужен раздел подкачки (swap)! Он похож на swapfile в windows, но более эффективен. Для нормального использования, <span class="highlight-3">раздел подкачки должен быть раза в два больше оперативной памяти</span>.</p>
 
-							<p>Для обмена данными с Windows используйте vfat (fat32) или ext2, так как для этой файловой системы есть драйвер под MS Windows™. [XFS не поддерживается].</p>
+							<p>Для обмена данными с Windows используйте vfat (fat32) или ext2, так как для этой файловой системы есть драйвер под MS Windows™. [XFS не поддерживается].  <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p>Кто бы ни создавал больше чем один раздел на носителе, должен записать себе имена разделов! </p>
-							
+
 							<p>Здесь несколько простых примеров с дисками различной величины, всё округлено.</p>
 
 <h5>Образ 1, 60 ГБ - Исходя из значений на том компьютере, где уже есть Windows.</h5>
@@ -248,27 +254,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20 ГБ</td>
+      					<td>14GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>30 ГБ</td>
-      					<td>FAT32</td>
-      					<td>данных FAT32 для Windows и Linux</td>
+      					<td>sda2</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for Win and Linux</td>
+    				</tr>
+
+      					<td>sda3</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>8 ГБ</td>
+      					<td>sdb1</td>
+      					<td>14GB</td>
       					<td>ext3</td>
-      					<td>/</td>
+      					<td>/ (includes home)</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>500 МБ</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -283,34 +295,28 @@ swapoff -a
       					<th><b>точка монтирования</b></th>
     				</tr>
     				<tr>
-      					<td>sda1</td>
-      					<td>8 ГБ</td>
+					<td>sda1</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
-      					<td>/</td>
+					<td>/</td>
     				</tr>
-    				<tr>
-      					<td>sda5</td>
-      					<td>6 ГБ</td>
+				<tr>
+					<td>sda2</td>
+					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>5 ГБ</td>
-      					<td>ext3</td>
-      					<td>/var</td>
+      					<td>sda3</td>
+      					<td>158 GB</td>
+      					<td>ext2/3</td>
+      					<td>data</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>178.5 ГБ</td>
-      					<td>ext3</td>
-      					<td>/video</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-      					<td>1 МБ</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -326,33 +332,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20 ГБ</td>
+      					<td>18 GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>8 ГБ</td>
+      					<td>sda2</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>20 ГБ</td>
+      					<td>sda3</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>70 ГБ</td>
-      					<td>FAT32</td>
-      					<td>обмена данных FAT32 WindowsXP - Linux</td>
+      					<td>sdb1</td>
+      					<td>60 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data exchange MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
-      					<td>500 МБ</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -368,39 +374,34 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>18 ГБ</td>
+      					<td>20GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>20 ГБ</td>
+      					<td>sda2</td>
+      					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>30 ГБ</td>
+      					<td>sda3</td>
+      					<td>59GB</td>
       					<td>ext3</td>
-      					<td>/opt</td>
+     					<td>data</td>
+    				</tr>
+
+    				<tr>
+      					<td>sdb1</td>
+      					<td>59GB</td>
+      					<td>ext3</td>
+     					<td>data</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>90 ГБ</td>
-      					<td>ext3</td>
-      					<td>/daten</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-      					<td>2GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda9</td>
-      					<td>500 МБ</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -416,40 +417,40 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>5 ГБ</td>
+      					<td>6 GB</td>
       					<td>NTFS</td>
-      					<td>система Windows</td>
-    				</tr>
-    				<tr>
+					<td>MS Windows System</td>
+				</tr>
+				<tr>
       					<td>sda2</td>
-      					<td>10 ГБ</td>
-      					<td>FAT32</td>
-      					<td>Приложения Windows и данные для Windows и Linux.</td>
+      					<td>6 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>5 ГБ</td>
-      					<td>ext3</td>
-      					<td>/</td>
+      					<td>sda3</td>
+      					<td>7 GB</td>
+					<td>ext3</td>
+					<td>/ (includes home)</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>500 МБ</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>1 GB</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
 	<div class="spacer05"></div>
 </div>
 
-							<p>Это - вариант подходит, если  на жестком диске очень мало места (например, на портативном компьютере). Раздел с Windows занимает 3-5 ГБ. Все приложения и файлы будут расположены на втором и самом большом разделе. Имея в своем распоряжении больше места на жестком диске, этот раздел возможно увеличивать или разделить программы Windows и файлы на 2 раздела.</p>
+							<!--<p>Это - вариант подходит, если  на жестком диске очень мало места (например, на портативном компьютере). Раздел с Windows занимает 3-5 ГБ. Все приложения и файлы будут расположены на втором и самом большом разделе. Имея в своем распоряжении больше места на жестком диске, этот раздел возможно увеличивать или разделить программы Windows и файлы на 2 раздела.</p>-->
 
 		<h5>Общее примечание</h5>
 							<p>Для разделения дисков существует большое количество удобных методов, но для первого раза должно быть достаточно приведенных примеров. Использование второго жесткого диска является рациональным для повышения эксплуатационных показателей, комфортности и надёжности или безопасности. <span class="highlight-2">При этом Windows всегда принадлежит первому жесткому диску!</span></p>
 
-	
-			<div id="rev">Содержание, последний раз пересмотрено 12/05/2009 0335 UTC</div>
+
+		<div id="rev">Содержание, последний раз пересмотрено 28/11/2009 1045 UTC</div>
 </div>
 </body>
 </html>

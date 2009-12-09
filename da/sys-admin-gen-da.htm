@@ -19,8 +19,8 @@
 <body id="sys-admin">
 <!-- Last translation revision by zonker 23/08/2008 2000 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-da.htm#Inst-prep">Installations forberedelser</a></li>
 				<li><a href="hd-install-da.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-da.htm#first-hd-boot">F&#248;rste opstart</a></li>
-				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso'</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-da.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-da.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-da.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-da.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Dual og Multiple Booting</a></li>
 				<li><a href="bios-freedos-da.htm#bois-prep">Upgradering af BIOS under FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#boot-grub-floppy">Skriv en Boot-Floppy</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">Grub1 - MBR Overskrevet bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Grub1 - Dual og Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#remove-grub">Fjern grub fra MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#what-is-grub">Grub; bootmanageren</a></li>
+				<li><a href="sys-admin-grub2-da.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-da.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -305,7 +311,7 @@ pkill -n service
 			<p>Som root monterer du din root partition (f.eks. /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Nu kan du chroot ind i din oprindelige root-partition med og oprette et nyt root password:</p>
 <pre>
@@ -380,7 +386,7 @@ http://localhost:631
 
 							<p>En anden faldgrube findes i, at hvis du sætter CUPS op ved hjælp af den grafiske brugerflade, så bringer den en dialog boks frem hvor du skal taste brugernavn og password. Boksen er auto-udfyldt med dit navn, men skriver du din kode ind får du en fejl når du trykker OK. Hvad du skal gøre er at slette dit eget navn og skrive <span class="highlight-2">root</span> og så skrive dit <span class="highlight-2">root password</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">der er mere information i sidux forummet.</a></p>
+							<p><a href="http://sidux.com">der er mere information i sidux forummet.</a></p>
 	</div>
 	<div class="divider" id="sound">
 			<h2>Sound in sidux</h2>
@@ -391,37 +397,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/11/2009 0450 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-en.htm#Inst-prep">Install Preparation</a></li>
 				<li><a href="hd-install-en.htm#Installation">Installing to your HD</a></li>
 				<li><a href="hd-install-en.htm#first-hd-boot">First Boot Up</a></li>
-				<li><a href="hd-install-opts-en.htm#fromiso">Booting 'fromiso'</a></li>
+				 <li><a href="hd-install-opts-en.htm#fromiso">Booting fromiso - Overview</a></li>
+				<li><a href="hd-install-opts-en.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-en.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-en.htm#fromiso-persist">fromiso and persist</a></li>
 				<li><a href="hd-install-opts-en.htm#usb-hd">Installing on a USB-HD</a></li>
 				<li><a href="hd-install-opts-en.htm#vtbox">Installing sidux with VirtualBox</a></li>
@@ -179,17 +181,21 @@
 				<li><a href="sys-admin-rsync-en.htm#rsync">Back-Up with rsync</a></li>
 				<li><a href="vir-rkits-en.htm#virus-rkits">Virus and Rootkit Scanners</a></li>
 				<li><a href="sys-admin-gen-en.htm#start-services">Services enable/disable</a></li>
-				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="sys-admin-gen-en.htm#pw-lost">Lost root passwords</a></li>
 				<li><a href="sys-admin-gen-en.htm#fonts">Fonts</a></li>
 				<li><a href="sys-admin-gen-en.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-en.htm#sound">Sound Mixers</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Dual and Multibooting</a></li>
+				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="bios-freedos-en.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#boot-grub-floppy">Creating a Boot-Floppy</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">Grub1 - MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Grub1 Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#what-is-grub">Grub the boot manager</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub2-en.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-en.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -309,7 +315,7 @@ pkill -n service
 							<p>As root mount your root partition (for example /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Now chroot into your old root-Partition with and set a new password:</p>
 <pre>
@@ -390,7 +396,7 @@ http://localhost:631
 
 							<p>Another gotcha is when setting up cups via the GUI method, is that it brings up a dialog box asking for you to put in your password, however the dialog box has your user name, prefilled, so when you put in your user password, it does not work, What is really wants is for you to change the user name to <span class="highlight-2">root</span> and put in your <span class="highlight-2">root password</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">and there is more on the sidux forums.</a></p>
+							<p><a href="http://sidux.com">and there is more on the sidux forums.</a></p>
 
 
 	</div>
@@ -403,37 +409,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

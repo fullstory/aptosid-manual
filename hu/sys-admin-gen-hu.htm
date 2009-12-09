@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 05/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-hu.htm#Inst-prep">A telepítés előkészítése</a></li>
 				<li><a href="hd-install-hu.htm#Installation">Telepítés merevlemezre</a></li>
 				<li><a href="hd-install-hu.htm#first-hd-boot">Első rendszerindítás</a></li>
-				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso')</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso') - Overview</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-hu.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-hu.htm#fromiso-persist">'fromiso' mint állandó rendszer</a></li>
 				<li><a href="hd-install-opts-hu.htm#usb-hd">Telepítés USB-merevlemezre</a></li>
 				<li><a href="hd-install-opts-hu.htm#vtbox">sidux telepítése VirtualBox-ra</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-hu.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-hu.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-hu.htm#init">sidux futási szintek - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">MBR, felülírt boot-szektor</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Dual- és multiboot</a></li>
 				<li><a href="bios-freedos-hu.htm#bois-prep">BIOS frissítés FreeDOS-szal</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#boot-grub-floppy">Rendszerfloppi készítése</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">Grub1 - MBR, felülírt boot-szektor</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Grub1 - Dual- és multiboot</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#remove-grub">A grub eltávolítása az MBR-ből</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#what-is-grub">Grub, a boot-menedzser</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -307,7 +313,7 @@ pkill -n service
 							<p>Rootként csatold fel a rendszered root partícióját (pl. /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Ezután chroot-olj a saját root-partíciódra végül állítsd be az új jelszót:</p>
 <pre>
@@ -389,7 +395,7 @@ http://localhost:631
 
 							<p>Egy másik apró bosszúság, amikor GUI-ban akarod a CUPS-t beállítani, hogy feljön a név-jelszó párbeszédablak, amiben már be van írva felhasználói neved és kéri a jelszót. Megadod a jeészavad és mégsem működik. Persze, hiszen amire szüksége van az az, hogy a felhasználói nevet írd át <span class="highlight-2">root</span>-ra és add meg a <span class="highlight-2">root jelszót</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">és ha többet akarsz tudni, látogasd meg a sidux fórumokat.</a></p>
+							<p><a href="http://sidux.com">és ha többet akarsz tudni, látogasd meg a sidux fórumokat.</a></p>
 	</div>
 	<div class="divider" id="sound">
 			<h2>Sound in sidux</h2>
@@ -400,37 +406,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

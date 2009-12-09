@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 10/01/2008 0400 UTC -->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-bg.htm#Inst-prep">Подготовка</a></li>
 				<li><a href="hd-install-bg.htm#Installation">Инсталиране върху хард-диска</a></li>
 				<li><a href="hd-install-bg.htm#first-hd-boot">Първо стартиране на системата</a></li>
-				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ - Overview</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-bg.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-bg.htm#fromiso-persist">Методи fromiso и persist</a></li>
 				<li><a href="hd-install-opts-bg.htm#usb-hd">Инсталиране върху USB-диск (флаш)</a></li>
 				<li><a href="hd-install-opts-bg.htm#vtbox">Инсталиране на sidux във VirtualBox среда</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-bg.htm#cups">CUPS (принтери)</a></li>
 				<li><a href="sys-admin-gen-bg.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-bg.htm#init">sidux нива на работа - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Възстановяване на стартиращия сектор MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Две и повече операционни системи</a></li>
 				<li><a href="bios-freedos-bg.htm#bois-prep">Обновяване на BIOS-а през FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#boot-grub-floppy">Създаване на стартиращ флопи-диск</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Grub1 - Възстановяване на стартиращия сектор MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Grub1 - Две и повече операционни системи</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#remove-grub">Премахване на grub от MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#what-is-grub">Стартиращ мениджър grub</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -243,6 +249,8 @@ deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix
 #deb-src ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
 							<p>Забележка: Тук ftp.us в името на хоста показва, че се използват хранилищата разположени в САЩ. Може да промените файла (като root), за да използвате хранилища географски по-близо разположени до вас - просто променете абревиатурата на страната, например променете навсякъде ftp.us частта от името на хоста, на ftp.nl, ftp.uk и т.н.(за България използвайте ftp.bg). Повечето страни имат локални дубликати на хранилищата - и скоростта ще бъде значително по-висока, а трафика по-малък.</p>
+
+							<p><a href="http://www.debian.org/mirrors/">List of Debian Servers and mirrors current status</a>.</p>
 
 							<p>APT използва собствена, локална база от данни с информация за пакетите.  Тя съдържа не само имената на пакетите, но и данни за това кой пакет от кои други пакети се нуждае за да работи (така наречените зависимости). Програмата apt-get използва тази база от данни, при инсталацията на избраните за добавяне пакети - за да може да удовлетвори всички зависимости или отстрани възникналите конфликти, по този начин гарантирайки работоспособността на новоинсталираните софтуерни пакети. Обновяването на тази база от данни (синхронизирането й със съответната актуална информация в онлайн-хранилището), се извършва с командата apt-get update.</p>
 
@@ -549,7 +557,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Пълно описание на APT-системата може да намерите в APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC </div>
+			<div id="rev">Page last revised 02/12/2009 1220 UTC </div>
 
 </div>
 </div>

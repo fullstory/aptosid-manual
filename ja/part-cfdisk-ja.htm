@@ -19,8 +19,8 @@
 <body id="part">
 <!-- Last translation revision by muchan  20/12/2007 1208 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-ja.htm#Inst-prep">インストールの準備</a></li>
 				<li><a href="hd-install-ja.htm#Installation"> HDへのインストール</a></li>
 				<li><a href="hd-install-ja.htm#first-hd-boot">初めての起動</a></li>
-				<li><a href="hd-install-opts-ja.htm#fromiso">'fromiso'からの起動</a></li>
+				<li><a href="hd-install-opts-ja.htm#fromiso">'fromiso'からの起動 - Overview</a></li>
+				<li><a href="hd-install-opts-ja.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-ja.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-ja.htm#fromiso-persist">fromisoと持続モード</a></li>
 				<li><a href="hd-install-opts-ja.htm#usb-hd">USB-HDへのインストール</a></li>
 				<li><a href="hd-install-opts-ja.htm#vtbox">VirtualBoxにsiduxをインストール</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-ja.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-ja.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-ja.htm#init">siduxのランレベル - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-ja.htm#mbr-grub-boot">MBR ブートセクターへの上書き</a></li>
-				<li><a href="sys-admin-grub-bootman2-ja.htm#dual-boot">デュアルブートまたはマルチブート</a></li>
 				<li><a href="bios-freedos-ja.htm#bois-prep">FreeDOSでBIOSのアップグレード</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#boot-grub-floppy">ブート・フロッピーの作成</a></li>
+				<li><a href="sys-admin-grub-bootman2-ja.htm#mbr-grub-boot">Grub1 - MBR ブートセクターへの上書き</a></li>
+				<li><a href="sys-admin-grub-bootman2-ja.htm#dual-boot">Grub1 - デュアルブートまたはマルチブート</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#remove-grub">MBRからGRUBを消去する</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#what-is-grub">Grub - ブートマネージャ</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -241,7 +247,7 @@
 							<p>siduxのライブCDとHDインストールされたシステムは <span class="highlight-3"> /etc/fstab</span> のファイルに <span class="highlight-3"> /dev/ sdaX</span> などの情報を各デバイス行の上のコメント行の[ ]の間に保存します。 一例をあげます。 (ボールドで示されるのは説明のためだけです)。 </p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a  /  ext3  defaults,errors=remount-ro,noatime 0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a  /  ext3  defaults,errors=remount-ro,noatime 0 1
 </pre>
 				<!--- ####
 				<h5>For partitions</h5>
@@ -321,22 +327,22 @@ cfdisk /dev/sda
 				#### -->
 				<h5>パーティションの削除</h5>
 		<div class="screenshot"><img src="../lib/images-ja/cfdisk-ja/cfdisk0-ja.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
+
 							<!--- ####
-							<p>To delete a partition, highlight it with the up and down keys, select the</p> 
+							<p>To delete a partition, highlight it with the up and down keys, select the</p>
 							#### -->
-							<p>パーティションを削除するには上下のアローキーでパーティションを選択し、左右のアローキーで</p> 
+							<p>パーティションを削除するには上下のアローキーでパーティションを選択し、左右のアローキーで</p>
 <pre >
 Delete
-</pre> 
+</pre>
 							<!--- ####
-							<p>command with the left and right arrow keys, and press</p> 
+							<p>command with the left and right arrow keys, and press</p>
 							#### -->
-							<p>ボタンを選択して</p> 
+							<p>ボタンを選択して</p>
 <pre >
 Enter
 </pre>
-							<p>を押します。</p> 
+							<p>を押します。</p>
 
 
 
@@ -346,12 +352,12 @@ Enter
 			<h5>新しいパーティションの作成</h5>
 	<div class="screenshot"><img src="../lib/images-ja/cfdisk-ja/cfdisk1-ja.png" title="Create a new partition" alt="Create a new partition" /></div>
 							<!--- ####
-							<p>To create a new partition, use the command:</p> 
+							<p>To create a new partition, use the command:</p>
 							#### -->
-							<p>新しいパーティションをつくるにはまず左右のアローキーで</p> 
+							<p>新しいパーティションをつくるにはまず左右のアローキーで</p>
 <pre >
 New
-</pre> 
+</pre>
 								<!--- ####
 		 					<p>(select it with the left and right arrow keys), and press enter. You must decide between a <b>primary</b> and a <b>logical</b> partition. If you want a logical partition, the program will automatically make an extended partition for you. Then you must choose the size of the partition (in MB). If you can't enter a value in MB, return to the main screen with the Esc key, and select MB with the command</p>
 								#### -->
@@ -366,7 +372,7 @@ Units
 			#### -->
 			<h5>パーティションのタイプ</h5>
 		<div class="screenshot"><img src="../lib/images-ja/cfdisk-ja/cfdisk2-ja.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<!--- ####
 							<p>To set the type of a partition for <b>Linux swap</b> or <b>Linux</b>, highlight the actual partition, and use the command:</p>
 							#### -->
@@ -374,7 +380,7 @@ Units
 <pre >
 Type
 </pre>
-							<p>コマンドを選びます。</p> 
+							<p>コマンドを選びます。</p>
 							<!--- ####
 							<p>You'll get a list of different types. Press space, and you'll get even more. Find what type you need, and enter the number at the prompt. (<b>Linux swap</b> is Type <b>82</b>, <b>Linux</b> filesystems should get type <b>83</b>)</p>
 							#### -->
@@ -429,7 +435,7 @@ Return
 			<h5>Basics</h5>
 			#### -->
 			<h5>基本</h5>
-							<p>パーティションにはファイルシステムが必要です。 Linuxではいくつかの種類のファイルシステムが使えます。 ReiserFs, Ext3, 経験豊富なユーザーにはXFSやJFSなどもあります。 Ext2にはWindowsからアクセスするドライバもあるためデータの交換に向いています。</p>
+							<p>パーティションにはファイルシステムが必要です。 Linuxではいくつかの種類のファイルシステムが使えます。 ReiserFs, Ext3, 経験豊富なユーザーにはXFSやJFSなどもあります。 Ext2にはWindowsからアクセスするドライバもあるためデータの交換に向いています。 <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<!--- ####
 							<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and is well maintained.</p>

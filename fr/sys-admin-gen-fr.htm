@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation by alphad 06/03/2009 0100 UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-fr.htm#Inst-prep">Préparer son Installation</a></li>
 				<li><a href="hd-install-fr.htm#Installation">Installer sur son DDur</a></li>
 				<li><a href="hd-install-fr.htm#first-hd-boot">Premier démarrage sur DDur</a></li>
-				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage 'fromiso'</a></li>
+				<li><a href="hd-install-opts-fr.htm#fromiso">Démarrage 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-fr.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-fr.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso-persist">fromiso et persist</a></li>
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un disque USB</a></li>
 				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-fr.htm#cups">CUPS -imprimantes</a></li>
 				<li><a href="sys-admin-gen-fr.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-fr.htm#init">Niveaux de fonctionnement sidux-init</a></li>
-				<li><a href="sys-admin-grub-bootman2-fr.htm#mbr-grub-boot">Effacement du secteur de boot MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-fr.htm#dual-boot">Double et multi-démarrage</a></li>
 				<li><a href="bios-freedos-fr.htm#bois-prep">Mise à jour du BIOS avec FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#boot-grub-floppy">Créer une disquette de démarrage</a></li>
+				<li><a href="sys-admin-grub-bootman2-fr.htm#mbr-grub-boot">Grub1 - Effacement du secteur de boot MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-fr.htm#dual-boot">Grub1 - Double et multi-démarrage</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#remove-grub">Enlever grub du MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#what-is-grub">Grub, le gestionnaire de démarrage</a></li>
+				<li><a href="sys-admin-grub2-fr.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-fr.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-fr.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-fr.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -362,7 +368,7 @@ pkill -n service
 							<p>En tant que root, montez votre partition racine (ici dans l'exemple /dev/sdb2) :</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 
 							<p>Puis chrootez-vous sur la partition racine et attribuez un nouveau mot de passe:</p>
@@ -462,7 +468,7 @@ http://localhost:631
 
 							<p>Notez donc que sur le Live-CD comme sur votre installation, l'installation des imprimantes n'est réellement opérative que dès lors qu'elle est assuré avec les droits de l'administrateur. Dans l'interface du Centre de Contrôle de KDE, cela nécessite notamment d'utiliser en préalable à l'installation d'une imprimante, le bouton "mode superutilisateur" figurant au bas de l'écran.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Vous trouveez des infos complémentaires sur les forums de sidux.</a>(en)</p>
+							<p><a href="http://sidux.com">Vous trouveez des infos complémentaires sur les forums de sidux.</a>(en)</p>
 
 	</div>
 	<div class="divider" id="sound">
@@ -474,37 +480,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by muchan 04/August/2008 2139 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintainer muchan-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-ja.htm#Inst-prep">インストールの準備</a></li>
 				<li><a href="hd-install-ja.htm#Installation"> HDへのインストール</a></li>
 				<li><a href="hd-install-ja.htm#first-hd-boot">初めての起動</a></li>
-				<li><a href="hd-install-opts-ja.htm#fromiso">'fromiso'からの起動</a></li>
+				<li><a href="hd-install-opts-ja.htm#fromiso">'fromiso'からの起動 - Overview</a></li>
+				<li><a href="hd-install-opts-ja.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-ja.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-ja.htm#fromiso-persist">fromisoと持続モード</a></li>
 				<li><a href="hd-install-opts-ja.htm#usb-hd">USB-HDへのインストール</a></li>
 				<li><a href="hd-install-opts-ja.htm#vtbox">VirtualBoxにsiduxをインストール</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-ja.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-ja.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-ja.htm#init">siduxのランレベル - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-ja.htm#mbr-grub-boot">MBR ブートセクターへの上書き</a></li>
-				<li><a href="sys-admin-grub-bootman2-ja.htm#dual-boot">デュアルブートまたはマルチブート</a></li>
 				<li><a href="bios-freedos-ja.htm#bois-prep">FreeDOSでBIOSのアップグレード</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#boot-grub-floppy">ブート・フロッピーの作成</a></li>
+				<li><a href="sys-admin-grub-bootman2-ja.htm#mbr-grub-boot">Grub1 - MBR ブートセクターへの上書き</a></li>
+				<li><a href="sys-admin-grub-bootman2-ja.htm#dual-boot">Grub1 - デュアルブートまたはマルチブート</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#remove-grub">MBRからGRUBを消去する</a></li>
 				<li><a href="sys-admin-grub-bootman2-ja.htm#what-is-grub">Grub - ブートマネージャ</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-ja.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -271,15 +277,17 @@ deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 deb ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 #deb-src ftp://ftp.spline.de/pub/sidux/debian/ sid main contrib non-free fix.main fix.contrib fix.non-free
 </pre>
-				<!--- ####
-				<p>NOTE: In this example ftp.us indicates its using german repositories.You may edit this file, as root, to use the repositories closest to you, simply by changing the country,ie change ftp.us to ftp.jp, or ftp.uk. Most countries have local mirrors.Bandwidth is conserved; speeds improved.</p>
-				#### -->
-				<p>ノート: この例で使われているftp.usはドイツのレポジトリーを表します。 rootとして、このファイルを変更して、近くのレポジトリーを使うように設定できます。 たとえば ftp.us を ftp.jp または ftp.uk という具合に。 大抵の国にレポジトリーがあるのでバンドウィドスの節約になりスピードも改良されます。</p>
+					  <!--- ####
+							<p>NOTE: In this example ftp.us indicates its using german repositories.You may edit this file, as root, to use the repositories closest to you, simply by changing the country,ie change ftp.us to ftp.jp, or ftp.uk. Most countries have local mirrors.Bandwidth is conserved; speeds improved.</p>
+						#### -->
+							<p>ノート: この例で使われているftp.usはドイツのレポジトリーを表します。 rootとして、このファイルを変更して、近くのレポジトリーを使うように設定できます。 たとえば ftp.us を ftp.jp または ftp.uk という具合に。 大抵の国にレポジトリーがあるのでバンドウィドスの節約になりスピードも改良されます。</p>
 
-			<!--- ####
-			<p>To be able to obtain updated information on the packages APT uses a database.  This database contains the packages but also which other packages are needed for that package to work (called dependencies). The program apt-get uses this database when installing your chosen packages to resolve all the dependencies and thereby to guarantee that the chosen packages will work. The updating of this database is done by the command apt-get update.</p>
-			#### -->
-			<p>パッケージについての最新の情報を得るためにAPTはデータベースを使っています。 このデータベースにはパッケージだけでなく、そのパッケージが動くために他のどのパッケージが必要であるかの情報(依存関係と呼ばれます)も含まれています。 apt-getというプログラムはこのデータベースを見て、インストールするパッケージの依存関係をすべて解決するパッケージを選びます。 このデータベースを更新するのために apt-get update のコマンドがあります。</p>
+							<p><a href="http://www.debian.org/mirrors/">List of Debian Servers and mirrors current status</a>.</p>
+
+					    <!--- ####
+							<p>To be able to obtain updated information on the packages APT uses a database.  This database contains the packages but also which other packages are needed for that package to work (called dependencies). The program apt-get uses this database when installing your chosen packages to resolve all the dependencies and thereby to guarantee that the chosen packages will work. The updating of this database is done by the command apt-get update.</p>
+						#### -->
+							<p>パッケージについての最新の情報を得るためにAPTはデータベースを使っています。 このデータベースにはパッケージだけでなく、そのパッケージが動くために他のどのパッケージが必要であるかの情報(依存関係と呼ばれます)も含まれています。 apt-getというプログラムはこのデータベースを見て、インストールするパッケージの依存関係をすべて解決するパッケージを選びます。 このデータベースを更新するのために apt-get update のコマンドがあります。</p>
 
 <pre># apt-get update
 	(which returns)
@@ -714,7 +722,7 @@ apt-get install packagesearch
 
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">(英語版はこちらへ)</a> </p>
 
-			<div id="rev">Page last revised 17/09/2009 0740 hrs UTC </div>
+			<div id="rev">Page last revised 02/12/2009 1220 UTC </div>
 
 </div>
 </div>

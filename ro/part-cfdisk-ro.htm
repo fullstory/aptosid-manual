@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="La pagina sidux.com forums şi wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-ro.htm#Inst-prep">Pregătirea Instalării</a></li>
 				<li><a href="hd-install-ro.htm#Installation">Instalarea pe  Hard Disc</a></li>
 				<li><a href="hd-install-ro.htm#first-hd-boot">Prima Pornire</a></li>
-				<li><a href="hd-install-opts-ro.htm#fromiso">Pornirea de la imagine .iso ('fromiso')</a></li>
+				<li><a href="hd-install-opts-ro.htm#fromiso">Pornirea de la imagine .iso ('fromiso') - Overview</a></li>
+				<li><a href="hd-install-opts-ro.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-ro.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso-persist">fromiso şi persist</a></li>
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc</a></li>
 				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
@@ -183,12 +185,16 @@
 				<li><a href="sys-admin-gen-ro.htm#cups">CUPS - Sistem de printare</a></li>
 				<li><a href="sys-admin-gen-ro.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-ro.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-ro.htm#mbr-grub-boot">Suprascrierea sectorului de boot din MBR </a></li>
-				<li><a href="sys-admin-grub-bootman2-ro.htm#dual-boot">Dual boot şi multiplu </a></li>
 				<li><a href="bios-freedos-ro.htm#bois-prep">Actualizarea BIOS cu FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#boot-grub-floppy">Crearea unei dischete de boot </a></li>
+				<li><a href="sys-admin-grub-bootman2-ro.htm#mbr-grub-boot">Grub1 - Suprascrierea sectorului de boot din MBR </a></li>
+				<li><a href="sys-admin-grub-bootman2-ro.htm#dual-boot">Grub1 - Dual boot şi multiplu </a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#remove-grub">Scoaterea programului grub din MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#what-is-grub">Managerul de boot Grub </a></li>
+				<li><a href="sys-admin-grub2-ro.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-ro.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-ro.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-ro.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -214,7 +220,7 @@
 
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>Pentru partiţii</h5>
 
@@ -248,34 +254,34 @@ cfdisk /dev/sda
 
 				<h5>Ştergerea unei partiţii </h5>
 		<div class="screenshot"><img src="../lib/images-ro/cfdisk-ro/cfdisk0-ro.png" title="Delete a partition" alt="Delete a partition" /></div>
-							<p>Pentru a şterge o partiţie inseraţi-o cu săgeţile sus / jos apoi selectaţi comanda </p> 
+							<p>Pentru a şterge o partiţie inseraţi-o cu săgeţile sus / jos apoi selectaţi comanda </p>
 <pre >
 Delete
-</pre> 
-							<p>cu săgeţile stânga  / dreapta şi apăsaţi </p> 
+</pre>
+							<p>cu săgeţile stânga  / dreapta şi apăsaţi </p>
 <pre >
 Enter
 </pre>
 
 				<h5>Crearea unei noi partiţii</h5>
 		<div class="screenshot"><img src="../lib/images-ro/cfdisk-ro/cfdisk1-ro.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
-							<p>Pentru crearea unei noi partiţii folosiţi comanda :</p> 
+
+							<p>Pentru crearea unei noi partiţii folosiţi comanda :</p>
 <pre >
 New
-</pre> 
+</pre>
 		 					<p>(selectaţi-o cu săgetile stânga / dreapta ) , apoi apăsaţi enter. Va trebui să decideţi între a fi o partiţie  <b>primary</b> sau <b>logical</b> . Dacă doriţi o partiţie logică programul automat va crea o partiţie extinsă pentru dumneavoastră . Apoi va trebui să alegeţi mărimea partiţiei  (în MB). Dacă nu puteţi introduce o valoare în MB , reîntoarceţi-vă în meniul principal cu tasta Esc şi selectaţi MB cu comanda :</p>
 <pre >
 Units
-</pre> 
+</pre>
 
 			<h5>Tipul Partiţiei</h5>
 		<div class="screenshot"><img src="../lib/images-ro/cfdisk-ro/cfdisk2-ro.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<p>Pentru a seta tipul partiţiei  <b>Linux swap</b> sau <b>Linux</b>, inseraţi poziţia actuală şi folosiţi comanda :</p>
 <pre >
 Type
-</pre> . 
+</pre> .
 							<p>Veţi vedea o listă cu diferite tipuri de partiţii . Apăsaţi space şi vedeţi mai multe . Găsiţi tipul de care aveţi nevoie şi introduceţi numărul corespunzător . (<b>Linux swap</b> este tip <b>82</b>, <b>Linux</b> filesystems trebuie să fie tip <b>83</b>)</p>
 		<div class="screenshot"><img src="../lib/images-ro/cfdisk-ro/cfdisk3-ro.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
@@ -283,13 +289,13 @@ Type
 							<p>Nu este nevoie , în Linux , să faceţi o partiţie ca partiţie de boot , dar pentru alte sisteme de operare este necesar . Inseraţi partiţia şi selectaţi comanda. Notă :Când instalaţi pe un HD extern atunci o partiţie trebuie să fie  bootabilă :</p>
 <pre >
 Bootable
-</pre> 
+</pre>
 
 			<h5>Scrierea rezultatului pe disc</h5>
 							<p>Când aţi terminat puteţi scrie schimbările făcute pe disc cu comanda "Write" . Tabela de partiţii va fi scrisă pe disc . (dacă primiţi o eroare legată de dos , ignoraţi-o ) Cum aceasta va distruge toate datele de pe partiţiile şterse sau schimbate trebuie să fiţi foarte siguri asupra ceea ce doriţi să faceţi înainte de a apăsa tasta :</p>
 <pre >
 Return
-</pre> 
+</pre>
 		<div class="screenshot"><img src="../lib/images-ro/cfdisk-ro/cfdisk4-ro.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 			<h5>Ieşirea</h5>
@@ -301,7 +307,7 @@ Return
 		<h2>Formatarea partiţiilor (după partiţionarea cu cfdisk)</h2>
 
 			<h5>Basics</h5>
-							<p>Orice partiţie trebuie să aibă un sistem de fişiere . Linux ştie să folosească diferite sisteme de fişiere . Există  ReiserFs , Ext3 , iar pentru utilizatorii experimentaţi XFS si JFS. Ext2 este foarte comod de folosit ca format de stocare atâta vreme cât exista şi un drive windows pentru schimbul de date .</p>
+							<p>Orice partiţie trebuie să aibă un sistem de fişiere . Linux ştie să folosească diferite sisteme de fişiere . Există  ReiserFs , Ext3 , iar pentru utilizatorii experimentaţi XFS si JFS. Ext2 este foarte comod de folosit ca format de stocare atâta vreme cât exista şi un drive windows pentru schimbul de date .<a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p  class="highlight-2">Pentru utilizarea curentă recomandăm folosirea tipului ext3 , este tipul implicit din sidux şi foarte bine întreţinut .</p>
 

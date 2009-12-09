@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 06/12/2008 0230 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-en.htm#Inst-prep">Install Preparation</a></li>
 				<li><a href="hd-install-en.htm#Installation">Installing to your HD</a></li>
 				<li><a href="hd-install-en.htm#first-hd-boot">First Boot Up</a></li>
-				<li><a href="hd-install-opts-en.htm#fromiso">Booting 'fromiso'</a></li>
+				 <li><a href="hd-install-opts-en.htm#fromiso">Booting fromiso - Overview</a></li>
+				<li><a href="hd-install-opts-en.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-en.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-en.htm#fromiso-persist">fromiso and persist</a></li>
 				<li><a href="hd-install-opts-en.htm#usb-hd">Installing on a USB-HD</a></li>
 				<li><a href="hd-install-opts-en.htm#vtbox">Installing sidux with VirtualBox</a></li>
@@ -179,17 +181,21 @@
 				<li><a href="sys-admin-rsync-en.htm#rsync">Back-Up with rsync</a></li>
 				<li><a href="vir-rkits-en.htm#virus-rkits">Virus and Rootkit Scanners</a></li>
 				<li><a href="sys-admin-gen-en.htm#start-services">Services enable/disable</a></li>
-				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="sys-admin-gen-en.htm#pw-lost">Lost root passwords</a></li>
 				<li><a href="sys-admin-gen-en.htm#fonts">Fonts</a></li>
 				<li><a href="sys-admin-gen-en.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-en.htm#sound">Sound Mixers</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Dual and Multibooting</a></li>
+				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="bios-freedos-en.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#boot-grub-floppy">Creating a Boot-Floppy</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">Grub1 - MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Grub1 Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#what-is-grub">Grub the boot manager</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub2-en.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-en.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -199,7 +205,7 @@
 
 		<h2 id="top-header">wpa Roaming GUI</h2>
 
-							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p> 
+							<p>wpa-roaming is a method with which you can browse and connect to wireless networks within and without a graphical desktop environment. This is very convenient for notebook users.</p>
 
 							<p>wpasupplicant is a program to not only address wireless networks with WPA keys but all wireless networks. In combination with the "classic" /etc/network/interfaces it is a very powerful method to connect to networks without even doing anything. It does it automatically if a network is open or the network is added to a configuration file. Even more convenient: if you allow hotplugging, the correct connection is set fully automated right after logging in (into a desktop environment or into a non X session).</p>
 
@@ -296,7 +302,7 @@ ifup wlan0  ## wlan0 is just a common name for a wireless interface. Take the na
 
 							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">IDString</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
 
-						<h6>The syntax for /etc/network/interfaces.</h6> 
+						<h6>The syntax for /etc/network/interfaces.</h6>
 							<p>First is for the connection to DHCP servers, the second is if you are provided with a fixed IP address. To adjust your settings:</p>
 <pre>
 # id_str="home_dhcp"
@@ -396,11 +402,21 @@ network={
 
 
 					<h6>4. Hidden SSIDs</h6>
-							<p>Hidden SSIDs are detected</p>
+							<p>Hidden SSIDs are detected when <span class="highlight-3">scan_ssid=1</span> is defined in the network block.</p>
+
+					 <h6>5. Authentification algorithms</h6>
+							<p>For WPA/WPA2 encryption you need:</p>
+<pre>
+auth_alg=OPEN
+</pre>
+							<p>For static WEP encryption you might need:</p>
+<pre>
+auth_alg=SHARED
+</pre>
 
 	</div>
 
-			<div id="rev">Content last revised 16/01/2009 0500 UTC</div>
+			<div id="rev">Content last revised 04/12/2009 1600 UTC</div>
 </div>
 </body>
 </html>

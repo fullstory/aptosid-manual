@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here en lang maintainer bluewater-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-en.htm#Inst-prep">Install Preparation</a></li>
 				<li><a href="hd-install-en.htm#Installation">Installing to your HD</a></li>
 				<li><a href="hd-install-en.htm#first-hd-boot">First Boot Up</a></li>
-				<li><a href="hd-install-opts-en.htm#fromiso">Booting 'fromiso'</a></li>
+				 <li><a href="hd-install-opts-en.htm#fromiso">Booting fromiso - Overview</a></li>
+				<li><a href="hd-install-opts-en.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-en.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-en.htm#fromiso-persist">fromiso and persist</a></li>
 				<li><a href="hd-install-opts-en.htm#usb-hd">Installing on a USB-HD</a></li>
 				<li><a href="hd-install-opts-en.htm#vtbox">Installing sidux with VirtualBox</a></li>
@@ -178,17 +180,21 @@
 				<li><a href="sys-admin-rsync-en.htm#rsync">Back-Up with rsync</a></li>
 				<li><a href="vir-rkits-en.htm#virus-rkits">Virus and Rootkit Scanners</a></li>
 				<li><a href="sys-admin-gen-en.htm#start-services">Services enable/disable</a></li>
-				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="sys-admin-gen-en.htm#pw-lost">Lost root passwords</a></li>
 				<li><a href="sys-admin-gen-en.htm#fonts">Fonts</a></li>
 				<li><a href="sys-admin-gen-en.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-en.htm#sound">Sound Mixers</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Dual and Multibooting</a></li>
+				<li><a href="sys-admin-gen-en.htm#init">sidux runlevels - init</a></li>
 				<li><a href="bios-freedos-en.htm#bois-prep">Upgrading the BIOS with FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#boot-grub-floppy">Creating a Boot-Floppy</a></li>
-				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#mbr-grub-boot">Grub1 - MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#dual-boot">Grub1 Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-en.htm#what-is-grub">Grub the boot manager</a></li>
+				<li><a href="sys-admin-grub-bootman2-en.htm#remove-grub">Removing grub from MBR</a></li>
+				<li><a href="sys-admin-grub2-en.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-en.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-en.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -213,7 +219,7 @@
 							<p>The <span class="highlight-3"> /etc/fstab</span> file of sidux on live-cd or HD install, keeps  the <span class="highlight-3"> /dev/ sdaX</span> information between square brackets in the commented line above each of the devices lines. For example (bold is for example purposes only). </p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>For partitions</h5>
 
@@ -249,12 +255,12 @@ cfdisk /dev/sda
 
 				<h5>Delete a partition</h5>
 		<div class="screenshot"><img src="../lib/images-en/cfdisk-en/cfdisk0-en.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
-							<p>To delete a partition, highlight it with the up and down keys, select the</p> 
+
+							<p>To delete a partition, highlight it with the up and down keys, select the</p>
 <pre >
 Delete
-</pre> 
-							<p>command with the left and right arrow keys, and press</p> 
+</pre>
+							<p>command with the left and right arrow keys, and press</p>
 <pre >
 Enter
 </pre>
@@ -262,25 +268,25 @@ Enter
 
 			<h5>Create a new partition</h5>
 	<div class="screenshot"><img src="../lib/images-en/cfdisk-en/cfdisk1-en.png" title="Create a new partition" alt="Create a new partition" /></div>
-					
-							<p>To create a new partition, use the command:</p> 
+
+							<p>To create a new partition, use the command:</p>
 <pre >
 New
-</pre> 
+</pre>
 		 					<p>(select it with the left and right arrow keys), and press enter. You must decide between a <b>primary</b> and a <b>logical</b> partition. If you want a logical partition, the program will automatically make an extended partition for you. Then you must choose the size of the partition (in MB). If you can't enter a value in MB, return to the main screen with the Esc key, and select MB with the command</p>
 <pre >
 Units
-</pre> 
+</pre>
 
 
 			<h5>Type of a partition</h5>
-			
+
 		<div class="screenshot"><img src="../lib/images-en/cfdisk-en/cfdisk2-en.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<p>To set the type of a partition for <b>Linux swap</b> or <b>Linux</b>, highlight the actual partition, and use the command:</p>
 <pre >
 Type
-</pre> 
+</pre>
 							<p>You'll get a list of different types. Press space, and you'll get even more. Find what type you need, and enter the number at the prompt. (<b>Linux swap</b> is Type <b>82</b>, <b>Linux</b> filesystems should get type <b>83</b>)</p>
 		<div class="screenshot"><img src="../lib/images-en/cfdisk-en/cfdisk3-en.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
@@ -288,13 +294,13 @@ Type
 							<p>There is no need to make an bootable partition for Linux but some other OS need to. Highlight the partition and select the command. Note: When installing on a external HD then  one partition must be bootable:</p>
 <pre >
 Bootable
-</pre> 
+</pre>
 
 			<h5>Write the result to disk</h5>
 							<p>When you are done you can write your changes using the Write command. The partition table will be written to disk. (if you get an error concerning dos, you can ignore it) As this will destroy all data on partitions you have deleted or changed, you should therefore be very sure that you want to do this before you actually press the key</p>
 <pre >
 Return
-</pre> 
+</pre>
 		<div class="screenshot"><img src="../lib/images-en/cfdisk-en/cfdisk4-en.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 			<h5>Quit</h5>
@@ -306,7 +312,7 @@ Return
 		<h2>Formatting partitions (after partitioning with cfdisk)</h2>
 
 			<h5>Basics</h5>
-							<p>A partition must have a filesystem. Linux knows different filesystems to use. There is ReiserFs, Ext3, and for experienced users XFS and JFS. Ext2 is handy as a storage format since a windows driver is available for data-swapping.</p>
+							<p>A partition must have a filesystem. Linux knows different filesystems to use. There is ReiserFs, Ext3, and for experienced users XFS and JFS. Ext2 is handy as a storage format since a windows driver is available for data-swapping. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p  class="highlight-2">For normal use we recommend the ext3 file system, it is the default file system for sidux and is well maintained.</p>
 

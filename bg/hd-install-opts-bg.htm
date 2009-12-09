@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 20/01/2008 0500hrs UTC -->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-bg.htm#Inst-prep">Подготовка</a></li>
 				<li><a href="hd-install-bg.htm#Installation">Инсталиране върху хард-диска</a></li>
 				<li><a href="hd-install-bg.htm#first-hd-boot">Първо стартиране на системата</a></li>
-				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ - Overview</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-bg.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-bg.htm#fromiso-persist">Методи fromiso и persist</a></li>
 				<li><a href="hd-install-opts-bg.htm#usb-hd">Инсталиране върху USB-диск (флаш)</a></li>
 				<li><a href="hd-install-opts-bg.htm#vtbox">Инсталиране на sidux във VirtualBox среда</a></li>
@@ -184,19 +186,23 @@
 				<li><a href="sys-admin-gen-bg.htm#cups">CUPS (принтери)</a></li>
 				<li><a href="sys-admin-gen-bg.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-bg.htm#init">sidux нива на работа - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Възстановяване на стартиращия сектор MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Две и повече операционни системи</a></li>
 				<li><a href="bios-freedos-bg.htm#bois-prep">Обновяване на BIOS-а през FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#boot-grub-floppy">Създаване на стартиращ флопи-диск</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Grub1 - Възстановяване на стартиращия сектор MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Grub1 - Две и повече операционни системи</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#remove-grub">Премахване на grub от MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#what-is-grub">Стартиращ мениджър grub</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="fromiso">
-				<h2 id="top-header">Стартиране на системата от iso-образ ("fromiso")</h2>
+				<h2 id="top-header">Стартиране на системата от iso-образ ("fromiso") - Overview</h2>
 
 							<p class="highlight-2">За нормална употреба препоръчваме файловата система ext3, тя е файловата система по подразбиране за sidux, отлично поддържана и надеждна.</p>
 
@@ -208,6 +214,65 @@
 
 							<p>* функциониращ grub (от флопи диск, от съществуваща хард-диск инсталация, или от Live-CD)<br />
 							* съществуващ sidux ISO образ, напр.: sidux.iso, и Linux файлова система като ext2/3.  <span class="highlight-1">(Ако преименовате вашия образ например на sidux.ISO вместо sidux.iso, ще трябва да измените командите съответно - тъй като unix файловите системи са чувствителни към регистъра.)</span></p>
+</div>
+<div class="divider" id="grub2-fromiso">
+			<h2>fromiso with Grub2</h2>
+							<p>sidux has provided a grub2 file named <span class="highlight-3">60_fll-fromiso</span> to generate a fromiso entry to the grub2 menu and is found in <span class="highlight-3">/etc/grub.d</span>. First open a terminal and become root with:</p>
+<pre>
+sux
+</pre>
+							<p>Then open an editor, which may be kwrite, mcedit, vim or another that you prefer:</p>
+
+<pre>
+mcedit /etc/grub.d/60_fll-fromiso
+</pre>
+							 <p>Next uncomment (remove the<span class="highlight-2"> # </span>) the lines you need to be operative and replace the default instructions within the <span class="highlight-3">"quote marks"</span> with your preferences.</p>
+
+							 <p>For example, compare this altered 60_fll-fromiso with the default, (the <span class="highlight-3">highlighted lines</span> are the changed lines for instructional purposes):</p>
+<pre>
+# Defaults for grub2-fll-fromiso update-grub helper
+# sourced by grub2's update-grub
+# installed at /etc/default/grub2-fll-fromiso by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# specify where to look for the ISO
+# default: /srv/ISO
+<span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
+
+# array for defining ISO prefices --> sidux-*.iso
+# default: "sidux- fullstory-"
+<span  class="highlight-3">FLL_GRUB2_ISO_PREFIX="sidux-"</span>
+
+# set default language
+# default: en_US
+<span  class="highlight-3">FLL_GRUB2_LANG="en_AU"</span>
+
+# override the default timezone.
+# default: UTC
+<span  class="highlight-3">FLL_GRUB2_TZ="Australia/Melbourne"</span>
+
+# kernel framebuffer resolution, see
+# http://manual.sidux.com/de/cheatcodes-vga-de.htm#vga
+# default: 791
+#FLL_GRUB2_VGA="791"
+
+# additional cheatcodes
+# default: noeject
+<span  class="highlight-3">FLL_GRUB2_CHEATCODE="noeject nointro"</span>
+</pre>
+
+
+						      <p>Save and close the editor, then run in the terminal</p>
+<pre>
+update-grub
+</pre>
+						      <p>Your grub2 menu.cfg will be updated to see the different ISOs you have placed in the directory you specified and will be available on your next boot up.</p>
+	    </div>
+	    <div class="divider" id="fromiso-grub-leg">
+			<h2>fromiso with grub-legacy</h2>s
 
 					<h4 class="highlight-3">Как да процедирате:</h4>
 
@@ -525,7 +590,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 14/11/2009 1220 UTC</div>
+	<div id="rev">Page last revised 07/12/2009 1500 UTC</div>
 
 </div>
 </body>

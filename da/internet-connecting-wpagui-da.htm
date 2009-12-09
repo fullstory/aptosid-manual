@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 09/09/2008 2000 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-da.htm#Inst-prep">Installations forberedelser</a></li>
 				<li><a href="hd-install-da.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-da.htm#first-hd-boot">F&#248;rste opstart</a></li>
-				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso'</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-da.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-da.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-da.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-da.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Dual og Multiple Booting</a></li>
 				<li><a href="bios-freedos-da.htm#bois-prep">Upgradering af BIOS under FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#boot-grub-floppy">Skriv en Boot-Floppy</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">Grub1 - MBR Overskrevet bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Grub1 - Dual og Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#remove-grub">Fjern grub fra MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#what-is-grub">Grub; bootmanageren</a></li>
+				<li><a href="sys-admin-grub2-da.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-da.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -199,7 +205,7 @@
 
 		<h2 id="top-header">wpa Roaming GUI</h2>
 
-							<p>wpa-roaming er en metode til at browse og forbinde til trådløse netværk enten fra en grafisk brugerflade eller uden en sådan. Dette er meget nyttigt for folk med bærbare maskiner.</p> 
+							<p>wpa-roaming er en metode til at browse og forbinde til trådløse netværk enten fra en grafisk brugerflade eller uden en sådan. Dette er meget nyttigt for folk med bærbare maskiner.</p>
 
 							<p>wpasupplicant er et program der ikke alene kan håndtere forbindelser til trådløse netværk med WPA kryptering, men som også kan håndtere forbindelser til alle andre ukrypterede trådløse netværk. I kombination med den klassiske /etc/network/interfaces udgør det en effektiv metode til at opnå forbindelse til et netværk uden den store indsats fra brugeren. Det kan nemlig ske automatisk hvis der findes et åbent netværk eller hvis netværket er tilføjet  til en konfigurationsfil. Hvis du tillader hotplugging bliver det ikke mere komfortabelt, idet den korrekte forbindelse da oprettes fuldt automatisk lige efter du logger ind (i et skrivebordsmiljø eller i en non-X session).</p>
 
@@ -300,7 +306,7 @@ ifup wlan0  ## wlan0 is just a common name for a wireless interface. Take the na
 
 							<p>Med hjælp fra <span class="highlight-3">IDString</span> og <span class="highlight-3">Priority</span> kan du bestemme hvilket netværk din maskine skal forbinde til når den starter op. Højeste prioritet er <span class="highlight-3">1000</span>, laveste prioritet er <span class="highlight-3">0</span>. Du skal også tilføje <span class="highlight-3">IDString</span> til <span class="highlight-3">/etc/network/interfaces</span>.</p>
 
-						<h6>Syntaxen for /etc/network/interfaces.</h6> 
+						<h6>Syntaxen for /etc/network/interfaces.</h6>
 							<p>Det første er hvis du forbinder til DHCP servere, det næste er til hvis du har en fast IP addresse. For at justere dine indstillinger:</p>
 <pre>
 # id_str="home_dhcp"
@@ -397,13 +403,22 @@ network={
 					<h6>3. Nem adgamg til wpa_gui</h6>
 							<p>To create a desktop icon, rightclick on <span class="highlight-3">kmenu>internet>wpa_gui</span>  and choose to send it to the desktop.</p>
 
-
 					<h6>4. Skjulte SSIDs</h6>
-							<p>Skjulte SSID's opdages</p>
+							<p>Skjulte SSID's opdages when <span class="highlight-3">scan_ssid=1</span> is defined in the network block.</p>
+
+					 <h6>5. Authentification algorithms</h6>
+							<p>For WPA/WPA2 encryption you need:</p>
+<pre>
+auth_alg=OPEN
+</pre>
+							<p>For static WEP encryption you might need:</p>
+<pre>
+auth_alg=SHARED
+</pre>
 
 	</div>
 
-			<div id="rev">Content last revised 16/01/2009 0500 UTC</div>
+			<div id="rev">Content last revised 04/12/2009 1600 UTC</div>
 </div>
 </body>
 </html>

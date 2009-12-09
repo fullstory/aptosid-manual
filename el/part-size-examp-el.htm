@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-el.htm#Inst-prep">Προετοιμασία Εγκατάστασης</a></li>
 				<li><a href="hd-install-el.htm#Installation">Εγκατάσταση στον σκληρό δίσκο</a></li>
 				<li><a href="hd-install-el.htm#first-hd-boot">Πρώτη εκκίνηση</a></li>
-				<li><a href="hd-install-opts-el.htm#fromiso">Εκκίνηση από το iso</a></li>
+				<li><a href="hd-install-opts-el.htm#fromiso">Εκκίνηση από το iso - Overview</a></li>
+				<li><a href="hd-install-opts-el.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-el.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-el.htm#fromiso-persist">fromiso και persist</a></li>
 				<li><a href="hd-install-opts-el.htm#usb-hd">Eγκατάσταση σε USB σκληρό δίσκο</a></li>
 				<li><a href="hd-install-opts-el.htm#vtbox">Εγκατάσταση του sidux με VirtualBox</a></li>
@@ -180,15 +182,19 @@
 				<li><a href="sys-admin-gen-el.htm#start-services">Ενεργοποίηση / Απενεργοποίηση Υπηρεσιών (Services)</a></li>
 				<li><a href="sys-admin-gen-el.htm#pw-lost">Έχασα τον κωδικό διαχειριστή (root)</a></li>
 				<li><a href="sys-admin-gen-el.htm#Fonts">Γραμματοσειρές (Fonts)</a></li>
-				<li><a href="sys-admin-gen-el.htm#cups">CUPS - Printing System</a></li>
-				<li><a href="sys-admin-gen-el.htm#sound">Sound Mixers</a></li>
+				<li><a href="sys-admin-gen-el.htm#cups">CUPS - Σύστημα Εκτύπωσης</a></li>
+				<li><a href="sys-admin-gen-el.htm#sound">Mixers Ήχου</a></li>
 				<li><a href="sys-admin-gen-el.htm#init">sidux Επίπεδα εκτέλεσης (runlevels) - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-el.htm#mbr-grub-boot">MBR Overwritten bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Dual και Multibooting</a></li>
 				<li><a href="bios-freedos-el.htm#bois-prep">Αναβάθμιση του BIOS με το FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#boot-grub-floppy">Δημιουργία Δισκέττας Εκκίνησης</a></li>
+				<li><a href="sys-admin-grub-bootman2-el.htm#mbr-grub-boot">Grub1 - MBR Overwritten bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Grub1 - Dual και Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#remove-grub">Απεγκατάσταση του grub από το MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#what-is-grub">O διαχειριστής εκκίνησης Grub </a></li>
+				<li><a href="sys-admin-grub2-el.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -211,10 +217,10 @@
 <pre>
 umount /dev/sda1
 </pre>
-							
+
 							<!--p>The swap partiton can be unmounted in a terminal with: </p-->
 							<p>Η swap κατάτμηση μπορεί να αποπροσαρτηθεί μέσα σε ένα τερματικό με: </p>
-							
+
 <pre>
 swapoff -a
 </pre>
@@ -224,17 +230,17 @@ swapoff -a
 							<!--p>You really should have a swap partition (equivalent to the windows swapfile, but is much more effective). For normal usage, <span class="highlight-3">the swap partition should be up to twice your ram</span>.</p-->
 							<p>Πάντως θα πρέπει να έχετε μια swap κατάτμηση (όμοιο με το windows swapfile, αλλά πολύ πιο αποτελεσματικό). Για κανονική χρήση, η swap κατάτμηση θα πρέπει να είναι διπλάσια της μνήμης ram.</p>
 
-							<!--p>For data-exchange with a Windows installation you should use vfat (fat32) or ext2 as an MS Windows™ driver is available for data-swapping. [XFS is not supported].</p-->
-							<p>Για να ανταλλάξετε αρχεία με μια εγκατάσταση Windows θα πρέπει να χρησιμοποιήσετε vfat (fat32) ή ext2 μιας και υπάρχει οδηγός ext2 για MS Windows™. [Το XFS δεν υποστηρίζεται]. </p>
+							<!--p>For data-exchange with a Windows installation you should use vfat (fat32) or ext2 as an MS Windows™ driver is available for data-swapping. [XFS is not supported].  <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p-->
+							<p>Για να ανταλλάξετε αρχεία με μια εγκατάσταση Windows θα πρέπει να χρησιμοποιήσετε vfat (fat32) ή ext2 μιας και υπάρχει οδηγός ext2 για MS Windows™. [Το XFS δεν υποστηρίζεται].  <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<!--p>Whomever creates more than 1 partition should write their names down for reference! </p-->
 							<p>Όποιος δημιουργεί περισσότερες από μια κατατμήσεις, καλό είναι να γράψει κάτω τα ονόματα τους! </p>
-														
+
 							<!--p>Here are some simple examples for different hd-sizes and different types of use, everything rounded off.</p-->
 							<p>Εδώ είναι μερικά απλά παραδείγματα για δίσκους διάφορων μεγεθών και για διαφορετική χρήση. Οι αριθμοί έχουν όλοι στρογγυλοποιηθεί.</p>
 
 
-<h5>Πειραματικό Config - 60GB για ένα pc, όπου τα τα windows παίρνουν αρκετό χώρο</h5>
+<h5>60GB για ένα pc, όπου τα τα windows παίρνουν αρκετό χώρο</h5>
 		<!--table>
   			<tbody>
     				<tr>
@@ -280,27 +286,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>14GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>28.5 gig</td>
-      					<td>FAT32</td>
+      					<td>sda2</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
       					<td>Δεδομένα για Win και Linux</td>
     				</tr>
-    				<tr>
-      					<td>sda6</td>
-      					<td>8GB</td>
-      					<td>ext3</td>
-      					<td>/</td>
+
+      					<td>sda3</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Δεδομένα MS Windows System και Linux</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
+      					<td>sdb1</td>
+      					<td>14GB</td>
+      					<td>ext3</td>
+      					<td>/ (συμπεριλαμβάνει το home)</td>
+    				</tr>
+    				<tr>
+      					<td>sda4</td>
       					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -316,33 +328,27 @@ swapoff -a
     				</tr>
     				<tr>
 					<td>sda1</td>
-      					<td>8GB</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
 					<td>/</td>
     				</tr>
 				<tr>
-					<td>sda5</td>
-					<td>6GB</td>
+					<td>sda2</td>
+					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>5GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda7</td>
-      					<td>168.5GB</td>
+      					<td>sda3</td>
+      					<td>158 GB</td>
       					<td>ext2/3</td>
-      					<td>/video</td>
+      					<td>δεδομένα</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
+      					<td>sda4</td>
 					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
 			</tbody>
 		</table>
@@ -358,33 +364,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>18 GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>8GB</td>
+      					<td>sda2</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>20GB</td>
+      					<td>sda3</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>68.5GB</td>
-      					<td>FAT32</td>
-      					<td>Ανταλλαγή Δεδομένων WindowsXP-Linux</td>
+      					<td>sdb1</td>
+      					<td>60 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Ανταλλαγή δεδομένων μεταξύ MS Windows System και Linux</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
+      					<td>sda4</td>
       					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -400,39 +406,34 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>18GB</td>
+      					<td>20GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
+      					<td>sda2</td>
       					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-					<td>28.5GB</td>
+      					<td>sda3</td>
+      					<td>59GB</td>
       					<td>ext3</td>
-      					<td>/opt</td>
+     					<td>δεδομένα</td>
+    				</tr>
+
+    				<tr>
+      					<td>sdb1</td>
+      					<td>59GB</td>
+      					<td>ext3</td>
+     					<td>δεδομένα</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>90GB</td>
-      					<td>ext3</td>
-     					 <td>/data</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-      					<td>2GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda9</td>
+      					<td>sda4</td>
       					<td>2 GB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -448,39 +449,39 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>5GB</td>
+      					<td>6 GB</td>
       					<td>NTFS</td>
-					<td>Win-System</td>
+					<td>MS Windows System</td>
 				</tr>
-				<tr>				
+				<tr>
       					<td>sda2</td>
-      					<td>9.5 GB</td>
-      					<td>FAT32</td>
-      					<td>Windows-Εφαρμογές και δεδομένα για Windows και Linux</td>
+      					<td>6 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Δεδομένα για MS Windows System και Linux</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>5GB</td>
+      					<td>sda3</td>
+      					<td>7 GB</td>
 					<td>ext3</td>
-					<td>/</td>
+					<td>/ (συμπεριλαμβάνει το home)</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
+      					<td>sda4</td>
       					<td>1 GB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
 </div>
 
 
-							<p>Αυτή η κατανομή προτείνεται όταν υπάρχει λίγος χώρος στον σκληρό δίσκο (π.χ. σε laptop). Τα Windows εγκαθίστονται σε μια ξεχωριστή 3-5 GB κατάτμηση χωρίς τίποτα άλλο. Όλα τα προγράμματα και αρχεία βρίσκονται στη δεύτερη μεγαλύτερη κατάτμηση. Όποιος έχει περισσότερο χώρο μπορεί να μεγαλώσει αυτή την κατάτμηση ή να χωρίσει τις windows-εφαρμογές και δεδομένα σε 2 κατατμήσεις.</p>
+							<!--<p>Αυτή η κατανομή προτείνεται όταν υπάρχει λίγος χώρος στον σκληρό δίσκο (π.χ. σε laptop). Τα Windows εγκαθίστονται σε μια ξεχωριστή 3-5 GB κατάτμηση χωρίς τίποτα άλλο. Όλα τα προγράμματα και αρχεία βρίσκονται στη δεύτερη μεγαλύτερη κατάτμηση. Όποιος έχει περισσότερο χώρο μπορεί να μεγαλώσει αυτή την κατάτμηση ή να χωρίσει τις windows-εφαρμογές και δεδομένα σε 2 κατατμήσεις.</p>-->
 
 		<h5>Γενικά</h5>
 							<p>Υπάρχουν πολλοί τρόποι να κάνετε partition τον σκληρό σας δίσκο. Αυτά τα παραδείγματα είναι αρκετά για αρχή. Έχει νόημα επίσης να προσθέσετε έναν επιπλέον σκληρό δίσκο ώστε να έχετε επιπλέον ταχύτητα, άνεση και ασφάλεια. <span class="highlight-2">Σε αυτή την περίπτωση τα MS Windows (TM) πάντα μπαίνουν στον πρώτο δίσκο/κατάτμηση!</span></p>
 
-				<div id="rev">Τελευταία αναθεώρηση περιεχομένου 12/05/2009 0335 UTC</div>
+		<div id="rev">Τελευταία αναθεώρηση περιεχομένου 28/11/2009 1045 UTC</div>
 </div>
 </body>
 </html>

@@ -19,8 +19,8 @@
 <body id="part">
 <!-- Last translation revision by zonker 23/08/2008 2050 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-da.htm#Inst-prep">Installations forberedelser</a></li>
 				<li><a href="hd-install-da.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-da.htm#first-hd-boot">F&#248;rste opstart</a></li>
-				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso'</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-da.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-da.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-da.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-da.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Dual og Multiple Booting</a></li>
 				<li><a href="bios-freedos-da.htm#bois-prep">Upgradering af BIOS under FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#boot-grub-floppy">Skriv en Boot-Floppy</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">Grub1 - MBR Overskrevet bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Grub1 - Dual og Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#remove-grub">Fjern grub fra MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#what-is-grub">Grub; bootmanageren</a></li>
+				<li><a href="sys-admin-grub2-da.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-da.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -214,7 +220,7 @@
 							<p><span class="highlight-3"> /etc/fstab</span> filen i sidux under live-cd'en eller harddisk installationer, indeholder <span class="highlight-3"> /dev/ sdaX</span> informationen imellem klammer i den kommenterede linie over hver af enheds linierne. For eksempel (den fede skrift er udelukkende til at tydeliggøre eksemplet). </p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>For partitioner</h5>
 
@@ -237,7 +243,7 @@ UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=
 	<div class="divider" id="partition">
 		<h2>Partitionering af harddiske med cfdisk</h2>
 							<p  class="highlight-2">Til normal brug anbefaler vi filsystemet ext3. Det er standard filsystemet i sidux, og det er godt vedligeholdt.</p>
-							
+
 							<p>åbn en konsol/ xterm, bliv root-bruger og start cfdisk:
 							<i>(hvis du har installeret til harddisk skal du give dit root password)</i></p>
 <pre >su
@@ -250,12 +256,12 @@ cfdisk /dev/sda
 
 		<h5>Slet en partition</h5>
 		<div class="screenshot"><img src="../lib/images-da/cfdisk-da/cfdisk0-da.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
-							<p>For at slette en partition, marker den med op/ ned piletasterne, vælg så</p> 
+
+							<p>For at slette en partition, marker den med op/ ned piletasterne, vælg så</p>
 <pre >
 Delete
-</pre> 
-							<p>kommandoen med venstre/ højre piletasterne og tast</p> 
+</pre>
+							<p>kommandoen med venstre/ højre piletasterne og tast</p>
 <pre >
 Enter
 </pre>
@@ -263,39 +269,39 @@ Enter
 
 		<h5>Opret en ny partition</h5>
 		<div class="screenshot"><img src="../lib/images-da/cfdisk-da/cfdisk1-da.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
-							 <p>For at oprette en ny partition bruger du kommandoen:</p> 
+
+							 <p>For at oprette en ny partition bruger du kommandoen:</p>
 <pre >
 New
-</pre> 
+</pre>
 							 <p>(vælg den med højre/ venstre piletasterne) og tryk enter. Du skal nu vælge mellem en <b>primær partition</b> eller et <b>logiskd drev</b>. Hvis du vælger at oprette et logisk drev vil programmet automatisk oprette en udvidet partition (extended partition) for dig. Du skal dernæst vælge størrelsen af partitionen (i MB). Hvis ikke du kan give en værdi i MB, returner da til programmets hovedvindue med Esc tasten, og vælg så MB med kommandoen</p>
 <pre >
 Units
-</pre> 
+</pre>
 
 
 		<h5>Partitionstyper</h5>
 		<div class="screenshot"><img src="../lib/images-da/cfdisk-da/cfdisk2-da.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
+
 							<p>For at definere partitionstypen som <b>Linux swap</b> eller <b>Linux</b>, marker partitionen og brug kommandoen:</p>
 <pre >
 Type
 </pre>
 							<p>Så får du en liste over forskellige partitionstyper. Tryk mellemrum og listen udvides. Find det du skal bruge og skriv nummeret i prompten. (<b>Linux swap</b> er type <b>82</b>, <b>Linux</b> filsystemer har typenummer <b>83</b>)</p>
-							
+
 		<div class="screenshot"><img src="../lib/images-da/cfdisk-da/cfdisk3-da.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
 		<h5>Gør en partition bootable</h5>
 						      <p>Der er ikke nogen grund til at gøre en partition bootable for Linux' skyld, men andre operativ systemer kan kræve dette (f. eks. Windows). Marker partitionen og vælg kommandoen:</p>
 <pre >
 Bootable
-</pre> 
+</pre>
 
 		<h5>Gem resultaterne til disken</h5>
 							<p>Når du er færdig kan du skrive dine ændringer til disken med 'Write'-kommandoen. Partitionstabellen vil blive gemt på harddisken (hvis du får fejlmeddelser der vedrører dos kan du bare ignorere dem). Da dette vil slette <b>alle</b> data på de partitioner du har ændret eller slettet, skal du lige sikre dig at det virkeligt er hvad du gerne vil gøre, før du faktisk trykker på tasten</p>
 <pre >
 Return
-</pre> 
+</pre>
 		<div class="screenshot"><img src="../lib/images-da/cfdisk-da/cfdisk4-da.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 		<h5>Afslut</h5>
@@ -307,8 +313,8 @@ Return
 		<h2>Formattering af partitioner (efter partitionering med cfdisk)</h2>
 
 		<h5>Alment</h5>
-							<p>En partition skal have et filsystem. Linux har flere forskellige filsystemer der kan anvendes. Der er ReiserFs, Ext3, og for erfarne brugere XFS og JFS. Ext2 formatet er nyttigt til partitioner hvor man opbevarer data (storage format), eftersom der findes en windows driver der gør det muligt at læse harddiske med Ext2 i windows.</p>
-							
+							<p>En partition skal have et filsystem. Linux har flere forskellige filsystemer der kan anvendes. Der er ReiserFs, Ext3, og for erfarne brugere XFS og JFS. Ext2 formatet er nyttigt til partitioner hvor man opbevarer data (storage format), eftersom der findes en windows driver der gør det muligt at læse harddiske med Ext2 i windows. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
+
 							<p  class="highlight-2">Til normal anvendelse anbefaler vi Ext3 filsystemet, det er standard filsystemet på sidux, og det er godt vedligeholdt.</p>
 
 		<h5>Formattering</h5>

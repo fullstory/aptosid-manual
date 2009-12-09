@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-hu.htm#Inst-prep">A telepítés előkészítése</a></li>
 				<li><a href="hd-install-hu.htm#Installation">Telepítés merevlemezre</a></li>
 				<li><a href="hd-install-hu.htm#first-hd-boot">Első rendszerindítás</a></li>
-				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso')</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso">Rendszerindítás CD-képfájlból ('fromiso') - Overview</a></li>
+				<li><a href="hd-install-opts-hu.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-hu.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-hu.htm#fromiso-persist">'fromiso' mint állandó rendszer</a></li>
 				<li><a href="hd-install-opts-hu.htm#usb-hd">Telepítés USB-merevlemezre</a></li>
 				<li><a href="hd-install-opts-hu.htm#vtbox">sidux telepítése VirtualBox-ra</a></li>
@@ -183,12 +185,16 @@
 				<li><a href="sys-admin-gen-hu.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-hu.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-hu.htm#init">sidux futási szintek - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">MBR, felülírt boot-szektor</a></li>
-				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Dual- és multiboot</a></li>
 				<li><a href="bios-freedos-hu.htm#bois-prep">BIOS frissítés FreeDOS-szal</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#boot-grub-floppy">Rendszerfloppi készítése</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#mbr-grub-boot">Grub1 - MBR, felülírt boot-szektor</a></li>
+				<li><a href="sys-admin-grub-bootman2-hu.htm#dual-boot">Grub1 - Dual- és multiboot</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#remove-grub">A grub eltávolítása az MBR-ből</a></li>
 				<li><a href="sys-admin-grub-bootman2-hu.htm#what-is-grub">Grub, a boot-menedzser</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-hu.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -225,13 +231,13 @@ swapoff -a
 
 							<p>A cserehely partíció létrehozása mindenképp szükséges (ez a Windows swap fájljához hasonló, de annál hatékonyabb). Normál használat esetén <span class="highlight-3">a cserehely mérete a memória méretének kétszerese legyen</span>.</p>
 
-							<p>Windows rendszerekkel történő adatcseréhez vfat (fat32) vagy ext2 típusú partíció használható (az ext2 partícióhoz létezik MS Windows™ eszközmeghajtó). [Az XFS nem támogatott].</p>
+							<p>Windows rendszerekkel történő adatcseréhez vfat (fat32) vagy ext2 típusú partíció használható (az ext2 partícióhoz létezik MS Windows™ eszközmeghajtó). [Az XFS nem támogatott]. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p>Ha több partíciót hoztunk létre, érdemes feljegyeznünk a nevüket későbbi használatra! </p>
 
 							<p>Íme néhány egyszerű példa különböző merevlemez-méretekhez és különböző típusú használatokhoz, persze csak főbb vonalakban.</p>
 
-<h5>Próbakonfiguráció - 60GB merevlemez, a Windows már telepítve van</h5>
+<h5>60GB merevlemez, a Windows már telepítve van</h5>
 		<table>
   			<tbody>
     				<tr>
@@ -242,27 +248,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>14GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>28.5 gig</td>
-      					<td>FAT32</td>
-      					<td>Windows és linux közös adatok</td>
+      					<td>sda2</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for Win and Linux</td>
+    				</tr>
+
+      					<td>sda3</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>8GB</td>
+      					<td>sdb1</td>
+      					<td>14GB</td>
       					<td>ext3</td>
-      					<td>/</td>
+      					<td>/ (includes home)</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
+      					<td>sda4</td>
       					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -278,33 +290,27 @@ swapoff -a
     				</tr>
     				<tr>
 					<td>sda1</td>
-      					<td>8GB</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
 					<td>/</td>
     				</tr>
 				<tr>
-					<td>sda5</td>
-					<td>6GB</td>
+					<td>sda2</td>
+					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>5GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda7</td>
-      					<td>168.5GB</td>
+      					<td>sda3</td>
+      					<td>158 GB</td>
       					<td>ext2/3</td>
-      					<td>/video</td>
+      					<td>data</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
+      					<td>sda4</td>
 					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
 			</tbody>
 		</table>
@@ -320,33 +326,33 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>18 GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>MS Windows System</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>8GB</td>
+      					<td>sda2</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>20GB</td>
+      					<td>sda3</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>68.5GB</td>
-      					<td>FAT32</td>
-      					<td>Windows és linux közös adatok</td>
+      					<td>sdb1</td>
+      					<td>60 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data exchange MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
+      					<td>sda4</td>
       					<td>2 GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -362,39 +368,34 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>18GB</td>
+      					<td>20GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
+      					<td>sda2</td>
       					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-					<td>28.5GB</td>
+      					<td>sda3</td>
+      					<td>59GB</td>
       					<td>ext3</td>
-      					<td>/opt</td>
+     					<td>data</td>
+    				</tr>
+
+    				<tr>
+      					<td>sdb1</td>
+      					<td>59GB</td>
+      					<td>ext3</td>
+     					<td>data</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>90GB</td>
-      					<td>ext3</td>
-     					 <td>/data</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-      					<td>2GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda9</td>
+      					<td>sda4</td>
       					<td>2 GB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -410,40 +411,40 @@ swapoff -a
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>5GB</td>
+      					<td>6 GB</td>
       					<td>NTFS</td>
-					<td>Win-System</td>
+					<td>MS Windows System</td>
 				</tr>
 				<tr>
       					<td>sda2</td>
-      					<td>9.5 GB</td>
-      					<td>FAT32</td>
-      					<td>Windows-programok és a két rendszer közös adatai</td>
+      					<td>6 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Data for MS Windows System and Linux</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>5GB</td>
+      					<td>sda3</td>
+      					<td>7 GB</td>
 					<td>ext3</td>
-					<td>/</td>
+					<td>/ (includes home)</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
+      					<td>sda4</td>
       					<td>1 GB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
 </div>
 
 
-							<p>Ez a felosztás akkor javallott, ha kevés hely van a merevlemezen (pl. egy laptopon). A Windows egy külön 3-5 GB-os partíción van, de ide semmi más nem kerül. Minden program és fájl a második, nagyobb partícióra kerül. Ha nagyobb hely áll rendelkezésünkre, lehet nagyobb ez a partíció, vagy a windows-programokat és adatokat két külön partíción is eloszthatjuk.</p>
+							<!--<p>Ez a felosztás akkor javallott, ha kevés hely van a merevlemezen (pl. egy laptopon). A Windows egy külön 3-5 GB-os partíción van, de ide semmi más nem kerül. Minden program és fájl a második, nagyobb partícióra kerül. Ha nagyobb hely áll rendelkezésünkre, lehet nagyobb ez a partíció, vagy a windows-programokat és adatokat két külön partíción is eloszthatjuk.</p>-->
 
 		<h5>Általános megjegyzés</h5>
 							<p>Ezek a példák elegendőek a kezdethez. Nem árt, ha egy második merevlemezt is hozzáadunk a rendszerünkhöz, hogy növeljük a teljesítményt, kényelmet és biztonságot. <span class="highlight-2">Ebben az esetben az MS Windows (TM) mindig az első merevlemezen/partíción legyen!</span></p>
 
 
-			<div id="rev">Content last revised 12/05/2009 0335 UTC</div>
+			<div id="rev">Content last revised 28/11/2009 1045 UTC</div>
 </div>
 </body>
 </html>

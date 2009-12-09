@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body id="part">
-<!-- last translation by alessiog75 on 02/11/2009 23.10 UTC -->
+<!-- last translation by alessiog75 on 29/11/2009 20.30 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by alessiog75 2009.11.24 2000 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-it.htm#Inst-prep">Preparazione all'installazione</a></li>
 				<li><a href="hd-install-it.htm#Installation">Installare sul disco fisso</a></li>
 				<li><a href="hd-install-it.htm#first-hd-boot">Primo avvio</a></li>
-				<li><a href="hd-install-opts-it.htm#fromiso">Avviare con "fromiso"</a></li>
+				<li><a href="hd-install-opts-it.htm#fromiso">Avviare con "fromiso" - Overview</a></li>
+				<li><a href="hd-install-opts-it.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-it.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-it.htm#fromiso-persist">"fromiso" e "persistente"</a></li>
 				<li><a href="hd-install-opts-it.htm#usb-hd">Installare sidux su di un dispositivo USB</a></li>
 				<li><a href="hd-install-opts-it.htm#vtbox">Installare sidux in VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-it.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-it.htm#sound">Sound Mixer</a></li>
 				<li><a href="sys-admin-gen-it.htm#init">sidux runlevel - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-it.htm#mbr-grub-boot">MBR: sovrascrittura del settore di boot</a></li>
-				<li><a href="sys-admin-grub-bootman2-it.htm#dual-boot">Avvio doppio o multiplo</a></li>
 				<li><a href="bios-freedos-it.htm#bois-prep">Aggiornare il BIOS con FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-it.htm#boot-grub-floppy">Creare un floppy di avvio</a></li>
+				<li><a href="sys-admin-grub-bootman2-it.htm#mbr-grub-boot">Grub1 - MBR: sovrascrittura del settore di boot</a></li>
+				<li><a href="sys-admin-grub-bootman2-it.htm#dual-boot">Grub1 - Avvio doppio o multiplo</a></li>
 				<li><a href="sys-admin-grub-bootman2-it.htm#remove-grub">Rimuovere grub dall'MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-it.htm#what-is-grub">Grub, il gestore dell'avvio</a></li>
+				<li><a href="sys-admin-grub2-it.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-it.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-it.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-it.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -213,14 +219,14 @@
 							<p>Per lo scambio dei dati con una installazione Windows dovete usare vfat (fat32). XFS non è supportato e chi lo volesse usare per / (root) dovrebbe creare una ulteriore partizione per /boot (ext2) oppure usare lilo come gestore di avvio (perché grub non lavora in modo affidabile con xfs. L'installer al momento supporta xfs solo modificando il file ~/.siduxconf .</p>
 
 							<p>Se si creano varie partizioni è conveniente che se ne annotino i nomi per successive manutenzioni! Quando avete fatto tutto salvate i cambiamenti (cliccando l'icona Applica) e chiudete alla fine il gestore della partzioni. Ecco alcuni semplici esempi per dischi fissi di differenti dimensioni e per diversi tipi di uso.</p>-->
-							
-														<p>Nel caso che una partizione dovesse esere montata, smontarla, incluso lo swap, e, con un click del tasto destro del mouse sull'icona della partizione in gparted oppure attraverso un terminale. Per esempio:</p>
+
+														<p>Nel caso che una partizione sia montata, smontarla, incluso lo swap, con un click del tasto destro del mouse sull'icona della partizione in gparted oppure attraverso un terminale. Per esempio:</p>
 <pre>
 umount /dev/sda1
 </pre>
-							
+
 							<p>La partizione di swap può essere smontata in un terminale con:</p>
-							
+
 <pre>
 swapoff -a
 </pre>
@@ -228,44 +234,50 @@ swapoff -a
 
 							<p>Si dovrebbe avere sempre una partizione di swap (equivalente al file di swap di windows, solo che è molto più efficace). Per un utilizzo normale, <span class="highlight-3">la partizione di swap dovrebbe essere pari al doppio della quantità della RAM</span>.</p>
 
-							<p>Per lo scambio dei dati con una installazione windows si dovrebbe usare vfat (fat32) oppure ext2 dal momento che è disponibile un driver per MS Windows™ per lo scambio dei dati (XFS non è supportato).</p>
+							<p>Per lo scambio dei dati con una installazione windows si dovrebbe usare vfat (fat32) oppure ext2 dal momento che è disponibile un driver per MS Windows™ per lo scambio dei dati (XFS non è supportato).  <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
 							<p>Chiunque crei più di una partizione dovrebbe scriversi il nome per un futuro riferimento!</p>
-							
+
 							<p>Ecco alcuni semplici esempi per differenti dimensioni di hd e differenti utilizzi, il tutto arrotondato.</p>
 
 <h5>Configurazione per provare Linux - 60GB per un pc, dove Windows usa abbastanza spazio</h5>
 		<table>
   			<tbody>
     				<tr>
-      					<th><b>Disk</b></th>
-      					<th><b>Size</b></th>
+      					<th><b>Disco</b></th>
+      					<th><b>Dimensione</b></th>
       					<th><b>Filesystem</b></th>
-      					<th><b>Mountpoint/System</b></th>
+      					<th><b>Punto di mount/Sistema</b></th>
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>14GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>Windows</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>30GB</td>
-      					<td>FAT32</td>
-      					<td>Dati per Win e Linux</td>
+      					<td>sda2</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Dati per Windows e Linux</td>
+    				</tr>
+
+      					<td>sda3</td>
+      					<td>15 gig</td>
+      					<td>FAT32/ext2</td>
+      					<td>Dati per Windows e Linux</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>8GB</td>
+      					<td>sdb1</td>
+      					<td>14GB</td>
       					<td>ext3</td>
-      					<td>/</td>
+      					<td>/ (incluso home)</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>500MB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -274,40 +286,34 @@ swapoff -a
 		<table>
  			 <tbody>
     				<tr>
-      					<th><b>Disk</b></th>
-      					<th><b>Size</b></th>
+      					<th><b>Disco</b></th>
+      					<th><b>Dimensione</b></th>
       					<th><b>Filesystem</b></th>
-					<th><b>Mountpoint/System</b></th>
+      					<th><b>Punto di mount/Sistema</b></th>
     				</tr>
     				<tr>
 					<td>sda1</td>
-      					<td>8GB</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
 					<td>/</td>
     				</tr>
 				<tr>
-					<td>sda5</td>
-					<td>6GB</td>
+					<td>sda2</td>
+					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>5GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
+      					<td>sda3</td>
+      					<td>158 GB</td>
+      					<td>ext2/3</td>
+      					<td>dati</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>178.5GB</td>
-      					<td>ext3</td>
-      					<td>/video</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-					<td>1GB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
 			</tbody>
 		</table>
@@ -316,40 +322,40 @@ swapoff -a
 		<table>
 			<tbody>
     				<tr>
-      					<th><b>Disk</b></th>
-      					<th><b>Size</b></th>
+      					<th><b>Disco</b></th>
+      					<th><b>Dimensione</b></th>
       					<th><b>Filesystem</b></th>
-      					<th><b>Mountpoint/System</b></th>
+      					<th><b>Punto di mount/Sistema</b></th>
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>20GB</td>
+      					<td>18 GB</td>
       					<td>NTFS</td>
-      					<td>WindowsXP</td>
+      					<td>Windows</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>8GB</td>
+      					<td>sda2</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>20GB</td>
+      					<td>sda3</td>
+      					<td>20 GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>70GB</td>
-      					<td>FAT32</td>
-      					<td>Dati per WindowsXP-Linux</td>
+      					<td>sdb1</td>
+      					<td>60 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Scambio dati tra Windows e Linux</td>
     				</tr>
     				<tr>
-      					<td>sda8</td>
-      					<td>500MB</td>
-      					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+      					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -358,46 +364,41 @@ swapoff -a
 		<table>
   			<tbody>
     				<tr>
-      					<th><b>Disk</b></th>
-      					<th><b>Size</b></th>
+      					<th><b>Disco</b></th>
+      					<th><b>Dimensione</b></th>
       					<th><b>Filesystem</b></th>
-      					<th><b>Mountpoint/System</b></th>
+      					<th><b>Punto di mount/Sistema</b></th>
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>18GB</td>
+      					<td>20GB</td>
       					<td>ext3</td>
       					<td>/</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
+      					<td>sda2</td>
       					<td>20GB</td>
       					<td>ext3</td>
       					<td>/home</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-					<td>30GB</td>
+      					<td>sda3</td>
+      					<td>59GB</td>
       					<td>ext3</td>
-      					<td>/opt</td>
+     					<td>dati</td>
+    				</tr>
+
+    				<tr>
+      					<td>sdb1</td>
+      					<td>59GB</td>
+      					<td>ext3</td>
+     					<td>dati</td>
     				</tr>
     				<tr>
-      					<td>sda7</td>
-      					<td>90GB</td>
-      					<td>ext3</td>
-     					 <td>/data</td>
-    				</tr>
-    				<tr>
-      					<td>sda8</td>
-      					<td>2GB</td>
-      					<td>ext3</td>
-      					<td>/var</td>
-    				</tr>
-    				<tr>
-      					<td>sda9</td>
-      					<td>500MB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>2 GB</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
@@ -406,47 +407,47 @@ swapoff -a
 		<table>
   			<tbody>
     				<tr>
-      					<th><b>Disk</b></th>
-      					<th><b>Size</b></th>
+      					<th><b>Disco</b></th>
+      					<th><b>Dimensione</b></th>
       					<th><b>Filesystem</b></th>
-      					<th><b>Mountpoint/System</b></th>
+      					<th><b>Punto di mount/Sistema</b></th>
     				</tr>
     				<tr>
       					<td>sda1</td>
-      					<td>5GB</td>
+      					<td>6 GB</td>
       					<td>NTFS</td>
-					<td>Win-System</td>
+					<td>Windows</td>
 				</tr>
 				<tr>
       					<td>sda2</td>
-      					<td>10GB</td>
-      					<td>FAT32</td>
-      					<td>Programmi e dati per Windows e Linux</td>
+      					<td>6 GB</td>
+      					<td>FAT32/ext2</td>
+      					<td>Dati per Windows e Linux</td>
     				</tr>
     				<tr>
-      					<td>sda5</td>
-      					<td>5GB</td>
+      					<td>sda3</td>
+      					<td>7 GB</td>
 					<td>ext3</td>
-					<td>/</td>
+					<td>/ (incluso home)</td>
     				</tr>
     				<tr>
-      					<td>sda6</td>
-      					<td>500MB</td>
-					<td>Swap</td>
-      					<td>Swap</td>
+      					<td>sda4</td>
+      					<td>1 GB</td>
+					<td>Linux Swap</td>
+      					<td>Linux Swap</td>
     				</tr>
   			</tbody>
 		</table>
 </div>
 
 
-							<p>Quest'ultima allocazione è consigliabile quando c'è poco spazio sul disco fisso (vecchi pc e portatili). Windows è installato in una partizione separata da 3-5 GB senza programmi aggiuntivi. Tutti i programmi e i file di dati sono nella seconda e più grande partizione. Chi avesse un po' più di spazio su disco può dedicarlo a questa partizione o dividere i programmi Windows dai dati con 2 partizioni.</p>
+							<!--<p>Quest'ultima allocazione è consigliabile quando c'è poco spazio sul disco fisso (vecchi pc e portatili). Windows è installato in una partizione separata da 3-5 GB senza programmi aggiuntivi. Tutti i programmi e i file di dati sono nella seconda e più grande partizione. Chi avesse un po' più di spazio su disco può dedicarlo a questa partizione o dividere i programmi Windows dai dati con 2 partizioni.</p>-->
 
 		<h5>Generale</h5>
 							<p> Ci sono molti modi di partizionare il disco fisso. Questi esempi dovrebbero bastare per iniziare. Ha anche senso mettere un secondo disco per migliorare le prestazioni, la comodità e la sicurezza. <span class="highlight-2">In questo caso MS Windows (TM) va sempre installato sul primo disco fisso/partizione!</span></p>
 
 
-			<div id="rev">Content last revised 12/05/2009 0335 UTC</div>
+			<div id="rev">Content last revised 28/11/2009 1045 UTC</div>
 </div>
 </body>
 </html>

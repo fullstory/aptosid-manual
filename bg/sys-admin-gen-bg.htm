@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 05/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-bg.htm#Inst-prep">Подготовка</a></li>
 				<li><a href="hd-install-bg.htm#Installation">Инсталиране върху хард-диска</a></li>
 				<li><a href="hd-install-bg.htm#first-hd-boot">Първо стартиране на системата</a></li>
-				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso">Стартиране от iso-образ - Overview</a></li>
+				<li><a href="hd-install-opts-bg.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-bg.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-bg.htm#fromiso-persist">Методи fromiso и persist</a></li>
 				<li><a href="hd-install-opts-bg.htm#usb-hd">Инсталиране върху USB-диск (флаш)</a></li>
 				<li><a href="hd-install-opts-bg.htm#vtbox">Инсталиране на sidux във VirtualBox среда</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-bg.htm#cups">CUPS (принтери)</a></li>
 				<li><a href="sys-admin-gen-bg.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-bg.htm#init">sidux нива на работа - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Възстановяване на стартиращия сектор MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Две и повече операционни системи</a></li>
 				<li><a href="bios-freedos-bg.htm#bois-prep">Обновяване на BIOS-а през FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#boot-grub-floppy">Създаване на стартиращ флопи-диск</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#mbr-grub-boot">Grub1 - Възстановяване на стартиращия сектор MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-bg.htm#dual-boot">Grub1 - Две и повече операционни системи</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#remove-grub">Премахване на grub от MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-bg.htm#what-is-grub">Стартиращ мениджър grub</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-bg.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -308,7 +314,7 @@ pkill -n service
 							<p>Като root, монтирайте вашия основен раздел (root partition) (например /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Сега chroot-нете в стария ви основен раздел със (chroot = changed root, сменяне на основния раздел на системата "в движение") и задайте нова парола.</p>
 <pre>
@@ -389,7 +395,7 @@ http://localhost:631
 
 							<p>Друго недоразумение може да възникне когато настройвате принтерите през графичния интерфейс (в диалога който ви пита за парола и е със вашето потребителско име предварително попълнено) - ако въведете паролата си няма да работи - всъщност трябва да смените потребителското име от вашето на <span class="highlight-2">root</span>, и съответно да въведете <span class="highlight-2">паролата за root</span> вместо вашата.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Ще намерите и още съвети във форумите на sidux.</a></p>
+							<p><a href="http://sidux.com">Ще намерите и още съвети във форумите на sidux.</a></p>
 	</div>
 	<div class="divider" id="sound">
 			<h2>Sound in sidux</h2>
@@ -400,37 +406,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

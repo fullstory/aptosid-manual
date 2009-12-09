@@ -18,8 +18,8 @@
 </head>
 <body id="hd">
 <div id="menu"> <!-- menu starts here nl lang maintainers eislon -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -94,7 +94,9 @@
 				<li><a href="hd-install-nl.htm#Inst-prep">Installatie voorbereiden</a></li>
 				<li><a href="hd-install-nl.htm#Installation">Installeren naar je HD</a></li>
 				<li><a href="hd-install-nl.htm#first-hd-boot">De eerste keer opstarten</a></li>
-				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso'</a></li>
+				<li><a href="hd-install-opts-nl.htm#fromiso">Opstarten middels 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-nl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso-persist">fromiso en persist</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
 				<li><a href="hd-install-opts-nl.htm#vtbox">Installeren sidux met VirtualBox</a></li>
@@ -183,12 +185,16 @@
 				<li><a href="sys-admin-gen-nl.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-nl.htm#sound">Geluid Mixers (Sound Mixers)</a></li>
 				<li><a href="sys-admin-gen-nl.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">MBR bootsector overschreven</a></li>
-				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Dual- en multibooting</a></li>
 				<li><a href="bios-freedos-nl.htm#bois-prep">BIOS-upgrade met FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#boot-grub-floppy">Aanmaken van een boot-diskette</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#mbr-grub-boot">Grub1 - MBR bootsector overschreven</a></li>
+				<li><a href="sys-admin-grub-bootman2-nl.htm#dual-boot">Grub1 - Dual- en multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#remove-grub">Grub uit de MBR verwijderen</a></li>
 				<li><a href="sys-admin-grub-bootman2-nl.htm#what-is-grub">Grub de bootmanager</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-nl.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -213,7 +219,7 @@
 							<p>Het bestand <span class="highlight-3"> /etc/fstab</span> van de  sidux live-cd of van het geïnstalleerde systeem, bevat de  <span class="highlight-3"> /dev/ sdaX</span> informatie tussen blokhaakjes in de commentaar-regel boven de echte device regel,  bijvoorbeeld (NB: vet is slechts ter verduidelijking):</p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1 
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>Voor partities</h5>
 
@@ -237,9 +243,9 @@ UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=
 	<div class="divider" id="partition">
 		<h2>Partitie-indeling maken met Cfdisk</h2>
 
-		<p class="highlight-2">Voor de normale systemen wordt geadviseerd ext3 als bestandssysteem te gebruiken. Ext3 is een standaard-bestandssysteem van sidux en goed onderhouden (c.q. maintained).</p>
+							<p class="highlight-2">Voor de normale systemen wordt geadviseerd ext3 als bestandssysteem te gebruiken. Ext3 is een standaard-bestandssysteem van sidux en goed onderhouden (c.q. maintained).</p>
 
-		<p>Open een Konsole, type login en meld ja aan als root, root-passwort intypen en start cfdisk:</p>
+							<p>Open een Konsole, type login en meld ja aan als root, root-passwort intypen en start cfdisk:</p>
 
 <pre>su
 password:******
@@ -247,53 +253,54 @@ cfdisk /dev/sda
 </pre>
 
 		<h5>De gebruikersomgeving</h5>
-		<p>In het eerste scherm laat cfdisk de huidige partitietabel zien met de namen en aanvullende informatie over de partities. Aan de onderkant van het scherm zijn commando-schakelaars. Om van partitie te veranderen kunnen de pijltjes-toetsen omhoog/omlaag gebruikt worden. Om de commando's te kiezen kunnen de pijltjes-toetsen rechts/links gebruikt worden.</p>
+							<p>In het eerste scherm laat cfdisk de huidige partitietabel zien met de namen en aanvullende informatie over de partities. Aan de onderkant van het scherm zijn commando-schakelaars. Om van partitie te veranderen kunnen de pijltjes-toetsen omhoog/omlaag gebruikt worden. Om de commando's te kiezen kunnen de pijltjes-toetsen rechts/links gebruikt worden.</p>
 
 		<h5>Verwijderen van een partitie</h5>
 		<div class="screenshot"><img src="../lib/images-nl/cfdisk-nl/cfdisk0-nl.png" title="Delete a partition" alt="Delete a partition" /></div>
-		
-		<p>Om een partitie te verwijderen, wordt deze eerst met de sie mit de pijltjes-toetsen omhoog/omlaag geselecteerd, als je op de partitie staat, kies </p>
+
+							<p>Om een partitie te verwijderen, wordt deze eerst met de sie mit de pijltjes-toetsen omhoog/omlaag geselecteerd, als je op de partitie staat, kies </p>
 <pre>
 wissen
 </pre>
-		<p>met de pijltjes-toetsen links/rechts en bevestig met</p>
+							<p>met de pijltjes-toetsen links/rechts en bevestig met</p>
 <pre>
 Enter
 </pre>
 
 		<h5>Aanmaken van een nieuwe partitie</h5>
 		<div class="screenshot"><img src="../lib/images-nl/cfdisk-nl/cfdisk1-nl.png" title="Create a new partition" alt="Create a new partition" /></div>
-		
-		<p>Voor het aanmaken van een nieuwe partitie kies </p>
+
+							<p>Voor het aanmaken van een nieuwe partitie kies </p>
 <pre>
 Nieuw
 </pre>
-		<p>(kiezen met de pijltjes-toetsen rechts/links), hierna Enter. Er moet gekozen worden tussen het aanmaken van een <b>primaire</b> of een <b>logische</b> Partitie. Als een logische partitie wordt aangemaakt, legt cfdisk automatisch een uitgebreide partitie aan, die dan de logische partition bevat. Hierna moet de grootte van de partitie worden vastgelegd (in MB). Als er geen mogelijkheid bestaat om MB op te geven, ga met ESC terug naar het hoofdscherm van cfdisk en kies MB met de commando</p>
+							<p>(kiezen met de pijltjes-toetsen rechts/links), hierna Enter. Er moet gekozen worden tussen het aanmaken van een <b>primaire</b> of een <b>logische</b> Partitie. Als een logische partitie wordt aangemaakt, legt cfdisk automatisch een uitgebreide partitie aan, die dan de logische partition bevat. Hierna moet de grootte van de partitie worden vastgelegd (in MB). Als er geen mogelijkheid bestaat om MB op te geven, ga met ESC terug naar het hoofdscherm van cfdisk en kies MB met de commando</p>
 <pre>
 eenheden
 </pre>
 
 		<h5>Partitietype</h5>
 		<div class="screenshot"><img src="../lib/images-nl/cfdisk-nl/cfdisk2-nl.png" title="Type of a partition 1" alt="Type of a partition 1" /></div>
-		
-		<p>Om een type voor een partitie vast te leggen, voor <b>Linux swap</b> of <b>Linux</b>, selecteer de partitie en gebruik het commando:</p>
+
+							<p>Om een type voor een partitie vast te leggen, voor <b>Linux swap</b> of <b>Linux</b>, selecteer de partitie en gebruik het commando:</p>
 <pre>
 type
 </pre>
 
-		<p>Hierdoor verschijnt een lijst met typen. Als de spatiebalk wordt gebruikt verschijnt de rest op de tweede pagina. Zoek het type dat je nodig hebt (<b>Linux swap</b> is type <b>82</b>, <b>Linux</b> is type <b>83</b>)</p>
+							<p>Hierdoor verschijnt een lijst met typen. Als de spatiebalk wordt gebruikt verschijnt de rest op de tweede pagina. Zoek het type dat je nodig hebt (<b>Linux swap</b> is type <b>82</b>, <b>Linux</b> is type <b>83</b>)</p>
+
 		<div class="screenshot"><img src="../lib/images-nl/cfdisk-nl/cfdisk3-nl.png" title="Type of a partition 2" alt="Type of a partition 2" /></div>
 
 		<h5>Een partitie geschikt maken om te booten</h5>
-		<p>Voor Linux is het niet noodzakelijk, om aan een partitie het etiket 'bootable' toe te kennen, maar sommige andere bestandssytemen vereisen dit. (NB: In Linux kan dat via de bootmanager, bijv. grub, worden toegekent aan een partitie.) Selecteer de partitie en gebruik het commando: Note: When installing on a external HD then  one partition must be bootable:</p>
+							<p>Voor Linux is het niet noodzakelijk, om aan een partitie het etiket 'bootable' toe te kennen, maar sommige andere bestandssytemen vereisen dit. (NB: In Linux kan dat via de bootmanager, bijv. grub, worden toegekent aan een partitie.) Selecteer de partitie en gebruik het commando: Note: When installing on a external HD then  one partition must be bootable:</p>
 <pre>
 Bootbaar
 </pre>
 
 		<h5>De veranderingen op de schijf vastleggen</h5>
-		<p>Als alles klaar is, kan het resultaat worden vastgelegd op de schijf met het commando <b>schrijven</b>. Nu pas wordt de partitietabel echt op de schijf geschreven. Een foutmelding over <b>Dos</b> kan genegeerd worden.</p>
+							<p>Als alles klaar is, kan het resultaat worden vastgelegd op de schijf met het commando <b>schrijven</b>. Nu pas wordt de partitietabel echt op de schijf geschreven. Een foutmelding over <b>Dos</b> kan genegeerd worden.</p>
 
-		<p><b>Omdat de data van verwijderde partities echt gewist worden (geen ongedaan maken mogelijk) a.u.b. goed nadenken voor dat de toets:</b></p>
+							<p><b>Omdat de data van verwijderde partities echt gewist worden (geen ongedaan maken mogelijk) a.u.b. goed nadenken voor dat de toets:</b></p>
 <pre>
 Enter
 </pre>
@@ -301,55 +308,56 @@ Enter
 		<div class="screenshot"><img src="../lib/images-nl/cfdisk-nl/cfdisk4-nl.png" title="Write the result to disk" alt="Write the result to disk" /></div>
 
 		<h5>Stoppen</h5>
-		<p>Om het programma te verlaten kan het commando <b>Einde</b> gebruikt worden. Na het verlaten van <b>cfdisk</b>, moet voor de Installatie, een herstart uitgevoerd worden. Hierdoor wordt de nieuwe partitionstabel correct ingelezen</p>
+							<p>Om het programma te verlaten kan het commando <b>Einde</b> gebruikt worden. Na het verlaten van <b>cfdisk</b>, moet voor de Installatie, een herstart uitgevoerd worden. Hierdoor wordt de nieuwe partitionstabel correct ingelezen</p>
 	</div>
 
 	<div class="divider" id="formating">
 		<h2>Formatteren van partities met Cfdisk (na het maken van de indeling)</h2>
 
 		<h5>Basis</h5>
-		<p>Er zijn voor Linux verschillende bestandssystemen beschikbaar. Er zijn <b>ReiserFs</b>, <b>Ext2</b>, <b>Ext3</b> en voor meer ervaren gebruikers nog <b>XFS</b> en <b>JFS</b>. Voor de meeste situaties is het bestandssysteem ext3 een goede keus. Ext3 is het standaard-bestandssysteem van sidux en wordt goed onderhouden (c.q. maintained).</p>
+							<p>Er zijn voor Linux verschillende bestandssystemen beschikbaar. Er zijn <b>ReiserFs</b>, <b>Ext2</b>, <b>Ext3</b> en voor meer ervaren gebruikers nog <b>XFS</b> en <b>JFS</b>.  <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
+
+							<p>Voor de meeste situaties is het bestandssysteem ext3 een goede keus. Ext3 is het standaard-bestandssysteem van sidux en wordt goed onderhouden (c.q. maintained).</p>
 
 		<h5>Formatteren</h5>
-		<p>Als cfdisk verlaten wordt, zijn wij weer terug in de Konsole. Het formatteren vereist <b>rootrechten</b>. Als de Live-CD gebruikt wordt, dan wordt het commando <b>sudo su</b> root toegepast. Anders kan op een bestaande Linux-partitie na su het root-password gevraagd.</p>
+							<p>Als cfdisk verlaten wordt, zijn wij weer terug in de Konsole. Het formatteren vereist <b>rootrechten</b>. Als de Live-CD gebruikt wordt, dan wordt het commando <b>sudo su</b> root toegepast. Anders kan op een bestaande Linux-partitie na su het root-password gevraagd.</p>
 
 <pre>
 su
 mkfs -t ext /dev/hdb1
 </pre>
 
-		<p>Voor het formatteren wordt een bevestiging gevraagd antwoorden, als je zeker bent de juiste partitie te formatteren. Dus beter nog een keer goed nadenken voordat <b>ja</b> wordt getoetst.</p>
+							<p>Voor het formatteren wordt een bevestiging gevraagd antwoorden, als je zeker bent de juiste partitie te formatteren. Dus beter nog een keer goed nadenken voordat <b>ja</b> wordt getoetst.</p>
 
-		<p>Hierna komt de melding dat ext3 succesvol is aangemaakt. Is dat niet het geval, dan is bij het partitioneren iets foutgegaan of <b>hdb1</b> is geen Linux-partitie. De informatie over de schij kan worden verkregen via:</p>
+							<p>Hierna komt de melding dat ext3 succesvol is aangemaakt. Is dat niet het geval, dan is bij het partitioneren iets foutgegaan of <b>hdb1</b> is geen Linux-partitie. De informatie over de schij kan worden verkregen via:</p>
 
 <pre>
 fdisk -l /dev/hdb
 </pre>
 
-		<p>Als hier iets niet correct staat, moet eventueel opniew gepartitioneerd worden.</p>
+							<p>Als hier iets niet correct staat, moet eventueel opniew gepartitioneerd worden.</p>
 
-		<p>Als het goed is gegaan voor de root-partitie voor het besturingssysteem, dan kunnen deze stappen ook herhaald worden om eventueel een aparte <b>Home-Partition</b> aan te leggen voor data ("Mijn documenten"). 
-Dat is o.m. voor herinstallaties zinvol - de instellingen, eigen programma's etc. blijven zo gescheiden van het besturingssyteem.</p>
+							<p>Als het goed is gegaan voor de root-partitie voor het besturingssysteem, dan kunnen deze stappen ook herhaald worden om eventueel een aparte <b>Home-Partition</b> aan te leggen voor data ("Mijn documenten"). Dat is o.m. voor herinstallaties zinvol - de instellingen, eigen programma's etc. blijven zo gescheiden van het besturingssyteem.</p>
 
-		<p>Als laatste wordt de swap-Partitie aangelegd, in het voorbeeld hdb3:</p>
+							<p>Als laatste wordt de swap-Partitie aangelegd, in het voorbeeld hdb3:</p>
 
 <pre>
 mkswap /dev/hdb3
 </pre>
 
-		<p>hierna:</p>
+							<p>hierna:</p>
 
 <pre>
 swapon /dev/hdb3
 </pre>
 
-		<p>Nu kan in de Konsole gecontroleerd worden of de swap-Partitie gezien wordt:</p>
+							<p>Nu kan in de Konsole gecontroleerd worden of de swap-Partitie gezien wordt:</p>
 
 <pre>
 swapon -s
 </pre>
 
-		<p>De nu aangekoppelde swap-Partitie moet nu gezien worden:</p>
+							<p>De nu aangekoppelde swap-Partitie moet nu gezien worden:</p>
 
 	<table class="center">
 		<tbody>
@@ -370,13 +378,13 @@ swapon -s
 		</tbody>
 	</table>
 	<div class="spacer02"></div>
-		<p>Als de swap-Partitie correct gezien wordt dan toetsen wij </p>
+							<p>Als de swap-Partitie correct gezien wordt dan toetsen wij </p>
 
 <pre>swapoff -a</pre>
 
-		<p>en herstarten de PC.</p>
+							<p>en herstarten de PC.</p>
 
-		<p>Nu kan de installatie beginnen.</p>
+							<p>Nu kan de installatie beginnen.</p>
 
 			<div id="rev">Inhoud het laatst gewijzigd op 16/08/2009 0255 UTC</div>
 

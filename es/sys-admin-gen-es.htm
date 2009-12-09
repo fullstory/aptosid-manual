@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 18/03/2009 1300hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-es.htm#Inst-prep">Preparar para Instalar</a></li>
 				<li><a href="hd-install-es.htm#Installation">Instalar al disco duro</a></li>
 				<li><a href="hd-install-es.htm#first-hd-boot">Primera inicialización</a></li>
-				<li><a href="hd-install-opts-es.htm#fromiso">Iniciar 'fromiso'</a></li>
+				<li><a href="hd-install-opts-es.htm#fromiso">Iniciar 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-es.htm#fromiso-grub-leg">Iniciar 'fromiso' con el anterior grub</a></li>
+				<li><a href="hd-install-opts-es.htm#grub2-fromiso">Iniciar 'fromiso' con Grub 2</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso-persist">'fromiso' y 'persist'</a></li>
 				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD</a></li>
 				<li><a href="hd-install-opts-es.htm#vtbox">Instalar sidux en VirtualBox</a></li>
@@ -181,15 +183,19 @@
 				<li><a href="sys-admin-gen-es.htm#start-services">Servicios: Activar/Desactivar</a></li>
 				<li><a href="sys-admin-gen-es.htm#pw-lost">Clave root Perdida</a></li>
 				<li><a href="sys-admin-gen-es.htm#fonts"> Fuentes</a></li>
-				<li><a href="sys-admin-gen-es.htm#cups"> CUPS - Printing System</a></li>
-				<li><a href="sys-admin-gen-es.htm#sound">Sound Mixers</a></li>
+				<li><a href="sys-admin-gen-es.htm#cups"> CUPS - Sistema de impresión</a></li>
+				<li><a href="sys-admin-gen-es.htm#sound">Mezcladores de sonido</a></li>
 				<li><a href="sys-admin-gen-es.htm#init">sidux Niveles de Ejecución: 'init'</a></li>
-				<li><a href="sys-admin-grub-bootman2-es.htm#mbr-grub-boot">Sobre-escribir el MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Iniciación Dual y Múltiple</a></li>
 				<li><a href="bios-freedos-es.htm#bois-prep">Actualizando el BIOS con FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#boot-grub-floppy">Floppy de Sistema</a></li>
+				<li><a href="sys-admin-grub-bootman2-es.htm#mbr-grub-boot">Grub1 - Sobre-escribir el MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Grub1 - Iniciación Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Quitar 'grub' del MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#what-is-grub">'grub': el Inicializador</a></li>
+				<li><a href="sys-admin-grub2-es.htm#chroot">Grub2 - Sobre-escribir el MBR</a></li>
+				<li><a href="sys-admin-grub2-es.htm#multi-os">Grub2 - Iniciación Dual y Múltiple</a></li>
+				<li><a href="sys-admin-grub2-es.htm#grub1-grub2">Grub2 -Actualización desde Grub1</a></li>
+				<li><a href="sys-admin-grub2-es.htm#grub2">Grub2 - Vista general</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -229,13 +235,13 @@ update-rc.d &lt;service&gt; defaults
 [crear enlaces de arranque]
 </pre>
 
-							<p>To read the list of what services are running:</p>
+							<p>Para leer la lista de los servicios que están corriendo:</p>
 <pre>
 ls /etc/rc5.d
 </pre>
 
-							<p><span class="highlight-3">S</span> means the service will start.<br />
-							<span class="highlight-3">K</span> means service will not start.</p>
+							<p><span class="highlight-3">S</span> significa que el servicio arrancará.<br />
+							<span class="highlight-3">K</span> significa que el servicio no arrancará.</p>
 
 					<h3>Instalaciones Viejas (anteriores a Pontos 2008-04)</h3>
 						<h3>insserv en sistemas instalados antes de Pontos 2008-04</h3>
@@ -279,21 +285,21 @@ pkill -n service
 							<p>Esta es la lista de runlevels para el sistema operativo *sidux*. Dese cuenta de que es diferente de los runlevels de Debian estable:</p>
 
 						<ul>
-							<li><span class="highlight-3">runlevel 0 </span> powers off the PC.</li>
+							<li><span class="highlight-3">runlevel 0 </span> apaga el PC.</li>
 
-							<li><span class="highlight-3">runlevel 1</span> single user (safety mode). Dæmons like apache and sshd are stopped. Do not go to this level via remote access.</li>
+							<li><span class="highlight-3">runlevel 1</span> un solo usuario en modo seguro. Los demonios como apache y sshd paran. No vaya a este nivel a través de un acceso remoto.</li>
 
-							<li><span class="highlight-3">runlevel 2 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+							<li><span class="highlight-3">runlevel 2 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</li>
 
-							<li><span class="highlight-3">runlevel 3 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows (this is where dist-upgrades are actioned).</li>
+							<li><span class="highlight-3">runlevel 3 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X (es en este nivel donde funcionan los dist-upgrades).</li>
 
-							<li><span class="highlight-3">runlevel 4 </span>Multi-User mode with the network running, with X-windows not running, and/or to stop or not enter X-windows</li>
+							<li><span class="highlight-3">runlevel 4 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</li>
 
-							<li><span class="highlight-3">runlevel 5</span> Multi-User mode with the network running the X-windows system, and/or to start X-windows.</li>
+							<li><span class="highlight-3">runlevel 5 </span>Modo multi-usuario con funcionamiento de la red, funcionando el servidor de ventanas X, para arrancar o entrar en el servidor X.</li>
 
-							<li><span class="highlight-3">runlevel 6 </span>reboot.</li>
+							<li><span class="highlight-3">runlevel 6 </span>autoarranque.</li>
 
-							<li><span class="highlight-3">runlevel S </span> where early boot time services are executed on a 'once only basis'. You cannot switch to it after it has been run.</li>
+							<li><span class="highlight-3">runlevel S </span> aquí los servicios de arranque se ejecutan en modo 'solo una vez'. No se puede entrar después de haber arrancado.</li>
 
 						</ul>
 	</div>
@@ -307,7 +313,7 @@ pkill -n service
 			<p>Como root, monte su partición-raíz (por ejemplo: /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Ahora, haga chroot hacia su vieja partición-raíz y fije una nueva clave de acceso:</p>
 <pre>
@@ -382,48 +388,49 @@ http://localhost:631
 
 							<p>Otro truco, es cuando al configurar CUPS por el GUI aparece una casilla pidiendo la clave de root pero la casilla ya contiene su nombre de usuario, entonces cuando entra su clave de usuario, no funciona!. Lo que realmente está pidiendo es que cambie su nombre de usuario a <span class="highlight-2">root</span> y entre su <span class="highlight-2">clave de root</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Hay más apoyo disponible en los foros y irc de sidux.</a></p>
+							<p><a href="http://sidux.com">Hay más apoyo disponible en los foros y irc de sidux.</a></p>
 	</div>
 	<div class="divider" id="sound">
-			<h2>Sound in sidux</h2>
-							<p><span class="highlight-3">Sound is muted by default in sidux.</span></p>
+			<h2>El sonido en sidux</h2>
+							<p><span class="highlight-3">El sonido está anulado por defecto en sidux.</span></p>
 
-							<p>The KDE version uses Kmix and XFCE uses Mixer.</p>
+							<p>La versión KDE usa Kmix y la XFCE usa Mixer.</p>
 
-							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
+							<p>La mayor parte de las veces se trata solo de hacer click sobre el icono de sonido en la barra de tareas y quitar la señal en 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>En Kmix necesitará activar las opciones preferidas para el canal de opciones, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>En XFCE haga correr la aplicación del mixer y añada algunos controles mediante <span class="highlight-3"> Multimedia>Mixer</span> y haga click en la caja <span class="highlight-3">Select Controls.</span> O bien en un terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
-							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
+							<p>Si prefiere usar Alsamixer, está en el paquete alsa-utils:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Establezca su configuración preferida de sonido como <span class="highlight-2">$user</span> en el terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Y después como root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
-							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
+							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> Vea también el wiki de sidux.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC </div>
 
 </div>
 </body>

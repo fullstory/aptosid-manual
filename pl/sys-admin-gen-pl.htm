@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by XXXX xx/12/2007 1300hrs UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintainer neceron dongle-->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Przejdź do sidux.com, forum oraz wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-pl.htm#Inst-prep">Przygotowanie do instalacji</a></li>
 				<li><a href="hd-install-pl.htm#Installation">Instalacja na dysku twardym</a></li>
 				<li><a href="hd-install-pl.htm#first-hd-boot">Pierwsze uruchomienie systemu</a></li>
-				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso'</a></li>
+				<li><a href="hd-install-opts-pl.htm#fromiso">Uruchamianie 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-pl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-pl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-pl.htm#fromiso-persist">fromiso i persist</a></li>
 				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na nośniku USB</a></li>
 				<li><a href="hd-install-opts-pl.htm#vtbox">Instalacja w VirtualBox</a></li>
@@ -184,12 +186,16 @@
 				<li><a href="sys-admin-gen-pl.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-pl.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-pl.htm#init">Poziomy uruchamiania w sidux (runlevel)</a></li>
-				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Instalacja GRUB w MBR</a></li>
-				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Uruchamianie wielu systemów operacyjnych</a></li>
 				<li><a href="bios-freedos-pl.htm#bois-prep">Aktualizacja BIOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#boot-grub-floppy">Tworzenie dyskietki startowej</a></li>
+				<li><a href="sys-admin-grub-bootman2-pl.htm#mbr-grub-boot">Grub1 - Instalacja GRUB w MBR</a></li>
+				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Grub1 - Uruchamianie wielu systemów operacyjnych</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#remove-grub">Usuwanie GRUB z MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#what-is-grub">Menadżer uruchamiania - GRUB</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -308,11 +314,11 @@ pkill -n usługa
 			<p>Jako root zamontuj swoją partycję główną (na przykład /dev/sdb2)</p>
 
 <pre>
-mount /dev/sdb2
+mount /dev/sdb2 /media/sdb2
 </pre>
 							<p>Teraz chroot na swoją starą partycję główną przy pomocy and set a new password:</p>
 <pre>
-chroot /media/hsdb2 passwd
+chroot /media/sdb2 passwd
 </pre>
 
 	</div>
@@ -381,7 +387,7 @@ http://localhost:631
 </pre>
 							<p>Innym problemem jest próba ustawienia cups via GUI, kiedy pojawia się okno proszące o twoje hasło, podczas gdy ty chcesz użyć uprawnień <span class="highlight-2">roota</span> i wpisać  <span class="highlight-2">hasło roota</span>.</p>
 
-							<p><a href="http://sidux.com/PNphpBB2-viewforum-f-22.html ">Więcej na ten temat na forach sidux.com.</a></p>
+							<p><a href="http://sidux.com">Więcej na ten temat na forach sidux.com.</a></p>
 	</div>
 	<div class="divider" id="sound">
 			<h2>Sound in sidux</h2>
@@ -392,37 +398,41 @@ http://localhost:631
 							<p>Often it is only a matter of clicking on the sound icon in the taskbar and unchecking the 'Mute box'.</p>
 
 					<h6>Kmix</h6>
-							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span></p>
+							<p>In Kmix you will need to activate the options you prefer for channel options, <span class="highlight-3">Kmix>Setting>Configure Channels.</span> Or in a terminal:</p>
+<pre>
+$ kmix
+</pre>
 
 					<h6>XFCE</h6>
 
-							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Mixer>Select Controls</span> box.</p>
+							<p>In XFCE run the mixer application and add some controls via the <span class="highlight-3"> Multimedia>Mixer</span> and click the <span class="highlight-3">Select Controls box.</span> Or in a terminal:</p>
+<pre>
+$ xfce4-mixer
+</pre>
 
-					<h6>Alsamixer</h6>
+					<h3>Alsamixer</h3>
 
 							<p>If you prefer to use Alsamixer, it is in the alsa-utils package:</p>
 <pre>
 apt-get update
 apt-get install alsa-utils
+exit
 </pre>
-
-							 <p>Set your preferred sound settings as user, then as root:</p>
+							 <p>Set your preferred sound settings as <span class="highlight-2">$user</span> from the terminal:</p>
+<pre>
+$ alsamixer
+</pre>
+							 <p>Then as root:</p>
 
 <pre>
 alsactl store
 </pre>
 
-			<!--		<h6>Problems</h6>
-							 <p>If there seems to be a persistent problem due to your hardware setup you could try:</p>
-<pre>
-alsa force-reload
-</pre>-->
-
 							  <p><a href='http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster'> See also the sidux wiki.</a></p>
 
 	</div>
 
-			<div id="rev">Content last revised 22/11/2009 0450 UTC  </div>
+			<div id="rev">Content last revised 29/11/2009 1040 UTC  </div>
 
 </div>
 </body>

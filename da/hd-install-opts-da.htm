@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by zonker 26/08/2008 2000 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.97.2009.11.23 -->
-<!-- menu last updated by bluewater 2009.11.23 0300 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
+<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -95,7 +95,9 @@
 				<li><a href="hd-install-da.htm#Inst-prep">Installations forberedelser</a></li>
 				<li><a href="hd-install-da.htm#Installation">Installer til harddisk</a></li>
 				<li><a href="hd-install-da.htm#first-hd-boot">F&#248;rste opstart</a></li>
-				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso'</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso">Opstart 'fromiso' - Overview</a></li>
+				<li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
+				<li><a href="hd-install-opts-da.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
@@ -184,19 +186,23 @@
 				<li><a href="sys-admin-gen-da.htm#cups">CUPS - Printing System</a></li>
 				<li><a href="sys-admin-gen-da.htm#sound">Sound Mixers</a></li>
 				<li><a href="sys-admin-gen-da.htm#init">sidux runlevels - init</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">MBR Overskrevet bootsector</a></li>
-				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Dual og Multiple Booting</a></li>
 				<li><a href="bios-freedos-da.htm#bois-prep">Upgradering af BIOS under FreeDOS</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#boot-grub-floppy">Skriv en Boot-Floppy</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#mbr-grub-boot">Grub1 - MBR Overskrevet bootsector</a></li>
+				<li><a href="sys-admin-grub-bootman2-da.htm#dual-boot">Grub1 - Dual og Multiple Booting</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#remove-grub">Fjern grub fra MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-da.htm#what-is-grub">Grub; bootmanageren</a></li>
+				<li><a href="sys-admin-grub2-da.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-da.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
+				<li><a href="sys-admin-grub2-da.htm#grub2">Grub2 - Overview</a></li>
 			</ul>
 		</li>
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="fromiso">
-				<h2 id="top-header">Opstart med "fromiso"</h2>
+				<h2 id="top-header">Opstart med "fromiso" - Overview</h2>
 
 							<p>Med denne cheatcode kan du vælge at starte systemet op fra en ISO-fil placeret på en af dine harddisk partitioner, det er meget hurtigere end at starte systemet fra CD (en harddisk installation med "fromiso" tager f. eks. kun et øjeblik).</p>
 
@@ -207,6 +213,65 @@
 		    					<p>* En fungerende GRUB installation (på floppy, Harddisk eller Live-CD'en)<br />
 							* Et sidux ISO Image e.g.: sidux.iso og et linux filsystem, som for eksempel ext2/3 <br />
 							* Hvis du omdøber din ISO-fil til for eksempel sidux.ISO skal du ændre kommandoerne i det følgende tilsvarende eftersom unix fil-navngivningssystemet skelner mellem store og små bogstaver.</p>
+</div>
+<div class="divider" id="grub2-fromiso">
+			<h2>fromiso with Grub2</h2>
+							<p>sidux has provided a grub2 file named <span class="highlight-3">60_fll-fromiso</span> to generate a fromiso entry to the grub2 menu and is found in <span class="highlight-3">/etc/grub.d</span>. First open a terminal and become root with:</p>
+<pre>
+sux
+</pre>
+							<p>Then open an editor, which may be kwrite, mcedit, vim or another that you prefer:</p>
+
+<pre>
+mcedit /etc/grub.d/60_fll-fromiso
+</pre>
+							 <p>Next uncomment (remove the<span class="highlight-2"> # </span>) the lines you need to be operative and replace the default instructions within the <span class="highlight-3">"quote marks"</span> with your preferences.</p>
+
+							 <p>For example, compare this altered 60_fll-fromiso with the default, (the <span class="highlight-3">highlighted lines</span> are the changed lines for instructional purposes):</p>
+<pre>
+# Defaults for grub2-fll-fromiso update-grub helper
+# sourced by grub2's update-grub
+# installed at /etc/default/grub2-fll-fromiso by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# specify where to look for the ISO
+# default: /srv/ISO
+<span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
+
+# array for defining ISO prefices --> sidux-*.iso
+# default: "sidux- fullstory-"
+<span  class="highlight-3">FLL_GRUB2_ISO_PREFIX="sidux-"</span>
+
+# set default language
+# default: en_US
+<span  class="highlight-3">FLL_GRUB2_LANG="en_AU"</span>
+
+# override the default timezone.
+# default: UTC
+<span  class="highlight-3">FLL_GRUB2_TZ="Australia/Melbourne"</span>
+
+# kernel framebuffer resolution, see
+# http://manual.sidux.com/de/cheatcodes-vga-de.htm#vga
+# default: 791
+#FLL_GRUB2_VGA="791"
+
+# additional cheatcodes
+# default: noeject
+<span  class="highlight-3">FLL_GRUB2_CHEATCODE="noeject nointro"</span>
+</pre>
+
+
+						      <p>Save and close the editor, then run in the terminal</p>
+<pre>
+update-grub
+</pre>
+						      <p>Your grub2 menu.cfg will be updated to see the different ISOs you have placed in the directory you specified and will be available on your next boot up.</p>
+	    </div>
+	    <div class="divider" id="fromiso-grub-leg">
+			<h2>fromiso with grub-legacy</h2>
 
 				<h4 class="highlight-3">Process:</h4>
 							<p>Choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdaX", (sda1 or, 2, or 5, or 6, or whatever, for example) create the directory "sidux" and copy the iso into it:</p>
@@ -516,7 +581,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
 
 	</div>
-			<div id="rev"> Content last revised 14/11/2009 1220 UTC</div>
+			<div id="rev"> Content last revised 07/12/2009 1500 UTC</div>
 
 </div>
 </body>

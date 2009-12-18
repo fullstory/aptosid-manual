@@ -1,19 +1,17 @@
 #!/usr/bin/make -f
   
 %:
-	dh $@
+	dh ${@}
 
-binary: build
-	# install non-standard changelog name
-	dh binary --before dh_installchangelogs
+override_dh_installchangelogs:
 	dh_installchangelogs ChangeLog.txt
-	dh binary --after dh_installchangelogs --until dh_fixperms
-	# fix permissions
+
+override_dh_fixperms:
 	find debian/*/usr/share/sidux-manual -type f -exec chmod 0644 {} \;
-	dh binary --after dh_fixperms --before dh_builddeb
-	# compress manual with bzip2, to save a little upload size
+	dh_fixperms
+
+override_dh_builddeb:
 	dh_builddeb -- -Zbzip2 -z9
-	dh binary --after dh_builddeb
 
 create-icons:
 	# requires inkscape and imagemagick to be installed

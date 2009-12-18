@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Wed, 17 Jun 2009 22:31:14 +0200 -->
+<!-- Last translation revision by hubi Thu, 10 Dec 2009 16:37:49 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-de.htm#dual-boot">Grub1 - Dualboot und Multiboot</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#what-is-grub">Grub: der Bootmanager</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#remove-grub">Grub aus MBR entfernen</a></li>
-				<li><a href="sys-admin-grub2-de.htm#chroot">Grub2 - MBR überschrieben</a></li>
+				<li><a href="sys-admin-grub2-de.htm#mbr-over-grub2">Grub2 - MBR überschrieben</a></li>
 				<li><a href="sys-admin-grub2-de.htm#multi-os">Grub2 - Dualboot und Multiboot</a></li>
 				<li><a href="sys-admin-grub2-de.htm#grub1-grub2">Grub2 - Aktualisierung von Grub1</a></li>
 				<li><a href="sys-admin-grub2-de.htm#grub2">Grub2 - Überblick</a></li>
@@ -203,16 +203,19 @@
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
 
-					<h2 id="top-header">Ersetzen einer Grub-Installation</h2>
-						<p>Wenn Grub im MBR nur aktualisiert werden soll (mit einer neueren Version), wird dieser Befehl eingegeben:</p> 
+					<h2 id="top-header">Ersetzen einer Grub1-Installation (grub-legacy)</h2>
+						<p><span class="highlight-2">ANMERKUNG: um den Bootloader GRUB1 wiederherzustellen, benötigt man eine 2009-03 (momos) sidux.iso oder früher.</span></p>
+
+						<p>Wenn Grub (grub-legacy) im MBR nur aktualisiert werden soll (mit einer neueren Version), wird dieser Befehl eingegeben:</p>
 <pre>
 /usr/sbin/grub-install --recheck --no-floppy /dev/sda
 </pre>
 						<p>Eine Sicherheitsabfrage kann verlangen, dass dieser Befehl wiederholt wird.</p>
 
-		<h2>Windows hat den Bootsektor überschrieben: Wiederherstellung von Grub</h2>
+		<h2>Windows hat den Bootsektor überschrieben: Wiederherstellung von Grub (grub-legacy)</h2>
+							<p><span class="highlight-2">ANMERKUNG: um den Bootloader GRUB1 wiederherzustellen, benötigt man eine 2009-03 (momos) sidux.iso oder früher.</span></p>
 
-							<p>Um Grub neu in den MBR zu schreiben oder Grub generell wieder herzustellen, muss von der <span class="highlight-3">sidux Live-CD</span> gebootet werden.</p>
+							<p>Um Grub (grub-legacy) neu in den MBR zu schreiben oder Grub generell wieder herzustellen, muss von der <span class="highlight-3">sidux Live-CD</span> gebootet werden.</p>
 						<ol>
 							<li>Um zu ermitteln, welche Partitionen vorhanden sind (zum Beispiel [h,s]d[a..]X), benötigt man root-Privilegien (#), die man so erhält:
 <pre>
@@ -224,11 +227,11 @@ $ sux
 fdisk -l
 cat /etc/fstab
 </pre>
-							</li>		
+							</li>
 							<li>Nach Ermittlung der Partitionsbezeichnungen, legt man einen Einhängepunkt (Mount-Point) an
 <pre>
 mkdir -p /media/[hdxx,sdxx,diskx]
-</pre>				
+</pre>
 							</li>
 							<li>und bindet die Partition ins Filesystem ein:
 <pre>
@@ -348,13 +351,13 @@ mount /dev/sdb1 /media/sdb1
 						<p>Auf älteren Linux-Systemen wurden IDE-Festplatten (PATA) mit der Bezeichnung <span class="highlight-3">hdaX</span> anstelle der modernen <span class="highlight-3"> sdaX</span> versehen.</p>
 
 
-		
+
 	</div>
 	<div class="divider" id="boot-grub-floppy">
 		<h2>Erstellen einer bootfähigen Diskette (Floppy)</h2>
 
 							<p>Um eine bootfähige Diskette zu erstellen, verwendet man am besten die Mittel, die von  <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a> bereit gestellt werden.</p>
-			
+
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Grub aus dem MBR entfernen</h2>
@@ -363,7 +366,7 @@ mount /dev/sdb1 /media/sdb1
 <pre>
 apt-get update
 apt-get install mbr
-apt-get remove --purge lilo 
+apt-get remove --purge lilo
 man install-mbr
 </pre>
 
@@ -410,17 +413,17 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 				<tr>
 					<td>(hd0)</td>
 					<td>/dev/sda</td>
-					<td>erste hd</td>	
+					<td>erste hd</td>
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
 					<td>/dev/sda1</td>
-					<td>Part.1 auf hd1</td>	
+					<td>Part.1 auf hd1</td>
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
 					<td>/dev/sda6</td>
-					<td>Logische Part. auf hd 1</td>	
+					<td>Logische Part. auf hd 1</td>
 				</tr>
 			</tbody>
 		</table>
@@ -617,7 +620,7 @@ gfxmenu (hd0,5)/boot/message
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7
 root		(hd0,5)
-kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791 
+kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7 (single-user mode)
@@ -677,7 +680,7 @@ initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 <pre>
 hide (hd0,0) # versteckt Partition 1 der Platte 1
 unhide (hd0,1) # macht Partition 2 der Platte 1 sichtbar
-rootnoverify (hd0,1) # macht Partition 2 der Platte 1 zum Root-FS 
+rootnoverify (hd0,1) # macht Partition 2 der Platte 1 zum Root-FS
 makeactive # macht Partition 2 der Platte 1 aktiv
 chainloader +1 # zeigt auf den ersten Sektor der Start-Partition
 boot # bootet das Betriebssystem
@@ -707,9 +710,9 @@ LINUX: # chmod a -w ./stage2
 							<p>Umfangreiche Informationen gibt es in der <a href="http://www.gnu.org/software/grub/grub-faq.de.html">offiziellen FAQ zu Grub</a>.</p>
 
 							<p>Sofern man eine unterstützte Netzwerkkarte besitzt, kann Grub auch über das Netzwerk booten. Eine entsprechende <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html">Boot-Disk kann man sich hier</a> erstellen lassen und anschließend downloaden (allerdings mit einer älteren Version von Grub).</p>
-		
+
 	</div>
-	<div id="rev">Content last revised 06/04/2009 1300hrs UTC</div>
+	<div id="rev">Content last revised 10/12/2009 0815 UTC</div>
 
 </div>
 </body>

@@ -20,7 +20,7 @@
 <!-- Last translation revision by edhunter 12/11/2009 05:45 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Grub1 - Dual και Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#remove-grub">Απεγκατάσταση του grub από το MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#what-is-grub">O διαχειριστής εκκίνησης Grub </a></li>
-				<li><a href="sys-admin-grub2-el.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-el.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
 				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
 				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Overview</a></li>
@@ -524,17 +524,32 @@ $ man fll-iso2usb
 				<h3>Εγκατάσταση:</h3>
 
 <pre>
-apt-get install virtualbox-ose-qt virtualbox-ose-source
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
+</pre>
+							<p>Then prepare the module:</p>
+<pre>
+m-a prepare
+m-a a-i virtualbox-ose-source
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+<pre>
+mcedit /etc/default/dmakms
+virtualbox-ose-source
 </pre>
 
-							<!--p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p-->
-							<p>Το virtualbox-ose-source θα εγκαταστήσει και το dkms, το οποίο θα κτίσει τα modules και θα ξανά κτίζει αυτόματα τα modules όταν ενημερώνονται το virtualbox, dkms ή ο πυρήνας.</p>
+							<p>Then reboot the computer.</p>
+
+							<p><a href="sys-admin-kern-upg-el.htm#dmakms">This is essential reading on dmakms</a></p>
+
+						      <!--p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p-->
+							<!--<p>Το virtualbox-ose-source θα εγκαταστήσει και το dkms, το οποίο θα κτίσει τα modules και θα ξανά κτίζει αυτόματα τα modules όταν ενημερώνονται το virtualbox, dkms ή ο πυρήνας.</p>-->
 
 							<!--p>Reboot your PC for the kernel to access the module after the initial installation.</p-->
-							<p>Μετά την αρχική εγκατάσταση επανεκκινήστε τον υπολογιστή για να αποκτήση ο πυρήνας πρόσβαση στο module.</p>
+							<!--<p>Μετά την αρχική εγκατάσταση επανεκκινήστε τον υπολογιστή για να αποκτήση ο πυρήνας πρόσβαση στο module.</p>-->
 
 							<!--p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p-->
-							<p>Όταν αναβαθμίζεται ο πυρήνας, θα πρέπει να ενεργοποιήσετε το module για το virtualbox πριν το τρέξετε για να αποφύγετε τυχών μηνύματα λάθους. Για να μην χρειάζεται να το κάνετε αυτό μετά από κάθε αναβάθμιση πυρήνα, επεξεργαστείτε σαν root το αρχείο <span class="highlight-3">/etc/rc.local</span> και βάλτε μέσα τα ακόλουθα:</p>
+							<!--<p>Όταν αναβαθμίζεται ο πυρήνας, θα πρέπει να ενεργοποιήσετε το module για το virtualbox πριν το τρέξετε για να αποφύγετε τυχών μηνύματα λάθους. Για να μην χρειάζεται να το κάνετε αυτό μετά από κάθε αναβάθμιση πυρήνα, επεξεργαστείτε σαν root το αρχείο <span class="highlight-3">/etc/rc.local</span> και βάλτε μέσα τα ακόλουθα:</p>
 <pre>
 # By default this script does nothing.
 modprobe vboxdrv
@@ -545,7 +560,7 @@ exit 0
 <pre>
 man dkms
 man dmakms
-</pre>
+</pre>-->
 
 					<!--h3>Installing sidux to the virtual machine</h3>-->
 					<h3>Εγκατάσταση sidux στην εικονική μηχανή</h3>
@@ -706,7 +721,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 07/12/2009 1500 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/12/2009 0725 UTC</div>
 
 </div>
 </body>

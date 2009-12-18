@@ -20,7 +20,7 @@
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Grub1 - Iniciación Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Quitar 'grub' del MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#what-is-grub">'grub': el Inicializador</a></li>
-				<li><a href="sys-admin-grub2-es.htm#chroot">Grub2 - Sobre-escribir el MBR</a></li>
+				<li><a href="sys-admin-grub2-es.htm#mbr-over-grub2">Grub2 - Sobre-escribir el MBR</a></li>
 				<li><a href="sys-admin-grub2-es.htm#multi-os">Grub2 - Iniciación Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub2-es.htm#grub1-grub2">Grub2 -Actualización desde Grub1</a></li>
 				<li><a href="sys-admin-grub2-es.htm#grub2">Grub2 - Vista general</a></li>
@@ -325,13 +325,56 @@ update-grub
 </pre>
 							<p>Se pueden ignorar los avisos de forma segura.</p>
 
-							<p>Si cometiera un error, la actualización sobreescribiría probablemente su MBR y necesitaría arreglarlo con <a href="sys-admin-grub2-en.htm#chroot">Grub2 sobreescrito en MBR</a>.</p>
+							<p>Si cometiera un error, la actualización sobreescribiría probablemente su MBR y necesitaría arreglarlo con <a href="sys-admin-grub2-en.htm#mbr-over-grub2">Grub2 sobreescrito en MBR</a>.</p>
+</div>
+	<div class="divider" id="mbr-over-grub2">
 
+					<h2>Solo volver a escribir grub2 al MBR desde el disco duro:</h2>
+
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy /dev/sda
+</pre>
+						<p>Se debe correr esta línea más de una vez, hasta que esté convencido de que ha quedado grabado.</p>
+
+		<h2>El sector de arranque del MBR ha sido sobre-escrito por Windows, se ha corrompido y/o para recobrar Grub2</h2>
+							<p><span class="highlight-2">NOTA: para restaurar un arrancador Grub2 necesita tener un sidux.iso 2009-04 (moros) o posterior.</span> <a href="sys-admin-grub2-es.htm#chroot">Alternativamente, use chroot con cualquier live.iso</a>.</p>
+
+							<p>Para volver a escribir el grub2 al MBR ay/o para recuperar en general grub 2, necesitará arrancar desde <span class="highlight-3">sidux.iso</span>:</p>
+						<ol>
+							<li>Para identificar y confirmar sus particiones (p. ej. [h,s]d[a..]X) todas las acciones que siguen necesitan privilegios de super-usuario, así que conviértase en root (#):
+<pre>
+$ sux
+</pre>
+							</li>
+							<li>Cuando ya sea root, escriba:
+<pre>
+fdisk -l
+cat /etc/fstab
+</pre>
+							Esto es para conocer los nombres correctos.
+							</li>
+							<li>Cuando esté seguro de cuál es la partición correcta, cree el punto de montaje:
+<pre>
+mkdir -p /media/[hdxx,sdxx,diskx]
+</pre>
+							</li>
+							<li>Móntelo:
+<pre>
+mount /dev/xdxx /media/xdxx
+</pre>
+							</li>
+
+							<li>Ahora vuelva a escribir Grub en el MBR del primer disco duro (genérico):
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/xdxx /dev/sda
+</pre>
+							</li>
+						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h2>Grub2 sobreescrito o corrupto en el MBR</h2>
+		      <h3>Uso de chroot para recuperar un Grub2 corrupto o que ha sido sobreescrito en el MBR</h3>
 
-							<p>Para recuperar Grub 2 si ha sido sobreescrito o ha quedado corrupto en el MBR, establezca un entorno <span class="highlight-3">chroot</span>.</p>
+							<p>Para recuperar Grub 2 si ha sido sobreescrito o ha quedado corrupto en el MBR, establezca un entorno <span class="highlight-3">chroot</span>. <span class="highlight-3">Cualquier CD live.iso será suficiente.</span>.</p>
 
 							<p>Arranque un sidux.iso CD-live que sea apropiado para su sistema (32 o 64 bits CD, DVD, lápiz USB o trajeta SSD) y abra la consola. Escriba <span class="highlight-3">sux</span> y presione Intro para tener permisos de root.</p>
 
@@ -378,7 +421,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/12/2009 2225 UTC</div>
+	<div id="rev">Page last revised 14/12/2009 0450 UTC</div>
 
 </div>
 </body>

@@ -20,7 +20,7 @@
 <!-- Last translation by alphad 06/03/2009 0100 UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-fr.htm#dual-boot">Grub1 - Double et multi-démarrage</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#remove-grub">Enlever grub du MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-fr.htm#what-is-grub">Grub, le gestionnaire de démarrage</a></li>
-				<li><a href="sys-admin-grub2-fr.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-fr.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
 				<li><a href="sys-admin-grub2-fr.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub2-fr.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
 				<li><a href="sys-admin-grub2-fr.htm#grub2">Grub2 - Overview</a></li>
@@ -205,11 +205,13 @@
 					<!--- ####
 					<h2 id="top-header">To rewrite Grub</h2>
 					#### -->
-					<h2 id="top-header">Réécrire Grub</h2>
+					<h2 id="top-header">Réécrire Grub1 (grub-legacy)</h2>
+						<p><span class="highlight-2">NOTE: to restore a Grub1 bootloader you need to have a 2009-03 (momos) sidux.iso or earlier.</span></p>
+
 						<!--- ####
-						<p>To only re-write grub to MBR from the hard drive, ie due to a newer grub-version:</p> 
+						<p>To only re-write grub (grub-legacy) to MBR from the hard drive, ie due to a newer grub-version:</p>
 						#### -->
-						<p> Pour juste réecrire l'amorçage de Grub dans le MBR depuis votre installation, lors d'une mise à jour du Grub par exemple:</p> 
+						<p> Pour juste réecrire l'amorçage de Grub  (grub-legacy) dans le MBR depuis votre installation, lors d'une mise à jour du Grub par exemple:</p>
 <pre>
 /usr/sbin/grub-install --recheck --no-floppy /dev/sda
 </pre>
@@ -218,12 +220,13 @@
 						#### -->
 						<p>Vous devrez executer cette ligne de commande plusieurs fois, jusqu'à ce que le programme soit convaincu de ce que vous voulez vraiment.</p>
 
-		<h2>Effacement du secteur de boot par le MBR Windows et/ou pour récupérer GRUB</h2>
+		<h2>Effacement du secteur de boot par le MBR Windows et/ou pour récupérer GRUB (grub-legacy)</h2>
+							<p><span class="highlight-2">NOTE: to restore a Grub1 bootloader you need to have a 2009-03 (momos) sidux.iso or earlier.</span></p>
 
 							<!--- ####
-							<p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a <span class="highlight-3">sidux live-cd</span>, first:</p>
+							<p> To rewrite the grub (grub-legacy) to the MBR and/or to recover grub in general, you will need boot up a <span class="highlight-3">sidux live-cd</span>, first:</p>
 							#### -->
-							<p> Pour ré-écrire GRUB dans le MBR et/ou récupérer GRUB en général, vous devrez démarrer avec le <span class="highlight-3"> live-cd de sidux</span>:</p>
+							<p> Pour ré-écrire GRUB (grub-legacy) dans le MBR et/ou récupérer GRUB en général, vous devrez démarrer avec le <span class="highlight-3"> live-cd de sidux</span>:</p>
 						<ol>
 							<!--- ####
 							<li>To identify and confirm your partitions (e.g. [h,s]d[a..]X) all the following actions need root privileges, so to get root (#):
@@ -245,14 +248,14 @@ cat /etc/fstab
 							This is to get the correct names.
 							#### -->
 							Cela vous donne les noms corrects.
-							</li>							
+							</li>
 							<!--- ####
 							<li>When you have acertained the correct partition, create the mount point:
 							#### -->
 							<li> Lorsque vous vous êtes assuré d'être sur la bonne patition, créez le point de montage:
 <pre>
 mkdir -p /media/[hdxx,sdxx,diskx]
-</pre>				
+</pre>
 							</li>
 							<!--- ####
 							<li>Mount it:
@@ -394,7 +397,7 @@ mount /dev/sdb1 /media/sdb1
 
 
 							<p>Pour créer votre propre disquette de démarrage, utilisez les outils provenant de <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
-	
+
 	</div>
 	<div class="divider" id="remove-grub">
 		<h2>Effacer GRUB du MBR</h2>
@@ -403,7 +406,7 @@ mount /dev/sdb1 /media/sdb1
 <pre>
 apt-get update
 apt-get install mbr
-apt-get remove --purge lilo 
+apt-get remove --purge lilo
 man install-mbr
 </pre>
 
@@ -419,7 +422,7 @@ man install-mbr
 							<p>GRUB ne s'appuie pas sur les listes de blocs pour trouver les fichiers nécessaires au démarrage, et il peut reconnaître un grand nombre de systèmes de fichiers : ext2, ext3, reiserfs, ... (Linux), Fat32, Fat16 (Windows), UFS (BSD), Minix et beaucoup d'autres.</p>
 
 							<p>Grub reconnaît les extensions de BIOS (ce qui signifie qu'il est capable de démarrer des partitions de plus de 8 Go!) et n'est pas bloqué par la barrière du 1024ème cylindre. Grub est indifférent à l'endroit où un noyau est stocké physiquement : tout ce dont il a besoin, c'est d'une déclaration de la partition et du chemin du noyau qu'il est supposé démarrer (ce qui peut même être un lien virtuel). Après un changement de configuration (par exemple dans le menu.lst) il ne nécessite aucun appel-programme comme en a besoin lilo, pour appliquer la modification de configuration dès le démarrage suivant.</p>
- 
+
 							<p>sidux utilise GRUB par défaut pour le démarrage de son CD, ainsi que pour celui de son installation sur disque dur. Grub peut même s'installer par la suite, sans aucun problème. Grub est installé sur le MBR en utilisant la commande root suivante:</p>
 
 
@@ -450,28 +453,28 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 				<tr>
 					<td>(hd0)</td>
 					<td>/dev/sda</td>
-					<td>Premier Ddur</td>	
+					<td>Premier Ddur</td>
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
 					<td>/dev/sda1</td>
-					<td>Part.Prim1 du Ddur1</td>	
+					<td>Part.Prim1 du Ddur1</td>
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
 					<td>/dev/sda6</td>
-					<td>Part.Logique1 du Ddur1</td>	
+					<td>Part.Logique1 du Ddur1</td>
 				</tr>
 				<tr>
 					<td>(hd2,2)</td>
 					<td>/dev/sdc3</td>
-					<td>Part.Prim3 du Ddur3</td>	
+					<td>Part.Prim3 du Ddur3</td>
 				</tr>
 			</tbody>
 		</table>
 	<div class="spacer05"></div>
 
-							<p>Dans la syntaxe propre à Grub, tous les périphériques sont désignés entre parenthèses (). Prenez garde toutefois, au fait que les entrées vers les noyaux nécessitent d'utiliser, elles, une syntaxe Linux. Dans les entrées de l'exemple qui suit, l'adresse en syntaxe Grub de la partition racine, comme celle désignée en pure syntaxe Linux à la ligne kernel (noyau), désignent respectivement la même partition, à savoir la quatrième partition primaire du premier disque dur :</p> 
+							<p>Dans la syntaxe propre à Grub, tous les périphériques sont désignés entre parenthèses (). Prenez garde toutefois, au fait que les entrées vers les noyaux nécessitent d'utiliser, elles, une syntaxe Linux. Dans les entrées de l'exemple qui suit, l'adresse en syntaxe Grub de la partition racine, comme celle désignée en pure syntaxe Linux à la ligne kernel (noyau), désignent respectivement la même partition, à savoir la quatrième partition primaire du premier disque dur :</p>
 
 
 <pre>
@@ -527,7 +530,7 @@ Filesystem type is fat, partition type 0xb"
 
 				<h3>Mode édition</h3>
 
-							<p>Ce mode peut vous permettre de corriger momentannément les entrées de votre fichier /boot.grub/menu.lst au moment même du démarrage. Ceci est possible y compris au démarrage en mode live-cd ou lorsque votre menu.lst est protégé en écriture. Pour y accéder appuyez d'abord sur la touche d'échappement "ESC" puis sur "Entrée", puis appuyez sur "e". Les paramètres que vous saisissez le sont par défaut en fin de ligne, mais pouvez naviguer dans cette ligne avec les flèches du curseur.</p> 
+							<p>Ce mode peut vous permettre de corriger momentannément les entrées de votre fichier /boot.grub/menu.lst au moment même du démarrage. Ceci est possible y compris au démarrage en mode live-cd ou lorsque votre menu.lst est protégé en écriture. Pour y accéder appuyez d'abord sur la touche d'échappement "ESC" puis sur "Entrée", puis appuyez sur "e". Les paramètres que vous saisissez le sont par défaut en fin de ligne, mais pouvez naviguer dans cette ligne avec les flèches du curseur.</p>
 
 
 				<h3>menu.lst (exemples d'entrées possibles)</h3>
@@ -579,7 +582,7 @@ setkey q a
 setkey Q A
 setkey m semicolon
 setkey M colon
-setkey bracketleft quote 
+setkey bracketleft quote
 setkey percent doublequote
 setkey asterisk backslash
 setkey bracketright bar
@@ -609,7 +612,7 @@ default		0
 # Reglage en secondes du délai avant le démarrage automatique de
 # l'entrée par défaut (normalement la première définie)
 # Si une valeur 0 est assignée au délai
-# alors Grub attendra indéfiniment un appui sur Entrée 
+# alors Grub attendra indéfiniment un appui sur Entrée
 timeout		5
 
 # Jolies couleurs
@@ -713,7 +716,7 @@ gfxmenu (hd0,5)/boot/message
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7
 root		(hd0,5)
-kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791 
+kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7 (single-user mode)
@@ -766,7 +769,7 @@ initrd (hd0,3)/sidux3/initrd.img-2.6.22.1-slh-smp-7
 
 							<p><b>Il est sage quand vous comptez le modifier, de faire une sauvegarde du fichier menu.lst opérationnel que vous utilisez !</b> Ceci permet de pouvoir le restaurer instantannément en cas d'erreur d'édition, surtout quand on est débutant.</p>
 
-							<p>Certaines personnes pourraient avoir besoin de faire cohabiter plusieurs installation de MS Windows&reg;. Or MS Windows&reg; exige toujours d'être installé sur la première partition primaire du premier disque dur. Grub vous permet de passer outre à cette limitation, en cachant une partition pour en activer une autre à la place. Les commandes qui suivent devraient être testées dans la ligne de commande de Grub et, si elles fonctionnent, copiées ensuite dans menu.lst (N'oubliez pas de faire une sauvegarde !) :</p>  
+							<p>Certaines personnes pourraient avoir besoin de faire cohabiter plusieurs installation de MS Windows&reg;. Or MS Windows&reg; exige toujours d'être installé sur la première partition primaire du premier disque dur. Grub vous permet de passer outre à cette limitation, en cachant une partition pour en activer une autre à la place. Les commandes qui suivent devraient être testées dans la ligne de commande de Grub et, si elles fonctionnent, copiées ensuite dans menu.lst (N'oubliez pas de faire une sauvegarde !) :</p>
 
 
 <pre>hide (hd0,0) # cache la partition 1 du disque 1
@@ -803,9 +806,9 @@ LINUX: # chmod a -w ./stage2
 							<p><a href="http://www.gnu.org/software/grub/grub-faq.fr.html">La foire-aux-questions officielle de GRUB</a>.</p>
 
 							<p>Si vous êtes équipé d'une carte réseau qui lui soit compatible, Grub permet de démarrer depuis une machine distante.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Une disquette de démarrage adaptée peut être récupérée ici (notez qu'elle utilise une version antérieure de Grub)</a>.</p>
-				
+
 	</div>
-	<div id="rev">Content last revised 06/04/2009 1300hrs UTC</div>
+	<div id="rev">Content last revised 10/12/2009 0815 UTC</div>
 
 </div>
 </body>

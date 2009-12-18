@@ -20,7 +20,7 @@
 <!-- Last translation revision by edhunter 02/02/2009 0650 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-el.htm#dual-boot">Grub1 - Dual και Multibooting</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#remove-grub">Απεγκατάσταση του grub από το MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#what-is-grub">O διαχειριστής εκκίνησης Grub </a></li>
-				<li><a href="sys-admin-grub2-el.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-el.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
 				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
 				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Overview</a></li>
@@ -202,20 +202,23 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-					<!--h2 id="top-header">To rewrite Grub</h2>-->
-					<h2 id="top-header">Για να επανεγγραφεί το Grub</h2>
-						<!--p>To only re-write grub to MBR from the hard drive, ie due to a newer grub-version:</p> -->
-						<p>Για να ξαναγράψει το grub σε MBR από το σκληρό δίσκο, δηλ. λόγω μιας νεώτερης grub-έκδοσης:</p>
+					<!--h2 id="top-header">To rewrite  Grub1 (grub-legacy)</h2>-->
+					<h2 id="top-header">Για να επανεγγραφεί το Grub1 (grub-legacy)</h2>
+						<p><span class="highlight-2">NOTE: to restore a Grub1 bootloader you need to have a 2009-03 (momos) sidux.iso or earlier.</span></p>
+
+						<!--p>To only re-write grub (grub-legacy) to MBR from the hard drive, ie due to a newer grub-version:</p> -->
+						<p>Για να ξαναγράψει το grub (grub-legacy) σε MBR από το σκληρό δίσκο, δηλ. λόγω μιας νεώτερης grub-έκδοσης:</p>
 <pre>
 /usr/sbin/grub-install --recheck --no-floppy /dev/sda
 </pre>
 						<!--p>This line may need to be run more than once, until its convinced you really mean it.</p>-->
 						<p>Αυτή η γραμμή μπορεί να πρέπει να εκτελεστεί περισσότερο από μία φορά, έως ότου να πιστή ότι πραγματικά το εννοείτε .</p>
 		<!--h2>Bootsector overwritten by Windows MBR and /or to recover grub</h2>-->
-		<h2>Ο Bootsector διαγράφηκε από το  Windows MBR και/ή επαναφορά του grub</h2>
+		<h2>Ο Bootsector διαγράφηκε από το  Windows MBR και/ή επαναφορά του grub (grub-legacy)</h2>
+							<p><span class="highlight-2">NOTE: to restore a Grub1 bootloader you need to have a 2009-03 (momos) sidux.iso or earlier.</span></p>
 
-							<!--p> To rewrite the grub to the MBR and/or to recover grub in general, you will need boot up a <span class="highlight-3">sidux live-cd</span>, first:</p>-->
-							<p> Για να επανεγγράψετε το grub στο MBR και/ή γενικά να επαναφέρετε το grub, θα πρέπει να εκκινίσετε από ένα <span class="highlight-3">sidux live-cd</span>:</p>
+							<!--p> To rewrite the grub (grub-legacy) to the MBR and/or to recover grub in general, you will need boot up a <span class="highlight-3">sidux live-cd</span>, first:</p>-->
+							<p> Για να επανεγγράψετε το grub (grub-legacy) στο MBR και/ή γενικά να επαναφέρετε το grub, θα πρέπει να εκκινίσετε από ένα <span class="highlight-3">sidux live-cd</span>:</p>
 						<ol>
 							<!--li>To identify and confirm your partitions (e.g. [h,s]d[a..]X) all the following actions need root privileges, so to get root (#):
 <pre>
@@ -240,16 +243,16 @@ fdisk -l
 cat /etc/fstab
 </pre>
 							Έτσι πέρνεται τα πραγματικά ονόματα.
-							</li>								
+							</li>
 							<!--li>When you have acertained the correct partition, create the mount point:
 <pre>
 mkdir -p /media/[hdxx,sdxx,diskx]
-</pre>				
+</pre>
 							</li>-->
 							<li>Όταν έχετε την εκλογή στα επίσημα διαμερίσματα του δίσκου. Δημιουργείστε ένα σημείο προσάρτησης (mount point):
 <pre>
 mkdir -p /media/[hdxx,sdxx,diskx]
-</pre>				
+</pre>
 							</li>
 							<!--li>Mount it:
 <pre>
@@ -388,7 +391,7 @@ mount /dev/sdb1 /media/sdb1
 
 							<!--p>To make yourself a boot floppy, use the tools provided in <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p-->
 							<p>Για να δημιουργήσετε μια δισκέτα εκκίνησης, χρησιμοποιείστε τα εργαλεία που παρέχονται στο <a href="http://www.ultimatebootcd.com/">UBCD (Ultimate Boot Disk CD)</a></p>
-	
+
 	</div>
 	<div class="divider" id="remove-grub">
 		<!--h2>Removing grub from MBR</h2>-->
@@ -399,13 +402,13 @@ mount /dev/sdb1 /media/sdb1
 <!--pre>
 apt-get update
 apt-get install mbr
-apt-get remove -purge lilo 
+apt-get remove -purge lilo
 man install-mbr
 </pre-->
 <pre>
 apt-get update
 apt-get install mbr
-apt-get remove --purge lilo 
+apt-get remove --purge lilo
 man install-mbr
 </pre>
 
@@ -466,17 +469,17 @@ grub-install --root-directory=/media/sdaX /dev/sdY
 				<tr>
 					<td>(hd0)</td>
 					<td>/dev/sda</td>
-					<td>Πρώτος δίσκος (hd)</td>	
+					<td>Πρώτος δίσκος (hd)</td>
 				</tr>
 				<tr>
 					<td>(hd0,0)</td>
 					<td>/dev/sda1</td>
-					<td>Κατάτμ.1 στον hd1</td>	
+					<td>Κατάτμ.1 στον hd1</td>
 				</tr>
 				<tr>
 					<td>(hd0,5)</td>
 					<td>/dev/sda6</td>
-					<td>Λογική κατάτμ. στον hd 1</td>	
+					<td>Λογική κατάτμ. στον hd 1</td>
 				</tr>
 			</tbody>
 		</table>
@@ -689,7 +692,7 @@ gfxmenu (hd0,5)/boot/message
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7
 root		(hd0,5)
-kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791 
+kernel		/boot/vmlinuz-2.6.22.1-slh-smp-7 root=UUID=1885d68b-cc9c-49f8-9f98-a6874e7b3e7e ro  quiet vga=791
 initrd		/boot/initrd.img-2.6.22.1-slh-smp-7
 
 title		Debian GNU/Linux, kernel 2.6.22.1-slh-smp-7 (single-user mode)
@@ -783,9 +786,9 @@ LINUX: # chmod a -w ./stage2
 
 							<!--p>If you have a supported network card, Grub can boot over the network.<a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> An appropriate Boot-Disk can be obtained here (allthough with an older version of Grub)</a>.</p>-->
 							<p>Εάν έχετε μια υποστηριζόμενη κάρτα δικτύου, ο Grub μπορείτε να εκκίνηση μέσω δικτύου. <a href="http://os.inf.tu-dresden.de/%7Efm3/grub.html"> Ένας κατάλληλος δίσκος – έναρξης (boot-disk) μπορεί να ληφθεί εδώ (αν και με παλαιότερη έκδοση του grub)</a>.</p>
-				
+
 	</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 06/04/2009 1300hrs UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 10/12/2009 0815 UTC</div>
 
 
 </div>

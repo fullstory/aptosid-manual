@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Tue, 08 Dec 2009 11:56:51 +0000 -->
+<!-- Last translation revision by hubi Sun, 13 Dec 2009 14:37:19 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-de.htm#dual-boot">Grub1 - Dualboot und Multiboot</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#what-is-grub">Grub: der Bootmanager</a></li>
 				<li><a href="sys-admin-grub-bootman2-de.htm#remove-grub">Grub aus MBR entfernen</a></li>
-				<li><a href="sys-admin-grub2-de.htm#chroot">Grub2 - MBR überschrieben</a></li>
+				<li><a href="sys-admin-grub2-de.htm#mbr-over-grub2">Grub2 - MBR überschrieben</a></li>
 				<li><a href="sys-admin-grub2-de.htm#multi-os">Grub2 - Dualboot und Multiboot</a></li>
 				<li><a href="sys-admin-grub2-de.htm#grub1-grub2">Grub2 - Aktualisierung von Grub1</a></li>
 				<li><a href="sys-admin-grub2-de.htm#grub2">Grub2 - Überblick</a></li>
@@ -325,13 +325,56 @@ update-grub
 </pre>
 							<p>Warnhinweise können ignoriert werden.</p>
 
-							<p>Bei einem Fehler überschreibt die Aktualisierung vermutlich den MBR. Wie dies repariert wird, finden Sie in <a href="sys-admin-grub2-de.htm#chroot">Grub2 - MBR überschrieben</a>.</p>
+							<p>Bei einem Fehler überschreibt die Aktualisierung vermutlich den MBR. Wie dies repariert wird, finden Sie in <a href="sys-admin-grub2-de.htm#mbr-over-grub2">Grub2 - MBR überschrieben</a>.</p>
+</div>
+	<div class="divider" id="mbr-over-grub2">
 
+					<h2>Nur grub2 neu von der Fesplatte in den MBR schreiben</h2>
+
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy /dev/sda
+</pre>
+						<p>Es kann sein, dass dieser Befehl mehrfach ausgeführt werden muss, bis er "überzeugt" ist, dass dies wirklich durchgeführt werden soll.</p>
+
+		<h2>MBR von Windows überschrieben - MBR korrumpiert - Wiederherstellung von Grub2</h2>
+							<p><span class="highlight-2">ANMERKUNG: zur Wiederherstellung von Grub2 benötigt man eine 2009-04 (moros) sidux.iso oder später.</span> <a href="sys-admin-grub2-de.htm#chroot">Alternativ kann ein chroot mit jeder live.iso verwendet werden</a>.</p>
+
+							<p>Um grub2 neu zu schreiben oder wiederherzustellen, muss in eine <span class="highlight-3">sidux.iso</span> gestartet werden:</p>
+						<ol>
+							<li>Um die Partitionen ([h,s]d[a..]X) zu identifizieren und bestätigen, muss man root (#) werden:
+<pre>
+$ sux
+</pre>
+							</li>
+							<li>Als root wird Folgendes eingegeben:
+<pre>
+fdisk -l
+cat /etc/fstab
+</pre>
+							Auf diese Weise erhält man die korrekten Benennungen.
+							</li>
+							<li>Wenn die korrekte Partitionsbezeichnung gefunden ist, wird ein Einhängepunkt erstellt:
+<pre>
+mkdir -p /media/[hdxx,sdxx,diskx]
+</pre>
+							</li>
+							<li>Danach wird die Partition eingebunden:
+<pre>
+mount /dev/xdxx /media/xdxx
+</pre>
+							</li>
+
+							<li>Jetzt kann Grub in den MBR der ersten Festplatte geschrieben werden:
+<pre>
+/usr/sbin/grub-install --recheck --no-floppy --root-directory=/media/xdxx /dev/sda
+</pre>
+							</li>
+						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h2>Überschriebener oder korrumpierter Grub2 im MBR</h2>
+		      <h3>Verwendung einer chroot-Umgebung zur Wiederherstellung eines überschriebenen oder korrumpierten Grub2 in MBR</h3>
 
-							<p>Um Grub2 wiederherzustellen, falls er im MBR überschrieben oder korrumpiert wurde, muss eine <span class="highlight-3">chroot</span>-Umgebung aufgesetzt werden.</p>
+							<p>Um Grub2 wiederherzustellen, falls er im MBR überschrieben oder korrumpiert wurde, muss eine <span class="highlight-3">chroot</span>-Umgebung aufgesetzt werden. <span class="highlight-3">Jede live.iso ist dafür geeignet</span>.</p>
 
 							<p>Man bootet in eine Ihrem System entsprechende sidux.iso (32 oder 64 bit CD, DVD, USB-Stick oder SSD-Karte) und öffnet eine Konsole. Man tippt <span class="highlight-3">sux</span> und drückt die Eingabetaste, um root-Rechte zu erhalten.</p>
 
@@ -378,7 +421,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/12/2009 2225 UTC</div>
+	<div id="rev">Page last revised 14/12/2009 0450 UTC</div>
 
 </div>
 </body>

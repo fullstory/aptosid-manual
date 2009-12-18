@@ -20,7 +20,7 @@
 <!-- Last translation revision 15/10/2007 1800 UTC-->
 <div id="menu"> <!-- menu starts here pl lang maintainer neceron dongle-->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Przejdź do sidux.com, forum oraz wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-pl.htm#dual-boot">Grub1 - Uruchamianie wielu systemów operacyjnych</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#remove-grub">Usuwanie GRUB z MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-pl.htm#what-is-grub">Menadżer uruchamiania - GRUB</a></li>
-				<li><a href="sys-admin-grub2-pl.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-pl.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
 				<li><a href="sys-admin-grub2-pl.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
 				<li><a href="sys-admin-grub2-pl.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
 				<li><a href="sys-admin-grub2-pl.htm#grub2">Grub2 - Overview</a></li>
@@ -450,10 +450,25 @@ $ man fll-iso2usb
 				<h3>Installation:</h3>
 
 <pre>
-apt-get install virtualbox-ose-qt virtualbox-ose-source
+apt-get update
+apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
+</pre>
+							<p>Then prepare the module:</p>
+<pre>
+m-a prepare
+m-a a-i virtualbox-ose-source
+</pre>
+							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+<pre>
+mcedit /etc/default/dmakms
+virtualbox-ose-source
 </pre>
 
-							<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
+							<p>Then reboot the computer.</p>
+
+							<p><a href="sys-admin-kern-upg-pl.htm#dmakms">This is essential reading on dmakms</a></p>
+
+						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
 
 							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
 
@@ -467,7 +482,7 @@ exit 0
 <pre>
 man dkms
 man dmakms
-</pre>
+</pre>-->
 					<h3>Instalacja siduksa na wirtualnej maszynie</h3>
 							<p>Użyj kreatora virtualboksa do stworzenia nowej maszyny wirtualnej dla siduksa. Następnie postępuj według instrukcji dla zwykłej instalacji siduksa.</p>
 
@@ -590,7 +605,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-			<div id="rev">Strona ostatnio modyfikowana 07/12/2009 1500 UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 14/12/2009 0725 UTC</div>
 
 </div>
 </body>

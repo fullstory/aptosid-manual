@@ -20,7 +20,7 @@
 <!-- Last translation revision by Richard 22/09/2008 1500 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
 <!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.07 0330 hrs UTC -->
+<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -192,7 +192,7 @@
 				<li><a href="sys-admin-grub-bootman2-es.htm#dual-boot">Grub1 - Iniciación Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#remove-grub">Quitar 'grub' del MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-es.htm#what-is-grub">'grub': el Inicializador</a></li>
-				<li><a href="sys-admin-grub2-es.htm#chroot">Grub2 - Sobre-escribir el MBR</a></li>
+				<li><a href="sys-admin-grub2-es.htm#mbr-over-grub2">Grub2 - Sobre-escribir el MBR</a></li>
 				<li><a href="sys-admin-grub2-es.htm#multi-os">Grub2 - Iniciación Dual y Múltiple</a></li>
 				<li><a href="sys-admin-grub2-es.htm#grub1-grub2">Grub2 -Actualización desde Grub1</a></li>
 				<li><a href="sys-admin-grub2-es.htm#grub2">Grub2 - Vista general</a></li>
@@ -202,16 +202,19 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="mbr-grub-boot">
-					<h2 id="top-header">Para escribir Grub de nuevo</h2>
-						<p>Para escribir un nuevo disparador de Grub en el MBR del disco duro, por ejemplo para una nueva versión:</p>
+					<h2 id="top-header">Para escribir Grub1 de nuevo (grub-legacy)</h2>
+						<p><span class="highlight-2">NOTA: para restaurar el inicilizador Grub1 necesitará tener el sidux.iso 2009-03 (momos) o anterior.</span></p>
+
+						<p>Para escribir un nuevo disparador de Grub (grub-legacy) en el MBR del disco duro, por ejemplo para una nueva versión:</p>
 <pre>
 /usr/sbin/grub-install --recheck --no-floppy /dev/sda
 </pre>
 						<p>Esta línea quizás necesite ser ejecutada más de una vez, hasta que esté convencido de que es lo que desea.</p>
 
-		<h2>El sector de arranque (MBR) fue sobreescrito por Windows y/o cómo recuperar el GRUB</h2>
+		<h2>El sector de arranque (MBR) fue sobreescrito por Windows y/o cómo recuperar el GRUB (grub-legacy)</h2>
+							<p><span class="highlight-2">NOTA: para restaurar el inicilizador Grub1 necesitará tener el sidux.iso 2009-03 (momos) o anterior.</span></p>
 
-							<p>Para reescribir Grub al MBR y/o recuperar el Grub en general, rearranque el sistema con el <span class="highlight-3">sidux live-cd</span>, primero:</p>
+							<p>Para reescribir Grub (grub-legacy) al MBR y/o recuperar el Grub en general, rearranque el sistema con el <span class="highlight-3">sidux live-cd</span>, primero:</p>
 						<ol>
 							<li>Para identificar y confirmar los particiones (ejem: [h,s]d[a..]X) todas las acciones siguientes necesitarán ser efectuadas con privilegios de root; para entrar como # root haga:
 <pre>
@@ -284,11 +287,11 @@ Disk identifier: 0x1c01ad92
 root@sidux:/home/sidux# cat /etc/fstab
 # /etc/fstab - información estática acerca de sistemas de archivos - fstab(5)
 #
-# /etc/fstab solamente es leido por programas y no escrito; es el deber del 
+# /etc/fstab solamente es leido por programas y no escrito; es el deber del
 # administrador del sistema mantener correctamente este archivo.
 #
 # En vez de entrar el dispositivo explicitamente, puede indicar el sistema de archivos
-# a ser montado por su etiqueta de UUID o de VOLUMEN. Esto hace el sistema más robusto: 
+# a ser montado por su etiqueta de UUID o de VOLUMEN. Esto hace el sistema más robusto:
 # agregando o quitando un disco, se cambia el nombre del dispositivo
 # pero no el UUID o etiqueta de VOLUMEN.
 
@@ -365,7 +368,7 @@ mount /dev/sdb1 /media/sdb1
 <pre>
 apt-get update
 apt-get install mbr
-apt-get remove --purge lilo 
+apt-get remove --purge lilo
 man install-mbr
 </pre>
 
@@ -514,7 +517,7 @@ gfxmenu (hd0,5)/boot/message
 
 ## password ['--md5'] passwd
 # Si se usa en la primera sección del archivo menú, desactiva cualquier edición interactiva
-# (editoción del menu y línea de comando Grub) y las entradas protegidas por el 
+# (editoción del menu y línea de comando Grub) y las entradas protegidas por el
 # comando 'lock'
 # e.g.: password topsecret
 #      password --md5 $1$gLhU0/$aW78kHK1QfV3P2b2znUoe/
@@ -556,12 +559,12 @@ gfxmenu (hd0,5)/boot/message
 ## e.g. groot=(hd0,0)
 # groot=(hd0,5)
 
-## desea crear las opciones alternativas, automagicas de inicio con update-grub 
+## desea crear las opciones alternativas, automagicas de inicio con update-grub
 ## e.g. alternative=true
 ##      alternative=false
 # alternative=false
 
-## desea fijar las opciones alternativas, automagicas con update-grub 
+## desea fijar las opciones alternativas, automagicas con update-grub
 ## e.g. lockalternative=true
 ##      lockalternative=false
 # lockalternative=false
@@ -660,8 +663,8 @@ title sidux 32bit from ISO
 kernel (hd0,5)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
 initrd (hd0,5)/sidux/miniroot.gz
 </pre>
-<span class="highlight-3">Es prudente hacer una copia de seguridad de menu.lst antes de modificarlo.</span>		
-			
+<span class="highlight-3">Es prudente hacer una copia de seguridad de menu.lst antes de modificarlo.</span>
+
 			<p>Algunos usuarios necesitan o desean tener varias instalaciones de Windows. Windows siempre quiere arrancar desde el disco 1. Tendremos que esconder una partición y activar otra. Los siguientes comandos deben ser entrados en el modo de comando Grub y, si tiene éxito, copiarlos al "menu.lst". Esto debe ser realizado por cada partición de Windows. No olvide hacer un respaldo! ;-)</p>
 
 <pre>hide (hd0,0) # partición escondido 1 del disco 1
@@ -694,7 +697,7 @@ LINUX: # chmod a -w ./stage2
 
 	</div>
 
-	<div id="rev">Content last revised 06/04/2009 1300hrs UTC</div>
+	<div id="rev">Content last revised 10/12/2009 0815 UTC</div>
 
 </div>
 </body>

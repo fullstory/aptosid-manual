@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-hr.htm#desk-freeze">Desktop je smrznut</a></li>
 				<li><a href="wm-kde-hr.htm#kde-login">Ne mogu se prijaviti u KDE</a></li>
 				<li><a href="wm-kde-hr.htm#ch-th">Promjeni temu</a></li>
+				<li><a href="wm-kde-hr.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-hr.htm">sidux LAMP Stack</a>
@@ -235,7 +236,7 @@ Linux      grub1     grub2
 					 <h4> The Grub 2 script files</h4>
 							<p><span class="highlight-3"> /etc/grub.d</span> files control the 'result' file called <span class="highlight-3"> grub.cfg</span>, which is found in <span class="highlight-3"> /boot/grub/</span>.</p>
 
-							<p><span class="highlight-2">The grub.cfg file should never be altered manually. </span>All alterations are to be done with one or all of the following script files located in <span class="highlight-3"> /etc/grub.d</span>:</p>
+							<p><span class="highlight-2">The grub.cfg file should never be altered manually. </span>All alterations are to be done with one or all of the following script files located in <span class="highlight-3"> /etc/grub.d</span>. os-prober should handle 90% of all cases:</p>
 <pre>
 00_header:
 05_debian_theme: Sets background, text colors, themes
@@ -245,6 +246,7 @@ Linux      grub1     grub2
 30_os-prober: Searches for Linux and other OS's on all partitions; includes them in the boot menu.
 40_custom: A template for adding custom boot menu entries for other Operating Systems.
 60_fll-fromiso: A template for adding custom boot menu entries for fromiso to a USB-stick/SSD-card.
+<span class="highlight-2">60_fll-fromiso is not to be altered use /etc/default/grub2-fll-fromiso</span>
 </pre>
 							<p>After an alteration is made, grub.cfg needs to know about the changes. In the case of sidux kernel upgrades, the update command is automatically run. In the case of a manual alteration made by you as the system administrator to any of the above files, you need to run: </p>
 
@@ -317,7 +319,26 @@ apt-get install install-usb-gui fll-iso2usb
 <pre>
 update-grub
 </pre>
+							<p>Should you have a need to add a custom entry to menu.cfg or if the 30_os-prober fails to write to grub.cfg with chainloader menus use your favourite text editor to make the amendments to <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
 
+							<p>Examples of customising the 40_custom  file:</p>
+<pre>
+menuentry "second mbr"{
+set root=(hd1)
+chainloader +1
+}
+</pre>
+
+<pre>
+menuentry "second partition"{
+set root=(hd0,2)
+chainloader +1
+}
+</pre>
+							<p>Then after you have made your changes run:</p>
+<pre>
+update-grub
+</pre>
 							<p>Should it complain that does not know the grub device of a disk, it means that the devicemap must be regenerated.</p>
 
 							<p><span class="highlight-3">Ensure that you choose the partition not the MBR when installing the other operating system:</span></p>
@@ -424,7 +445,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 19/12/2009 0630 UTC</div>
+	<div id="rev">Page last revised 23/12/2009 0140 UTC</div>
 
 </div>
 </body>

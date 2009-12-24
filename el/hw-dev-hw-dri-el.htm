@@ -18,10 +18,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by edhunter 05/12/2009 1920 UTC -->
+<!-- Last translation revision by edhunter 23/12/2009 0330 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -125,6 +125,7 @@
 				<li><a href="wm-kde-el.htm#desk-freeze">Κόλλημα επιφάνειας εργασίας</a></li>
 				<li><a href="wm-kde-el.htm#kde-login">Δεν μπορώ να εισέλθω στο KDE</a></li>
 				<li><a href="wm-kde-el.htm#ch-th">Aλλάζοντας Θέματα (Themes)</a></li>
+				<li><a href="wm-kde-el.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-el.htm">sidux LAMP Stack</a>
@@ -194,9 +195,9 @@
 				<li><a href="sys-admin-grub-bootman2-el.htm#remove-grub">Απεγκατάσταση του grub από το MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-el.htm#what-is-grub">O διαχειριστής εκκίνησης Grub </a></li>
 				<li><a href="sys-admin-grub2-el.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
-				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual and Multibooting</a></li>
-				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
-				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Overview</a></li>
+				<li><a href="sys-admin-grub2-el.htm#multi-os">Grub2 - Dual και Multibooting</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub1-grub2">Grub2 -Αναβάθμιση από Grub1</a></li>
+				<li><a href="sys-admin-grub2-el.htm#grub2">Grub2 - Γενικά</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -275,8 +276,23 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
-	 BusID		 "PCI:1:0:0"
  EndSection
+</pre>
+							<!--p>If you have more than one graphics card you will need ascertain the PCI and to include it in the xorg.conf:</p-->
+							<p>Εάν έχετε περισσότερες από μια κάρτες, θα πρέπει να βρείτε το PCI και να το συμπεριλάβεται στο xorg.conf:</p>
+<pre>
+lspci | grep -i vga
+</pre>
+							<!--p>This should return syntax similar to this:</p-->
+							<p>Η εντολή θα πρέπει να επιστρέψει κάτι παρόμιο με το πιο κάτω:</p>
+<pre>
+01:00.0 VGA compatible controller:
+</pre>
+							<!--p>Add the 01:00.0 busid as an extra line under the 'Driver' line:</p-->
+							<p>Προσθέστε το 01:00.0 busid σε έξτρα γραμμή κάτω από την γραμμή 'Driver':</p>
+
+<pre>
+BusID		 "PCI:01:00.0"
 </pre>
 							<!--p>Save and move the file to <span class="highlight-3">/etc/X11</span>:</p-->
 							<p>Φυλάξτε το αρχείο και μεταφέρετε το στο <span class="highlight-3">/etc/X11</span>:</p>
@@ -388,7 +404,7 @@ $ /usr/share/doc/dmakms
 
 					  <h6>3D Οδηγοί</h6>
 							<!--p>Some ATI cards also support 3D, (and KDE animations), with <span class="highlight-3">xserver-xorg-video-radeon</span>. So far chipsets up to r700 are supported.</p-->
-							<p>Some ATI cards also support 3D, (and KDE animations), with <span class="highlight-3">xserver-xorg-video-radeon</span>. So far chipsets up to r700 are supported.</p>
+							<p>Μερικές ATI κάρτες υποστηρίζουν 3D, (και KDE animations), με <span class="highlight-3">xserver-xorg-video-radeon</span>. Αυτή τη στιγμή υποστηρίζονται chipsets μέχρι το r700.</p>
 
 							<!--p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p-->
 							<p>Για αυτόματη εγκατάσταση μη-ελεύθερων firmware όταν ενημερώνονται. Για 2D και 3D κάρτες γραφικών:</p>
@@ -1124,7 +1140,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Τώρα η NTFS-κατάτμηση θα πρέπει να είναι προσαρτημένη (mounted) <b>rw</b> και θα πρέπει να μπορείτε να αποθηκεύσετε τα δεδομένα σας σε αυτή. Αλλά ξανά προ ειδοποιήστε  <span class="highlight-3">Χρησιμοποιήστε το σε επείγουσες καταστάσεις, δεν συνιστάται για χρήση επί καθημερινής βάσεως.</span></p>
 
 		</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/12/2009 0350 UTC </div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 21/12/2009 2305 UTC </div>
 
 </div>
 </body>

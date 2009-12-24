@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->s
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -123,6 +123,7 @@
 				<li><a href="wm-kde-fr.htm#desk-freeze">Gel du bureau</a></li>
 				<li><a href="wm-kde-fr.htm#kde-login">KDE ne se lance pas</a></li>
 				<li><a href="wm-kde-fr.htm#ch-th">Changer de Thème</a></li>
+				<li><a href="wm-kde-fr.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-fr.htm">Suite LAMP sidux</a>
@@ -209,7 +210,7 @@
 
 							<p>Caractéristiques de rdiff:</p>
 
-						<ul> 
+						<ul>
 							<li>Très* utile pour restaurer après un dist-upgrade, une mise-à-jour de noyau, etc. s'étant mal passé, ainsi que pour tout simplement récupérer des fichiers individuellement.</li>
 							<li>Ne sauvegarde que ce qui a changé comme le fait rsync ; donc chaque sauvegarde est économe en temps.</li>
 							<li>Garde en mémoire un historique des modifications, et peut donc permettre de restaurer un fichier que vous auriez effacé il y a trois semaines !</li>
@@ -219,16 +220,16 @@
 							<li>Conçu pour sauvegarder des réseaux complets (réseaux linux, avec Windows&reg; c'est plus difficile) et est employé à cet effet par les professionnels spécialistes.</li>
 							<li>S'emploie en ligne de commande et donc pratique pour programmer des sauvegardes automatiques via les commandes Linux courantes de type cron et les scripts bash.</li>
 							<li>Mémorise et gère les propriétés et permissions de fichiers, ainsi que les liens symboliques et autres objets de cet ordre ; donc, quand vous restaurez, vous obtenez un état exactement identique à l'original.</li>
-					</ul>  
-	
+					</ul>
+
 			<h6>Ce dont vous aurez besoin</h6>
 
 							<p>Rdiff-backup garde une copie intégrale et <span class="highlight-3">non-compressée</span> des fichiers que vous lui demandez de sauvegarder, ainsi que crée un historique incrémental. Aussi aurez-vous besoin pour votre sauvegarde d'un espace disque substantiellement plus volumineux que celui qu'occupent vos fichiers originaux. Si vous sauvegardez 100 Go, vous pourrez avoir besoin d'un espace de 120 Go (sur un disque dur différent, de préférence !)</p>
 
 			<h6>Comment configurer rdiff</h6>
 
-							<p>Imaginons que votre PC se présente comme suit :</p> 	 		
-				
+							<p>Imaginons que votre PC se présente comme suit :</p>
+
 						<ul>
 							<li>Un disque dur de 100 Gigas (sda) en service, avec un partition sda1 montée comme racine, et sda5 utilisée pour le stockage de musiques et autres, et sda6 comme swap.</li>
 
@@ -242,7 +243,7 @@
 <pre>
 # apt-get install rdiff-backup
 </pre>
- 
+
 							<p>Ici, même si vous pouvez sauvegarder n'importe quel répertoire, nous décrivons la sauvegarde de l'intégralité de partitions. Nous voulons sauvegarder sda1 et sda5 (et pas sda6), et donc nous créons des répertoires pour stocher leurs données :</p>
 
 <pre>
@@ -257,14 +258,14 @@
 							<p>rdiff-backup utilise la syntaxe <span class="highlight-3">rdiff-backup répertoire-source répertoire-cible</span>.</p>
 
 							<p class="highlight-3">Avec rdiff utilisez toujours des identités de répertoires et jamais celles de fichiers.</p>
-				
+
 							<p>Pour sauvegarder sda5, entrez :</p>
 
 <pre>
 # rdiff-backup /media/sda5 /media/sdb1/rdiff-backups/192.168.0.1/sda5
 </pre>
 
-							<p>Et pour sauvegarder votre partition racine sda1, entrez :</p> 
+							<p>Et pour sauvegarder votre partition racine sda1, entrez :</p>
 
 <pre>
 # rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' \
@@ -327,7 +328,7 @@ rdiff-backup -r &lt;depuis-moment&gt; &lt;répertoire-source&gt; &lt;répertoire
 
 							<p>Une manière d'y procéder consiste à démarrer sur un autre système Linux, installé sur une autre partition, si vous en disposez sur votre ordinateur. Dans ce cas, vous pourrez réinstaller la partition en question facilement, puisqu'elle sera pas votre partition racine en cours d'utilisation. Après la restauration vous pourrez à nouveau démarrer à partir de la partition restaurée, qui se présentera exactement telle qu'elle était au moment de sa sauvegarde. C'est à l'évidence, la plus simple des méthodes.</p>
 
-							<p>Une autre méthode passe par le démarrage à partir du Live-CD de sidux, en opérant la restauration depuis celui-ci. Normalement rdiff-backup est intégré au Live-CD mais le cas où celui dont vous disposeriez n'inclurait pas rdiff, entrez dans grub au démarrage du cd , l'option "unionfs" qui vous permettra d'installer des applications avec le live-cd. Le démarrage Live effectué entrez ces commandes :</p> 
+							<p>Une autre méthode passe par le démarrage à partir du Live-CD de sidux, en opérant la restauration depuis celui-ci. Normalement rdiff-backup est intégré au Live-CD mais le cas où celui dont vous disposeriez n'inclurait pas rdiff, entrez dans grub au démarrage du cd , l'option "unionfs" qui vous permettra d'installer des applications avec le live-cd. Le démarrage Live effectué entrez ces commandes :</p>
 
 <pre>
 $ sudo su
@@ -344,7 +345,7 @@ $ sudo su
 # rdiff-backup -r now /media/sdb1/rdiff-backups/192.168.0.1/root /media/sda1
 </pre>
 
-							<p>Si vous utilisez un autre live-cd que sidux qui embarquerait Klik, vous pouvez installer rdiff-backup avec klic puis lancer :</p> 
+							<p>Si vous utilisez un autre live-cd que sidux qui embarquerait Klik, vous pouvez installer rdiff-backup avec klic puis lancer :</p>
 
 <pre>
 $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup \
@@ -353,7 +354,7 @@ $ sudo ~/.zAppRun ~/Desktop/rdiff-backup_0.13.4-5.cmg rdiff-backup \
 
 							<p>Il est fortement recommandé à toute personne entendant procéder à des sauvegardes de sa partition racine (dans l'intention de pouvoir la restaurer en cas de besoin), de tester le processus de restauration. Il n'existe rien de pire qu'imaginer que tout ira bien pour s'apercevoir d'une anomalie au moment critique.</p>
 
-							<p>If the hard drive has been changed or reformatted, recheck the UUIDs, (or Labels), in <span class=highlight-3>/boot/grub/menu.lst</span> and <span class=highlight-3>/etc/fstab</span>, and alter accordingly. An easy way to get the information to alter the menu.lst and fstab files, if required, is as root:</p>
+							<p>If the hard drive has been changed or reformatted, recheck the UUIDs, (or Labels), in <span class="highlight-3">/boot/grub/menu.lst</span> and <span class="highlight-3">/etc/fstab</span>, and alter accordingly. An easy way to get the information to alter the menu.lst and fstab files, if required, is as root:</p>
 
 <pre>
 blkid
@@ -377,14 +378,14 @@ blkid
 
 							Vous pouvez demander à rdiff-backup de ne garder en mémoire qu'un maximum d'un mois de sauvegardes, comme nous l'expliquerons plus loin, et ceci prendra évidemment moins d'espace que la mémorisation des sauvegardes de toute une année.</p>
 
-				
+
 							<p>La première chose à faire sera d'installer rdiff-backup sur l'ordinateur distant. Tout ordinateur à exploiter avec rdiff-backup doit disposer de cet outil installé.</p>
 
 							<p>Pour sauvegarder le PC distant dans le PC local, lancez dans le PC local (IP 192.168.0.1 dans notre exemple) - en notant l'utilisation en double-colonne <span class="highlight-4">:;</span></p>
 
 <pre>
 # mkdir /media/sdb1/rdiff-backups/192.168.0.2/root
-# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root 
+# rdiff-backup --exclude '/tmp/*' --exclude '/proc/*' --exclude '/sys/*' --exclude '/media/*/*' 192.168.0.2::/ /media/sdb1/rdiff-backups/192.168.0.2/root
 </pre>
 
 							<h6>Pour restaurer les données de l'ordinateur distant</h6>
@@ -408,7 +409,7 @@ blkid
 							<p>Utilisez les mêmes syntaxes en restaurant votre partition racine depuis un live-cd (lorsque l'ordinateur distant a été démarré à partir du CD - cf les instructions plus haut).</p>
 
 	<h6>Automatisation des sauvegardes</h6>
-		
+
 
 							<p>Si vous sauvegardez d'autres pc sur votre pc local, la première chose à faire est d'y autoriser les connexions ssh sans mot-de-passe avec utilisation de clés ssh. <span class="highlight-2">Note: nous parlons ici de connexion distantes 'password-less' en tant tant qu'administrateur (root). Celles-ci peuvent être paramétrées afin de n'être utilisables que pour exécuter les commandes de rdiff-backup, mais ce sujet outrepasse celui qui nous occupe dans ce chapitre. Reportez-vous à <a href="ssh-fr.htm#ssh-s">Configuration de SSH</a></span>. Nous admettrons ici utiliser la méthode la plus simple et sûre pour obtenir des connexions sans mot-de-passe.</p>
 

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by zonker 01/02/2009 0030 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-da.htm#desk-freeze">Hvis skrivebordet fryser</a></li>
 				<li><a href="wm-kde-da.htm#kde-login">Hvis du ikke kan logge ind i KDE</a></li>
 				<li><a href="wm-kde-da.htm#ch-th">&#198;ndre Themes</a></li>
+				<li><a href="wm-kde-da.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-da.htm">sidux LAMP Stack</a>
@@ -224,7 +225,7 @@
 	</div>
 	<div class="divider" id="desk-freeze">
 			<h2>Skrivebordet fryser</h2>
-							<p>Hvis din maskine fryser er det ikke sikkert at du får brug for din reset-knap! Anvendelse af reset knapen kan blandt andet skade filsystemet, og du kan eventuelt miste data. Under alle omstændigheder vil filsystemet ikke være 'rent' ved næste opstart (filesystem not clean).</p> 
+							<p>Hvis din maskine fryser er det ikke sikkert at du får brug for din reset-knap! Anvendelse af reset knapen kan blandt andet skade filsystemet, og du kan eventuelt miste data. Under alle omstændigheder vil filsystemet ikke være 'rent' ved næste opstart (filesystem not clean).</p>
 
 							<p>Prøv først at komme til en textkonsol med <span class="highlight-3">alt-ctl-F1</span> eller genstart X-serveren med <span class="highlight-3">alt-ctl-backspace</span>, selv hvis ingen af disse to metoder fungerer er der stadig håb:</p>
 
@@ -241,7 +242,7 @@
 
 							<p>Det er bedst at vente nogle sekunder imellem hvert skridt for at tillade maskinen at udføre kommandoerne. Afslutningen af alle processer, for eksempel, kan tage et lille stykke tid. Der er en lille huskesætning, på engelsk, for denne sekvens:"<span class="highlight-2">R</span>eboot <span class="highlight-2">S</span>ystem <span class="highlight-2">E</span>ven <span class="highlight-2">I</span>f <span class="highlight-2">U</span>tterly <span class="highlight-2">B</span>roken" </p>
 
-			
+	</div>
 	<div class="divider" id="kde-login">
 			<h2>Problemer med at logge ind i KDE</h2>
 
@@ -261,7 +262,8 @@
 							<p>Alternativt kan du gøre brug af en X window manager der ikke kræver så meget plads fra systemet ( for eksempel fluxbox som allerede findes i en sidux installation), eller chroot med en sidux live-CD/DVD for at rydde op på partitionen så du kan logge ind i KDE.</p>
 
 							<p>85% er det absolut anbefalede maksimum for an partition som KDE anvender til dets /tmp filer (15% fri).</p>
-			
+
+	</div>
 	<div class="divider" id="ch-th">
 			<h2>Installering af sidux KDE tapeter, temaer etc. </h2>
 
@@ -272,9 +274,9 @@ apt-get install sidux-art-kde-xxxx sidux-art-wallpaper-xxxx
 (Hvor xxxx er release-navnet, for eksempel sidux-art-kde-momos)
 </pre>
 							<p>Dette vil installere sidux tapeter og temaer</p>
-							
+
 					<h4>To change the Wallpaper:</h4>
-							<p><span class="highlight-3">Right click </span>on your desktop and choose <span class="highlight-3">Desktop Settings</span>. Under the heading of <span class="highlight-3">Wallpaper</span> there is a sub heading called <span class="highlight-3">Picture</span> which provides a dropdown list for you to choose which wallpaper to display.  You may also click on the Browse button next to the Picture box to use an image you may have on file elsewhere in your computer.</p> 
+							<p><span class="highlight-3">Right click </span>on your desktop and choose <span class="highlight-3">Desktop Settings</span>. Under the heading of <span class="highlight-3">Wallpaper</span> there is a sub heading called <span class="highlight-3">Picture</span> which provides a dropdown list for you to choose which wallpaper to display.  You may also click on the Browse button next to the Picture box to use an image you may have on file elsewhere in your computer.</p>
 
 					<h4>To change the Login screen:</h4>
 							<p>To change the login screen, firstly open <span class="highlight-3">systemsettings</span> with root/administration privileges:</p>
@@ -289,10 +291,40 @@ kdesu systemsettings
 
 							<p><a href="http://kde.org">Mere KDE information og links</a> </p>
 	</div>
-		<div id="rev">Content last updated 15/08/2009 0900 UTC</div>
+	<div class="divider" id="dm">
+			  <h2>Display Managers - dm </h2>
+				  <h6>Installing other desktop environments along with a preinstalled desktop:</h6>
 
-</div>
-</div>
+							<p>Whenever you install another desktop environment along with your current installation, (for example you installed the sidux-kde.iso and you now want to install the Xfce or LXDE desktop environment), a display manager (dm) will most likely be installed along with it or you may have installed it yourself, (gdm, slim or some other dm package).</p>
+
+							<p>The problem with this is you will end up with the default Debian runlevel configuration with the consequence that you will be unable to enter runlevel 3 to stop X and dist-upgrade.</p>
+
+							<p>The solution is:</p>
+<pre>
+apt-get update
+apt-get install --reinstall distro-defaults
+update-rc.d &lt;dm&gt; remove
+update-rc.d &lt;dm&gt; defaults
+</pre>
+							<p>Examples for <span class="highlight-3">update-rc.d &lt;dm&gt; defaults</span> and note the dot <span class="highlight-2">.</span> :</p>
+
+<pre>
+update-rc.d kdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d gdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d slim start 01 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+
+	</div>
+
+			<div id="rev">Page last revised 21/12/2009 1125 UTC</div>
+
 </div>
 </body>
 </html>

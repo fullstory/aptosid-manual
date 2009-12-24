@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mon, 14 Dec 2009 17:22:41 +0000-->
+<!-- Last translation revision hubi Mon, 21 Dec 2009 20:06:53 +0000-->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-de.htm#desk-freeze">Falls der Desktop einfriert</a></li>
 				<li><a href="wm-kde-de.htm#kde-login">Kein Login in KDE möglich</a></li>
 				<li><a href="wm-kde-de.htm#ch-th">Themes ändern</a></li>
+				<li><a href="wm-kde-de.htm#dm">Sitzungsmanager</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-de.htm">sidux LAMP-Stack</a>
@@ -150,7 +151,7 @@
 				<li><a href="ssh-de.htm#ssh-w">SSH: X-Forwarding von Windows</a></li>
 				<li><a href="ssh-de.htm#ssh">SSH: Sicherheit</a></li>
 				<li><a href="internet-connecting-de.htm#dial-mod">56k-Modems</a></li>
-				<li><a href="internet-connecting-wpagui-de.htm#wpa-roaming-gui">WiFi-roaming, WPA-GUI</a></li>
+				<li><a href="internet-connecting-wpagui-de.htm#wpa-roaming-gui">WiFi - Roaming und WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa-basic">WiFi - Aufsetzen einer WLAN-Verbindung</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa">WiFi - wpasupplicant</a></li>
 				<li><a href="internet-connecting-de.htm#netcardconfig">Internet &amp; Netzwerk - Ceni</a></li>
@@ -218,18 +219,20 @@
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso mit Grub2</h2>
-							<p>sidux liefert eine grub2-Datei mit dem Namen <span class="highlight-3">60_fll-fromiso</span>, um einen Eintrag für fromiso in das Grub2-Menü zu generieren. Diese kann in <span class="highlight-3">/etc/grub.d</span> gefunden werden. Als erstes öffnet man einen Terminal und wird root mit:</p>
+							<p>sidux has provided a grub2 file named 60_fll-fromiso to generate a fromiso entry to the grub2 menu.  The only file to configure fromiso is called <span class="highlight-3">grub2-fll-fromiso</span> and is found in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
+
+							<p> Als erstes öffnet man einen Terminal und wird root mit:</p>
 <pre>
 sux
 </pre>
 							<p>Im Anschluss öffnet man einen Editor der Wahl (kwrite, mcedit, vim ...):</p>
 
 <pre>
-mcedit /etc/grub.d/60_fll-fromiso
+mcedit /etc/default/grub2-fll-fromiso
 </pre>
 							 <p>Die Zeilen, die aktiv sein sollen, werden auskommentiert (<span class="highlight-2"> # </span> wird entfernt), und man ersetzt die voreingestellten Anweisungen innerhalb der  <span class="highlight-3">"Anführungszeichen"</span> mit den eigenen Parametern.</p>
 
-							 <p>Beispiel: vergleichen Sie diese geänderte 60_fll-fromiso mit den Grundeinstellungen (die zur Demonstration <span class="highlight-3">hervorgehobenen</span> Zeilen wurden geändert):</p>
+							 <p>Beispiel: vergleichen Sie diese geänderte grub2-fll-fromiso mit den Grundeinstellungen (die zur Demonstration <span class="highlight-3">hervorgehobenen</span> Zeilen wurden geändert):</p>
 <pre>
 # Defaults for grub2-fll-fromiso update-grub helper
 # sourced by grub2's update-grub
@@ -505,96 +508,101 @@ man dmakms
 
 		</ul>
 
- 			<h4>Erstellen eines Festplattenimages (iso)</h4>
+							<p>Ein grafisches Hilfsprogramm auf QT-Basis ist zur Unterstützung einer QEMU-Konfiguration installierbar:</p>
+<pre>
+apt-get install qtemu
+</pre>
 
-				<p>Um  qemu laufen lassen zu können, braucht man ein Festplattenabbild. Das ist eine Datei, welche den Inhalt einer Partition oder Festplatte trägt.</p>
+ 				<h4>Erstellen eines Festplattenimages (iso)</h4>
+
+							<p>Um  qemu laufen lassen zu können, braucht man ein Festplattenabbild. Das ist eine Datei, welche den Inhalt einer Partition oder Festplatte trägt.</p>
 
 				<p>Man verwendet den Befehl:</p>
 <pre>
 qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>Damit erstellt man eine Abbilddatei mit dem Namen "sidux.qcow". Der Parameter "3G" spezifiziert die Größe der Platte, in diesem Fall 3 GB. Das Suffix M wird für Megabyte verwendet (zum Beispiel "256M"). Man muss sich über die Größe jedoch keine zu großen Gedanken machen - das Format qcow komprimiert das Abbild, sodass der unbenutzte Platz sich nicht auf die Größe der Datei aufaddiert.</p>
+							<p>Damit erstellt man eine Abbilddatei mit dem Namen "sidux.qcow". Der Parameter "3G" spezifiziert die Größe der Platte, in diesem Fall 3 GB. Das Suffix M wird für Megabyte verwendet (zum Beispiel "256M"). Man muss sich über die Größe jedoch keine zu großen Gedanken machen - das Format qcow komprimiert das Abbild, sodass der unbenutzte Platz sich nicht auf die Größe der Datei aufaddiert.</p>
 
 
 			<h4>Installation des Betriebssystems</h4>
 
-				<p>Jetzt wird zum ersten Mal der Emulator gestartet. Eines muss dabei beachtet werden: wenn man innerhalb des qemu-Fensters mit der Maus klickt, wird der Mauszeiger "gefangen". Um ihn wieder frei zu geben, drückt man Ctrl+Alt.</p>
+							<p>Jetzt wird zum ersten Mal der Emulator gestartet. Eines muss dabei beachtet werden: wenn man innerhalb des qemu-Fensters mit der Maus klickt, wird der Mauszeiger "gefangen". Um ihn wieder frei zu geben, drückt man Ctrl+Alt.</p>
 
-				<p>Falls man eine bootfähige Diskette benötigt, wird Qemu so gestartet:</p>
+							<p>Falls man eine bootfähige Diskette benötigt, wird Qemu so gestartet:</p>
 <pre>
 qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
-				<p>Wenn die CD-ROM bootfähig ist, wird Qemu so gestartet:</p>
+							<p>Wenn die CD-ROM bootfähig ist, wird Qemu so gestartet:</p>
 <pre>
 qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
-				<p>Nun kann sidux wie auf eine reale Festplatte installiert werden.</p>
+							<p>Nun kann sidux wie auf eine reale Festplatte installiert werden.</p>
 
 
 			<h4>Verwendung des Systems</h4>
 
-				<p>Um das System zu starten, gibt man ein:</p>
+							<p>Um das System zu starten, gibt man ein:</p>
 <pre>
 qemu [hd_image]
 </pre>
-				<p>Eine gute Idee ist die Verwendung von sog. "überlagerten Abbildern" (overlay images). Auf diese Weise muss ein Abbild nur einmal angelegt werden und Qemu speichert Änderungen außerhalb dieses Abbilds. Das System ist so stabiler, da es sehr einfach ist, auf einen früheren Installationsstand zurückzugreifen.</p>
+							<p>Eine gute Idee ist die Verwendung von sog. "überlagerten Abbildern" (overlay images). Auf diese Weise muss ein Abbild nur einmal angelegt werden und Qemu speichert Änderungen außerhalb dieses Abbilds. Das System ist so stabiler, da es sehr einfach ist, auf einen früheren Installationsstand zurückzugreifen.</p>
 
-				<p>Um ein "überlagertes Abbild" (overlay image) zu erstellen, gibt man ein:</p>
+							<p>Um ein "überlagertes Abbild" (overlay image) zu erstellen, gibt man ein:</p>
 <pre>
 qemu-img create -b [base_image] -f qcow [overlay_image]
 </pre>
-				<p>Das Festplattenabbild ersetzt nun das Basis-Abbild (base_image), in unserem Fall sidux.qcow. Danach kann qemu gestartet werden:</p>
+							<p>Das Festplattenabbild ersetzt nun das Basis-Abbild (base_image), in unserem Fall sidux.qcow. Danach kann qemu gestartet werden:</p>
 <pre>
 qemu [overlay_image]
 </pre>
-				<p>Das originale Abbild bleibt unberührt. Es muss aber beachtet werden, dass das Basis-Abbild weder umbenannt noch verschoben werden darf, da das Overlay den genauen, absoluten Pfad des Basis-Abbilds benötigt.</p>
+							<p>Das originale Abbild bleibt unberührt. Es muss aber beachtet werden, dass das Basis-Abbild weder umbenannt noch verschoben werden darf, da das Overlay den genauen, absoluten Pfad des Basis-Abbilds benötigt.</p>
 
 
 			<h4>Wie man jede echte Partition als primäre Partition eines Festplattenabbilds benutzen kann</h4>
 
-				<p>Manchmal möchte man eine Systempartition aus qemu heraus benutzen (man möchte zum Beispiel sowohl die echte Installation wie auch die virtuelle qemu-Installation mit einer gegebenen Partition als root starten). Dies erfolgt durch ein Software-RAID im Linearmodus (dazu braucht man den linear.ko Kernel-Treiber) und ein Loopback-Gerät: der Trick dabei ist, dynamisch einen Master Boot Record (MBR) an den Beginn der realen Partition zu stellen, welche in das Raw-Disk-Image von qemu eingebettet werden soll.</p>
+							<p>Manchmal möchte man eine Systempartition aus qemu heraus benutzen (man möchte zum Beispiel sowohl die echte Installation wie auch die virtuelle qemu-Installation mit einer gegebenen Partition als root starten). Dies erfolgt durch ein Software-RAID im Linearmodus (dazu braucht man den linear.ko Kernel-Treiber) und ein Loopback-Gerät: der Trick dabei ist, dynamisch einen Master Boot Record (MBR) an den Beginn der realen Partition zu stellen, welche in das Raw-Disk-Image von qemu eingebettet werden soll.</p>
 
-				<p>Angenommen, man hat eine einfache, nicht eingebundene Partition /dev/sdaN mit einem Dateisystem, welche Teil eines qemu-Festplattenabbilds werden soll. Als erstes erstellt man eine kleine Datei, welche den MBR beinhalten soll:</p>
+							 <p>Angenommen, man hat eine einfache, nicht eingebundene Partition /dev/sdaN mit einem Dateisystem, welche Teil eines qemu-Festplattenabbilds werden soll. Als erstes erstellt man eine kleine Datei, welche den MBR beinhalten soll:</p>
 <pre>
 dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
-				<p>Hiermit wird eine 16 KB (32 * 512 bytes) große Datei erstellt. Es ist wichtig, diese Datei nicht zu klein zu veranschlagen (auch wenn der MBR nur einen einzelnen 512 Bytes großen Block benötigt), da die Chunk-Größe des Software-RAID-Geräts umso kleiner sein muss, je kleiner jene Datei ist, was wiederum einen Einfluss auf die Leistung haben wird. Danach kann ein Loopback-Gerät zum MBR-File aufgesetzt werden:</p>
+							<p>Hiermit wird eine 16 KB (32 * 512 bytes) große Datei erstellt. Es ist wichtig, diese Datei nicht zu klein zu veranschlagen (auch wenn der MBR nur einen einzelnen 512 Bytes großen Block benötigt), da die Chunk-Größe des Software-RAID-Geräts umso kleiner sein muss, je kleiner jene Datei ist, was wiederum einen Einfluss auf die Leistung haben wird. Danach kann ein Loopback-Gerät zum MBR-File aufgesetzt werden:</p>
 <pre>
 losetup -f /path/to/mbr
 </pre>
-				<p>Gehen wir davon aus, dass das Gerät /dev/loop0 heißt, da noch kein weiteres Loopback existiert. Nächster Schritt ist das Erstellen eines zusammengeführten Abbilds von MBR + /dev/sdaN unter Benutzung eines Software-RAIDS:</p>
+							<p>Gehen wir davon aus, dass das Gerät /dev/loop0 heißt, da noch kein weiteres Loopback existiert. Nächster Schritt ist das Erstellen eines zusammengeführten Abbilds von MBR + /dev/sdaN unter Benutzung eines Software-RAIDS:</p>
 <pre>
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Das daraus resultierende /dev/md0 wird als qemu-Raw-Diskimage benutzt (das Setzen der Berechtigungen nicht vergessen, damit der Emulator darauf zugreifen kann). Der letzte (und etwas heikle) Schritt ist die Erstellung der Festplattenkonfiguration (Plattengeometrie und Partitionstabellen), sodass der Startpunkt der primären Partition im MBR mit jenem von /dev/sdaN innerhalb von /dev/md0 übereinstimmt (ein Offset von genau 16 * 512 = 16384 Bytes in diesem Beispiel). Dazu wird fdisk auf der Host-Maschine benutzt, nicht auf dem Emulator: in den Grundeinstellungen resultiert die Raw-Disk-Erkennung von qemu oft in Offsets, die nicht auf Kilobyte gerundet werden können (wie 31.5 KB im vorangegangenen Abschnitt), was wiederum vom Code des Software-RAIDs nicht verstanden werden kann. Daher gibt man auf der Host-Maschine ein:</p>
+							<p>Das daraus resultierende /dev/md0 wird als qemu-Raw-Diskimage benutzt (das Setzen der Berechtigungen nicht vergessen, damit der Emulator darauf zugreifen kann). Der letzte (und etwas heikle) Schritt ist die Erstellung der Festplattenkonfiguration (Plattengeometrie und Partitionstabellen), sodass der Startpunkt der primären Partition im MBR mit jenem von /dev/sdaN innerhalb von /dev/md0 übereinstimmt (ein Offset von genau 16 * 512 = 16384 Bytes in diesem Beispiel). Dazu wird fdisk auf der Host-Maschine benutzt, nicht auf dem Emulator: in den Grundeinstellungen resultiert die Raw-Disk-Erkennung von qemu oft in Offsets, die nicht auf Kilobyte gerundet werden können (wie 31.5 KB im vorangegangenen Abschnitt), was wiederum vom Code des Software-RAIDs nicht verstanden werden kann. Daher gibt man auf der Host-Maschine ein:</p>
 <pre>
  fdisk /dev/md0
 </pre>
-				<p>Dort erstellt man eine primäre Partition entsprechend /dev/sdaN und spielt mit dem Befehl 's' (Sector) im Menü 'x' (Expert), bis der erste Zylinder (wo die erste Partition beginnt) genau zur Größe des MBR passt. Schließlich wird mit 'w' (write) das Ergebnis in den File geschrieben: damit ist die Arbeit abgeschlossen. Jetzt ist eine Partition vorhanden, welche sowohl direkt von der Host-Maschine eingebunden werden kann als auch vom qemu-Festplattenimage:</p>
+							<p>Dort erstellt man eine primäre Partition entsprechend /dev/sdaN und spielt mit dem Befehl 's' (Sector) im Menü 'x' (Expert), bis der erste Zylinder (wo die erste Partition beginnt) genau zur Größe des MBR passt. Schließlich wird mit 'w' (write) das Ergebnis in den File geschrieben: damit ist die Arbeit abgeschlossen. Jetzt ist eine Partition vorhanden, welche sowohl direkt von der Host-Maschine eingebunden werden kann als auch vom qemu-Festplattenimage:</p>
 <pre>
  qemu -hdc /dev/md0 [...]
 </pre>
-				<p>Natürlich kann gefahrlos jeder Bootloader auf das Festplattenabbild mit qemu geschrieben werden, vorausgesetzt, die originale Partition /boot/sdaN enthält die dafür notwendigen Anwendungen.</p>
+							<p>Natürlich kann gefahrlos jeder Bootloader auf das Festplattenabbild mit qemu geschrieben werden, vorausgesetzt, die originale Partition /boot/sdaN enthält die dafür notwendigen Anwendungen.</p>
 
 
 
 			<h4>Das QEMU Beschleunigungs-Modul (Accelerator Module)</h4>
 
-				<p>Die Entwickler von qemu haben ein optionales Kernelmodul erstellt, um qemu beinahe auf natives Niveau beschleunigen zu können. Dieses Modul sollte mit dieser Option geladen werden:</p>
+							<p>Die Entwickler von qemu haben ein optionales Kernelmodul erstellt, um qemu beinahe auf natives Niveau beschleunigen zu können. Dieses Modul sollte mit dieser Option geladen werden:</p>
 <pre>
 major=0
 </pre>
-				<p>Damit wird die Einrichtung des benötigten Geräts /dev/kqemu automatisiert. Weitere Befehle sind:</p>
+							<p>Damit wird die Einrichtung des benötigten Geräts /dev/kqemu automatisiert. Weitere Befehle sind:</p>
 <pre>
 echo "options kqemu major=0" >> /etc/modules
 </pre>
-				<p>Dieser erweitert die Datei /etc/modules, um sicherzustellen, dass die Moduloption bei jedem Laden des Moduls aktiviert wird.</p>
+							<p>Dieser erweitert die Datei /etc/modules, um sicherzustellen, dass die Moduloption bei jedem Laden des Moduls aktiviert wird.</p>
 
 <pre>
 qemu [...] -kernel-kqemu
 </pre>
-				<p>Damit wird die volle Virtualisierung ermöglicht und die Geschwindigkeit beträchtlich erhöht.</p>
+							<p>Damit wird die volle Virtualisierung ermöglicht und die Geschwindigkeit beträchtlich erhöht.</p>
 
 			<h4>Aktivierung von QEMU:</h4>
 <pre>
@@ -606,7 +614,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 14/12/2009 0725 UTC</div>
+	<div id="rev">Content last revised 23/12/2009 0100 UTC</div>
 
 
 </div>

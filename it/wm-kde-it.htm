@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 03/11/2009 20.20 UTC -->
+<!-- Last translation revision by alessiog75 on 23/12/2009 21.45 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by alessiog75 2009.12.23 2320 UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-it.htm#desk-freeze">Blocchi del desktop</a></li>
 				<li><a href="wm-kde-it.htm#kde-login">Impossibile entrare in KDE</a></li>
 				<li><a href="wm-kde-it.htm#ch-th">Cambiare i temi</a></li>
+				<li><a href="wm-kde-it.htm#dm">Gestori di Display - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-it.htm">LAMP in sidux</a>
@@ -168,6 +169,7 @@
 				<li><a href="sys-admin-upgrade-it.htm#live-cd-upgrade">Aggiornare un sistema attraverso il live ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-it.htm#approx">Fare il dist-upgrade di più PC in rete</a></li>
 				<li><a href="sys-admin-kern-upg-it.htm#kern-upgrade">Aggiornare il kernel</a></li>
+				<li><a href="sys-admin-kern-upg-it.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-it.htm#apt-upgrade">Aggiornare un sistema installato - dist-upgrade - Panoramica</a></li>
 				<li><a href="sys-admin-apt-it.htm#du-st">Aggiornare un sistema installato - dist-upgrade - Passi da fare</a></li>
 			</ul>
@@ -259,7 +261,8 @@
 
 							<p>Per una partizione usata da KDE per il suo /tmp è raccomandato che sia occupata per un massimo dell'85%. (15% libero).</p>
 
-		<div class="divider" id="ch-th">
+	</div>
+	<div class="divider" id="ch-th">
 			<h2>Installare sidux KDE Art ed i Temi</h2>
 
 							<p>Per installare i più recenti sidux-art in un sistema esistente:</p>
@@ -269,9 +272,9 @@ apt-get install sidux-art-kde-xxxx sidux-art-wallpaper-xxxx
 (Dove xxxx è il nome della release, per esempio sidux-art-kde-momos)
 </pre>
 							<p>Questo installerà lo sfondo sidux ed i temi</p>
-							
+
 					<h4>Per cambiare lo sfondo:</h4>
-							<p><span class="highlight-3">Tasto destro del mouse</span> sul desktop, scegliere <span class="highlight-3">Impostazioni di Desktop</span>. Sotto la voce <span class="highlight-3">Sfondo</span> alla voce "Tipo:" impostarla su <span class="highlight-3">Immagine</span>, viene fornita una lista dalla quale scegliere uno sfondo da visualizzare (la lista compare accanto alla voce "Immagine:"). Si può anche scegliere una immagine extra tra quelle elencate cliccando il pulsante Sfoglia accanto alla lista delle immagini e scegliendo un file in qualunque parte del PC.</p> 
+							<p><span class="highlight-3">Tasto destro del mouse</span> sul desktop, scegliere <span class="highlight-3">Impostazioni di Desktop</span>. Sotto la voce <span class="highlight-3">Sfondo</span> alla voce "Tipo:" impostarla su <span class="highlight-3">Immagine</span>, viene fornita una lista dalla quale scegliere uno sfondo da visualizzare (la lista compare accanto alla voce "Immagine:"). Si può anche scegliere una immagine extra tra quelle elencate cliccando il pulsante Sfoglia accanto alla lista delle immagini e scegliendo un file in qualunque parte del PC.</p>
 
 					<h4>Per cambiare la schermata di accesso:</h4>
 							<p>Per prima cosa aprire <span class="highlight-3">Impostazioni di sistema</span> con i privilegi di amministratore (root):</p>
@@ -285,10 +288,41 @@ kdesu systemsettings
 							<p>Adesso cliccare sulla <span class="highlight-3">scheda Avanzate</span> e quindi su <span class="highlight-3">Gestione degli accessi</span>, scegliere la <span class="highlight-3">scheda Tema</span> e selezionare il tema preferito. <span class="highlight-3">Per attivare il nuovo gestore di accesso si deve riavviare il computer</span>.</p>
 
 							<p><a href="http://kde.org">Qui si trovano molte altre informazioni e collegamenti riguardo a KDE</a></p>
-
-		</div>
-		<div id="rev">Content last updated 15/08/2009 0900 UTC </div>
 	</div>
+	<div class="divider" id="dm">
+			  <h2>Display Managers - dm </h2>
+				  <h6>Installare altri ambienti desktop insieme a quello preinstallato:</h6>
+
+							<p>Quando si installa un altro ambiente desktop insieme a quello dell'installazione corrente, (per esempio si è installato sidux-kde.iso e adesso si vuole aggiungere l'ambiente desktop Xfce oppure LXDE), un gestore di sessioni probabilmente verrà installato insieme ad esso oppure si potrebbe averlo installato da soli (gdm, slim oppure qualche altro pacchetto dm).</p>
+
+							<p>Il problema è che si tornerà alla configurazione di default per i runlevel Debian con la conseguenza che non si potrà più entrare in runlevel 3 per arrestare X e fare dist-upgrade.</p>
+
+							<p>La soluzione è:</p>
+<pre>
+apt-get update
+apt-get install --reinstall distro-defaults
+update-rc.d &lt;dm&gt; remove
+update-rc.d &lt;dm&gt; defaults
+</pre>
+							<p>Esempi per <span class="highlight-3">update-rc.d &lt;dm&gt; defaults</span> e notare il punto <span class="highlight-2">.</span> :</p>
+
+<pre>
+update-rc.d kdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d gdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d slim start 01 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+
+	</div>
+
+			<div id="rev">Page last revised 21/12/2009 1125 UTC</div>
+
 </div>
 </body>
 </html>

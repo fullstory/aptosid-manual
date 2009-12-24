@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 22/08/2009 2238 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-pt-br.htm#desk-freeze">Travamentos do desktop</a></li>
 				<li><a href="wm-kde-pt-br.htm#kde-login">Não consigo entrar no KDE</a></li>
 				<li><a href="wm-kde-pt-br.htm#ch-th">Mudando temas</a></li>
+				<li><a href="wm-kde-pt-br.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-pt-br.htm">LAMP no sidux</a>
@@ -224,7 +225,7 @@
 	</div>
 	<div class="divider" id="desk-freeze">
 			<h2>Travamentos do desktop</h2>
-							<p>Em tais situações, nem sempre é necessário reiniciar seu computador, pois isso pode danificar o sistema de arquivos ou levar a perda de dados.</p> 
+							<p>Em tais situações, nem sempre é necessário reiniciar seu computador, pois isso pode danificar o sistema de arquivos ou levar a perda de dados.</p>
 
 							<p>Primeiramente, tente mudar para o modo de texto com <span class="highlight-3">Alt-Ctrl-F1</span> ou reiniciar o servidor X com <span class="highlight-3">Alt-Ctrl-Backspace</span>. Se não funcionar, ainda há esperanças:</p>
 
@@ -241,7 +242,7 @@
 
 							<p>Após cada passo, aguarde um pouquinho antes de ir para o próximo; finalizar todos os processos, por exemplo, leva algum tempo. Em Inglês, há um jeito mnemônico de lembrar facilmente as letras necessárias:<b> "<span class="highlight-2">R</span>eboot <span class="highlight-2">S</span>ystem <span class="highlight-2">E</span>ven <span class="highlight-2">I</span>f <span class="highlight-2">U</span>tterly <span class="highlight-2">B</span>roken" </b></p>
 </div>
-			
+
 	<div class="divider" id="kde-login">
 				<h2>Problemas do sistema no login do KDE</h2>
 
@@ -261,7 +262,8 @@
 							<p>Uma alternativa seria usar um gerenciador de janelas que não requeira tanto espaço em disco (como o Fluxbox, que já faz parte da instalação padrão do sidux). Outra seria usar 'chroot' com um CD/DVD-Live do sidux para limpar sua partição, o que permitiria que você entrasse no KDE.</p>
 
 							<p>Recomendamos que você use um máximo de 85% de sua partição, deixando os outros 15% disponíveis para o KDE acessar os arquivos do diretório /tmp.</p>
-			
+
+	</div>
 	<div class="divider" id="ch-th">
 			<h2>Como instalar temas e arte do KDE no sidux</h2>
 
@@ -272,9 +274,9 @@ apt-get install sidux-art-kde-xxxx sidux-art-wallpaper-xxxx
 (Onde xxxx é o nome da versão para os pacotes 'sidux-art-kde-momos' e o 'sidux-art-wallpaper')
 </pre>
 							<p>Com isso, você instala os novos temas e papéis de parede.</p>
-							
+
 					<h4>Como mudar o papel de parede:</h4>
-							<p><span class="highlight-3">Clique com o botão direito </span>em sua área de trabalho ('Desktop') e escolha <span class="highlight-3">Configurar Área de Trabalho ('Desktop Settings', se você estiver usando o KDE em Inglês)</span>. No lado esquerdo, clique em <span class="highlight-3">Fundo de Tela</span>. Observe que do lado direito há o subtítulo <span class="highlight-3">Figura</span>. Ele oferece uma caixa com uma lista onde você pode escolher qual papel de parede será exibido. Você pode também clicar no botão de Navegação (ícone azul) para escolher alguma imagem que você tiver dentro de seu HD.</p> 
+							<p><span class="highlight-3">Clique com o botão direito </span>em sua área de trabalho ('Desktop') e escolha <span class="highlight-3">Configurar Área de Trabalho ('Desktop Settings', se você estiver usando o KDE em Inglês)</span>. No lado esquerdo, clique em <span class="highlight-3">Fundo de Tela</span>. Observe que do lado direito há o subtítulo <span class="highlight-3">Figura</span>. Ele oferece uma caixa com uma lista onde você pode escolher qual papel de parede será exibido. Você pode também clicar no botão de Navegação (ícone azul) para escolher alguma imagem que você tiver dentro de seu HD.</p>
 
 					<h4>Como mudar a Tela de Login:</h4>
 							<p>Para mudar a Tela de Login, em primeiro lugar abra o <span class="highlight-3">systemsettings</span>, como root:</p>
@@ -289,8 +291,40 @@ kdesu systemsettings
 
 							<p><a href="http://kde.org">Mais informações sobre o KDE e links</a> </p>
 	</div>
-			<div id="rev">Page last revised 15/08/2009 0900 UTC</div>
-</div>
+	<div class="divider" id="dm">
+			  <h2>Display Managers - dm </h2>
+				  <h6>Installing other desktop environments along with a preinstalled desktop:</h6>
+
+							<p>Whenever you install another desktop environment along with your current installation, (for example you installed the sidux-kde.iso and you now want to install the Xfce or LXDE desktop environment), a display manager (dm) will most likely be installed along with it or you may have installed it yourself, (gdm, slim or some other dm package).</p>
+
+							<p>The problem with this is you will end up with the default Debian runlevel configuration with the consequence that you will be unable to enter runlevel 3 to stop X and dist-upgrade.</p>
+
+							<p>The solution is:</p>
+<pre>
+apt-get update
+apt-get install --reinstall distro-defaults
+update-rc.d &lt;dm&gt; remove
+update-rc.d &lt;dm&gt; defaults
+</pre>
+							<p>Examples for <span class="highlight-3">update-rc.d &lt;dm&gt; defaults</span> and note the dot <span class="highlight-2">.</span> :</p>
+
+<pre>
+update-rc.d kdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d gdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d slim start 01 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+
+	</div>
+
+			<div id="rev">Page last revised 21/12/2009 1125 UTC</div>
+
 </div>
 </body>
 </html>

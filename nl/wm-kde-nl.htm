@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by HarzG 20/07/2008 1530hrs UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainers eislon -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-nl.htm#desk-freeze">Desktop bevriest</a></li>
 				<li><a href="wm-kde-nl.htm#kde-login">Kan niet in KDE aanloggen</a></li>
 				<li><a href="wm-kde-nl.htm#ch-th">Thema veranderen</a></li>
+				<li><a href="wm-kde-nl.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-nl.htm">sidux LAMP Stack</a>
@@ -224,7 +225,7 @@
 	</div>
 	<div class="divider" id="desk-freeze">
 			<h2>Desktop 'bevriest'</h2>
-							<p>In een dergelijke situatie heb je niet altijd de reset button nodig. Dit kan tenslotte je bestandssysteem beschadigen of leiden tot dataverlies. In elk geval zal het bestandssysteem niet 'schoon' zijn na een harde reboot ("filesystem not clean")</p> 
+							<p>In een dergelijke situatie heb je niet altijd de reset button nodig. Dit kan tenslotte je bestandssysteem beschadigen of leiden tot dataverlies. In elk geval zal het bestandssysteem niet 'schoon' zijn na een harde reboot ("filesystem not clean")</p>
 
 							<p>Probeer eerst naar een tekstconsole te gaan met: <span class="highlight-3">alt-ctrl-F1 </span> of start de X-server opnieuw op met: <span class="highlight-3">alt-ctrl-backspace</span>. Ook als geen van deze twee opties werkt, is er nog steeds hoop:</p>
 
@@ -241,7 +242,7 @@
 
 							<p> Geef elke stap een paar seconden de tijd om uitgevoerd te worden; het beëindigen van alle processen duurt bijvoorbeeld wel een tijdje. De hierboven genoemde letters kun je onthouden met het volgende, engelse, ezelsbruggetje: "<span class="highlight-2">R</span>eboot <span class="highlight-2">S</span>ystem <span class="highlight-2">E</span>ven <span class="highlight-2">I</span>f <span class="highlight-2">U</span>tterly <span class="highlight-2">B</span>roken" </p>
 
-			
+	</div>
 	<div class="divider" id="kde-login">
 			<h2>Loginproblemen voor KDE</h2>
 
@@ -261,7 +262,8 @@
 							<p>Een ander alternatief is een andere X window manager gebruiken die niet zoveel ruimte van het systeem vereist ( bijvoorbeeld fluxbox is ook standaard geinstalleerd bij een sidux install), of doe een chroot gebruikmakend van de sidux live-CD/DVD om de partitie op te schonen, zodat je wel tijdens het booten KDE kan opstarten.</p>
 
 							<p>Maximaal een 85% volle partitie wordt aangeraden om KDE te kunnen gebruiken, zodat deze nog 15% ruimte heeft in de /tmp directory voor zijn tijdelijke bestanden.</p>
-			
+
+	</div>
 	<div class="divider" id="ch-th">
 			<h2>Installeren van sidux KDE Art en Thema's</h2>
 
@@ -272,9 +274,9 @@ apt-get install sidux-art-kde-xxxx sidux-art-wallpaper-xxxx
 (Where xxxx is the name of the release for example sidux-art-kde-momos)
 </pre>
 							<p>Dit installeert de sidux achtergrond en thema's</p>
-							
+
 					<h4>Voor het veranderen van de achtergrond:</h4>
-							<p><span class="highlight-3">Rechtermuisklik </span>op je desktop en kies <span class="highlight-3">Desktop Settings</span>. Onder de kop <span class="highlight-3">Wallpaper</span> is er een subkopje genoemd <span class="highlight-3">Picture</span> welke je een dropdown lijst geeft met plaatjes erin waaruit je kunt kiezen. Je kunt ook op de Browse knop klikken zodat je een eigen plaatje kunt uit kiezen voor je PC.</p> 
+							<p><span class="highlight-3">Rechtermuisklik </span>op je desktop en kies <span class="highlight-3">Desktop Settings</span>. Onder de kop <span class="highlight-3">Wallpaper</span> is er een subkopje genoemd <span class="highlight-3">Picture</span> welke je een dropdown lijst geeft met plaatjes erin waaruit je kunt kiezen. Je kunt ook op de Browse knop klikken zodat je een eigen plaatje kunt uit kiezen voor je PC.</p>
 
 					<h4>Om het inlogscherm te veranderen:</h4>
 							<p>Om het inlogscherm te veranderen, moet je eerst <span class="highlight-3">systemsettings</span> openen met root rechten:</p>
@@ -289,9 +291,40 @@ kdesu systemsettings
 
 							<p><a href="http://kde.org">Meer KDE informatie en links.</a> </p>
 	</div>
-			<div id="rev">Pagina het laatst gewijzigd op 15/08/2009 0900 UTC</div>
-</div>
-</div>
+	<div class="divider" id="dm">
+			  <h2>Display Managers - dm </h2>
+				  <h6>Installing other desktop environments along with a preinstalled desktop:</h6>
+
+							<p>Whenever you install another desktop environment along with your current installation, (for example you installed the sidux-kde.iso and you now want to install the Xfce or LXDE desktop environment), a display manager (dm) will most likely be installed along with it or you may have installed it yourself, (gdm, slim or some other dm package).</p>
+
+							<p>The problem with this is you will end up with the default Debian runlevel configuration with the consequence that you will be unable to enter runlevel 3 to stop X and dist-upgrade.</p>
+
+							<p>The solution is:</p>
+<pre>
+apt-get update
+apt-get install --reinstall distro-defaults
+update-rc.d &lt;dm&gt; remove
+update-rc.d &lt;dm&gt; defaults
+</pre>
+							<p>Examples for <span class="highlight-3">update-rc.d &lt;dm&gt; defaults</span> and note the dot <span class="highlight-2">.</span> :</p>
+
+<pre>
+update-rc.d kdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d gdm start 24 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+<pre>
+update-rc.d slim start 01 5 . stop 01 0 1 2 3 4 6 .
+</pre>
+
+
+	</div>
+
+			<div id="rev">Page last revised 21/12/2009 1125 UTC</div>
+
 </div>
 </body>
 </html>

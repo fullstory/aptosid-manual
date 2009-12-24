@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Sun, 13 Dec 2009 14:37:19 +0000 -->
+<!-- Last translation revision by hubi Wed, 23 Dec 2009 19:23:17 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-de.htm#desk-freeze">Falls der Desktop einfriert</a></li>
 				<li><a href="wm-kde-de.htm#kde-login">Kein Login in KDE möglich</a></li>
 				<li><a href="wm-kde-de.htm#ch-th">Themes ändern</a></li>
+				<li><a href="wm-kde-de.htm#dm">Sitzungsmanager</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-de.htm">sidux LAMP-Stack</a>
@@ -150,7 +151,7 @@
 				<li><a href="ssh-de.htm#ssh-w">SSH: X-Forwarding von Windows</a></li>
 				<li><a href="ssh-de.htm#ssh">SSH: Sicherheit</a></li>
 				<li><a href="internet-connecting-de.htm#dial-mod">56k-Modems</a></li>
-				<li><a href="internet-connecting-wpagui-de.htm#wpa-roaming-gui">WiFi-roaming, WPA-GUI</a></li>
+				<li><a href="internet-connecting-wpagui-de.htm#wpa-roaming-gui">WiFi - Roaming und WPA-GUI</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa-basic">WiFi - Aufsetzen einer WLAN-Verbindung</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa">WiFi - wpasupplicant</a></li>
 				<li><a href="internet-connecting-de.htm#netcardconfig">Internet &amp; Netzwerk - Ceni</a></li>
@@ -212,7 +213,7 @@
 
 							<li>grub.cfg wird automatisch von Skripten in <span class="highlight-3"> /etc/grub.d</span> erstellt.</li>
 
-							<li>Die Bezeichnung der Partitionen ändert sich ebenfalls. Partitions are numbered from 1 instead of 0 (drives are still numbered from 0):
+							<li>Die Bezeichnung der Partitionen ändert sich ebenfalls. Die Nummerierung der Partitionen beginnt mit 1, nicht mit 0 (Laufwerksnummerierungen beginnen weiterhin mit 0):
 <pre>
 Linux      grub1     grub2
 /dev/sda1  (hd0,0)   (hd0,1)
@@ -235,7 +236,7 @@ Linux      grub1     grub2
 					 <h4> Die Skripte von Grub2</h4>
 							<p><span class="highlight-3"> /etc/grub.d</span> steuert die Zieldatei <span class="highlight-3"> grub.cfg</span>, die sich in <span class="highlight-3"> /boot/grub/</span> befindet.</p>
 
-							<p><span class="highlight-2">Die Datei grub.cfg darf nie manuell geändert werden. </span>Alle Änderungen müssen in den Skriptdateien im Ordner <span class="highlight-3"> /etc/grub.d</span> durchgeführt werden:</p>
+							<p><span class="highlight-2">Die Datei grub.cfg darf nie manuell geändert werden. </span>Alle Änderungen müssen in den Skriptdateien im Ordner <span class="highlight-3"> /etc/grub.d</span> durchgeführt werden. os-prober sollte 90% der Fälle korrekt lösen:</p>
 <pre>
 00_header:
 05_debian_theme: Setzt Hintergrund, Textfarben, Grafikthema
@@ -245,6 +246,7 @@ Linux      grub1     grub2
 30_os-prober: Sucht in allen Partitionen nach Betriebssystemen (Linux und andere) und integriert sie in das Boot-Menü
 40_custom: Eine Vorlage, um benutzerdefinierte Menü-Einträge für weitere Betriebssysteme anzulegen
 60_fll-fromiso: Eine Vorlage, um benutzerdefinierte Menü-Einträge für fromiso auf eine/n USB-Stick/SSD-Karte anzulegen
+<span class="highlight-2">60_fll-fromiso darf nicht manuell geändert werden. Für Anpassungen steht /etc/default/grub2-fll-fromiso zur Verfügung</span>
 </pre>
 							<p>Nachdem Änderungen durchgeführt wurden, muss grub.cfg diese kennen. Nach einer Aktualisierung des sidux-Kernels, werden die Aktualisierung von Grub automatisch durchgeführt. Änderungen, die manuell durchgeführt wurden, erfordern diesen Befehl:</p>
 
@@ -314,6 +316,26 @@ apt-get install install-usb-gui fll-iso2usb
 				<h2>Dualboot und Multiboot mit Grub2</h2>
 
 							<p>Grub2 besitzt eine modulare Konfiguration und erlaubt daher einen einfachen Befehl, um neu installierte Betriebssysteme zu finden, die automatisch in die Datei menu.cfg integriert werden. Der einfache Befehl lautet:</p>
+<pre>
+update-grub
+</pre>
+							<p>Sollte ein benutzerdefinierter Eintrag in menu.cfg erwünscht sein oder falls 30_os-prober nicht die benötigten Chainload-Einträge durchführt, können Ergänzungen mit Hilfe eines Texteditors in der Datei <span class="highlight-3"> /etc/grub.d/40_custom</span> durchgeführt werden.</p>
+
+							<p>Beispiele für eine Adaptierung der Datei 40_custom:</p>
+<pre>
+menuentry "second mbr"{
+set root=(hd1)
+chainloader +1
+}
+</pre>
+
+<pre>
+menuentry "second partition"{
+set root=(hd0,2)
+chainloader +1
+}
+</pre>
+							<p>Nach Abspeicherung der Ändertungen müssen diese Grub übergeben werden:</p>
 <pre>
 update-grub
 </pre>
@@ -424,7 +446,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 19/12/2009 0630 UTC</div>
+	<div id="rev">Page last revised 23/12/2009 0140 UTC</div>
 
 </div>
 </body>

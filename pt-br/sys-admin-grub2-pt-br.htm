@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.98.2009.12.07 -->
-<!-- menu last updated by bluewater 2009.12.18 0515 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
+<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -124,6 +124,7 @@
 				<li><a href="wm-kde-pt-br.htm#desk-freeze">Travamentos do desktop</a></li>
 				<li><a href="wm-kde-pt-br.htm#kde-login">Não consigo entrar no KDE</a></li>
 				<li><a href="wm-kde-pt-br.htm#ch-th">Mudando temas</a></li>
+				<li><a href="wm-kde-pt-br.htm#dm">Display Managers - dm</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 10 );" onmouseout="startTime();" ><a href="lamp-apache-pt-br.htm">LAMP no sidux</a>
@@ -235,7 +236,7 @@ Linux      grub1     grub2
 					 <h4> Os scripts do Grub 2</h4>
 							<p>Os arquivos que estão em <span class="highlight-3"> /etc/grub.d</span> controlam o arquivo "resultante", chamado, como já vimos, <span class="highlight-3"> grub.cfg</span>. Este arquivo se encontra no diretório <span class="highlight-3"> /boot/grub/</span>.</p>
 
-							<p><span class="highlight-2">O grub.cfg não deve nunca ser alterado manualmente. </span>Todas as alterações são feitas em um ou em todos os scripts localizados no diretório <span class="highlight-3"> /etc/grub.d</span>:</p>
+							<p><span class="highlight-2">O grub.cfg não deve nunca ser alterado manualmente. </span>Todas as alterações são feitas em um ou em todos os scripts localizados no diretório <span class="highlight-3"> /etc/grub.d</span>. os-prober should handle 90% of all cases:</p>
 <pre>
 00_header:
 05_debian_theme: Sets background, text colors, themes
@@ -245,6 +246,7 @@ Linux      grub1     grub2
 30_os-prober: Searches for Linux and other OS's on all partitions; includes them in the boot menu.
 40_custom: A template for adding custom boot menu entries for other Operating Systems.
 60_fll-fromiso: A template for adding custom boot menu entries for fromiso to a USB-stick/SSD-card.
+<span class="highlight-2">60_fll-fromiso is not to be altered use /etc/default/grub2-fll-fromiso</span>
 </pre>
 							<p>Depois que uma alteração é feita, o grub.cfg precisa saber das mudanças. No caso de atualizações do kernel do sidux, o comando é rodado automaticamente. No caso de uma alteração manual feita por você em qualquer dos arquivos acima, como administrador do sistema, é necessário rodar: </p>
 
@@ -317,7 +319,26 @@ apt-get install install-usb-gui fll-iso2usb
 <pre>
 update-grub
 </pre>
+							<p>Should you have a need to add a custom entry to menu.cfg or if the 30_os-prober fails to write to grub.cfg with chainloader menus use your favourite text editor to make the amendments to <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
 
+							<p>Examples of customising the 40_custom  file:</p>
+<pre>
+menuentry "second mbr"{
+set root=(hd1)
+chainloader +1
+}
+</pre>
+
+<pre>
+menuentry "second partition"{
+set root=(hd0,2)
+chainloader +1
+}
+</pre>
+							<p>Then after you have made your changes run:</p>
+<pre>
+update-grub
+</pre>
 							<p>Se ele reclamar que não consegue reconhecer o dispositivo, será necessário gerar o devicemap ('mapa de dispositivos') novamente.</p>
 
 							<p><span class="highlight-3">Para isso, assegure-se de escolher a partição, não a MBR, ao instalar o outro sistema operacional:</span></p>
@@ -424,7 +445,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 19/12/2009 0630 UTC</div>
+	<div id="rev">Page last revised 23/12/2009 0140 UTC</div>
 
 </div>
 </body>

@@ -20,8 +20,8 @@
 <body>
 <!-- Last file translation revision qq 25/06/2008 0900 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana, Dorin-->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="La pagina sidux.com forum-uri şi wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -101,6 +101,8 @@
 				<li><a href="hd-install-opts-ro.htm#grub2-fromiso">Bootarea 'fromiso' cu Grub 2</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso-persist">'fromiso' şi 'persist'</a></li>
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc</a></li>
+				<li><a href="hd-install-opts-ro.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="nbdboot-ro.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
 				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
 			</ul>
@@ -211,7 +213,7 @@
 	<div class="divider" id="non-free">
 			<h2>Sources List</h2>
 
-							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi contrib/ non-free la    <span class="highlight-3"> /etc/apt/sources.list.d/debian.list și /etc/apt/sources.list.d/sidux.list</span> sau <span class="highlight-3">/etc/apt/sources.list</span> şi să-i asiguraţi accesul la internet:</p>
+							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi <span class="highlight-3">contrib non-free</span> la    <span class="highlight-3"> /etc/apt/sources.list.d/debian.list și /etc/apt/sources.list.d/sidux.list.</span> Your lines should now look something like this, depending on your choice of mirror:</p>
 <pre>
 # Debian
 deb http://ftp.de.debian.org/debian unstable main contrib non-free
@@ -262,7 +264,7 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
- EndSection
+EndSection
 </pre>
 							<p>Dacă aveți mai mult de o placă grafică va trebui să descoperiți portul PCI și s-o includeți în the xorg.conf:</p>
 <pre>
@@ -272,10 +274,10 @@ lspci | grep -i vga
 <pre>
 01:00.0 VGA compatible controller:
 </pre>
-							<p>Adăugați busid-ul 01:00.0 ca o linie suplimentară după linia 'Driver':</p>
+							<p>Add the 01:00.0 busid as an extra line under the 'Driver' line, however note that the syntax is <span class="highlight-3">PCI:x:y:z:</span> with zeros dropped and colons added,  therefore:</p>
 
 <pre>
-BusID		 "PCI:01:00.0"
+BusID		 "PCI:1:0:0"
 </pre>
 							<p>Salvați și mutați fișierul în <span class="highlight-3">/etc/X11</span>:</p>
 <pre>
@@ -502,7 +504,7 @@ apt-get install git-core
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/rt73</li> </ul></dd>
   					<dt class="note"></dt>
-  					<dd>rt2860 şi rt2870 de la staging (înscenare)</dd>
+  					<dd>rt2860 şi rt2870 de la staging (sunt în pregătire)</dd>
   				</dl>
   			</dd>
   			<dt class="device 802_11" id="zd1201">ZyDAS zd1201 11 MBit/s </dt>
@@ -551,7 +553,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>emi26</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi26;hb=HEAD</a><br /> <span class="target">/lib/firmware/emi26/</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=emi26;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=emi26;hb=HEAD</a><br /> <span class="target">/lib/firmware/emi26/</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/emi26/bitstream.bin</li>  <li>/lib/firmware/emi26/firmware.fw</li>  <li>/lib/firmware/emi26/loader.fw</li> </ul></dd>
   				</dl>
@@ -562,7 +564,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>emi62</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=emi62;hb=HEAD</a><br /> <span class="target">/lib/firmware/emi62</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=emi62;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=emi62;hb=HEAD</a><br /> <span class="target">/lib/firmware/emi62</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/emi62/bitstream.bin</li>  <li>/lib/firmware/emi62/loader.fw</li>  <li>/lib/firmware/emi62/midi.fw</li>  <li>/lib/firmware/emi62/spdif.fw</li> </ul></dd>
   				</dl>
@@ -573,7 +575,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>sb16</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sb16;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sb16;hb=HEAD</a><br /> <span class="target">/lib/firmware/sb16</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=sb16;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=sb16;hb=HEAD</a><br /> <span class="target">/lib/firmware/sb16</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device audio" id="snd-korg1212">Korg 1212 IO </dt>
@@ -582,7 +584,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>snd-korg1212</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=korg;hb=HEAD</a><br /> <span class="target">/lib/firmware/korg</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=korg;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=korg;hb=HEAD</a><br /> <span class="target">/lib/firmware/korg</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/smctr/k1212.dsp</li> </ul></dd>
   				</dl>
@@ -593,7 +595,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>snd-maestro3</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=HEAD</a><br /> <span class="target">/lib/firmware/ess</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=HEAD</a><br /> <span class="target">/lib/firmware/ess</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/ess/maestro3_assp_kernel.fw</li>  <li>/lib/firmware/ess/maestro3_assp_minisrc.fw</li> </ul></dd>
   				</dl>
@@ -604,7 +606,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>snd-ymfpci</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=yamaha;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=yamaha;hb=HEAD</a><br /> <span class="target">/lib/firmware/yamaha</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=yamaha;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=yamaha;hb=HEAD</a><br /> <span class="target">/lib/firmware/yamaha</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/yamaha/ds1_ctrl.fw</li>  <li>/lib/firmware/yamaha/ds1_dsp.fw</li>  <li>/lib/firmware/yamaha/ds1e_ctrl.fw</li> </ul></dd>
   				</dl>
@@ -693,7 +695,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>smctr</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=tr_smctr.bin;hb=HEAD</a></span></dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=tr_smctr.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=tr_smctr.bin;hb=HEAD</a></span></dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/smctr/tr_smctr.bin</li> </ul></dd>
   				</dl>
@@ -704,7 +706,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>sun</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sun;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=sun;hb=HEAD</a><br /> <span class="target">/lib/firmware/sun</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=sun;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=sun;hb=HEAD</a><br /> <span class="target">/lib/firmware/sun</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device eth" id="tg3">Broadcom Tigon3 (tg3) </dt>
@@ -729,7 +731,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>dsp56k</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=dsp56k;hb=HEAD</a><br /> <span class="target">/lib/firmware/dsp56k</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=dsp56k;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=dsp56k;hb=HEAD</a><br /> <span class="target">/lib/firmware/dsp56k</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device modem usb" id="eagle">Eagle ADSL  </dt>
@@ -768,7 +770,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>computone</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=intelliport2.bin;hb=HEAD</a></span></dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=intelliport2.bin;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=intelliport2.bin;hb=HEAD</a></span></dd>
   				</dl>
   			</dd>
   			<dt class="device serial usb" id="edgeport">Inside Out Edgeport  </dt>
@@ -777,7 +779,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>edgeport</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=edgeport;hb=HEAD</a><br /> <span class="target">/lib/firmware/edgeport/</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=edgeport;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=edgeport;hb=HEAD</a><br /> <span class="target">/lib/firmware/edgeport/</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device serial usb" id="keyspan">Keyspan USA-xxx  </dt>
@@ -786,7 +788,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>keyspan</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan;hb=HEAD</a><br /> <span class="target">/lib/firmware/keyspan</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=keyspan;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=keyspan;hb=HEAD</a><br /> <span class="target">/lib/firmware/keyspan</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/keyspan/mpr.fw</li>  <li>/lib/firmware/keyspan/usa18x.fw</li>  <li>/lib/firmware/keyspan/usa19.fw</li>  <li>/lib/firmware/keyspan/usq19qi.fw</li>  <li>/lib/firmware/keyspan/usa19qw.fw</li>  <li>/lib/firmware/keyspan/usa19w.fw</li>  <li>/lib/firmware/keyspan/usa28.fw</li>  <li>/lib/firmware/keyspan/usa28x.fw</li>  <li>/lib/firmware/keyspan/usa28xa.fw</li>  <li>/lib/firmware/keyspan/usa28xb.fw</li>  <li>/lib/firmware/keyspan/usa49w.fw</li>  <li>/lib/firmware/keyspan/usa19qw.fw</li>  <li>/lib/firmware/keyspan/usa49wlc.fw</li> </ul></dd>
   				</dl>
@@ -797,7 +799,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>keyspanda</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=keyspan_pda;hb=HEAD</a><br /> <span class="target">/lib/firmware/keyspan_pda</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=keyspan_pda;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=keyspan_pda;hb=HEAD</a><br /> <span class="target">/lib/firmware/keyspan_pda</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device serial usb" id="ti_usb">TI 3410/5052  </dt>
@@ -806,7 +808,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>ti_usb_3410_5052</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_3410.fw;hb=HEAD</a></span> <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=ti_5052.fw;hb=HEAD</a></dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=ti_3410.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=ti_3410.fw;hb=HEAD</a></span> <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=ti_5052.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=ti_5052.fw;hb=HEAD</a></dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/ti_usb_3410_5052/ti_3410.fw</li>  <li>/lib/firmware/ti_usb_3410_5052/ti_5052.fw</li> </ul></dd>
   				</dl>
@@ -817,7 +819,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>whiteheat</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat.fw;hb=HEAD</a></span> <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=blob;f=whiteheat_loader.fw;hb=HEAD</a></dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=whiteheat.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=whiteheat.fw;hb=HEAD</a></span> <a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=whiteheat_loader.fw;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=blob;f=whiteheat_loader.fw;hb=HEAD</a></dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/whiteheat/whiteheat.fw</li>  <li>/lib/firmware/whiteheat/whiteheat_loader.fw</li> </ul></dd>
   				</dl>
@@ -935,7 +937,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>nova</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=ttusb-budget;hb=HEAD</a><br /> <span class="target">/lib/firmware/ttusb-budget/</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=ttusb-budget;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=ttusb-budget;hb=HEAD</a><br /> <span class="target">/lib/firmware/ttusb-budget/</span> </span> </dd>
   				</dl>
   			</dd>
   			<dt class="device tv usb" id="or51132_qam">or51132_qam  </dt>
@@ -1041,13 +1043,13 @@ apt-get install git-core
   	<dt class="video"><strong><a name="video">video</a></strong></dt>
   	<dd class="devices">
   		<dl class="class">
-  			<dt class="device video" id="cpia2">Kameras mit CPiA2 von Vision </dt>
+  			<dt class="device video" id="cpia2">cameras based on Vision's CPiA2 </dt>
   			<dd>
   				<dl class="dvals">
   					<dt class="drivers"></dt>
   					<dd>cpia2</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=cpia2;hb=HEAD</a><br /> <span class="target">/lib/firmware/cpia2/</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=cpia2;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=cpia2;hb=HEAD</a><br /> <span class="target">/lib/firmware/cpia2/</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/cpia2/stv0672_vp4.bin</li> </ul></dd>
   				</dl>
@@ -1058,7 +1060,7 @@ apt-get install git-core
   					<dt class="drivers"></dt>
   					<dd>vicam</dd>
   					<dt class="fw"></dt>
-  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware-from-kernel.git;a=tree;f=vicam;hb=HEAD</a><br /> <span class="target">/lib/firmware/vicam/</span> </span> </dd>
+  					<dd> <span class="link"><a href="http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=vicam;hb=HEAD">http://git.kernel.org/?p=linux/kernel/git/dwmw2/linux-firmware.git;a=tree;f=vicam;hb=HEAD</a><br /> <span class="target">/lib/firmware/vicam/</span> </span> </dd>
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/vicam/firmware.fw</li> </ul></dd>
   				</dl>
@@ -1066,6 +1068,7 @@ apt-get install git-core
   		</dl>
   	</dd>
   </dl>
+
 
 
 		</div>
@@ -1088,7 +1091,7 @@ exit
 
 
 
-			<div id="rev">Content last revised 21/12/2009 2305 UTC</div>
+			<div id="rev">Content last revised 03/01/2010 1500 UTC</div>
 
 </div>
 </div>

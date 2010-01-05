@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by edhunter 15/07/2009 1400 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -100,6 +100,8 @@
 				<li><a href="hd-install-opts-el.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-el.htm#fromiso-persist">fromiso και persist</a></li>
 				<li><a href="hd-install-opts-el.htm#usb-hd">Eγκατάσταση σε USB σκληρό δίσκο</a></li>
+				<li><a href="hd-install-opts-el.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="nbdboot-el.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-el.htm#vtbox">Εγκατάσταση του sidux με VirtualBox</a></li>
 				<li><a href="hd-install-opts-el.htm#qemu">Εγκατάσταση μέσω QEMU</a></li>
 			</ul>
@@ -206,17 +208,53 @@
 		<h2 id="top-header">Ρέουσες (rolling) Σημειώσεις</h2>
 							<p><span class="highlight-3">Η σελίδα αυτή είναι μια περίληψη των Σημειώσεων Έκδοσης και θα ανανεώνεται μόνο μετά από κάθε έκδοση. Διαβάστε τις Σημειώσεις Έκδοσης στο <a href="http://sidux.com">sidux.com</a> ή στο Live ISO</span> ή εγκαταστήστε το sidux-releasenotes.</p>
 
-		<h2>Release notes for sidux-2009-03 Momos on 2009-11-11</h2>
-							<p>For "Μώμος" (Momos), development had to take massive upstream changes for sysvinit/ insserv, X.org— and device detection, as well as sidux infrastructure changes into account, but also concentrates on furthering the KDE4 integration into sidux and upgrading to kernel 2.6.31. Subsequently it is the first sidux release to ship without KDE3 or qt3 packages.</p>
+		<h2>Release notes for sidux-2009-04 Moros on 2009-12-31</h2>
+							<p> For &quot;Μόρος&quot;, (Moros), development concentrated on updating the bootloader infrastructure for live- and installed system, but also took upstream changes like kernel 2.6.32 and KDE 4.3.4 and further KDE4 applications into account. On the installed system, grub2 now replaces the traditional grub-gfxboot bootloader, while the live system now employs isolinux and an improved gfxboot theme. </p>
 
-							<p>Kernel 2.6.31 doesn't only improve and stabilise hardware support for newer devices, it also provides initial support for USB 3.0 devices and the Creative Labs Sound-Blaster-X-Fi soundcard. Further advancements include an experimental driver for RaLink rt2770, rt2870 and rt3070 802.11b/g/n USB wlan cards (rt2800usb) and improved powersaving modes for mac80211 based wlan drivers. For the netbook arena new fan control mechanisms and broadened webcam support have become available.</p>
+							<p> While grub2 offers increased flexibility for installations, like supporting new filesystems (ext4) or advanced installation options like LVM2 and improved detection capabilities for other distributions and operating systems, right now it is limited to a textmode menu. A new theming effort is currently under development and will be available in the future.</p>
 
-							<p>As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and also to the packages that are sidux specific, in order to improve the general distribution infrastructure.</p>
+							<p>Even though support for plain wallpapers would be already supported by grub2, it is still fragile and prolongs the system boot. Internally the configuration system for grub2 uses scripts snippets under /etc/grub.d/ to create its configuration file &quot;grub.cfg&quot; in a way that allows many self updating features, such as automating fromiso support with the help of &quot;grub2-fll-fromiso&quot; (optional). </p>
+
+							<p> With isolinux now supporting gfxboot, it is now also possible to use isohybrid, which allows writing an ISO directly to USB storage or sd/ sdhc/ mmc memory sticks to make these bootable. isohybrid adds an MBR to the ISO and sets up a partition table with one active entry, the partition containing the ISO. Further partitions can be added to allow access to the unused part of the storage device. </p>
+
+							<p>As part of overhauling the gfxboot theme, the language menu has been moved to the F2 key and extended with a keyboard sub-menu, which allows further specifying the desired keymap. If the desired layout is not available from the menu, xkbmodel, keytable, xkbvariant and xkboptions can now be set as cheatcodes on the kernel command line. A new timezone menu has been added under F3, while F4 allows selecting the source of the compressed root filesystem (CD, harddisk, NBD), while advanced kernel options are available under F5; F6 allows adding including firmware images from live medium or removable storage. </p>
+
+							<p> Network booting from network block devices (NBD) is now supported, as well as fromiso/ fromhd systems on LVM2 volumes, further information about NBD support is available under <a href="nbdboot-el.htm#nbd1">Booting sidux over a network</a>. </p>
+
+							<p> Kernel 2.6.32 doesn't only improve and stabilise hardware support for newer devices, it also allows enabling KMS (kernel based modesetting) for Intel graphic chipset and supports DRI and basic 3d support for ATi Radeon graphics cards up to the HD4xxx series (r6xx/ r7xx, hints for installing the required firmware are available at <a href="hw-dev-hw-dri-el.htm#non-free-firmware">Hardware needing non-free firmware drivers</a>). </p>
+
+							<p>Likewise virtualisation support through KVM has been improved and now also supports KSM (Kernel Samepage Merging) to reduce the memory footprint of concurrent virtual machine. Upstream kernel development has also focussed on improved powersaving capabilities and optimised driver support for webcams and wlan cards. </p>
+
+							<p> As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and sidux' own packages, in order to improve the general distribution infrastructure. </p>
+
+			</div>
+
+			<div class="divider" id="faq">
+				<h2> Installation  and localisation</h2>
+
+				<h4>Installation</h4>
+							<p> It is recommended to set keymaps, locales and timezone before booting the live system to be installed, by selecting them from the boot menu [F2], [F3]. This way, locale settings propagate to all required places for the installed system and don't require cumbersome changes at several places. </p>
+
+				<h6>Installation to USB cards</h6>
+							<p> With sidux 2009-04 &quot;Μόρος&quot;, it is also possible to write sidux ISOs directly to USB storage devices of sdhc memory cards (Secure Digital High Capacity cards) in addition to the well known possibility of using &quot;install-sidux-to-usb&quot; (install-usb-gui). This option is particularly useful if there is no existing sidux installation available and if an installation medium needs to be created from another distribution or operating system.</p>
+
+							<p> It is important to note that this method overwrites the whole USB medium and restricts the available storage to the size of the sidux ISO; install-usb-gui is not subject to these limitations and therefore the recommended option in case an existing sidux system is available. </p>
+<pre>
+cat /path/to/sidux-*.iso &gt; /dev/USB_raw_device_node
+</pre>
+				<h6>Other installation options</h6>
+							<p> Further information about the sidux install is available from <a href="hd-install-el.htm">Installation options</a>. </p>
+
+				<h4>Network booting sidux</h4>
+							<p> Starting with sidux 2009-04 &quot;Μόρος&quot;, network booting over PXE (Preboot Execution Environment) and NBD (Network Block Device) is supported, the required settings can be configured from within the boot menu [F4]. Instructions about how to set up an example PXE+NBD boot server can be obtained at <a href="nbdboot-el.htm#nbd1">Booting sidux over a network</a>. </p>
+
+				<h4>Localisation</h4>
+							<p> Refer to: <a href="hd-install-el.htm#Inst-prep">Install Preparation</a> </p>
 
 		<h3>Υλικό με ανάγκες για μη-ελεύθερους οδηγούς</h3>
 							<p> Αναφερθείτε στο <a href="hw-dev-hw-dri-el.htm#non-free">Υλικό με ανάγκες για μη-ελεύθερους οδηγούς</a> </p>
-
-		<h3>Υποδείξεις για άτομα που κάνουν αναβάθμιση:</h3>
+		</div>
+		<h2>Υποδείξεις για άτομα που κάνουν αναβάθμιση:</h2>
 							<p>Το sidux προσπαθεί να παρέχει ένα απλό μονοπάτι αναβάθμισης του debian και των πακέτων του sidux, όμως μένουν μερικά πράγματα τα οποία θα μπορούσαν να βελτιωθούν κάνοντας ορισμένες αλλαγές χειροκίνητα.</p>
 
 		  <h4>crda</h4>
@@ -235,17 +273,31 @@ dpkg-reconfigure tzdata
 				<h3>Απαρχαιωμένα πακέτα</h3>
 							<p>Σαν μέρος τις συνεχούς ανάπτυξης του sidux, ένας αριθμός πακέτων έχει αντικατασταθεί από καλύτερα εναλλακτικά πακέτα ή είναι πλέον περιττά.</p>
 
+				<ul>
+					<li>grub-gfxboot<br />
+						Although grub2 is used in place of grub-gfxboot on new installs, grub-gfxboot remains to be actively supported at least until the release of Debian 6.0 &quot;squeeze&quot;.
+						Manually switching the bootloader should only be sonsidered by experienced administrators for the time being and it is recommended to test this procedure following the <a href="sys-admin-grub2-el.htm#grub1-grub2">manual</a> inside a virtual machine first.
+						The upgrade from grub-gfxboot to grub2 of existing installs will only be suggested in future releases.
+					</li>
 
-					 <h4>ndiswrapper</h4>
-							<p>Due to upcoming packaging changes (#517130 and Bits from the kernel team) combined with basically missing upstream development for the last 2 years, Μώμος is likely to be the last sidux version which can ship precompiled ndiswrapper modules. Please investigate if native FOSS modules are available for your wlan hardware or consider replacing it with better supported alternatives.</p>
+					<li>liveusb-creator<br />
+						liveusb-creator is no longer available, on sidux systems it is possible to use <a href="#faq">&quot;install-sidux-to-usb&quot;</a> instead.
+						From within other distributions and operating systems, it is now possible to write an ISO directly to raw devices.
+					</li>
 
+					<li>ndiswrapper<br />
+						Due to packaging and policy changes (<a href="http://bugs.debian.org/517130">#517130</a> and <a href="http://lists.debian.org/debian-devel-announce/2009/10/msg00003.html">Bits from the kernel team</a>), combined with basically missing upstream development for the last 2 years, precompiled ndiswrapper modules can no longer be provided.
+						Please investigate if native FOSS modules are available for your wlan hardware or consider replacing it with better supported alternatives.
+					</li>
 
-					 <h4>umtsmon</h4>
-							<p> Continuing development of umtsmon is stagnating, without plans for a kde4 transition or non-root operations. wvdial currently seems to be the best alternative, as it doesn't ship with a graphical user interface, it's also usable outside of X.</p>
-
-
-					 <h4>virtualbox-ose</h4>
-							<p>Due to recent packaging changes (#517130, Bits from the kernel team and #551531) in virtualbox-ose, it is unfortunately no longer possible to provide prebuilt kernel modules for virtualbox-ose in Μώμος, subsequently seamless guest integration can no longer be provided on the ISOs; it will remain user-installable. For systems supporting hardware virtualisation (AMD pacifica virtualisation extensions "svm" or Intel IVT (vanderpool) virtualisation extensions "vmx"), kvm is the preferred replacement.</p>
+					<li>
+						virtualbox-ose<br />
+						Due to recent packaging changes (<a href="http://bugs.debian.org/517130">#517130</a>, <a href="http://lists.debian.org/debian-devel-announce/2009/10/msg00003.html">Bits from the kernel team</a> and <a href="http://bugs.debian.org/551531">#551531</a>) in virtualbox-ose, it is unfortunately no longer possible to provide prebuilt kernel modules for virtualbox-ose, subsequently seamless guest integration can no longer be provided on the ISOs.
+						However for the host system, &quot;virtualbox-ose-source&quot; can be installed in combination with <a href="sys-admin-kern-upg-el.htm#dmakms">dmakms</a> or alternatively through &quot;virtualbox-ose-dkms&quot;.<br /><br />
+						Virtual installations may profit from installing &quot;virtualbox-ose-guest-source&quot; can be installed in combination with <a href="sys-admin-kern-upg-el.htm#dmakms">dmakms</a> or alternatively through &quot;virtualbox-ose-guest-dkms&quot;.
+						For systems supporting hardware virtualisation (AMD pacifica virtualisation extensions &quot;svm&quot; or Intel IVT (vanderpool) virtualisation extensions &quot;vmx&quot;), kvm is the preferred replacement.
+					</li>
+				</ul>
 
 							<p> Η πιο κάτω εντολή μπορεί να βρει πακέτα τα οποία δεν είναι διαθέσιμα σε κανένα ενεργό apt αποθετήριο και μπορεί να σας υποδείξει απαρχαιωμένα πακέτα. Προσοχή όμως στα πακέτα που εγκαταστάθηκαν χειροκίνητα. Το apt-show-versions είναι ξεχωριστό πακέτο και δεν είναι κατ' ανάγκη προ εγκατεστημένο. </p>
 
@@ -254,9 +306,8 @@ $ apt-show-versions | awk '/No available version in archive/{print $1}'
 </pre>
 
 
-	</div>
 
-			<div id="rev">Τελευταία αναθεώρηση περιεχομένου 11/11/2009 0436 UTC  </div>
+		<div id="rev">Τελευταία αναθεώρηση περιεχομένου 01/01/2010 0330 UTC </div>
 
 </div>
 </body>

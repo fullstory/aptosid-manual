@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision ceti 14/12/2009 1650 UTC-->
+<!-- Last translation revision ceti 30/12/2009 1526 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -100,6 +100,8 @@
 				<li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Dando o boot pelo 'fromiso' com Grub 2</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">Fromiso e persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB</a></li>
+				<li><a href="hd-install-opts-pt-br.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="nbdboot-pt-br.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
 			</ul>
@@ -218,7 +220,7 @@
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso com Grub2</h2>
-							<p>sidux has provided a grub2 file named 60_fll-fromiso to generate a fromiso entry to the grub2 menu.  The only file to configure fromiso is called <span class="highlight-3">grub2-fll-fromiso</span> and is found in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
+							<p>O sidux oferece um arquivo, chamado 60_fll-fromiso, para gerar uma entrada fromiso no menu do grub2. O único arquivo de configuração do fromiso se chama <span class="highlight-3">grub2-fll-fromiso</span> e pode ser encontrado em <span class="highlight-3">/etc/default/grub2-fll-fromiso</span>.</p>
 
 							<p> Antes de mais nada, abra o terminal e torne-se root:</p>
 <pre>
@@ -374,9 +376,13 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 				<h5>Dois tipos de instalação em dispositivos USB/SSD:</h5>
 					  <ul>
-							<li>1) - fromiso </li>
-							<li>2) - completa (uma instalação completa em dispositivos USB/SSD comporta-se como uma instalação em HD normal e é feita pelo instalador padrão).</li>
+							<li>1) <a href="hd-install-opts-pt-br.htm#usb-from1">fromiso </a></li>
+							<li>2) <a href="hd-install-opts-pt-br.htm#usb-hdd">  completa</a> (uma instalação completa em dispositivos USB/SSD comporta-se como uma instalação em HD normal e é feita pelo instalador padrão).</li>
+							<li>3) A <a href="hd-install-opts-pt-br.htm#to-usb-raw"> RAW device </a>installation. This is ideal when using another linux operating system variant and wish to install sidux.</li>
 					  </ul>
+
+	    </div>
+	    <div class="divider" id="usb-from1">
 				<h3>Instalação fromiso em dispositivos USB/SSD</h3>
 							<p> <span class="highlight-3">Comece por formatar seu dispositivo USB com ext2 ou fat32, antes de prosseguir (mínimo de 2 GB de espaço). O dispositivo deve ter apenas uma partição e, como algumas BIOS são temperamentais, deve ser marcado como inicializável ('bootable').</span></p>
 
@@ -437,6 +443,41 @@ $ man fll-iso2usb
 
 							<li>Se você quiser usar a instalação em outra máquina, esteja alertado para o fato de que serão necessários alguns ajustes, como alterar o arquivo /etc/fstab (para que as partições do PC fiquem acessíveis), editar o xorg.conf e, provavelmente, refazer a configuração da rede.</li>
 						</ul>
+
+	</div>
+	<div class="divider" id="to-usb-raw">
+			<h2>Writing a sidux ISO to a USB stick, SSD card, shdc device with other Linux Operating System variants</h2>
+
+							 <p>No matter what linux operating system variant you use, this will install a sidux ISO to a USB stick, SSD card, shdc device, (Secure Digital High Capacity card).</p>
+
+							 <p>The sidux ISO image is copied over to the device. While persist is not possible, it does allow you to boot up sidux to install it.</p>
+
+							 <p><b><span class="highlight-2">It is important to note that this method overwrites the whole USB/SSD/sdhc medium and restricts the available storage to the size of the sidux ISO. Do not do this to your 100+- gig hardrive!</span> </b> install-usb-gui is not subject to these limitations and therefore is the recommended option where an existing sidux system is available.</p>
+
+							 <p>Plug in your USB stick or card reader with the card you wish to write to and:</p>
+<pre>
+cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
+</pre>
+
+					<h6>Example:</h6>
+
+							<p>Plug in your device run <span class="highlight-3">dmesg</span> and look at the output:</p>
+
+<pre>
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sdf: sdf1 sdf2
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Attached SCSI removable disk
+</pre>
+							<p>Assuming that the iso is in your home, then the command to run will be:</p>
+
+<pre>
+cat /home/sidux-*.iso > /dev/sdf
+</pre>
+							<p>Ensure the BIOS on the PC you wish to use sidux on can boot up USB sticks or SSD cards.</p>
+
+
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Como instalar o sidux com VirtualBox</h2>
@@ -505,7 +546,7 @@ man dmakms
 
 		</ul>
 
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
+							<p>Existe uma interface gráfica em QT para ajudá-lo a fazer a configuração:</p>
 <pre>
 apt-get install qtemu
 </pre>
@@ -613,7 +654,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 23/12/2009 0100 UTC</div>
+	<div id="rev">Page last revised 03/01/2010 0100 UTC</div>
 
 </div>
 </body>

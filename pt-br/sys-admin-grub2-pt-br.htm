@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -100,6 +100,8 @@
 				<li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Dando o boot pelo 'fromiso' com Grub 2</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">Fromiso e persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB</a></li>
+				<li><a href="hd-install-opts-pt-br.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="nbdboot-pt-br.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
 			</ul>
@@ -213,7 +215,7 @@
 
 							<li>O grub.cfg é gerado automaticamente pelos scripts localizados em <span class="highlight-3"> /etc/grub.d</span>.</li>
 
-							<li>O sistema de numeração das partições também é diferente. Partitions are numbered from 1 instead of 0 (drives are still numbered from 0):
+							<li>O sistema de numeração das partições também é diferente. Elas agora começam em 1, ao invés de 0 (os drives continuam a ser numerados a partir de 0):
 <pre>
 Linux      grub1     grub2
 /dev/sda1  (hd0,0)   (hd0,1)
@@ -239,14 +241,14 @@ Linux      grub1     grub2
 							<p><span class="highlight-2">O grub.cfg não deve nunca ser alterado manualmente. </span>Todas as alterações são feitas em um ou em todos os scripts localizados no diretório <span class="highlight-3"> /etc/grub.d</span>. os-prober should handle 90% of all cases:</p>
 <pre>
 00_header:
-05_debian_theme: Sets background, text colors, themes
-10_hurd: Locates Hurd kernels
-10_linux: Locates Linux kernels based on results of the lsb_release command.
-20_memtest86+: If the file /boot/memtest86+.bin exists, it is included in the boot menu.
-30_os-prober: Searches for Linux and other OS's on all partitions; includes them in the boot menu.
-40_custom: A template for adding custom boot menu entries for other Operating Systems.
-60_fll-fromiso: A template for adding custom boot menu entries for fromiso to a USB-stick/SSD-card.
-<span class="highlight-2">60_fll-fromiso is not to be altered use /etc/default/grub2-fll-fromiso</span>
+05_debian_theme: Especifica o fundo, cores do texto e temas
+10_hurd: Localiza os kernels Hurd
+10_linux: Localiza os kernels Linux com base nos resultados do comando lsb_release.
+20_memtest86+: Se o arquivo /boot/memtest86+.bin existir, ele é incluído no menu.
+30_os-prober: Procura por Linux e outros SOs em todas as partições e os inclue no menu.
+40_custom: Um 'template' (modelo de documento vazio) para adicionar entradas personalizadas no menu para outros SOs.
+60_fll-fromiso: Um 'template' para adicionar entradas personalizadas no menu para fromisos a partir de dispositivos USB/cartões SSD.
+<span class="highlight-2">60_fll-fromiso não deve ser alterado; use /etc/default/grub2-fll-fromiso</span>
 </pre>
 							<p>Depois que uma alteração é feita, o grub.cfg precisa saber das mudanças. No caso de atualizações do kernel do sidux, o comando é rodado automaticamente. No caso de uma alteração manual feita por você em qualquer dos arquivos acima, como administrador do sistema, é necessário rodar: </p>
 
@@ -319,9 +321,9 @@ apt-get install install-usb-gui fll-iso2usb
 <pre>
 update-grub
 </pre>
-							<p>Should you have a need to add a custom entry to menu.cfg or if the 30_os-prober fails to write to grub.cfg with chainloader menus use your favourite text editor to make the amendments to <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
+							<p>Caso haja necessidade de incluir uma entrada personalizada ou caso o script 30_os-prober falhe ao escrever menus do tipo 'chainloader' no menu.cfg, use seu editor de textos favorito para fazer suas alterações no arquivo <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
 
-							<p>Examples of customising the 40_custom  file:</p>
+							<p>Exemplos de customização do 40_custom  file:</p>
 <pre>
 menuentry "second mbr"{
 set root=(hd1)
@@ -335,7 +337,7 @@ set root=(hd0,2)
 chainloader +1
 }
 </pre>
-							<p>Then after you have made your changes run:</p>
+							<p>Então, após suas edições, rode:</p>
 <pre>
 update-grub
 </pre>

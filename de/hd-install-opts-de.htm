@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mon, 21 Dec 2009 20:06:53 +0000-->
+<!-- Last translation revision hubi Sun, 03 Jan 2010 13:37:28 +0000-->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -100,6 +100,8 @@
 				<li><a href="hd-install-opts-de.htm#grub2-fromiso">'fromiso' mit Grub2</a></li>
 				<li><a href="hd-install-opts-de.htm#fromiso-persist">Beschreibbares Live-System - fromiso</a></li>
 				<li><a href="hd-install-opts-de.htm#usb-hd">Installation auf eine USB-Festplatte</a></li>
+				<li><a href="hd-install-opts-de.htm#to-usb-raw">Installation auf USB/SSD mit anderen Linux-Versionen</a></li>
+				<li><a href="nbdboot-de.htm#nbd1">sidux über ein Netzwerk booten</a></li>
 				<li><a href="hd-install-opts-de.htm#vtbox">Installation sidux über VirtualBox</a></li>
 				<li><a href="hd-install-opts-de.htm#qemu">Installation sidux über qemu</a></li>
 			</ul>
@@ -219,7 +221,7 @@
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso mit Grub2</h2>
-							<p>sidux has provided a grub2 file named 60_fll-fromiso to generate a fromiso entry to the grub2 menu.  The only file to configure fromiso is called <span class="highlight-3">grub2-fll-fromiso</span> and is found in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
+							<p>sidux liefert eine grub2-Datei mit der Bezeichnung 60_fll-fromiso, um einen fromiso-Eintrag im grub2-Menü zu generieren. Die Konfigurationsdatei für fromiso ist <span class="highlight-3">grub2-fll-fromiso</span>, mit dem Pfad <span class="highlight-3">/etc/default/grub2-fll-fromiso</span>.</p>
 
 							<p> Als erstes öffnet man einen Terminal und wird root mit:</p>
 <pre>
@@ -333,8 +335,6 @@ persist=/sidux/sidux-rw
 				<h3>fromiso und persist auf einem bootfähigen USB-sticks/SSD-cards</h3>
 							<p>Die vielleicht ideale Verwendung von persist ist mit install-usb-gui, womit ein eigener bootfähiger USB-Stick mit eigenen Daten und selbst gewählter Software erstellt werden kann. Die persönlichen Dateien werden auf dem USB-Gerät in einem Unterverzeichnis gespeichert.</p>
 
-							<!--<p>Die eigenen Daten werden in einem Unterverzeichnis auf dem Laufwerk gespeichert. Dieses Unterverzeichnis wird - so nicht vorhanden - angelegt, wenn die Bootoptionen <span class="highlight-3">fromiso </span> und <span class="highlight-3">persist</span> gemeinsam verwendet werden.</p>-->
-
 							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (üblich für DOS/Windows9x und Standard auf Flash-Drives) bedarf der Erstellung einer großen Datei, welche als Loop-Gerät eingebunden wird. Diese Datei muss formatiert werden.</p>
 
 							<p><span class="highlight-3">Für USB-sticks/SSD-cards sind ext2 und vfat die empfohlenen Dateisysteme. Sie bieten vermutlich die beste plattformübergreifende Kompatibilität zur Datenrettung im Notfall. Bei Verwendung von ext2 muss auf "MS Windows&#8482;"-Installationen für den Datenaustausch ein ext2-Treiber verfügbar sein. Ein Wiederbeschreiben von Flash-Speichergeräten hängt von den technischen Spezifikationen des USB-sticks/SSD-cards ab.</span></p>
@@ -374,11 +374,15 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>Eine Abbilddatei sidux.iso.</p>
 
-				<h5>Zwei Wege der Installation nach USB/SSD</h5>
+				<h5>3 Arten der Installation nach USB/SSD</h5>
 					  <ul>
-							<li>1) fromiso </li>
-							<li>2) vollständig (die vollständige Installation nach USB/SSD verhält sich wie eine Festplatteninstallation und wird mittels des normalen Installationsprogramms durchgeführt).</li>
+							<li>1) <a href="hd-install-opts-de.htm#usb-from1">fromiso</a> </li>
+							<li>2) <a href="hd-install-opts-de.htm#usb-hdd">Vollständig</a> (die vollständige Installation nach USB/SSD verhält sich wie eine Festplatteninstallation und wird mittels des normalen Installationsprogramms durchgeführt).</li>
+							<li>3) Eine "<a href="hd-install-opts-de.htm#to-usb-raw">RAW device</a>"-Installation. Diese ist ideal, wenn andere Linux-Versionen verwendet werden und man sidux installieren möchte.</li>
 					  </ul>
+
+	    </div>
+	    <div class="divider" id="usb-from1">
 				<h3>USB/SSD fromiso-Installation</h3>
 							<p> <span class="highlight-3">Der USB-Speicher wird mit ext2 oder fat32 (mindestens 2GB) vorformatiert. Er soll nur eine als bootfähig markierte Partition haben (einige BIOS verlangen das Bootfähig-Flag).</span></p>
 
@@ -440,6 +444,41 @@ $ man fll-iso2usb
 
 							<li>Nach dem Booten mit einer USB-Festplatte auf einem anderen PC muss fstab angepasst werden, um die Festplatten des PCs ansprechen zu können. Auch kann xorg.conf eine Netzwerkkonfiguration benötigen.</li>
 						</ul>
+
+	</div>
+	<div class="divider" id="to-usb-raw">
+			<h2>Installation von sidux auf einen USB-Stick, eine SSD-Karte, eine SHDC-Gerät mit weiteren Linux-Versionen</h2>
+
+							 <p>Egal, welche Linux-Version genutzt wird, auf diese Weise kann man eine sidux-ISO auf einen USB-Stick, eine SSD-Karte, eine SHDC-Gerät (Secure Digital High Capacity Card).</p>
+
+							 <p>Die sidux-ISO-Abbilddatei wird auf das Gerät kopiert. So kann man sidux booten, um es zu installieren. Die Methode "persist" ist nicht möglich.</p>
+
+							 <p><b><span class="highlight-2">Zu beachten ist, dass mit dieser Methode das gesamte Medium überschrieben wird (USB/SSD/SDHC) und der Speicherplatz auf die Größe der sidux-ISO beschränkt ist. Für eine 100+GB Festplatte nicht empfohlen!</span> </b> install-usb-gui besitzt nicht diese Restriktionen und ist die empfohlene Vorgehensweise, wenn ein sidux-System vorhanden ist.</p>
+
+							 <p>Als erstes steckt man den USB-Stick oder den Kartenleser mit der gewählten Karte, auf die man schreiben möchte, ein und führt diesen Befehl aus:</p>
+<pre>
+cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
+</pre>
+
+					<h6>Beispiel:</h6>
+
+							<p>Man steckt das Gerät an, führt den Befehl <span class="highlight-3">dmesg</span> aus und sieht diese Ausgabe:</p>
+
+<pre>
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sdf: sdf1 sdf2
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Attached SCSI removable disk
+</pre>
+							<p>Angenommen das ISO ist im Heimverzeichnis, dann ist der Befehl, der ausgeführt werden soll:</p>
+
+<pre>
+cat /home/sidux-*.iso > /dev/sdf
+</pre>
+							<p>Stellen Sie sicher, dass der PC, auf dem sidux verwendet werden soll, von USB-Geräten bzw. SSD-Karten gebootet werden kann.</p>
+
+
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>sidux mit VirtualBox installieren</h2>
@@ -614,7 +653,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 23/12/2009 0100 UTC</div>
+	<div id="rev">Content last revised 03/01/2010 0100 UTC</div>
 
 
 </div>

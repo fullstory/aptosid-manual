@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by HarzG 06/04/2009 1845 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintainers eislon -->
-<!--sidux-manual Operating System Manual menu-version-01.99.2009.12.21 -->
-<!-- menu last updated by bluewater 2009.12.21 1235 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
+<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -100,6 +100,8 @@
 				<li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso-persist">fromiso en persist</a></li>
 				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
+				<li><a href="hd-install-opts-nl.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="nbdboot-nl.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-nl.htm#vtbox">Installeren sidux met VirtualBox</a></li>
 				<li><a href="hd-install-opts-nl.htm#qemu">Installeren sidux met QEMU</a></li>
 			</ul>
@@ -377,7 +379,11 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 					  <ul>
 							<li>1) - fromiso </li>
 							<li>2) - full (de volledige installatie naar een USB/SSD gedraagt zich als een normale HD installatie en is wordt uitgevoerd door de normale installer).</li>
+							<li>3) A <a href="hd-install-opts-en.htm#to-usb-raw"> RAW device </a>installation. This is ideal when using another linux operating system variant and wish to install sidux.</li>
 					  </ul>
+
+	    </div>
+	    <div class="divider" id="usb-from1">
 				<h3>USB/SSD fromiso Installatie</h3>
 							<p> <span class="highlight-3">Zorge ervoor dat de usb device al geformateerd is met ext2 of fat32 voordat je begint (het moet tenminste 2 gig aan capaciteit hebben). Het apparaat mag maar over 1 partitie beschikken en sommige BIOSes zijn temperamentaal en moet gemarkeerd zijn als opstartbaar.</span></p>
 
@@ -439,6 +445,41 @@ $ man fll-iso2usb
 
 							<li>Als je de installatie op een andere machine wilt gebruiken wees er dan op bedacht dat je enkele wijzigingen moet doorvoeren. Je moet fstab aanpassen zodat je toegang krijgt tot de PCs harddisken en misschien xorg.conf en waarschijnlijk de netwerk configuratie.</li>
 						</ul>
+
+	</div>
+	<div class="divider" id="to-usb-raw">
+			<h2>Writing a sidux ISO to a USB stick, SSD card, shdc device with other Linux Operating System variants</h2>
+
+							 <p>No matter what linux operating system variant you use, this will install a sidux ISO to a USB stick, SSD card, shdc device, (Secure Digital High Capacity card).</p>
+
+							 <p>The sidux ISO image is copied over to the device. While persist is not possible, it does allow you to boot up sidux to install it.</p>
+
+							 <p><b><span class="highlight-2">It is important to note that this method overwrites the whole USB/SSD/sdhc medium and restricts the available storage to the size of the sidux ISO. Do not do this to your 100+- gig hardrive!</span> </b> install-usb-gui is not subject to these limitations and therefore is the recommended option where an existing sidux system is available.</p>
+
+							 <p>Plug in your USB stick or card reader with the card you wish to write to and:</p>
+<pre>
+cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
+</pre>
+
+					<h6>Example:</h6>
+
+							<p>Plug in your device run <span class="highlight-3">dmesg</span> and look at the output:</p>
+
+<pre>
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sdf: sdf1 sdf2
+sd 13:0:0:0: [sdf] Assuming drive cache: write through
+sd 13:0:0:0: [sdf] Attached SCSI removable disk
+</pre>
+							<p>Assuming that the iso is in your home, then the command to run will be:</p>
+
+<pre>
+cat /home/sidux-*.iso > /dev/sdf
+</pre>
+							<p>Ensure the BIOS on the PC you wish to use sidux on can boot up USB sticks or SSD cards.</p>
+
+
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Installeren van sidux in VirtualBox</h2>
@@ -611,7 +652,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-		<div id="rev"> Inhoud het laatst aangepast op 23/12/2009 0100 UTC</div>
+		<div id="rev"> Inhoud het laatst aangepast op 03/01/2010 0100 UTC</div>
 </div>
 </body>
 </html>

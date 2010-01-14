@@ -234,7 +234,7 @@ mcedit /etc/default/grub2-fll-fromiso
 </pre>
 							 <p>Next uncomment (remove the<span class="highlight-2"> # </span>) the lines you need to be operative and replace the default instructions within the <span class="highlight-3">"quote marks"</span> with your preferences.</p>
 
-							 <p>For example, compare this altered grub2-fll-fromiso with the default, (the <span class="highlight-3">highlighted lines</span> are the changed lines for instructional purposes):</p>
+							 <p>For example, compare this altered grub2-fll-fromiso with the default, (the <span class="highlight-3">highlighted</span> <span class="highlight-1">lines</span> are the changed lines for instructional purposes):</p>
 <pre>
 # Defaults for grub2-fll-fromiso update-grub helper
 # sourced by grub2's update-grub
@@ -245,8 +245,9 @@ mcedit /etc/default/grub2-fll-fromiso
 #
 
 # specify where to look for the ISO
-# default: /srv/ISO
+# default: /srv/ISO <span  class="highlight-1">### Note: This is the path to the directory that contains the ISO,<br /> it is not to include the actual sidux-*.iso file.###</span>
 <span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
+
 
 # array for defining ISO prefices --> sidux-*.iso
 # default: "sidux- fullstory-"
@@ -294,16 +295,16 @@ mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 							<p>Now copy the vmlinuz and initrd.img files from the mounted iso image to the directory <span class="highlight-3">and the HD is YOUR known variable::This is an example only :</span></p>
 
 <pre>
-cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
-cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
+cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
 							<p>Next you have to customise grub. Therefore edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img
+kernel (hd0,4)/sidux/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd0.686
 </pre>
 							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your sidux.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
 
@@ -656,7 +657,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 03/01/2010 0100 UTC</div>
+	<div id="rev">Page last revised 12/01/2010 0255 UTC</div>
 
 </div>
 </body>

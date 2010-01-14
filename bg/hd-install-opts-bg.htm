@@ -244,8 +244,8 @@ mcedit /etc/default/grub2-fll-fromiso
 #
 
 # specify where to look for the ISO
-# default: /srv/ISO
-<span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
+# default: /srv/ISO <span  class="highlight-1">### Note: This is the path to the directory that contains the ISO,<br /> it is not to include the actual sidux-*.iso file.###</span>
+<span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"
 
 # array for defining ISO prefices --> sidux-*.iso
 # default: "sidux- fullstory-"
@@ -294,16 +294,16 @@ mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 							<p>Сега копираме vmlinuz и initrd.img файловете от директорията където е монтиран iso-файла, в базовата директория която беше създадена в началото, т.е. копираме ги самостоятелно "навън" от iso-образа (попътно сменяйки имената им на vmlinuz и initrd.img за по-кратко). <span class="highlight-3">Къде ще ги копираме, зависи от това къде сме избрали да е базовата директория; това е само илюстрация</span></p>
 
 <pre>
-cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
-cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
+cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
 							<p>Следващата стъпка е да настроим grub. Така че редактирайте файла <span class="highlight-3"> /boot/grub/menu.lst </span> добавяйки следните редове <span class="highlight-3"> СЛЕД реда ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">ВНИМАНИЕ grub не възприема обобщени имена!</span> <span class="highlight-3">Номера на диска и на раздела където е базовата директория (в случая sda5 адресирано чрез (hd0,4)) знаете само вие, това е само илюстрация:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img
+kernel (hd0,4)/sidux/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd0.686
 </pre>
 							<p>При следващия рестарт, ще имате нова възможност в менюто на grub: за стартиране от iso-образ. Ако обновите файловете sidux.iso, vmlinuz and intird.img с по-нови версии (разбира се запазвайки имената им), конфигурационния файл на grub menu.lst няма нужда да бъде променян.</p>
 </div>
@@ -654,7 +654,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 03/01/2010 0100 UTC</div>
+	<div id="rev">Page last revised 12/01/2010 0255 UTC</div>
 
 </div>
 </body>

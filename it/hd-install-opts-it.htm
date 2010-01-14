@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 23/12/2009 21.10 UTC -->
+<!-- Last translation revision by alessiog75 on 12/01/2010 20.45 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
 <!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
 <!-- menu last updated by alessiog75 2010.01.03 2150 hrs UTC -->
@@ -238,8 +238,8 @@ mcedit /etc/default/grub2-fll-fromiso
 # This is a POSIX shell fragment
 #
 
-# specify where to look for the ISO
-# default: /srv/ISO
+# specifica dove guardare per la ISO
+# default: /srv/ISO <span  class="highlight-1">### Nota: Questo è il percorso alla directory che contiene la ISO,<br /> non è per includere il file sidux-*.iso attuale.###</span>
 <span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
 
 # array for defining ISO prefices --> sidux-*.iso
@@ -294,16 +294,16 @@ mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 							<p>Adesso copiare i file vmlinuz e initrd.img dall'immagine iso montata nella directory <span class="highlight-3">L'hard disk rappresenta la variabile conosciuta: Questo è solo un esempio:</span></p>
 
 <pre>
-cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
-cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
+cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
 							<p>Il prossimo passo è modificare grub. Perciò modificare il file <span class="highlight-3">/boot/grub/menu.lst</span> ed aggiungere le seguenti linee <span class="highlight-3"> DOPO il ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA non sono ammessi caratteri jolly per i nomi dei file in una linea di grub!</span> <span class="highlight-3">L'hard disk rappresenta la variabile conosciuta: Questo è solo un esempio:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img
+kernel (hd0,4)/sidux/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd0.686
 </pre>
 							<p>Con il prossimo avvio si troverà una voce nel menù per l'immagine ISO. Se si aggiorna sidux.iso, i file vmlinuz e intird.img con rilasci più recenti, il file di grub menu.lst non necessita di modifiche.</p>
 	</div>
@@ -330,14 +330,14 @@ persist=/sidux/sidux-rw
 
 							<p>Utilizzare persist significa anche che si possono installare pacchetti da apt ed avere l'applicazione ed ogni dato che si è salvato disponibile ed accessibile al prossimo riavvio.</p>
 
-				<h3>fromiso e persist su di una chiavetta USB-sticks/SSD-cards</h3>
+				<h3>fromiso e persist su di una chiavetta USB/scheda SSD</h3>
 							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno. Your files will be stored in a subfolder on the drive.</p>
 
 							<!--<p>I file verranno immagazzinati in una sotto directory del drive. Questa viene creata se non esiste quando vengono usate insieme le opzioni <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span>.</p>-->
 
 							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
 
-							<p><span class="highlight-3">Nelle chiavette USB-sticks/SSD-cards, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB-sticks/SSD-cards.</span></p>
+							<p><span class="highlight-3">Nelle chiavette USB/schede SSD, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB/scheda SSD.</span></p>
 
 					<h6>ext2 file system</h6>
 							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
@@ -367,7 +367,7 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	<div class="divider" id="usb-hd">
 		<h2>Installare sidux su di una periferica USB/SSD</h2>
 
-							<p>Fare una installazione di sidux su di una chiavetta USB-stick/SSD-card è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
+							<p>Fare una installazione di sidux su di una chiavetta USB o scheda SSD è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
 
 				<h5>Requisiti:</h5>
 							<p>Qualsiasi PC con USB 2.0 e la possibilità di avviarsi da USB/SSD.</p>
@@ -376,9 +376,9 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 				<h5>3 modi di installare su USB/SSD</h5>
 					  <ul>
-							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso </a></li>
-							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo </a>(l'installazione completa su USB/SSD si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
-							<li>3) A <a href="hd-install-opts-it.htm#to-usb-raw"> RAW device </a>installation. This is ideal when using another linux operating system variant and wish to install sidux.</li>
+							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso</a></li>
+							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo</a> (l'installazione completa su USB/SSD si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
+							<li>3) <a href="hd-install-opts-it.htm#to-usb-raw">periferica RAW</a>. Questa è l'ideale quando si utilizza un'altra variante del s.o. linux e si vuole installare sidux.</li>
 					  </ul>
 
 	    </div>
@@ -390,7 +390,7 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 							<p>Viene data la possibilità di scegliere la lingua, il fuso orario ed altre opzioni d'avvio e se attivare oppure no persist tramite una checkbox.</p>
 
-							<p>Adesso si ha una chiavetta USB/SSD avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio (se vfat, probabilmente è meglio riniziare da capo).</p>
+							<p>Adesso si ha una chiavetta USB/scheda SSD avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio (se vfat, probabilmente è meglio riniziare da capo).</p>
 
 
 						<h6>Esempio da terminale:</h6>
@@ -409,14 +409,14 @@ $ man fll-iso2usb
 
 			<h3>Installazione completa su USB/SSD (si comporta come una normale installazione su hard dsk)</h3>
 							<p>La dimensione minima raccomandata della chiavetta o scheda USB/SSD è:<br />
-							sidux "LITE" = 2.5 GB PIU' lo spazio per i dati,<br />
-							sidux "FULL" = 4 GB PIU' lo spazio per i dati.</p>
+							sidux "LITE" = 2.5 GB PIÙ lo spazio per i dati,<br />
+							sidux "FULL" = 4 GB PIÙ lo spazio per i dati.</p>
 
 							<p> <span class="highlight-3">Preformattare la periferica con</span> <span class="highlight-2">ext2</span> <span class="highlight-3">e partizionare la chiavetta o scheda USB/SSD come per un PC standard.</span></p>
 
 							<p>Avviare l'installazione dal Live-ISO e scegliere la partizione sulla periferica USB/SSD dove deve essere installato sidux, per esempio <span class="highlight-3">sdbX</span> e seguire le istruzioni del programma di installazione. Leggere <a href="hd-install-it.htm#Installation">Il programma di installazione di sidux</a></p>
 
-							<p><span class="highlight-3">Per avviare dall'USB/SSD, 'Boot from USB' deve essere abilitato nel BIOS.</span></p>
+							<p><span class="highlight-3">Per avviare dall'USB/SSD, "Boot from USB" deve essere abilitato nel BIOS.</span></p>
 
 							<p><span class="highlight-3">Altri punti fondamentali sono:</span></p>
 						<ul>
@@ -446,22 +446,22 @@ $ man fll-iso2usb
 
 	</div>
 	<div class="divider" id="to-usb-raw">
-			<h2>Writing a sidux ISO to a USB stick, SSD card, shdc device with other Linux Operating System variants</h2>
+			<h2>Scrivere una ISO sidux su di una chiavetta USB, scheda SSD, periferica sdhc con altre varianti di Linux Operating System</h2>
 
-							 <p>No matter what linux operating system variant you use, this will install a sidux ISO to a USB stick, SSD card, shdc device, (Secure Digital High Capacity card).</p>
+							 <p>Non importa quale variante del s.o. linux si utilizza, questa procedura installerà una ISO sidux su di una chiavetta USB, scheda SSD, periferica sdhc (Secure Digital High Capacity card).</p>
 
-							 <p>The sidux ISO image is copied over to the device. While persist is not possible, it does allow you to boot up sidux to install it.</p>
+							 <p>L'immagine ISO viene copiata nella periferica. Mentre non è possibile abilitare persist, permette di avviare sidux per installarlo.</p>
 
-							 <p><b><span class="highlight-2">It is important to note that this method overwrites the whole USB/SSD/sdhc medium and restricts the available storage to the size of the sidux ISO. Do not do this to your 100+- gig hardrive!</span> </b> install-usb-gui is not subject to these limitations and therefore is the recommended option where an existing sidux system is available.</p>
+							 <p><b><span class="highlight-2">È importante notare che questo metodo sovrascrive interamente la perifericaver USB/SSD/sdhc e limita la dimensione di archiviazione disponibile alla dimensione della ISO sidux. Non utilizzare questo sistema su di un hard disk di 100 e più GB!</span></b> install-usb-gui non è soggetto a queste limitazioni perciò è l'opzione raccomandata dove esista già un sistema sidux.</p>
 
-							 <p>Plug in your USB stick or card reader with the card you wish to write to and:</p>
+							 <p>Inserire la chiavetta USB o il lettore di schede con la scheda sulla quale si desidera scrivere e:</p>
 <pre>
 cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
 </pre>
 
-					<h6>Example:</h6>
+					<h6>Esempio:</h6>
 
-							<p>Plug in your device run <span class="highlight-3">dmesg</span> and look at the output:</p>
+							<p>Connettere la periferica ed eseguire <span class="highlight-3">dmesg</span> controllando l'output:</p>
 
 <pre>
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
@@ -470,12 +470,12 @@ sdf: sdf1 sdf2
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
 sd 13:0:0:0: [sdf] Attached SCSI removable disk
 </pre>
-							<p>Assuming that the iso is in your home, then the command to run will be:</p>
+							<p>Nel caso che la ISO sia nella home, il comando da eseguire sarà:</p>
 
 <pre>
 cat /home/sidux-*.iso > /dev/sdf
 </pre>
-							<p>Ensure the BIOS on the PC you wish to use sidux on can boot up USB sticks or SSD cards.</p>
+							<p>Assicurarsi che il BIOS del PC sul quale si vuole utilizzare sidux possa avviarse chiavette USB oppure schede SSD.</p>
 
 
 	</div>
@@ -545,7 +545,7 @@ man dmakms
 
 		</ul>
 
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
+							<p>È disponibile uno strumento con interfaccia grafica QT come aiuto per configurare QEMU:</p>
 <pre>
 apt-get install qtemu
 </pre>
@@ -653,7 +653,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 03/01/2010 0100 UTC</div>
+	<div id="rev">Page last revised 12/01/2010 0255 UTC</div>
 
 </div>
 </body>

@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manual - Network booting (nbd).</title>
+	<title>sidux Handleiding - Netwerk boot (nbd).</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
 	<style type="text/css" media="all">@import url("../lib/css-js/version-date.css");</style>
@@ -206,14 +206,14 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="nbd1">
-			<h2 id="top-header">Booting sidux over a network (network block device - nbd)</h2>
+			<h2 id="top-header">sidux via het netwerk opstarten (netwerk block device - nbd)</h2>
 
-							<p><span class="highlight-2">Warning: dnsmasq includes a dhcp server which can conflict with an existing dhcp server on your network (your router may provide one). </span>   <span class="highlight-3">The safest option is to only use one dhcp server on any network. This means you should disable any other dhcp servers on the same network. The dnsmasq proxy options outlined below should be able to co-exist with another dhcp server on the same network, however please do not try this unless you administer the network and are ready to deal with any unforeseen consequences which might crop up.</span></p>
+							<p><span class="highlight-2">Waarschuwing: dnsmasq bevat een dhcp server welke voor conflicten kan zorgen met een bestaande dhcp server op je netwerk (je router kan er 1 bezitten). </span>   <span class="highlight-3">Het is het veiligst om maar een dhcp server in het netwerk te gebruiken. Dit betekent dat je andere dhcp servers in hetzelfde netwerk moet uitschakelen. De dnsmasq proxy optie welke hieronder beschreven is zou in principe naast een andere dhcp server in hetzelfde netwerk moeten kunnen werken, maar voer dit alleen uit wanneer je het netwerk beheerd, want er kunnen onvoorziene problemen optreden welke je dan zelfs moet oplossen aangezien jij weet hoe je netwerk inelkaar zit.</span></p>
 
-			      <h4>The basics</h4>
-							<p>Network booting first requires that you have a machine capable of network booting, which can be connected via a network you run to a machine which you can setup to offer the network booting services. </p>
+			      <h4>De basis</h4>
+							<p>Het opstarten via het netwerk vereist dat je een machine hebt welke in staat is om vanaf het netwerk opgestart kan worden, zodat deze een connectie met je netwerk kan maken en een verbinding kan maken met een machine waarop software geinstalleerd is welke netwerk booting (opstarten) aanbiedt. </p>
 
-							<p>You do not want to do this on your workplace network, or any other network you do not control, unless you run that network or get permission and guidance from those who do. If you are co-operating in a larger network you can investigate all the options to dnsmasq, such as limiting the interfaces it listens on or the clients it will respond to, to restrict the impact of your setup on the network.</p>
+							<p>Je wilt dit niet doen op je werkplek netwerk, of elke ander netwerk die je niet beheerd, tenzij je het netwerk beheerd of toestemming en hulp van de netwerkbeheerders gekregen hebt. If you are co-operating in a larger network you can investigate all the options to dnsmasq, such as limiting the interfaces it listens on or the clients it will respond to, to restrict the impact of your setup on the network.</p>
 
 			      <h4>The prerequisites</h4>
 							<p>A 2009-04 (or newer) sidux iso booted up to use as the network boot server. The instructions should be basically the same with any up to date sidux or debian sid machine and should provide all the clues you need to use on other systems. Linux is required to serve nbd devices.</p>
@@ -269,7 +269,9 @@ dhcp-range=192.168.0.100,192.168.0.199,1h
 dhcp-boot=pxelinux.0
 </pre>
 
-							<p>To give out IP addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to give the filename to just run pxelinux.0 as part of the dhcp request, uncomment the conf-dir setting at the bottom of <span class="highlight-3"> /etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
+							<p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p>
+
+							<p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
 
 							<p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p>
 
@@ -286,7 +288,7 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<p>Now you can edit boot options to your hearts content in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
+							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
 
 							<p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p>
 <pre>
@@ -307,7 +309,7 @@ fromhd=/dev/nbdroot root=/dev/nbdroot nbdroot=192.168.1.23,9040
 
 
 	</div>
-	<div id="rev">Page last revised 02/01/2010 0130 UTC </div>
+	<div id="rev">Page last revised 05/01/2010 0650 UTC </div>
 
 </div>
 </body>

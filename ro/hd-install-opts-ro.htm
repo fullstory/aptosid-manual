@@ -100,8 +100,8 @@
 				<li><a href="hd-install-opts-ro.htm#grub2-fromiso">Bootarea 'fromiso' cu Grub 2</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso-persist">'fromiso' şi 'persist'</a></li>
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc</a></li>
-				<li><a href="hd-install-opts-ro.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
-				<li><a href="nbdboot-ro.htm#nbd1">Booting sidux over a network</a></li>
+				<li><a href="hd-install-opts-ro.htm#to-usb-raw">Instalarea sidux pe USB/SSD cu alte variante de Linux OS </a></li>
+				<li><a href="nbdboot-ro.htm#nbd1">Boot-area sidux în rețea</a></li>
 				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
 				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
 			</ul>
@@ -223,9 +223,9 @@
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso cu Grub2</h2>
-							<p>sidux are un fișier grub2 numit 60_fll-fromiso pentru a genera o intrare 'fromiso' în meniul grub2  The only file to configure fromiso is called <span class="highlight-3">grub2-fll-fromiso</span> and is found in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
+							<p>sidux are un fișier grub2 numit 60_fll-fromiso pentru a genera o intrare 'fromiso' în meniul grub2. Singurul fișier pentru a configura 'fromiso' se numește <span class="highlight-3">grub2-fll-fromiso</span> și se găsește în <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
 
-							<p>Mai întâi geschideți un terminal și logați-vă ca administrator (root) cu:</p>
+							<p>Mai întâi deschideți un terminal și logați-vă ca administrator (root) cu:</p>
 <pre>
 sux
 </pre>
@@ -247,7 +247,7 @@ mcedit /etc/default/grub2-fll-fromiso
 #
 
 # specify where to look for the ISO
-# default: /srv/ISO
+# default: /srv/ISO <span  class="highlight-1">### Note: This is the path to the directory that contains the ISO,<br /> it is not to include the actual sidux-*.iso file.###</span>
 <span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
 
 # array for defining ISO prefices --> sidux-*.iso
@@ -296,16 +296,16 @@ mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt
 							<p>Copiați fișierele 'vmlinuz' și 'initrd.img' din imaginea iso în directorul <span class="highlight-3">creat de voi pe HD :: Acesta e doar un exemplu:</span></p>
 
 <pre>
-cp /mnt/boot/vmlinuz* /media/sda5/sidux/vmlinuz
-cp /mnt/boot/initrd.img* /media/sda5/sidux/initrd.img
+cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
+cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
 							<p>Acum trebuie să modificați grub. Deci editați fișierul<span class="highlight-3"> /boot/grub/menu.lst </span> și adăugați urmatoarele linii <span class="highlight-3"> DUPĂ ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTĂ în liniile grub nu sunt acceptate '*' (wildcards) pentru numele de fișiere! </span> <span class="highlight-3">Variabila HD este cea specifică VOUĂ :: Acesta e doar un exemplu:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img
+kernel (hd0,4)/sidux/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd0.686
 </pre>
 							<p>La următoarea pornire a PC-ului veți avea o nouă opțiune în meniul grub -de a boota de pe o imagine iso. Dacă veți actualiza imaginea sidux.iso, vmlinuz și intird.img la ultima versiune, fișierul grub menu.lst nu mai trebuie modificat.</p>
 
@@ -353,71 +353,71 @@ mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
 </pre>
 -->
-					<h6>Sistemul de fișiere vfat</h6>
-							<p>Când este utilizat 'vfat' , persistența este realizată într-un fișier care poate fi de maxim 2GB dar nu mai mic de 100MB (altfe nu poate fi folosit). Fisierul trebuie să se numească <span class="highlight-3">sidux-rw</span>. Considerând că discul care-l veți folosi este mount-at cu permisiuni de scriere în /media/sdb1 și vreți  să creati un fișier de 1GB pentru persistență puteți utiliza următoarele comenzi (nu e nevoie de root dacă puteți scrie în acest fișier).</p>
+			<h6>Sistemul de fișiere vfat</h6>
+				<p>Când este utilizat 'vfat' , persistența este realizată într-un fișier care poate fi de maxim 2GB dar nu mai mic de 100MB (altfe nu poate fi folosit). Fisierul trebuie să se numească <span class="highlight-3">sidux-rw</span>. Considerând că discul care-l veți folosi este mount-at cu permisiuni de scriere în /media/sdb1 și vreți  să creati un fișier de 1GB pentru persistență puteți utiliza următoarele comenzi (nu e nevoie de root dacă puteți scrie în acest fișier).</p>
 <pre>
 disc="/media/sdb1"
 size=1024
 mkdir /media/sdb1/sidux
 dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
 </pre>
-							<p class="highlight-2">partițiile NTFS , utilizate de regulă pentru Windows NT/2000/XP (TM) , NU POT fi utilizate pentru persistență.</p>
+				<p class="highlight-2">partițiile NTFS , utilizate de regulă pentru Windows NT/2000/XP (TM) , NU POT fi utilizate pentru persistență.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Instalarea sidux pe dispozitive USB/SSD</h2>
 
-							<p>Intalarea sidux pe un USB-stick/SSD-card este la fel de ușoară ca și cea pe un HD normal. Trebuie doar să urmați instrucțiunile.</p>
+				<p>Intalarea sidux pe un USB-stick/SSD-card este la fel de ușoară ca și cea pe un HD normal. Trebuie doar să urmați instrucțiunile.</p>
 
-				<h5>Cerințe:</h5>
-							<p>Orice PC care are protocolul USB 2.0 și suportă boot-area de pe USB/SSD.</p>
+			<h5>Cerințe:</h5>
+				<p>Orice PC care are protocolul USB 2.0 și suportă boot-area de pe USB/SSD.</p>
 
-							<p>O imagine sidux.iso.</p>
+				<p>O imagine sidux.iso.</p>
 
-				<h5>Două moduri de instalare pe USB/SSD</h5>
+			<h5>Moduri de instalare pe USB/SSD</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-ro.htm#usb-from1">fromiso </a></li>
 							<li>2) <a href="hd-install-opts-ro.htm#usb-hdd"> full </a> (instalarea completă pe un USB/SSD se realizează ca o instalare normală pe HD folosind programul de instalare normal).</li>
-							<li>3) A <a href="hd-install-opts-ro.htm#to-usb-raw"> RAW device </a>installation. This is ideal when using another linux operating system variant and wish to install sidux.</li>
+							<li>3) O instalare pe un <a href="hd-install-opts-ro.htm#to-usb-raw"> dispozitiv RAW  </a>. Aceasta este ideală când utilizați o altă variantă de linux și doriți să instalați sidux.</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Instalarea pe USB/SSD cu 'fromiso'</h3>
-							<p> <span class="highlight-3">Pre formatați dispozitivul usb în ext2 sau fat32 înainte de a proceda la instalare (cel puțin o capacitate de 2G) . Dispozitivul trebuie să aibă doar 1 singură partiție și pentru că unele BIOS-uri sunt temperamentale, aceasta trebuie să fie marcată ca fiind boot-abilă.</span></p>
+			<h3>Instalarea pe USB/SSD cu 'fromiso'</h3>
+				<p> <span class="highlight-3">Pre-formatați dispozitivul usb în ext2 sau fat32 înainte de a proceda la instalare (cel puțin o capacitate de 2G) . Dispozitivul trebuie să aibă doar 1 singură partiție și pentru că unele BIOS-uri sunt temperamentale, aceasta trebuie să fie marcată ca fiind boot-abilă.</span></p>
 
-							<p>Instalarea <span class="highlight-3">fromiso</span> se face prin <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. Pe un LIVE-CD puteți da click pe <span class="highlight-3">icon-ul sidux Installer</span> și alegeți <span class="highlight-3">Install to USB</span>.</p>
+				<p>Instalarea <span class="highlight-3">fromiso</span> se face prin <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. Pe un LIVE-CD puteți da click pe <span class="highlight-3">icon-ul sidux Installer</span> și alegeți <span class="highlight-3">Install to USB</span>.</p>
 
-							<p>Vi se oferă oportunitatea de a seta limba, fusul orar și alte opțiuni de bootcode-uri precum și activarea sau nu a opțiunii persist via checkbox.</p>
+				<p>Vi se oferă oportunitatea de a seta limba, fusul orar și alte opțiuni de bootcode-uri precum și activarea sau nu a opțiunii persist via checkbox.</p>
 
-							<p>Aveți acum un USB/SSD bootabil. Dacă nu ați activat 'persist' îl puteți activa adăugând <span class="highlight-3">persist</span> în linia de boot-are a lui grub din ecranul grub. (Dacă este 'vfat', este probabil cel mai bine s-o luați de la început).</p>
+				<p>Aveți acum un USB/SSD bootabil. Dacă nu ați activat 'persist' îl puteți activa adăugând <span class="highlight-3">persist</span> în linia de boot-are a lui grub din ecranul grub. (Dacă este 'vfat', este probabil cel mai bine s-o luați de la început).</p>
 
 
 <pre>
  fll-iso2usb -D /dev/sdb -f none --iso /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-							<p>Comanda de mai sus, scrisă în linia lui grub, instalează imaginea iso pe dispozitivul USB <span class="highlight-3">sdb</span> cu 'persist', limba Norvegiană, localizare și fus orar - Pacific/Auckland (NZL).</p>
+				<p>Comanda de mai sus, scrisă în linia lui grub, instalează imaginea iso pe dispozitivul USB <span class="highlight-3">sdb</span> cu 'persist', limba Norvegiană, localizare și fus orar - Pacific/Auckland (NZL).</p>
 
-							<p>Configurările de X (video card, keyboard, mouse) sau fișierele pentru interfețele de rețea nu au fost stocate, ceea ce-l face ideal de utilizat pe alte computere.</p>
+				<p>Configurările de X (placa video, tastatură, mouse) sau fișierele pentru interfețele de rețea nu au fost stocate, ceea ce-l face ideal de utilizat pe alte computere.</p>
 
-							<p>Pentru mai multă documentație inclusiv opțiuni de personalizare vedeți și:</p>
+				<p>Pentru mai multă documentație inclusiv opțiuni de personalizare vedeți și:</p>
 
 <pre>
 $ man fll-iso2usb
 </pre>
 
 			<h3>Instalarea completă pe un USB/SSD (la fel ca o instalare pe un HD normal)</h3>
-							<p>Capacitatea minimă recomandată a USB-stick/SSD-card este:<br />
-							sidux "LITE" are nevoie de 2.5 gig PLUS spațiu pentru datele voastre,<br />
-							sidux "FULL" are nevoie de 4 gig PLUS spațiu pentru datele voastre</p>
+				<p>Capacitatea minimă recomandată a USB-stick/SSD-card este:<br />
+				sidux "LITE" are nevoie de 2.5 gig PLUS spațiu pentru datele voastre,<br />
+				sidux "FULL" are nevoie de 4 gig PLUS spațiu pentru datele voastre</p>
 
-							<p> <span class="highlight-3">Pre formatați dispozitivul cu</span> <span class="highlight-2">ext2 </span><span class="highlight-3">și partiționați USB-stick/SSD-card ca și pentru un PC standard.</span></p>
+				<p> <span class="highlight-3">Pre formatați dispozitivul cu</span> <span class="highlight-2">ext2 </span><span class="highlight-3">și partiționați USB-stick/SSD-card ca și pentru un PC standard.</span></p>
 
-							<p>Porniți instalarea de pe Live-ISO și alegeți partiția de pe dispozitivul USB/SSD, unde se va instala sidux, de examplu <span class="highlight-3">sdbX </span>apoi urmați indicațiile programului de instalare. Citiți și <a href="hd-install-ro.htm#Installation">Instalarea pe HD</a></p>
+				<p>Porniți instalarea de pe Live-ISO și alegeți partiția de pe dispozitivul USB/SSD, unde se va instala sidux, de examplu <span class="highlight-3">sdbX </span>apoi urmați indicațiile programului de instalare. Citiți și <a href="hd-install-ro.htm#Installation">Instalarea pe HD</a></p>
 
-							<p><span class="highlight-3">Pentru a boot-a de pe USB/SSD 'Boot from USB' trebuie să fie activată în BIOS.</span></p>
+				<p><span class="highlight-3">Pentru a boot-a de pe USB/SSD 'Boot from USB' trebuie să fie activată în BIOS.</span></p>
 
-							<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
+				<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
 						<ul>
 							<li>O instalare pe USB-stick/SSD-card, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Daca aveti intentia de a utiliza stick-ul USB/SSD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu exceptia cănd aveți probabil cheatcode-uri  vesa în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
 
@@ -428,15 +428,15 @@ $ man fll-iso2usb
 
 	</div>
 	<div class="divider" id="usb-hdd">
-				<h3>Instalarea completă pe un dispozitiv USB Hard Disk ca și instalarea pe o partiție</h3>
+			<h3>Instalarea completă pe un dispozitiv USB Hard Disk ca și instalarea pe o partiție</h3>
 
-							<p>Folosirea unui Hard Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala sidux, îl cuplați la PC și nu mai aveti nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
+				<p>Folosirea unui Hard Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala sidux, îl cuplați la PC și nu mai aveti nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
 
-							<p>Porniți instalarea de pe Live-ISO, (sau de pe un USB-stick/SSD-card), <span class="highlight-3">ca o instalare standard, nu un 'USB install'</span> și alegeți partiția de pe dispozitivul USB, unde se va instala sidux, de examplu <span class="highlight-3">sdbX </span>și urmați pașii ceruți de programul de instalare sidux. Grub trebuie scris pe partiția de pe USB HDD.</p>
+				<p>Porniți instalarea de pe Live-ISO, (sau de pe un USB-stick/SSD-card), <span class="highlight-3">ca o instalare standard, nu un 'USB install'</span> și alegeți partiția de pe dispozitivul USB, unde se va instala sidux, de examplu <span class="highlight-3">sdbX </span>și urmați pașii ceruți de programul de instalare sidux. Grub trebuie scris pe partiția de pe USB HDD.</p>
 
-							<p>Citiți și <a href="hd-install-ro.htm#Installation">Instalarea pe HD</a></p>
+				<p>Citiți și <a href="hd-install-ro.htm#Installation">Instalarea pe HD</a></p>
 
-							<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
+				<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
 						<ul>
 							<li>O instalare pe USB-stick/SSD-card, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Daca aveti intentia de a utiliza stick-ul USB/SSD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu exceptia cănd aveți probabil cheatcode-uri  vesa în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
 
@@ -445,22 +445,22 @@ $ man fll-iso2usb
 
 	</div>
 	<div class="divider" id="to-usb-raw">
-			<h2>Writing a sidux ISO to a USB stick, SSD card, shdc device with other Linux Operating System variants</h2>
+			<h2>Instalarea unui sidux ISO pe un dispozitiv USB stick, SSD card, shdc sau pe un hard drive cu alte variante de Sisteme de Operare Linux</h2>
 
-							 <p>No matter what linux operating system variant you use, this will install a sidux ISO to a USB stick, SSD card, shdc device, (Secure Digital High Capacity card).</p>
+				<p>Indiferent de ce variantă de SO Linux folosiți, puteți instala un sidux ISO pe un dispozitiv USB stick, SSD card, shdc, (Secure Digital High Capacity card), sau pe un hard drive.</p>
 
-							 <p>The sidux ISO image is copied over to the device. While persist is not possible, it does allow you to boot up sidux to install it.</p>
+				<p>Imaginea sidux ISO este copiată pe dispozitiv. Opțiunea 'persist' nu este posibilă dar puteți boot-a sidux pentru al instala.</p>
 
-							 <p><b><span class="highlight-2">It is important to note that this method overwrites the whole USB/SSD/sdhc medium and restricts the available storage to the size of the sidux ISO. Do not do this to your 100+- gig hardrive!</span> </b> install-usb-gui is not subject to these limitations and therefore is the recommended option where an existing sidux system is available.</p>
+				<p><span class="highlight-2">Este important de reținut că această metodă va suprascrie întregul dispozitiv USB/SSD/sdhc , (și/sau hard discul) și va restricționa spațiul de stocare disponibil la dimensiunea lui sidux ISO.</span> 'install-usb-gui' nu face subiectul acestei limitări și este deci opțiunea recomandabilă când este disponibil un SO sidux .</p>
 
-							 <p>Plug in your USB stick or card reader with the card you wish to write to and:</p>
+				<p>Cuplați dispozitivul USB stick sau cititorul de card-uri de memorie cu card-ul pe care doriți să scrieți introdus în el și:</p>
 <pre>
 cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
 </pre>
 
-					<h6>Example:</h6>
+			<h6>Examplu:</h6>
 
-							<p>Plug in your device run <span class="highlight-3">dmesg</span> and look at the output:</p>
+				<p>Cuplați dispozitivul și rulați <span class="highlight-3">dmesg</span> apoi uitați-vă la rezultatele obținute:</p>
 
 <pre>
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
@@ -469,12 +469,12 @@ sdf: sdf1 sdf2
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
 sd 13:0:0:0: [sdf] Attached SCSI removable disk
 </pre>
-							<p>Assuming that the iso is in your home, then the command to run will be:</p>
+				<p>Presupunând că imaginea iso este în directorul vostru home, atunci comada de executat va fi:</p>
 
 <pre>
 cat /home/sidux-*.iso > /dev/sdf
 </pre>
-							<p>Ensure the BIOS on the PC you wish to use sidux on can boot up USB sticks or SSD cards.</p>
+				<p>Asigurați-vă că BIOS-ul PC-ului pe care vreți să folosiți sidux poate boot-a de pe USB stick-uri sau SSD card-uri.</p>
 
 
 	</div>
@@ -487,30 +487,30 @@ cat /home/sidux-*.iso > /dev/sdf
  							<li>3. instalaţi în imaginea de hard creată</li>
 						</ul>
 
-				<h4>Cerinţe</h4>
-							<p><span class="highlight-3">Ram recomandat : 1 gig </span>: Ideal 512 MB pentru client şi 512 MB pentru gazdă . (poate rula şi pe mai puţin , dar să nu aşteptaţi cine ştie ce performanţă).</p>
+			<h4>Cerinţe</h4>
+				<p><span class="highlight-3">Ram recomandat : 1 gig </span>: Ideal 512 MB pentru client şi 512 MB pentru gazdă . (poate rula şi pe mai puţin , dar să nu aşteptaţi cine ştie ce performanţă).</p>
 
-							<p><span class="highlight-3">Spaţiu pe Hard disk :</span> În timp ce VirtualBox este relativ mic (o instalare tipică va avea nevoie de aproximativ 30 MB spaţiu pe hard ), maşina virtuală va necesita spaţiu uriaş pe disc pentru a reprezenta fişierele ce le va stoca. Aşa că, pentru instalarea MS Windows XP (TM), de exemplu, veţi avea nevoie de un fişier ce va creşte până la câţiva  GB mărime. Pentru a avea sidux în VirtualBox va trebui să alocaţi 5 giga pentru imaginea de hard, plus spaţiu pentru swap.</p>
+				<p><span class="highlight-3">Spaţiu pe Hard disk :</span> În timp ce VirtualBox este relativ mic (o instalare tipică va avea nevoie de aproximativ 30 MB spaţiu pe hard ), maşina virtuală va necesita spaţiu uriaş pe disc pentru a reprezenta fişierele ce le va stoca. Aşa că, pentru instalarea MS Windows XP (TM), de exemplu, veţi avea nevoie de un fişier ce va creşte până la câţiva  GB mărime. Pentru a avea sidux în VirtualBox va trebui să alocaţi 5 giga pentru imaginea de hard, plus spaţiu pentru swap.</p>
 
-				<h3>Instalarea:</h3>
+			<h3>Instalarea:</h3>
 <pre>
 apt-get update
 apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
 </pre>
-							<p>Apoi pregătiți modulul:</p>
+				<p>Apoi pregătiți modulul:</p>
 <pre>
 m-a prepare
 m-a a-i virtualbox-ose-source
 </pre>
-							<p>Acum activați 'Dynamic Module-Assistant Kernel Module Support' pentru virtualbox, astfel că la următoarea actualizare de kernel Linux un modul al virtualbox este pregătit de asemenea pentru noul kernel, fără vre-o intervenție manuală. Pentru asta, adăugați <span class="highlight-3">virtualbox-ose-source</span> la fișierul de configurare <span class="highlight-3">/etc/default/dmakms </span>.</p>
+				<p>Acum activați 'Dynamic Module-Assistant Kernel Module Support' pentru virtualbox, astfel că la următoarea actualizare de kernel Linux un modul al virtualbox este pregătit de asemenea pentru noul kernel, fără vre-o intervenție manuală. Pentru asta, adăugați <span class="highlight-3">virtualbox-ose-source</span> la fișierul de configurare <span class="highlight-3">/etc/default/dmakms </span>.</p>
 <pre>
 mcedit /etc/default/dmakms
 virtualbox-ose-source
 </pre>
 
-							<p>Apoi reboot-ați computerul.</p>
+				<p>Apoi reboot-ați computerul.</p>
 
-							<p><a href="sys-admin-kern-upg-ro.htm#dmakms">Este esential de citit despre 'dmakms'</a></p>
+				<p><a href="sys-admin-kern-upg-ro.htm#dmakms">Este esential de citit despre 'dmakms'</a></p>
 
 							<!--<p>virtualbox-ose-source va cere 'dkms', care va construi, re-construi și actualiza automat modulele necesare când virtualbox, dkms sau kernel-ul sunt actualizate.</p>
 
@@ -528,10 +528,10 @@ man dkms
 man dmakms
 </pre>-->
 
-					<h3>Instalarea sidux în maşina virtuală </h3>
-							<p>Utilizaţi interfaţa de la virtualbox pentru a  crea o maşină virtuală pentru sidux . Apoi urmaţi instrucţiunile unei instalări sidux obişnuite .</p>
+			<h3>Instalarea sidux în maşina virtuală </h3>
+				<p>Utilizaţi interfaţa de la virtualbox pentru a  crea o maşină virtuală pentru sidux . Apoi urmaţi instrucţiunile unei instalări sidux obişnuite .</p>
 
-							<p><a href="http://www.virtualbox.org/">VirtualBox are un fişier Help PDF , pe care îl puteţi descărca </a> </p>
+				<p><a href="http://www.virtualbox.org/">VirtualBox are un fişier Help PDF , pe care îl puteţi descărca </a> </p>
 
 	</div>
 	<div class="divider" id="qemu">
@@ -545,12 +545,12 @@ man dmakms
 
 		</ul>
 
-							<p>O unealtă QT GUI este disponibilă pentru a vă ajuta să configurați QEMU:</p>
+				<p>O unealtă QT GUI este disponibilă pentru a vă ajuta să configurați QEMU:</p>
 <pre>
 apt-get install qtemu
 </pre>
 
- 				<h4>Crearea imaginii de Hard Disc</h4>
+ 			<h4>Crearea imaginii de Hard Disc</h4>
 
 				<p>Pentru a rula qemu aveţi nevoie de o imagine de Hard Disc.Acesta este un fişier unde este stocat conţinutul Hard Discului emulat .</p>
 
@@ -625,7 +625,7 @@ apt-get install qtemu
   qemu -hdc /dev/md0 [...]
 </pre>
 
-				<p>Puteţi , bineânţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare .</p>
+				<p>Puteţi , bineînţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare .</p>
 
 
 
@@ -657,7 +657,7 @@ apt-get install qtemu
 
 
 	</div>
-			<div id="rev"> Page last revised 03/01/2010 0100 UTC</div>
+			<div id="rev"> Page last revised 12/01/2010 0255 UTC</div>
 
 </div>
 </body>

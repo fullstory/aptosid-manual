@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<!-- Last translation revision bluewater 28/12/2009 1445 UTC-->
+<!-- Last translation revision edhunter 09/01/2010 0330 UTC-->
 <body>
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
 <!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
@@ -101,8 +101,8 @@
 				<li><a href="hd-install-opts-el.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-el.htm#fromiso-persist">fromiso και persist</a></li>
 				<li><a href="hd-install-opts-el.htm#usb-hd">Eγκατάσταση σε USB σκληρό δίσκο</a></li>
-				<li><a href="hd-install-opts-el.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
-				<li><a href="nbdboot-el.htm#nbd1">Booting sidux over a network</a></li>
+				<li><a href="hd-install-opts-el.htm#to-usb-raw">Εγκατάσταση του sidux σε USB/SSD με άλλες διανομές Linux</a></li>
+				<li><a href="nbdboot-el.htm#nbd1">Εκκίνηση του sidux μέσω δικτύου</a></li>
 				<li><a href="hd-install-opts-el.htm#vtbox">Εγκατάσταση του sidux με VirtualBox</a></li>
 				<li><a href="hd-install-opts-el.htm#qemu">Εγκατάσταση μέσω QEMU</a></li>
 			</ul>
@@ -206,26 +206,33 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="nbd1">
-			<h2 id="top-header">Booting sidux over a network (network block device - nbd)</h2>
+			<!--h2 id="top-header">Booting sidux over a network (network block device - nbd)</h2-->
+			<h2 id="top-header">Εκκίνηση του sidux μέσω δικτύου (network block device - nbd)</h2>
 
-							<p><span class="highlight-2">Warning: dnsmasq includes a dhcp server which can conflict with an existing dhcp server on your network (your router may provide one). </span>   <span class="highlight-3">The safest option is to only use one dhcp server on any network. This means you should disable any other dhcp servers on the same network. The dnsmasq proxy options outlined below should be able to co-exist with another dhcp server on the same network, however please do not try this unless you administer the network and are ready to deal with any unforeseen consequences which might crop up.</span></p>
 
-			      <h4>The basics</h4>
-							<p>Network booting first requires that you have a machine capable of network booting, which can be connected via a network you run to a machine which you can setup to offer the network booting services. </p>
+							<!--p><span class="highlight-2">Warning: dnsmasq includes a dhcp server which can conflict with an existing dhcp server on your network (your router may provide one). </span>   <span class="highlight-3">The safest option is to only use one dhcp server on any network. This means you should disable any other dhcp servers on the same network. The dnsmasq proxy options outlined below should be able to co-exist with another dhcp server on the same network, however please do not try this unless you administer the network and are ready to deal with any unforeseen consequences which might crop up.</span></p-->
+							<p><span class="highlight-2">Προειδοποίηση: το dnsmasq περιλαμβάνει ένα dhcp διακομιστή ο οποίος μπορεί να "συγκρουστή" με έναν ήδη υπαρκτό dhcp διακομιστή στο δίκτυο σας (ο δρομολογιτής σας μπορεί να περιλαμβάνει έναν). </span> <span class="highlight-3">Η ασφαλέστερη επιλογή είναι η χρήση μόνο ενός dhcp διακομιστή σε ένα δίκτυο. Αυτό σημαίνει ότι θα πρέπει να απενεργοποιήσετε οποιοδήποτε άλλο dhcp διακομιστή που βρίσκεται στο ίδιο δίκτυο. Η dnsmasq proxy επιλογές που περιγράφονται πιο κάτω θα πρέπει να είναι σε θέση να συνυπάρξουν με άλλο dhcp διακομιστή στο ίδιο δίκτυο, όμως μην το δοκιμάσετε αυτό εκτός και αν είστε ο διαχειριστής του δικτύου και είστε έτοιμος να αντιμετωπίσετε τυχών προβλήματα που μπορεί να προκύψουν.</span></p>
 
-							<p>You do not want to do this on your workplace network, or any other network you do not control, unless you run that network or get permission and guidance from those who do. If you are co-operating in a larger network you can investigate all the options to dnsmasq, such as limiting the interfaces it listens on or the clients it will respond to, to restrict the impact of your setup on the network.</p>
+			      <h4>Τα βασικά</h4>
+							<!--p>Network booting first requires that you have a machine capable of network booting, which can be connected via a network you run to a machine which you can setup to offer the network booting services. </p-->
+							<p>Για την εκκίνηση μέσω δικτύου χρειάζεστε ένα υπολογιστή ο οποίος υποστηρίζει εκκίνηση μέσω δικτύου, ο οποίος μπορεί να συνδεθεί με το δίκτυο και τον οποίο μπορείτε να ρυθμίσετε να παρέχει υπηρεσίες εκκίνησης μέσω δικτύου.</p>
 
-			      <h4>The prerequisites</h4>
-							<p>A 2009-04 (or newer) sidux iso booted up to use as the network boot server. The instructions should be basically the same with any up to date sidux or debian sid machine and should provide all the clues you need to use on other systems. Linux is required to serve nbd devices.</p>
+							<!--p>You do not want to do this on your workplace network, or any other network you do not control, unless you run that network or get permission and guidance from those who do. If you are co-operating in a larger network you can investigate all the options to dnsmasq, such as limiting the interfaces it listens on or the clients it will respond to, to restrict the impact of your setup on the network.</p-->
+							<p>Δεν θέλετε να το κάνετε αυτό στην δουλειά ή σε κάποιο άλλο δίκτυο το οποίο δεν ελέγχετε εκτός και αν εσείς διαχειρίζεστε το δίκτυο ή έχετε πάρει την άδεια και οδηγίες από τον διαχειριστή. Εάν βρίσκεστε σε ένα μεγαλύτερο δίκτυο, τότε μπορείτε να ερευνήσετε όλες τις επιλογές του dnsmasq, όπως τον περιορισμό των διεπαφών στις οποίες "ακούει" ή τους πελάτες στους οποίους θα απαντήσει για να μειώσετε έτσι τον φόρτο του δικτύου.</p>
 
-							<p>dnsmasq will be used to provide everything for the initial booting phases, again it shouldn't be hard to translate the required knowledge to other software.</p>
+			      <h4>Οι προαπαιτήσεις</h4>
+							<!--p>A 2009-04 (or newer) sidux iso booted up to use as the network boot server. The instructions should be basically the same with any up to date sidux or debian sid machine and should provide all the clues you need to use on other systems. Linux is required to serve nbd devices.</p-->
+							<p>Ένα 2009-04 (ή νεότερο) sidux iso εκκινημένο για να χρησιμοποιηθεί σαν network boot server. Οι οδηγίες θα πρέπει να είναι οι ίδιες σε ένα οποιοδήποτε ενημερωμένο sidux ή debian sid σύστημα και θα πρέπει να παρέχει όλα τα στοιχεία που χρειάζονται για να το χρησιμοποιήσετε και σε άλλα συστήματα. Το Linux είναι υποχρεομένο να παρέχει nbd συσκευές.</p>
 
-				<h6>Installation</h6>
+							<!--p>dnsmasq will be used to provide everything for the initial booting phases, again it shouldn't be hard to translate the required knowledge to other software.</p-->
+							<p>Το dnsmasq θα χρησιμοποιηθεί για να παρέχει τα πάντα για την αρχική φάση της εκκίνησης. Και πάλι δεν είναι πολύ δύσκολη η μεταφορά των οδηγιών και σε άλλες εφαρμογές.</p>
+
+				<h6>Εγκατάσταση</h6>
 <pre>
 apt-get install nbd-server dnsmasq
 </pre>
 
-				<h3>Setting up the nbd-server</h3>
+				<h3>Ρύθμιση του nbd-server</h3>
 
 							<p> Presuming the iso can be found at <span class="highlight-3">/dev/scd0</span>,  (which it probably can be if you booted from cd, otherwise substitue in any suitable file or device), then you can setup a nbd-server conf file called <span class="highlight-3">nbd-sidux.conf</span> with a section called sidux-iso to export the cd on port 9040 by running the following:</p>
 <pre>
@@ -269,7 +276,9 @@ dhcp-range=192.168.0.100,192.168.0.199,1h
 dhcp-boot=pxelinux.0
 </pre>
 
-							<p>To give out IP addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to give the filename to just run pxelinux.0 as part of the dhcp request, uncomment the conf-dir setting at the bottom of <span class="highlight-3"> /etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
+							<p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p>
+
+							<p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
 
 							<p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p>
 
@@ -286,7 +295,7 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<p>Now you can edit boot options to your hearts content in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
+							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
 
 							<p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p>
 <pre>
@@ -307,7 +316,7 @@ fromhd=/dev/nbdroot root=/dev/nbdroot nbdroot=192.168.1.23,9040
 
 
 	</div>
-	<div id="rev">Page last revised 02/01/2010 0130 UTC </div>
+	<div id="rev">Page last revised 05/01/2010 0650 UTC </div>
 
 </div>
 </body>

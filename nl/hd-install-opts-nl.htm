@@ -220,21 +220,21 @@
 							* Als je het bestand sidux.ISO noemt, moeten de commando's aangepast worden want Linux/unix benamingen zijn hoofdlettergevoelig.</p>
 </div>
 <div class="divider" id="grub2-fromiso">
-			<h2>fromiso with Grub2</h2>
-							<p>sidux has provided a grub2 file named 60_fll-fromiso to generate a fromiso entry to the grub2 menu.  The only file to configure fromiso is called <span class="highlight-3">grub2-fll-fromiso</span> and is found in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
+			<h2>fromiso met Grub2</h2>
+							<p>sidux levert een grub2 bestand genaamd 60_fll-fromiso om een fromiso waarde te genereren in de grub2 menu.  Het enige bestand om de fromiso in te configureren heet <span class="highlight-3">grub2-fll-fromiso</span> deze kan gevonden worden in <span class="highlight-3">/etc/default/grub2-fll-fromiso.</span>.</p>
 
-							<p> First open a terminal and become root with:</p>
+							<p> Open eerst een terminal en wordt root via:</p>
 <pre>
 sux
 </pre>
-							<p>Then open an editor, which may be kwrite, mcedit, vim or another that you prefer:</p>
+							<p>Open nu een editor, dit kan je doen via kwrite, mcedit, vim of een andere welke je het beste vindt:</p>
 
 <pre>
 mcedit /etc/default/grub2-fll-fromiso
 </pre>
-							 <p>Next uncomment (remove the<span class="highlight-2"> # </span>) the lines you need to be operative and replace the default instructions within the <span class="highlight-3">"quote marks"</span> with your preferences.</p>
+							 <p>Haal het commentaar weg (verwijder de <span class="highlight-2"> # </span>) van de regels die je actief wilt maken en vervang de standaard instructies in de <span class="highlight-3">"aanhalingstekens"</span> met je eigen instellingen.</p>
 
-							 <p>For example, compare this altered grub2-fll-fromiso with the default, (the <span class="highlight-3">highlighted lines</span> are the changed lines for instructional purposes):</p>
+							 <p>Voorbeeld, vergelijk deze veranderde grub2-fll-fromiso met de standaard, (de <span class="highlight-3">highlighted regels</span> zijn de veranderde regels voor instructie doeleinden):</p>
 <pre>
 # Defaults for grub2-fll-fromiso update-grub helper
 # sourced by grub2's update-grub
@@ -245,7 +245,7 @@ mcedit /etc/default/grub2-fll-fromiso
 #
 
 # specify where to look for the ISO
-# default: /srv/ISO
+# default: /srv/ISO <span  class="highlight-1">### Note: This is the path to the directory that contains the ISO,<br /> it is not to include the actual sidux-*.iso file.###</span>
 <span  class="highlight-3">FLL_GRUB2_ISO_LOCATION="/media/disk1part4/sidux-iso"</span>
 
 # array for defining ISO prefices --> sidux-*.iso
@@ -271,11 +271,11 @@ mcedit /etc/default/grub2-fll-fromiso
 </pre>
 
 
-						      <p>Save and close the editor, then run in the terminal</p>
+						      <p>Sla het bestand op en sluit de editor af, voer hierna het volgende in de terminal uit</p>
 <pre>
 update-grub
 </pre>
-						      <p>Your grub2 menu.cfg will be updated to see the different ISOs you have placed in the directory you specified and will be available on your next boot up.</p>
+						      <p>Je grub2 menu.cfg wordt geupdate om verschillende ISOs te zien welke je in de directory , welke je gespecificeerd hebt, geplaatst hebt en zijn bij de volgende boot beschikbaar.</p>
 	    </div>
 	    <div class="divider" id="fromiso-grub-leg">
 			<h2>fromiso with grub-legacy</h2>
@@ -294,16 +294,16 @@ mount -t iso9660 -o loop,ro /media/sdaX/sidux/sidux.iso /mnt/test
 							<p>Hierna wordt een kopie van de vmlinuz en initrd.img bestanden van de gemounte iso naar de map gekopieerd. <span class="highlight-3">De HD/map is je eigen keus. Hier staat slechts een voorbeeld. NB: De namen (vmlinuz en initrd.img) zijn ingekort t.o.v. de originele namen met cijfers achter deze namen.</span></p>
 
 <pre>
-cp /mnt/test/boot/vmlinuz* /media/sda5/sidux/vmlinuz
-cp /mnt/test/boot/initrd.img* /media/sda5/sidux/initrd.img
+cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
+cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
 							<p>Hierna moet Grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in Grub voor bestandsnamen toegestaan! </span></p> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
-kernel (hd0,4)/sidux/vmlinuz boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
-initrd (hd0,4)/sidux/initrd.img
+kernel (hd0,4)/sidux/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/sidux/sidux.iso
+initrd (hd0,4)/sidux/initrd0.686
 </pre>
 							<p>Na de volgende boot heb je een nieuw menu item in Grub om de iso image te starten. Omdat alle bestandsnamen werden ingekort (geen cijfers achter sidux.iso, vmlinuz en initrd.img), kan in Grub de menu.lst voortaan ongewijzigd blijven.</p>
 
@@ -448,22 +448,22 @@ $ man fll-iso2usb
 
 	</div>
 	<div class="divider" id="to-usb-raw">
-			<h2>Writing a sidux ISO to a USB stick, SSD card, shdc device with other Linux Operating System variants</h2>
+			<h2>Het schrijven van een sidux ISO naar USB stick, SSD kaart, shdc device met een andere Linux Operating Systeem varianten</h2>
 
-							 <p>No matter what linux operating system variant you use, this will install a sidux ISO to a USB stick, SSD card, shdc device, (Secure Digital High Capacity card).</p>
+							 <p>Het maakt niet uit welke linux operating systeem je gebruikt, dit installeert een sidux ISO naar een USB stick, SSD kaart, shdc device, (Secure Digital High Capacity kaart).</p>
 
-							 <p>The sidux ISO image is copied over to the device. While persist is not possible, it does allow you to boot up sidux to install it.</p>
+							 <p>De sidux ISO image is gecopieerd over de device. Terwijl persist niet mogelijk is, maar het staat je toe sidux op te starten en te installeren.</p>
 
-							 <p><b><span class="highlight-2">It is important to note that this method overwrites the whole USB/SSD/sdhc medium and restricts the available storage to the size of the sidux ISO. Do not do this to your 100+- gig hardrive!</span> </b> install-usb-gui is not subject to these limitations and therefore is the recommended option where an existing sidux system is available.</p>
+							 <p><b><span class="highlight-2">Het is belangrijk te weten dat deze methode de USB/SSD/sdhc medium volledig overschrijft en beperkt de beschikbare ruimte to de grote van de sidux ISO. Doe dit niet op een harddisk van 100+- gig!</span> </b> install-usb-gui is niet gebonden aan deze beperkingen en is daarom de aanbevolen optie om bij een bestande sidux installatie te gebruiken.</p>
 
-							 <p>Plug in your USB stick or card reader with the card you wish to write to and:</p>
+							 <p>Plaats je USB stick of Kaartlezer met de kaart die je wilt beschrijven en doe het volgende:</p>
 <pre>
 cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
 </pre>
 
-					<h6>Example:</h6>
+					<h6>Voorbeeld:</h6>
 
-							<p>Plug in your device run <span class="highlight-3">dmesg</span> and look at the output:</p>
+							<p>Plaats je apparaat en start <span class="highlight-3">dmesg</span> en bekijk de uitvoer:</p>
 
 <pre>
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
@@ -472,12 +472,12 @@ sdf: sdf1 sdf2
 sd 13:0:0:0: [sdf] Assuming drive cache: write through
 sd 13:0:0:0: [sdf] Attached SCSI removable disk
 </pre>
-							<p>Assuming that the iso is in your home, then the command to run will be:</p>
+							<p>Er vanuit gaande dat de iso in je home is, voer je het volgende commando uit:</p>
 
 <pre>
 cat /home/sidux-*.iso > /dev/sdf
 </pre>
-							<p>Ensure the BIOS on the PC you wish to use sidux on can boot up USB sticks or SSD cards.</p>
+							<p>Verzeker je zelfs dat de BIOS in je PC waarvan je sidux via usb/sd kaart wilt opstarten deze mogelijkheid biedt.</p>
 
 
 	</div>
@@ -501,20 +501,20 @@ cat /home/sidux-*.iso > /dev/sdf
 apt-get update
 apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
 </pre>
-							<p>Then prepare the module:</p>
+							<p>Bereid de module voor:</p>
 <pre>
 m-a prepare
 m-a a-i virtualbox-ose-source
 </pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
+							<p>Activeer dan de Dynamic Module-Assistant Kernel Module Support voor virtualbox, zodat de volgende keer de Linux kernel geupdate wordt zodat de virtualbox module ook voorbereid wordt, zonder handmatige acties. Omdit te doen, voer je toe <span class="highlight-3">virtualbox-ose-source</span> aan de <span class="highlight-3">/etc/default/dmakms </span>configuratie bestand. </p>
 <pre>
 mcedit /etc/default/dmakms
 virtualbox-ose-source
 </pre>
 
-							<p>Then reboot the computer.</p>
+							<p>herstart hierna de computer.</p>
 
-							<p><a href="sys-admin-kern-upg-nl.htm#dmakms">This is essential reading on dmakms</a></p>
+							<p><a href="sys-admin-kern-upg-nl.htm#dmakms">Dit is een belangrijk leesstuk voor dmakms</a></p>
 
 						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
 
@@ -652,7 +652,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-		<div id="rev"> Inhoud het laatst aangepast op 03/01/2010 0100 UTC</div>
+		<div id="rev"> Inhoud het laatst aangepast op 12/01/2010 0255 UTC</div>
 </div>
 </body>
 </html>

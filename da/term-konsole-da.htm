@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by zonker 23/08/2008 1955 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
 				<li><a href="hd-install-opts-da.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-da.htm#fromiso-persist">fromiso og persist</a></li>
-				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD</a></li>
-				<li><a href="hd-install-opts-da.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-da.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-da.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
 				<li><a href="hd-install-opts-da.htm#qemu">Installering af sidux med QEMU</a></li>
@@ -167,10 +167,10 @@
 				<li><a href="sys-admin-apt-da.htm#apt-downgrade">Nedgradere eller 'Hold' en pakke</a></li>
 				<li><a href="sys-admin-apt-da.htm#apt-cache">Søgning efter pakker med apt-cache</a></li>
 				<li><a href="sys-admin-apt-da.htm#gui-pacsea">GUI Package searching</a></li>
-				<li><a href="siduxcc-da.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-da.htm#live-cd-upgrade">Opgradering med Live- ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-da.htm#approx">dist-upgrade of multiple PCs on a LAN</a></li>
 				<li><a href="sys-admin-kern-upg-da.htm#kern-upgrade">Opgradere kernel</a></li>
+				<li><a href="sys-admin-kern-upg-da.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-da.htm#apt-upgrade">Opgradering af Systemet - dist-upgrade - Overview</a></li>
 				<li><a href="sys-admin-apt-da.htm#du-st">Opgradering af Systemet - dist-upgrade -  dist-upgrade - The Steps</a></li>
 			</ul>
@@ -179,7 +179,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-da.htm#adduser">Adding a new user</a></li>
 				<li><a href="home-da.htm#home-bu">Moving /home</a></li>
-				<li><a href="siduxcc-da.htm#siduxcc">siduxcc Kontrol Centret</a></li>
 				<li><a href="sys-admin-rdiff-da.htm#rdiff">Sikkerhedskopiering med rdiff</a></li>
 				<li><a href="sys-admin-rsync-da.htm#rsync">Sikkerhedskopiering med rsync</a></li>
 				<li><a href="vir-rkits-da.htm#virus-rkits">Virus og Rootkit skannere</a></li>
@@ -250,12 +249,12 @@ reset
 	</div>
 	<div class="divider" id="sux">
 	<h2>Om sux</h2>
-							<p>Mange kommandoer skal afvikles med root privilegier. For at opnå root privilegier taster du:</p>				
+							<p>Mange kommandoer skal afvikles med root privilegier. For at opnå root privilegier taster du:</p>
 <pre>
-sux 
+sux
 </pre>
 
-							<p>Den almindelige kommando til at opnå root rettigheder er 'su', men hvis du istedet bruger <span class="highlight-3">sux</span> tillader det dig at afvikle GUI / X11 applikationer fra kommandolinien og gør root i stand til at starte grafiske programmer. <span class="highlight-3">sux</span> er en wrapper omkring standard kommandoen 'su', som overfører dine X rettigheder til målbrugeren.</p>
+							<p>Den almindelige kommando til at opnå root rettigheder er 'su', men hvis du istedet bruger <span class="highlight-3">sux</span> tillader det dig at afvikle GUI / X11 applikationer fra kommandolinien og gør root i stand til at starte grafiske programmer. <span class="highlight-3">sux</span> er en wrapper omkring standard kommandoen 'su', som overfører dine X rettigheder til målbrugeren.  (See also <a href="#sudo"> sudo</a>).</p>
 
 							<p>Eksempler på afvikling af en X11 applikation via sux: Anvendelse af en teksteditor som kate eller kwrite til at redigere en fil der ejes af root; partitionering med gparted; eller en Xapp fil manager som dolphin or thunar. <!--Du kan også ændre filer ejet af root ved at højre-klikke på dem og vælge Handlinger>Edit as root og så indtaste dit root password. Denne kommando virker ved at kalde kdesu i baggrunden.--></p>
 
@@ -273,7 +272,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>then:</p>
-							 
+
 <pre>
 kdesu &lt;Application&gt;
 </pre>
@@ -288,7 +287,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>then:</p>
-							 
+
 <pre>
 gksu &lt;Application&gt;
 </pre>
@@ -303,11 +302,12 @@ Alt+F2
 su-to-root -X -c &lt;Application&gt;
 </pre>
 							<p><span class="highlight-3">All of the above keyboard options can be run in a terminal.</span></p>
-							
+	</div>
+	<div class="divider" id="sudo">
 					<h2>sudo is not supported</h2>
-							<p>sudo is not enabled by default on installation to hard disk. It is available for use on a live-ISO since no root password is set. The reasoning behind this is so that if an attacker gets hold of the users password, they do not immediately get full super-user priviledges and make potentially damaging changes to your system.</p>
-					
-							<p>Another issue with sudo is that it leads to running a root application with a users configuration, which may override or change permissions. In some cases, this can subsequently make an application unusable for the user. Use <span class="highlight-3">sux, kdesu, gksu or su-to-root -X -c</span> as recommended!</p>
+							<p>sudo is not enabled by default on installation to hard disk. It is available for use on a live-ISO since no root password is preset. The reasoning behind this is so that if an attacker gets hold of the users password, they do not immediately get full super-user priviledges and make potentially damaging changes to your system.</p>
+
+							<p>Another issue with sudo is that it leads to running a root application with a users configuration, which may override or change permissions. In some cases, this can subsequently make an application unusable for the user. Use <span class="highlight-3"><a href="#sux">sux</a>, kdesu, gksu or su-to-root -X -c</span> as recommended!</p>
 
 					  <h2>Being in root</h2>
 							<p class="highlight-2">ADVARSEL: Når du er logget ind som root er der ikke noget der stopper dig i at udføre potentielt skadelige ændringer, som at slette essentielle system-filer. Su skal derfor være helt sikker på at du ved hvad det er du gør, for det er fuldt muligt at rette ubodelig skade på systemet når du er root.</p>
@@ -406,7 +406,7 @@ Welcome to sidux-manuals http://manual.sidux.com
 
 
 	</div>
-			<div id="rev">Content last updated 15/08/2009 0735 UTC</div>
+			<div id="rev">Content last updated 17/01/2010 0105 UTC</div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision HarzG 12/07/2009 2110 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintainers eislon -->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Naar sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-nl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
 				<li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-nl.htm#fromiso-persist">fromiso en persist</a></li>
-				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD</a></li>
-				<li><a href="hd-install-opts-nl.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="hd-install-opts-nl.htm#usb-hd">Installeren op een USB-HD - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-nl.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-nl.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-nl.htm#vtbox">Installeren sidux met VirtualBox</a></li>
 				<li><a href="hd-install-opts-nl.htm#qemu">Installeren sidux met QEMU</a></li>
@@ -167,10 +167,10 @@
 				<li><a href="sys-admin-apt-nl.htm#apt-downgrade">Downgraden Hold van een pakket</a></li>
 				<li><a href="sys-admin-apt-nl.htm#apt-cache">Met apt-cache naar programmapakketten zoeken</a></li>
 				<li><a href="sys-admin-apt-nl.htm#gui-pacsea">Grafisch zoekprogramma voor pakketten</a></li>
-				<li><a href="siduxcc-nl.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-nl.htm#live-cd-upgrade">Upgraden dmv je Live- ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-nl.htm#approx">dist-upgrade of multiple PCs on a LAN</a></li>
 				<li><a href="sys-admin-kern-upg-nl.htm#kern-upgrade">Upgraden van de kernel</a></li>
+				<li><a href="sys-admin-kern-upg-nl.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-nl.htm#apt-upgrade">Upgraden van een geïnstalleerd systeem - dist-upgrade - Overview</a></li>
 				<li><a href="sys-admin-apt-nl.htm#du-st">Upgraden van een geïnstalleerd systeem -  dist-upgrade - The Steps</a></li>
 			</ul>
@@ -179,7 +179,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-nl.htm#adduser">Nieuwe gebruiker toevoegen</a></li>
 				<li><a href="home-nl.htm#home-bu">Verplaatsen van /home</a></li>
-				<li><a href="siduxcc-nl.htm#siduxcc">sidux Control Center</a></li>
 				<li><a href="sys-admin-rdiff-nl.htm#rdiff">Backup met rdiff</a></li>
 				<li><a href="sys-admin-rsync-nl.htm#rsync">Backup met rsync</a></li>
 				<li><a href="vir-rkits-nl.htm#virus-rkits">Virus en rootkit scanners</a></li>
@@ -245,11 +244,11 @@ reset
 	</div>
 	<div class="divider" id="sux">
 	<h2>Over sux</h2>
-							<p>Talrijke commando's moeten uitgevoerd worden met root rechten. Om dit te bereiken type je:</p>				
+							<p>Talrijke commando's moeten uitgevoerd worden met root rechten. Om dit te bereiken type je:</p>
 <pre>
-sux 
+sux
 </pre>
-							<p>Terwijl het algemene commando om root te worden 'su' is gebruiken we <span class="highlight-3">sux</span> om GUI / X11 applicatie's als root via de command lijn op te starten (in hun grafische mode), <span class="highlight-3">sux</span> zorgt ervoor dat het commando met de X credentials van de doelgebruikt wordt opgestart.</p>
+							<p>Terwijl het algemene commando om root te worden 'su' is gebruiken we <span class="highlight-3">sux</span> om GUI / X11 applicatie's als root via de command lijn op te starten (in hun grafische mode), <span class="highlight-3">sux</span> zorgt ervoor dat het commando met de X credentials van de doelgebruikt wordt opgestart. (See also <a href="#sudo"> sudo</a>).</p>
 
 							<p>Een voorbeeld van het draaien van een X11 app via sux is het gebruiken van een tekst editor om een root bestand te wijzigen via kwrite of kate, of om te partitioneren mbv gparted of om een Xapp file manager zoals dolphin or thunar op te starten. <!--Je kunt ook root bestanden wijzigigen door er met de rechtermuisknop op te klikken en dan te kiezen voor 'edit-as-root', er wordt je dan om het root wachtwoord gevraagd dit je moet invoeren, dit roept dan het programma kdesu in de achtergrond op.--></p>
 
@@ -267,7 +266,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>hierna:</p>
-							 
+
 <pre>
 kdesu &lt;Application&gt;
 </pre>
@@ -282,7 +281,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>hierna:</p>
-							 
+
 <pre>
 gksu &lt;Application&gt;
 </pre>
@@ -296,11 +295,12 @@ Alt+F2
 su-to-root -X -c &lt;Application&gt;
 </pre>
 							<p><span class="highlight-3">Alle genoemde keyboard opties kunnen ook in een terminal/konsole gebruikt worden.</span></p>
-							
+	</div>
+	<div class="divider" id="sudo">
 					<h2>sudo wordt niet ondersteund</h2>
 							<p>sudo is standaard niet geactiveerd voor installaties op de hard disk. Het is alleen beschikbaar in de live-CD omdat daar geen root-password vastgelegd is. De reden hierachter is dat een hacker met een gedetecteerd user password (bijv. keylogger), nooit in staat zal zijn om een systeem te beschadigen. Men heeft immers het root-password niet.</p>
-					
-							<p>Eeen ander probleem met sudo is dat het daartoe kan leiden dat root een applicatie uitvoert met de user configuratie en hierbij de instellingen overschrijft of rechten veranderd. Dat kan soms daartoe leiden dat een user de applicatie niet meer kan gebruiken. Het gebruik <span class="highlight-3">sux, kdesu, gksu or su-to-root -X -c</span> wordt geadvisserd!</p>
+
+							<p>Eeen ander probleem met sudo is dat het daartoe kan leiden dat root een applicatie uitvoert met de user configuratie en hierbij de instellingen overschrijft of rechten veranderd. Dat kan soms daartoe leiden dat een user de applicatie niet meer kan gebruiken. Het gebruik <span class="highlight-3"><a href="#sux">sux</a>, kdesu, gksu or su-to-root -X -c</span> wordt geadvisserd!</p>
 
 					  <h2>Being in root</h2>
 							<p class="highlight-2">WAARSCHUWING: Terwijl je aangelogd bent als root gebruiker, weerhoudt het systeem je er niet van om eventuele gevaarlijke dingen uit te voeren, zoals het verwijderen van belangrijke bestanden enzo., je moet je 100% zeker van zijn dat je de actie die je wilt uitvoeren de gewenste resultaten zal behalen, omdat het kan inhouden dat je systeem niet meer werkt zoals het zou moeten. </p>
@@ -401,7 +401,7 @@ Welcome to sidux-manuals http://manual.sidux.com
 
 
 	</div>
-			<div id="rev">Inhoud het laatst aangepast op 15/08/2009 0735 UTC</div>
+			<div id="rev">Inhoud het laatst aangepast op 17/01/2010 0105 UTC</div>
 
 </div>
 </body>

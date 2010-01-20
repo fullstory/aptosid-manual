@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision Richard 01/06/2009 2000 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-es.htm#fromiso-grub-leg">Iniciar 'fromiso' con el anterior grub</a></li>
 				<li><a href="hd-install-opts-es.htm#grub2-fromiso">Iniciar 'fromiso' con Grub 2</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso-persist">'fromiso' y 'persist'</a></li>
-				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD</a></li>
-				<li><a href="hd-install-opts-es.htm#to-usb-raw">Instalar sidux en un USB/SSD con otras variantes de Linux</a></li>
+				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-es.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-es.htm#nbd1">Arrancando sidux en una red</a></li>
 				<li><a href="hd-install-opts-es.htm#vtbox">Instalar sidux en VirtualBox</a></li>
 				<li><a href="hd-install-opts-es.htm#qemu">Instalar sidux en QEMU</a></li>
@@ -167,10 +167,10 @@
 				<li><a href="sys-admin-apt-es.htm#apt-downgrade">'Hold' un Paquete</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-cache">Buscar Paquete con 'apt-cache'</a></li>
 				<li><a href="sys-admin-apt-es.htm#gui-pacsea">Buscar Paquete con GUI</a></li>
-				<li><a href="siduxcc-es.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-es.htm#approx">dist-upgrade de varios PCs en una red local</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
+				<li><a href="sys-admin-kern-upg-es.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade' - Vista general</a></li>
 				<li><a href="sys-admin-apt-es.htm#du-st">Actualizar el sistema instalado: 'dist-upgrade' - Los pasos</a></li>
 			</ul>
@@ -179,7 +179,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-es.htm#adduser">Agregar nuevo Usuario</a></li>
 				<li><a href="home-es.htm#home-bu">Mudando el /home</a></li>
-				<li><a href="siduxcc-es.htm#siduxcc">Centro de Control de sidux</a></li>
 				<li><a href="sys-admin-rdiff-es.htm#rdiff">Respaldar con 'rdiff'</a></li>
 				<li><a href="sys-admin-rsync-es.htm#rsync">Respaldar con 'rsync'</a></li>
 				<li><a href="vir-rkits-es.htm#virus-rkits">Virus y Rootkit</a></li>
@@ -247,7 +246,7 @@ reset
 
 							<p>Una consola/terminal a veces parece quedar congelada, y sin embargo no lo está; cualquier cosa que escriba será procesado. Esto puede suceder al oprimir sin querer el <span class="highlight-3">ctrl+s</span>. En este caso, intente <span class="highlight-3">ctrl+q</span> para quitar el bloqueo del terminal.</p>
 
-				
+
 	</div>
 	<div class="divider" id="sux">
 	<h2>Acerca de sux</h2>
@@ -256,8 +255,8 @@ reset
 sux
 </pre>
 
-							<p> El comando común para convertirse en root es "su", pero utilizando "sux" en su lugar podrá ejecutar aplicaciones gráficas de X11 desde la línea de comando. <span class="highlight-3">sux</span> es un envoltorio para el comando estándar que transfiere sus credenciales X al usuario destinatorio.</p>
-							
+							<p> El comando común para convertirse en root es "su", pero utilizando "sux" en su lugar podrá ejecutar aplicaciones gráficas de X11 desde la línea de comando. <span class="highlight-3">sux</span> es un envoltorio para el comando estándar que transfiere sus credenciales X al usuario destinatorio. (Vea también <a href="#sudo"> sudo</a>).</p>
+
 
 							<p>Un ejemplo de ejecución de una aplicación de X11 vía sux es el uso de un editor de texto como kate para editar un archivo de root, para hacer particionamiento con gparted o con un gestor de archivos como dolphin o thunar. <!--También puede alterar archivos root con un clic derecho, y escoger "editar como raíz", entra su clave de raíz, que lo llame el "kdesu" para validar la contraseña.--></p>
 
@@ -276,7 +275,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>y entonces:</p>
-							 
+
 <pre>
 kdesu &lt;Application&gt;
 </pre>
@@ -291,7 +290,7 @@ Alt+F2
 Run Command
 </pre>
 							 <p>y entonces:</p>
-							 
+
 <pre>
 gksu &lt;Application&gt;
 </pre>
@@ -305,11 +304,12 @@ Alt+F2
 su-to-root -X -c &lt;Aplicación&gt;
 </pre>
 							<p><span class="highlight-3">Todas las opciones de teclado mencionadas antes pueden ser ejecutadas en un terminal.</span></p>
-							
+	</div>
+	<div class="divider" id="sudo">
 					<h2>sudo no está soportado</h2>
 							<p>sudo no está configurado por defecto en la instalación en el disco duro. Se puede usar si hemos arrancado con el CD en vivo ya que no hay, en vivo, ningún pasword de root. La razón para ello es que si un atacante consiguiera los paswords del usuario, no podría inmediatamente adquirir privilegios de super-usuario y hacer cambios potencialmente dañinos en su sistema.</p>
-					
-							<p>Otro problema con sudo es que permite correr aplicaciones de root con una configuración de usuario, lo que puede saltarse o cambiar los permisos. En algunos casos esto podría hacer que una aplicación fuera inutilizable para el usuario. Use <span class="highlight-3"> sux, kdesu, gksu o bien su-to-root -X -c como recomendamos!</span></p>
+
+							<p>Otro problema con sudo es que permite correr aplicaciones de root con una configuración de usuario, lo que puede saltarse o cambiar los permisos. En algunos casos esto podría hacer que una aplicación fuera inutilizable para el usuario. Use <span class="highlight-3"> <a href="#sux">sux</a>, kdesu, gksu o bien su-to-root -X -c como recomendamos!</span></p>
 
 					  <h2>Trabajando como root</h2>
 							<p class="highlight-2">AVISO: Mientras esté trabajando como super-usuario (o root, o raíz), el sistema no hará nada para inhibir el hacer cosas peligrosas como borrar archivos importantes, etc. Tiene que estar seguro de lo que va a hacer, ya que es posible dañar seriamente el sistema.</p>
@@ -409,7 +409,7 @@ Welcome to sidux-manuals http://manual.sidux.com
 
 
 	</div>
-			<div id="rev">Contenido modificado el 15/08/2009 0735 UTC</div>
+			<div id="rev">Contenido modificado el 17/01/2010 0105 UTC</div>
 
 </div>
 </body>

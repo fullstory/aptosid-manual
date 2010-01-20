@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by neceron 05/04/2008 2330hrs UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintainer neceron dongle-->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Przejdź do sidux.com, forum oraz wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-pl.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
 				<li><a href="hd-install-opts-pl.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-pl.htm#fromiso-persist">fromiso i persist</a></li>
-				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na nośniku USB</a></li>
-				<li><a href="hd-install-opts-pl.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="hd-install-opts-pl.htm#usb-hd">Instalacja na nośniku USB - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-pl.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-pl.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-pl.htm#vtbox">Instalacja w VirtualBox</a></li>
 				<li><a href="hd-install-opts-pl.htm#qemu">Instalacja w QEMU</a></li>
@@ -167,10 +167,10 @@
 				<li><a href="sys-admin-apt-pl.htm#apt-downgrade">Instalacja starszej wersji pakietu, wstrzymanie aktualizacji pakietu</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-cache">Wyszukiwanie pakietu za pomocą apt-cache</a></li>
 				<li><a href="sys-admin-apt-pl.htm#gui-pacsea">Wyszukiwanie pakietu za pomocą Package Search</a></li>
-				<li><a href="siduxcc-pl.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-pl.htm#live-cd-upgrade">Aktualizacja systemu przez sidux Live</a></li>
 				<li><a href="sys-admin-apt-locarmirr-pl.htm#approx">dist-upgrade of multiple PCs on a LAN</a></li>
 				<li><a href="sys-admin-kern-upg-pl.htm#kern-upgrade">Aktualizacja jądra systemu</a></li>
+				<li><a href="sys-admin-kern-upg-pl.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-pl.htm#apt-upgrade">Pełna aktualizacja systemu - Overview</a></li>
 				<li><a href="sys-admin-apt-pl.htm#du-st">Pełna aktualizacja systemu -  dist-upgrade - The Steps</a></li>
 			</ul>
@@ -179,7 +179,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-pl.htm#adduser">Dodawanie nowego użytkownika</a></li>
 				<li><a href="home-pl.htm#home-bu">Przenoszenie folderów domowych</a></li>
-				<li><a href="siduxcc-pl.htm#siduxcc">Centrum Sterowania sidux</a></li>
 				<li><a href="sys-admin-rdiff-pl.htm#rdiff">Tworzenie kopii zapasowej - rdiff</a></li>
 				<li><a href="sys-admin-rsync-pl.htm#rsync">Tworzenie kopii zapasowej - rsync</a></li>
 				<li><a href="vir-rkits-pl.htm#virus-rkits">Skanery wirusów i rootkitów</a></li>
@@ -205,9 +204,20 @@
 <!-- menu ends here --></div>
 <div id="main-page">
 	<div class="divider" id="rootpw">
-		<h2 id="top-header">Hasło administratora w trybie Live</h2>
+		<h2 id="top-header">sidux-*.iso - Hasło administratora w trybie Live</h2>
 
-		<p class='highlight-2'>Uwaga: Gdy uruchamiasz coś z prawami roota, powinieneś wiedzieć, co robisz! Do przeglądania stron nie wymaga się uprawnień roota.</p>
+							<p class='highlight-2'>Uwaga: Gdy uruchamiasz coś z prawami roota, powinieneś wiedzieć, co robisz! Do przeglądania stron nie wymaga się uprawnień roota.</p>
+
+							<p><span class="highlight-3">In case of a lockout on a sidux-*.iso you need to do the following and follow the prompts to set a password:</span></p>
+<pre>
+alt+ctrl+F1
+sudo passwd
+</pre>
+							<p>Once the password is active, action the following:</p>
+<pre>
+alt+ctrl+F7
+</pre>
+				<h3>sidux-*.iso default password</h3>
 
 							<p>sidux nie ma ustawionego hasła administratora w trybie live. Jeśli chcesz uruchomić program, który wymaga jego uprawnień, masz kilka możliwości:</p>
 
@@ -219,6 +229,8 @@ Retype new UNIX password:
 passwd: password updated successfully
 sidux@0[sidux]$</pre>
 		<p>teraz możesz używać tego hasła na resztę sesji w trybie Live.</p>
+
+							<p><span class="highlight-3">sudo is not supported on hard disk installations, see </span><a href="term-konsole-pl.htm#sudo">sudo</a> and <a href="term-konsole-pl.htm#sux">sux</a>.</p>
 
 				<h6>Running a program from a root-shell</h6>
 
@@ -273,7 +285,7 @@ aby wyjść z konsoli wpisz: exit
 
 		<p>Teraz twoja partycja NTFS powinna być zamontowana w trybie <b>rw</b> i powinieneś móc zapisywać na niej dane. Ale pamiętaj, ostrzegamy! <span class="highlight-3">Używaj ntfs-3g w nagłych wypadkach, nie jest rekomendowane codzienne wykorzystywanie tego oprogramowania.</span></p>
 
-			<div id="rev">Content last revised 01/05/2009 2300 UTC</div>
+			<div id="rev">Content last revised 17/01/2010 0025 UTC</div>
 
 </div>
 </div>

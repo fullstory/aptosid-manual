@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 01/06/2009 1400hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-es.htm#fromiso-grub-leg">Iniciar 'fromiso' con el anterior grub</a></li>
 				<li><a href="hd-install-opts-es.htm#grub2-fromiso">Iniciar 'fromiso' con Grub 2</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso-persist">'fromiso' y 'persist'</a></li>
-				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD</a></li>
-				<li><a href="hd-install-opts-es.htm#to-usb-raw">Instalar sidux en un USB/SSD con otras variantes de Linux</a></li>
+				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-es.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-es.htm#nbd1">Arrancando sidux en una red</a></li>
 				<li><a href="hd-install-opts-es.htm#vtbox">Instalar sidux en VirtualBox</a></li>
 				<li><a href="hd-install-opts-es.htm#qemu">Instalar sidux en QEMU</a></li>
@@ -167,10 +167,10 @@
 				<li><a href="sys-admin-apt-es.htm#apt-downgrade">'Hold' un Paquete</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-cache">Buscar Paquete con 'apt-cache'</a></li>
 				<li><a href="sys-admin-apt-es.htm#gui-pacsea">Buscar Paquete con GUI</a></li>
-				<li><a href="siduxcc-es.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-es.htm#approx">dist-upgrade de varios PCs en una red local</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
+				<li><a href="sys-admin-kern-upg-es.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade' - Vista general</a></li>
 				<li><a href="sys-admin-apt-es.htm#du-st">Actualizar el sistema instalado: 'dist-upgrade' - Los pasos</a></li>
 			</ul>
@@ -179,7 +179,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-es.htm#adduser">Agregar nuevo Usuario</a></li>
 				<li><a href="home-es.htm#home-bu">Mudando el /home</a></li>
-				<li><a href="siduxcc-es.htm#siduxcc">Centro de Control de sidux</a></li>
 				<li><a href="sys-admin-rdiff-es.htm#rdiff">Respaldar con 'rdiff'</a></li>
 				<li><a href="sys-admin-rsync-es.htm#rsync">Respaldar con 'rsync'</a></li>
 				<li><a href="vir-rkits-es.htm#virus-rkits">Virus y Rootkit</a></li>
@@ -375,14 +374,14 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 				<h5>3 clases de instalación a un USB/SSD</h5>
 					  <ul>
-							<li>1) <a href="hd-install-opts-es.htm#usb-from1">fromiso </a></li>
+							<li>1) <a href="hd-install-opts-es.htm#usb-from1">fromiso </a>sidux specific: sidux-on-a-stick</li>
 							<li>2) <a href="hd-install-opts-es.htm#usb-hdd">Completa </a> (la instalación completa en un USB/SSD se comporta como una instalación normal en disco duro y se hace mediante el instalador normal).</li>
-							<li>3) A <a href="hd-install-opts-es.htm#to-usb-raw"> RAW device </a>installation. This is ideal when using another linux operating system variant and wish to install sidux.</li>
+							<li>3)<a href="hd-ins-opts-oos-es.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install sidux-on-a-stick, (with caveats).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Instalación USB/SSD fromiso </h3>
+				<h3>Instalación USB/SSD fromiso, sidux-on-a-stick </h3>
 							<p> <span class="highlight-3">Tenga formateado su aparato usb con ext2 o fat32 antes de comenzar (debe tener al menos 2 gigas de capacidad). El aparato debe tener solo una partición y como algunas BIOS tienen <i>mucho carácter</i> esta partición debe ser marcada como arrancable.</span></p>
 
 							<p>La instalación <span class="highlight-3">fromiso</span> se hace a través de <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. En un LIVE-CD también puede hacer clic en el <span class="highlight-3">ícono de instalación de sidux</span> y escoger <span class="highlight-3">Instalar en USB</span>.</p>
@@ -443,41 +442,6 @@ $ man fll-iso2usb
 
 							<li>Si desea usar la instalación en otra máquina, debe ser consciente de que tiene que hacer algunos ajustes como cambiar fstab para poder acceder a los discos duros, también xorg.conf y probablemente la configuración de red.</li>
 						</ul>
-
-	</div>
-	<div class="divider" id="to-usb-raw">
-			<h2>Escribir un sidux ISO en un lápiz USB, una tarjeta SSD, un dispositivo shdc con otras variantes del sistema operativo Linux</h2>
-
-							 <p>No importa qué variante del sistema operativo Linux use, esto instalará un sidux ISO en un lápiz USB, una tarjeta SSD o un dispositivo shdc (Secure Digital High Capacity card).</p>
-
-							 <p>La imagen sidux ISO se copia en el dispositivo. Puesto que no esposible usar persist, le permitirá arrancar sidux para instalarlo.</p>
-
-							 <p><b><span class="highlight-2">Es importante saber que este método sobreescribe completamente el dispositivo USB/SSD/sdhc y limita la capacidad de almacenamiento al tamaño del sidux ISO. ¡No haga esto en su disco duro de unos 100 gigas!</span> </b> install-usb-gui no está sujeto a estas limitacione y por lo tanto es la opción recomendada allí donde haya un sistema sidux anterior.</p>
-
-							 <p>Conecte su lápiz USB o lector de tarjetas con la tarjeta que desee escribir y haga:</p>
-<pre>
-cat /path/to/sidux-*.iso > /dev/USB_raw_device_node
-</pre>
-
-					<h6>Elemplo:</h6>
-
-							<p>Conecte su dispositivo, dé la orden <span class="highlight-3">dmesg</span> y fíjese en la salida:</p>
-
-<pre>
-sd 13:0:0:0: [sdf] Assuming drive cache: write through
-sd 13:0:0:0: [sdf] Assuming drive cache: write through
-sdf: sdf1 sdf2
-sd 13:0:0:0: [sdf] Assuming drive cache: write through
-sd 13:0:0:0: [sdf] Attached SCSI removable disk
-</pre>
-							<p>Suponiendo que el iso está en su directorio home, la orden a dar será:</p>
-
-<pre>
-cat /home/sidux-*.iso > /dev/sdf
-</pre>
-							<p>Asegúrese de que el BIOS del PC en el que quiere usar sidux puede arrancar desde lápices USB o tarjetas SSD.</p>
-
-
 	</div>
 	<div class="divider" id="vtbox">
 		<h2>Instalar sidux con VirtualBox</h2>
@@ -656,7 +620,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 
 	</div>
 		<div class="spacer05"></div>
-	<div id="rev">Contenido revisado el 12/01/2010 0255 UTC</div>
+	<div id="rev">Contenido revisado el 19/01/2010 0455 UTC</div>
 
 </div>
 </body>

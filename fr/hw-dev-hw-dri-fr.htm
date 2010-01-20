@@ -20,8 +20,8 @@
 <body>
 <!-- Last translation revision par Sephi 28/04/2009 1247 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
-<!--sidux-manual Operating System Manual menu-version-02.00.2010.10.02 -->
-<!-- menu last updated by bluewater 2010.01.02 0730 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
+<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -100,8 +100,8 @@
 				<li><a href="hd-install-opts-fr.htm#fromiso-grub-leg">Booting 'fromiso' with grub-legacy</a></li>
 				<li><a href="hd-install-opts-fr.htm#grub2-fromiso">Booting 'fromiso' with Grub 2</a></li>
 				<li><a href="hd-install-opts-fr.htm#fromiso-persist">fromiso et persist</a></li>
-				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un disque USB</a></li>
-				<li><a href="hd-install-opts-fr.htm#to-usb-raw">Installing sidux to USB/SSD with other Linux OS variants</a></li>
+				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un disque USB - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-fr.htm#nbd1">Booting sidux over a network</a></li>
 				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
 				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
@@ -168,10 +168,10 @@
 				<li><a href="sys-admin-apt-fr.htm#apt-downgrade">Rétrograder/Conserver un paquet</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-cache">Chercher un paquetage avec apt-cache</a></li>
 				<li><a href="sys-admin-apt-fr.htm#gui-pacsea">Recherche de paquets en mode GUI</a></li>
-				<li><a href="siduxcc-fr.htm#hermes">sidux-hermes</a></li>
 				<li><a href="sys-admin-upgrade-fr.htm#live-cd-upgrade">Mettre à niveau à partir d'un Live- ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-fr.htm#approx">Mise à niveau (dist-upgrade) de multiples PC en mode LAN</a></li>
 				<li><a href="sys-admin-kern-upg-fr.htm#kern-upgrade">Mise à niveau du noyau</a></li>
+				<li><a href="sys-admin-kern-upg-fr.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
 				<li><a href="sys-admin-apt-fr.htm#apt-upgrade">Mettre à niveau un système installé - dist-upgrade - Vue d'ensemble</a></li>
 				<li><a href="sys-admin-apt-fr.htm#du-st">Mettre à niveau un système installé -  dist-upgrade - Les étapes</a></li>
 			</ul>
@@ -180,7 +180,6 @@
 			<ul class="sub-menu" id="sm13">
 				<li><a href="hd-install-fr.htm#adduser">Ajouter un nouvel utilisateur</a></li>
 				<li><a href="home-fr.htm#home-bu">Déplacer /home</a></li>
-				<li><a href="siduxcc-fr.htm#siduxcc">Centre de contrôle sidux</a></li>
 				<li><a href="sys-admin-rdiff-fr.htm#rdiff">Sauvegarde avec rdiff</a></li>
 				<li><a href="sys-admin-rsync-fr.htm#rsync">Sauvegarde avec rsync</a></li>
 				<li><a href="vir-rkits-fr.htm#virus-rkits">Virus et Scanners de Rootkits</a></li>
@@ -267,6 +266,8 @@ Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
+
+# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
 							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the xorg.conf:</p>
 <pre>
@@ -335,6 +336,10 @@ m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-
 echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
 </pre>
 
+						      <p>When xorg updates you only need to reinstall nvidia-glx-legacy:</p>
+<pre>
+apt-get install --reinstall nvidia-glx-legacy-173xx
+</pre>
 					<h4>Échec du chargement du module</h4>
 
 							<p>Si le module nvidia venait à échouer à se charger, pour quelque raison que ce soit [nouveaux composant xorg, problème de système de fichier ou si X ne se lance plus aau redémarrage] :</p>
@@ -346,6 +351,10 @@ modprobe nvidia
 							<p>Si le module nvidia venait à nouveau à échouer à se charger :</p>
  <pre>
  m-a a-i -f nvidia-kernel-source
+</pre>
+							<p>or</p>
+ <pre>
+ m-a a-i -f nvidia-kernel-legacy-173xx-source
 </pre>
 							<p>Ceci reconstruit le module <span class="highlight-3">puis redémarrez.</span></p>
 
@@ -1090,7 +1099,7 @@ Pour sortir de la console entrez : exit
 							<p>Dès lors votre volume NTFS peut être monté <b>rw</b> en lecture et écriture (read and write) et vous devriez être en mesure d'y écrire des données. Mais encore une fois, soyez prudent ! <span class="highlight-3">Usez-en dans les situations d'exception ; cette méthode n'est pas recommandée pour un usage permanent quotidien. Pour échanger au quotidien préférez la fat32.</span></p>
 
 		</div>
-	<div id="rev">Dernière actualisation le 03/01/2010 1500 UTC</div>
+	<div id="rev">Dernière actualisation le 18/01/2010 0550 UTC</div>
 
 </div>
 </body>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 23/12/2009 23.20 UTC -->
+<!-- Last translation revision by alessiog75 on 29/01/2010 20.50 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
 <!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
-<!-- menu last updated by bluewater 2010.01.19 0420 hrs UTC -->
+<!-- menu last updated by alessiog75 2010.01.20 17.50 UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Un forum e wiki di sidux.com" alt="sidux.com logo" /></a>
 	</div>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-it.htm#fromiso-grub-leg">Avviare "fromiso" con grub-legacy</a></li>
 				<li><a href="hd-install-opts-it.htm#grub2-fromiso">Avviare "fromiso" con Grub 2</a></li>
 				<li><a href="hd-install-opts-it.htm#fromiso-persist">"fromiso" e "persistente"</a></li>
-				<li><a href="hd-install-opts-it.htm#usb-hd">Installare sidux su di un dispositivo USB - sidux specific - sidux-on-stick</a></li>
-				<li><a href="hd-ins-opts-oos-it.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
+				<li><a href="hd-install-opts-it.htm#usb-hd">Installare sidux su di un dispositivo USB - specifico di sidux - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-it.htm#raw-usb">Installare sidux su di un dispositivo USB/SSD con qualsiasi s.o. :Linux, MS Windows, Mac OS X</a></li>
 				<li><a href="nbdboot-it.htm#nbd1">Avviare sidux attraverso una rete</a></li>
 				<li><a href="hd-install-opts-it.htm#vtbox">Installare sidux in VirtualBox</a></li>
 				<li><a href="hd-install-opts-it.htm#qemu">Installare sidux in QEMU</a></li>
@@ -197,7 +197,7 @@
 				<li><a href="sys-admin-grub2-it.htm#mbr-over-grub2">Grub2 - MBR: sovrascrittura del settore di boot</a></li>
 				<li><a href="sys-admin-grub2-it.htm#multi-os">Grub2 - Avvio doppio o multiplo</a></li>
 				<li><a href="sys-admin-grub2-it.htm#grub1-grub2">Grub2 - Aggiornare da Grub1</a></li>
-				<li><a href="sys-admin-grub2-it.htm#grub2">Grub2 - panoramica</a></li>
+				<li><a href="sys-admin-grub2-it.htm#grub2">Grub2 - Panoramica</a></li>
 			</ul>
 		</li>
 	</ul>
@@ -400,7 +400,7 @@ mount /dev/xdxx /media/xdxx
 		<div class="divider" id="chroot">
 		      <h3>Utilizzare chroot per ripristinare un Grub2 corrotto o cancellato nell'MBR</h3>
 
-							<p>Per ripristinare Grub 2, se è stato sovrascritto o se si è corrotto nell'MBR, configurare un ambiente <span class="highlight-3">chroot</span>. <span class="highlight-3">Qualsiasi live.iso sarà utile allo scopo</span>.</p>
+							<p>Per ripristinare Grub 2, se è stato sovrascritto o se si è corrotto nell'MBR, configurare un ambiente <span class="highlight-3">chroot</span>. <span class="highlight-3">Qualsiasi iso live sarà sufficiente dal momento che attraverso chroot si riesce ad arrivare al sistema installato nell'hard disk e si può quindi ripristinare la versione di grub appropriata, grub1 (grub-legacy) oppure grub2.</span></p>
 
 							<p>Avviare una live sidux.iso appropriata per il sistema (32 o 64 bit CD, DVD, chiavetta USB oppure una scheda SSD) ed aprire la console. Scrivere <span class="highlight-3">sux</span> e premere Invio per ottenere i permessi di root.</p>
 
@@ -421,6 +421,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>Quindi si deve fare il mount per /proc e /dev come segue:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -429,10 +430,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Ora si è in grado di utilizzare la cache locale di apt oppure modificare i file di cui si ha bisogno come se si fosse veramente avviati un s.o., in questo caso per correggere l'MBR per farci tornare Grub2:</p>
+							<p>Ora si è in grado di utilizzare la cache locale di apt oppure modificare i file di cui si ha bisogno come se si fosse veramente avviati un s.o., in questo caso per correggere l'MBR per farci tornare Grub.</p>
 
+							<p><span class="highlight-3">To restore Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">To restore Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>Seguire quindi le istruzioni del programma di installazione.</p>
 
@@ -447,7 +453,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - Grub2</title>
+	<title>Manualul sidux&#8482; - Setare Grub2</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-ro.htm#fromiso-grub-leg">Bootarea (pornirea) 'fromiso' cu Grub 1(grub-legacy)</a></li>
 				<li><a href="hd-install-opts-ro.htm#grub2-fromiso">Bootarea 'fromiso' cu Grub 2</a></li>
 				<li><a href="hd-install-opts-ro.htm#fromiso-persist">'fromiso' şi 'persist'</a></li>
-				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc - sidux specific - sidux-on-stick</a></li>
-				<li><a href="hd-ins-opts-oos-ro.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
+				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc - utilizând sidux - sidux-on-stick</a></li>
+				<li><a href="hd-ins-opts-oos-ro.htm#raw-usb">Instalarea sidux pe un USB/SSD stick cu orice sistem Linux, MS Windows sau Mac OS X </a></li>
 				<li><a href="nbdboot-ro.htm#nbd1">Boot-area sidux în rețea</a></li>
 				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
 				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
@@ -194,7 +194,7 @@
 				<li><a href="sys-admin-grub-bootman2-ro.htm#dual-boot">Grub1 - Dual-boot şi multi-boot </a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#remove-grub">Scoaterea programului grub din MBR</a></li>
 				<li><a href="sys-admin-grub-bootman2-ro.htm#what-is-grub">Managerul de boot Grub </a></li>
-				<li><a href="sys-admin-grub2-ro.htm#chroot">Grub2 - MBR Overwritten</a></li>
+				<li><a href="sys-admin-grub2-ro.htm#mbr-over-grub2">Grub2 - MBR Overwritten</a></li>
 				<li><a href="sys-admin-grub2-ro.htm#multi-os">Grub2 - Dual și Multibooting</a></li>
 				<li><a href="sys-admin-grub2-ro.htm#grub1-grub2">Grub2 -Upgradarea de la Grub1 la Grub2</a></li>
 				<li><a href="sys-admin-grub2-ro.htm#grub2">Grub2 - Informații sumare</a></li>
@@ -362,7 +362,7 @@ update-grub
 						<p>Această linie s-ar putea să fie nevoie s-o rulați de mai multe ori, până convingeți programul că întradevăr asta vreți să faceți.</p>
 
 		<h2>MBR Sectorul de boot suprascris de Windows, și /sau restaurarea lui Grub2</h2>
-							<p><span class="highlight-2">NOTĂ: pentru a restaura un Grub2 trebuie să aveți un 2009-04 (moros) sidux.iso sau mai nou.</span> <a href="sys-admin-grub2-en.htm#chroot">Ca alternativă puteți folosi 'chroot' de pe oricare live.iso</a>.</p>
+							<p><span class="highlight-2">NOTĂ: pentru a restaura un Grub2 trebuie să aveți un 2009-04 (moros) sidux.iso sau mai nou.</span> <a href="sys-admin-grub2-ro.htm#chroot">Ca alternativă puteți folosi 'chroot' de pe oricare live.iso</a>.</p>
 
 							<p> Pentru a rescrie grub2 în MBR și/sau să reparați grub 2 în general, va trebui să porniți sistemul de pe un <span class="highlight-3">sidux.iso</span>:</p>
 						<ol>
@@ -397,9 +397,9 @@ mount /dev/xdxx /media/xdxx
 						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h2>Suprascrierea sau stricarea lui Grub2 în MBR</h2>
+		      <h2>Suprascrierea sau stricarea lui Grub în MBR</h2>
 
-							<p>Recuperarea lui Grub 2, dacă a fost suprascris sau stricat în MBR, folosiți metoda  <span class="highlight-3">chroot</span> environment.</p>
+							<p>Recuperarea lui Grub 2, dacă a fost suprascris sau stricat în MBR, folosiți metoda.  <span class="highlight-3">Any live.iso will suffice as the chroot takes you to your hard disk installed system so you can restore the appropriate grub version, grub1 (grub-legacy) or grub2.</span></p>
 
 							<p>Boot-ați de pe un live sidux.iso care este cât mai apropiată de sistemul vostru (32 sau 64 bit CD, DVD, USB stick sau un SSD card) și deschideți o konsole. Tipăriți  <span class="highlight-3">sux</span> și apăsați enter pentru a da parola și a primi permisiuni de administrator (root).</p>
 
@@ -420,6 +420,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>Apoi, trebuie să mount-ați /proc și /dev astfel:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -428,10 +429,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Acum puteți folosi arhivele locale din /var/cache/apt sau să modificați/reparați fișierele de care aveți nevoie când veți boota normal în OS, în acest caz de a repara  Grub2 în MBR:</p>
+							<p>Acum puteți folosi arhivele locale din /var/cache/apt sau să modificați/reparați fișierele de care aveți nevoie când veți boota normal în OS, în acest caz de a repara  Grub în MBR.</p>
 
+							<p><span class="highlight-3">To restore Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">To restore Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>Urmați instrucțiunile programului de instalare.</p>
 
@@ -446,7 +452,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

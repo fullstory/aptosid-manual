@@ -100,7 +100,7 @@
 				<li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Dando o boot pelo 'fromiso' com Grub 2</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">Fromiso e persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB - sidux specific - sidux-on-stick</a></li>
-				<li><a href="hd-ins-opts-oos-pt-br.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
+				<li><a href="hd-ins-opts-oos-pt-br.htm#raw-usb">Instalando em dispositivo USB/SSD com qualquer sistema Linux, MS Windows ou Mac OSX</a></li>
 				<li><a href="nbdboot-pt-br.htm#nbd1">Inicializando o sidux através de uma rede</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
@@ -170,7 +170,7 @@
 				<li><a href="sys-admin-upgrade-pt-br.htm#live-cd-upgrade">Atualizando pelo Live- ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-pt-br.htm#approx">Dist-upgrade de múltiplos PCs em uma LAN</a></li>
 				<li><a href="sys-admin-kern-upg-pt-br.htm#kern-upgrade">Atualizando o kernel</a></li>
-				<li><a href="sys-admin-kern-upg-pt-br.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
+				<li><a href="sys-admin-kern-upg-pt-br.htm#dmakms">Instalando módulos do kernel dinamicamente com dmakms</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema (dist-upgrade) - visão geral</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#du-st">Atualizando todo o sistema (dist-upgrade) - os passos</a></li>
 			</ul>
@@ -399,7 +399,7 @@ mount /dev/xdxx /media/xdxx
 		<div class="divider" id="chroot">
 		      <h3>Como usar o chroot para recuperar um Grub2 corrompido ou sobrescrito na MBR</h3>
 
-							<p>Para recuperar o Grub 2, se ele tiver sido corrompido ou sobrescrito na MBR, crie um ambiente <span class="highlight-3">chroot</span>. <span class="highlight-3">Qualquer live.iso dá conta disso</span>.</p>
+							<p>Para recuperar o Grub 2, se ele tiver sido corrompido ou sobrescrito na MBR, crie um ambiente <span class="highlight-3">chroot</span>. <span class="highlight-3">Any live.iso will suffice as the chroot takes you to your hard disk installed system so you can restore the appropriate grub version, grub1 (grub-legacy) or grub2.</span></p>
 
 							<p>Inicie sua máquina com uma live.iso do sidux que seja apropriada para seu sistema (CD, DVD, pendrive ou cartão SSD de 32 ou 64 bit) e abra o terminal. Digite <span class="highlight-3">sux</span> e pressione [ENTER] para passar a ter permissões de root.</p>
 
@@ -420,6 +420,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>Em seguida, monte /proc e /dev assim:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -428,10 +429,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Agora você é capaz de usar o cache local do apt ou alterar arquivos que precisem de correção como se você tivesse dado o boot pelo sistema; no nosso caso, o que desejamos é colocar o Grub2 de volta na MBR:</p>
+							<p>Agora você é capaz de usar o cache local do apt ou alterar arquivos que precisem de correção como se você tivesse dado o boot pelo sistema; no nosso caso, o que desejamos é colocar o Grub de volta na MBR.</p>
 
+							<p><span class="highlight-3">To restore Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">To restore Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>Siga as instruções do instalador.</p>
 
@@ -446,7 +452,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

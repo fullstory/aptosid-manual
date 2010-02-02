@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Wed, 23 Dec 2009 19:23:17 +0000 -->
+<!-- Last translation revision by hubi Sun, 31 Jan 2010 12:22:06 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!-- last translation revision by hubi Tue, 19 Jan 2010 16:51:19 +0000 -->
 <!--sidux-manual Operating System Manual menu-version-02.01.2010.10.19 -->
@@ -399,9 +399,9 @@ mount /dev/xdxx /media/xdxx
 						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h3>Verwendung einer chroot-Umgebung zur Wiederherstellung eines überschriebenen oder korrumpierten Grub2 in MBR</h3>
+		      <h2>Verwendung einer chroot-Umgebung zur Wiederherstellung eines überschriebenen oder korrumpierten Grub in MBR</h2>
 
-							<p>Um Grub2 wiederherzustellen, falls er im MBR überschrieben oder korrumpiert wurde, muss eine <span class="highlight-3">chroot</span>-Umgebung aufgesetzt werden. <span class="highlight-3">Jede live.iso ist dafür geeignet</span>.</p>
+							<p>Um Grub wiederherzustellen, falls er im MBR überschrieben oder korrumpiert wurde, muss eine <span class="highlight-3">chroot</span>-Umgebung aufgesetzt werden. <span class="highlight-3">Es kann jede live.iso verwendet werden, da die Chroot-Umgebung die Festplatteninstallation anspricht, sodass die gewünschte Grub-Version wiederhergestellt werden kann: grub1 (grub-legacy) oder grub2.</span></p>
 
 							<p>Man bootet in eine Ihrem System entsprechende sidux.iso (32 oder 64 bit CD, DVD, USB-Stick oder SSD-Karte) und öffnet eine Konsole. Man tippt <span class="highlight-3">sux</span> und drückt die Eingabetaste, um root-Rechte zu erhalten.</p>
 
@@ -422,6 +422,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>Als nächstes müssen /proc und /dev wie folgt eingebunden werden:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -430,10 +431,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Es kann nun auf den lokalen Cache von apt zugegriffen werden bzw. in Dateien, die geändert werden müssen, geschrieben werden. Das Verhalten entspricht demjenigen, als ob Sie im zu reparierenden System selbst arbeiten würden. In folgendem Beispiel wird Grub2 neu in den MBR geschrieben:</p>
+							<p>Es kann nun auf den lokalen Cache von apt zugegriffen werden bzw. in Dateien, die geändert werden müssen, geschrieben werden. Das Verhalten entspricht demjenigen, als ob Sie im zu reparierenden System selbst arbeiten würden. In folgendem Beispiel wird Grub neu in den MBR geschrieben.</p>
 
+							<p><span class="highlight-3">Wiederherstellung von Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">Wiederherstellung von Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>Folgen Sie den Anweisungen des Installationsprogramms.</p>
 
@@ -448,7 +454,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

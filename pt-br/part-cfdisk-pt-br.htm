@@ -100,7 +100,7 @@
 				<li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Dando o boot pelo 'fromiso' com Grub 2</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#fromiso-persist">Fromiso e persist</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB - sidux specific - sidux-on-stick</a></li>
-				<li><a href="hd-ins-opts-oos-pt-br.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
+				<li><a href="hd-ins-opts-oos-pt-br.htm#raw-usb">Instalando em dispositivo USB/SSD com qualquer sistema Linux, MS Windows ou Mac OSX</a></li>
 				<li><a href="nbdboot-pt-br.htm#nbd1">Inicializando o sidux através de uma rede</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
 				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
@@ -170,7 +170,7 @@
 				<li><a href="sys-admin-upgrade-pt-br.htm#live-cd-upgrade">Atualizando pelo Live- ISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-pt-br.htm#approx">Dist-upgrade de múltiplos PCs em uma LAN</a></li>
 				<li><a href="sys-admin-kern-upg-pt-br.htm#kern-upgrade">Atualizando o kernel</a></li>
-				<li><a href="sys-admin-kern-upg-pt-br.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
+				<li><a href="sys-admin-kern-upg-pt-br.htm#dmakms">Instalando módulos do kernel dinamicamente com dmakms</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#apt-upgrade">Atualizando todo o sistema (dist-upgrade) - visão geral</a></li>
 				<li><a href="sys-admin-apt-pt-br.htm#du-st">Atualizando todo o sistema (dist-upgrade) - os passos</a></li>
 			</ul>
@@ -222,7 +222,7 @@
 							<p>O arquivo <span class="highlight-3"> /etc/fstab</span> no LiveCD ou no sidux instalado no HD mantém a informação <span class="highlight-3"> /dev/ sdaX</span> entre chaves na linha comentada imediatamente acima das linhas dos dispositivos. Por exemplo (o negrito foi usado somente para realçar o que falamos aqui):</p>
 <pre>
 # added by sidux [<b>/dev/sdd1</b>, no label]
-UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=remount-ro,noatime      0 1
+UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext4    defaults,errors=remount-ro,noatime      0 1
 </pre>
 				<h5>Nas partições</h5>
 
@@ -244,7 +244,7 @@ UUID=2ae950df-7d72-4d9b-a71a-bad1eb2d4f6a       /       ext3    defaults,errors=
 
 	<div class="divider" id="partition">
 		<h2>Como particionar seu HD com o cfdisk</h2>
-							<p  class="highlight-2">Para uso normal, recomendamos o sistema de arquivos 'ext3'. Ele é o padrão do sidux e tem uma boa manutenção.</p>
+							<p  class="highlight-2">Para uso normal, recomendamos o sistema de arquivos 'ext4'. Ele é o padrão do sidux e tem uma boa manutenção.</p>
 
 							<p>Abra o terminal, torne-se root e execute o cfdisk:
 							<i>(se você estiver com o sidux já instalado, você terá de fornecer a senha root aqui)</i></p>
@@ -313,19 +313,19 @@ Enter
 		<h2>Como formatar partições (após particionamento com o cfdisk)</h2>
 
 			<h5>O básico</h5>
-							<p>Uma partição necessita de um sistema de arquivos. O Linux reconhece vários deles: ReiserFs, Ext3 e, para usuários experientes, XFS e JFS. O Ext2 é ótimo para armazenamento, pois há um driver Windows disponível que permite a troca de dados.<a href="http://www.fs-driver.org/"> Ext2 Installable File System For MS Windows</a> (Ext2 no Windows).</p>
+							<p>Uma partição necessita de um sistema de arquivos. O Linux reconhece vários deles: ReiserFs, Ext4 e, para usuários experientes, XFS e JFS. O Ext2 é ótimo para armazenamento, pois há um driver Windows disponível que permite a troca de dados.<a href="http://www.fs-driver.org/"> Ext2 Installable File System For MS Windows</a> (Ext2 no Windows).</p>
 
-							<p  class="highlight-2">Para uso normal, recomendamos o sistema de arquivos Ext3, que é o padrão do sidux. Além do mais, ele possui uma boa manutenção.</p>
+							<p  class="highlight-2">Para uso normal, recomendamos o sistema de arquivos Ext4, que é o padrão do sidux. Além do mais, ele possui uma boa manutenção.</p>
 
 			<h5>Formatar</h5>
 							<p>Depois de sair do <b>cfdisk</b>, voltamos ao terminal. Somente como root é possível formatar partições; por exemplo, para formatar a partição /root em <b>sdb1</b>, digitamos: <i>(se o sidux já estiver instalado, você terá de fornecer a senha de root aqui)</i></p>
 <pre >su
-mkfs -t ext3 /dev/sdb1
+mkfs -t ext4 /dev/sdb1
 </pre>
 
 							<p>Surgirá um pergunta, cuja resposta deve ser 'yes' (desde que você tenha certeza de ter escolhido a partição correta).</p>
 
-							<p>Quando a execução do comando estiver terminada, você receberá um aviso de que a partição foi corretamente formatada com ext3. Caso essa mensagem não apareça, o mais provável é que alguma coisa tenha dado errado no particionamento com o cfdisk ou, então, sdb1 não é uma partição Linux. Você pode verificar com:</p>
+							<p>Quando a execução do comando estiver terminada, você receberá um aviso de que a partição foi corretamente formatada com ext4. Caso essa mensagem não apareça, o mais provável é que alguma coisa tenha dado errado no particionamento com o cfdisk ou, então, sdb1 não é uma partição Linux. Você pode verificar com:</p>
 <pre >
 fdisk -l /dev/sdb
 </pre>
@@ -378,7 +378,7 @@ swapoff -a
 
 							<p>Pronto, agora você pode começar a instalação do sidux.</p>
 
-			<div id="rev">Content last revised 16/08/2009 0255 UTC</div>
+			<div id="rev">Content last revised 01/02/2010 1215 UTC</div>
 </div>
 </div>
 </div>

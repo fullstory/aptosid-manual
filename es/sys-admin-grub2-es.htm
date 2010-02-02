@@ -99,8 +99,8 @@
 				<li><a href="hd-install-opts-es.htm#fromiso-grub-leg">Iniciar 'fromiso' con el anterior grub</a></li>
 				<li><a href="hd-install-opts-es.htm#grub2-fromiso">Iniciar 'fromiso' con Grub 2</a></li>
 				<li><a href="hd-install-opts-es.htm#fromiso-persist">'fromiso' y 'persist'</a></li>
-				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD - sidux specific - sidux-on-stick</a></li>
-				<li><a href="hd-ins-opts-oos-es.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
+				<li><a href="hd-install-opts-es.htm#usb-hd">Instalar en un USB-DD - sidux específico - sidux-en-un-lápiz_USB</a></li>
+				<li><a href="hd-ins-opts-oos-es.htm#raw-usb">Grabar sidux en un lápiz USB/SSD con cualquier sistema Linux, MS Windows o Mac OS X</a></li>
 				<li><a href="nbdboot-es.htm#nbd1">Arrancando sidux en una red</a></li>
 				<li><a href="hd-install-opts-es.htm#vtbox">Instalar sidux en VirtualBox</a></li>
 				<li><a href="hd-install-opts-es.htm#qemu">Instalar sidux en QEMU</a></li>
@@ -170,7 +170,7 @@
 				<li><a href="sys-admin-upgrade-es.htm#live-cd-upgrade">Actualizar con LiveISO</a></li>
 				<li><a href="sys-admin-apt-locarmirr-es.htm#approx">dist-upgrade de varios PCs en una red local</a></li>
 				<li><a href="sys-admin-kern-upg-es.htm#kern-upgrade">Actualizar el Kernel</a></li>
-				<li><a href="sys-admin-kern-upg-es.htm#dmakms">Installing kernel modules dynamically with dmakms</a></li>
+				<li><a href="sys-admin-kern-upg-es.htm#dmakms">Instalación dinámica de módulos del kernel con dmakms</a></li>
 				<li><a href="sys-admin-apt-es.htm#apt-upgrade">Actualizar el sistema instalado: 'dist-upgrade' - Vista general</a></li>
 				<li><a href="sys-admin-apt-es.htm#du-st">Actualizar el sistema instalado: 'dist-upgrade' - Los pasos</a></li>
 			</ul>
@@ -320,9 +320,9 @@ apt-get install install-usb-gui fll-iso2usb
 <pre>
 update-grub
 </pre>
-							<p>Should you have a need to add a custom entry to menu.cfg or if the 30_os-prober fails to write to grub.cfg with chainloader menus use your favourite text editor to make the amendments to <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
+							<p>Si usted tiene necesidad de añadir una entrada personalizada al menu.cfg o si 30_os-prober falla al escribir en grub.cfg un cargador de menús, use su editor de textos favorito para hacer correcciones en <span class="highlight-3"> /etc/grub.d/40_custom</span>.</p>
 
-							<p>Examples of customising the 40_custom  file:</p>
+							<p>Ejemplos del fichero 40_custom personalizado:</p>
 <pre>
 menuentry "second mbr"{
 set root=(hd1)
@@ -336,7 +336,7 @@ set root=(hd0,2)
 chainloader +1
 }
 </pre>
-							<p>Then after you have made your changes run:</p>
+							<p>Cuando haya hecho los cambios, dé la orden:</p>
 <pre>
 update-grub
 </pre>
@@ -398,9 +398,9 @@ mount /dev/xdxx /media/xdxx
 						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h3>Uso de chroot para recuperar un Grub2 corrupto o que ha sido sobreescrito en el MBR</h3>
+		      <h2>Uso de chroot para recuperar un Grub corrupto o que ha sido sobreescrito en el MBR</h2>
 
-							<p>Para recuperar Grub 2 si ha sido sobreescrito o ha quedado corrupto en el MBR, establezca un entorno <span class="highlight-3">chroot</span>. <span class="highlight-3">Cualquier CD live.iso será suficiente.</span>.</p>
+							<p>Para recuperar Grub si ha sido sobreescrito o ha quedado corrupto en el MBR, establezca un entorno <span class="highlight-3">chroot</span>. <span class="highlight-3">Any live.iso will suffice as the chroot takes you to your hard disk installed system so you can restore the appropriate grub version, grub1 (grub-legacy) or grub2.</span></p>
 
 							<p>Arranque un sidux.iso CD-live que sea apropiado para su sistema (32 o 64 bits CD, DVD, lápiz USB o trajeta SSD) y abra la consola. Escriba <span class="highlight-3">sux</span> y presione Intro para tener permisos de root.</p>
 
@@ -421,6 +421,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>A continuación necesita montar /proc y /dev de la siguiente manera:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -429,10 +430,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Ahora ya puede usar el caché  local de apt o modificar los ficheros que se deban arreglar como si hubiera arrancado en el OS, en este caso para reparar Grub2 en el MBR:</p>
+							<p>Ahora ya puede usar el caché  local de apt o modificar los ficheros que se deban arreglar como si hubiera arrancado en el OS, en este caso para reparar Grub en el MBR.</p>
 
+							<p><span class="highlight-3">To restore Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">To restore Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>siga las instrucciones del instalador.</p>
 
@@ -447,7 +453,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

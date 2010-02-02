@@ -397,9 +397,9 @@ mount /dev/xdxx /media/xdxx
 						</ol>
 	      </div>
 		<div class="divider" id="chroot">
-		      <h3>Using chroot to recover an overwritten or corrupted Grub2 in the MBR</h3>
+		      <h2>Using chroot to recover an overwritten or corrupted Grub in the MBR</h2>
 
-							<p>To recover Grub 2, if it has been overwritten or corrupted in the MBR, set up a <span class="highlight-3">chroot</span> environment. <span class="highlight-3">Any live.iso will suffice</span>.</p>
+							<p>To recover Grub, if it has been overwritten or corrupted in the MBR, set up a <span class="highlight-3">chroot</span> environment. <span class="highlight-3">Any live.iso will suffice as the chroot takes you to your hard disk installed system so you can restore the appropriate grub version, grub1 (grub-legacy) or grub2.</span></p>
 
 							<p>Boot up a live sidux.iso that is appropriate for your system (32 or 64 bit CD, DVD, USB stick or an SSD card) and open the konsole. Type in <span class="highlight-3">sux</span> and press enter to give you root permissions.</p>
 
@@ -420,6 +420,7 @@ mount /dev/sda2 /mnt/sidux-chroot
 							<p>Next, you need to mount /proc and /dev as follows:</p>
 <pre>
 mount -t proc proc /mnt/sidux-chroot/proc
+mount -t devpts devpts /mnt/sidux-chroot/dev/pts
 mount -o bind /dev /mnt/sidux-chroot/dev
 </pre>
 
@@ -428,10 +429,15 @@ mount -o bind /dev /mnt/sidux-chroot/dev
 chroot /mnt/sidux-chroot /bin/bash
 </pre>
 
-							<p>Now you are able to use apt's local cache or alter files that you need to fix as if you were properly booted to the OS, in this case to fix Grub2 back onto the MBR:</p>
+							<p>Now you are able to use apt's local cache or alter files that you need to fix as if you were properly booted to the OS, in this case to fix Grub back onto the MBR.</p>
 
+							<p><span class="highlight-3">To restore Grub 2</span></p>
 <pre>
-apt-get install --reinstall grub2
+apt-get install --reinstall grub-pc
+</pre>
+							<p><span class="highlight-3">To restore Grub 1 (grub-legacy)</span></p>
+<pre>
+apt-get install --reinstall grub-legacy
 </pre>
 							<p>Follow the installers instructions.</p>
 
@@ -446,7 +452,7 @@ Ctrl+d
 
 
 	</div>
-	<div id="rev">Page last revised 07/01/2010 1520 UTC</div>
+	<div id="rev">Page last revised 01/02/2010 0705 UTC</div>
 
 </div>
 </body>

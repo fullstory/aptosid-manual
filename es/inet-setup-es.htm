@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 06/12/2008 0230 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintainer Richard, Luis_P -->
-<!--sidux-manual Operating System Manual menu-version-02.02.2010.02.09 -->
-<!-- menu last updated by bluewater 2010.02.09 1155 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.03.2010.02.19 -->
+<!-- menu last updated by bluewater 2010.02.19 1100 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="ir a sidux.com y Forum y Wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -156,7 +156,7 @@
 				<li><a href="inet-wpagui-es.htm#wpa-roaming-gui">WiFi - WPA_GUI</a></li>
 				<li><a href="inet-setup-es.htm#net-set1">WiFi - Configuración del WiFi Roaming</a></li>
 				<li><a href="internet-connecting-wpa-es.htm#wpa">WiFi - wpasupplicant</a></li>
-				<li><a href="inet-ifplug-es.htm#wpa-roaming-gui">Cambio de la red entre WiFi y Cable</a></li>
+				<li><a href="inet-ifplug-es.htm#hotswitch">Cambio de la red entre WiFi y Cable</a></li>
 				<li><a href="internet-connecting-es.htm#netcardconfig">'ceni': Conectar en línea </a></li>
 			</ul>
 		</li>
@@ -206,18 +206,18 @@
 <div id="main-page">
 	<div class="divider" id="net-set1">
 
-		<h2 id="top-header">Setting up for WiFi Roaming with wpa</h2>
-						      <p><span class="highlight-3">You will most likely need non-free firmware to be available on a USB-stick to install on the operating system. Please refer to <a href="hw-dev-hw-dri-es.htm#non-free-firmware"> non-free firmware debs on a stick</a>.</span></p>
+		<h2 id="top-header">Configuración de WiFi itinerante (Roaming) con wpa</h2>
+						      <p><span class="highlight-3">Probablemente necesitará tener firmware non-free en un lápiz USB para instalarlo en el sistema operativo. Vea, por favor, <a href="hw-dev-hw-dri-es.htm#non-free-firmware"> firmware non-free en una llave de memoria</a>.</span></p>
 
-					  <h3>Overview</h3>
+					  <h3>Descipción general</h3>
 
-							<p>wpa-roaming is a method with which you can browse and connect to wireless networks <span class="highlight-3">with and/or without a graphical desktop environment</span>.</p>
+							<p>wpa-roaming es un método con el que usted podrá navegar y conectarse a las redes wireless (sin cable) <span class="highlight-3">con o sin un entorno gráfico de escritorio</span>.</p>
 
-							<p>The result of the following set up is that if an ethernet cable is not attached, wlan0 takes precedence and connects you to your desired wireless network or to an available open wireless network or a predetermined wireless network. If you connect an ethernet cable, the cabled network connection immediatly shuts down WiFi access and eth0 then connects you to the cabled network. By unplugging the network cable the wireless connection will instantly be available again.</p>
+							<p>El resultado de la configuración que se explica a continuación es que si no está conectado un cable ethernet, wlan0 tiene prioridad y lo conecta a la red inalámbrica que desee o a una red inalámbrica disponible abierta o a una predeterminada. Si conecta un cable ethernet, la conexión cableada corta inmediatamente el acceso WiFi y eth0 pasa a conectarle a la red cableada. Si desenchufa el cable de red, la conexión inalámbrica volverá instantáneamente a estar disponible.</p>
 
-				<h3>Setting up the network configuration</h3>
+				<h3>Configuración de la red</h3>
 
-							<p>As <span class="highlight-3">root</span> adapt your <span class="highlight-3">/etc/network/interfaces</span> file so that it looks like this. (the name of the interface may be varied):</p>
+							<p>Siendo <span class="highlight-3">root</span> cambie su fichero <span class="highlight-3">/etc/network/interfaces</span> para que se parezca a esto (el nombre de la interfaz puede variar):</p>
 
 <pre>
 # The loopback network interface
@@ -233,23 +233,23 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Next wpasupplicant needs a .conf file, wpa-roam.conf</p>
+							<p>A continuación, wpasupplicant necesita un fichero .conf de configuración; que sea wpa-roam.conf</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
 </pre>
-							<p>Use a text editor to open the file</p>
+							<p>Use un editor de text para abrir el fichero</p>
 <pre>
 &lt;editor&gt; /etc/wpa_supplicant/wpa-roam.conf
 </pre>
 
-							<p>Uncomment line 30 (remove the <span class="highlight-2">#</span>). This must be done otherewise configs will not be saved to file:</p>
+							<p>Quite el comentario de la línea 30 (borre el signo <span class="highlight-2">#</span>). Esto se debe hacer, pues si no la configuración no se guardaría en el fichero:</p>
 <pre>
 update_config=1
 </pre>
-							<p>To set up a laptop or a desktop that only needs to access a secured network immediately, uncomment lines, (remove the <span class="highlight-2">#</span>),for WEP or WPA-WPA2PSK as applicable: </p>
+							<p>Para configurar un ordenador portátil o uno de escritorio que necesite solo acceder a un red segura inmediatamente, quite el comentario de las líneas (borre el signo <span class="highlight-2">#</span>) para WEP o WPA-WPA2PSK según sea el caso: </p>
 
-							<p>WEP example:</p>
+							<p>Ejemplo de WEP:</p>
 <pre>
 network={
 	ssid="debian" #Example WEP Network
@@ -258,7 +258,7 @@ network={
 	wep_tx_keyidx=0
 }
 </pre>
-							<p>WPA example:</p>
+							<p>Ejemplo de WPA:</p>
 <pre>
 network={
 	ssid="sidux_Worldwide" #Example WPA Network
@@ -266,23 +266,23 @@ network={
 }
 </pre>
 
-							<p>The next step secures wpa-roam.conf from unwanted access. This is necessary, because secret keys of private networks are saved in this file:</p>
+							<p>El siguiente paso asegura que no habrán accesos no autorizados a wpa-roam.conf. Es necesario hacerlo, puesto que las claves secretas de la red privada se guardan en ese fichero:</p>
 
 <pre>
 chmod 600 /etc/wpa_supplicant/wpa-roam.conf
 </pre>
 
-							<p>Bring up the wireless connection</p>
+								<p>Levante la conexión inalámbrica:</p>
 <pre>
 ifup wlan0
 </pre>
-							<p>Next check to see if you are connected to the network:</p>
+							<p>A continuación compruebe si está conectado a la red:</p>
 
 
 <pre>
 wpa_cli status
 </pre>
-							<p>The output should look someting like this:</p>
+							<p>La salida de esta orden debe parecerse a esto:</p>
 <pre>
 Selected interface 'wlan0'
 bssid=94:0c:6d:aa:f4:42
@@ -294,19 +294,19 @@ key_mgmt=WPA2-PSK
 wpa_state=COMPLETED
 ip_address=192.168.1.102
 </pre>
-							<p>If you can not see ip_address= numbers you are not connected so recheck the configs by first stopping wlan0:</p>
+							<p>Si no puede ver ip_address= una serie de números, entonces no está conectado; compruebe la configuración comenzando por parar wlan0:</p>
 
 <pre>
 wpa_action wlan0 stop
 </pre>
-							<p>Should you require specialised networking configs see <a href="#net-set3">here</a></p>
+							<p>Si necesitara alguna configuración especial de red, mire <a href="#net-set3">aquí</a>.</p>
 
 		</div>
 		<div class="divider" id="net-set2">
-				<h2>To enable switching between wired and wireless networks</h2>
-							<p>First see <a href="inet-ifplug-es.htm">Switching between cable and wireless</a> because if its not set up correctly switching and connection to the network will not happen.</p>
+				<h2>Para habilitar la conmutación entre las redes cableadas e inalámbricas</h2>
+							<p>Primero vea <a href="inet-ifplug-es.htm">Conmutación entre cable e inalámbrico</a> ya que si no está configurado correctamente, el cambio y la conexión a la red no tendrán lugar.</p>
 
-							<p>After setting up ifplugd the final config should look like this: </p>
+							<p>Cuando haya configurado ifplugd, al final debería quedar algo así: </p>
 <pre>
 auto lo
 iface lo inet loopback
@@ -325,12 +325,12 @@ iface default inet dhcp
 
 		</div>
 		<div class="divider" id="net-set3">
-				<h2>Using wpa-roam.conf with manually specified network configurations</h2>
+				<h2>Uso de wpa-roam.conf con configuración de la red establecida a mano</h2>
 
-							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">IDString</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
+							<p>Con la ayuda de <span class="highlight-3">IDString</span> y <span class="highlight-3">Priority</span> puede dirigir a qué red el ordenador se conecta en el momento del arranque. La prioridad más alta es <span class="highlight-3">1000</span>, y la más baja es <span class="highlight-3">0</span>. También tiene que añadir <span class="highlight-3">IDString</span> a <span class="highlight-3">/etc/network/interfaces</span>.</p>
 
-						<h6>The syntax for /etc/network/interfaces.</h6>
-							<p>First is for the connection to DHCP servers, the second is if you are provided with a fixed IP address. To adjust your settings:</p>
+						<h6>La sintaxis de /etc/network/interfaces.</h6>
+							<p>El primero es para la conexión a servidores DHCP, y el segundo es por si tiene una dirección IP fija. Ajuste su configuración:</p>
 <pre>
 # id_str="home_dhcp"
 iface home_dhcp inet dhcp
@@ -348,10 +348,10 @@ iface home_static inet static
         broadcast 192.168.0.255
         gateway 192.168.0.1
 </pre>
-						<h6>Practical Examples</h6>
-							<p>If you want to be automatically connected to your home WLAN when  at home, give the the IDString "home" and priority "15". If you are travelling, and want the laptop to connect to any free, non passworded network which is available, give it the IDString "stalk" and priority "1" (very low). But please, always check if your connection is legal and disconnect if it is obviously not intended to be free.</p>
+						<h6>Ejemplos prácticos</h6>
+							<p>Si desea conectarse automáticamente a su WLAN doméstica cuando esté en casa, ponga la cadena ID "home" y la prioridad "15". Si está de viaje, y quiere que su portátil se conecte a cualquier red libre disponible y que no necesite password, ponga la cadena ID "stalk" y prioridad "1" (muy baja). Pero, por favor, compruebe siempre si su conexión es legal y desconéctese en el caso de que obviamente no sea libre.</p>
 
-							<p>Example stanzas in /etc/network/interfaces:</p>
+							<p>Líneas de ejemplo en /etc/network/interfaces:</p>
 <pre>
 # /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
 
@@ -375,7 +375,7 @@ iface stalk inet dhcp
 </pre>
 
 
-							<p>Example /etc/wpa_supplicant/wpa-roam.conf (SSID and passwords are changed or just explained):</p>
+							<p>Ejemplo de /etc/wpa_supplicant/wpa-roam.conf (Los SSID y los passwords se han cambiado o solo explicado):</p>
 <pre>
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -404,10 +404,10 @@ network={
 }
 </pre>
 
-							<p>With "disabled=1" you will not be automatically connected to a defined network block (open WLANs), you have to initiate roaming through wpa_gui or wpa_cli. For automatic roaming don't use the option at all or comment the line with the "disabled" option using a #.</p>
+							<p>Con "disabled=1" no quedará conectado automáticamente a un red definida (open WLANs), y necesitará itinerar a través de wpa_gui o wpa_cli. Para itineración automática no use la opción o comente la línea "desconectándola" con #.</p>
 
-				<h5>WEP encryption</h5>
-							<p>If you want to add WEP encrypted networks to your wpa-roam.conf permanently, the syntax is:</p>
+				<h5>Encriptación WEP</h5>
+							<p>Si desea añadir redes encriptadas mediante WEP a su wpa-roam.conf permanentemente, siga esta sintaxis:</p>
 <pre>
 network={
 	ssid="example wep network"
@@ -419,55 +419,55 @@ network={
 </pre>
 
 
-				<h3>Notes</h3>
+				<h3>Notas</h3>
 
-					<h6>1. Easy to reuse</h6>
+					<h6>1. Fácil de volver a usar</h6>
 
-							<p>Once set up, you can easily reuse your setup on other laptops or desktops with WLAN cards. Just copy /etc/network/interfaces (adjust the name of the interface if needed) and /etc/wpa_supplicant/wpa-roam.conf to your new box. There is no need of "installing" anything after that.</p>
+							<p>Una vez establecida, podrá volver a usar fácilmente su configuración en otros ordenadores portátiles que tengan un tarjeta WLAN. Sólo tiene que copiar /etc/network/interfaces (Cambie el nombre de la interfaz si es necesario) y de /etc/wpa_supplicant/wpa-roam.conf en su nuevo ordenador. No hay necesidad de "instalar" nada después de esto.</p>
 
 					<h6>2. Backup</h6>
 
-							<p>It is good to backup /etc/network/interfaces and /etc/wpa_supplicant/wpa-roam.conf, but <span class="highlight-3">encrypt your backup because it contains sensitive information</span>. An easy way is a password protected archive like 7zip, zip, rar or others.</p>
+							<p>Es buena idea hacer copia de seguridad de /etc/network/interfaces y /etc/wpa_supplicant/wpa-roam.conf, pero <span class="highlight-3">encripte su fichero backup puesto que contiene información confidencial</span>. Una manera fácil es usar un fochero protegido por clave como 7zip, zip, rar u otros.</p>
 
 
 
-					<h6>3. Hidden SSIDs</h6>
-							<p>Hidden SSIDs are detected when <span class="highlight-3">scan_ssid=1</span> is defined in the network block.</p>
+					<h6>3. SSIDs escondidos</h6>
+							<p>Los SSIDs escondidos se detectan cuando <span class="highlight-3">scan_ssid=1</span> está definido en el bloque de red.</p>
     </div>
     <div class="divider" id="rousec-wifi">
-			<h2>Basic wireless modem/router security</h2>
+			<h2>Seguridad básica de modem o router inalámbrico</h2>
 
-							<p>Where you have control of the wireless router/modem, there are a few basic security policies to implement to help protect your side of the network from intruders.</p>
+							<p>Cuando usted tenga el control del router o modem, hay unas pocas precauciones de seguridad que poner en práctica para proteger su lado de la red de intrusos.</p>
 
-					<h6>Basic protocol choices</h6>
+					<h6>Opciones de protocolo básico</h6>
 						<ul>
-							<li>WPA2-PSK is the better option.</li>
-							<li>For encryption protocol choose AES.</li>
-							<li>The passphrase should be really strong.</li>
+							<li>WPA2-PSK es la mejor opción.</li>
+							<li>Para el protocol de encriptación, escoja AES.</li>
+							<li>La clave de paso debe ser realmente fuerte.</li>
 						</ul>
 
 
-					  <h6>Passphrase / passwords</h6>
-							<p>For a passphrase/password that is strong and not really able to be memorised, use pwgen in a terminal (also read: man pwgen):</p>
+					  <h6>Palabras o frases de paso</h6>
+							<p>Para una frase o palabra de paso que sea fuerte y poco fácil de recordar, use pwgen en un terminal (lea también: man pwgen):</p>
 
 <pre>
 $ pwgen -s 63 1
 VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 						  <ul>
-							<li>-s = secure (no mnemonics)</li>
-							<li>63 = amount of characters</li>
-							<li>1 = only generate one random password</li>
+							<li>-s = seguro (no recordar)</li>
+							<li>63 = número de caracteres</li>
+							<li>1 = generar solamente un password aleatorio</li>
 
 						  </ul>
-							<p>Without the -s you get speaking type passwords. however it is unlikley you would want that:</p>
+							<p>Sin la -s dará passwords que se puedenpronunciar. Sin embargo, no es probable que usted quiera esto:</p>
 <pre>
 $ pwgen 8 3
 Sooxae2s Niew9ugh Hi7eeloo
 </pre>
-							<p>Once you have generated the passphrase/password store it in a text file on a USB-stick and apply the passphrase/password to the other computers that use your wireless network. Do not store the passphrase/password on your computer.</p>
+							<p>Una vez que esté generada la palabra o frase de paso, guárdela en un llavero USB y ponga ese password en los otros ordenadores que acostumbre a usar con red inalámbrica. No guarde su palabra o frase de paso en su ordenador.</p>
 
-						<h6>Example of final router setup:</h6>
+						<h6>Ejemplo de configuración final del router:</h6>
 <pre>
 Version: WPA2-PSK
 Encryption: AES

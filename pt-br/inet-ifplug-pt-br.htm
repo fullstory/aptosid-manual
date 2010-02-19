@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>sidux Manuals - ifplugd</title>
+	<title>Manuais do sidux - ifplugd (RO)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-02.02.2010.02.09 -->
-<!-- menu last updated by bluewater 2010.02.09 1155 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.03.2010.02.19 -->
+<!-- menu last updated by bluewater 2010.02.19 1100 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -153,9 +153,9 @@
 				<li><a href="ssh-pt-br.htm#ssh">SSH e segurança</a></li>
 				<li><a href="internet-connecting-pt-br.htm#dial-mod">Modems discados</a></li>
 				<li><a href="inet-wpagui-pt-br.htm#wpa-roaming-gui">WiFi - WPA_GUI</a></li>
-				<li><a href="inet-setup-pt-br.htm#net-set1">WiFi - Setting up for WiFi Roaming</a></li>
+				<li><a href="inet-setup-pt-br.htm#net-set1">WiFi - Configurando para WiFi Roaming</a></li>
 				<li><a href="internet-connecting-wpa-pt-br.htm#wpa">WiFi - wpasupplicant</a></li>
-				<li><a href="inet-ifplug-pt-br.htm#wpa-roaming-gui">Network switching between WiFi and Cable</a></li>
+				<li><a href="inet-ifplug-pt-br.htm#hotswitch">Passando de wifi para cabo e vice-versa</a></li>
 				<li><a href="internet-connecting-pt-br.htm#netcardconfig">Configurando a rede - Ceni</a></li>
 			</ul>
 		</li>
@@ -203,62 +203,62 @@
 	</ul>
 <!-- menu ends here --> </div>
 <div id="main-page">
-	<div class="divider" id="hotplugging">
+	<div class="divider" id="hotswitch">
 
-		<h2 id="top-header">Switching between cable and wireless</h2>
-							<p><span class="highlight-3">You will most likely need non-free firmware to be available on a USB-stick to install on the operating system. Please refer to <a href="hw-dev-hw-dri-pt-br.htm#non-free-firmware"> non-free firmware debs on a stick</a></span>.</p>
+		<h2 id="top-header">Como passar de cabo para wireless e vice-versa</h2>
+							<p><span class="highlight-3">Provavelmente, será necessário disponibilizar firmware não livre em uma pendrive ou outro dispositivo USB, para instalar no sistema operacional. Favor consultar <a href="hw-dev-hw-dri-pt-br.htm#non-free-firmware"> pacotes .deb com firmware não livre em uma pendrive e afins</a></span>.</p>
 
-							<p>The easiest way to switch between a wired LAN connection and a wireless LAN connection is using the daemon ifplugd. It is installed by default.</p>
+							<p>A maneira mais fácil de comutar entre uma conexão com fios e uma wireless é usando o daemon ifplugd. Ele vem junto com a instalação padrão do sidux.</p>
 
 			</div>
 			<div class="divider" id="interfaces">
-				    <h6>Adjust your /etc/network/interfaces</h6>
+				    <h6>Ajuste seu arquivo /etc/network/interfaces</h6>
 
-							<p>First step to take is to make sure the eth0 is not configured:</p>
+							<p>O primeiro passo é assegurar-se de que a eth0 não está configurada:</p>
 
 <pre>
 ifdown eth0
 </pre>
-				<h6>Example for a working interfaces:</h6>
-							<p>The configuration is easy: - the wired interface (here: eth0) should not be preceded by any configuration like "allow-hotplug" or others:</p>
+				<h6>Exemplo de uma interface operativa:</h6>
+							<p>A configuração é simples: a interface com fios (aqui: eth0) não deve ser precedida de qualquer configuração do tipo "allow-hotplug" ou outras:</p>
 
 <pre>
 auto lo
 iface lo inet loopback
 
-# governed by ifplugd ... do not use allow-hotplug or auto options
+# comandado pelo ifplugd ... não use allow-hotplug ou opções auto
 iface eth0 inet dhcp
 
 </pre>
-							<p>Then reconfigure ifplugd:</p>
+							<p>Então, reconfigure o ifplugd:</p>
 
 <pre>
 dpkg-reconfigure ifplugd
 </pre>
 
-					<h6>Debconf settings of ifplugd</h6>
+					<h6>Especificações debconf para o ifplugd</h6>
 
-							<p>Leave static interfaces free:</p>
+							<p>Deixe interfaces estáticas livres:</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-hotplug/ifplugd1.png" title="Static interfaces" alt="Static interfaces" /></div>
 
-							<p>Add your wired interface (here "eth0") to "hotplugged interfaces":</p>
+							<p>Adicione sua interface com fios (aqui "eth0") a "hotplugged interfaces":</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-hotplug/ifplugd2.png" title="Hotplugged interfaces" alt="Hotplugged interfaces" /></div>
 
-							<p>Help page for custom configurations:</p>
+							<p>Obtenha ajuda para configurações personalizadas:</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-hotplug/ifplugd3.png" title="Configuration help" alt="Configuration help" /></div>
 
-							<p>Leave the default configurations, just hit OK:</p>
+							<p>Aceite as configurações padrão; simplesmente pressione [OK]:</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-hotplug/ifplugd4.png" title="Default configuraton" alt="Default configuration" /></div>
 
-							<p>Tell ifplugd to stop before suspend, it will be restarted after resume automatically:</p>
+							<p>Diga ao ifplugd para parar antes de suspender; ele será reiniciado automaticamente:</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-hotplug/ifplugd5.png" title="Suspend behaviour" alt="Suspend behaviour" /></div>
 
-							<p>Your computer is now set up to move between various networks including wireless. To set up for wireless roaming refer to <a href="inet-setup-pt-br.htm">Setting up for WiFi Roaming with wpa</a>.</p>
+							<p>Agora, seu computador está preparado para mover-se entre várias redes, inclusive sem fio. A configuração "roaming' wireless pode ser vista em <a href="inet-setup-pt-br.htm">Wifi - Configurando para wifi "roaming"com wpa</a>.</p>
 
 
 </div>

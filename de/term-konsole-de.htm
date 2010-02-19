@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Sun, 17 Jan 2010 11:23:41 +0000 -->
+<!-- Last translation revision hubi Mon, 15 Feb 2010 22:41:58 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
-<!--sidux-manual Operating System Manual menu-version-02.02.2010.02.09 -->
-<!-- menu last updated by bluewater 2010.02.09 1155 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.03.2010.02.19 -->
+<!-- menu last updated by bluewater 2010.02.19 1100 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Zu sidux.com (Forum und Wiki)" alt="sidux.com logo" /></a>
 	</div>
@@ -156,7 +156,7 @@
 				<li><a href="inet-wpagui-de.htm#wpa-roaming-gui">WiFi - WPA_GUI</a></li>
 				<li><a href="inet-setup-de.htm#net-set1">WiFi - Aufsetzen von WiFi-Roaming</a></li>
 				<li><a href="internet-connecting-wpa-de.htm#wpa">WiFi - wpasupplicant</a></li>
-				<li><a href="inet-ifplug-de.htm#wpa-roaming-gui">Fliegender Wechsel zwischen LAN und WLAN</a></li>
+				<li><a href="inet-ifplug-de.htm#hotswitch">Fliegender Wechsel zwischen LAN und WLAN</a></li>
 				<li><a href="internet-connecting-de.htm#netcardconfig">Internet &amp; Netzwerk - Ceni</a></li>
 			</ul>
 		</li>
@@ -243,6 +243,68 @@ reset
 
 							<p>Eine Konsole bzw. ein Terminal können eingefroren erscheinen, was aber in der Regel nicht der Fall ist, sondern die Eingaben werden weiterhin verarbeitet, auch wenn es nicht so scheint. Dies kann durch versehentliches Drücken von <span class="highlight-3">ctrl+s</span> verursacht sein. In diesem Fall kann <span class="highlight-3">ctrl+q</span> versucht werden, um die Konsole wieder frei zu geben.</p>
 
+	</div>
+	<div class="divider" id="colours">
+				    <h3><span class="highlight-4">Farbiger Terminal. Prompts für</span> <span class="highlight-5">user:~</span><span class="highlight-1">$ </span> und <span class="highlight-2">root:</span><span class="highlight-1"># </span> <span class="highlight-4">:</span></h3>
+
+							<p>Farbige Prompts am Terminal können einen vor unangenehmen oder katastrophalen Fehlern bewahren, falls man als <span class="highlight-2">root # </span> eine Aufgabe durchführt, die man als <span class="highlight-5">user~$</span> machen wollte. Sie können auch eingesetzt werden, um als Lesezeichen für alle 100 Zeilen zu fungieren.</p>
+
+							<p>In den Grundeinstellungen besitzen die Prompts für user~$ und root# den gleichen Farbton, aber es ist einfach die Farben zu ändern.</p>
+
+							<p>Die Grundfarben sind:</p>
+<pre>
+(die Syntax ist 00;XX)
+[00;30] Schwarz
+[00;31] Rot
+[00;32] Grün
+[00;33] Gelb
+[00;34] Blau
+[00;35] Magenta
+[00;36] Cyan
+[00;37] Weiß
+[Man ersetzt [00;XX] mit [01;XX] um eine Farbvariation zu erhalten].
+</pre>
+				<h6>Änderung der Farbe für den Prompt des User ~$:</h6>
+							<p>Als $user mit einem Texteditor:</p>
+<pre>
+$ &lt;editor&gt; ~/.bashrc
+</pre>
+							<p>In der Zeile 39 wird das Kommentarzeichen entfernt und sie sieht so aus:</p>
+<pre>
+force_color_prompt=yes
+</pre>
+							<p>In der Zeile 53 wird dort, wo zum Beispiel 01;32m steht auf den gewünschten Farbwert gesetzt.</p>
+
+							<p>Im Beispiel wird der farbige Prompt für user~:$ auf <span class="highlight-5">Cyan</span> [01;36m\] gesetzt. Dies muss an drei Stellen mit dieser Syntax erfolgen:</p>
+<pre>
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[01;36m\]:\[\033[01;36m\]\w\[\033[00m\]\$ '
+</pre>
+							<p>Die neue Farbe existiert nach Öffnen eines neuen Terminals.</p>
+
+				<h6>Änderung der Farbe für den Prompt von root#:</h6>
+<pre>
+sux
+&lt;editor&gt; /root/.bashrc
+</pre>
+							<p>In der Zeile 39 wird das Kommentarzeichen entfernt und sie sieht so aus:</p>
+<pre>
+force_color_prompt=yes
+</pre>
+							<p>In der Zeile 53 wird dort, wo zum Beispiel 01;32m steht auf den gewünschten Farbwert gesetzt.</p>
+
+							<p>Im Beispiel wird der farbige Prompt für root:# auf <span class="highlight-2">Rot</span> [01;31m\] gesetzt. Dies muss an drei Stellen mit dieser Syntax erfolgen:</p>
+<pre>
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[01:31m\]:\[\033[01;31m\]\w\[\033[00m\]\$ '
+</pre>
+							<p>Die neue Farbe existiert nach Öffnen eines neuen Terminals.</p>
+
+					    <h6>Hintergrundfarben des Terminals</h6>
+							<p>Um die Hintergrundfarbe und die Fonts in einem Terminal zu ändern, finden sich die Optionen im Menü des Terminal.</p>
+
+
+		<div class="screenshot"><img src="../lib/images-common/images-terminal/terminal-colour-0.1.png" title="Terminal colours" alt="Terminal colours" /></div>
+
+							<p>Es gibt eine Unmenge an Einstellungsmöglichkeiten für Hintergrundfarben. Wir empfehlen eine eher schlichte Einstellung.</p>
 	</div>
 	<div class="divider" id="sux">
 	<h2>Über sux</h2>
@@ -407,7 +469,7 @@ Welcome to sidux-manuals http://manual.sidux.com
 
 
 	</div>
-	<div id="rev">Content last revised 17/01/2010 0105 UTC</div>
+	<div id="rev">Content last revised 15/02/2010 0150 UTC</div>
 </div>
 </body>
 </html>

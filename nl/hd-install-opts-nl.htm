@@ -300,7 +300,7 @@ cp /mnt/boot/vmlinuz0.686 /media/sda5/sidux/vmlinuz0.686
 cp /mnt/boot/initrd0.686 /media/sda5/sidux/initrd0.686
 umount /mnt
 </pre>
-							<p>Hierna moet Grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in Grub voor bestandsnamen toegestaan! </span></p> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
+							<p>Hierna moet Grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in Grub voor bestandsnamen toegestaan! </span> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
 <pre>
 ### ISO boot
 title sidux 32bit from ISO
@@ -332,11 +332,10 @@ persist=/sidux/sidux-rw
 							<p>Met <span class="highlight-3">persist</span> en andere specifieke sidux cheatcodes zoals noxorgconf, nonetwork, kan een veranderde situatie worden bewaard.</p>
 
 							<p>Door persist te gebruiken kunnen pakketten met apt geïnstalleerd worden. Deze wijzigingen in de applicaties en de data zijn dan opnieuw beschikbaar bij de volgende boot.</p>
-
-				<h3>fromiso en persist met een bootable USB-sticks/SSD-cards</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso en persist met een bootable USB-sticks/SSD-cards</h2>
 							<p>Het misschien ideale gebruik van persistence is met de install-usb-gui tool waarmee je eigen bootable flash drive gemaakt kan worden met eigen data en de benodigde software. Your files will be stored in a subfolder on the drive.</p>
-
-							<!--<p>De eigen data worden in een submap op je USB-drive bewaard. Als deze submap nog niet bestaat, wordt deze automatisch aangemaakt zodra je beide cheatcodes <span class="highlight-3">fromiso </span> en <span class="highlight-3">persist</span> gebruikt. </p>-->
 
 							<p><span class="highlight-3">persist</span> op een FAT bestandssysteem, zoals die in DOS/Windows 9x omgevingen en ook bij flash devices zijn toegepast, vereist dat je een groot bestand aanmaakt dat als een loop device werkt. Dat bestand moet geformatteerd worden.</p>
 
@@ -344,25 +343,30 @@ persist=/sidux/sidux-rw
 
 					<h6>ext2 bestandssystemen</h6>
 							<p>Met ext2 wordt de hele partitie gebruikt. De actuele root partitie wordt in combinatie met een map /fll gebruikt (die wordt op de stick aangemaakt). In de /fll worden alle data van/voor persist modus bewaard.</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 					<h6>vfat bestandssysteem</h6>
-							<p>Als vfat wordt gebruikt, wordt een bestand voor persistance aangemaakt dat maximaal 2GB groot mag zijn maar niet kleiner dan 100MB (anders heeft het geen zin). Dat bestand wordt <span class="highlight-3">sidux-rw</span> genoemd. Als de disk/stick die je wilt gebruiken gemounted en beschrijfbaar is als /media/sdb1 en je wilt een 1GB groot bestand aanmaken voor de persistent drive, dan kan je de volgende commando's gebruiken (het is niet nodig om root te zijn om dat bestand aan te maken).</p>
+							<p>Als vfat wordt gebruikt, wordt een bestand voor persistance aangemaakt dat maximaal 2GB groot mag zijn maar niet kleiner dan 100MB (anders heeft het geen zin). Dat bestand wordt <span class="highlight-3">sidux-rw</span> genoemd.</p>
+
+					 <h4>Example of creating persist after initial installation</h4>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
+							<p>Set the size of the persist partition:</p>
+<pre>
+size=1024
+</pre>
+							<p>Make a directory on the stick:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Run the code to make the persist partition:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
 
 							<p class="highlight-2">NTFS partities, die in Windows NT/2000/XP (TM) installaties voorkomen, kunnen NIET gebruikt worden voor persistence.</p>
 
@@ -388,6 +392,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	    <div class="divider" id="usb-from1">
 				<h3>USB/SSD fromiso Installatie, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Zorge ervoor dat de usb device al geformateerd is met ext2 of fat32 voordat je begint (het moet tenminste 2 gig aan capaciteit hebben). Het apparaat mag maar over 1 partitie beschikken en sommige BIOSes zijn temperamentaal en moet gemarkeerd zijn als opstartbaar.</span></p>
+
+							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
 
 							<p>De <span class="highlight-3">fromiso</span> installatie wordt uitgevoerd door <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. Op de LIVE-CD kun je klikken op <span class="highlight-3">sidux Installer Icon</span> en kies dan <span class="highlight-3">Install to USB</span>.</p>
 
@@ -619,7 +625,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-		<div id="rev"> Inhoud het laatst aangepast op 22/02/2010 0050 UTC</div>
+		<div id="rev"> Inhoud het laatst aangepast op 05/03/2010 1335 UTC</div>
 </div>
 </body>
 </html>

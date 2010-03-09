@@ -99,7 +99,7 @@
 				<li><a href="hd-install-opts-ja.htm#fromiso-grub-leg">古いGRUBから 'fromiso' で起動するには</a></li>
 				<li><a href="hd-install-opts-ja.htm#grub2-fromiso">GRUB２ から 'fromiso' で起動するには</a></li>
 				<li><a href="hd-install-opts-ja.htm#fromiso-persist">fromisoと持続モード</a></li>
-				<li><a href="hd-install-opts-ja.htm#usb-hd">USB-HDへのインストール</a> - sidux specific - sidux-on-stick</a></li>
+				<li><a href="hd-install-opts-ja.htm#usb-hd">USB-HDへのインストール - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-ja.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-ja.htm#nbd1">ネットワークから sidux を起動する</a></li>
 				<li><a href="hd-install-opts-ja.htm#vtbox">VirtualBoxにsiduxをインストール</a></li>
@@ -398,11 +398,12 @@ persist=/sidux/sidux-rw
 							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
 #### -->
 							<p>起動オプションに persist を使うということは、apt を使ってパッケージをインストールしたり、プログラムや保存したデータを次に起動したときにも使えるということでもあります。</p>
-
-<!--- ####
-				<h3>fromiso and persist on a bootable USB-sticks/SSD-cards</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<!--- ####
+				<h2>fromiso and persist on a bootable USB-sticks/SSD-cards</h2>
 #### -->
-				<h3>USB-sticks/SSD-cardsキーからの fromiso と persist</h3>
+				<h2>USB-sticks/SSD-cardsキーからの fromiso と persist</h2>
 <!--- ####
 							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need. Your files will be stored in a subfolder on the drive.</p>
 #### -->
@@ -431,14 +432,6 @@ persist=/sidux/sidux-rw
 							<p>With ext2 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
 #### -->
 							<p> ext2/3 の場合、パーティション全体が使われます。現行システムのrootが使われ ライブモードのメカニズムとして/fll というディレクトリが作成され残りのスペースが持続モードのファイル保存用に使われます。</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 <!--- ####
 					<h6>vfat file system</h6>
@@ -447,18 +440,29 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 <!--- ####
 							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">sidux-rw</span>. Assuming the disc you want to use is mounted and writable on /media/sdb1 and you want to create a 1GB file to use as your persistent drive you could use the following commands (no need for root if you can write to the file).</p>
 #### -->
-							<p>VFAT が使われると、持続モードのファイル保存スペースとして最大２Gb、最小100Mbが使えます。(それ以下では役にたたないでしょう)　このファイルに<span class="highlight-3">sidux-rw</span>という名前をつけます。 仮にこのディスクが /media/sdb1 として書き込み可能にマウントされているとして、ここに持続モード用に1Gbの保存スペースを作ろうとする場合、次のコマンドを使います。(書き込みが可能でさえあれば、rootでなくてもかまいません。）</p>
+							<p>VFAT が使われると、持続モードのファイル保存スペースとして最大２Gb、最小100Mbが使えます。(それ以下では役にたたないでしょう)　このファイルに<span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Example of creating persist after initial installation</h4>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
-<!--- ####
-							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
-#### -->
+							<p>Set the size of the persist partition:</p>
+<pre>
+size=1024
+</pre>
+							<p>Make a directory on the stick:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Run the code to make the persist partition:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
+
 							<p class="highlight-2">Windows NT/2000/XP(TM)のインストールに使われている NTFS システムでは持続モードはできません。</p>
 
 	</div>
@@ -503,6 +507,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 #### -->
 							<p> <span class="highlight-3">まず準備としてUSB/SSDデバイスを ext2 または FAT32 にフォーマットします。(２GB以上) このデバイスにはパーティションが一つだけになるようにして、このパーティションを起動可能にします。(BIOSによってはこれをしないと起動できないことがあるため) 。</span></p>
+
+							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
 
 							<!--- ####
 							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
@@ -944,7 +950,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 22/02/2010 0050 UTC</div>
+	<div id="rev">Page last revised 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

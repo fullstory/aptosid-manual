@@ -330,11 +330,10 @@ persist=/sidux/sidux-rw
 							<p>Utilizar el <span class="highlight-3">persist</span> junto con otros códigos especificas de sidux tales como noxorgconf, nonetwork, significa que no recreará los mismos archivos cada vez que inicialice la máquina.</p>
 
 							<p>El uso de 'persist' también supone que puede instalar paquetes con apt y tener la aplicación y cualesquiera datos guardados disponibles para su uso la próxima vez que desee iniciar con el dispositivo.</p>
-
-				<h3>'fromiso' y 'persist' en un pendrive USB-sticks/SSD-cards arrancable</h3>
-							<p>Quizás el uso ideal para "persist" es usarlo conjuntamente con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesite. Your files will be stored in a subfolder on the drive.</p>
-
-							<!--<p>Sus archivos serán almacenados en un subcarpeta en el drive. Se crea esta subcarpeta si no existe cuando el <span class="highlight-3">fromiso </span> y <span class="highlight-3">persist</span> cheatcodes están siendo usados conjuntamente.</p>-->
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>'fromiso' y 'persist' en un pendrive USB-sticks/SSD-cards arrancable</h2>
+							<p>Quizás el uso ideal para "persist" es usarlo conjuntamente con la herramienta 'install-usb-gui' para crear su propio dispositivo flash arrancable con sus archivos y el software que necesite. Sus ficheros quedarán archivados en una subcarpeta del dispositivo.</p>
 
 							<p><span class="highlight-3">persist</span> en un sistema de archivos FAT, que es el comunmente usado en las instalaciones de DOS/Windows 9x y que usualmente se encuentran en los dispositivos flash, requiere la creación de un solo archivo grande para usar como un dispositivo bucle, entonces dar formato a este archivo.</p>
 
@@ -342,25 +341,30 @@ persist=/sidux/sidux-rw
 
 					<h6>Sistemas de Archivos ext2</h6>
 							<p>Con el sistema ext2 la partición completa será utilizada, se usará la raíz corriente y una carpeta /fll será creada para ser utilizada por el 'persist', permitiendo el uso de todo el espacio libre del dispositivo para el sistema 'persist'.</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 					<h6>Sistemas de Archivos vfat</h6>
-							<p>Cuando se usa vfat, la persistencia se logra a través de un archivo que puede tener un máximo de 2GB pero no menos de 100MB (porque no podría usarse). Este archivo debe ser llamado <span class="highlight-3">sidux-rw</span>. Asumiendo que el disco que desea usar ya está montado y es escribible en /media/sdb1 y que desea crear un archivo de 1GB para uso como el drive persistente, puede usar los siguientes comandos (no tiene que ser root, si tiene acceso para escribir en el archivo).</p>
+							<p>Cuando se usa vfat, la persistencia se logra a través de un archivo que puede tener un máximo de 2GB pero no menos de 100MB (porque no podría usarse). Este archivo debe ser llamado <span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Ejemplo de la creación de persist después de una instalación inicial</h4>
+							<p>Si no está seguro del punto de montaje, conecte el pendrive y dé la orden <span class="highlight-3">ls -lh /media</span> que le dará una lista de todos los puntos de montaje de su sistema. Busque algo así como <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Si la salida de la orden da otras particiones, reemplace <span class="highlight-3">"/media/disk"</span> por la de su máquina, (por ejemplo "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
+							<p>Establezca el tamaño de la partición persist:</p>
+<pre>
+size=1024
+</pre>
+							<p>Cree un directorio en el pendrive:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Dé esta orden para construir la partición persist:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
 
 							<p class="highlight-2">Las particiones NTFS, comunmente utilizadas para instalaciones de Windows NT/2000/XP (TM), NO PUEDEN SER usadas para la persistencia.</p>
 
@@ -386,6 +390,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	    <div class="divider" id="usb-from1">
 				<h3>Instalación USB/SSD fromiso, sidux-on-a-stick </h3>
 							<p> <span class="highlight-3">Tenga formateado su aparato usb con ext2 o fat32 antes de comenzar (debe tener al menos 2 gigas de capacidad). El aparato debe tener solo una partición y como algunas BIOS tienen <i>mucho carácter</i> esta partición debe ser marcada como arrancable.</span></p>
+
+							<p>Si está usando un programa gráfico para hacer particiones como gparted, por favor asegúrese de haber borrado primeramente la partición existente, y vuelva a crearla antes de formatear.</p>
 
 							<p>La instalación <span class="highlight-3">fromiso</span> se hace a través de <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. En un LIVE-CD también puede hacer clic en el <span class="highlight-3">ícono de instalación de sidux</span> y escoger <span class="highlight-3">Instalar en USB</span>.</p>
 
@@ -623,7 +629,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic  \
 
 	</div>
 		<div class="spacer05"></div>
-	<div id="rev">Contenido revisado el 22/02/2010 0050 UTC</div>
+	<div id="rev">Contenido revisado el 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

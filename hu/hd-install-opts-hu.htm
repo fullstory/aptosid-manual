@@ -324,11 +324,10 @@ persist=/sidux/sidux-rw
 							<p>A <span class="highlight-3">persist</span> használata az olyan kiegészítő kódokkal, mint a noxorgconf és nonetwork, biztosítja azt, hogy ezek a fájlok nem jönnek létre újra és újra minden boot során. </p>
 
 							<p>A persist használatával lehetőség nyílik arra is, hogy csomagokat telepítsünk az apt segítsévégel, és minden telepített alkalmazás vagy adat a következő bootoláskor is rendelkezésre fog állni.</p>
-
-				<h3>fromiso és persist használata bootolható USB-sticks/SSD-cards</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso és persist használata bootolható USB-sticks/SSD-cards</h2>
 							<p>Az állandó rendszer ideálisan használható egy bootolható USB pendrive-ra való telepítéssel (az install-usb-gui eszköz használatával), amelyen megtalálható minden fájl és szoftver, amely a napi használathoz szükséges. Your files will be stored in a subfolder on the drive.</p>
-
-							<!--<p>A megváltoztatott fájlok a meghajtón egy alkönyvtárban lesznek eltárolva. Ez az alkönyvtár automatikusan létrejön a <span class="highlight-3">fromiso </span> és <span class="highlight-3">persist</span> cheat kódok együttes használatakor.</p>-->
 
 							<p>DOS és Windows 9x rendszereken a FAT fájlrendszer az alapértelmezett, és az USB meghajtók is leggyakrabban ilyen fájlrendszerrel formázva kerülnek forgalomba. A <span class="highlight-3">persist</span> funkció ebben az esetben egyetlen nagy fájlt hoz létre, amely loop device-ként egy teljes fájlrendszert fog magában foglalni.</p>
 
@@ -336,25 +335,30 @@ persist=/sidux/sidux-rw
 
 					<h6>ext2 fájlrendszerek</h6>
 							<p>Ezen fájlrendszerek esetén a teljes partíció felhasználásra kerül, és a /fll könyvtár automatikusan létrejön a bootolások között megőrzendő adatok tárolására. A tárolható adatok mennyiségét csak a pendrive kapacitása korlátozza.</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 					<h6>VFAT fájlrendszer</h6>
-							<p>VFAT használata esetén az állandó rendszer egy minimum 100Mb-os, maximum 2Gb-ra növekvő fájl létrehozásával lehetséges. A fájl neve kötelezően <span class="highlight-3">sidux-rw</span>. Tegyük fel, hogy a lemez fel van csatolva írható módon a /media/sdb1 alá, és egy 1Gb-s fájlt szeretnénk létrehozni az állandó fájljaink tárolásához (nem szükséges root felhasználóval dolgozni, amennyiben a fájl írható):</p>
+							<p>VFAT használata esetén az állandó rendszer egy minimum 100Mb-os, maximum 2Gb-ra növekvő fájl létrehozásával lehetséges. A fájl neve kötelezően <span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Example of creating persist after initial installation</h4>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
+							<p>Set the size of the persist partition:</p>
+<pre>
+size=1024
+</pre>
+							<p>Make a directory on the stick:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Run the code to make the persist partition:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
 
 							<p class="highlight-2">A Windows NT/2000/XP (TM) alatt általánosan használt NTFS partíciók egyáltalán NEM HASZNÁLHATÓK állandó fájlok tárolására alkalmas perzisztens partícióként.</p>
 
@@ -380,6 +384,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	    <div class="divider" id="usb-from1">
 				<h3>USB/SSD fromiso Installation, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
+
+							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
 
 							<p>The <span class="highlight-3">fromiso</span> installation is done through <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. On a LIVE-CD you can also click on <span class="highlight-3">sidux Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
@@ -613,7 +619,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Az oldal utoljára módosítva 22/02/2010 0050 UTC</div>
+	<div id="rev">Az oldal utoljára módosítva 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

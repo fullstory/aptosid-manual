@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 12/01/2010 20.45 UTC -->
+<!-- Last translation revision by alessiog75 on 07/03/2010 21.05 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintainer alessiog75 -->
 <!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
 <!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
@@ -330,11 +330,10 @@ persist=/sidux/sidux-rw
 							<p>Utilizzando <span class="highlight-3">persist</span> insieme ad altre opzioni specifiche di sidux come noxorgconf, nonetwork, significa che non verranno ricreati gli stessi file ogni volta che si avvia.</p>
 
 							<p>Utilizzare persist significa anche che si possono installare pacchetti da apt ed avere l'applicazione ed ogni dato che si è salvato disponibile ed accessibile al prossimo riavvio.</p>
-
-				<h3>fromiso e persist su di una chiavetta USB/scheda SSD</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso e persist su di una chiavetta USB/scheda SSD</h2>
 							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno. Your files will be stored in a subfolder on the drive.</p>
-
-							<!--<p>I file verranno immagazzinati in una sotto directory del drive. Questa viene creata se non esiste quando vengono usate insieme le opzioni <span class="highlight-3">fromiso</span> e <span class="highlight-3">persist</span>.</p>-->
 
 							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
 
@@ -342,25 +341,30 @@ persist=/sidux/sidux-rw
 
 					<h6>ext2 file system</h6>
 							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 					<h6>vfat file system</h6>
-							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">sidux-rw</span>. Assumiamo il fatto che il disco che si vuole utilizzare è montato e scrivibile e si trovi su /media/sdb1, si vuole creare un file di 1GB da utilizzare come drive persistente si possono utilizzare i seguenti comandi (non c'è necessità di essere root se si può scrivere il file):</p>
+							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Esempio della creazione di persist dopo l'installazione iniziale</h4>
+							<p>Se non si è sicuri del punto di mount, montare la chiavetta ed avviare <span class="highlight-3">ls -lh /media</span> per ottenere una lista di tutti i punti di mount del sistema. Cercare qualcosa come <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se l'output è differente allora sostituire <span class="highlight-3">"/media/disk"</span> con quello richiesto, (per esempio "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
+							<p>Imposta la dimensione della partizione persist:</p>
+<pre>
+size=1024
+</pre>
+							<p>Crea una directory nella chiavetta:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Avvia il codice per creare una partizione persist:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
 
 							<p class="highlight-2">Partizioni NTFS, utilizzate di solito da installazioni Windows NT/2000/XP (TM), NON POSSONO essere utilizzate per la persistenza.</p>
 
@@ -379,13 +383,15 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 					  <ul>
 							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso</a> sidux specific: sidux-on-a-stick</li>
 							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo</a> (l'installazione completa su USB/SSD si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
-							<li>3) <a href="hd-ins-opts-oos-it.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install sidux-on-a-stick, (with caveats).</li>
+							<li>3) scrittura <a href="hd-ins-opts-oos-it.htm#raw-usb"> RAW device </a>. Questa è l'ideale quandoo si utilizza qualsiasi s.o. Linux, MS Windows o Mac OS X e si vuole installare sidux-on-a-stick, (con avvisi).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
 				<h3>Installazione fromiso USB/SSD, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Preformattare la periferica USB con ext2 o fat32 prima di procedere (almeno 2 GB di capacità). La periferica dovrebbe avere solo 1 partizione e dal momento che alcuni BIOS sono sensibili questa deve essere marcata come avviabile.</span></p>
+
+							<p>Se si utilizza una applicazione ad interfaccia grafica per formattare come gparted, assicurarsi di cancellare la partizione esistente e quindi ricrearla prima di formattare.</p>
 
 							<p>L'installazione <span class="highlight-3">fromiso</span> viene fatta attraverso <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. In un LIVE-CD si può cliccare su <span class="highlight-3">sidux Installer Icon</span> e scegliere <span class="highlight-3">Install to USB</span>.</p>
 
@@ -619,7 +625,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 22/02/2010 0050 UTC</div>
+	<div id="rev">Page last revised 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

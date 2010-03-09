@@ -74,8 +74,8 @@
 		</li>
 		<li  onmouseover="showHide( 5 );" onmouseout="startTime();" ><a href="cheatcodes-ro.htm">Cheat Codes</a>
 			<ul class="sub-menu" id="sm5">
-				<li><a href="cheatcodes-ro.htm#cheatcodes">cheatcode-uri specifice lui sidux (numai în Live- ISO)</a></li>
-				<li><a href="cheatcodes-ro.htm#cheatcodes-linux">Cheatcodes generice în Linux</a></li>
+				<li><a href="cheatcodes-ro.htm#cheatcodes">Cheatcode-uri specifice lui sidux (numai în Live-ISO)</a></li>
+				<li><a href="cheatcodes-ro.htm#cheatcodes-linux">Cheatcode-uri generice în Linux</a></li>
 				<li><a href="cheatcodes-vga-ro.htm#vga"> Coduri VGA </a></li>
 			</ul>
 		</li>
@@ -154,9 +154,9 @@
 				<li><a href="ssh-ro.htm#ssh">SSH şi Securitatea</a></li>
 				<li><a href="internet-connecting-ro.htm#dial-mod">Modemuri 56k </a></li>
 				<li><a href="inet-wpagui-ro.htm#wpa-roaming-gui">WiFi - WPA_GUI</a></li>
-				<li><a href="inet-setup-ro.htm#net-set1">WiFi - Setting up for WiFi Roaming</a></li>
+				<li><a href="inet-setup-ro.htm#net-set1">WiFi - Setarea unui WiFi Roaming</a></li>
 				<li><a href="internet-connecting-wpa-ro.htm#wpa">WiFi - wpasupplicant</a></li>
-				<li><a href="inet-ifplug-ro.htm#hotswitch">Network switching between WiFi and Cable</a></li>
+				<li><a href="inet-ifplug-ro.htm#hotswitch">Comutarea între WiFi și Cablu</a></li>
 				<li><a href="internet-connecting-ro.htm#netcardconfig">Conectarea online - Ceni</a></li>
 			</ul>
 		</li>
@@ -333,11 +333,10 @@ persist=/sidux/sidux-rw
 							<p>Folosind <span class="highlight-3">persist</span> împreună cu alte cheatcode-uri specifice lui sidux ca 'noxorgconf', 'nonetwork', înseamnă că acesta nu va mai recrea aceleasi fișiere de fiecare dată când boot-ați. </p>
 
 							<p>Folosind <span class="highlight-3">persist</span> mai înseamnă că puteți instala programe (pachete) cu 'apt' , puteți avea aplicațiile și orice date salvate într-o sesiune și atunci când veți boot-a din nou.</p>
-
-				<h3>fromiso și persist pe un mediu boot-abil - USB-sticks/SSD-cards</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso și persist pe un mediu boot-abil - USB-sticks/SSD-cards</h2>
 							<p>Probabil utilizarea ideală a modului persistent este în combinație cu instrumentul 'install-usb-gui' pentru crearea propriul mediu boot-abil cu fișierele și programele necesare. Fișierele voastre vor fi stocate într-un subfolder pe disc.</p>
-
-							<!--<p>Your files will be stored in a subfolder on your drive. This subfolder is created if it does not exist when the <span class="highlight-3">fromiso </span> and <span class="highlight-3">persist</span> cheatcodes are used together. </p>-->
 
 							<p><span class="highlight-3">persist</span> pe un sistem de fișiere FAT, utilizat de regulă de dos/Windows 9x și găsit de obicei pe dispozitivele flash, cere crearea unui singur fișier mare pentru a fi folosit și care trebuie formatat.</p>
 
@@ -345,24 +344,31 @@ persist=/sidux/sidux-rw
 
 					<h6>Sistemul de fișiere ext2</h6>
 							<p>Cu ext2 întreaga partiție va fi folosită ca 'root' și un director /fll este  creat pentru a fi folosit de 'persist' permițând utilizarea întregului spațiu liber pentru sistemul 'persist'.</p>
-
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 			<h6>Sistemul de fișiere vfat</h6>
-				<p>Când este utilizat 'vfat' , persistența este realizată într-un fișier care poate fi de maxim 2GB dar nu mai mic de 100MB (altfe nu poate fi folosit). Fisierul trebuie să se numească <span class="highlight-3">sidux-rw</span>. Considerând că discul care-l veți folosi este mount-at cu permisiuni de scriere în /media/sdb1 și vreți  să creati un fișier de 1GB pentru persistență puteți utiliza următoarele comenzi (nu e nevoie de root dacă puteți scrie în acest fișier).</p>
+							<p>Când este utilizat 'vfat', persistența este realizată într-un fișier care poate fi de maxim 2GB dar nu mai mic de 100MB (altfe nu poate fi folosit). Fisierul trebuie să se numească <span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Examplu de creare 'persist' după o instalare initială</h4>
+							<p>Dacă nu sunteți siguri care este punctul de mount-are, cuplați stick-ul și rulați  <span class="highlight-3">ls -lh /media</span> pentru a obține o listă a tuturor punctelor de mount-are din sistem. Ar trebui să arate cam așa <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Dacă rezultatul vostru diferă atunci înlocuiți <span class="highlight-3">"/media/disk"</span> conform cu nevoile voastre, (de examplu "/media/sdc1"):</p>
+
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
-				<p class="highlight-2">partițiile NTFS , utilizate de regulă pentru Windows NT/2000/XP (TM) , NU POT fi utilizate pentru persistență.</p>
+
+							<p>Stabiliți mărimea partiției 'persist':</p>
+<pre>
+size=1024
+</pre>
+							<p>Faceți un director pe stick:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Rulați programul de creare a partiției 'persist':</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
+
+							<p class="highlight-2">partițiile NTFS, utilizate de regulă pentru Windows NT/2000/XP (TM), NU POT fi utilizate pentru persistență.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
@@ -377,31 +383,33 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 
 			<h5>Moduri de instalare pe USB/SSD</h5>
 					  <ul>
-							<li>1) <a href="hd-install-opts-ro.htm#usb-from1">fromiso </a>; sidux specific: sidux-on-a-stick</li>
+							<li>1) <a href="hd-install-opts-ro.htm#usb-from1">fromiso </a>; specifică lui sidux: sidux-on-a-stick</li>
 							<li>2) <a href="hd-install-opts-ro.htm#usb-hdd"> full </a> (instalarea completă pe un USB/SSD se realizează ca o instalare normală pe HD folosind programul de instalare normal).</li>
-							<li>3) <a href="hd-ins-opts-oos-ro.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install sidux-on-a-stick, (with caveats).</li>
+							<li>3) <a href="hd-ins-opts-oos-ro.htm#raw-usb"> RAW device </a> write. Acesta este ideal de foflosit cu orice sistem de operare Linux, MS Windows sau Mac OS X și doriți să realizați o instalare 'sidux-on-a-stick', (cu 'caveats').</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
 			<h3>Instalarea pe USB/SSD cu 'fromiso', sidux-on-a-stick</h3>
-				<p> <span class="highlight-3">Pre-formatați dispozitivul usb în ext2 sau fat32 înainte de a proceda la instalare (cel puțin o capacitate de 2G) . Dispozitivul trebuie să aibă doar 1 singură partiție și pentru că unele BIOS-uri sunt temperamentale, aceasta trebuie să fie marcată ca fiind boot-abilă.</span></p>
+							<p> <span class="highlight-3">Pre-formatați dispozitivul usb în ext2 sau fat32 înainte de a proceda la instalare (cel puțin o capacitate de 2G). Dispozitivul trebuie să aibă doar 1 singură partiție și pentru că unele BIOS-uri sunt temperamentale, aceasta trebuie să fie marcată ca fiind boot-abilă.</span></p>
 
-				<p>Instalarea <span class="highlight-3">fromiso</span> se face prin <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. Pe un LIVE-CD puteți da click pe <span class="highlight-3">icon-ul sidux Installer</span> și alegeți <span class="highlight-3">Install to USB</span>.</p>
+							<p>Dacă folosiți o aplicație grafică (GUI) pentru fomatare cum ar fi 'gparted', vă rog să ștergeți mai întâi orice partiție existentă și apoi s-o recreați înainte de a formata stick-ul.</p>
 
-				<p>Vi se oferă oportunitatea de a seta limba, fusul orar și alte opțiuni de bootcode-uri precum și activarea sau nu a opțiunii persist via checkbox.</p>
+							<p>Instalarea <span class="highlight-3">fromiso</span> se face prin <span class="highlight-3">Menu>System>install-sidux-to-usb</span>. Pe un LIVE-CD puteți da click pe <span class="highlight-3">icon-ul sidux Installer</span> și alegeți <span class="highlight-3">Install to USB</span>.</p>
 
-				<p>Aveți acum un USB/SSD bootabil. Dacă nu ați activat 'persist' îl puteți activa adăugând <span class="highlight-3">persist</span> în linia de boot-are a lui grub din ecranul grub. (Dacă este 'vfat', este probabil cel mai bine s-o luați de la început).</p>
+							<p>Vi se oferă oportunitatea de a seta limba, fusul orar și alte opțiuni de bootcode-uri precum și activarea sau nu a opțiunii persist via checkbox.</p>
+
+							<p>Aveți acum un USB/SSD bootabil. Dacă nu ați activat 'persist' îl puteți activa adăugând <span class="highlight-3">persist</span> în linia de boot-are a lui grub din ecranul grub. (Dacă este 'vfat', este probabil cel mai bine s-o luați de la început).</p>
 
 
 <pre>
  fll-iso2usb -D /dev/sdb -f none --iso /home/sidux/sidux.iso -p -- lang=no tz=Pacific/Auckland
 </pre>
-				<p>Comanda de mai sus, scrisă în linia lui grub, instalează imaginea iso pe dispozitivul USB <span class="highlight-3">sdb</span> cu 'persist', limba Norvegiană, localizare și fus orar - Pacific/Auckland (NZL).</p>
+							<p>Comanda de mai sus, scrisă în linia lui grub, instalează imaginea iso pe dispozitivul USB <span class="highlight-3">sdb</span> cu 'persist', limba Norvegiană, localizare și fus orar - Pacific/Auckland (NZL).</p>
 
-				<p>Configurările de X (placa video, tastatură, mouse) sau fișierele pentru interfețele de rețea nu au fost stocate, ceea ce-l face ideal de utilizat pe alte computere.</p>
+							<p>Configurările de X (placa video, tastatură, mouse) sau fișierele pentru interfețele de rețea nu au fost stocate, ceea ce-l face ideal de utilizat pe alte computere.</p>
 
-				<p>Pentru mai multă documentație inclusiv opțiuni de personalizare vedeți și:</p>
+							<p>Pentru mai multă documentație inclusiv opțiuni de personalizare vedeți și:</p>
 
 <pre>
 $ man fll-iso2usb
@@ -420,7 +428,7 @@ $ man fll-iso2usb
 
 				<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
 						<ul>
-							<li>O instalare pe USB-stick/SSD-card, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Daca aveti intentia de a utiliza stick-ul USB/SSD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu exceptia cănd aveți probabil cheatcode-uri  vesa în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
+							<li>O instalare pe USB-stick/SSD-card, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Daca aveti intentia de a utiliza stick-ul USB/SSD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu exceptia cănd aveți probabil cheatcode-uri  'vesa' în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
 
 							<li>După boot-area de pe USB-stick/SSD-card a unui alt PC, va trebui să modificați fișierul 'fstab' pentru a avea acces la HD-urile PC-ului.</li>
 
@@ -431,7 +439,7 @@ $ man fll-iso2usb
 	<div class="divider" id="usb-hdd">
 			<h3>Instalarea completă pe un dispozitiv USB Hard Disk ca și instalarea pe o partiție</h3>
 
-				<p>Folosirea unui Hard Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala sidux, îl cuplați la PC și nu mai aveti nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
+				<p>Folosirea unui Hard Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala sidux, îl cuplați la PC și nu mai aveți nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
 
 				<p>Porniți instalarea de pe Live-ISO, (sau de pe un USB-stick/SSD-card), <span class="highlight-3">ca o instalare standard, nu un 'USB install'</span> și alegeți partiția de pe dispozitivul USB, unde se va instala sidux, de examplu <span class="highlight-3">sdbX </span>și urmați pașii ceruți de programul de instalare sidux. Grub trebuie scris pe partiția de pe USB HDD.</p>
 
@@ -439,9 +447,9 @@ $ man fll-iso2usb
 
 				<p><span class="highlight-3">Alte sfaturi importante sunt: </span></p>
 						<ul>
-							<li>O instalare pe USB-stick/SSD-card, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Daca aveti intentia de a utiliza stick-ul USB/SSD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu exceptia cănd aveți probabil cheatcode-uri  vesa în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
+							<li>O instalare pe USB HDD, va fi de regulă limitată la configurația PC-ului cu care s-a făcut instalarea originală. Dacă aveți intenția de a utiliza USB HDD pe alte PC-uri, ar trebui să nu aveți pre-configurate drivere grafice non-free și cheatcode-uri, cu excepția cănd aveți probabil cheatcode-uri  'vesa' în fișierul menu.lst, (tot ce trebuie avut grijă după o instalare corectă).</li>
 
-							<li>Dacă vreți să folosiți instalarea pe o altă mașină aveți grijă că trebuie să faceți unele modificari. Va trebui să modificați fișierul 'fstab' pentru a accesa HD-ul noului PC, probabil și fișierele 'xorg.conf' si cele de configurare a rețelei (network).</li>
+							<li>Dacă vreți să folosiți instalarea pe o altă mașină aveți grijă că trebuie să faceți unele modificari. Va trebui să modificați fișierul 'fstab' pentru a accesa HD-ul noului PC, probabil și fișierele 'xorg.conf' și cele de configurare a rețelei (network).</li>
 						</ul>
 	</div>
 	<div class="divider" id="vtbox">
@@ -454,9 +462,9 @@ $ man fll-iso2usb
 						</ul>
 
 			<h4>Cerinţe</h4>
-				<p><span class="highlight-3">Ram recomandat : 1 gig </span>: Ideal 512 MB pentru client şi 512 MB pentru gazdă . (poate rula şi pe mai puţin , dar să nu aşteptaţi cine ştie ce performanţă).</p>
+				<p><span class="highlight-3">Ram recomandat : 1 gig </span>: Ideal 512 MB pentru client şi 512 MB pentru gazdă. (poate rula şi pe mai puţin, dar să nu aşteptaţi cine ştie ce performanţă).</p>
 
-				<p><span class="highlight-3">Spaţiu pe Hard disk :</span> În timp ce VirtualBox este relativ mic (o instalare tipică va avea nevoie de aproximativ 30 MB spaţiu pe hard ), maşina virtuală va necesita spaţiu uriaş pe disc pentru a reprezenta fişierele ce le va stoca. Aşa că, pentru instalarea MS Windows XP (TM), de exemplu, veţi avea nevoie de un fişier ce va creşte până la câţiva  GB mărime. Pentru a avea sidux în VirtualBox va trebui să alocaţi 5 giga pentru imaginea de hard, plus spaţiu pentru swap.</p>
+				<p><span class="highlight-3">Spaţiu pe Hard disk:</span> În timp ce VirtualBox este relativ mic (o instalare tipică va avea nevoie de aproximativ 30 MB spaţiu pe hard), maşina virtuală va necesita spaţiu uriaş pe disc pentru a reprezenta fişierele ce le va stoca. Aşa că, pentru instalarea MS Windows XP (TM), de exemplu, veţi avea nevoie de un fişier ce va creşte până la câţiva  GB mărime. Pentru a avea sidux în VirtualBox va trebui să alocaţi 5 giga pentru imaginea de hard, plus spaţiu pentru swap.</p>
 
 			<h3>Instalarea:</h3>
 <pre>
@@ -495,9 +503,9 @@ man dmakms
 </pre>-->
 
 			<h3>Instalarea sidux în maşina virtuală </h3>
-				<p>Utilizaţi interfaţa de la virtualbox pentru a  crea o maşină virtuală pentru sidux . Apoi urmaţi instrucţiunile unei instalări sidux obişnuite .</p>
+				<p>Utilizaţi interfaţa de la virtualbox pentru a  crea o maşină virtuală pentru sidux. Apoi urmaţi instrucţiunile unei instalări sidux obişnuite.</p>
 
-				<p><a href="http://www.virtualbox.org/">VirtualBox are un fişier Help PDF , pe care îl puteţi descărca </a> </p>
+				<p><a href="http://www.virtualbox.org/">VirtualBox are un fişier Help PDF, pe care îl puteţi descărca de aici</a> </p>
 
 	</div>
 	<div class="divider" id="qemu">
@@ -518,26 +526,26 @@ apt-get install qtemu
 
  			<h4>Crearea imaginii de Hard Disc</h4>
 
-				<p>Pentru a rula qemu aveţi nevoie de o imagine de Hard Disc.Acesta este un fişier unde este stocat conţinutul Hard Discului emulat .</p>
+				<p>Pentru a rula qemu aveţi nevoie de o imagine de Hard Disc. Acesta este un fişier unde este stocat conţinutul Hard Discului emulat.</p>
 
-				<p>Folosiţi comanda :</p>
+				<p>Folosiţi comanda:</p>
 
 <pre>
    qemu-img create -f qcow sidux.qcow 3G
 </pre>
-				<p>pentru a crea fişierul imagine numit "sidux.qcow" . Parametrul "3G" specifică mărimea fişierului de pe disc - în acest caz 3 GB . Se poate folosi sufixul  M pentru megabytes ( de exemplu "256M"). Nu trebuie să vă îngrijoraţi prea tare în legătură cu mărimea discului - formatul qcow compresează imaginea în aşa fel încât spaţiul gol nu se adaugă la mărimea fişierului .</p>
+				<p>pentru a crea fişierul imagine numit "sidux.qcow". Parametrul "3G" specifică mărimea fişierului de pe disc - în acest caz 3 GB. Se poate folosi sufixul  M pentru megabytes (de exemplu "256M"). Nu trebuie să vă îngrijoraţi prea tare în legătură cu mărimea discului - formatul qcow compresează imaginea în aşa fel încât spaţiul gol nu se adaugă la mărimea fişierului.</p>
 
 
 			<h4>Instalarea sistemului de operare</h4>
 
-				<p>Acum este prima oară când va trebui să porniţi emulatorul . Un lucru să tineţi minte : odată ce aţi dat un clic în fereastra de qemu săgeata mouse-ului va fi acaparată . Pentru a o elibera trebuie să apăsaţi Ctrl+Alt.</p>
+				<p>Acum este prima oară când va trebui să porniţi emulatorul. Un lucru să tineţi minte: odată ce aţi dat un clic în fereastra de qemu săgeata mouse-ului va fi acaparată. Pentru a o elibera trebuie să apăsaţi Ctrl+Alt.</p>
 
-				<p>Dacă va trebui să folosiţi o dischetă de boot , rulaţi QEMU cu :</p>
+				<p>Dacă va trebui să folosiţi o dischetă de boot, rulaţi QEMU cu:</p>
 
 <pre>
     qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
-				<p>Dacă CD-ROM-ul  este bootabil , rulaţi Qemu cu :</p>
+				<p>Dacă CD-ROM-ul  este bootabil, rulaţi Qemu cu:</p>
 <pre>
    qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
 </pre>
@@ -546,72 +554,72 @@ apt-get install qtemu
 
 			<h4>Pornirea sistemului</h4>
 
-				<p>Pentru a porni sistemul trebuie doar să tastaţi :</p>
+				<p>Pentru a porni sistemul trebuie doar să tastaţi:</p>
 <pre>
  qemu [hd_image]
 </pre>
-				<p>O idee bună este să folosiţi imagini suprapuse . În felul acesta veţi crea imaginea de Hard Disc o dată și veţi instrui QEMU să scrie schimbările într-un fişier extern . Veţi scăpa de instabilitate astfel , pentru că puteţi uşor reveni la o stare iniţială a sistemului .</p>
+				<p>O idee bună este să folosiţi imagini suprapuse. În felul acesta veţi crea imaginea de Hard Disc o dată și veţi instrui QEMU să scrie schimbările într-un fişier extern. Veţi scăpa astfel de instabilitate, pentru că puteţi uşor reveni la o stare iniţială a sistemului.</p>
 
-				<p>Pentru a crea o imagine suprapusă tipăriţi :</p>
+				<p>Pentru a crea o imagine suprapusă tipăriţi:</p>
 <pre>
  qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
 
-				<p>Substituirea imaginii de bază de pe Hard Disc ( în cazul nostru sidux.qcow). După aceasta puteţi rula  qemu cu :</p>
+				<p>Substituirea imaginii de bază de pe Hard Disc (în cazul nostru sidux.qcow). După aceasta puteţi rula  qemu cu:</p>
 <pre>
    qemu [overlay_image]
 </pre>
-				<p>Imaginea originală va fi lăsată intactă . Un pont , imaginea de bază nu poate fi redenumită sau mutată , imaginea suprapusă totdeauna îşi va aminti calea către imaginea de bază .</p>
+				<p>Imaginea originală va fi lăsată intactă.<br /> Un pont: imaginea de bază nu poate fi redenumită sau mutată, imaginea suprapusă totdeauna îşi va aminti calea către imaginea de bază.</p>
 
 
 			<h4>Folosirea oricărei partiţii reale ca unică partiţie primară a unei imagini de Hard Disc</h4>
 
-				<p>Uneori , veţi dori să folosiţi una din partiţiile sistemului şi din interiorul qemu (de  exemplu , dacă vei vrea să porneşti şi sistemul real şi qemu folosind o anumită partiţie ca root ). Poţi face acest lucru folosind software RAID în linear mode (ai nevoie de  linear.ko kernel driver) şi un dispozitiv virtual (loopback device) : trucul este să ataşezi dinamic un master boot record (MBR) partiţiei reale pe care vrei să o incluzi în imaginea de disc qemu .</p>
+				<p>Uneori, veţi dori să folosiţi una din partiţiile sistemului şi din interiorul qemu (de  exemplu, dacă vei vrea să porneşti şi sistemul real şi qemu folosind o anumită partiţie ca root). Poţi face acest lucru folosind software RAID în linear mode (ai nevoie de  linear.ko kernel driver) şi un dispozitiv virtual (loopback device): trucul este să ataşezi dinamic un master boot record (MBR) partiţiei reale pe care vrei să o incluzi în imaginea de disc qemu.</p>
 
-				<p>Să presupunem că aveţi o partiţie nemontată , cu ceva fişiere pe ea ,  /dev/sdaN , pe care vreţi să o faceţi parte a imaginii de disc qemu . Mai întâi trebuie sa creaţi un mic fişier care să conţină MBR:</p>
+				<p>Să presupunem că aveţi o partiţie ne-mount-ată, cu ceva fişiere pe ea,  /dev/sdaN, pe care vreţi să o faceţi parte a imaginii de disc qemu. Mai întâi trebuie să creaţi un mic fişier care să conţină MBR:</p>
 <pre>
   dd if=/dev/zero of=/path/to/mbr count=32
 </pre>
-				<p>Aici , un fişier de 16 KB (32 * 512 bytes) este creat . Este important să nu fie făcut prea mic (chiar dacă MBR are nevoie doar de un singur block de 512 bytes ) , căci cu cât mai mic va fi cu atât mai mică va trebui să fie şi informaţia despre dispozitivul RAID  ceea ce va avea impact asupra performanţei . Apoi , veţi seta un dispozitiv virtual în fişierul MBR :</p>
+				<p>Aici este creat un fişier de 16 KB (32 * 512 bytes).<br /> Este important să nu fie făcut prea mic (chiar dacă MBR are nevoie doar de un singur block de 512 bytes), căci cu cât va fi mai mic cu atât mai mică va trebui să fie şi informaţia despre dispozitivul RAID  ceea ce va avea impact asupra performanţei. Apoi, veţi seta un dispozitiv virtual în fişierul MBR:</p>
 <pre>
  losetup -f /path/to/mbr
 </pre>
-				<p>Să presupunem că dispozitivul rezultat este /dev/loop0 , pentru că noi nu am folosit încă alte dispozitive virtuale . Următorul pas este să creăm imaginea de disc comună MBR+/dev/sdaN folosind  software RAID :</p>
+				<p>Să presupunem că dispozitivul rezultat este /dev/loop0. Pentru că noi nu am folosit încă alte dispozitive virtuale, următorul pas este să creăm imaginea de disc comună MBR+/dev/sdaN folosind  software RAID:</p>
 <pre>
 
   modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Rezultatul , /dev/md0 , este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator ) . Ultimul  ( şi cumva înşelător ) pas este să setezi configuraţia discului ( geometria discului şi tabela de partiţii ) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 ( un offset de exact 16 * 512 = 16384 bytes în acest exemplu ) . Faceţi acest lucru folosind fdisk de pe computerul gazdă , nu în emulator : din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca in sectiunea precedentă ) iar acestea nu pot fi interpretate de codul software RAID . De acolo , de pe computerul gazdă :</p>
+				<p>Rezultatul, /dev/md0, este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator).<br /> Ultimul  (şi cumva înşelător) pas este să setezi configuraţia discului (geometria discului şi tabela de partiţii) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 (un offset de exact 16 * 512 = 16384 bytes în acest exemplu). Faceţi acest lucru folosind 'fdisk' de pe computerul gazdă, nu în emulator: din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca în secțiunea precedentă) iar acestea nu pot fi interpretate de codul software RAID. De acolo, de pe computerul gazdă:</p>
 <pre>
   fdisk /dev/md0
 </pre>
-				<p>Creaţi o singură partiţie primară corespunzătoare /dev/sdaN , și jucaţi-vă cu comanda 's'ector din meniul 'x'pert până când primul cilindru ( de unde începe prima partiţie ) , se potriveşte cu mărimea din MBR . La sfârşit  folosiţi 'w'rite pentru a scrie rezultatul în fişier : asta e tot . Aveţi acum o partiţie pe care o puteţi monta şi de pe computerul gazdă şi care este parte a imaginii de disc qemu :</p>
+				<p>Creaţi o singură partiţie primară corespunzătoare /dev/sdaN, și jucaţi-vă cu comanda 's'ector din meniul 'x'pert până când primul cilindru (de unde începe prima partiţie), se potriveşte cu mărimea din MBR. La sfârşit  folosiţi 'w'rite pentru a scrie rezultatul în fişier: asta e tot. Aveţi acum o partiţie pe care o puteţi monta şi de pe computerul gazdă şi care este parte a imaginii de disc qemu:</p>
 <pre>
   qemu -hdc /dev/md0 [...]
 </pre>
 
-				<p>Puteţi , bineînţeles , seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare .</p>
+				<p>Puteţi, bineînţeles, seta orice bootloader pe imaginea de disc folosind qemu presupunând că partiţia originală  /boot/sdaN conţine uneltele necesare.</p>
 
 
 
 			<h4>Folosirea Modulului Accelerator QEMU</h4>
 
-				<p>Programatorii de qemu au creat un modul de kernel optional care accelerează qemu pană aproape a lucra în timp real . Acesta trebuie încărcat cu opţiunea :</p>
+				<p>Programatorii de qemu au creat un modul de kernel optional care accelerează qemu pană aproape a lucra în timp real. Acesta trebuie încărcat cu opţiunea:</p>
 <pre>
   major=0
 </pre>
-				<p>pentru a crea automat dispozitivul  /dev/kqemu cerut . Următoarea  comandă : </p>
+				<p>pentru a crea automat dispozitivul  /dev/kqemu cerut. Următoarea  comandă: </p>
 
 <pre>
   echo "options kqemu major=0" >> /etc/modprobe.conf
 </pre>
-				<p>Aceasta va schimba modprobe.conf pentru a se asigura că optiunea din modul va fi adaugată de fiecare dată când modulul este încărcat .</p>
+				<p>Aceasta va schimba modprobe.conf pentru a se asigura că optiunea din modul va fi adaugată de fiecare dată când modulul este încărcat.</p>
 
 <pre>
   qemu [...] -kernel-kqemu
 </pre>
-				<p>Aceasta va realiza virtualizarea completă care va îmbunătăţi considerabil viteza .</p>
+				<p>Aceasta va realiza virtualizarea completă care va îmbunătăţi considerabil viteza.</p>
 
 			<h4>Pentru a activa  qemu:</h4>
 
@@ -623,7 +631,7 @@ apt-get install qtemu
 
 
 	</div>
-			<div id="rev"> Page last revised 22/02/2010 0050 UTC</div>
+			<div id="rev"> Page last revised 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

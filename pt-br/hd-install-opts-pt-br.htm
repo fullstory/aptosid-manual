@@ -331,11 +331,10 @@ persist=/sidux/sidux-rw
 							<p>Usar <span class="highlight-3">persist</span> juntamente com outros cheatcodes específicos do sidux, como noxorgconf, nonetwork, resulta na não criação dos mesmos arquivos a cada novo reboot.</p>
 
 							<p>Usar persist também significa que você pode instalar pacotes pelo APT e ter aplicações e quaisquer dados salvos disponíveis para acesso quando seu computador for reiniciado.</p>
-
-				<h3>fromiso e persist em dispositivos USB ou cartões SSD</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso e persist em dispositivos USB ou cartões SSD</h2>
 							<p>Talvez o uso ideal da persistência seja em conjunção com a ferramenta install-usb-gui para criar sua própria pendrive inicializável com os arquivos e software que você desejar. Seus arquivos serão armazenados em uma subpasta no HD.</p>
-
-							<!--<p>Seus arquivos serão armazenados em uma subpasta em seu  HD. Esta subpasta será criada se ainda não existir quando os cheatcodes <span class="highlight-3">fromiso </span> e <span class="highlight-3">persist</span> forem usados juntos.</p>-->
 
 							<p><span class="highlight-3">persist</span> em um sistema de arquivos FAT, como é comum em instalações DOS/Windows 9x e geralmente encontrado por padrão em dispositivos flash, exige que você crie um único e grande arquivo para ser usado como dispositivo em loop, que você precisará também formatar.</p>
 
@@ -343,25 +342,30 @@ persist=/sidux/sidux-rw
 
 					<h6>Sistemas de arquivos ext2</h6>
 							<p>Com ext2 toda a partição será utilizada. Além disso, o root atual é aproveitado e um diretório /fll é criado para persistência; isso permite o uso de todo o espaço livre para o persist.</p>
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
 
 					<h6>Sistema de arquivos vfat</h6>
-							<p>Quando se usa vfat, a persistência é obtida através de um arquivo cujo tamanho máximo não pode ultrapassar 2GB (já o tamanho mínimo não pode ser inferior a 100MB, o que o tornaria inútil). Esse arquivo precisa ser nomeado <span class="highlight-3">sidux-rw</span>. Vamos supor que o disco que você pretende usar esteja montado e tenha permissão de escrita em /media/sdb1 e que você deseja criar um arquivo de 1GB para usar como drive de persistência: digite os seguintes comandos, como usuário (desde que você possa escrever no arquivo):</p>
+							<p>Quando se usa vfat, a persistência é obtida através de um arquivo cujo tamanho máximo não pode ultrapassar 2GB (já o tamanho mínimo não pode ser inferior a 100MB, o que o tornaria inútil). Esse arquivo precisa ser nomeado <span class="highlight-3">sidux-rw</span>.</p>
+
+					 <h4>Example of creating persist after initial installation</h4>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
+							<p>Set the size of the persist partition:</p>
+<pre>
+size=1024
+</pre>
+							<p>Make a directory on the stick:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Run the code to make the persist partition:</p>
+
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
 
 							<p class="highlight-2">Partições NTFS, geralmente usadas em instalações Windows NT/2000/XP (TM) NÃO PODEM ser usadas de forma nenhuma para persistência!!!</p>
 
@@ -387,6 +391,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	    <div class="divider" id="usb-from1">
 				<h3>Instalação fromiso em dispositivos USB/SSD, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Comece por formatar seu dispositivo USB com ext2 ou fat32, antes de prosseguir (mínimo de 2 GB de espaço). O dispositivo deve ter apenas uma partição e, como algumas BIOS são temperamentais, deve ser marcado como inicializável ('bootable').</span></p>
+
+							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
 
 							<p>A instalação <span class="highlight-3">fromiso</span> é feita a partir do <span class="highlight-3">Menu>Sistema>Instalar em USB</span>. Em um CD-Live, você também pode clicar no ícone <span class="highlight-3">sidux Installer</span> e escolher <span class="highlight-3">live-usbstick installer</span>.</p>
 
@@ -621,7 +627,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 22/02/2010 0050 UTC</div>
+	<div id="rev">Page last revised 05/03/2010 1335 UTC</div>
 
 </div>
 </body>

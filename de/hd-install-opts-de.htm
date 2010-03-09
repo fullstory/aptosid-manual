@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mon, 01 Feb 2010 14:04:00 +0000-->
+<!-- Last translation revision hubi Sat, 06 Mar 2010 12:31:54 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
 <!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
@@ -333,8 +333,9 @@ persist=/sidux/sidux-rw
 							<p>Die Verwendung von <span class="highlight-3">persist</span> gemeinsam mit anderen sidux spezifischen Bootoptionen wie noxorgconf oder nonetwork bedeutet, dass beim Booten nicht mehr der gleiche, unveränderte Datensatz aufgerufen wird.</p>
 
 							<p>persist bedeutet auch, dass man Programmpakete mittels apt installieren kann und die neuen Programme wie auch die geänderten Daten nach einem Neustart sofort wieder zur Verfügung stehen.</p>
-
-				<h3>fromiso und persist auf einem bootfähigen USB-sticks/SSD-cards</h3>
+	</div>
+	<div class="divider" id="persist-post">
+				<h2>fromiso und persist auf einem bootfähigen USB-sticks/SSD-cards</h2>
 							<p>Die vielleicht ideale Verwendung von persist ist mit install-usb-gui, womit ein eigener bootfähiger USB-Stick mit eigenen Daten und selbst gewählter Software erstellt werden kann. Die persönlichen Dateien werden auf dem USB-Gerät in einem Unterverzeichnis gespeichert.</p>
 
 							<p><span class="highlight-3">persist</span> auf einem FAT-Dateisystem (üblich für DOS/Windows9x und Standard auf Flash-Drives) bedarf der Erstellung einer großen Datei, welche als Loop-Gerät eingebunden wird. Diese Datei muss formatiert werden.</p>
@@ -344,27 +345,31 @@ persist=/sidux/sidux-rw
 					<h6>ext2 Dateisysteme</h6>
 							<p>Mit ext2 wird die ganze Partition verwendet. Das aktuelle Root-Verzeichnis wird verwendet und ein Verzeichnis /fll wird angelegt, welches den restlichen Speicherplatz für den persist-Modus zum Abspeichern der Daten verwendet.</p>
 
-<!--
-<pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux-rw"
-</pre>
--->
-
 					<h6>vfat Dateiystem</h6>
-							<p>Wenn vfat verwendet wird, wird der persist-Modus mittels einer Datei ermöglicht, die maximal 2GB groß sein kann, aber mindestens 100MB groß sein soll (weniger macht keinen Sinn). Diese Datei sollte  <span class="highlight-3">sidux-rw</span> benannt werden. Angenommen das zu verwendende Speichergerät ist schreibbar auf /media/sdb1 eingebunden und es soll eine Datei mit der Größe von 1GB für den persist-Modus angelegt werden, kann folgender Befehl verwendet werden (man muss nicht root sein):</p>
+							<p>Wenn vfat verwendet wird, wird der persist-Modus mittels einer Datei ermöglicht, die maximal 2GB groß sein kann, aber mindestens 100MB groß sein soll (weniger macht keinen Sinn). Diese Datei sollte  <span class="highlight-3">sidux-rw</span> </p>
+
+					 <h4>Beispiel, wie man persist nach erfolgter Installation setzt</h4>
+							<p>Wenn man nicht sicher ist, wie der Mount-Punkt heißt, wird der USB-Stick eingebunden und der Befehl <span class="highlight-3">ls -lh /media</span> ausgeführt, um eine Liste mit allen Mount-Punkten des Systems zu erhalten. Man schaut nach einem Eintrag wie <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Falls die Ausgabe anders lautet als <span class="highlight-3">"/media/disk"</span> in unserem Beispiel, muss die Zeile unseres Beispiels durch den wirklichen Mount-Punkt ersetzt werden (z.B. "/media/sdc1"):</p>
 
 <pre>
-disc="/media/sdb1"
-size=1024
-mkdir /media/sdb1/sidux
-dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y' | LANG=C /sbin/mkfs.ext2 ${disc}/sidux/sidux-rw &amp;&amp; tune2fs -c 0 "${disc}/sidux/sidux-rw"
+disk="/media/disk"
 </pre>
 
-							<p class="highlight-2">Mit NTFS formatierte Partitionen (Standard für Windows NT/2000/XP (TM)) können NICHT auf diese Weise benutzt werden.</p>
+							<p>Größe der persistenten Partition festlegen:</p>
+<pre>
+size=1024
+</pre>
+							<p>Erstellen eines Verzeichnisses:</p>
+<pre>
+mkdir $disk/sidux
+</pre>
+							<p>Erstellen der persistenten Partition:</p>
 
+<pre>
+dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
+</pre>
+
+							<p class="highlight-2">NTFS-Partitionen [das gebräuchliche Dateisystem von Windows-Installationen (NT/2000/XP) können NICHT für Persistenz verwendet werden.</p>
 	</div>
 	<div class="divider" id="usb-hd">
 		<h2>Installation von sidux auf USB-Stick/SSD-Karte</h2>
@@ -387,6 +392,8 @@ dd if=/dev/zero of=${disc}/sidux/sidux-rw bs=1M count=${size} &amp;&amp; echo 'y
 	    <div class="divider" id="usb-from1">
 				<h3>USB/SSD fromiso-Installation, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Der USB-Speicher wird mit ext2 oder fat32 (mindestens 2GB) vorformatiert. Er soll nur eine als bootfähig markierte Partition haben (einige BIOS verlangen das Bootfähig-Flag).</span></p>
+
+							<p>Falls ein Formatierungs-Tool mit einer graphischen Oberfläche wie gparted verwendet wird, löschen Sie bitte eine existierende Partition und erstellen Sie eine neue, bevor sie diese formatieren.</p>
 
 							<p><span class="highlight-3">fromiso</span> wird mittels <span class="highlight-3">Menü>System>install-sidux-to-usb</span> durchgeführt. Auf einer LIVE-CD kann man auch auf das <span class="highlight-3">sidux-Installer-Icon</span> klicken und <span class="highlight-3">Install to USB</span> wählen.</p>
 
@@ -620,7 +627,7 @@ qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
 
 	</div>
 	<div class="spacer05"></div>
-	<div id="rev">Content last revised 22/02/2010 0050 UTC</div>
+	<div id="rev">Content last revised 05/03/2010 1335 UTC</div>
 
 
 </div>

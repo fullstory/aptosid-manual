@@ -206,7 +206,10 @@
 <div id="main-page">
 	<div class="divider" id="kern-upgrade">
 			<h2 id="top-header">Installer les nouveaux noyaux</h2>
+<!--- ###
 					<h5><span class="highlight-3">The sidux kernels are in the sidux repo as a .deb and automatically included in a dist-upgrade.</span></h5>
+#### --->
+					<h5><span class="highlight-3">Les noyaus sidux sont disponibles dans les dépots comme fichiers .deb et automatiquement inclus dans les mises à jour.</span></h5>
 <div class="spacer01"></div>
 							<!--- ####
 							<p>The kernels  are available in the following forms:</p>
@@ -224,12 +227,12 @@
 					<!--- ####
 					<h5>Steps to do it manually without dist-upgrading are:</h5>
 					#### -->
-					<h5>Steps to do it manually without dist-upgrading are:</h5>
+					<h5>Etapes pour le faire manuellement sans la mise à jour:</h5>
 
 						<!--- ####
 						<p><b>1.</b> In a konsole switch to root:</p>
 						#### -->
-						<p><b>1.</b> Dans la console passez en mode Administrateur (su ou sux:</p>
+						<p><b>1.</b> Dans la console passez en mode Administrateur (su ou sux):</p>
 
 <pre>
 # apt-get update
@@ -286,6 +289,7 @@ cat /proc/modules
 </pre>
 	</div>
 		<div class="divider" id="dmakms">
+<!--- ####
 			<h2>Installing modules with Dynamic Module-Assistant Kernel Module Support (dmakms)</h2>
 
 							<p>dmakms is useful to install kernel modules that are not premade for the sidux kernel and is designed to automate the installation of kernel modules with module-assistant <span class="highlight-3">(m-a)</span> when upgrading or installing new Linux kernels.</p>
@@ -343,6 +347,64 @@ modprobe &lt;module&gt;
 							<p>On each boot, /etc/init.d/dmakms is run to discover if each module source package listed in /etc/default/dmakms has provided a module package for the running Linux kernel, calling module-assistant to build and install a module package as required.</p>
 
 							<p>When a new linux-image Debian package is installed, /etc/init.d/dmakms is executed via a postinst hook script with two arguments, 'start' and the 'version string' of the Linux kernel to prepare new module package(s) for. At this time, the module packages listed in the /etc/default/dmakms configuration file are processed with module-assitant, and derived module packages are scheduled for installation at shutdown time. <span class="highlight-3">The reason for installation to occur at shutdown time is because it is necessary to delay the installation until such a time that apt/dpkg are not locked by another process</span>.</p>
+#### --->
+			<h2>Installer les modules avec le support du module de noyau module-assistant dynamique (dmakms)</h2>
+
+							<p>dmakms est utile pour installer les modules du noyau qui n'ont pas été préparés pour le noyau sidux et qui sont destinés à automatiser l'installation des modules du noyau avec module-assistant <span class="highlight-3">(m-a)</span> en faisant une mise à jour ou en installant un nouveau noyau Linux.</p>
+
+<pre>
+apt-get install dmakms module-assistant
+</pre>
+							<p>Avant d'activer le support du module de noyau module-assistant dynamique, tout d'abord utiliser module-assistant pour installer les modules du noyau désiré sur le noyau actuellement utilisé. pour plus d'informations sur module-assistant lisez s'il vous plait le manuel:</p>
+<pre>
+man m-a
+</pre>
+
+							<p>Il faut ajouter le nom du paquet module-assistant compatible au <span class="highlight-3">/etc/default/dmakms</span>, afin que le processus de préparation et d'installation des mêmes modules pour chaque nouveau noyau soit automatisé.</p>
+
+				<h4>Exemple: Installer <span class="highlight-3">speakup module</span> avec module-assistant</h4>
+							<p>Assurez vous que votre liste de sources contient ou ajouter les sources <span class="highlight-3">contrib non-free</span> dans votre: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
+<pre>
+apt-cache search speakup-s
+speakup-source - Source of the speakup kernel modules
+</pre>
+
+							<p>Ensuite preparer le module:</p>
+<pre>
+m-a prepare
+m-a a-i speakup-source
+</pre>
+							<p>par la suite activer le support du module de noyau module-assistant dynamique pour speakup, afin qu'à la prochaine mise à jour du noyau le module speakup soit automatiquement ajouté. Pour le faire, ajouter <span class="highlight-3">speakup-source</span> au fichier de configuration <span class="highlight-3">/etc/default/dmakms </span>. </p>
+<pre>
+mcedit /etc/default/dmakms
+speakup-source
+</pre>
+
+							<p>Repeter le même pocessus tour tout autre paquet du noyau compatible avec module-assistant.</p>
+
+							<p>Un paquet linux-headers doit être installé afin de compiler les modules du noyau pour chaque paquet linux-image avec module-assistant.</p>
+
+					<h4>Echec de chargement du module</h4>
+
+							<p>Au cas ou le chargement du module échoue, pour quelle que raison que ce soit [new xorg component, probleme du systeme de fichier ou si X ne se lance pas au redémarrage] :</p>
+<pre>
+modprobe &lt;module&gt;
+</pre>
+							<p>Redémarrer l'ordinateur.</p>
+
+							<p>Si le module échoue toujours:</p>
+ <pre>
+ m-a a-i -f module-source
+</pre>
+							<p>Ceci reconstruit le module <span class="highlight-3">ensuite redémarrer.</span></p>
+
+			 <h5> Comment ça marche</h5>
+
+							<p>Le support du module de noyau module-assistant dynamique consiste à ce qu'en un seul initscript (/etc/init.d/dmakms) qui s'exécute au démarrage ou par un script généré après l'installation du nouveau paquet debian linux-image.</p>
+
+							<p>A chaque démarrage, /etc/init.d/dmakms est lancé afin de vérifier si chaque paquet des modules listés dans le /etc/default/dmakms est disponible pour le noyau démarré, ammenant le module-assistant à construire et installer le paquet du module requis.</p>
+
+							<p>Lorsqu'un nouveau paquet debian linux-image est installé, /etc/init.d/dmakms est exécuté via un script postinst hook avec 2 arguments, 'start' et 'version string' du noyau linux pour preparer le nouveau paquet du module requis. En ce moment, les paquets du module listés dans le fichier de configuration /etc/default/dmakms sont lancés avec module-assitant, et les paquet modulaires dérivés sont programmés pour installation à l'arrêt. <span class="highlight-3">Cela parce qu'il est néccesaire que apt/dpkg ne soient pas vérouillés par un autre processus</span>.</p>
 
 <pre>
 $ /usr/share/doc/dmakms

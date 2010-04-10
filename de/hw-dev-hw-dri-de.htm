@@ -18,7 +18,7 @@
         <![endif]-->
 </head>
 <body>
-<!--last translation revision by hubi Mon, 15 Mar 2010 14:22:06 +0000 -->
+<!--last translation revision by hubi Thu, 08 Apr 2010 14:33:22 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintainers hubi -->
 <!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
 <!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
@@ -230,23 +230,25 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p><a href="http://www.debian.org/mirrors/">Liste der aktuell verfügbaren Debian-Server und deren Spiegelserver</a>.</p>
 	</div>
 	<div class="divider" id="foss-xorg">
-			<h2>Open Source Xorg-Treiber für nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
+			<h2>Open Source Xorg-Treiber für nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
 
 							<p>Open Source Xorg-Treiber für nVidia, ATI, Radeon und Intel sind mit sidux vorinstalliert.</p>
 
 							<p>Die 2D- und 3D-Grafikbeschleunigung sollte mit Intel-Treiber ohne Probleme funktionieren. Diese Funktionalität ist in die freie Intel-Serien inkludiert.</p>
 
-							<p><span class="highlight-3">Anmerkung: xorg.conf wird für Open-Source-Treiber in der Regel nicht benötigt. Falls - aus welchen Gründen immer - eine xorg.conf angelegt werden soll, startet man in einem Terminal:</span></p>
-
+							<p><span class="highlight-3">Anmerkung: xorg.conf wird für Open-Source-Treiber in der Regel nicht benötigt. Falls - aus welchen Gründen immer - eine xorg.conf angelegt werden soll, startet man in einem Terminal:</span>:</p>
 <pre>
+apt-get update
+apt-get install xorg
 X -configure
 </pre>
 							<p>Dieser Befehl kreiert eine xorg.conf, legt sie im /root-Verzeichnis mit der Bezeichnung <span class="highlight-3">xorg.conf.new</span> ab. Sie enthält die wesentlichen Informationen. Als nächstes muss sie verschoben und umbenannt werden:</p>
 <pre>
-mv /root/xorg.conf.new /etc/X11/xorg.conf
+mkdir /etc/X11/xorg.conf.d
+mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
 </pre>
 
-							<p>Um <span class="highlight-3">/etc/X11/xorg.conf</span> zu bearbeiten, muss sie mit Rootrechten geöffnet werden. Im Abschnitt <span class="highlight-1">Section "Device"</span> wird der Treiber in der Zeile "Driver" abgeändert auf <span class="highlight-2">nv</span> ODER <span class="highlight-2">radeon</span> ODER <span class="highlight-2">intel</span> (um nur einige zu nennen).</p>
+							<p>Falls man von einem proprietären Treiber auf einen freien Treiber wechseln möchte, ändert man als root mit einem Texteditor die Datei <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span>. Im Bereich SECTION DEVICE wird der Treiber zu <span class="highlight-2">nv</span> ODER <span class="highlight-2">radeon</span> ODER <span class="highlight-2">intel</span> geändert (um einige Beispiele zu nennen).</p>
 
 							<p class="highlight-2">Ein Bearbeiten der Datei xorg.conf geschieht auf eigenes Risiko!</p>
 
@@ -256,21 +258,36 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms &amp; xorg.conf</h2>
+		<h2>Binäre, nicht quelloffene Treiber für nVidia mit dmakms &amp; Xorg</h2>
 
-							<p><span class="highlight-2">Da xorg.conf im allgemeinen nicht benötigt wird, außer wenn proprietäre Grafiktreiber verwendet werden, müssen Neuinstallationen</span> eine Datei <span class="highlight-3">xorg.conf </span> in <span class="highlight-3">/etc/X11</span> haben. Falls diese nicht existiert, erstellt man eine <span class="highlight-4">temporäre</span> Datei <span class="highlight-4">xorg.conf</span> im eigenen $home mit folgendem Inhalt:</p>
+							<p><span class="highlight-2">Xorg ist nicht unbedingt nötig, außer man möchte proprietäre Grafiktreiber benutzen:</p>
 
 <pre>
-# /etc/X11/xorg.conf (Xorg X Window System server configuration file)
-# Edit this file with caution, and see the xorg.conf(5) manual page.
-# (Type "man xorg.conf" at the shell prompt.)
+apt-get update
+apt-get install xorg
+</pre>
+							<p>Für eine komplette und aktuelle Lister unterstützter Grafikchips konsultieren Sie bitte "Supported Products List" auf der <a href="http://www.nvidia.com/object/unix.html"> Downloadseite für NVIDIA-Linux Grafiktreiber</a>.</p>
+
+							<p>Weitere Optionen findet man in <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a>.</p>
+
+							<p>Es muss auf allen Installationen</span> sichergestellt sein, dass <span class="highlight-3">xorg.conf.d </span> im Verzeichnis <span class="highlight-3">/etc/X11</span> existiert und eine Datei mit der Bezeichnung <span class="highlight-3">15-nvidia.conf</span> existiert.</p>
+<pre>
+mv /etc/X11/xorg.conf /etc/X11/xorg.old
+mkdir /etc/X11/xorg.conf.d
+touch /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>Die Datei wird mit einem Texteditor geöffnet:</p>
+
+<pre>
+&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>und man kompiert folgenden Code in diese Datei (15-nvidia.conf):</p>
+<pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-
-# WICHTIG! Diese Kommentarzeile ist notwendig, damit EndSection nicht die letzte Zeile ist!
 </pre>
 							<p>Bei Verwendung von mehr als einer Grafikkarte muss die PCI bestimmt und in xorg.conf eingefügt werden:</p>
 <pre>
@@ -311,25 +328,26 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Danach ändert man xorg.conf:</p>
-<pre>
-sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
-</pre>
-						      <p>Der PC muss neu gestartet werden, damit die Modulinstallation vollendet wird.</p>
+							<p>Der PC muss neu gestartet werden, damit die Modulinstallation vollendet wird.</p>
 
-						      <p>Nach einer Aktualisierung von xorg muss nur nvidia-glx neu installiert werden:</p>
+							<p>Nach einer Aktualisierung von xorg muss nur nvidia-glx neu installiert werden:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>Vorgehen, wenn ein neuer Nvidia-Treiber in Debian Sid via apt zur Verfügung steht:</p>
+							<p>Vorgehen, wenn ein neuer Nvidia-Treiber in Debian Sid via apt zur Verfügung steht:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
-						      <p>Ein Neustart des PCs ist erforderlich, damit das neue Modul verwendet wird.</p>
+							<p>Ein Neustart des PCs ist erforderlich, damit das neue Modul verwendet wird.</p>
 
-					<h5>Legacy 3D-Treiber von Nvidia für Karten &ge; GeForce 5xxx :</h5>
+					      <h4>Debian-Benennungskonvention für Legacy-Treiber</h4>
+						  <ul>
+						      <li>legacy-71xx: GeForce 2</li> <li>legacy-96xx: GeForce 4</li> <li>legacy-173x: GeForce 5</li>
+						  </ul>
+
+					<h5>Beispiel für 3D Nvidia Legacy-Treiber für &le; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
@@ -366,8 +384,6 @@ modprobe nvidia
 $ /usr/share/doc/dmakms
 </pre>
 
-							   <p>Weitere Optionen findet man in <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a>.</p>
-
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon und weitere Grafiktreiber</h2>
@@ -384,6 +400,12 @@ $ /usr/share/doc/dmakms
 apt-get install firmware-linux
 </pre>
 							<p>Im Anschluss muss der Computer neu gestartet werden.</p>
+
+							<p>Falls xorg benötigt wird:</p>
+<pre>
+apt-get update
+apt-get install xorg
+</pre>
 
 		</div>
 	<div class="divider" id="non-free-firmware">
@@ -1105,7 +1127,7 @@ exit  ## mit diesem Befehl wird die Konsole verlassen
 							Aber noch einmal unsere Warnung: <i>Dieses Vorgehen ist für Situationen gedacht, für die es keine anderen Lösungsmöglichkeiten gibt. Für die tägliche Routinenutzung es nicht empfohlen!</i></p>
 
 		</div>
-	<div id="rev">Page last revised 22/03/2010 1430 UTC</div>
+	<div id="rev">Page last revised 08/04/2010 1000 UTC</div>
 
 </div>
 </body>

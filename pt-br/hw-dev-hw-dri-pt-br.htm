@@ -229,7 +229,7 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p><a href="http://www.debian.org/mirrors/">Listagem dos servidores Debian e status atual dos espelhos ('mirrors')</a>.</p>
 	</div>
 	<div class="divider" id="foss-xorg">
-			<h2>Os drivers Xorg de código aberto para nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
+			<h2>Os drivers Xorg de código aberto para nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
 
 							<p>Drivers Xorg de código aberto para nVidia, ATI, Radeon e Intel vêm pré-instalados no sidux.</p>
 
@@ -237,14 +237,17 @@ deb http://sidux.com/debian/ sid main fix.main
 
 							<p><span class="highlight-3"> Nota: os drivers livres geralmente não necessitarm do xorg.conf. Se esse arquivo não existir e você precisar dele por algum motivo, digite em um terminal, como root:</span></p>
 <pre>
+apt-get update
+apt-get install xorg
 X -configure
 </pre>
 							<p>Este comando cria um arquivo xorg.conf, com as informações essenciais, coloca-o no diretório /root e o nomeia como <span class="highlight-3">xorg.conf.new</span>. O próximo passo é movê-lo e renomeá-lo:</p>
 <pre>
-mv /root/xorg.conf.new /etc/X11/xorg.conf
+mkdir /etc/X11/xorg.conf.d
+mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
 </pre>
 
-							<p>Para editá-lo, clique nele com o botão direito e abra-o como root (você pode fazer isso pelo teclado também, é claro). Encontre o texto SECTION DEVICE e mude o driver para <span class="highlight-2">nv</span> OU <span class="highlight-2">radeon</span> OU <span class="highlight-2">intel</span> (só para citar alguns).</p>
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
 							<p class="highlight-2">A edição do xorg.conf é totalmente por sua conta e risco!!!</p>
 
@@ -254,21 +257,36 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Drivers binários de código fechado para nVidia, com dmakms &amp; xorg.conf</h2>
+		<h2>Drivers binários de código fechado para nVidia, com dmakms &amp; Xorg</h2>
 
-							<p><span class="highlight-2">Como o xorg.conf geralmente não é necessário, exceto se você tiver a intenção de rodar drivers de vídeo de código fechado, novas instalações</span> precisam ter certeza de que o arquivo <span class="highlight-3">xorg.conf </span> existe em <span class="highlight-3">/etc/X11</span>. Se não existir, crie um arquivo <span class="highlight-4">temporário</span> em sua $home com o nome de <span class="highlight-4">xorg.conf</span> e copie o seguinte nele:</p>
+							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
 
 <pre>
-# /etc/X11/xorg.conf (Xorg X Window System server configuration file) ('Arquivo de configuração do Xorg')
-# Edit this file with caution, and see the xorg.conf(5) manual page. ('Edite este arquivo com cuidado e veja a página de manual do xorg.conf (5)')
-# (Type "man xorg.conf" at the shell prompt.) ('Digite "man xorg.conf" no prompt do terminal')
+apt-get update
+apt-get install xorg
+</pre>
+							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+
+							<p>Você também pode ler <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> para outras opções.</p>
+
+							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+<pre>
+mv /etc/X11/xorg.conf /etc/X11/xorg.old
+mkdir /etc/X11/xorg.conf.d
+touch /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>With your favourite text editor:</p>
+
+<pre>
+&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+<pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-
-# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
 							<p>Se você tiver mais de uma placa de vídeo, será necessário descobrir o PCI e incluí-lo no arquivo xorg.conf:</p>
 <pre>
@@ -311,25 +329,26 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Em seguida, altere o arquivo xorg.conf:</p>
-<pre>
-sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
-</pre>
-						      <p>Reinicie seu PC para que a instalação do módulo faça efeito.</p>
+							<p>Reinicie seu PC para que a instalação do módulo faça efeito.</p>
 
-						      <p>Quando o Xorg for atualizado, você vai precisar somente de reinstalar nvidia-glx:</p>
+							<p>Quando o Xorg for atualizado, você vai precisar somente de reinstalar nvidia-glx:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>Quando um novo driver da nVidia estiver disponível:</p>
+							<p>Quando um novo driver da nVidia estiver disponível:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reinicie sua máquina para que a instalação do módulo faça efeito.</p>
 
-					<h5>Para os drivers nVidia legados &ge; GeForce 5xxx :</h5>
+					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+						  <ul>
+						      <li>legacy-71xx is for GeForce 2</li> <li>legacy-96xx is for GeForce 4</li> <li>legacy-173xx is for GeForce 5</li>
+						  </ul>
+
+					<h5>Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
@@ -366,8 +385,6 @@ modprobe nvidia
 $ /usr/share/doc/dmakms
 </pre>
 
-							   <p>Você também pode ler <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> para outras opções.</p>
-
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon e outros drivers de vídeo</h2>
@@ -384,6 +401,12 @@ $ /usr/share/doc/dmakms
 apt-get install firmware-linux
 </pre>
 							<p>Então, reinicie o computador.</p>
+
+							<p>If you have a requirement for xorg:</p>
+<pre>
+apt-get update
+apt-get install xorg
+</pre>
 
 		</div>
 
@@ -1105,7 +1128,7 @@ Para sair do terminal, digite: exit
 							<p>Agora seu volume NTFS deve estar montado <b>rw</b> e você será capaz de armazenar dados nele. Repetimos, porém: <span class="highlight-3">use apenas em situações emergenciais, NUNCA no dia-a-dia!!!</span></p>
 
 		</div>
-		<div id="rev">Page last revised 22/03/2010 1430 UTC</div>
+		<div id="rev">Page last revised 08/04/2010 1000 UTC</div>
 
 </div>
 </body>

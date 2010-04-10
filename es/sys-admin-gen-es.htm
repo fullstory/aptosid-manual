@@ -230,7 +230,7 @@
 							<p>Para evitar que un servicio arranque al inicio</p>
 <pre>
 update-rc.d &lt;service&gt; remove
-[will remove all startup links]
+[quitará los enlaces de arranque]
 </pre>
 							<p>Para asegurarse de que un servicio arranque al iniciar el sistema [no siempre es requerido]</p>
 <pre>
@@ -278,7 +278,7 @@ bum
 <pre>
 pkill -n service
 </pre>
-						<p>Si no esta seguro de como deletrear el proceso o servicio que desea matar: <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> da una lista </p>
+						<p>Si no esta seguro de cómo deletrear el proceso o servicio que desea matar: <span class="highlight-3">pkill &lt;tab&gt; &lt;tab&gt;</span> da una lista </p>
 
 						<p>htop es una alternativa muy buena. (Intente: killall -1 primero; killall -9 es el último recurso).</p>
 
@@ -286,25 +286,62 @@ pkill -n service
 	<div class="divider" id="init">
 			<h2>sidux Niveles de Ejecución - init</h2>
 							<p>Esta es la lista de runlevels para el sistema operativo *sidux*. Dese cuenta de que es diferente de los runlevels de Debian estable:</p>
+		 <table>
+			<tbody>
+				<tr>
+					<th>Runlevel</th>
+					<th>sidux</th>
+					<th>Debian</th>
+				</tr>
+				<tr>
+					<td><b>init 0</b></td>
+					<td> Apaga el PC</td>
+					<td> Apaga el PC</td>
+				</tr>
+				<tr>
+					<td><b>init 1</b></td>
+					<td>Un solo usuario en modo seguro. Los demonios como apache y sshd paran. No vaya a este nivel a través de un acceso remoto.</td>
+					<td>Un solo usuario en modo seguro. Los demonios como apache y sshd paran. No vaya a este nivel a través de un acceso remoto.</td>
+				</tr>
+				<tr>
+					<td><b>init 2</b></td>
+					<td> Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</td>
+					<td>Runlever predeterminado de Debian para modo multi-usuario con funcionamiento de la red y corriendo el sistema X-windows.</td>
+				</tr>
+				<tr>
+					<td><b>init 3</b></td>
+					<td> Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X   <a href="sys-admin-apt-es.htm#apt-upgrade">Aquí es donde hay que hacer dist-upgrade</a>.</td>
+					<td> Igual que runlevel 2 / init 2.</td>
+				</tr>
+				<tr>
+					<td><b>init 4</b></td>
+					<td>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</td>
+					<td> Igual que runlevel 2 / init 2.</td>
+				</tr>
+				<tr>
+					<td><b>init 5</b></td>
+					<td>Modo multi-usuario con funcionamiento de la red, funcionando el servidor de ventanas X, para arrancar o entrar en el servidor X.</td>
+					<td>Igual que runlevel 2 / init 2.</td>
+				</tr>
+				<tr>
+					<td><b>init 6</b></td>
+					<td> Vuelve a arrancar (reboot) el sistema.</td>
+					<td> Vuelve a arrancar (reboot) el sistema.</td>
+				</tr>
+				<tr>
+					<td><b>init S</b></td>
+					<td> Aquí los servicios de arranque se ejecutan en modo 'solo una vez'. No se puede entrar después de haber arrancado.aquí los servicios de arranque se ejecutan en modo 'solo una vez'. No se puede entrar después de haber arrancado.</td>
+					<td>Aquí los servicios de arranque se ejecutan en modo 'solo una vez'. No se puede entrar después de haber arrancado.</td>
+				</tr>
+			</tbody>
+		</table>
 
-						<ul>
-							<li><span class="highlight-3">runlevel 0 </span> apaga el PC.</li>
+      <div class="spacer02"></div>
+							<p>De lectura obligada para cualquier administrador de sistemas sidux y Debian con respecto a los niveles de ejecución:</p>
+<pre>
+man init
+</pre>
 
-							<li><span class="highlight-3">runlevel 1</span> un solo usuario en modo seguro. Los demonios como apache y sshd paran. No vaya a este nivel a través de un acceso remoto.</li>
-
-							<li><span class="highlight-3">runlevel 2 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</li>
-
-							<li><span class="highlight-3">runlevel 3 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X (es en este nivel donde funcionan los dist-upgrades).</li>
-
-							<li><span class="highlight-3">runlevel 4 </span>Modo multi-usuario con funcionamiento de la red, sin que funcione el servidor de ventanas X, para parar o no entrar en el servidor X</li>
-
-							<li><span class="highlight-3">runlevel 5 </span>Modo multi-usuario con funcionamiento de la red, funcionando el servidor de ventanas X, para arrancar o entrar en el servidor X.</li>
-
-							<li><span class="highlight-3">runlevel 6 </span>autoarranque.</li>
-
-							<li><span class="highlight-3">runlevel S </span> aquí los servicios de arranque se ejecutan en modo 'solo una vez'. No se puede entrar después de haber arrancado.</li>
-
-						</ul>
 	</div>
 	<div class="divider" id="pw-lost">
 		<h2>Claves de root perdidas</h2>
@@ -433,7 +470,7 @@ alsactl store
 
 	</div>
 
-			<div id="rev">Content last revised 06/01/2010 0305 UTC </div>
+			<div id="rev">Content last revised 02/04/2010 0430 UTC </div>
 
 </div>
 </body>

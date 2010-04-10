@@ -235,8 +235,8 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p><a href="http://www.debian.org/mirrors/">Λίστα με τους διακομιστές του Debian και την κατάσταση τους</a>.</p>
 	</div>
 	<div class="divider" id="foss-xorg">
-			<!--h2>Open Source Xorg  drivers for nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>-->
-			<h2>Ανοικτού κώδικα Xorg οδηγοί για nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
+			<!--h2>Open Source Xorg  drivers for nVidia, ATI, Radeon, Intel &amp; Xorg</h2>-->
+			<h2>Ανοικτού κώδικα Xorg οδηγοί για nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
 
 							<!--p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. </p-->
 							<p>Οι ανοικτού κώδικα Xorg οδηγοί για nVidia, ATI, Radeon, Intel, είναι προ-εγκατεστημένοι στο sidux.</p>
@@ -245,18 +245,21 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p>Οι Intel οδηγοί θα πρέπει να δουλεύουν τέλεια για 2D και 3D video επιτάχυνση μιας και οι οδηγοί συμπεριλαμβάνονται μέσα στην Intel free series.</p>
 
 							<!--p><span class="highlight-3"> Note: xorg.conf is not generally needed for open source drivers. If xorg.conf does not exist, and you require it to be present for some reason, in a terminal run:</span></p-->
-							<p><span class="highlight-3">Σημείωση: xorg.conf is not generally needed for open source drivers. Εάν το xorg.conf δεν υπάρχει, και εσείς το χρειάζεστε για κάποιο λόγο, μέσα σε ένα τερματικό τρέξτε:</span></p>
+							<p><span class="highlight-3">Σημείωση: xorg.conf is not generally needed for open source drivers. Εάν το xorg.conf δεν υπάρχει, και εσείς το χρειάζεστε για κάποιο λόγο, μέσα σε ένα τερματικό τρέξτε:</span>:</p>
 <pre>
+apt-get update
+apt-get install xorg
 X -configure
 </pre>
 							<!--p>This command writes an xorg.conf and places it in /root directory and names it <span class="highlight-3">xorg.conf.new</span> and contains the essential information. Next step is move and rename it:</p-->
 							<p>Η εντολή αυτή γράφει ένα xorg.conf και το τοποθετεί μέσα στον /root κατάλογο και του δίνει το όνομα <span class="highlight-3">xorg.conf.new</span> και περιέχει τις κατάλληλες πληροφορίες. Επόμενο βήμα είναι η μεταφορά και αλλαγή ονόματος του:</p>
 <pre>
-mv /root/xorg.conf.new /etc/X11/xorg.conf
+mkdir /etc/X11/xorg.conf.d
+mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
 </pre>
 
-							<!--p>To edit /etc/X11/xorg.conf, open it in an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p-->
-							<p>Για να επεξεργαστείτε το /etc/X11/xorg.conf, ανοίξτε το με δικαιώματα υπερχρήστη μέσα σε ένα επεξεργαστή κειμένου. Βρείτε το τμήμα που αναγράφει SECTION DEVICE (ΤΜΗΜΑ ΣΥΣΚΕΥΗΣ) και αλλάξτε τον οδηγό γραφικών ώστε να αναγράφει <span class="highlight-2">nv</span> Ή <span class="highlight-2">radeon</span> Ή <span class="highlight-2">intel</span> (αυτές είναι μερικές από τις επιλογές που υπάρχουν).</p>
+							<!--p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p-->
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
 							<!--p class="highlight-2">Editing xorg.conf is entirely at your own risk!!</p-->
 							<p class="highlight-2">Επεξεργαστείτε το xorg.conf με δική σας ευθύνη!!</p>
@@ -267,23 +270,36 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<!--h2>Binary, closed source drivers for: nVidia with dmakms &amp; xorg.conf</h2-->
-		<h2>Binary, κλειστού κώδικα οδηγοί για : nVidia με dmakms &amp; xorg.conf</h2>
+		<!--h2>Binary, closed source drivers for: nVidia with dmakms &amp; Xorg</h2-->
+		<h2>Binary, κλειστού κώδικα οδηγοί για : nVidia με dmakms &amp; Xorg</h2>
 
-							<!--p><span class="highlight-2">As xorg.conf is not generally needed, except if intending to run closed source video/graphic drivers, new installs</span> will need to ensure that <span class="highlight-3">xorg.conf </span> exists in <span class="highlight-3">/etc/X11</span>. If it does not exist, create a <span class="highlight-4">temporary</span> file in your $home called <span class="highlight-4">xorg.conf.dmakms</span> and copy into it the following:</p-->
-							<p><span class="highlight-2">As xorg.conf is not generally needed, except if intending to run closed source video/graphic drivers, new νέες εγκαταστάσεις</span> θα πρέπει να σιγουρευτείτε ότι το <span class="highlight-3">xorg.conf</span> υπάρχει μέσα στο <span class="highlight-3">/etc/X11</span>. Εάν δεν υπάρχει, δημιουργείστε ένα <span class="highlight-4">προσωρινό</span> αρχείο μέσα στο $home σας με τίτλο <span class="highlight-4">xorg.conf</span> και βάλτε μέσα τα ακόλουθα:</p>
+							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
 
 <pre>
-# /etc/X11/xorg.conf (Xorg X Window System server configuration file)
-# Edit this file with caution, and see the xorg.conf(5) manual page.
-# (Type "man xorg.conf" at the shell prompt.)
+apt-get update
+apt-get install xorg
+</pre>
+							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+
+							<!--p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p-->
+							<p>Μπορείτε επίσης να διαβάσετε <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> για άλλες επιλογές.</p><p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+<pre>
+mv /etc/X11/xorg.conf /etc/X11/xorg.old
+mkdir /etc/X11/xorg.conf.d
+touch /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>With your favourite text editor:</p>
+
+<pre>
+&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+<pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-
-# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
 							<!--p>If you have more than one graphics card you will need ascertain the PCI and to include it in the xorg.conf:</p-->
 							<p>Εάν έχετε περισσότερες από μια κάρτες, θα πρέπει να βρείτε το PCI και να το συμπεριλάβεται στο xorg.conf:</p>
@@ -334,26 +350,20 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-
-							<p>Μετά αλλάξτε το xorg.conf:</p>
-
-<pre>
-sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
-</pre>
-						      <!--p>Reboot PC for installation of the module to take effect.</p-->
-						      <p>Επανεκκινήστε τον υπολογιστή για να τελειώσει η εγκατάσταση του module.</p>
+							<!--p>Reboot PC for installation of the module to take effect.</p-->
+							<p>Επανεκκινήστε τον υπολογιστή για να τελειώσει η εγκατάσταση του module.</p>
 
 
 
-						      <!--p>When xorg updates you only need to reinstall nvidia-glx:</p-->
-						      <p>Σε περίπτωση αναβάθμισης μόνο του xorg, χρειάζεται μόνο να εγκαταστήσετε το nvidia-glx:</p>
+							<!--p>When xorg updates you only need to reinstall nvidia-glx:</p-->
+							<p>Σε περίπτωση αναβάθμισης μόνο του xorg, χρειάζεται μόνο να εγκαταστήσετε το nvidia-glx:</p>
 
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <!--p>When a new Debian sid nvidia driver becomes available thru apt:</p-->
-						      <p>Όταν διατείθετε ένας νέος Debian sid nvidia οδηγός μέσω του apt:</p>
+							<!--p>When a new Debian sid nvidia driver becomes available thru apt:</p-->
+							<p>Όταν διατείθετε ένας νέος Debian sid nvidia οδηγός μέσω του apt:</p>
 
 <pre>
 m-a a-i nvidia-kernel-source
@@ -362,8 +372,13 @@ apt-get install --reinstall nvidia-glx
 						      <!--p>Reboot PC for installation of the module to take effect.</p-->
 						      <p>Επανεκκινήστε το PC για να τελειώσει η εγκατάσταση.</p>
 
-					<!--h5>For legacy 3d nvidia drivers &ge; GeForce 5xxx :</h5-->
-					<h5>Για legacy 3d nvidia οδηγούς &ge; GeForce 5xxx :</h5>
+					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+						  <ul>
+						      <li>legacy-71xx is for GeForce 2</li> <li>legacy-96xx is for GeForce 4</li> <li>legacy-173xx is for GeForce 5</li>
+						  </ul>
+
+					<!--h5>Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5-->
+					<h5>Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
@@ -406,9 +421,6 @@ modprobe nvidia
 $ /usr/share/doc/dmakms
 </pre>
 
-							  <!--p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p-->
-							  <p>Μπορείτε επίσης να διαβάσετε <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> για άλλες επιλογές.</p>
-
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon και άλλοι οδηγοί video</h2>
@@ -429,6 +441,12 @@ apt-get install firmware-linux
 </pre>
 							<!--p>Then reboot the computer.</p-->
 							<p>Μετά επανεκκινήστε τον υπολογιστή.</p>
+
+							<p>If you have a requirement for xorg:</p>
+<pre>
+apt-get update
+apt-get install xorg
+</pre>
 
 		</div>
 
@@ -1161,7 +1179,7 @@ mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
 							<p>Τώρα η NTFS-κατάτμηση θα πρέπει να είναι προσαρτημένη (mounted) <b>rw</b> και θα πρέπει να μπορείτε να αποθηκεύσετε τα δεδομένα σας σε αυτή. Αλλά ξανά προ ειδοποιήστε  <span class="highlight-3">Χρησιμοποιήστε το σε επείγουσες καταστάσεις, δεν συνιστάται για χρήση επί καθημερινής βάσεως.</span></p>
 
 		</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 22/03/2010 1430 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 08/04/2010 1000 UTC</div>
 
 </div>
 </body>

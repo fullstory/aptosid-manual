@@ -210,9 +210,9 @@
 							<p class="highlight-3">O distribuție sidux live-ISO distribuie doar dfsg-free software (programe complet libere).</p>
 	</div>
 	<div class="divider" id="non-free">
-			<h2>Sources List</h2>
+			<h2>Listele cu Surse</h2>
 
-							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi <span class="highlight-3">contrib non-free</span> la    <span class="highlight-3"> /etc/apt/sources.list.d/debian.list și /etc/apt/sources.list.d/sidux.list.</span> Your lines should now look something like this, depending on your choice of mirror:</p>
+							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi <span class="highlight-3">contrib non-free</span> la <span class="highlight-3"> /etc/apt/sources.list.d/debian.list și /etc/apt/sources.list.d/sidux.list.</span> Liniile voastre ar trebui să arate cam așa, depinzând de locația aleasă (.de; .at; ...):</p>
 <pre>
 # Debian
 deb http://ftp.de.debian.org/debian unstable main contrib non-free
@@ -229,7 +229,7 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p><a href="http://www.debian.org/mirrors/">Lista Serverelor Debian  și statutul locațiilor curente </a>.</p>
 	</div>
 	<div class="divider" id="foss-xorg">
-			<h2>Drivere open-source Xorg pentru nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
+			<h2>Drivere open-source Xorg pentru nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
 
 							<p>Drivere open-source Xorg pentru nVidia, ATI, Radeon, Intel sunt preinstalate cu sidux.</p>
 
@@ -237,39 +237,57 @@ deb http://sidux.com/debian/ sid main fix.main
 
 							<p><span class="highlight-3"> Note: xorg.conf nu este în general necesar pentru driverele open source. Dacă xorg.conf nu există și doriți să fie prezent din diferite motive rulați într-un terminal:</span></p>
 <pre>
+apt-get update
+apt-get install xorg
 X -configure
 </pre>
-							<p>Această comandă scrie un fișier xorg.conf, plasat în directorul /root și numit <span class="highlight-3">xorg.conf.new</span> conținând informațiile esențiale. Următorul pas este să-l mutăm și să-l redenumim:</p>
+							<p>Această comandă scrie un fișier xorg.conf, plasat în directorul <i> /root </i> și numit <span class="highlight-3">xorg.conf.new</span> conținând informațiile esențiale. Următorul pas este să-l mutăm și să-l redenumim:</p>
 <pre>
-mv /root/xorg.conf.new /etc/X11/xorg.conf
+mkdir /etc/X11/xorg.conf.d
+mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
 </pre>
 
-							<p>Pentru a edita /etc/xorg.conf faceţi clic dreapta pe el şi-l deschideţi cu permisiune root . Găsiţi secţiunea care citeşte SECTION DEVICE şi schimbaţi driverul de display pentru a fi <span class="highlight-2">nv</span> sau <span class="highlight-2">radeon</span>. <span class="highlight-2">intel</span>  (pentru a numi doar câteva).</p>
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
-							<p class="highlight-2">Editarea xorg.conf o faceți în totalitate pe riscul dumneavoastră!!</p>
+							<p class="highlight-2">Editarea <i>xorg.conf</i> o faceți în totalitate pe riscul dumneavoastră!!</p>
 
 							<p>Mai multe informaţii despre <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
 
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Drivere closed-sourse, binare pentru: nVidia cu dmakms &amp; xorg.conf</h2>
+		<h2>Drivere closed-sourse, binare pentru: nVidia cu dmakms &amp; Xorg</h2>
 
-							<p><span class="highlight-2">Deoarece fișierul xorg.conf nu este în general necesar, cu excepția cazului în care doriți să folosiți video/graphic drivers closed source, în noua instalare</span> va trebui să vă asigurați că <span class="highlight-3">xorg.conf </span> există în <span class="highlight-3">/etc/X11</span>. Dacă nu există, creați un fișier <span class="highlight-4">temporar</span> în $home-ul vostru numit <span class="highlight-4">xorg.conf</span> copiați în el următoarele:</p>
+							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
 
 <pre>
-# /etc/X11/xorg.conf (Xorg X Window System server configuration file)
-# Edit this file with caution, and see the xorg.conf(5) manual page.
-# (Type "man xorg.conf" at the shell prompt.)
+apt-get update
+apt-get install xorg
+</pre>
+							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+
+							<p>Puteți citi de asemenea: <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> pentru alte opțiuni.</p>
+
+							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+<pre>
+mv /etc/X11/xorg.conf /etc/X11/xorg.old
+mkdir /etc/X11/xorg.conf.d
+touch /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>With your favourite text editor:</p>
+
+<pre>
+&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+<pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-
-# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
-							<p>Dacă aveți mai mult de o placă grafică va trebui să descoperiți portul PCI și s-o includeți în the xorg.conf:</p>
+							<p>Dacă aveți mai mult de o placă grafică va trebui să descoperiți portul PCI și s-o includeți în the <i>xorg.conf</i>:</p>
 <pre>
 lspci | grep -i vga
 </pre>
@@ -277,7 +295,7 @@ lspci | grep -i vga
 <pre>
 01:00.0 VGA compatible controller:
 </pre>
-							<p>Adăugând "01:00.0" 'BusID' ca o altă linie sub linia 'Driver', rețineți că sintaxa este <span class="highlight-3">PCI:x:y:z:</span> cu zero-uri separate prin semnul două puncte, ca mai jos:</p>
+							<p>Adăugând "01:00.0" 'BusID' ca o altă linie sub linia 'Driver', rețineți că sintaxa este <span class="highlight-3">PCI:x:y:z:</span> cu zero-uri separate prin semnul "<b> : </b>" (două puncte), ca mai jos:</p>
 
 <pre>
 BusID		 "PCI:1:0:0"
@@ -287,7 +305,7 @@ BusID		 "PCI:1:0:0"
 mv xorg.conf /etc/X11/xorg.conf
 </pre>
 
-							<p><span class="highlight-3">NOTĂ: Utilizați 'apt-cache search nvidia' și 'apt-cache show &lt;package&gt;' pentru a stabili driverul corect. Aici sunt de fapt 2 opțiuni, 'current Debian Sid 3D drivers'  și 'legacy Debian Sid  3D drivers'.</span></p>
+							<p><span class="highlight-3">NOTĂ: Utilizați <i>'apt-cache search nvidia'</i> și <i>'apt-cache show &lt;package&gt;'</i> pentru a stabili driverul corect. Aici sunt de fapt 2 opțiuni, <i>'current Debian Sid 3D drivers'</i>  și <i>'legacy Debian Sid  3D drivers'</i>.</span></p>
 
 					<h5>Pentru driverele 3D nvidia &ge; GeForce 6xxx :</h5>
 
@@ -295,7 +313,7 @@ mv xorg.conf /etc/X11/xorg.conf
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Apoi activează Dynamic Module-Assistant Kernel Module Support (dmakms) pentru nvidia, asfel incat urmatoarea data cand kernel-ul Linux este actualizat un modul nvidia este pregatit deasemeni, fara interventie manuala. Ca sa efectuati aceasta, adaogati <span class="highlight-3">nvidia-kernel-source</span> la <span class="highlight-3">/etc/default/dmakms </span>dosarul configiratie:</p>
+							<p>Apoi activează Dynamic Module-Assistant Kernel Module Support (dmakms) pentru nvidia, asfel încât următoarea data când kernel-ul Linux este actualizat un modul nvidia este pregătit deasemeni, fără intervenție manuală. Ca să faceți asta, adăugați <span class="highlight-3">nvidia-kernel-source</span> la <span class="highlight-3">/etc/default/dmakms </span> dosarul configurare:</p>
 
 <pre>
 echo nvidia-kernel-source >> /etc/default/dmakms
@@ -309,69 +327,68 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Apoi schimbați xorg.conf:</p>
-<pre>
-sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
-</pre>
-						      <p>Reboot-ați PC-ul pentru ca instalarea modulului să fie efectuată.</p>
+							<p>Reboot-ați PC-ul pentru ca instalarea modulului să fie efectuată.</p>
 
-						      <p>La actualizarea 'xorg' trebuie doar să reinstalați 'nvidia-glx':</p>
+							<p>La actualizarea <i>'xorg'</i> trebuie doar să reinstalați <i>'nvidia-glx'</i>:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>Când un nou driver nvidia devine disponibil în Debian sid prin 'apt':</p>
+							<p>Când un nou driver nvidia devine disponibil în Debian sid prin <i>'apt'</i>:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reboot-ați PC-ul ca instalarea modulului să aibă efect.</p>
 
-					<h5>Pentru driverele 'legacy 3d nvidia' &ge; GeForce 5xxx :</h5>
+					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+						  <ul>
+						      <li>legacy-71xx is for GeForce 2</li> <li>legacy-96xx is for GeForce 4</li> <li>legacy-173xx is for GeForce 5</li>
+						  </ul>
+
+					<h5>PExample for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
 
-							<p>Modificați dmakms:</p>
+							<p>Modificați <i>dmakms</i>:</p>
 <pre>
 echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
 </pre>
 
-						      <p>When xorg updates you only need to reinstall nvidia-glx-legacy:</p>
+						      <p>Când actualizați <i>xorg</i> trebuie doar să reinstalați <i>nvidia-glx-legacy</i>:</p>
 <pre>
 apt-get install --reinstall nvidia-glx-legacy-173xx
 </pre>
 					<h4>Eșercul încărcării Modulului</h4>
 
-							<p>Din diferite motive 'nvidia' poate eșua la încărcare:</p>
+							<p>Din diferite motive <i>'nvidia'</i> poate eșua la încărcare:</p>
 <pre>
 modprobe nvidia
 </pre>
 							<p>Apoi reboot-ați PC-ul.</p>
 
-							<p>Dacă încarcarea modulului continua să eșueze:</p>
+							<p>Dacă încărcarea modulului continuă să eșueze:</p>
  <pre>
  m-a a-i -f nvidia-kernel-source
 </pre>
-							<p>or</p>
+							<p>sau</p>
  <pre>
  m-a a-i -f nvidia-kernel-legacy-173xx-source
 </pre>
 							<p>Aceasta va reconstrui modulul <span class="highlight-3">apoi reboot-ați.</span></p>
 
-						      <p>Citeste:</p>
+						      <p>Citește:</p>
 <pre>
 $ /usr/share/doc/dmakms
 </pre>
-
-							   <p>Puteți citi de asemenea: <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> pentru alte opțiuni.</p>
 
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon și alte drivere video</h2>
 
 					  <h6>Drivere 2D</h6>
-							<p>Driverele X.Org pentru serverele X (vedeţi xserver-xorg pentru descriere) oferă suport 2d pentru placile  NVIDIA Riva, TNT, GeForce, şi Quadro , pentru plăcile ATI Mach, Rage, Radeon, şi FireGL plus pentru sub-driverele atimis', r128 şi radeon. Ambele, Radeon și Intel, suportă accelerare 2d (textured xv) pentru redare video.</p>
+							<p>Driverele X.Org pentru serverele X (vedeţi <i>xserver-xorg</i> pentru descriere) oferă suport 2d pentru placile  NVIDIA Riva, TNT, GeForce, şi Quadro , pentru plăcile ATI Mach, Rage, Radeon şi FireGL plus pentru sub-driverele atimis, r128 şi radeon. Ambele, Radeon și Intel, suportă accelerare 2d (textured xv) pentru redare video.</p>
 
 					  <h6>Drivere 3D</h6>
 							<p>Unele plăci ATI suportă 3D, până la chipset-urile din seria r5xx.</p>
@@ -383,15 +400,21 @@ apt-get install firmware-linux
 </pre>
 							<p>Apoi reboot-ați computerul.</p>
 
+							<p>If you have a requirement for xorg:</p>
+<pre>
+apt-get update
+apt-get install xorg
+</pre>
+
 		</div>
 
 	<div class="divider" id="non-free-firmware">
 				<h2>Drivere Firmware</h2>
-							<p>Firmware-ul necesar poate fi determinat cu ajutorul programului 'fw-detect' (găsit în 'sidux-scripts').</p>
+							<p>Firmware-ul necesar poate fi determinat cu ajutorul programului <i>'fw-detect'</i> (găsit în <i>'sidux-scripts'</i>).</p>
 <pre>
 $ fw-detect
 </pre>
-							<p>Răspunsul lui 'fw-detect' descrie comenzile necesare pentru a instala și activa  firmware-ul:</p>
+							<p>Răspunsul lui <i>'fw-detect'</i> descrie comenzile necesare pentru a instala și activa  firmware-ul:</p>
 
 							<p>Examplu:</p>
 <pre>
@@ -404,12 +427,12 @@ modprobe -r zd1211rw
 modprobe zd1211rw
 </pre>
 
-							<p> <span class="highlight-3">Pentru instalarea de firmware din 'git repos', trebuie să:</span></p>
+							<p> <span class="highlight-3">Pentru instalarea de firmware din <i>'git repos'</i>, trebuie să:</span></p>
 <pre>
 apt-get install git-core
 </pre>
 				    <h5>pachete 'non-free firmware debs' pe stick</h5>
-							<p><span class="highlight-3">Trebuie să procurați pachetele .deb cu 'firmware'-ul necesar, să le puneți pe un usb-key pentru a fi tranferate pe alt computer; le puteți descarca în format 'zip' sau 'tar.gz' de la <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a> și să extrageți arhivele într-un dosar numit "firmware", în care veți vedea mai multe fișiere cu extensia ".deb". Apoi descărcați <a href="http://packages.debian.org/sid/firmware-linux-free"> firmware-linux-free*.deb </a> și adăugațile la celelalte deb-uri din dosarul "firmware". Acest dosar îl veți transfera de pe stick pe computerul care are nevoie de driverele 'non-free firmware' și executați ca root:</span></p>
+							<p><span class="highlight-3">Trebuie să procurați pachetele <i>'*.deb'</i> cu firmware-ul necesar, să le puneți pe un usb-key pentru a fi tranferate pe alt computer;<br /> le puteți descărca în format <i>'zip'</i> sau <i>'tar.gz'</i> de la <a href="http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/">http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/sid/current/</a> și să extrageți arhivele într-un dosar numit <i>"firmware"</i>, în care veți vedea mai multe fișiere cu extensia <i>' .deb'</i>. Apoi descărcați <a href="http://packages.debian.org/sid/firmware-linux-free"> firmware-linux-free*.deb </a> și adăugați-le la celelalte <i>deb</i>-uri din dosarul <i>"firmware"</i>. Acest dosar îl veți transfera de pe stick pe computerul care are nevoie de driverele 'non-free firmware' și executați ca <i>root</i>:</span></p>
 
 <pre>
 dpkg -i firmware-linux-nonfree*.deb
@@ -560,7 +583,7 @@ dpkg -i firmware-linux-nonfree*.deb
   					<dt class="ok"></dt>
   					<dd><ul><li>/lib/firmware/cs46xx/cs46xx-old.fw</li> </ul></dd>
   					<dt class="note"></dt>
-  					<dd>urmează instrucțiunile descrise în bugreport cu mare atenție, MD5: 6510e1759d85b0627d36367febbb3a6a or see the <a href="http://sidux.com/index.php?module=Wikula&tag=SoundMaster"> sidux wiki about sound</a></dd>
+  					<dd>urmează instrucțiunile descrise în bugreport cu mare atenție, MD5: 6510e1759d85b0627d36367febbb3a6a sau vezi <a href="http://sidux.com/index.php?module=Wikula&tag=SoundMaster"> sidux wiki despre sunet</a></dd>
   				</dl>
   			</dd>
   			<dt class="device audio usb" id="emi26">EMI 2|6  </dt>
@@ -1090,7 +1113,7 @@ dpkg -i firmware-linux-nonfree*.deb
 		</div>
 		<div class="divider" id="hd-ntfs3g">
 			<h2>Scrierea pe partiții NTFS cu ntfs-3g</h2>
-							<p class="highlight-2"><b>Atenţie</b>: Chiar dacă ntfs-3g este considerat ca 'stable', niciodată nu-l folosiţi fără salvarea prealabilă a datelor şi, bineînteles , nu pe sisteme productive! Dacă nu ţineţi cont de aceasta, vina pentru pierderea de date vă aparţine, folosiţi pe risc propriu !</p>
+							<p class="highlight-2"><b>Atenţie</b>: Chiar dacă <i>'ntfs-3g'</i> este considerat ca <i>'stable'</i>, niciodată nu-l folosiţi fără salvarea prealabilă a datelor şi, bineînteles, nu pe sisteme productive! Dacă nu ţineţi cont de aceasta, vina pentru pierderea de date vă aparţine, folosiţi pe risc propriu !</p>
 
 							<p>Deschideţi o consolă şi introduceţi următoarele comenzi: Vedeţi și <a href="part-cfdisk-ro.htm" >Partiţionarea HardDiscurilor - Numirea Discurilor</a></p>
 
@@ -1099,15 +1122,15 @@ sux
 apt-get update &amp;&amp; apt-get install ntfs-3g
 umount /media/xdxx
 mount -t ntfs-3g /dev/disk/by-uuid/xxyyzz[etc] /media/xdxx
-Pentru a ieși din poziția de root tastați:
+Pentru a ieși din poziția de <i>root</i> tastați:
 exit
 </pre>
 
-						<p>Acum partiţia NTFS ar trebui să fie montată <b>rw</b> şi să puteţi scrie date pe ea. Dar încă o dată, aveţi grijă ! <span class="highlight-3">Utilizaţi doar în situaţii de urgentă, nu este recomandat pentru utilizarea zilnică.</span></p>
+						<p>Acum partiţia NTFS ar trebui să fie mount-ată <b>rw</b> şi să puteţi scrie date pe ea. Dar, încă o dată, aveţi grijă ! <span class="highlight-3">Utilizaţi doar în situaţii de urgentă, nu este recomandat pentru utilizarea zilnică.</span></p>
 
 
 
-			<div id="rev">Content last revised22/03/2010 1430 UTC</div>
+			<div id="rev">Content last revised 08/04/2010 1000 UTC</div>
 
 </div>
 </div>

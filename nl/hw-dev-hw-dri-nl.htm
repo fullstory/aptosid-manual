@@ -229,7 +229,7 @@ deb http://sidux.com/debian/ sid main fix.main
 							<p><a href="http://www.debian.org/mirrors/">List of Debian Servers and mirrors current status</a>.</p>
 	</div>
 	<div class="divider" id="foss-xorg">
-			<h2>Open Source Xorg drivers voor nVidia, ATI, Radeon, Intel &amp; xorg.conf</h2>
+			<h2>Open Source Xorg drivers voor nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
 
 							<p>Open Source Xorg driver voor nVidia, ATI, Radeon, Intel zijn standaard geïnstalleerd in sidux.</p>
 
@@ -237,14 +237,17 @@ deb http://sidux.com/debian/ sid main fix.main
 
 							<p><span class="highlight-3"> Notitie: xorg.conf is not generally needed for open source drivers. Indien xorg.conf niet bestaat, en je hebt het nodig voer dan het volgend uit in een terminal sessie:</span></p>
 <pre>
+apt-get update
+apt-get install xorg
 X -configure
 </pre>
 							<p>Dit commando maakt een xorg.conf aan en plaatst deze in de /root directory en noemt het <span class="highlight-3">xorg.conf.new</span> en bevat de benodigde informatie. De volgende stap is om het bestand te verplaatsen en te hernoemen:</p>
 <pre>
-mv /root/xorg.conf.new /etc/X11/xorg.conf
+mkdir /etc/X11/xorg.conf.d
+mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
 </pre>
 
-							<p>Om /etc/xorg.conf te veranderen: rechtsklik erop, open de file met rootpermissies. Vind de sectie: SECTION DEVICE en verander de display driver naar <span class="highlight-2">nv</span> OF <span class="highlight-2">radeon</span> OF <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
 							<p class="highlight-2">Het aanpassen van xorg.conf is helemaal voor je eigen risico!!</p>
 
@@ -253,21 +256,36 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers voor nVidia met dmakms &amp; xorg.conf</h2>
+		<h2>Binary, closed source drivers voor nVidia met dmakms &amp; Xorg</h2>
 
-							<p><span class="highlight-2">As xorg.conf is not generally needed, except if intending to run closed source video/graphic drivers, new installs</span> will need to ensure that <span class="highlight-3">xorg.conf </span> exists in <span class="highlight-3">/etc/X11</span>. If it does not exist, create a <span class="highlight-4">temporary</span> file in your $home called <span class="highlight-4">xorg.conf</span> and copy into it the following:</p>
+							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
 
 <pre>
-# /etc/X11/xorg.conf (Xorg X Window System server configuration file)
-# Edit this file with caution, and see the xorg.conf(5) manual page.
-# (Type "man xorg.conf" at the shell prompt.)
+apt-get update
+apt-get install xorg
+</pre>
+							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+
+							<p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
+
+							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+<pre>
+mv /etc/X11/xorg.conf /etc/X11/xorg.old
+mkdir /etc/X11/xorg.conf.d
+touch /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>With your favourite text editor:</p>
+
+<pre>
+&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+</pre>
+							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+<pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-
-# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
 							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the xorg.conf:</p>
 <pre>
@@ -310,12 +328,9 @@ m-a a-i nvidia-kernel-source
 <pre>
 apt-get install nvidia-glx
 </pre>
-							<p>Tenslotte wordt xorg.conf aangepast:</p>
-<pre>
-sed -i -e s/nv\"/nvidia\"/ -e s/vesa\"/nvidia\"/ /etc/X11/xorg.conf
-</pre>
-						      <p>Na een reboot van de pc werkt de module.</p>
-						      <p>When xorg updates you only need to reinstall nvidia-glx:</p>
+							<p>Na een reboot van de pc werkt de module.</p>
+
+							<p>When xorg updates you only need to reinstall nvidia-glx:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
@@ -327,7 +342,12 @@ apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reboot PC for installation of the module to take effect.</p>
 
-					<h5>For legacy 3d nvidia drivers &ge; GeForce 5xxx :</h5>
+					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+						  <ul>
+						      <li>legacy-71xx is for GeForce 2</li> <li>legacy-96xx is for GeForce 4</li> <li>legacy-173xx is for GeForce 5</li>
+						  </ul>
+
+					<h5>Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
@@ -364,8 +384,6 @@ modprobe nvidia
 $ /usr/share/doc/dmakms
 </pre>
 
-							   <p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
-
 		</div>
 	<div class="divider" id="non-free-3d-2">
 			<h2>ATI, Radeon and other video drivers</h2>
@@ -382,6 +400,12 @@ $ /usr/share/doc/dmakms
 apt-get install firmware-linux
 </pre>
 							<p>Hiernaar moet je de computer herstarten.</p>
+
+							<p>If you have a requirement for xorg:</p>
+<pre>
+apt-get update
+apt-get install xorg
+</pre>
 
 		</div>
 
@@ -1104,7 +1128,7 @@ exit
 </pre>
 							<p>Je NTFS-partitie zou nu gemount moeten zijn met <b>rw</b> rechten en je kan gegevens daar opslaan. <span class="highlight-3">Gebruik het als het niet anders kan, het wordt niet geadviseerd voor dagelijks gebruik.</span></p>
 		</div>
-	<div id="rev">Pagina het laatst gewijzigd op 22/03/2010 1430 UTC</div>
+	<div id="rev">Pagina het laatst gewijzigd op 08/04/2010 100008/04/2010 1000 UTC</div>
 
 </div>
 </body>

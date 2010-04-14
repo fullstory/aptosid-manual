@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by cobra 31/06/2008 0516 UTC -->
 <div id="menu"> <!-- menu starts here hr lang maintainer cobra -->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="sidux.com, forum and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-hr.htm#usb-hd">Instaliranje na USB-HD - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-hr.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-hr.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-hr.htm#vtbox">Instaliranje sidux uz pomoć VitualBox</a></li>
-				<li><a href="hd-install-opts-hr.htm#qemu">Instaliranje sidux uz pomoć QEMU</a></li>
+				<li><a href="hd-install-vmopts-hr.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hr.htm">Grafičke kartice, hardver, Xorg, sredstvo i pogonitelji</a>
@@ -452,180 +451,9 @@ $ man fll-iso2usb
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>Instalirati sidux sa VirtualBox</h2>
-							<p>The Steps:</p>
-						<ul>
- 							<li>1. stvorite harddiskimage za VirtualBox</li>
- 							<li>2. bootajte iso sa VirtualBox</li>
- 							<li>3. instalirajte na image</li>
-						</ul>
-
-				<h4>Potrebe</h4>
-							<p><span class="highlight-3">Potreban RAM: 1 GB </span>: Idejalno 512 MB za gosta i 512 MB za host. (radi iako imate manje, ali ne čudite se, kako sporo to radi).</p>
-
-							<p><span class="highlight-3">Hard disk mijesto:</span> VirtualBox ne treba baš puno mjesta (tipična instalacija je oko 30 MB velika), virtualanim kompjuterima će trebati mnogo više mjesta na hard-disku da predstavljaju svoje hard-disk. Tako, da ako instalirate MS Windows XP (TM), na primjer, trebati će vam datoteka koja će lagano narasti na više GB. da instalirate sidux u VirtualBox potrebno je vam najmanje 5 GB image plus mjesto za swap.</p>
-
-				<h3>Installation:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Then prepare the module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Then reboot the computer.</p>
-
-							<p><a href="sys-admin-kern-upg-hr.htm#dmakms">This is essential reading on dmakms</a></p>
-
-						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
-
-							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
-
-							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-							<p>dkms and dmakms can coexist on the same installation, read:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>Instalirati sidux na virtualni kompjuter</h3>
-							<p>Koristite virtualbox's wizard da kreirate novi virtualni kompjuter za sidux. Onda pratite instrukcije za normalnu sidux-instalaciju.</p>
-
-							<p><a href="http://www.virtualbox.org/">VirtualBox ima dobru PDF pomoč, koju možete povuči</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>Instalirati sidux s QEMU</h2>
-
-		<ul>
- 			<li>1. kreirate hard-disk image za qemu</li>
- 			<li>2. startate ISO s qemu</li>
- 			<li>3. instalirate na image</li>
-
-		</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Kreirati hard-disk image</h4>
-
-				<p>Da izvodite qemu trebati će vam možda hard-disk image. S tom datotekom koja memorira sadržaj emuliranog hard diska.</p>
-
-				<p>Koristite naredbu:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-				<p>Da kreirate image datoteku zvanu "sidux.qcow". "3G" parametar precizira veličinu diska - u ovom slučaju 3 GB. Možete koristiti suffix M za megabytes (na primjer "256M"). Ne brinite se previše o veličini diska - qcow format komprimira image tako da se prazno mjesto ne uračuna u veličinu datoteke.</p>
-
-
-			<h4>Instalirati operativni sustav</h4>
-
-				<p>Ovo je prvi put da vam je potrebno da startujete emulator. Uvijek zapamtite dobro: kad kliknete u qemu prozor, mouse pointer je uhićen. Da ga oslobodite pritisnite Ctrl+Alt.</p>
-
-				<p>Ako vam treba boot Floppy za korištaj qemu, izvodite Qemu s:</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>Ako je vaš CD-ROM bootable, izvodite Qemu s:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>Sad instalirate sidux kao da ga instalirate na pravi HD</p>
-
-
-			<h4>Koristiti sistem</h4>
-
-				<p>Da startujete sistem jednostavno upišite:</p>
-<pre>
-qemu [hd_image]
-</pre>
-				<p>Dobra ideja je da koristite overlay images. Tako možete kreirati hard disk image jedan put i onda postaviti Qemu da memorirah promjene u vanjskoj datoteci. Ne morate se brinuti o nestabilitetu, zato što je lagano da se vratite na početno stanje sistema.</p>
-
-				<p>Da kreirate overlay image, upišite:</p>
-<pre>
-qemu-img create -b [[base_image]] -f qcow [[overlay_image]]
-</pre>
-				<p>Zamijenite hard disk image za base-image (u našem slučaju sidux.qcow). Poslije toga izvodite qemu s:</p>
-<pre>
-qemu [overlay_image]
-</pre>
-				<p>Original image neće biti poremećen. Jedan problem još imamo, base-image ne možete preimenovati ili premjestiti, overlay zapamti cijeli base put.</p>
-
-
-			<h4>Koristiti realnu particiju kao primary particiju za hard-disk image</h4>
-
-				<p>Ponekad, želite da koristite jednu od vaših sistem particija za qemu (na primjer, ako želite startovati vaš pravi sistem ili qemu koristeći particiju kao root). Možete to izvesti koristeći softver RAID u "linear modusu" (potreban vam je linear.ko kernel pogonitelj) i loopback uređaj: trik je da dinamično ubacite master boot record (MBR) na pravu particiju koju želite ugnijezditi u qemu raw disk image.</p>
-
-				<p>Pretpostavljamo da imate čistu, unmountanu /dev/sdaX particiju sa bilo kojim file-sistemom na njoj, i želite je spojiti s qemu disk image. Kao prvo kreirate malu datoteku koja sadrži MBR:</p>
-<pre>
-dd if=/dev/zero of=/path/to/mbr count=32
-</pre>
-				<p>Ovdje kreiramo jednu 16 KB (32 * 512 bytes) veliku datoteku. Važno je da je ne napravite premalu (iako je MBRu samo potrebno 512 bytes blok), što manja, tim manja treba da bude chunk veličina softver RAID uređaja, što znači više snage. Onda postavite loopback uređaj na MBR datoteku:</p>
-<pre>
-losetup -f /path/to/mbr
-</pre>
-				<p>Smatramo da rezultiraje uređaj /dev/loop0, zato što dosada nismo još koristili drugi loopback. Idemo dalje sa kreiranjem "spojenog" MBRa + /dev/sdaN disk image koristeći softver RAID:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-				<p>Rezultirani uređaj /dev/md0 je taj kojega će te koristiti kao qemu raw disk image (ne zaboravite postaviti prava, tako da emulator može da ga koristi). Kao zadnje (i malo tricky) postavite disk konfiguraciju (disk geometriju i particijsku tablu) tako da paše primary particijski start u MBRu zajedno s /dev/sdaN u /dev/md0 (offset od točno 16 * 512 = 16384 bytes u ovom primjeru). Uradite to koristeći fdisk na host mašini, ne u emulatoru: Standardna raw disc detekcija qemu-a mnogo puta rezultira u "non kilobyte-roundable offsets" (kao 31.5 KB, u prijašnjoj sekciji) i softver RAID code ne može sa tim da radi. Zato, sa hosta:</p>
-<pre>
- fdisk /dev/md0
-</pre>
-				<p>Tu onda kreirate samu primary particiju odgovarajući /dev/sdaN, i igrajte se malo s 's'ector naredbom iz 'x'pert menija dok prvi cilindar (gdje prva particija startuje), paše na veličinu MBRa. Kao zadnje, 'w'rite rezultat u datoteku: i gotovi ste. Sad imate particiju koju možete mountati direktno s hosta ili qemu disk imagea:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-				<p>Naravno možete sigurno postaviti bilo koji bootloader na tom disk imageu koristeći qemu, pod uvjetom da original /boot/sdaN particija sadrži potrebne alate.</p>
-
-
-
-			<h4>Koristiti QEMU Accelerator Modul</h4>
-
-				<p>Razvojni programeri qemua kreirali su opcionalni kernel modul da ubrzaju qemu, blizu nativnom nivou. Njega morate ubaciti s opcijom</p>
-<pre>
-major=0
-</pre>
-				<p>da automatizirate kreiranje potrebnog /dev/kqemu uređaja. Sljedeća naredba je:</p>
-<pre>
-echo "options kqemu major=0" &gt;&gt; /etc/modprobe.conf
-</pre>
-				<p>To će popraviti modprobe.conf da osiguramo da modul opcija je uključena uvijek kad aktivirate modul.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-				<p>To omogući punu virtualizaciju i ubrza je značajno.</p>
-
-			<h4>Da aktivirate qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Oficijalna dokumentacija QEMU Projekta </a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Nešto od sadržaja za QEMU sidux-priručnik je upisano pod GNU Free Documentation License 1.2 i modificirano je za sidux-priručnik</a> </p>
-
-
-	</div>
-			<div id="rev"> Content last revised 13/03/2010 1140 UTC</div>
+			<div id="rev"> Content last revised 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

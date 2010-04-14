@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by zonker 26/08/2008 2000 UTC -->
 <div id="menu"> <!-- menu starts here da lang maintainer zonker -->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-da.htm#usb-hd">Installering p&#229; en USB-HD - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-da.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-da.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-da.htm#vtbox">Installering af sidux med VirtualBox</a></li>
-				<li><a href="hd-install-opts-da.htm#qemu">Installering af sidux med QEMU</a></li>
+				<li><a href="hd-install-vmopts-da.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-da.htm">Grafikkort, Hardware Enheder, Xorg &amp; Drivere</a>
@@ -460,178 +459,9 @@ $ man fll-iso2usb
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
 
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>Installering af sidux med VirtualBox</h2>
-							<p>The Steps:</p>
-						<ul>
- 							<li>1. opret et harddiskimage til VirtualBox</li>
- 							<li>2. boot iso'en med VirtualBox</li>
- 							<li>3. installer på harddiskimaget</li>
-						</ul>
-
-				<h4>Systemkrav</h4>
-							<p><span class="highlight-3">Anbefalet RAM: 1 gig </span>: Ideelt 512 MB til gæsteen og 512 MB til værten (det kan køre med mindre RAm men forvent ikke nogen fantastisk ydelse).</p>
-
-							<p><span class="highlight-3">Harddisk plads:</span> VirtualBox selv tager ikke meget mere end ca 30 mb, men de virtuelle maskiner kræver ret store filer til at repræsentere deres harddisk plads. For at installere for eksempel MS Windows XP (TM), får du brug for en fil der nemt kan vokse til flere GB i størrelse. For at installere sidux i VirtualBox skal du allokere cirka 5 gb og en yderligere plads til swap.</p>
-
-				<h3>Installation:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Then prepare the module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Then reboot the computer.</p>
-
-							<p><a href="sys-admin-kern-upg-da.htm#dmakms">This is essential reading on dmakms</a></p>
-
-						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
-
-							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
-
-							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-
-							<p>dkms and dmakms can coexist on the same installation, read:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>Installering af sidux i virtual machine</h3>
-							<p>Brug virtualbox's wizard til at oprette en ny virtuel maskine til sidux, og følg så instruktionerne som for en regulær sidux installetion.</p>
-
-							<p><a href="http://www.virtualbox.org/">VirtualBox har en omfattende PDF Hjælp som du kan hente.</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>Installering af sidux med QEMU</h2>
-
-		<ul>
- 			<li>1. Opret et harddisk-image til qemu</li>
- 			<li>2. Boot iso'en med qemu</li>
- 			<li>3. Installer på image'et</li>
-
-		</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Oprettelse af harddisk-image</h4>
-
-							<p>For at køre qemu skal du sandsynligvis bruge et harddisk image. Dette er en fil der gemmer indholdet på den emulerede harddisk.</p>
-
-				<p>Brug kommandoen:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-							<p>For at oprette image filen med navnet "sidux.qcow". "3G" parameteren definerer størrelsen af disken - i dette tilfælde 3 GB. Du kan bruge suffixet M for megabytes (for eksempel "256M"). Du bør ikke bekymre dig for meget om størrelsen af disken -qcow formatet komprimerer image'et således at den tomme plads ikke regnes med i størrelsen af filen.</p>
-
-
-			<h4>Installering af operativ systemet</h4>
-
-							<p>Dette er den første gang du skal starte emulatoren. En ting der er værd at bide mærke i er at når du klikker inde i qemu vinduet så "gribes" musens cursor. For at frigive den igen skal du trykke Ctrl+Alt.</p>
-
-							<p>Hvis du har brug for en opstarts floppy kører du Qemu med:</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-							<p>Hvis din CD-ROM er i stand til at boote, kør Qemu med:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-							<p>Nu installerer du sidux som hvis du installerede til en almindelig harddisk</p>
-
-
-			<h4>Kørsel af systemet</h4>
-
-							<p>For at starte systemet skriver du blot:</p>
-<pre>
-qemu [hd_image]
-</pre>
-							<p>Det er en god ide at anvende "overlay images". Anvender du dette kan du oprette harddisk image'et én gang, og få qemu til at gemme alle ændringer i en ekstern fil. Du sikrer dig mod ustabilitet fordi det er meget nemt at gå tilbage til en tidligere system tilstand.</p>
-
-							<p>For at oprette et overlay image, skriv:</p>
-<pre>
-qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
-</pre>
-							<p>Erstat harddisk image med base_image (i dette eksempel sidux.qcow). Efter dette kan du køre qemu med:</p>
-<pre>
-qemu [overlay_image]
-</pre>
-							<p>Det originale image vil forblive urørt. En faldgrube er at base image ikke kan omdøbes eller flyttes, eftersom overlay husker base's fulde sti.</p>
-
-
-			<h4>Hvordan man anvender en rigtig partition som den primære partition i et harddisk image</h4>
-
-							<p>Det kan hænde at du ønsker at anvende enaf dine system partitioner fra inde i qemu (for eksempel hvis du vil boot både din rigtige maskine eller qemu med en given apartition som root). Du kan opnå dette ved at anvende software RAID i linear mode (du skal bruge kernel driveren linear.ko) og en loopback enhed: tricket består i at "dynamically prepend a master boot record (MBR) to the real partition you wish to embed in a qemu raw disk image."(###)</p>
-
-							<p>Antag at du har en almindelig, umonteret /dev/sdaN partition med et filsystem på, som du vil gøre til del af en qemu disk image. Først opretter du en lille fil til at indeholde MBR:</p>
-<pre>
-dd if=/dev/zero of=/sti/til/mbr count=32
-</pre>
-							<p>Her bliver en 16 KB (32 * 512 bytes) fil dannet. Det er vigtigt ikke at lave filen for lille (selv om MBR kun skal bruge en enkelt 512 bytes block), eftersom des mindre den er, jo mindre skal software raid enhedens chunk size være, og dette kan påvirke ydelsen. Dernæst opsætter du en loopback enhed til MBR filen:</p>
-<pre>
-losetup -f /path/to/mbr
-</pre>
-							<p>Lad os antage at den resulterende enhed er /dev/loop0, for vi ville ikke allerede have brugt andre loopbacks. Næste trin er at oprette det "sammensmeltede" MBR + /dev/sdaN disk image med software RAID:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-						      <p>Det resulterende /dev/md0 er havd du anvender som qemu raw disk image (glem ikke at sætte rettighederne så emulatoren kan få adgang). Det sidste, lettere spegede trick er at sætte disk konfigurationen (disk geometry og partitions table) således at den primære partitions start point i MBR matcher det fra /dev/sdaN inde i /dev/md0 (et offset på præcist 16 * 512 = 16384 bytes i dette eksempel). Gør dette med fdisk på værtsmaskinen, ikke i emulatoren: standard raw disc detection routinen fra qemu resulterer ofte i ikke kilobyte-afrundbare offsets (såsom 31.5 KB, som i den forrige sektion) som ikke kan håndteres af software RAID programmet. Derfor, fra værten:</p>
-<pre>
- fdisk /dev/md0
-</pre>
-						      <p>Sådan, opret en enkelt primær partition korresponderende til /dev/sdaN, og leg med 's'ector kommanden fra 'x'pert menuen indtil den første cylinder (hvor den første partition starter) matcher størrelsen af MBR. Slutteligt, 'w'rite resultatet til filen: Du er nu færdig. Du har nu en partition der kan monteres direkte på din vært og som såvel er et qemu disk image:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-						      <p>Du kan selvfølgelig helt sikkert sætte en hvilken som helst bootloader på dette qemu diskimage, forudsat at den originale /boot/sdaN partition indeholder de nødvendige værktøjer.</p>
-
-			<h4>Anvendelse af QEMU Accelerator Module</h4>
-
-						      <p>Udviklerne af qemu har skabt et optional kernel module til at accelerere qemu til næsten native hastighed. Dette bør indlæses med parametren</p>
-<pre>
-major=0
-</pre>
-						      <p>for at automatisere oprettelsen af den nødvendige /dev/kqemu enhed. Følgende kommando</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
-</pre>
-						      <p>Dette retter modprobe.conf således at parameteren tilføjes hver gang modulet bliver indlæst.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-						      <p>Dette aktiverer fuld virtualization og øger hastigheden betydeligt.</p>
-
-			<h4>For at aktivere qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Den officielle dokumentation for QEMU Project </a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til sidux-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til sidux-manualen</a> </p>
-
-	</div>
-			<div id="rev"> Content last revised 13/03/2010 1140 UTC</div>
+			<div id="rev"> Content last revised 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

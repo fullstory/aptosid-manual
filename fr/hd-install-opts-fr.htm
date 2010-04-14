@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision par Sephi 06/05/2009 1051 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un disque USB - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-fr.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
+				<li><a href="hd-install-vmopts-fr.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, , Xorg, Matériels et pilotes</a>
@@ -534,185 +533,9 @@ $ man fll-iso2usb
 
 							<li>Si vous souhaitez l'utiliser sur d'autres ordinateurs, il faudra effectuer quelques modifications, comme modifier le fstab pour accéder aux autres disques dur de l'ordinateur le xorg.conf et probablement la connexion réseau.</li>
 							</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>Installer sidux avec VirtualBox</h2>
-							<p>Les étapes :</p>
-						<ul>
- 							<li>1. Créez une image disque pour Virtualbox.</li>
- 							<li>2. Démarrez l'iso avec Virtualbox</li>
- 							<li>3. installez sidux sur votre image disque</li>
-						</ul>
-
-				<h4>Configuration minimale requise</h4>
-							<p><span class="highlight-3">1 Go de RAM recommandés</span>: dans l'idéal, 512 Mo pour le système hébergé, 512 Mo pour l'hôte. (ça peut tourner avec moins de ram, mais n'attendez pas une grande performance à ce moment là...).</p>
-
-							<p><span class="highlight-3">Espace disque:</span> VirtualBox en soi a beau être léger (une installation de base occupe autour de 30 Mo d'espace disque), les machines émulées elles, nécessitent pour fonctionner de disposer d'un espace disque plutôt conséquent, afin de suffire à héberger leurs propres espaces disques de stockage. Dans ces conditions, pour installer Windows XP&reg;, par exemple, vous aure besoin d'un espace suceptible de s'étendre sur un bon nombre de Gigas...Pour utiliser sidux sous virtualbox vous devrez allouer une taille image de 5 GB en plus du swap.</p>
-
-				<h3>Installation:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Then prepare the module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Then reboot the computer.</p>
-
-							<p><a href="sys-admin-kern-upg-fr.htm#dmakms">This is essential reading on dmakms</a></p>
-
-						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
-
-							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
-
-							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-							<p>dkms and dmakms can coexist on the same installation, read:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>Installer sidux sur la machine virtuelle</h3>
-
-
-							<p>Utilisez l'assistant de VirtualBox pour créer une nouvelle machine virtuelle pour sidux. Suivez ensuite les instructions données pour une installation standard de sidux.</p>
-
-
-							<p><a href="http://www.virtualbox.org/">Le site de VirtualBox fournit une documentation accessible, notamment une aide en PDF, que vous pourrez télécharger.</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>Installer sidux avec QEMU</h2>
-
-							<p>Les étapes:</p>
-
-						<ul>
- 							<li>1. créer une image disque pour qemu</li>
- 							<li>2. démarrer l'iso avec qemu</li>
- 							<li>3. installer sur l'image disque</li>
-						</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Créer une image-disque</h4>
-
-							<p>Pour utiliser qemu vous aurez probablement besoin d'une image disque (image de disque dur). Il s'agit d'un simple fichier qui stocke le contenu d'un disque dur virtuel (émulé).</p>
-
-							<p>Utilisez cette commande:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-							<p>Elle créera un fichier image appelé "sidux.qcow". Le paramètre "3G" spécifie sa taille, qui est de 3 Go. Vous pouvez également utiliser le paramètre M pour les mégaoctets (par exemple "800M". Vous n'avez pas trop à vous inquiéter de la taille du disque, car le format qcow compresse l'image de sorte qu'elle n'occupe pas plus d'espace que ce qui est effectivement occupé par les données une fois compressées.</p>
-
-
-			<h4>Installer le système d'exploitation</h4>
-
-							<p>C'est la première fois que vous allez devoir démarrer l'émulateur. <span class="highlight-3">Une bonne chose à savoir : quand vous cliquez dans la fenêtre de qemu, il capture le pointeur de la souris. Pour le libérer vous n'avez qu'à presser sur votre clavier la combinaison :</span></p>
-<pre>
-Ctrl+Alt
-</pre>
-
-							<p>Si vous avez besoin d'utiliser une disquette de démarrage, alors lancez qemu avec :</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-							<p>Pour lancer un cd bootable:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-							<p>Vous pouvez alors installer sidux comme s'il s'agissait d'un disque du réel</p>
-
-
-			<h4>Utiliser le système</h4>
-
-							<p>Pour utiliser le système après l'installation, faites simplement:</p>
-<pre>
-qemu [votre_image_disque]
-</pre>
-							<p>Une bonne idée est d'utiliser les images par recouvrement (overlay images). De cette façon vous créez une première image et Qemu va stocker ses modifications dans un fichier séparé ; de cette manière il sera aisé de revenir à une version antérieure du système et de prévenir toute instabilité potentielle.</p>
-
-							<p>Pour créer une image de recouvrement (overlay image), entrez :</p>
-<pre>
-qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
-</pre>
-							<p>Remplacez l'image de recouvrement à votre image_de_base (dans notre cas sidux.qcow). Après quoi vous pouvez lancer qemu avec:</p>
-<pre>
-qemu [image_de_recouvrement]
-</pre>
-							<p>L'image de base ne sera pas modifiée. Une limitation cependant : l'image de base ne doit pas être déplacée ou renommée, l'image de recouvrement gardant son chemin absolu en mémoire.</p>
-
-
-				<h4>Utiliser une partition réelle quelconque en tant que partition primaire unique d'une image disque</h4>
-
-							<p>Il peut arriver que vous vouliez utiliser une de vos partitions système dans qemu (par exemple, pour démarrer en même temps votre système réel ou qemu utilisant une partition spécifique comme racine). Vous pouvez y parvenir en utilisant le RAID logiciel en mode linéaire (il vous faudra le pilote de noyau linear.ko) ainsi qu'un périphérique loopback : l'astuce consiste à ajouter un master boot record (MBR) à la fin de la partition que vous souhaitez intégrer à une image disque qemu brute.</p>
-
-							<p>Supposons que vous disposez d'une partition non montée /dev/sdaN dont vous voudriez faire du système de fichiers une partie de votre image disque qemu. Vous commencerez par créer un petit fichier pour stocker le MBR:</p>
-<pre>
-dd if=/dev/zero of=/path/to/mbr count=32
-</pre>
-							<p>Là un fichier de 16 Ko (32 * 512 bytes) est créé. Il est important de ne pas le créer trop petit, même si un MBR ne requiert qu'un unique bloc de 512 octets, car plus petit il sera, plus le hachage du raid logiciel devra être étroit, ce qui impacte sur les performances. Puis, vous attachez un périphérique loopback au fichier MBR:</p>
-<pre>
-losetup -f /chemin/du/mbr
-</pre>
-							<p>Admettons qu'au résultat le périphérique obtenu soit /dev/loop0, car nous n'utiliserions jusque là aucun autre loopback. L'étape suivante passe par la création de l'image disque "mélangée" MBR + /dev/sdaN en utilisant le RAID logiciel:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-							<p>Le résultat /dev/md0 est ce que vous allez utiliser comme disque image qemu (n'oubliez pas de fixer les permissions de sorte que l'émulateur puisse y avoir accès). La dernière (et peut-être la plus perverse) des étapes consiste à régler la configuration du disque (géométrie et table des partitions) de telle sorte que le point d'origine du MBR coincide avec celui de /dev/md0 (un offset d'exactement 16*512 = 16384 octets dans cet exemple). Réalisez cette étape en utilisant fdisk sur la machine hôte, et non depuis l'émulateur : la routine de détection brute des disques utilisée par qemu produit en effet souvent des offset non-arrondis au kilooctet (de type 31.5 KB, comme dans la section précédente) et qui ne seraient pas gérables par le RAID logiciel. Ainsi, depuis la machine hôte: </p>
-<pre>
- fdisk /dev/md0
-</pre>
-							<p>Créez ensuite une partition primaire unique correspondant à /dev/sdaN, et utilisez la commande 's'ector du menu expert, de telle sorte que le premier cylindre (où cette première partition est censée démarrer) coïncide avec la taille du MBR. Quand finalement vous activez la fonction 'w' pour sauver votre réglage dans un fichier, l'opération est terminée. Vous disposez d'une partition que vous pouvez monter directement depuis votre machine hôte, et qui fait également partie d'une image disque qemu :</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-							<p>Évidemment vous pouvez sans problème configurer un chargeur de démarrage sur votre image disque en utilisant qemu, du moment que le répertoire /sdaN/boot de la partition originale est équipée des outils nécessaires.</p>
-
-			<h4>Activer le module d'accélaration de QEMU</h4>
-
-							<p>Les développeurs de qemu ont créé un module de noyau optionnel accélérant qemu jusqu'à des vitesses proches de celles d'une machine réelle. Ce module se charge avec cette option :</p>
-<pre>
-major=0
-</pre>
-							<p>Pour automatiser la création du périphérique /dev/kqemu, utilisez cette commande :</p>
-<pre>
-echo "options kqemu major=0" &gt;&gt; /etc/modprobe.conf
-</pre>
-							<p>Ceci empêchera modprobe.conf de vérifier systématiquement que l'option de module soit ajoutée à chaque lancement de celui-ci.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-							<p>Cette syntaxe active la virtualisation complète et de fait améliore considérablement la rapidité de fonctionnement de l'émulateur.</p>
-
-				<h4>Pour activer qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-							<p><a href="http://www.nongnu.org/qemu/user-doc.html">La documentation officielle du projet QEMU </a> </p>
-
-							<p><a href="http://wiki.archlinux.org/index.php/Qemu">Certains contenus se rapportant à QEMU pour le Manuel de sidux sont extraits de documents extérieurs sous licence GNU Free Documentation License 1.2 et ont été adaptés pour le Manuel de sidux.</a> </p>
-
-	</div>
-	<div id="rev">Dernière révision le 13/03/2010 1140 UTC</div>
+	<div id="rev">Dernière révision le 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

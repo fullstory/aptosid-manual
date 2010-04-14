@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 20/01/2008 0500hrs UTC -->
 <div id="menu"> <!-- menu starts here bg lang maintainer manul-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Главна страница на sidux.com, форуми и вики" alt="sidux.com лого" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-bg.htm#usb-hd">Инсталиране върху USB-диск (флаш) - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-bg.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-bg.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-bg.htm#vtbox">Инсталиране на sidux във VirtualBox среда</a></li>
-				<li><a href="hd-install-opts-bg.htm#qemu">Инсталиране на sidux в QEMU среда</a></li>
+				<li><a href="hd-install-vmopts-bg.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-bg.htm">Видеокарти, монитори, Xorg и други драйвери</a>
@@ -460,184 +459,9 @@ $ man fll-iso2usb
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>Инсталиране на sidux във VirtualBox</h2>
-							<p>The Steps:</p>
-						<ul>
- 							<li>1. Създайте файл за образ за виртуалния хард-диск във VirtualBox</li>
- 							<li>2. Стартирайте sidux iso-образа във VirtualBox</li>
- 							<li>3. Инсталирайте системата върху виртуалния хард-диск</li>
-						</ul>
-
-				<h4>Изисквания</h4>
-							<p><span class="highlight-3">Препоръчвана оперативна памет (RAM): 1 gig </span>: най-добре 512 MB за операционната система на "госта" (виртуалната машина, guest), и 512 MB за операционната система на "домакина" (базовата машина във която се стартира виртуалната, host). Ще може да работи и с по-малко оперативна памет, но в такъв случай не очаквайте кой знае каква  производителност.</p>
-
-							<p><span class="highlight-3">Дисково пространство:</span> Докато самата VirtualBox е много икономична (типичната инсталация се нуждае само от 30 MB дисково пространство), за виртуалните машини ще трябват доста големи файлове, които да имитират техните хард-дискове. Така че, за да инсталирате например MS Windows XP (TM) като виртуална машина, използвания файл с лекота ще "порасне" до десетки GB. За да използвате sidux във VirtualBox, трябва да предвидите 5 gig файл плюс място за swap.</p>
-
-				<h3>Installation:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Then prepare the module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Then reboot the computer.</p>
-
-							<p><a href="sys-admin-kern-upg-bg.htm#dmakms">This is essential reading on dmakms</a></p>
-
-							<!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
-
-							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
-
-							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-
-							<p>dkms and dmakms can coexist on the same installation, read:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>Инсталиране на sidux като виртуална машина</h3>
-							<p>Използвайте графичните средства на virtualbox (wizard) за създаването на нова виртуална машина за sidux. След като я стартирате от sidux iso-образ или live-CD, следвайте инструкциите за стандартна инсталация на sidux.</p>
-
-							<p><a href="http://www.virtualbox.org/">VirtualBox има изчерпателно PDF ръководство, което можете да свалите</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>Инсталиране на sidux в QEMU</h2>
-
-		<ul>
- 			<li>1. Създайте файл - образ за виртуалния хард-диск за QEMU</li>
- 			<li>2. Стартирайте iso-образа с QEMU</li>
- 			<li>3. Инсталирайте системата върху виртуалния хард-диск</li>
-
-		</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Създаване на файла - образ за виртуалния хард-диск</h4>
-
-				<p>За да използвате qemu ще ви трябва файл-образ на виртуалния хард-диск. Този файл представлява хард-диска на виртуалната машина.</p>
-
-				<p>За създаването му, използвайте командата:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-				<p>за да създадете файл-образ с името "sidux.qcow". Параметърът "3G" задава големината на диска - в дадения случай 3 GB. Използвайте суфикса M за мегабайти (например "256M"). Не се безпокойте особено за големината на диска - qcow формата компресира образа, така че празното място на виртуалния диск, не се включва в размера на реалния файл.</p>
-
-
-			<h4>Инсталиране на виртуалната операционна система</h4>
-
-				<p>Тук за първи път стартираме самия емулатор.<span class="highlight-3">Имайте предвид че когато цъкнете с мишката в qemu прозореца където върви виртуалната машина, курсорът се "прихваща" в нея. За да го освободите:</span></p>
-<pre>
-Ctrl+Alt
-</pre>
-
-				<p>Ако искате да използвате iso образ като стартируемо флопи на виртуалната машина, пуснете Qemu съответно:</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>За да използвате iso образ като стартируем CD диск на виртуалната машина, пуснете Qemu съответно:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>Сега инсталирайте sidux, както ако го инсталирате на истински хард-диск</p>
-
-
-			<h4>Използване на системата</h4>
-
-				<p>За да стартирате системата, просто напишете в терминала:</p>
-<pre>
-qemu [hd_image]
-</pre>
-				<p>Не е лоша идея да използвате т.нар. "образи на пластове" (overlay images). По този начин системата на виртуалния диск се създава само веднъж, а всички по-нататъшни изменения се съхраняват от Qemu във външен файл. Така е много по-лесно да се върнете към предишно състояние на системата ако нещо се обърка -  което допринася за стабилността като цяло.</p>
-
-				<p>За да създадете "следващ пласт" (overlay image):</p>
-<pre>
-qemu-img create -b [[базов-образ]] -f qcow [[overlay-образ]]
-</pre>
-				<p>В този ред заменете "базов-образ" с името на файла на виртуалния диск (в нашия пример sidux.qcow). После можете да стартирате qemu със :</p>
-<pre>
-qemu [overlay-образ]
-</pre>
-				<p>и по-нататък, оригиналния образ ще остане недокоснат. Имайте предвид че системата все още се нуждае от базовия образ - не бива да го преименовате или местите, тъй като overlay-образа "е запомнил" пълния път и име на базовия образ.</p>
-
-
-			<h4>Използване на произволен реален раздел на домакина, като единствен първичен раздел от виртуалния диск на госта</h4>
-
-				<p>Понякога може да искате да използвате някой от вашите истински раздели във виртуалната машина в qemu (напр. ако искате да стартирате и вашия компютър, и виртуалния - с един и същ раздел монтиран в корена на файловата система). Това може да бъде направено с помощта на софтуерен RAID в "линеен режим" (linear mode; драйвера за ядрото е linear.ko) и loopback устройство. Номерът тук е  динамично да "съединим последователно" master boot record (MBR), със реалния раздел, който ще бъде включен в "директния образ на диска" (raw disk image файла за виртуален диск), подаден по-нататък на qemu.</p>
-
-				<p>Нека имаме обикновен, размонтиран раздел /dev/sdaN с някаква файлова система, който раздел ще бъде част от образа на виртуалния диск на госта. Първо, правим малък файл съдържащ само MBR:</p>
-<pre>
-dd if=/dev/zero of=/path/to/mbr count=32
-</pre>
-				<p>Така се създава 16 KB (32 * 512 байта) файл. Важно е да не е съвсем малък (макар че MBR се нуждае само от един 512 байтов блок), тъй като колкото по-малък е той, толкова по-малък ще бъде chunk-size (размера на "порциите") използван от софтуерния RAID, което ще се отрази негативно на производителността. После, създаваме loopback устройство (псевдо-дисково устройство), представено от MBR файла:</p>
-<pre>
-losetup -f /path/to/mbr
-</pre>
-				<p>Нека резултиращото устройство e /dev/loop0, понеже засега не използваме други loopback устройства. Следващата стъпка е да създадем "смесено" "над"-псевдоустройство MBR + /dev/sdaN , използвайки линеен софтуерен RAID за да "съединим" двете устройства - псевдо-устройството с реалния раздел, в едно ново устройство:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-				<p>Резултантното /dev/md0 устройство е това, което ще използвате като qemu raw disk образ за госта (не забравяйте да конфигурирате правата така че емулатора да има достъп). Последният "хакерски фокус" е да променим конфигурацията на диска (геометрията на диска и таблицата с разделите) така, че началната точка на първичния раздел в MBR, да съвпада с тази на /dev/sdaN който е част от (вътре във) /dev/md0 (отместването е точно 16 * 512 = 16384 байта в нашия пример). Направете го използвайки fdisk на домакинската операционна система (host machine), а не във емулатора: raw disc детекцията на qemu по подразбиране често ползва незакръгляеми до килобайт отмествания (като 31.5 KB, както в предишната секция)  които не се поддържат от софтуерния RAID code. Така че, в домакина:</p>
-<pre>
- fdisk /dev/md0
-</pre>
-				<p>Тук създайте единствен първичен раздел съответстващ на /dev/sdaN, и си поиграйте със 's'ector командата от 'x'pert менюто, докато първия цилиндър (където раздела започва), съвпадне с размера на MBR. Накрая, запишете с 'w' (write) резултата - и сте готови:) Сега имате раздел, който можете да монтирате както директно на домакинската операционна система, така и като образ на виртуален диск за qemu:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-				<p>Разбира се, на така "сглобеното" устройство можете безопасно да инсталирате произволен стартиращ мениджър (bootloader, напр. grub - той ще бъде физически записан на първото псевдо-устройство от комбинацията съдържащо MBR  - което псевдо-устройство е просто файл), при условие че оригиналния раздел sdaN partition съдържа нужните за това средства.</p>
-
-
-
-			<h4>Използване на модула за ускоряване на QEMU (QEMU Accelerator Module)</h4>
-
-				<p>Програмистите на qemu са създали незадължителен модул към ядрото, който ускорява виртуалните машини почти до равнището на реални системи. Модулът може да се зареди с опцията към него</p>
-<pre>
-major=0
-</pre>
-				<p>, за да се автоматизира създаването на нужното /dev/kqemu устройство. В този случай е задължителна следващата команда</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
-</pre>
-				<p>която фактически ще добави ред във файла modprobe.conf, за да обезпечи използването на тази опция всеки път при зареждането на модула.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-				<p> - стартиран с тази опция, сега qemu включва пълната виртуализация, и значително подобрява скоростта.</p>
-
-			<h4>За да стартирате виртуалната машина в qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Официалната документация за проекта QEMU</a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Част от съдържанието на документацията за  QEMU беше преработена и включена в ръководстото за sidux при условията на GNU Free Documentation License 1.2</a> </p>
-
-
-	</div>
-	<div id="rev">Page last revised 13/03/2010 1140 UTC</div>
+	<div id="rev">Page last revised 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

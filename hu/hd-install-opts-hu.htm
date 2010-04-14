@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by mrowl 05/05/2009 0300hrs UTC -->
 <div id="menu"> <!-- menu starts here hu lang maintainer mrowl ruess-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-hu.htm#usb-hd">Telepítés USB-merevlemezre - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-hu.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-hu.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-hu.htm#vtbox">sidux telepítése VirtualBox-ra</a></li>
-				<li><a href="hd-install-opts-hu.htm#qemu">Telepítés QEMU alá</a></li>
+				<li><a href="hd-install-vmopts-hu.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-hu.htm">Grafikus kártyák, Xorg, meghajtók és kijelzők</a>
@@ -451,182 +450,9 @@ $ man fll-iso2usb
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.v</li>
 						</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>sidux telepítése VirtualBox alá</h2>
-							<p>A szükséges lépések:</p>
-						<ul>
- 							<li>1. Merevlemez képfájl (harddisk image) létrehozása a VirtualBox számára</li>
- 							<li>2. A virtuális gép elindítása az ISO-ról</li>
- 							<li>3. A rendszer telepítése a virtuális lemezre</li>
-						</ul>
-
-				<h4>Rendszer követelmények</h4>
-							<p><span class="highlight-3">Ajánlott memória: 1 GB </span>. Ideális esetben 512 Mb jut a vendég operációs rendszernek és 512 Mb a gazdagépnek (kevesebb memóriával is elindul, de a rendszer teljesítménye csökken).</p>
-
-							<p><span class="highlight-3">Lemez terület:</span> Míg maga a VirtualBox program kis helyet foglal (egy tipikus telepítés nagyjából 30 MB-ot igényel), a virtuális gépek virtuális merevlemezei igen méretes tárhelyet igényelnek - például a MS Windows XP (TM) telepítése után a helyigény sok gigabájtra is nőhet. A sidux VirtualBoxban való használatához 5 GB lemezképfájl szükséges, plusz némi swap terület.</p>
-
-				<h3>A Virtualbox telepítése</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Then prepare the module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Then reboot the computer.</p>
-
-							<p><a href="sys-admin-kern-upg-hu.htm#dmakms">This is essential reading on dmakms</a></p>
-
-						      <!--<p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p>
-
-							<p>Reboot your PC for the kernel to access the module after the initial installation.</p>
-
-							<p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-							<p>dkms and dmakms can coexist on the same installation, read:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>A sidux telepítése a virtuális gépre</h3>
-							<p>A VirtualBox varázslója használandó a sidux virtuális gépének létrehozására. Ezután a sidux normál telepítési utasításait kell követni.</p>
-
-							<p><a href="http://www.virtualbox.org/">A VirtualBox átfogó, letölthető PDF dokumentációval rendelkezik.</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>sidux telepítése QEMU alá</h2>
-
-		<ul>
- 			<li>1. Merevlemez képfájl létrehozása a QEMU számára</li>
- 			<li>2. Az ISO bootolása a QEMU-val</li>
- 			<li>3. A rendszer telepítése a QEMU képfájlba</li>
-		</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Merevlemez képfájl létrehozása</h4>
-
-				<p>A QEMU futtatásához szükséged lesz egy merevlemez képfájlra. Ez a fájl hordozza a virtuális merevlemez teljes tartalmát.</p>
-
-				<p>A lemez elkészítése:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-				<p>A parancs hatására létrejön a "sidux.qcow" nevű képfájl. A "3G" paraméter határozza meg a lemez méretét - jelen esetben 3 GB. Használható az M utótag, ha megabájtban kényelmesebb megadni a méretet (például "256M"). Nem kell túl sokat foglalkoznod a lemez méretével - a qcow formátum tömöríti a képfájlt, így annak üres területei nem növelik a fájl méretét.</p>
-
-
-			<h4>Az operációs rendszer telepítése</h4>
-
-				<p>Ez az első alkalom, hogy el kell indítanod az emulátort. <span class="highlight-3">Megjegyzés: amikor a QEMU ablakon belül kattintasz, az egérmutatót elkapja az emulátor. Az elengedéshez nyomd meg a következő billentyűkombinációt:</span></p>
-<pre>
-Ctrl+Alt
-</pre>
-
-				<p>Ha rendszerindító floppy lemezt kell használnod, így futtasd a QEMU-t:</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>Ha a CD-ROM a boot-eszköz, akkor így:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>Most telepíthető a sidux, a valós merevlemezre való telepítéshez hasonlóan.</p>
-
-
-			<h4>A rendszer futtatása</h4>
-
-				<p>A futtatáshoz szükséges parancs:</p>
-<pre>
-qemu [lemez_képfájl]
-</pre>
-				<p>Hasznos gyakorlat lehet az úgynevezett átfedő (overlay) képfájlok használata. Ezzel a módszerrel egyszer kell létrehozni egy merevlemez képfájlt, majd utasítjuk a QEMU-t, hogy a változásokat egy külső fájlban tárolja. Így rendkívül egyszerű visszaállítani a kiinduló állapotot.</p>
-
-				<p>Az overlay képfájl létrehozásához írjuk a parancssorba:</p>
-<pre>
-qemu-img create -b [[alap_képfájl]] -f qcow [[overlay_képfájl]]
-</pre>
-				<p>Helyettesítsd be a merevlemez képfájlt az alap_képfájl helyére (a mi esetünkben  sidux.qcow). Ezután így indítsd a quemut:</p>
-<pre>
-qemu [overlay_képfájl]
-</pre>
-				<p>Az eredeti képfájl érintetlen marad. A módszer hátránya, hogy az alap képfájlt nem szabad átnevezni, vagy elmozgatni, mert az overlay képfájl az eredeti névre és helyre hivatkozik.</p>
-
-
-			<h4>Valódi partíció, mint a merevlemez képfájl elsődleges partíciója</h4>
-
-				<p>Lehetséges a QEMU alatt a rendszer valamely valós partícióját is használni (ahogyan egy valódi számítógép elindításakor is megadható a root partíció). Ez a linux szoftveres RAID linear módjával és egy loopback eszköz kombinációjával tehető meg. (ehhez szükség lesz a linear.ko kernel modulra). A trükk abból áll, hogy a QEMU alatt használni kívánt valódi merevlemez partíció elé dinamikusan egy új master boot recordot (MBR) fűzünk.</p>
-
-				<p>Tegyük fel, hogy van egy egyszerű lecsatolt /dev/sdaXN partíciónk tetszőleges fájlrendszerrel, amelyet a QEMU lemezképfájl részévé szeretnénk tenni. Először létre kell hoznunk egy kis fájlt, amely az MBR-t fogja tartalmazni:</p>
-<pre>
-dd if=/dev/zero of=/mbr/fajl/helye count=32
-</pre>
-				<p>Ennek hatására egy 16 Kb-os (32 * 512 bájt) fájl lett létrehozva. Fontos, hogy ne legyen túl kicsi (bár az MBR csak 512 bájtos blokkot igényelne), mert a kisebb fájl kisebb blokkméretet eredményez majd a szoftveres RAID eszközön, az viszont rossz hatással lenne a teljesítményre. Adjunk hozzá egy loopback eszközt az MBR fájlhoz:</p>
-<pre>
-losetup -f /mbr/fajl/helye
-</pre>
-				<p>Tegyük fel, hogy a létrejött eszköz a /dev/loop0 lett (azaz ez az elsőnek létrejött loopback eszközünk). A következő lépés, hogy elkészítjük az "összefűzött" MBR + /dev/sdaN diszk képfájl párost, a szoftveres RAID segítségével:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-				<p>Eredményként egy /dev/md0 eszközt kapunk, amelyet a QEMU lemezképfájlként fog tudni használni (ne felejts el megfelelő jogokat beállítani a fájlon, hogy a QEMU hozzáférhessen). Az utolsó (és szintén trükkös) lépés, hogy beállítjuk a lemez adatait (lemez geometria és partíciós tábla), úgy, hogy az MBR-ben az elsődleges partíció kezdőpontja megegyezzen az egyik /dev/sdaN eszközével a /dev/md0 tömb belsejében (példánkban a 16 * 512 = 16384 bájt eltolása). Ezt az fdisk paranccsal végezheted el a gazdagépen (nem az emulátorban! A QEMU alapértelmezett nyers lemez detektáló rutinja gyakran eredményez nem kilobájtra kerekíthető offszeteket (mint pl. 31.5 KB az előző bekezdésben), amit a szoftveres RAID nem tud lekezelni. Így tehát a gazdagépen add ki):</p>
-<pre>
- fdisk /dev/md0
-</pre>
-				<p>Hozz létre egy elsődleges partíciót a /dev/sdaN-hez igazodva, és addig igazgasd a 's'ector parancsot az e'x'pert menüből, amíg az első cilinder (ahol az első partíció kezdődik), megegyezik az MBR méretével. Végül a 'w'rite parancs elmenti az eredményt a fájlba: készen is vagyunk. Van egy partíciód, amit a saját rendszereden is felmountolhatsz és a  QEMU is lekezeli, mint lemez képfájlt:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-				<p>Természetesen bármilyen rendszerbetöltő telepíthető a QEMU-ban erre a képfájlra, mivel a az eredeti /boot/sdaN partíció tartalmazza a szükséges eszközöket.</p>
-
-
-
-			<h4>A QEMU Accelerator (gyorsító) Modul használata</h4>
-
-				<p>A QEMU fejlesztői készítettek egy opcionális kernel modult, ami felgyorsítja a QEMU-t, ezáltal gyakran közel natív teljesítményt biztosítva. Ehhez a következő opcióval töltsük be a modult:</p>
-<pre>
-major=0
-</pre>
-				<p>A szükséges /dev/kqemu eszköz létrehozásának automatizálására a következő parancs szolgál:</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
-</pre>
-				<p>Ez kiegészíti a modprobe.conf-ot, amely biztosítja hogy a modul mindig a megfelelő opcióval töltődik be.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-				<p>Ezzel a teljes virtualizációt engedélyezzük, amely érezhető sebességnövekedést eredményez.</p>
-
-			<h4>A QEMU indítása:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">A QEMU projekt hivatalos dokumentációja </a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">A sidux Kézikönyv QEMU-ra vonatkozó egyes részei külső helyekről származnak a GNU Szabad Documentációs Licensz 1.2 alatt és hozzá lettek igazítva a sidux Kézikönyvhöz.</a> </p>
-
-
-	</div>
-	<div id="rev">Az oldal utoljára módosítva 13/03/2010 1140 UTC</div>
+	<div id="rev">Az oldal utoljára módosítva 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

@@ -20,8 +20,8 @@
 <!-- Last translation revision bluewater 28/12/2009 1445 UTC-->
 <body>
 <div id="menu"> <!-- menu starts here fr lang maintainer LjanA, alphad-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Vers sidux.com, forum et wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -103,8 +103,7 @@
 				<li><a href="hd-install-opts-fr.htm#usb-hd">Installer sur un disque USB - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Writing sidux to a USB/SSD stick with any Linux, MS Windows or Mac OS X system</a></li>
 				<li><a href="nbdboot-fr.htm#nbd1">Booting sidux over a network</a></li>
-				<li><a href="hd-install-opts-fr.htm#vtbox">Installer sidux avec VirtualBox</a></li>
-				<li><a href="hd-install-opts-fr.htm#qemu">Installer sidux avec QEMU</a></li>
+				<li><a href="hd-install-vmopts-fr.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes Graphiques, , Xorg, Matériels et pilotes</a>
@@ -206,6 +205,7 @@
 <!-- menu ends here --></div>
 <div id="main-page">
 	<div class="divider" id="nbd1">
+<!--- ####
 			<h2 id="top-header">Booting sidux over a network (network block device - nbd)</h2>
 
 							<p><span class="highlight-2">Warning: dnsmasq includes a dhcp server which can conflict with an existing dhcp server on your network (your router may provide one). </span>   <span class="highlight-3">The safest option is to only use one dhcp server on any network. This means you should disable any other dhcp servers on the same network. The dnsmasq proxy options outlined below should be able to co-exist with another dhcp server on the same network, however please do not try this unless you administer the network and are ready to deal with any unforeseen consequences which might crop up.</span></p>
@@ -219,7 +219,22 @@
 							<p>A 2009-04 (or newer) sidux iso booted up to use as the network boot server. The instructions should be basically the same with any up to date sidux or debian sid machine and should provide all the clues you need to use on other systems. Linux is required to serve nbd devices.</p>
 
 							<p>dnsmasq will be used to provide everything for the initial booting phases, again it shouldn't be hard to translate the required knowledge to other software.</p>
+### --->
+			<h2 id="top-header">Démarrer sidur en réseau (network block device - nbd)</h2>
 
+							<p><span class="highlight-2">Attention: dnsmasq comprend un serveur DHCP qui peuvent entrer en conflit avec un serveur DHCP existant sur votre réseau (votre routeur peut fournir un). </span>   <span class="highlight-3">L'option la plus sûre est d'utiliser un seul serveur DHCP sur n'importe quel réseau. Cela signifie que vous devez désactiver tous les serveurs DHCP d'autres sur le même réseau. Les options de proxy dnsmasq décrites ci-dessous devraient être en mesure de coexister avec un autre serveur DHCP sur le même réseau, mais s'il vous plaît n'essayez que si vous administrez le réseau et prêts à faire face aux conséquences imprévues qui pourraient survenir.</span></p>
+
+			      <h4>Les bases</h4>
+							<p>le Démarrage en réseau exige d'abord que vous avez une machine capable de démarrer en réseau, qui peut être connecté via un réseau que vous exécutez sur une machine dont vous pouvez configurer pour offrir des services de démarrage en réseau. </p>
+
+							<p>Ne pas le faire sur votre réseau d'entreprise, ou tout autre réseau que vous ne contrôlez pas, sauf si vous administrez ce réseau ou obtenez la permission et l'assistance de ceux qui le font. Si vous êtes co-exploitant dans un réseau plus vaste, vous pouvez examiner toutes les options de dnsmasq, par exemple la limitation des interfaces qu'il audite ou sur le ou les clients gérés, de limiter l'impact de votre installation sur le réseau.</p>
+
+			      <h4>Les préréquis</h4>
+							<p>Une ISO sidux 2009-04 (ou plus récent)  démarré à utiliser comme serveur de démarrage réseau. Les instructions devraient être sensiblement les mêmes avec toute machine sidux ou debian sid à jour et doit fournir tous les indices dont vous avez besoin d'utiliser sur d'autres systèmes. Linux est nécessaire pour servir de dispositifs NBD.</p>
+
+							<p>dnsmasq sera utilisé pour tout fournir au démarrage initial, encore, il ne devrait pas être difficile de traduire les connaissances requises pour d'autres logiciels.</p>
+
+<!--- ####
 				<h6>Installation</h6>
 <pre>
 apt-get install nbd-server dnsmasq
@@ -306,6 +321,93 @@ fromhd=/dev/nbdroot root=/dev/nbdroot nbdroot=192.168.1.23,9040
 							<p>As long as your bios supports booting from the network, the machine is connected to a network with your server and the sidux kernel and initrd.img support your network card, you should be able to boot sidux from the network. </p>
 
 							<p>Some network cards may require non-free firmware which will require rebuilding the initrd image to include the firmware.</p>
+### --->
+				<h6>Installation</h6>
+<pre>
+apt-get install nbd-server dnsmasq
+</pre>
+
+				<h3>configuration du serveur nbd</h3>
+
+							<p> En supposant l'ISO peut être trouvé sur <span class="highlight-3">/dev/scd0</span>,  (Ce qui peut probablement être si le cas vous avez démarré à partir du CD, sinon substit pour n'importe quel fichier ou dispositif approprié), puis vous pouvez configurer un fichier serveur nbd-conf appelé <span class="highlight-3">nbd-sidux.conf</span> avec une section intitulée sidux-iso pour exporter le cd sur le port 9040 en exécutant le texte suivant</p>
+<pre>
+echo '[generic]' &gt; nbd-sidux.conf
+nbd-server 9040 /dev/scd0 -o sidux-iso &gt;&gt; nbd-sidux.conf
+</pre>
+							<p>L'en-tête générique est toujours nécessaire. Si vous voulez configurer le serveur NBD-pour fonctionner automatiquement sur un système réel, vous voudrez probablement configurer / etc / nbd-server.conf . Il ya beaucoup plus d'options pour nbd-server que montré ici, voir <span class="highlight-3">man nbd-server.</span></p>
+
+							<p>maintenant pour démarrer le serveur, en tant qu'utilisateur normal et sans se soucier de la configuration ou de copier le fichier dans le <span class="highlight-3">/etc/nbd-server.conf</span>, vous pouvez juste lancer:</p>
+<pre>
+nbd-server -C nbd-sidux.conf
+</pre>
+							<p>L'objectif de la NBD-serveur n'a pas à être un ISO ou un CD / DVD / clé USB, il doit juste contenir une image de système de fichiers approprié.</p>
+
+				  <h4>dnsmasq</h4>
+							<p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p>
+
+							<p>Les principales options de dnsmasq pour démarrer sidux en réseau est de configurer les fichiers du serveur TFTP et un fichier pour qu'il boot à partir de là. </p>
+
+							<p>Créer un répertoire <span class="highlight-3">tftp</span> pour démarrer dans le <span class="highlight-3">/home</span> (vous pouvez le créer dans n'importe lequel des repertoire de votre choix). Vous obtiendrez donc <span class="highlight-3">/home/tftp</span>.</p>
+
+							<p>Ensuite créer un fichier nommé <span class="highlight-3">pxe-sidux.conf</span> et coller ceci:</p>
+<pre>
+dhcp-range=0.0.0.0,proxy
+pxe-service=x86PC, &quot;boot linux&quot;, pxelinux
+enable-tftp
+tftp-root=/home/tftp
+tftp-secure
+</pre>
+							<p>Lorsque vous utilisez le proxy DHCP, vous devez fournir un menu PXE avec pxelinux comme seule entrée qui sera par conséquent, démarrée automatiquement. C'est ce à quoi l'élément isolé pxe-service est destiné.</p>
+
+ 							<p>En tant qu'administrateur, déplacer le nouveau fichier créé <span class="highlight-3">pxe-sidux.conf</span> vers <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
+<pre>
+sux
+mv pxe-sidux.conf /etc/dnsmasq.d/
+</pre>
+
+							<p>Note: Pour un réseau (par exemple 192.168.0 .*) sans autre serveur DHCP vous pourriez changer les deux premières lignes par:</p>
+<pre>
+dhcp-range=192.168.0.100,192.168.0.199,1h
+dhcp-boot=pxelinux.0
+</pre>
+
+							<p>Pour donner des adresses IP commençant par 192.168.0.100 et se terminant par 192.168.0.199 avec un temps d'une heure, et de fournir le fichier pour simplement exécuter pxelinux.0 comme requête DHCP (si vous utilisez le proxy vous utilisez un menu PXE avec pxelinux comme entrée qui va automatiquement le démarrer). Cela probablement ne configurera pas votre réseau comme vous le souhaitez à moins que votre serveur dnsmasq ne soit votre serveur DNS et la passerelle pour les clients de démarrage.</p>
+
+							<p>Pour lancer le nouveau fichier vous avez besoin de décomenter <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> à la fin de <span class="highlight-3">/etc/dnsmasq.conf</span> et redémarrer dnsmasq.</p>
+
+							<p>dnsmasq a de nombreuses options et peut agir comme un serveur dns autant que comme serveur dhcp, pxe et tftp. Ce qui suit n'est qu'un aperçu minimal des éléments nécéssaires à l'utilisation de pxelinux.</p>
+
+				  <h4>tftp</h4>
+							<p>TFTP est l'équivalent du réseau le répertoire de démarrage. Utiliser l'exemple dans le répertoire <span class="highlight-3">/home/tftp </span> que vous devez remplir. Si le cdrom est monté dans <span class="highlight-3">/fll/scd0</span>:</p>
+<pre>
+cp /fll/scd0/boot/isolinux/* /home/tftp
+mkdir /home/tftp/pxelinux.cfg
+mv /home/tftp/isolinux.cfg /home/tftp/pxelinux.cfg/default
+mkdir /home/tftp/boot
+cp /fll/scd0/boot/vmlin* /fll/scd0/boot/initr* /fll/scd0/boot/memtest* /home/tftp/boot/
+cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
+# required for the tftp-secure option to dnsmasq
+chown -R dnsmasq.dnsmasq /home/tftp/*
+</pre>
+
+							<p>Maintenant vous pouvez éditer les options de démarrage à votre choix dans le fichier <span class="highlight-3">/home/tftp</span> et également le fichier <span class="highlight-3">pxelinux.cfg/default</span> ainsi que <span class="highlight-3">gfxboot.cfg</span>. Il est suggéré en particulier que sous la section <span class="highlight-3">[install]</span> vous mettiez <span class="highlight-3">install= </span>dans <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> comme serveur IP du réseau et <span class="highlight-3">install.nbd.port</span> à celui configuré lorsque vous avez crée le nbd-server.</p>
+
+							<p>Sinon, vous pouvez désactiver le menu F3 complètement et modifier les lignes de commande du noyau à utiliser quelque chose comme:</p>
+<pre>
+fromhd=/dev/nbdroot root=/dev/nbdroot nbdroot=192.168.1.23,9040
+</pre>
+
+
+					<h6>Code de démarrage toram</h6>
+							<p>Si vous ajoutez à toram aux options de démarrage, les machines avec assez de RAM lancera le serveur dès qu'ils copier le fichier et les machines sans suffisamment de RAM vont suivre et démarrer normalement. Au moins 1 Go de RAM, (idéalement 2 gig ou plus) sont nécessaires pour toram.</p>
+
+				      <h4>Démarrer du réseau</h4>
+
+							<p>Veiller à ce que le BIOS du PC client est configuré pour utiliser <span class="highlight-3">Démarrage en réseau (Boot from Network)</span>. </p>
+
+							<p>Tant que votre BIOS supporte le démarrage depuis le réseau, la machine est connectée à un réseau avec votre serveur et le noyau sidux et initrd.img supportent votre carte réseau, vous devriez être en mesure de  démarrer sidux depuis le réseau.</p>
+
+							<p>Certaines cartes réseau peuvent nécessiter un pilote propriétaire qui nécessitera la reconstruction de l'image initrd afin d'inclure le pilote.</p>
 
 
 	</div>

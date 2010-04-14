@@ -20,8 +20,8 @@
 <body>
 <!-- Last file translation revision qq 25/06/2008 0900 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintainer Adriana, Dorin-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="La pagina sidux.com forum-uri şi wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -103,8 +103,7 @@
 				<li><a href="hd-install-opts-ro.htm#usb-hd">Instalarea pe un USB-Hard Disc - utilizând sidux - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-ro.htm#raw-usb">Instalarea sidux pe un USB/SSD stick cu orice sistem Linux, MS Windows sau Mac OS X </a></li>
 				<li><a href="nbdboot-ro.htm#nbd1">Boot-area sidux în rețea</a></li>
-				<li><a href="hd-install-opts-ro.htm#vtbox">Instalarea prin VirtualBox</a></li>
-				<li><a href="hd-install-opts-ro.htm#qemu">Instalarea prin QEMU</a></li>
+				<li><a href="hd-install-vmopts-ro.htm#vm">Mașini Virtuale - opțiuni de instalare</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-ro.htm">Plăci Grafice, Dispozitive Hardware, Xorg &amp; Drivere</a>
@@ -212,7 +211,7 @@
 	<div class="divider" id="non-free">
 			<h2>Listele cu Surse</h2>
 
-							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi <span class="highlight-3">contrib non-free</span> la <span class="highlight-3"> /etc/apt/sources.list.d/debian.list și /etc/apt/sources.list.d/sidux.list.</span> Liniile voastre ar trebui să arate cam așa, depinzând de locația aleasă (.de; .at; ...):</p>
+							<p>Din cauză că sidux conţine doar software dfsg free va trebui să adăugaţi <span class="highlight-3">contrib non-free</span> la <span class="highlight-3"> /etc/apt/sources.list.d/debian.list </span> și <span class="highlight-3"> /etc/apt/sources.list.d/sidux.list.</span> Liniile voastre ar trebui să arate cam așa, depinzând de locația aleasă (.de; .at; ...):</p>
 <pre>
 # Debian
 deb http://ftp.de.debian.org/debian unstable main contrib non-free
@@ -235,51 +234,50 @@ deb http://sidux.com/debian/ sid main fix.main
 
 							<p>Driverele Intel trebuie să lucreze perfect pentru acceleratoare video 2D și 3D așa cum sunt incluse în seria free de la Intel.</p>
 
-							<p><span class="highlight-3"> Note: xorg.conf nu este în general necesar pentru driverele open source. Dacă xorg.conf nu există și doriți să fie prezent din diferite motive rulați într-un terminal:</span></p>
+							<p><span class="highlight-3"> NOTĂ: <i>xorg.conf</i> nu este în general necesar pentru driverele open source. Dacă <i>xorg.conf</i> nu există și doriți să fie prezent din diferite motive rulați într-un terminal:</span></p>
 <pre>
 apt-get update
 apt-get install xorg
-X -configure
 </pre>
-							<p>Această comandă scrie un fișier xorg.conf, plasat în directorul <i> /root </i> și numit <span class="highlight-3">xorg.conf.new</span> conținând informațiile esențiale. Următorul pas este să-l mutăm și să-l redenumim:</p>
+							<!--<p>Această comandă scrie un fișier x<i>org.conf</i>, plasat în directorul <i> /root </i> și numit <span class="highlight-3">xorg.conf.new</span> conținând informațiile esențiale. Următorul pas este să-l mutăm și să-l redenumim:</p>
 <pre>
 mkdir /etc/X11/xorg.conf.d
 mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
-</pre>
+</pre>-->
 
-							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>Dacă ați folosit drivere proprietare și doriți să reveniți la drivere opensource editați <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> într-un editor de texte cu permisiuni de <i> root </i>. Găsiți secțiunea SECTION DEVICE și schimbați numele driverului video în <span class="highlight-2">nv</span> SAU <span class="highlight-2">radeon</span> SAU <span class="highlight-2">intel</span> (am numit doar câteva).</p>
 
-							<p class="highlight-2">Editarea <i>xorg.conf</i> o faceți în totalitate pe riscul dumneavoastră!!</p>
+							<p class="highlight-2">Editarea <i>xorg.conf</i> o faceți în totalitate pe riscul dumneavoastră.</p>
 
 							<p>Mai multe informaţii despre <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
 
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Drivere closed-sourse, binare pentru: nVidia cu dmakms &amp; Xorg</h2>
+		<h2>Drivere closed-sourse, binare pentru <i>nVidia</i> cu <i>dmakms</i> &amp; <i>Xorg</i></h2>
 
-							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
+							<p><span class="highlight-2">În general <i>Xorg</i> nu este necesar, exceptând cazul în care intenționați să folosiți drivere video/grafice closed source:</p>
 
 <pre>
 apt-get update
 apt-get install xorg
 </pre>
-							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+							<p>Pentru o listă mai completă și precisă cu procesoarele grafice (GPU) suportate vă rog să vedeți <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
 
 							<p>Puteți citi de asemenea: <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> pentru alte opțiuni.</p>
 
-							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+							<p>La noile și vechile instalări </span> asigurați-vă că exiată directorul <span class="highlight-3">xorg.conf.d </span> în <span class="highlight-3">/etc/X11</span> și adăugați în el un fișier numit <span class="highlight-3"> 15-nvidia.conf</span>.</p>
 <pre>
 mv /etc/X11/xorg.conf /etc/X11/xorg.old
 mkdir /etc/X11/xorg.conf.d
 touch /etc/X11/xorg.conf.d/15-nvidia.conf
 </pre>
-							<p>With your favourite text editor:</p>
+							<p>Cu editorul de texte preferat deschideți fișierul:</p>
 
 <pre>
 &lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
 </pre>
-							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+							<p>și adăugați în întregime următoarele linii la <i>15-nvidia.conf</i>:</p>
 <pre>
 #
 Section "Device"
@@ -287,7 +285,7 @@ Section "Device"
          Driver          "nvidia"
 EndSection
 </pre>
-							<p>Dacă aveți mai mult de o placă grafică va trebui să descoperiți portul PCI și s-o includeți în the <i>xorg.conf</i>:</p>
+							<p>Dacă aveți mai mult de o placă grafică va trebui să descoperiți portul PCI și s-o includeți în  <i>xorg.conf</i>:</p>
 <pre>
 lspci | grep -i vga
 </pre>
@@ -313,7 +311,7 @@ mv xorg.conf /etc/X11/xorg.conf
 <pre>
 apt-get install nvidia-kernel-source nvidia-kernel-common dmakms
 </pre>
-							<p>Apoi activează Dynamic Module-Assistant Kernel Module Support (dmakms) pentru nvidia, asfel încât următoarea data când kernel-ul Linux este actualizat un modul nvidia este pregătit deasemeni, fără intervenție manuală. Ca să faceți asta, adăugați <span class="highlight-3">nvidia-kernel-source</span> la <span class="highlight-3">/etc/default/dmakms </span> dosarul configurare:</p>
+							<p>Apoi activează Dynamic Module-Assistant Kernel Module Support (dmakms) pentru nvidia, asfel încât următoarea data când kernel-ul Linux este actualizat un modul nvidia este pregătit deasemeni, fără intervenție manuală. Ca să faceți asta, adăugați <span class="highlight-3">nvidia-kernel-source</span> la <span class="highlight-3">/etc/default/dmakms </span> dosarul de configurare:</p>
 
 <pre>
 echo nvidia-kernel-source >> /etc/default/dmakms
@@ -341,12 +339,21 @@ apt-get install --reinstall nvidia-glx
 </pre>
 						      <p>Reboot-ați PC-ul ca instalarea modulului să aibă efect.</p>
 
-					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+					      <h4>Formatul numelor pentru driverele legacy nvidia în Debian</h4>
 						  <ul>
-						      <li>legacy-71xx is for GeForce 2</li> <li>legacy-96xx is for GeForce 4</li> <li>legacy-173xx is for GeForce 5</li>
+						      <li>nvidia-kernel-legacy-71xx este pentru GeForce 2</li>
+						      <li>nvidia-kernel-legacy-96xx este pentru GeForce 4</li>
+						      <li>nvidia-kernel-legacy-173xx este pentru GeForce 5</li>
 						  </ul>
 
-					<h5>PExample for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
+					<h5>Examplu de utilizare pentru drivere legacy 3d nvidia folosind &le; GeForce 5xxx :</h5>
+
+							<p>For other legacy drivers just replace 173xx number with your driver number.</p>
+
+
+
+							<p>For other legacy drivers just replace 173xx number with your driver number.</p>
+
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
@@ -400,7 +407,7 @@ apt-get install firmware-linux
 </pre>
 							<p>Apoi reboot-ați computerul.</p>
 
-							<p>If you have a requirement for xorg:</p>
+							<p>Dacă vi se cere <i>xorg</i> atunci:</p>
 <pre>
 apt-get update
 apt-get install xorg
@@ -1130,7 +1137,7 @@ exit
 
 
 
-			<div id="rev">Content last revised 08/04/2010 1000 UTC</div>
+			<div id="rev">Content last revised 10/04/2010 0620 UTC</div>
 
 </div>
 </div>

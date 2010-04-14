@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by edhunter 10/02/2010 2345 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintainer edhunter-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="To sidux.com forums and wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-el.htm#usb-hd">Eγκατάσταση σε USB σκληρό δίσκο - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-el.htm#raw-usb">Εγραφή του sidux σε USB/SSD stick με Linux, MS Windows ή Mac OS X σύστημα</a></li>
 				<li><a href="nbdboot-el.htm#nbd1">Εκκίνηση του sidux μέσω δικτύου</a></li>
-				<li><a href="hd-install-opts-el.htm#vtbox">Εγκατάσταση του sidux με VirtualBox</a></li>
-				<li><a href="hd-install-opts-el.htm#qemu">Εγκατάσταση μέσω QEMU</a></li>
+				<li><a href="hd-install-vmopts-el.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-el.htm">Κάρτες Γραφικών, Xorg, Υλικό και Οδηγοί </a>
@@ -533,236 +532,9 @@ $ man fll-iso2usb
 							<!--li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration..</li-->
 							<li>Αν θέλετε να χρησιμοποιήσετε την εγκατάσταση σε ένα άλλο μηχάνημα, προσέξτε ότι θα πρέπει να κάνετε ορισμένες αλλαγές στο fstab για να έχετε πρόσβαση στους δίσκους του υπολογιστή, στο xorg.conf και πιθανών στις ρυθμίσεις δικτύου.</li>
 						</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<!--h2>Installing sidux with VirtualBox</h2>-->
-		<h2>Εγκατάσταση sidux με VirtualBox</h2>
-							<!--p>The Steps:</p>-->
-							<p>Τα βήματα:</p>
-						<ul>
- 							<!--li>1. create a harddiskimage for VirtualBox</li>-->
-							<li>δημιουργήστε ένα εικονικό αρχείο σκληρού δίσκου (hard disk image) για το VirtualBox</li>
- 							<!--li>2. boot the iso with VirtualBox</li>-->
-							<li>2. εκκίνηστε από το ISO με VirtualBox</li>
- 							<!--li>3. install on the image</li>-->
-							<li>3. εγκαταστήστε στον εικονικό σκληρό δίσκο</li>
-						</ul>
-
-				<!--h4>Requirements</h4>-->
-				<h4>Απαιτήσεις</h4>
-							<!--p><span class="highlight-3">Recommended ram: 1 gig </span>: Ideally 512 MB for the guest and 512 MB for the host. (it can be run on less, but do not expect to have good performance).</p>-->
-							<p><span class="highlight-3">Συνιστώμενη ram: 1 giga</span>: Ιδανική μνήμη  512 ΜΒ  για τον επισκέπτη (guest) και 512 ΜΒ για τον κυρίως χρήστη (host). (μπορεί να τρέξει και με λιγότερη ram, αλλά μην αναμένετε να έχει καλή απόδωση).</p>
-							<!--p><span class="highlight-3">Hard disk space:</span> While VirtualBox itself is very lean (a typical installation will only need about 30 MB of hard disk space), the virtual machines will require fairly huge files on disk to represent their own hard disk storage. So, to install MS Windows XP (TM), for example, you will need a file that will easily grow to several GB in size. To have sidux in VirtualBox you need to allocate a 5 gig image plus a swap allocation.</p>-->
-							<p><span class="highlight-3">Χωρητικότητα σκληρού δίσκου:</span>Ενώ το VirtualBox από μόνο του έχει πολύ ελαφριά αποθήκευση (μια τυπική εγκατάσταση θα χρειαστεί περί τα 30 ΜΒ του σκληρού δίσκου ), οι εικονικές μηχανές θα απαιτήσουν αρκετά μεγαλύτερα αρχεία σε δίσκο για την αποθήκευση τους, στους σκληρούς δίσκους τους. Έτσι, για να εγκαταστήσετε το MS Windows XP (TM), παραδείγματος χάριν, θα χρειαστείτε ένα αρχείο που θα αυξηθεί εύκολα σε αρκετά GB. Για να έχετε sidux σε VirtualBox πρέπει να διαθέσετε μια 5 giga εικονική κατάτμηση συν μια κατάτμηση swap.</p>
-
-				<h3>Εγκατάσταση:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Προετοιμασία του module:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<!--p>Then activate Dynamic Module-Assistant Kernel Module Support for virtualbox, so that the next time the Linux kernel is updated a virtualbox module is prepared for it too, without manual intervention. To do that, add <span class="highlight-3">virtualbox-ose-source</span> to the <span class="highlight-3">/etc/default/dmakms </span>configuration file. </p-->
-							<p>Μετά ενεργοποιήστε το Dynamic Module-Assistant Kernel Module Support για το virtualbox, έτσι ώστε την επόμενη φορά που θα αναβαθμιστεί ο πυρήνας Linux θα ετοιμαστεί ένα virtualbox module για αυτόν χωρίς να χρειαστεί να κάνετε κάτι εσείς. Για να το κάνετε αυτό, προσθέστε <span class="highlight-3">virtualbox-ose-source</span> στο <span class="highlight-3">/etc/default/dmakms </span>αρχείο ρυθμίσεων. </p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<!--p>Then reboot the computer.</p-->
-							<p>Μετά επανεκκινήστε τον υπολογιστή.</p>
-
-							<p><a href="sys-admin-kern-upg-el.htm#dmakms">Αυτές είναι απαραίτητες πληροφορίες για το dmakms</a></p>
-
-						      <!--p>virtualbox-ose-source will pull in dkms,  which will build the modules and automatically re-build and update the modules when virtualbox, dkms or the kernel updates.</p-->
-							<!--<p>Το virtualbox-ose-source θα εγκαταστήσει και το dkms, το οποίο θα κτίσει τα modules και θα ξανά κτίζει αυτόματα τα modules όταν ενημερώνονται το virtualbox, dkms ή ο πυρήνας.</p>-->
-
-							<!--p>Reboot your PC for the kernel to access the module after the initial installation.</p-->
-							<!--<p>Μετά την αρχική εγκατάσταση επανεκκινήστε τον υπολογιστή για να αποκτήση ο πυρήνας πρόσβαση στο module.</p>-->
-
-							<!--p>When the kernel is upgraded you will need to activate the module before starting virtualbox to avoid error messages. To avoid manual intervention each time the kernel updates, edit with your preferred editor as root <span class="highlight-3">/etc/rc.local</span> to look like this:</p-->
-							<!--<p>Όταν αναβαθμίζεται ο πυρήνας, θα πρέπει να ενεργοποιήσετε το module για το virtualbox πριν το τρέξετε για να αποφύγετε τυχών μηνύματα λάθους. Για να μην χρειάζεται να το κάνετε αυτό μετά από κάθε αναβάθμιση πυρήνα, επεξεργαστείτε σαν root το αρχείο <span class="highlight-3">/etc/rc.local</span> και βάλτε μέσα τα ακόλουθα:</p>
-<pre>
-# By default this script does nothing.
-modprobe vboxdrv
-exit 0
-</pre>
-							<p>Το dkms και το dmakms μπορούν να συνυπάρχουν σε μια εγκατάσταση, διαβάστε:</p>
-
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<!--h3>Installing sidux to the virtual machine</h3>-->
-					<h3>Εγκατάσταση sidux στην εικονική μηχανή</h3>
-							<!--p>Use virtualbox's wizard to create a new virtual machine for sidux. then follow the instructions for a regular sidux-installation.</p>-->
-							<p>Χρησιμοποιείστε τον διάλογο  χρήσης του virtualbox για να δημιουργηθεί μια νέα εικονική μηχανή για το sidux. Ακολουθεί έπειτα τις οδηγίες για μια κανονική sidux-εγκατάσταση.</p>
-
-							<!--p><a href="http://www.virtualbox.org/">VirtualBox has a comprehesive PDF Help, that you can download</a> </p-->
-
-							<p><a href="http://www.virtualbox.org/"> το VirtualBox έχει ένα πλήρες PDF αρχείο βοηθείας το οποίο μπορείτε να κατεβάσετε</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<!--h2>Installing sidux with QEMU</h2>-->
-		<h2>Εγκαταστήστε το sidux με QEMU</h2>
-
-		<ul>
- 			<!--li>1. create a harddiskimage for QEMU</li>-->
-			<li>δημιουργήστε μια εικόνα σκληρού δίσκου για το QEMU</li>
- 			<!--li>2. boot the iso with QEMU</_li>-->
-			<li>εκκινήστε από το iso με QEMU</li>
- 			<!--li>3. install on the image</li>-->
-			<li>εγκαταστήστε στον εικονικό σκληρό δίσκο</li>
-
-		</ul>
-
-							<p>A QT GUI tool is available to help you configure QEMU:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<!--h4>Creating the hard disk image</h4>-->
-				<h4>Δημιουργία της εικόνας σκληρού δίσκου</h4>
-
-				<!--p>To run qemu you will probably need a hard disk image. This is a file which stores the contents of the emulated hard disk.</p>-->
-				<p>Για να τρέξετε το qemu θα χρειαστείτε πιθανώς μια εικόνα σκληρού δίσκου. Αυτό είναι ένα αρχείο που αποθηκεύει το περιεχόμενο του μιμούμενου (emulated) σκληρού δίσκου.</p>
-
-				<!--p>Use the command:</p>-->
-				<p>Χρησιμοποιείστε τις εντολές:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-				<!--p>To create the image file named "sidux.qcow". The "3G" parameter specifies the size of the disk - in this case 3 GB. You can use suffix M for megabytes (for example "256M"). You shouldn't worry too much about the size of the disk - the qcow format compresses the image so that the empty space doesn't add up to the size of the file.</p>-->
-				<p>Για να δημιουργήσει την εικόνα με όνομα αρχείου " sidux.qcow. Η "3G" παράμετρος διευκρινίζει το μέγεθος του δίσκου - σε αυτήν την περίπτωση 3 GB. Μπορείτε να χρησιμοποιήσετε το επίθεμα Μ για τα μεγαμπάιτ (παραδείγματος χάριν "256M"). Δεν χρειάζεται να ανησυχείτε πάρα πολύ για το μέγεθος του δίσκου - το πρόγραμμα qcow συμπιέζει την εικόνα έτσι ώστε ο κενός χώρος δεν προστίθεται επάνω στο μέγεθος του αρχείου.</p>
-
-
-			<!--h4>Installing the operating system</h4>-->
-			<h4>Εγκατάσταση του λειτουργικού συστήματος</h4>
-
-				<!--p>This is the first time you will need to start the emulator. <span class="highlight-3">One thing to keep in mind: when you click inside qemu window, the mouse pointer is grabbed. To release it press :</span></p>-->
-				<p>Αυτό είναι την πρώτη φορά που θα πρέπει να ξεκινήσετε τον εξομοιωτή (emulator). Ένα πράγμα που πρέπει να λάβετε υπόψη: όταν κάνετε κλικ μέσα στο παράθυρο qemu, ο δείκτης του ποντικιού δεσμεύεται (grab). Για να τον απελευθερώσετε πατήστε:</p>
-<pre>
-Ctrl+Alt
-</pre>
-
-				<!--p>If you need to use a bootable floppy, run Qemu with:</p>-->
-				<p>Εάν πρέπει να χρησιμοποιήσετε μια εκκινήσιμη (bootable) δισκέτα, τρέξτε το Qemu με</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<!--p>If your CD-ROM is bootable, run Qemu with:</p>-->
-				<p>Εάν το CD-ROM σας είναι εκκινήσιμο, τρέξτε το Qemu με:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<!--p>Now install sidux as if you were going to install it on a real HD</p>-->
-				<p>Τώρα εγκαταστήστε το sidux σαν να επρόκειτο να το εγκαταστήσετε σε ένα πραγματικό σκληρό δίσκο</p>
-
-
-			<!--h4>Running the system</h4>-->
-			<h4>Τρέξιμο του συστήματος</h4>
-
-				<!--p>To run the system simply type:</p>-->
-				<p>Για να τρέξετε το σύστημά απλά γράψτε:</p>
-<pre>
-qemu [είκονα_σκληρού_δίσκου]
-</pre>
-				<!--p>A good idea is to use overlay images. This way you can create hard disk image once and tell Qemu to store changes in external file. You get rid of all the instability, because it is so easy to revert to previous system state.</p>-->
-				<p>Μια καλή ιδέα είναι να χρησιμοποιηθούν επικαλυπτόμενες εικόνες. Με αυτόν τον τρόπο μπορείτε να δημιουργήσετε την εικόνα σκληρού δίσκου μια φορά και να πείτε του Qemu να αποθηκεύει τις αλλαγές σε ένα εξωτερικό αρχείο. Ξεφορτώνεστε όλη την αστάθεια, επειδή είναι τόσο εύκολο να επανέλθει στην προηγούμενη κατάσταση συστήματος (system state).</p>
-
-				<!--p>To create an overlay image, type:</p>-->
-				<p>Για να δημιουργήσετε μια καλυπτόμενη εικόνα, γράψτε:</p>
-<pre>
-qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
-</pre>
-				<!--p>Substitute the hard disk image for base_image (in our case sidux.qcow). After that you can run qemu with:</p>-->
-				<p>Αντικαταστήστε την εικόνα του σκληρού δίσκου με την βασική (base_image) εικόνα (στην περίπτωσή μας είναι το sidux.qcow). Μετά από αυτό μπορείτε να ξεκινήσετε την εφαρμογή Qemu με
-:</p>
-<pre>
-qemu [επικαλυπτόμενη_εικόνα]
-</pre>
-				<!--p>The original image will be left untouched. One hitch, the base image cannot be renamed or moved, the overlay remembers the base's full path.</p>-->
-				<p>Η αρχική εικόνα θα αφεθεί άθικτη. Ένα εμπόδιο, η βασική εικόνα δεν μπορεί να μετονομαστεί ή να μετακινηθεί, η διαδικασία της επικάλυψης θυμάται το μονοπάτι της βασικής εικόνας στον δίσκο.</p>
-
-
-			<!--h4>Using any real partition as the single primary partition of a hard disk image</h4>-->
-			<h4>Χρησιμοποιώντας οποιαδήποτε πραγματική κατάτμηση ως ενιαία αρχική κατάτμηση μιας εικόνας σκληρού δίσκου</h4>
-
-				<!--p>Sometimes, you may wish to use one of your system partition from within qemu (for instance, if you wish booting both your real machine or qemu using a given partition as root). You can do this using software RAID in linear mode (you need the linear.ko kernel driver) and a loopback device: the trick is to dynamically prepend a master boot record (MBR) to the real partition you wish to embed in a qemu raw disk image.</p>-->
-				<p>Μερικές φορές, μπορεί να επιθυμήτε να χρησιμοποιήσετε μια από της κατατμήσεις του συστήματος σας μέσα από το qemu (για παράδειγμα, εάν επιθυμείτε την έναρξη της πραγματικής σας μηχανής ή του qemu χρησιμοποιώντας μια δεδομένη κατάτμηση σαν διαχειριστής-root). Μπορείτε να το κάνετε αυτό χρησιμοποιώντας το λογισμικό Raid στο γραμμικό τρόπο (χρειάζεστε τον οδηγό πυρήνα linear.ko) και μια συσκευή loopback: το τέχνασμα είναι να κάνετε δυναμικά prepend ένα master boot record (MBR) στην πραγματική κατάτμηση που επιθυμείτε να ενσωματώσετε μέσα σε μια είκονα σκληρού δίσκου qemu.</p>
-
-				<!--p>Suppose you have a plain, unmounted /dev/sdaN partition with some filesystem on it you wish to make part of a qemu disk image. First, you create some small file to hold the MBR:</p>-->
-				<p>Υποθέστε ότι έχετε μια απλή, unmounted κατάτμηση /dev/sdaN με κάποιο σύστημα αρχείων (filesystem) και εσείς επιθυμείτε να την κάνετε μέρος μιας εικόνας δίσκου qemu. Κατ' αρχάς, δημιουργείστε κάποιο μικρό αρχείο για να κρατήσει το MBR:</p>
-<pre>
-dd if=/dev/zero of=/path/to/mbr count=32
-</pre>
-				<!--p>Here, a 16 KB (32 * 512 bytes) file is created. It is important not to make it too small (even if the MBR only needs a single 512 bytes block), since the smaller it will be, the smaller the chunk size of the software RAID device will have to be, which could have an impact on performance. Then, you setup a loopback device to the MBR file:</p>-->
-				<p>Εδώ, ένα αρχείο 16 KB (32 * 512 bytes) δημιουργείται. Είναι σημαντικό να μην είναι πάρα πολύ μικρό (ακόμα κι αν το MBR χρειάζεται μόνο ένα κομμάτι των 512 bytes), δεδομένου ότι όσο μικρότερο είναι, τόσο μικρότερο θα πρέπει να είναι το μέγεθος του λογισμικού της Raid συσκευής πράγμα που μπορεί να έχει αρνητική επίδραση στην απόδοση. Κατόπιν, ρυθμίζετε μια συσκευή loopback στο MBR:</p>
-<pre>
-losetup -f /path/to/mbr
-</pre>
-				<!--p>Let's assume the resulting device is /dev/loop0, because we wouldn't already have been using other loopbacks. Next step is to create the "merged" MBR + /dev/sdaN disk image using software RAID:</p>-->
-				<p>Ας υποθέσουμε ότι η συσκευή είναι το /dev/loop0, γιατί εμείς δεν έχουμε χρησιμοποιήσει άλλα loopbacks. Το επόμενο βήμα είναι να δημιουργηθεί το "merged" MBR + /dev/sdaN εικονικό αρχείο χρησιμοποιώντας το Raid λογισμικό:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-				<!--p>The resulting /dev/md0 is what you will use as a qemu raw disk image (don't forget to set the permissions so that the emulator can access it). The last (and somewhat tricky) step is to set the disk configuration (disk geometry and partitions table) so that the primary partition start point in the MBR matches the one of /dev/sdaN inside /dev/md0 (an offset of exactly 16 * 512 = 16384 bytes in this example). Do this using fdisk on the host machine, not in the emulator: the default raw disc detection routine from qemu often results in non kilobyte-roundable offsets (such as 31.5 KB, as in the previous section) that cannot be managed by the software RAID code. Hence, from the the host:</p>-->
-				<p>Η κατάληξη /dev/md0 είναι το τί θα χρησιμοποιήσετε ως μια qemu ακατέργαστη εικόνα δίσκου (μην ξεχνάτε να θέσετε τα δικαιώματα έτσι ώστε ο εξομοιωτής να μπορεί να έχει πρόσβαση σ'αυτό). Το τελευταίο (και κάπως δυσνόητο) βήμα είναι να τεθεί η διαμόρφωση δίσκων (γεωμετρία δίσκων και πίνακας κατατμήσεων) έτσι ώστε το αρχικό σημείο έναρξης χωρισμάτων στο MBR να ταιριάζει με ένα από το /dev/sdaN μέσα στο /dev/md0 (ένα offset ακριβώς 16 * 512 = 16384 bytes σε αυτό το παράδειγμα). Κάνετε αυτό χρησιμοποιώντας το fdisk στη μηχανή οικοδεσπότη όχι στον εξομοιωτή: η προεπιλεγμένη ρουτίνα ανίχνευσης δίσκων από το qemu οδηγεί συχνά σε μη roundable (δεν στρογγυλοποιούνται) kilobyte offsets (όπως 31.5 KB, όπως στο προηγούμενο τμήμα) που δεν μπορούν να ρυθμιστούν από τον κώδικα του Raid λογισμικού. Ως εκ τούτου, από τον οικοδεσπότη:</p>
-<pre>
- fdisk /dev/md0
-</pre>
-				<!--p>There, create a single primary partition corresponding to /dev/sdaN, and play with the 's'ector command from the 'x'pert menu until the first cylinder (where the first partition starts), matches to the size of the MBR. Finally, 'w'rite the result to the file: you are done. You now have a partition you can mount directly from your host, as well as part of a qemu disk image:</p>-->
-				<p>Δημιουργεί μία εννιαία αρχική κατάτμησή που αντιστοιχεί στο /dev/sdaN, και παίζει με το 's'ector από τις 'x'pert επιλογές μέχρι τον πρώτο κύλινδρο (όπου οι πρώτες ενάρξεις κατατμήσεων), αντιστοιχίες στο μέγεθος του MBR. Τέλος, ' w'rite το αποτέλεσμα στο αρχείο που κάνατε. Τώρα έχετε μία κατάτμηση που μπορείτε να τοποθετήσετε (mount) άμεσα από τον host σας, καθώς επίσης και μέρος μιας εικόνας δίσκου qemu:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-				<!--p>You can of course safely set any bootloader on this disk image using qemu, provided the original /boot/sdaN partition contains the necessary tools.</p>-->
-				<p>Μπορείτε φυσικά ακίνδυνα να θέσετε οποιοδήποτε bootloader σε αυτήν την εικόνα δίσκου χρησιμοποιώντας το qemu, υπό τον όρο ότι το αρχικό χώρισμα του /boot/sdaN περιέχει τα απαραίτητα εργαλεία.</p>
-
-
-
-			<!--h4>Using the QEMU Accelerator Module</h4>-->
-			<h4>Χρησιμοποίηση της ενότητας(module) επιταχυντών QEMU</h4>
-
-				<!--p>The developers of qemu have created an optional kernel module to accelerate qemu to sometimes near native levels. This should be loaded with the option</p>-->
-				<p>Οι υπεύθυνοι για την ανάπτυξη του qemu έχουν δημιουργήσει μια προαιρετική ενότητα πυρήνα για να επιταχύνουν το qemu μερικές φορές κοντά στα εγγενή επίπεδα. Αυτό πρέπει να φορτωθεί με την επιλογή</p>
-<pre>
-major=0
-</pre>
-				<!--p>to automate the creation of the required /dev/kqemu device. The following command</p>-->
-				<p>για να αυτοματοποιήσει τη δημιουργία της απαραίτητης συσκευής του /dev/kqemu. Η ακόλουθη εντολή</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
-</pre>
-				<!--p>This will amend modprobe.conf to ensure that the module option is added every time the module is loaded.</p>-->
-				<p>Αυτό θα τροποποιήσει το modprobe.conf για να εξασφαλίσει ότι η επιλογή ενότητας προστίθεται κάθε φορά που φορτώνεται η ενότητα.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-				<!--p>This enables full virtualization and thus improves speed considerably.</p>-->
-				<p>Αυτό επιτρέπει πλήρες εικονικοποίηση και βελτιώνει έτσι την ταχύτητα αρκετά.</p>
-
-			<!--h4>To activate qemu:</h4>-->
-			<h4>Για να ενεργοποιηθεί το qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<!--p><a href="http://fabrice.bellard.free.fr/qemu/qemu-doc.html">The official documentation of the QEMU Project </a> </p>-->
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Η επίσημη τεκμηρίωση του προγράμματος QEMU</a></p>
-		<!--p><a href="http://wiki2.archlinux.org/index.php/Qemu">Some content for QEMU for the sidux-manual was accessed off this site under GNU Free Documentation License 1.2 and modified for the sidux-manual</a> </p>-->
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Κάποιο περιεχόμενο για QEMU για το sidux-εγχειρίδιο προσεγγίστηκε από αυτήν την περιοχή με άδεια ελεύθερη τεκμηρίωσης GNU 1.2 και τροποποιήθηκε για το sidux-εγχειρίδιο</a></p>
-
-
-	</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 13/03/2010 1140 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

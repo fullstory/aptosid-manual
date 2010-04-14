@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 26/01/2010 2213 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintainer ceti-->
-<!--sidux-manual Operating System Manual menu-version-02.04.2010.02.21 -->
-<!-- menu last updated by bluewater 2010.02.21 0430 hrs UTC -->
+<!--sidux-manual Operating System Manual menu-version-02.05.2010.04.10 -->
+<!-- menu last updated by bluewater 2010.04.10 1300 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://sidux.com/"><img src="../lib/logos/manual-sidux-logo.png" title="Ir para sidux.com forums e wiki" alt="sidux.com logo" /></a>
 	</div>
@@ -102,8 +102,7 @@
 				<li><a href="hd-install-opts-pt-br.htm#usb-hd">Instalando em HD-USB - sidux specific - sidux-on-stick</a></li>
 				<li><a href="hd-ins-opts-oos-pt-br.htm#raw-usb">Instalando em dispositivo USB/SSD com qualquer sistema Linux, MS Windows ou Mac OSX</a></li>
 				<li><a href="nbdboot-pt-br.htm#nbd1">Inicializando o sidux através de uma rede</a></li>
-				<li><a href="hd-install-opts-pt-br.htm#vtbox">Instalando com o VirtualBox</a></li>
-				<li><a href="hd-install-opts-pt-br.htm#qemu">Instalando com o QEMU</a></li>
+				<li><a href="hd-install-vmopts-pt-br.htm#vm">Virtual Machine installation options</a></li>
 			</ul>
 		</li>
 		<li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-pt-br.htm">Placas de Vídeo, Dispositivos Diversos, Xorg &amp;  Drivers</a>
@@ -346,22 +345,22 @@ persist=/sidux/sidux-rw
 					<h6>Sistema de arquivos vfat</h6>
 							<p>Quando se usa vfat, a persistência é obtida através de um arquivo cujo tamanho máximo não pode ultrapassar 2GB (já o tamanho mínimo não pode ser inferior a 100MB, o que o tornaria inútil). Esse arquivo precisa ser nomeado <span class="highlight-3">sidux-rw</span>.</p>
 
-					 <h4>Example of creating persist after initial installation</h4>
-							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
+					 <h4>Exemplo de criação de persist após instalação inicial</h4>
+							<p>Se você não tiver certeza do ponto de montagem, monte a pendrive e rode <span class="highlight-3">ls -lh /media</span> para obter uma lista de todos os pontos de montagem de seu sistema. Procure por algo do tipo <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se sua saída estiver diferente, então substitua <span class="highlight-3">"/media/disk"</span> de acordo com sua realidade (por exemplo "/media/sdc1"):</p>
 
 <pre>
 disk="/media/disk"
 </pre>
 
-							<p>Set the size of the persist partition:</p>
+							<p>Especifique o tamanho da partição persist:</p>
 <pre>
 size=1024
 </pre>
-							<p>Make a directory on the stick:</p>
+							<p>Faça um diretório na pendrive:</p>
 <pre>
 mkdir $disk/sidux
 </pre>
-							<p>Run the code to make the persist partition:</p>
+							<p>Digite o seguinte código para fazer a partição persist:</p>
 
 <pre>
 dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/sidux/sidux-rw &amp;&amp;  tune2fs -c 0 "$disk/sidux/sidux-rw"
@@ -392,7 +391,7 @@ dd if=/dev/zero of=$disk/sidux/sidux-rw bs=1M count=$size &amp;&amp;  echo 'y' |
 				<h3>Instalação fromiso em dispositivos USB/SSD, sidux-on-a-stick</h3>
 							<p> <span class="highlight-3">Comece por formatar seu dispositivo USB com ext2 ou fat32, antes de prosseguir (mínimo de 2 GB de espaço). O dispositivo deve ter apenas uma partição e, como algumas BIOS são temperamentais, deve ser marcado como inicializável ('bootable').</span></p>
 
-							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
+							<p>Se você estiver usando uma aplicação que roda no X, como o GParted, favor assegurar-se de, primeiro, deletar a partição existente e então recriar a partição antes de formatar.</p>
 
 				<h5>USB fromiso from a HD sidux installed system:</h5>
 
@@ -458,183 +457,9 @@ $ man fll-iso2usb
 
 							<li>Se você quiser usar a instalação em outra máquina, esteja alertado para o fato de que serão necessários alguns ajustes, como alterar o arquivo /etc/fstab (para que as partições do PC fiquem acessíveis), editar o xorg.conf e, provavelmente, refazer a configuração da rede.</li>
 						</ul>
-	</div>
-	<div class="divider" id="vtbox">
-		<h2>Como instalar o sidux com VirtualBox</h2>
-							<p>Passos:</p>
-						<ul>
- 							<li>1. crie uma imagem do HD para VirtualBox</li>
- 							<li>2. dê o boot em ISOs com VirtualBox</li>
- 							<li>3. instale a imagem</li>
-						</ul>
-
-				<h4>Requisitos:</h4>
-							<p><span class="highlight-3">RAM recomendada: 1 GB </span>; idealmente, 512 MB para o guest e 512 MB para o host (pode ser rodado com menos memória, porém não espere bom desempenho).</p>
-
-							<p><span class="highlight-3">Espaço no HD:</span> Enquanto o VirtualBox em si é magro (uma instalação típica ocupa apenas 30 MB de espaço), as máquinas virtuais necessitarão de grandes arquivos no disco para representar seus próprios HDs. Assim, para instalar o MS Windows XP (TM), por exemplo, você vai precisar de um arquivo que facilmente crescerá por diversos GB em tamanho. Para não se apertar, vai ser preciso que você aloque uma imagem de 5 GB e mais a swap.</p>
-
-				<h3>Instalação:</h3>
-
-<pre>
-apt-get update
-apt-get install virtualbox-ose-qt virtualbox-ose-source dmakms module-assistant
-</pre>
-							<p>Então prepare o módulo:</p>
-<pre>
-m-a prepare
-m-a a-i virtualbox-ose-source
-</pre>
-							<p>Daí ative o Dynamic Module-Assistant Kernel Module Support (dmakms) para o Virtualbox, de forma que, na próxima vez que o kernel for atualizado, um módulo do Virtualbox também seja preparado para ele, sem intervenção manual. Para fazer isso, adicione <span class="highlight-3">virtualbox-ose-source</span> ao arquivo de configuração <span class="highlight-3">/etc/default/dmakms </span>.</p>
-<pre>
-mcedit /etc/default/dmakms
-virtualbox-ose-source
-</pre>
-
-							<p>Em seguida, reinicie sua máquina.</p>
-
-							<p><a href="sys-admin-kern-upg-pt-br.htm#dmakms">Leitura essencial sobre o dmakms</a></p>
-
-						      <!--<p>O virtualbox-ose-source ficará no dkms, que montará os módulos e automaticamente irá remontá-los e atualizá-los quando houver atualizações do virtualbox, dkms ou do kernel.</p>
-
-							<p>Reinicie seu PC para que o kernel possa acessar o módulo após a instalação inicial.</p>
-
-							<p>Sempre que o kernel for atualizado, você precisará ativar o módulo antes de rodar o virtualbox, o que inibe mensagens de erro. Para evitar intervenção manual a cada atualização do kernel, edite o arquivo <span class="highlight-3">/etc/rc.local</span> como root e deixe-o assim:</p>
-<pre>
-# Este script não faz nada.
-modprobe vboxdrv
-exit 0
-</pre>
-							<p>O dkms e o dmakms podem coexistir na mesma instalação; leia:</p>
-<pre>
-man dkms
-man dmakms
-</pre>-->
-
-					<h3>Como instalar o sidux na máquina virtual</h3>
-							<p>Use o assistente do virtualbox para criar uma nova máquina virtual para o sidux, depois é só seguir as instruções de uma instalação normal.</p>
-
-							<p><a href="http://www.virtualbox.org/">O VirtualBox tem uma boa Ajuda em PDF, que você pode baixar aqui.</a> </p>
 
 	</div>
-	<div class="divider" id="qemu">
-		<h2>Como instalar o sidux com o QEMU</h2>
-
-		<ul>
- 			<li>1. crie uma imagem do HD para o qemu</li>
- 			<li>2. dê o boot da iso pelo qemu</li>
- 			<li>3. instale a imagem</li>
-
-		</ul>
-
-							<p>Existe uma interface gráfica em QT para ajudá-lo a fazer a configuração:</p>
-<pre>
-apt-get install qtemu
-</pre>
-
- 				<h4>Como criar a imagem do HD</h4>
-
-				<p>Para rodar o QEMU, você provavelmente irá precisar de uma imagem do HD. Trata-se de um arquivo que armazena o conteúdo do HD emulado.</p>
-
-				<p>Use este comando:</p>
-<pre>
-qemu-img create -f qcow sidux.qcow 3G
-</pre>
-				<p>Isso cria o arquivo de imagem "sidux.qcow". O parâmetro "3G" especifica o tamanho do disco - no caso, 3 GB. Você pode usar o sufixo M para megabytes (por exemplo, "256M"). Não se preocupe muito com o tamanho do disco - o formato qcow comprime a imagem, de forma que o espaço vago não é adicionado ao tamanho do arquivo.</p>
-
-
-			<h4>Como instalar o sistema operacional</h4>
-
-				<p>Esta é a primeira vez que você vai precisar de abrir o emulador. <span class="highlight-3">Atenção: quando você clica dentro da janela do qemu, o ponteiro do mouse fica preso. Para soltá-lo, pressione:</span></p>
-<pre>
-Ctrl+Alt
-</pre>
-
-				<p>Se for preciso dar o boot a partir de um disquete, rode o Qemu com:</p>
-<pre>
-qemu -floppy sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p>...e se for a partir de um CD:</p>
-<pre>
-qemu -cdrom sidux.iso -net nic -net user -m 512 -boot d sidux.qcow
-</pre>
-				<p> Agora instale o sidux como se fosse em um HD de verdade.</p>
-
-
-			<h4>Como rodar o sistema</h4>
-
-				<p>Para rodar o sistema, digite:</p>
-<pre>
-qemu [hd_image]
-</pre>
-				<p>Uma boa ideia é usar imagens sobrepostas. Dessa forma, você pode criar a imagem do HD uma vez e dizer ao qemu para armazenar as mudanças em um arquivo externo. Você se livra de toda possível instabilidade, porque é facílimo  reverter o sistema para o estado original.</p>
-
-				<p>Para criar uma imagem sobreposta ("overlay"), digite:</p>
-<pre>
-qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
-</pre>
-				<p>Isso substitui a imagem do HD para base_image (no caso, sidux.qcow). Depois, é só rodar o qemu assim:</p>
-<pre>
-qemu [overlay_image]
-</pre>
-				<p>A imagem original permanece intocada. Um probleminha: a imagem base não poderá ser renomeada ou movida. A sobreposição (overlay) lembra o caminho completo da base.</p>
-
-
-			<h4>Como usar qualquer partição real como a partição primária de uma imagem do HD</h4>
-
-				<p>Pode acontecer de você desejar usar uma de suas partições de dentro do qemu (por exemplo, dar o boot tanto em sua máquina real quanto no qemu, usando uma partição como root). Isso pode ser feito utilizando software RAID no modo linear (é necessário o driver linear.ko) e um dispositivo loopback: o truque é  preceder dinamicamente uma MBR à partição real que você deseja embutir em uma imagem de HD bruta (raw) no qemu.</p>
-
-				<p>Suponha que você tenha uma partição desmontada /dev/sdaN com alguns arquivos do sistema que você deseja que façam parte de uma imagem de HD do qemu. Primeiro, crie um pequeno arquivo para guardar a MBR:</p>
-<pre>
-dd if=/dev/zero of=/caminho/para/mbr count=32
-</pre>
-				<p>Com isso, um arquivo de 16 KB (32 * 512 bytes) é criado. É importante não fazê-lo muito pequeno (ainda que a MBR precise de apenas um bloco de 512 bytes), pois quanto menor ele for, menor terá de ser o tamanho do software RAID, o que pode impactar no desempenho. Agora, você configura um dispositivo loopback para a MBR:</p>
-<pre>
-losetup -f /caminho/para/mbr
-</pre>
-				<p>Assumamos que o dispositivo resultante seja /dev/loop0, pois até agora não usamos nenhum outro loopback. O próximo passo é criar a imagem do HD resultante da fusão MBR + /dev/sdaN usando software RAID:</p>
-<pre>
- modprobe linear
- mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
-</pre>
-				<p>O /dev/md0 resultante é o que você usará como imagem bruta do disco no qemu (não se esqueça de ajustar as permissões para que o emulador possa acessá-la). O último passo é fixar a configuração do disco (geometria do disco e tabela de partições) de forma que o ponto inicial da partição primária na MBR seja igual ao do /dev/sdaN dentro de /dev/md0 (exatamente 16 * 512 = 16384 bytes neste exemplo). Para isso, use o fdisk na máquina hospedeira, não no emulador: a rotina padrão de detecção de imagem bruta (raw) do qemu muitas vezes dá resultados não arredondáveis em kilobytes (como 31.5 KB na seção anterior), impossíveis de serem gerenciados pelo código do RAID. Portanto, no hospedeiro:</p>
-<pre>
- fdisk /dev/md0
-</pre>
-				<p>Lá, crie uma partição primária correspondente a /dev/sdaN e experimente com o comando 's'ector no menu 'x'pert até que o primeiro cilindro (onde está a primeira partição) tenha tamanho igual ao da MBR. Finalmente, use 'w'rite para escrever o resultado no arquivo e... acabou! Agora você tem uma partição que pode ser montada direto da máquina hospedeira e que também é parte da imagem de disco do qemu:</p>
-<pre>
- qemu -hdc /dev/md0 [...]
-</pre>
-				<p>Naturalmente, você pode configurar qualquer carregador de boot na imagem usando o qemu, desde que a partição /boot/sdaN contenha as ferramentas necessárias.</p>
-
-
-
-			<h4>Como usar o Módulo de Aceleração do QEMU</h4>
-
-				<p>Os desenvolvedores do qemu criaram um módulo opcional para o kernel, de forma a acelerar o qemu às vezes até a níveis de operação nativos. Ele pode ser carregado com a opção:</p>
-<pre>
-major=0
-</pre>
-				<p>... para automatizar a criação do necessário dispositivo /dev/kqemu. Já este comando:</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modprobe.conf
-</pre>
-				<p>corrige o modprobe.conf para assegurar que a opção do módulo seja adicionada sempre que ele é carregado.</p>
-
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-				<p>Isto habilita total virtualização, o que melhora a velocidade consideravelmente.</p>
-
-			<h4>Para ativar o qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/sidux-debug.iso -net nic -net user -m 512
-</pre>
-		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Documentação oficial do Projeto QEMU </a> </p>
-		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Parte do que está escrito sobre o QEMU neste Manual do sidux foi conseguido acessando-se este site, sob a GNU Free Documentation License 1.2 e modificada para este manual.</a> </p>
-
-
-	</div>
-	<div id="rev">Page last revised 13/03/2010 1140 UTC</div>
+	<div id="rev">Page last revised 10/04/2010 1415 UTC</div>
 
 </div>
 </body>

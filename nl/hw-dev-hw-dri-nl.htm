@@ -234,58 +234,44 @@ deb http://sidux.com/debian/ sid main fix.main
 
 							<p>Intel drivers zouden perfect moeten werken voor 2D en 3D video acceleratie, de drivers zitten bij de Intel gratis series.</p>
 
-							<p><span class="highlight-3"> Notitie: xorg.conf is not generally needed for open source drivers. Indien xorg.conf niet bestaat, en je hebt het nodig voer dan het volgend uit in een terminal sessie:</span></p>
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
-							<!--<p>Dit commando maakt een xorg.conf aan en plaatst deze in de /root directory en noemt het <span class="highlight-3">xorg.conf.new</span> en bevat de benodigde informatie. De volgende stap is om het bestand te verplaatsen en te hernoemen:</p>
-<pre>
-mkdir /etc/X11/xorg.conf.d
-mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
-</pre>-->
+							<p><span class="highlight-3"> Notitie: xorg.conf is not generally needed for open source drivers.</p>
 
-							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
 							<p class="highlight-2">Het aanpassen van xorg.conf is helemaal voor je eigen risico.</p>
 
-							<p>Meer informatie over <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
+							<p>Meer informatie over <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ATI/AMD</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
 
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers voor nVidia met dmakms &amp; Xorg</h2>
+		<h2>Binary, closed source drivers voor nVidia met dmakms &amp; xorg.conf.d</h2>
 
-							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
-
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
-							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+							<p>For the most complete and accurate listing of supported nvidia GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
 
 							<p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
 
-							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
+							<p>New and old installs will need to ensure that the systemwide config <span class="highlight-3">/etc/X11/xorg.conf.d</span> exists and add a file to the directory called <span class="highlight-3">20-nvidia.conf</span> : </p>
 <pre>
-mv /etc/X11/xorg.conf /etc/X11/xorg.old
 mkdir /etc/X11/xorg.conf.d
-touch /etc/X11/xorg.conf.d/15-nvidia.conf
+touch /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
-							<p>With your favourite text editor:</p>
+
+							<p>With your favourite text editor, (e.g. kwrite, kate, mousepad, mcedit, vi, vim) open the file:</p>
 
 <pre>
-&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+&lt;editor&gt; /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
-							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+							<p>and add the following codebox in its entirety to 20-nvidia.conf:</p>
 <pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
+# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
-							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the xorg.conf:</p>
+							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the 20-nvidia.conf:</p>
 <pre>
 lspci | grep -i vga
 </pre>
@@ -298,13 +284,8 @@ lspci | grep -i vga
 <pre>
 BusID		 "PCI:1:0:0"
 </pre>
-							<p>Opslaan en verplaatsen van het bestand naar <span class="highlight-3">/etc/X11</span>:</p>
-<pre>
-mv xorg.conf /etc/X11/xorg.conf
-</pre>
-
-
-							<p><span class="highlight-3">NOTITIE: Gebruik apt-cache search nvidia en apt-cache show &lt;package&gt; om zeker te zijn dat je de correcte driver hebt. Er zijn twee keuzes, huidige Debian Sid 3D drivers en legacy Debian Sid 3D drivers.</span></p>
+					<h4>Installing the nvidia drivers</h4>
+							<p><span class="highlight-3">NOTITIE: Gebruik apt-cache search nvidia en apt-cache show &lt;package&gt; om zeker te zijn dat je de correcte driver hebt. There are basically 2 types of nvidia drivers, the current Debian Sid 3D drivers  and the legacy Debian Sid 3D drivers.</span></p>
 
 					<h5>Voor de huidige 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
 
@@ -389,7 +370,7 @@ $ /usr/share/doc/dmakms
 
 		</div>
 	<div class="divider" id="non-free-3d-2">
-			<h2>ATI, Radeon and other video drivers</h2>
+			<h2>ATI/AMD, Radeon and other video drivers</h2>
 
 					  <h6>2D Drivers</h6>
 							<p>De drivers voor X.Org X server (zie  xserver-xorg voor meer informatie) ondersteunen in NVIDIA Riva, TNT, GeForce en Quadro kaarten en de ATI Mach, Rage, Radeon en FireGL cards van ATI met atimisc, r128 en radeon sub-drivers. Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
@@ -403,12 +384,6 @@ $ /usr/share/doc/dmakms
 apt-get install firmware-linux
 </pre>
 							<p>Hiernaar moet je de computer herstarten.</p>
-
-							<p>If you have a requirement for xorg:</p>
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
 
 		</div>
 
@@ -1131,7 +1106,7 @@ exit
 </pre>
 							<p>Je NTFS-partitie zou nu gemount moeten zijn met <b>rw</b> rechten en je kan gegevens daar opslaan. <span class="highlight-3">Gebruik het als het niet anders kan, het wordt niet geadviseerd voor dagelijks gebruik.</span></p>
 		</div>
-	<div id="rev">Pagina het laatst gewijzigd op 10/04/2010 0620 UTC</div>
+	<div id="rev">Pagina het laatst gewijzigd op 20/04/2010 0745 UTC</div>
 
 </div>
 </body>

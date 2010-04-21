@@ -229,65 +229,49 @@ deb http://sidux.com/debian/ sid main fix.main
 
 	</div>
 	<div class="divider" id="foss-xorg">
-			<h2>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel &amp; Xorg</h2>
+			<h2>Open Source Xorg drivers for nVidia, ATI/AMD, &amp; Intel</h2>
 
-							<p>Open Source Xorg drivers for nVidia, ATI, Radeon, Intel are pre-installed with sidux. </p>
+							<p>Open Source Xorg drivers for nVidia, ATI/AMD, Radeon, Intel are pre-installed with sidux. </p>
 
 							<p>Intel drivers should work perfectly for 2D and 3D video acceleration as the drivers are included in the Intel free series.</p>
 
-							<p><span class="highlight-3"> Note: xorg.conf is not generally needed for open source drivers. If xorg.conf does not exist, and you require it to be present for some reason, in a terminal run:</span></p>
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
-							<!--<p>This command writes an xorg.conf and places it in /root directory and names it <span class="highlight-3">xorg.conf.new</span> and contains the essential information. Next step is move and rename it:</p>
-<pre>
-mkdir /etc/X11/xorg.conf.d
-mv /root/xorg.conf.new /etc/X11/xorg.conf.d/xorg.conf
-</pre>-->
+							<p><span class="highlight-3"> Note: An xorg.conf is not generally needed for open source drivers.</span></p>
 
-							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
+							<p>If you have been running proprietary drivers and wish to revert back to opensource drivers, edit <span class="highlight-3">/etc/X11/xorg.conf.d/xx-xxxx.conf</span> with an editor with root permissions. Find the section that reads SECTION DEVICE and change the display driver to read <span class="highlight-2">nv</span> OR <span class="highlight-2">radeon</span> OR <span class="highlight-2">intel</span> (to name but a few).</p>
 
 							<p class="highlight-2">Editing an xorg.conf file is entirely at your own risk.</p>
 
-							<p>More information about <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ati radeon</a> &nbsp; <a href= "http://www.x.org/wiki/radeonhd"> radeonhd</a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a>&nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
+							<p>More information about <a href= "http://www.x.org/wiki/IntelGraphicsDriver"> Intel</a> &nbsp; <a href= "http://www.x.org/wiki/radeon"> ATI/AMD </a> &nbsp; <a href= "http://www.x.org/wiki/nv"> nv</a> &nbsp; <a href= "http://xorg.freedesktop.org"> X.Org</a></p>
 
 	</div>
 	<div class="divider" id="non-free-3d">
 		<h2>Binary, closed source drivers for: nVidia with dmakms &amp; xorg.conf.d</h2>
 
-							<p><span class="highlight-2">Xorg is not generally needed, except if intending to run closed source video/graphic drivers:</p>
-
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
-							<p>For the most complete and accurate listing of supported GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+							<p>For the most complete and accurate listing of supported nvidia GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
 
 							<p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
 
-							<p>New and old installs </span> will need to ensure that <span class="highlight-3">xorg.conf.d </span> exists in <span class="highlight-3">/etc/X11</span> and add a file to the directory called <span class="highlight-3"> 15-nvidia.conf</span>.</p>
-
-
+							<p>New and old installs will need to ensure that the systemwide config <span class="highlight-3">/etc/X11/xorg.conf.d</span> exists and add a file to the directory called <span class="highlight-3">20-nvidia.conf</span> : </p>
 <pre>
-mv /etc/X11/xorg.conf /etc/X11/xorg.old
 mkdir /etc/X11/xorg.conf.d
-touch /etc/X11/xorg.conf.d/15-nvidia.conf
+touch /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
-							<p>With your favourite text editor:</p>
+
+							<p>With your favourite text editor, (e.g. kwrite, kate, mousepad, mcedit, vi, vim) open the file:</p>
 
 <pre>
-&lt;editor&gt; /etc/X11/xorg.conf.d/15-nvidia.conf
+&lt;editor&gt; /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
-							<p>and add the following codebox in its entirety to 15-nvidia.conf:</p>
+							<p>and add the following codebox in its entirety to 20-nvidia.conf:</p>
 <pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
+# This is a trailing line, it is needed so that End Section is not the last line
 </pre>
-							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the 15-nvidia.conf:</p>
+							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the 20-nvidia.conf:</p>
 <pre>
 lspci | grep -i vga
 </pre>
@@ -300,7 +284,8 @@ lspci | grep -i vga
 <pre>
 BusID		 "PCI:1:0:0"
 </pre>
-							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 choices, current Debian Sid 3D drivers  and legacy Debian Sid  3D drivers.</span></p>
+					<h4>Installing the nvidia drivers</h4>
+							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 types of nvidia drivers, the current Debian Sid 3D drivers  and the legacy Debian Sid 3D drivers.</span></p>
 
 					<h5>For current 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
 
@@ -330,7 +315,7 @@ apt-get install nvidia-glx
 apt-get install --reinstall nvidia-glx
 </pre>
 
-						      <p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+						      <p>When the nvidia-kernel-source is updated:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
@@ -387,13 +372,13 @@ $ /usr/share/doc/dmakms
 
 		</div>
 	<div class="divider" id="non-free-3d-2">
-			<h2>ATI, Radeon and other video drivers</h2>
+			<h2>ATI/AMD, Radeon and other video drivers</h2>
 
 						<h6>2D Drivers</h6>
 							<p>The drivers for the X.Org X server (see xserver-xorg for a further description) provides support in 2D for NVIDIA Riva, TNT, GeForce, and Quadro cards and the ATI Mach, Rage, Radeon, and FireGL cards along with atimisc, r128, r6xx/r7xx and radeon sub-drivers. Radeon and Intel both support 2d acceleration (textured xv) for video playback.</p>
 
 					  <h6>3D Drivers</h6>
-							<p>Some ATI cards also support 3D, (and KDE animations), with <span class="highlight-3">xserver-xorg-video-radeon</span>. So far chipsets up to r700 are supported.</p>
+							<p>Some ATI/AMD cards also support 3D, (and KDE animations), with <span class="highlight-3">xserver-xorg-video-radeon</span>. So far chipsets up to r700 are supported.</p>
 
 							<p>To automatically inherit newly packaged non-free firmware when they get updated for 2D and 3D video cards:</p>
 
@@ -401,12 +386,6 @@ $ /usr/share/doc/dmakms
 apt-get install firmware-linux
 </pre>
 							<p>Then reboot the computer.</p>
-
-							<p>If you have a requirement for xorg:</p>
-<pre>
-apt-get update
-apt-get install xorg
-</pre>
 
 		</div>
 
@@ -584,7 +563,7 @@ dpkg -i firmware-linux-nonfree*.deb
    					<dt class="ok"></dt>
    					<dd><ul><li>/lib/firmware/cs46xx/cs46xx-old.fw</li> </ul></dd>
    					<dt class="note"></dt>
-   					<dd>follow the howto described in the bugreport carefully, MD5: 6510e1759d85b0627d36367febbb3a6a or see the <a href="http://sidux.com/index.php?module=Wikula&tag=SoundMaster"> sidux wiki about sound</a></dd>
+   					<dd>follow the howto described in the bugreport carefully, MD5: 6510e1759d85b0627d36367febbb3a6a or see the <a href="http://sidux.com/index.php?module=Wikula&amp;tag=SoundMaster"> sidux wiki about sound</a></dd>
    				</dl>
    			</dd>
    			<dt class="device audio usb" id="emi26">EMI 2|6  </dt>
@@ -1128,7 +1107,7 @@ To get out of the konsole type: exit
 							<p>Now your NTFS-Volume should be mounted <b>rw</b> and you should be able to store data on it. But again, be warned! <span class="highlight-3">Use it in emergency situations, it is not recommended  for use on a daily basis.</span></p>
 
 </div>
-	<div id="rev">Page last revised 10/04/2010 0620 UTC </div>
+	<div id="rev">Page last revised 20/04/2010 0745 UTC </div>
 
 </div>
 </body>

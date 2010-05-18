@@ -240,13 +240,13 @@ nbd-server -C nbd-sidux.conf
 							<p>Het doel van de nbd-server hoeft geen iso of een cd/dvd/usb stick te zijn, het moet alleen uit een geschikt filesysteem image bestaan.</p>
 
 				  <h4>dnsmasq</h4>
-							<p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p>
+							<p>In het volgende voorbeeld gaan we er vanuit dat je op een simpel netwerk aangesloten bent en dat je machine via dhcp van een andere machine ip instelling gekregen heeft en welke de netwerkboot clients kunnen gebruiken om de interfaces in te stellen via dhcp.</p>
 
-							<p>The main relevant options for dnsmasq to network boot sidux are to setup a path for the tftp server files and a file for it to boot from there. </p>
+							<p>De hoofd relevante opties van dnsmasq om sidux via netwerk boot in te stellen is een pad aan te maken voor de tftp server bestanden en een bestand voor het opstarten. </p>
 
-							<p>Create a <span class="highlight-3">tftp</span> directory for booting in <span class="highlight-3">/home</span> (you can create it where you want if you prefer another place). Thus the path becomes <span class="highlight-3">/home/tftp</span>.</p>
+							<p>Creeer een <span class="highlight-3">tftp</span> directory voor het opstarten in <span class="highlight-3">/home</span> (je kunt het overal plaatsen waar jij dit wilt). Het pad in ons voorbeeld wordt dus <span class="highlight-3">/home/tftp</span>.</p>
 
-							<p>Next create a file called <span class="highlight-3">pxe-sidux.conf</span> and paste in the following:</p>
+							<p>Creeer nu een bestand genaamd <span class="highlight-3">pxe-sidux.conf</span> en kopieer het volgende hierin:</p>
 <pre>
 dhcp-range=0.0.0.0,proxy
 pxe-service=x86PC, &quot;boot linux&quot;, pxelinux
@@ -254,28 +254,28 @@ enable-tftp
 tftp-root=/home/tftp
 tftp-secure
 </pre>
-							<p>When using the dhcp proxy you need to provide a pxe menu with pxelinux as the only entry which will therefore  start it automatically.  This is what the lone pxe-service item is above.</p>
+							<p>Wanneer je gebruikt maakt van de dhcp proxy dan moet je een pxe menu aanmaken met pxelinux met dit als enige waarde erin, zodat dit automatisch opgestart wordt.  Dit is wat de enige pxe-service item is.</p>
 
- 							<p>As root, move the newly created <span class="highlight-3">pxe-sidux.conf</span> file to <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
+ 							<p>Als root, verplaatst de nieuwe gecreeerde <span class="highlight-3">pxe-sidux.conf</span> bestand naar <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
 <pre>
 sux
 mv pxe-sidux.conf /etc/dnsmasq.d/
 </pre>
 
-							<p>Note: For a network (e.g. 192.168.0.*) with no other dhcp server you could swap the first two lines for:</p>
+							<p>Notitie: Voor een netwerk (bv. 192.168.0.*) met geen andere dhcp server ydan kun je de eerste twee regels veranderen in:</p>
 <pre>
 dhcp-range=192.168.0.100,192.168.0.199,1h
 dhcp-boot=pxelinux.0
 </pre>
 
-							<p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p>
+							<p>Om de ip adressen range uit te geven beginnend met 192.168.0.100 en eindigen met 192.168.0.199 met een lease tijd van een uur, en om de bestandsnaam te leveren om alleen pxelinux.0 te starten als onderdeel van de dhcp aanvraag (indien je de proxy gebruikt, dan moet je een pxe menu leveren met alleen pxelinux als waarde waardoor het automatisch zal opstarten). Dit zal waarschijnlijk je netwerk niet instellen zoals je het wenst tenzij je dnsmasq server ook als je dns server en gateway voor je boot clients moet dienen.</p>
 
-							<p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
+							<p>Om je nieuwe bestand in te schakelen moet je de regel <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> uit commentaar mode halen, welke onderin het bestand <span class="highlight-3">/etc/dnsmasq.conf</span> staat en hierna moet je dnsmasq herstarten.</p>
 
-							<p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p>
+							<p>dnsmasq heeft erg veel opties en kan acteren als dns, dhcp, pxe en tftp server. Wat hierboven is aangegeven is een minimale weergave van het gebruik van pxelinux.</p>
 
 				  <h4>tftp</h4>
-							<p>tftp is the network equivalent of the boot directory. Using the continuing example of  the <span class="highlight-3">/home/tftp </span> directory you need to populate it. If the cdrom is mounted on <span class="highlight-3">/fll/scd0</span>:</p>
+							<p>tftp is het netwerk equivalant van de boot directory. Gebruikmakend van het voorbeeld van de <span class="highlight-3">/home/tftp </span> directory moet je deze vullen. Indien de cdrom is aangekoppeld op <span class="highlight-3">/fll/scd0</span>:</p>
 <pre>
 cp /fll/scd0/boot/isolinux/* /home/tftp
 mkdir /home/tftp/pxelinux.cfg
@@ -287,28 +287,28 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
+							<p>Nu kun je de boot opties naar je believen aanpassen in <span class="highlight-3">/home/tftp</span> in beide bestanden <span class="highlight-3">pxelinux.cfg/default</span> en <span class="highlight-3">gfxboot.cfg</span>. In het algemeen wordt voorgesteld om onder de <span class="highlight-3">[install]</span> sectie stel je <span class="highlight-3">install= </span> in op <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> naar de server's IP op het netwerk en <span class="highlight-3">install.nbd.port</span> naar datgene waarmee je de nbd-server aanmaakte.</p>
 
-							<p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p>
+							<p>Als alternatief kun je de F3 menu volledig uitschakelen en wijzig je de kernel commandline welke er dan als volgt uitzien:</p>
 <pre>
-fromhd=/dev/nbdroot root=/dev/nbdroot nbdroot=192.168.1.23,9040
+fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 </pre>
 
 
 					<h6>toram boot code</h6>
-							<p>If you add toram to the boot options, machines with enough ram will release the server as soon as they copy the file and machines without sufficient ram will carry on and boot normally. At least 1 gig of ram, (ideally 2 gig or more), is required for toram.</p>
+							<p>Indien je toram aan de boot opties toevoegd, zullen machines met genoeg geheugen de server vrijgeven zodra ze het bestand gecopieerd hebben en de machines zonder voldoende geheugen zullen doorgaan met het normaal opstarten. Minimaal 1 gig is nodig, (ideaal 2 gig of meer), voor toram.</p>
 
-				      <h4>Network booting</h4>
+				      <h4>Network booten</h4>
 
-							<p>Ensure that the client PC's BIOS is set to use <span class="highlight-3">Boot from Network</span>. </p>
+							<p>Wees er zeker van dat alle BIOSsen van de client PC's  ingesteld staan op <span class="highlight-3">Boot from Network</span>. </p>
 
-							<p>As long as your bios supports booting from the network, the machine is connected to a network with your server and the sidux kernel and initrd.img support your network card, you should be able to boot sidux from the network. </p>
+							<p>Zolang als de bios het booten over netwerk ondersteunt, zal de machine is verbonden aan het netwerk met je server en de sidux kernel en initrd.img ondersteuning voor je netwerkkaart, sidux opstarten vanaf het netwerk. </p>
 
-							<p>Some network cards may require non-free firmware which will require rebuilding the initrd image to include the firmware.</p>
+							<p>Sommige netwerk kaarten vereissen een niet gratis firmware dit zal dan een rebuild van de initrd image betekenen om ook deze firmware te ondersteunen.</p>
 
 
 	</div>
-	<div id="rev">Pagina het laatst gewijzigd op 05/01/2010 0650 UTC </div>
+	<div id="rev">Pagina het laatst gewijzigd op 14/05/2010 0505 UTC </div>
 
 </div>
 </body>

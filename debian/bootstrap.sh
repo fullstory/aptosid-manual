@@ -2,20 +2,20 @@
 
 set -e
 
+#	bg:Bulgarian:български::
+#	da:Danish:Dansk::
+#	es:Spanish:Español::
+#	hu:Hungarian:Magyar::
+#	pl:Polish:Polski::
+#	it:Italian:Italiano::
 I18N_LANGUAGES="
-	bg:Bulgarian:български::
-	da:Danish:Dansk::
 	de:German:Deutsch::
 	el:Greek:Ελληνικά::
 	en:English:English::
-	es:Spanish:Español::
 	fr:French:Français::
 	hr:Croatian:Hrvatski::
-	hu:Hungarian:Magyar::
-	it:Italian:Italiano::
 	ja:Japanese:日本語:ttf-kochi-gothic:
 	nl:Dutch:Nederlands::
-	pl:Polish:Polski::
 	pt-br:Brazilian_Portuguese:Português::
 	ro:Romanian:Română::
 	ru:Russian:русский::
@@ -46,19 +46,19 @@ for i in $I18N_LANGUAGES; do
 
 	# write debian/*.install from templates
 	sed	-e "s/\@LL_CODE\@/$(echo ${i} | cut -d\: -f1)/g" \
-			./debian/templates/sidux-manual-LL_CODE.install.in \
-				> "./debian/sidux-manual-$(echo ${i} | cut -d\: -f1).install"
+			./debian/templates/aptosid-manual-LL_CODE.install.in \
+				> "./debian/aptosid-manual-$(echo ${i} | cut -d\: -f1).install"
 
-	cat ./debian/templates/sidux-manual-common.install.in \
-		> ./debian/sidux-manual-common.install
-	cat ./debian/templates/sidux-manual-common.links.in \
-		> ./debian/sidux-manual-common.links
+	cat ./debian/templates/aptosid-manual-common.install.in \
+		> ./debian/aptosid-manual-common.install
+	cat ./debian/templates/aptosid-manual-common.links.in \
+		> ./debian/aptosid-manual-common.links
 
 	# collect package names for the meta package.
 	if [ -z "$ALL_I18N_PKG" ]; then
-		ALL_I18N_PKG="sidux-manual-$(echo ${i} | cut -d\: -f1)"
+		ALL_I18N_PKG="aptosid-manual-$(echo ${i} | cut -d\: -f1)"
 	else
-		ALL_I18N_PKG="${ALL_I18N_PKG},\n sidux-manual-$(echo ${i} | cut -d\: -f1)"
+		ALL_I18N_PKG="${ALL_I18N_PKG},\n aptosid-manual-$(echo ${i} | cut -d\: -f1)"
 	fi
 done
 sed	-e "s/\@ALL_I18N_PKG\@/${ALL_I18N_PKG}/g" \

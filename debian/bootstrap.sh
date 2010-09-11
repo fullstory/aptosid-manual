@@ -4,16 +4,16 @@ set -e
 
 #	bg:Bulgarian:български::
 #	da:Danish:Dansk::
-#	es:Spanish:Español::
 #	hu:Hungarian:Magyar::
 #	pl:Polish:Polski::
-#	it:Italian:Italiano::
 I18N_LANGUAGES="
 	de:German:Deutsch::
 	el:Greek:Ελληνικά::
 	en:English:English::
+	es:Spanish:Español::
 	fr:French:Français::
 	hr:Croatian:Hrvatski::
+	it:Italian:Italiano::
 	ja:Japanese:日本語:ttf-kochi-gothic:
 	nl:Dutch:Nederlands::
 	pt-br:Brazilian_Portuguese:Português::

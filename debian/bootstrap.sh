@@ -3,22 +3,22 @@
 set -e
 
 I18N_LANGUAGES="
-	bg:Bulgarian:::
-	da:Danish:::
+	bg:Bulgarian:български::
+	da:Danish:Dansk::
 	de:German:Deutsch::
-	el:Greek:::
+	el:Greek:Ελληνικά::
 	en:English:English::
-	es:Spanish:::
-	fr:French:::
-	hr:Croatian:::
-	hu:Hungarian:::
-	it:Italian:::
-	ja:Japanese::ttf-kochi-gothic:
+	es:Spanish:Español::
+	fr:French:Français::
+	hr:Croatian:Hrvatski::
+	hu:Hungarian:Magyar::
+	it:Italian:Italiano::
+	ja:Japanese:日本語:ttf-kochi-gothic:
 	nl:Dutch:Nederlands::
-	pl:Polish:::
-	pt-br:Brazilian_Portuguese:::
-	ro:Romanian:::
-	ru:Russian:::
+	pl:Polish:Polski::
+	pt-br:Brazilian_Portuguese:Português::
+	ro:Romanian:Română::
+	ru:Russian:русский::
 "
 
 # clean up obsolete stuff

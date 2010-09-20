@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by LjanA 04/06/2009 1812 UTC -->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad-->
-<!--aptosid Operating System Manual menu-version-00.00.2010.08.14 -->
-<!-- menu last updated by bluewater 2010.08.14 0100 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
+<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -100,6 +100,7 @@
 		</li>
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-fr.htm">Partitionner un disque dur</a>
 		<ul class="sub-menu" id="sm6">
+			<li><a href="part-gparted-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
 			<li><a href="part-gparted-fr.htm#partition">&#8230;dans un environnement graphique &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-fr.htm#partition">&#8230;avec GParted / KDE Partition Manager</a></li>
@@ -145,12 +146,11 @@
 					</ul>
 					</li>
 		<li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
-		<li><a href="hd-install-vmopts-fr.htm#vm">Choix d'installation sur une machine virtuelle</a></li>
+		<li><a href="hd-install-vmopts-fr.htm#vmopts">Choix d'installation sur une machine virtuelle</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-fr.htm">Cartes graphiques &#8211; Moniteurs &#8211; Xorg &#8211; Pilotes divers</a>
 	<ul class="sub-menu" id="sm8">
-		<li><a href="hw-dev-hw-dri-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
 		<li><a href="hw-dev-mon-fr.htm#mon-res">Résolution des écrans &#8211; Moniteurs  &#8658;</a>
 					<ul class="sub2-menu" id="sm8a">
 					  <li><a href="hw-dev-mon-fr.htm#mon-res">Résolution des écrans &#8211; Moniteurs</a></li>
@@ -173,7 +173,6 @@
 		    <ul class="sub-menu" id="sm9">
 			  <li><a href="wm-kde-fr.htm">Gestionnaire de fenêtres &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-kde-fr.htm">Gestionnaire de fenêtres</a></li>
 					    <li><a href="wm-xfce-fr.htm#xfce-notes">Applications supplémentaires utiles pour Xfce</a></li>
 					    <li><a href="wm-kde-fr.htm#install-add">Applications supplémentaires utiles pour KDE</a></li>
 					    <li><a href="wm-kde-fr.htm#desk-freeze">Gel d'écran</a></li>
@@ -423,11 +422,55 @@ $man ssh
 </pre>
 
 							<p><span class="highlight-3">Note:<span> Si vous avez reçu un message d'erreur et que ssh ne vous autorise pas à vous connecter, rendez vous dans votre $HOME et cherchez un dossier caché qui s'appelle <span class="highlight-3">.ssh<span>, et enlevez-en le fichier qui s'appelle <span class="highlight-3"> known_hosts<span> puis re-essayez. Cette erreur peut se produire lorsque vous avez une addresse dynamique (DCHP).</p>
+	</div>
+	<div class="divider" id="ssh-scp">
+			<h2>Copying files and directories remotely via ssh with scp</h2>
+
+							<p>scp uses the command line, (terminal/cli), to copy files between hosts on a network. It uses ssh authentication and security for data transfer, therefore, scp will ask for passwords or passphrases as required for authentication.</p>
+
+							<p>Assuming you have ssh rights to a remote PC or a server, scp allows you to copy partitions, directories or file, to and from that PC, to a specified location or destination of your choosing where you also have permissions. For example, this could include a PC or server you have the permission to access on your LAN, (or anywhere else in the world), to enable a transfer of data to a USB hard Drive connected to your PC.</p>
+
+							<p>You can recursively copy entire partitions and directories with the <span class="highlight-3">scp -r</span> option.  Note that scp -r follows symbolic links encountered in the tree traversal.</p>
+
+					<h3>Examples:</h3>
+							 <p><span class="highlight-3"> Example 1:</span> Copy a partition:</p>
+
+<pre>
+scp -r &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/ /media/diskXpartX/
+</pre>
+							 <p><span class="highlight-3"> Example 2:</span> Copy a directory on a partition, in this case a directory called photos in $HOME:</p>
+
+<pre>
+scp -r &lt;user&gt;@xxx.xxx.x.xxx:~/photos/ /media/diskXpartX/xx
+</pre>
+							 <p><span class="highlight-3">Example 3:</span> Copy a file from a directory on a partition, in this case a file in $HOME:</p>
+<pre>
+scp &lt;user&gt;@xxx.xxx.x.xxx:~/filename.txt /media/diskXpartX/xx
+</pre>
+							<p><span class="highlight-3">Example 4:</span> Copy a file on a partition:</p>
+<pre>
+scp &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/filename.txt /media/diskXpartX/xx
+</pre>
+
+							<p><span class="highlight-3">Example 5:</span> If you are already in the drive/directory that you wish to copy any directory or files to, use a '<span class="highlight-2"> <b>.</b> </span>' (dot) :</p>
+<pre>
+scp -r &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/filename.txt<span class="highlight-2"><b> .</b> </span>
+</pre>
+
+							<p><span class="highlight-3">Example 6:</span> To copy files from your PC/server to a another, (use <span class="highlight-3">scp -r</span> if copying a partition or a directory):</p>
+
+<pre>
+scp /media/disk1part6/filename.txt &lt;user&gt;@xxx.xxx.x.xxx:/media/diskXpartX/xx
+</pre>
+
+							<p>Read:</p>
+<pre>
+man scp
+</pre>
 
 	</div>
-	<div class="divider" id="ssh-w">
-
-	<h2>Accès ssh distant avec X-forwarding depuis un PC-Windows</h2>
+		<div class="divider" id="ssh-w">
+			<h2>Accès ssh distant avec X-forwarding depuis un PC-Windows</h2>
 
 						<ul>
 							<li>Télécharger et gravez le <a href="http://xlivecd.indiana.edu/">Cygwin XLiveCD</a></li>
@@ -581,7 +624,7 @@ umount point_de_montage_local
 
 
 	</div>
-			<div id="rev">Dernière révision du contenu le 14/08/2010 0100 UTC</div>
+			<div id="rev">Dernière révision du contenu le 15/09/2010 0630 UTC</div>
 
 
 </div>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by blumkina 17/04/2009 1400 UTC-->
+<!-- Last translation revision by RoEn /20/2010 1400 UTC-->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-00.00.2010.08.14 -->
-<!-- menu last updated by bluewater 2010.08.14 0100 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
+<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -101,6 +101,7 @@
 		</li>
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ru.htm">Разметка диска</a>
 		<ul class="sub-menu" id="sm6">
+			<li><a href="part-gparted-ru.htm#hd-ntfs3g">Запись на раздел NTFS с ntfs-3g</a></li>
 			<li><a href="part-gparted-ru.htm#partition">Разметка диска с интерфесом &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ru.htm#partition">Разметка диска с gparted/KDE Partition Manager:  GParted/KDE Partition Manager</a></li>
@@ -146,12 +147,11 @@
 					</ul>
 					</li>
 		  <li><a href="nbdboot-ru.htm#nbd1">Загрузка aptosid по сети</a></li>
-		  <li><a href="hd-install-vmopts-ru.htm#vm">Опции инсталляций на VM (Virtual Machine)</a></li>
+		  <li><a href="hd-install-vmopts-ru.htm#vmopts">Опции инсталляций на VM (Virtual Machine)</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-ru.htm">Оборудование в Xorg и разные драйверы</a>
 	<ul class="sub-menu" id="sm8">
-		<li><a href="hw-dev-hw-dri-ru.htm#hd-ntfs3g">Запись на раздел NTFS с ntfs-3g</a></li>
 		<li><a href="hw-dev-mon-ru.htm#mon-res">Разрешение экрана и мониторы  &#8658;</a>
 					<ul class="sub2-menu" id="sm8a">
 					  <li><a href="hw-dev-mon-ru.htm#mon-res">Разрешение экрана и мониторы</a></li>
@@ -174,7 +174,6 @@
 		    <ul class="sub-menu" id="sm9">
 			  <li><a href="wm-kde-ru.htm">Оконные менеджеры &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-kde-ru.htm">Оконные менеджеры</a></li>
 					    <li><a href="wm-xfce-ru.htm#xfce-notes">Полезные инструменты для xfce</a></li>
 					    <li><a href="wm-kde-ru.htm#install-add">Полезные инструменты для KDE</a></li>
 					    <li><a href="wm-kde-ru.htm#desk-freeze">Рабочий стол зависает</a></li>
@@ -363,7 +362,7 @@ deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 </pre>
 							<p>ПРИМЕЧАНИЕ: В этом примере используются немецкие репозитории. Вы можете отредактировать данный файл по собственному усмотрению, выбрав наиболее близкие к Вам репозитории (просто заменив обозначение страны, например ftp.de на ftp.ru). Во многих странах существуют локальные репозиторию. При этом ширина канала остается фиксированной, а скорость возрастает.</p>
 
-							<p><a href="http://www.debian.org/mirrors/">List of Debian Servers and mirrors current status</a>.</p>
+							<p><a href="http://www.debian.org/mirrors/">Список серверов Debian и  текущее состояние зеркал</a>.</p>
 
 							<p>Для поддержания информации о доступных пакетах в актуальном состоянии APT использует собственную базу данных. В ней, помимо информации о самих пакетах, содержится информация о необходимых для установки и работы дополнительных пакетах(т.н. зависимости). При установке выбранного пакета  apt-get  использует эту базу данных для установки также и всех необходимых для удовлетворения зависимостей пакетов, гарантируя тем самым работоспособность выбранного Вами. Обновление данной БД осуществляется с помощью  'apt-get update'.</p>
 
@@ -382,6 +381,11 @@ deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 
 	<div class="divider" id="apt-install">
  		<h2>Установка новых пакетов</h2>
+							<p><span class="highlight-2">Upgrading packages and installing new packages without stopping X can cause problems. Any method of installing packages under X has this problem.</span></p>
+
+							<p><span class="highlight-2">As long as any package you want to install will not upgrade additional packages then it is safe to install it without stopping X. However if installing the package will cause other packages to upgrade, extreme caution should be taken and unless you are certain the packages which will be upgraded are not currently in use, you should stop X before installing the package.</span></p>
+
+							<p><span class="highlight-2">If you are in any doubt ensure you leave X as per the dist-upgrade instructions before installing any packages. <a href="sys-admin-apt-ru.htm#du-st">Upgrade an Installed System -  dist-upgrade - The Steps</a></span> .</p>
 
 							<p>Предполагая, что пакет выбран, а база данных APT  обновлена, следующей командой можно установить выбранный пакет (например gaim):</p>
 
@@ -453,20 +457,19 @@ Removing gaim ...
 Purging configuration files for gaim ...
 </pre>
 
-							<p>Обратите внимание на <span class="highlight-3">*</span> в выводе apt, после имени пакета. Этот знак сообщает что вместе с пакетом будут удалены и конфигурационные файлы.</p>
+							<p>Обратите внимание на <span class="highlight-3">*</span> в выводе apt, после имени пакета. Этот знак сообщает, что вместе с пакетом будут удалены и конфигурационные файлы.</p>
 
 
 		</div>
 	<div class="divider" id="apt-downgrade">
 						<h2>Понижение версии пакета</h2>
-								<p>Иногда в связи с ошибками, возникающими в актуальной версии того или иного пакета, возникает необходимость вернуться к его прежней, более ранней версии. Для этого необходимо выполнить следующие шаги,
-          </p>
+								<p>Иногда в связи с ошибками, возникающими в актуальной версии того или иного пакета, возникает необходимость вернуться к его прежней, более ранней версии. Для этого необходимо выполнить следующие шаги: </p>
 
 					<h3>Удерживание пакетов</h3>
 <pre>
 echo package hold|dpkg --set-selections
 </pre>
-							<p>Так удерживаются пакеты (Hold)</p>
+							<p>Так удерживаются пакеты (hold)</p>
 <pre>
 echo package install|dpkg --set-selections
 </pre>
@@ -497,17 +500,17 @@ apt-get install kmahjongg
 
 		</div>
 	<div class="divider" id="apt-upgrade">
-					<h2>Обновление установленной системы - dist-upgrade - Overview</h2>
+					<h2>Краткий обзор обновления установленной системы - dist-upgrade</h2>
 
 							<p>Полное обновление системы осуществляется с <span class="highlight-3">dist-upgrade</span>. Всегда предварительно ознакомьтесь с существующими предупреждениями (Current Warnings) на главном сайте <a href="http://aptosid.com">aptosid</a>,  а также с предупреждениями относительно непосредственно обновляемых системой пакетов! В случае необходимости пакет нужно <span class="highlight-3">заморозить</span> читайте в главе <a href="sys-admin-apt-ru.htm#apt-downgrade">Понижение версии пакета</a></p>
 
-							<p>Замечание: просто 'upgrade' в debian-sid использовать не рекомендуется.</p>
+							<p>Замечание: Просто 'upgrade' в debian-sid использовать не рекомендуется.</p>
 
 					<h5>Частота применения 'dist-upgrade'</h5>
 
 							<p>Рекомендуется осуществлять 'dist-upgrade' хотя бы 1 раз в месяц, в идеале -раз в одну, две недели.При более редком обновлении системы (раз в 2-3 месяца) не исключено возникновение различных проблем. Особое внимание при обновлении необходимо уделять нестандартным и "самособранным" пакетам в связи с возможными нарушениями зависимостей.</p>
 
-			<p>После обновления базы данных  APT  следующей командой можно узнать какие именно пакеты доступны к обновлению: (first install apt-show-versions)</p>
+							<p>После обновления базы данных APT следующей командой можно узнать какие именно пакеты доступны к обновлению &#040;для того сначала пакет apt-show-versions устанавливается&#041;:</p>
 
 <pre>
 apt-show-versions -u
@@ -562,10 +565,10 @@ The following packages have been kept back:
 							<p>После окончания выполнения 'dist-upgrade -d', собираясь  завершить dist-upgrade немедленно или когда-либо позже, следуйте приведенной ниже инструкции:</p>
 	      </div>
 	      <div class="divider" id="du-st">
-				      <h3> dist-upgrade - The Steps</h3>
+				      <h3>Шаги выполнения dist-upgrade</h3>
 
 <div class="box block">
-			<div class="highlight-2">НИКОГДА не выполняйте ни dist-upgrade ни upgrade, не остановив сервер Х.<div class="highlight-4"> Всегда предварительно ознакомьтесь с предупреждениями по обновлениям на главном сайте <a href="http://aptosid.com">aptosid</a> . Эти предупреждения размещаются по причине нестабильности и ежедневных обновлений!</div>
+			<div class="highlight-2">НИКОГДА не выполняйте ни dist-upgrade ни upgrade, не остановив сервер Х.<div class="highlight-4"> Всегда предварительно ознакомьтесь с предупреждениями по обновлениям на главном сайте <a href="http://aptosid.com">aptosid</a>. Эти предупреждения размещаются по причине нестабильности и ежедневных обновлений!</div>
 <pre>
 Log out of KDE.
 Go to Textmode by doing Ctrl+Alt+F1
@@ -581,7 +584,7 @@ init 5 &amp;&amp; exit
 	</div>
 <div class="spacer02"></div>
 
-							<p class="highlight-2">Если вы не перейдёте на init-level 3 (режим текстовой консоли), что делать, Вас предупредили!</p>
+							<p class="highlight-2">Если Вы не перейдёте на init-level 3 (режим текстовой консоли), что делать, Вас предупредили!</p>
 	</div>
 	<div class="divider" id="whyno">
 
@@ -614,6 +617,7 @@ aptosid-manual - the official aptosid manual - all languages
 aptosid-manual-pt-br - the official Brazilian Portuguese aptosid manual
 aptosid-manual-en - the official English aptosid manual
 aptosid-manual-reader - aptosid manual reader
+aptosid-manual-ru - the official Russian aptosid manual
 </pre>
 
 		<p>Расширенная информация о конкретном пакете доступна после выполнения:</p>
@@ -661,7 +665,8 @@ apt-get install packagesearch
 
 							<p>После первого старта этой программы нужно выбрать в меню Packagesearch > Preferences опцию <span class="highlight-3">apt-get</span>.</p>
 
-							<p><span class="highlight-3">Please do not use Packagesearch to install packages, use it only as a GUI search engine.</span></p>
+							<p><span class="highlight-2">Бнимание, не используйте пакет packagesearch для установки пакетов, используйте его только в качестве поискового интерфейса. Обновление пакетов и установки новых пакетов, не останавливаясь X может вызвать проблемы. Читайте <a href="sys-admin-apt-ru.htm#apt-install">Установка нового пакета</a>.</span></p>
+
 
 							<p>При этом может появиться окно с информацией о том, что отсутствует deborphan. Информации deborphan нужно использовать крайне осторожно.</p>
 
@@ -681,7 +686,7 @@ apt-get install packagesearch
 	</div>
 						<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Полное описание системы APT можно найти в APT-HOWTO Debian.</a>. </p>
 
-		<div id="rev">Содержание, последний раз пересмотрено 14/08/2010 0100 UTC</div>
+		<div id="rev">Содержание, последний раз пересмотрено 16/09/2010 1450 UTC </div>
 </div>
 </div>
 </body>

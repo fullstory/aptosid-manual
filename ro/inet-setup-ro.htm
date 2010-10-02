@@ -334,7 +334,7 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Apoi programul 'wpasupplicant' are nevoie de un fișier .conf, "wpa-roam.conf"</p>
+							<p>Apoi programul 'wpa_supplicant' are nevoie de un fișier .conf, "wpa-roam.conf"</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
@@ -428,7 +428,7 @@ iface default inet dhcp
 		<div class="divider" id="net-set3">
 				<h2>Utilizarea "wpa-roam.conf" cu configurări manuale specifice</h2>
 
-							<p>Cu ajutorul <span class="highlight-3">IDString</span> și <span class="highlight-3">Priority</span> puteți stabili la care rețea să se conecteze computerul vostru în timpul boot-ării. Cea mai mare prioritate este <span class="highlight-3">1000</span>, cea mai mică fiind <span class="highlight-3">0</span>. Trebuie să adăugați deasemenea <span class="highlight-3">IDString</span> la <span class="highlight-3">/etc/network/interfaces</span>.</p>
+							<p>Cu ajutorul <span class="highlight-3">IDString</span> și <span class="highlight-3">Priority</span> puteți stabili la care rețea să se conecteze computerul vostru în timpul boot-ării. Cea mai mare prioritate este <span class="highlight-3">1000</span>, cea mai mică fiind <span class="highlight-3">0</span>. Trebuie să adăugați deasemenea <span class="highlight-3">id_str</span> la <span class="highlight-3">/etc/network/interfaces</span>.</p>
 
 						<h6>Sintaxa pentru /etc/network/interfaces.</h6>
 							<p>Prima este pentru conexiunea la serverele DHCP, a doua este pentru adresă IP fixă. Pentru modificarea setărilor:</p>
@@ -528,12 +528,27 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>Ar fi bine să faceți o copie a fișierelor "/etc/network/interfaces" și "/etc/wpa_supplicant/wpa-roam.conf", dar <span class="highlight-3">criptați-le deoarece conțin informații sensibile</span>. Un mod simplu ar fi prin arhivarea cu parolă folosind programe ca 7zip, zip, rar sau altele.</p>
+							<p>Ar fi bine să faceți o copie a fișierelor "/etc/network/interfaces" și "/etc/wpa_supplicant/wpa-roam.conf", dar <span class="highlight-3">criptați-le deoarece conțin informații sensibile</span>.</p>
 
+							<p>O metodă bună de a salva și securiza fișierele de configurare ar fi folosind <i>tar</i>. și <i>gpg</i>. Ca <i>root</i>:</p>
+
+<pre>
+tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+</pre>
+							<p>Două fișiere au fost create în $ HOME:<br />
+							backup_name.tar<br />
+							backup_name.tar.gpg<br /><br />
+							Ștergeți <i>backup_name.tar</i> din sistem deoarece aveți nevoie doar de fișierul <i>backup_name.tar.gpg</i>.</p>
+
+							<p>Pentru decriptarea fișierului <i>backup_name.tar.gpg</i>:</p>
+
+<pre>
+gpg -d backup_name.tar.gpg
+</pre>
 
 
 					<h6>3. SSID-uri ascunse</h6>
-							<p>SSID-urile ascunse sunt detectate când <span class="highlight-3">scan_ssid=1</span> este specificat în "network block".</p>
+							<p>SSID-urile ascunse sunt detectate când <span class="highlight-3">scan_ssid=1</span> este specificat în <i>"network block"</i>.</p>
     </div>
     <div class="divider" id="rousec-wifi">
 			<h2>Noțiuni sumare de securitate ale modem/router-elor wireless</h2>
@@ -556,17 +571,17 @@ $ pwgen -s 63 1
 VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 						  <ul>
-							<li>-s = sigur (no mnemonics)</li>
+							<li>-s = sigur (fără mnemonice)</li>
 							<li>63 = număr de caractere</li>
 							<li>1 = generează aleatoriu doar o singură parolă</li>
 
 						  </ul>
-							<p>Fără opțiunea "-s" obțineți o parolă "vorbită" (mai ușor de ținut minte). Oricum nu-i ceea ce ar trebui să folosiți:</p>
+							<p>Fără opțiunea "-s" obțineți o parolă "vorbită" (mai ușor de ținut minte).<br /> Oricum nu-i ceea ce ar trebui să folosiți:</p>
 <pre>
 $ pwgen 8 3
 Sooxae2s Niew9ugh Hi7eeloo
 </pre>
-							<p>După generagrea passphrase/password scrieți-o într-un fișier text, salvați-l pe un USB-stick și folosiți această passphrase/password pe alte computere ce se conectează la rețeaua voastră wireless. Nu păstrați passphrase/password pe computerul vostru.</p>
+							<p>După generagrea passphrase/password scrieți-o într-un fișier text, salvați-l pe un USB-stick și folosiți această passphrase/password pe alte computere ce se conectează la rețeaua voastră wireless.<br /> <span class="highlight-2">Nu păstrați passphrase/password pe computerul vostru.</span></p>
 
 						<h6>Examplu de setare finală a unui router:</h6>
 <pre>
@@ -576,7 +591,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
 </div>
 </body>
 </html>

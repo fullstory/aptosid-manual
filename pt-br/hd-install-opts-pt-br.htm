@@ -435,12 +435,12 @@ persist=/aptosid/aptosid-rw
 							<p>Usar persist também significa que você pode instalar pacotes pelo APT e ter aplicações e quaisquer dados salvos disponíveis para acesso quando seu computador for reiniciado.</p>
 	</div>
 	<div class="divider" id="persist-post">
-				<h2>fromiso e persist em dispositivos USB ou cartões SSD</h2>
+				<h2>fromiso e persist em dispositivos USB ou cartões SD/flash</h2>
 							<p>Talvez o uso ideal da persistência seja em conjunção com a ferramenta install-usb-gui para criar sua própria pendrive inicializável com os arquivos e software que você desejar. Seus arquivos serão armazenados em uma subpasta no HD.</p>
 
 							<p><span class="highlight-3">persist</span> em um sistema de arquivos FAT, como é comum em instalações DOS/Windows 9x e geralmente encontrado por padrão em dispositivos flash, exige que você crie um único e grande arquivo para ser usado como dispositivo em loop, que você precisará também formatar.</p>
 
-							<p><span class="highlight-3">Em dispositivos USB ou cartões SSD, os sistemas de arquivos recomendados são ext2 e vfat. Eles interagem melhor com outras plataformas em casos de recuperação de dados, já que existe um driver MS Windows&#8482; para troca de dados e informações. Por outro lado, a possibilidade de reescrever nesses dispositivos vai depender das especificações de cada um.</span></p>
+							<p><span class="highlight-3">Em dispositivos USB ou cartões SD/flash, os sistemas de arquivos recomendados são ext2 e vfat. Eles interagem melhor com outras plataformas em casos de recuperação de dados, já que existe um driver MS Windows&#8482; para troca de dados e informações. Por outro lado, a possibilidade de reescrever nesses dispositivos vai depender das especificações de cada um.</span></p>
 
 					<h6>Sistemas de arquivos ext2</h6>
 							<p>Com ext2 toda a partição será utilizada. Além disso, o root atual é aproveitado e um diretório /fll é criado para persistência; isso permite o uso de todo o espaço livre para o persist.</p>
@@ -449,10 +449,18 @@ persist=/aptosid/aptosid-rw
 							<p>Quando se usa vfat, a persistência é obtida através de um arquivo cujo tamanho máximo não pode ultrapassar 2GB (já o tamanho mínimo não pode ser inferior a 100MB, o que o tornaria inútil). Esse arquivo precisa ser nomeado <span class="highlight-3">aptosid-rw</span>.</p>
 
 					 <h4>Exemplo de criação de persist após instalação inicial</h4>
-							<p>Se você não tiver certeza do ponto de montagem, monte a pendrive e rode <span class="highlight-3">ls -lh /media</span> para obter uma lista de todos os pontos de montagem de seu sistema. Procure por algo do tipo <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se sua saída estiver diferente, então substitua <span class="highlight-3">"/media/disk"</span> de acordo com sua realidade (por exemplo "/media/sdc1"):</p>
-
-<pre>
+							<p>Se você não tiver certeza do ponto de montagem, monte a pendrive e rode <span class="highlight-3">ls -lh /media</span> para obter uma lista de todos os pontos de montagem de seu sistema. Procure por algo do tipo <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se sua saída estiver diferente, então substitua <span class="highlight-3">"/media/disk"</span> de acordo com sua realidade (por exemplo "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Especifique o tamanho da partição persist:</p>
@@ -466,32 +474,32 @@ mkdir $disk/aptosid
 							<p>Digite o seguinte código para fazer a partição persist:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">Partições NTFS, geralmente usadas em instalações Windows NT/2000/XP (TM) NÃO PODEM ser usadas de forma nenhuma para persistência!!!</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Instalação do aptosid em um dispositivo USB ou cartão SSD</h2>
+		<h2>Instalação do aptosid em um dispositivo USB ou cartão SD/flash</h2>
 
-							<p>Instalar o aptosid em pendrives ou cartões SSD é tão fácil quanto uma instalação em um HD tradicional. Basta seguir as instruções abaixo.</p>
+							<p>Instalar o aptosid em pendrives ou cartões SD/flash é tão fácil quanto uma instalação em um HD tradicional. Basta seguir as instruções abaixo.</p>
 
 				<h5>Requisitos:</h5>
-							<p>* qualquer PC com suporte a USB 2.0 e capaz de ser inicializado por USB/SSD.</p>
+							<p>* qualquer PC com suporte a USB 2.0 e capaz de ser inicializado por USB/SD/flash.</p>
 
 							<p>* uma imagem aptosid.iso.</p>
 
-				<h5>Três tipos de instalação em dispositivos USB/SSD:</h5>
+				<h5>Três tipos de instalação em dispositivos USB/SD/flash:</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-pt-br.htm#usb-from1">fromiso </a>; específico do aptosid: aptosid-on-a-stick</li>
-							<li>2) <a href="hd-install-opts-pt-br.htm#usb-hdd">  completa</a> (uma instalação completa em dispositivos USB/SSD comporta-se como uma instalação em HD normal e é feita pelo instalador padrão).</li>
+							<li>2) <a href="hd-install-opts-pt-br.htm#usb-hdd">  completa</a> (uma instalação completa em dispositivos USB/SD/flash comporta-se como uma instalação em HD normal e é feita pelo instalador padrão).</li>
 							<li>3)<a href="hd-ins-opts-oos-pt-br.htm#raw-usb"> RAW device </a> Ideal quando se está rodando qualquer Linux, MS Windows ou Mac OS X e se quiser instalar o aptosid em pendrives (aptosid-on-a-stick) (com muito cuidado).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Instalação fromiso em dispositivos USB/SSD, aptosid-on-a-stick</h3>
+				<h3>Instalação fromiso em dispositivos USB/SD/flash, aptosid-on-a-stick</h3>
 							<p> <span class="highlight-3">Comece por formatar seu dispositivo USB com ext2 ou fat32, antes de prosseguir (mínimo de 2 GB de espaço). O dispositivo deve ter apenas uma partição e, como algumas BIOS são temperamentais, deve ser marcado como inicializável ('bootable').</span></p>
 
 							<p>Se você estiver usando uma aplicação que roda no X, como o GParted, favor assegurar-se de, primeiro, deletar a partição existente e então recriar a partição antes de formatar.</p>
@@ -507,7 +515,7 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 			      <h6>Options:</h6>
 							<p>Você terá a oportunidade de escolher língua, fuso horário e outros códigos de inicialização e se deseja ou não 'persist', via uma caixa de seleção.</p>
 
-							<p>Agora, você tem um dispositivo USB/SSD capaz de dar o boot. Se você não ativou 'persist', você pode fazê-lo digitando <span class="highlight-3">persist</span> na linha de comando da tela do GRUB. (Se você usou vfat, provavelmente será melhor recomeçar).</p>
+							<p>Agora, você tem um dispositivo USB/SD/flash capaz de dar o boot. Se você não ativou 'persist', você pode fazê-lo digitando <span class="highlight-3">persist</span> na linha de comando da tela do GRUB. (Se você usou vfat, provavelmente será melhor recomeçar).</p>
 
 
 						<h6>Exemplo no terminal:</h6>
@@ -524,8 +532,8 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 $ man fll-iso2usb
 </pre>
 
-			<h3>Instalação completa para USB/SSD (comporta-se como uma instalação normal)</h3>
-							<p>Para saber o tamanho mínimo recomendado da pendrive ou cartão SSD observe que:<br />
+			<h3>Instalação completa para USB/SD/flash (comporta-se como uma instalação normal)</h3>
+							<p>Para saber o tamanho mínimo recomendado da pendrive ou cartão SD/flash observe que:<br />
 							* o aptosid "LITE" precisa de 2.5 GB ou mais para os dados<br />
 							* o aptosid "FULL" precisa de 4 GB ou mais para os dados</p>
 
@@ -533,13 +541,13 @@ $ man fll-iso2usb
 
 							<p>Comece a instalação pelo Live-CD /DVD e escolha a partição do dispositivo onde o aptosid será instalado (por exemplo, <span class="highlight-3">sdbX) </span> e siga as instruções do instalador. Leia <a href="hd-install-pt-br.htm#Installation">Instalando no HD</a>.</p>
 
-							<p><span class="highlight-3">Para dar o boot pelo USB/SSD, a opção 'Boot a partir de USB' precisa existir e estar habilitada na BIOS de seu computador!</span></p>
+							<p><span class="highlight-3">Para dar o boot pelo USB/SD/flash, a opção 'Boot a partir de USB' precisa existir e estar habilitada na BIOS de seu computador!</span></p>
 
 							<p><span class="highlight-3">Outras observações importantes: </span></p>
 						<ul>
-							<li>Uma instalação em dispositivos USB ou cartões SSD será, normalmente, direcionada para uso no PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que os drivers não livres da placa de vídeo provavelmente não estarão instalados e nem os 'cheatcodes' pré-configurados (com exceção do cheatcode VESA já declarado no menu.lst).</li>
+							<li>Uma instalação em dispositivos USB ou cartões SD/flash será, normalmente, direcionada para uso no PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que os drivers não livres da placa de vídeo provavelmente não estarão instalados e nem os 'cheatcodes' pré-configurados (com exceção do cheatcode VESA já declarado no menu.lst).</li>
 
-							<li>Após dar o boot do dispositivo USB/SSD em outro PC, será necessário alterar o arquivo fstab (que está em /etc) para que as partições do HD fiquem acessíveis.</li>
+							<li>Após dar o boot do dispositivo USB/SD/flash em outro PC, será necessário alterar o arquivo fstab (que está em /etc) para que as partições do HD fiquem acessíveis.</li>
 
 							<li>"fromiso" com "persist" é a melhor escolha se sua intenção primeira for portabilidade.</li>
 						</ul>
@@ -549,7 +557,7 @@ $ man fll-iso2usb
 
 							<p>O HD-USB tem uma grande vantagem (particularmente para novos usuários vindos do Windows ou de outra distro), que é permitir instalar o aptosid e depois conectar o dispositivo a um PC sem a necessidade de configurá-lo para boots múltiplos, isto é, sem que seja necessário reparticionar a máquina, fazer alterações no GRUB etc.</p>
 
-							<p>Inicie pelo Live-CD/DVD (ou por uma pendrive ou cartão SSD), <span class="highlight-3">como se fosse uma instalação normal, não como uma instalação para USB</span> e escolha a partição no dispositivo onde o aptosid ficará (por exemplo, <span class="highlight-3">sdbX) </span> e siga as instruções do instalador. O GRUB deve ser escrito na partição do HD-USB.</p>
+							<p>Inicie pelo Live-CD/DVD (ou por uma pendrive ou cartão SD/flash), <span class="highlight-3">como se fosse uma instalação normal, não como uma instalação para USB</span> e escolha a partição no dispositivo onde o aptosid ficará (por exemplo, <span class="highlight-3">sdbX) </span> e siga as instruções do instalador. O GRUB deve ser escrito na partição do HD-USB.</p>
 
 							<p>Leia <a href="hd-install-pt-br.htm#Installation">Instalando no HD</a>.</p>
 
@@ -562,7 +570,7 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Page last revised 30/09/2010 1355 UTC</div>
 
 </div>
 </body>

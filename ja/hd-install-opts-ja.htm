@@ -117,7 +117,7 @@
 		<li><a href="part-size-examp-ja.htm#part-example">パーティショニングの基本 &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-ja.htm#part-example">パーティションサイズの例</a></li>
-					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</li>
+					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</a></li>
 					  <li><a href="part-cfdisk-ja.htm#disknames">ディスクの名前について</a></li>
 					</ul>
 					</li>
@@ -529,9 +529,9 @@ persist=/aptosid/aptosid-rw
 	</div>
 	<div class="divider" id="persist-post">
 				<!--- ####
-				<h2>fromiso and persist on a bootable USB-sticks/SSD-cards</h2>
+				<h2>fromiso and persist on a bootable USB-sticks/SD/flash-cards</h2>
 #### -->
-				<h2>USB-sticks/SSD-cardsキーからの fromiso と persist</h2>
+				<h2>USB-sticks/SD/flash-cardsキーからの fromiso と persist</h2>
 <!--- ####
 							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need. Your files will be stored in a subfolder on the drive.</p>
 #### -->
@@ -550,7 +550,7 @@ persist=/aptosid/aptosid-rw
 <!--- ####
 							<p><span class="highlight-3">On USB sticks, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Read/Writes to flash type drives are contingent on the specifications of your USB stick.</span></p>
 #### -->
-							<p><span class="highlight-3"> USB-sticks/SSD-cardsフラッシュドライブでは ext2 と VFAT システムを推薦します。MS Windows&#8482;用のドライバもあるためデータ交換に使うときより多くのプラットフォームで使うことができ、またもしもの場合のデータ救済の可能性も高いでしょう。Read/Writes to flash type drives are contingent on the specifications of your USB USB-sticks/SSD-cards.</span></p>
+							<p><span class="highlight-3"> USB-sticks/SD/flash-cardsフラッシュドライブでは ext2 と VFAT システムを推薦します。MS Windows&#8482;用のドライバもあるためデータ交換に使うときより多くのプラットフォームで使うことができ、またもしもの場合のデータ救済の可能性も高いでしょう。Read/Writes to flash type drives are contingent on the specifications of your USB USB-sticks/SD/flash-cards.</span></p>
 
 <!--- ####
 					<h6>ext2/3 file systems</h6>
@@ -577,10 +577,18 @@ persist=/aptosid/aptosid-rw
 							<!--- ####
 							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
 							#### -->
-							<p>マウントポイント名について曖昧に感じるときは、まずフラッシュメモリをマウントして <span class="highlight-3">ls -lh /media</span> のコマンドを実行します。出力の中から <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span> のような行を探します。もし disk ではなく他の名前でマウントされている場合は <span class="highlight-3">"/media/disk"</span> をその名に合わせて変更してください。(例 "/media/sdc1"):</p>
-
-<pre>
+							<p>マウントポイント名について曖昧に感じるときは、まずフラッシュメモリをマウントして <span class="highlight-3">ls -lh /media</span> のコマンドを実行します。出力の中から <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span> のような行を探します。もし disk ではなく他の名前でマウントされている場合は <span class="highlight-3">"/media/disk"</span> をその名に合わせて変更してください。(例 "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<!--- ####
@@ -597,7 +605,7 @@ mkdir $disk/aptosid
 							<p>次の持続モードパーティション作成のコマンドを実行する:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">Windows NT/2000/XP(TM)のインストールに使われている NTFS システムでは持続モードはできません。</p>
@@ -605,12 +613,12 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 	</div>
 	<div class="divider" id="usb-hd">
 <!--- ####
-		<h2>Installation of aptosid on USB/SSD devices</h2>
+		<h2>Installation of aptosid on USB/SD/flash devices</h2>
 #### -->
-		<h2>aptosidを USB/SSD devices ドライブにインストール</h2>
+		<h2>aptosidを USB/SD/flash devices ドライブにインストール</h2>
 
 <!--- ####
-							<p>To do an installation of aptosid on a USB-stick/SSD-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+							<p>To do an installation of aptosid on a USB-stick/SD/flash-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 #### -->
 							<p>aptosid をUSBスティックやUSBハードディスクにインストールするのは普通のハードディスクにインストールするのと同じように簡単です。</p>
 
@@ -619,9 +627,9 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 #### -->
 				<h5>必要条件:</h5>
 				<!--- ####
-							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SD/flash.</p>
 #### -->
-							<p>USB 2.0 プロトコルとUSB/SSDからの起動をサポートしているPC。</p>
+							<p>USB 2.0 プロトコルとUSB/SD/flashからの起動をサポートしているPC。</p>
 
 							<!--- ####
 							<p>A aptosid.iso image.</p>
@@ -629,18 +637,18 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 							<p>aptosidのISOファイル.</p>
 
 				<!--- ####
-				<h5>3 kinds of installation to USB/SSD</h5>
+				<h5>3 kinds of installation to USB/SD/flash</h5>
 				#### -->
-				<h5>USB/SSD にインストールする３つの方法</h5>
+				<h5>USB/SD/flash にインストールする３つの方法</h5>
 					  <ul>
 							<!--- ####
 							<li>1) <a href="hd-install-opts-ja.htm#usb-from1">fromiso </a>; aptosid specific: aptosid-on-a-stick</li>
 							#### -->
 							<li>1) <a href="hd-install-opts-ja.htm#usb-from1">fromiso </a>; aptosid 独自のフィーチャー: aptosid-on-a-stick</li>
 							<!--- ####
-							<li>2) <a href="hd-install-opts-ja.htm#usb-hdd"> Full</a> (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+							<li>2) <a href="hd-install-opts-ja.htm#usb-hdd"> Full</a> (the full installation to a USB/SD/flash behaves as normal HD installation and is done through the normal installer).</li>
 							#### -->
-							<li>2) <a href="hd-install-opts-ja.htm#usb-hdd"> Full</a> (USB/SSD にハードドライブの場合と同じように通常のインストーラでインストールする).</li>
+							<li>2) <a href="hd-install-opts-ja.htm#usb-hdd"> Full</a> (USB/SD/flash にハードドライブの場合と同じように通常のインストーラでインストールする).</li>
 							<!--- ####
 							<li>3) <a href="hd-ins-opts-oos-ja.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install aptosid-on-a-stick, (with caveats).</li>
 							#### -->
@@ -649,13 +657,13 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 	    </div>
 	    <div class="divider" id="usb-from1">
 				<!--- ####
-				<h3>USB/SSD fromiso Installation, aptosid-on-a-stick</h3>
+				<h3>USB/SD/flash fromiso Installation, aptosid-on-a-stick</h3>
 				#### -->
-				<h3>USB/SSD への fromiso インストール aptosid-on-a-stick</h3>
+				<h3>USB/SD/flash への fromiso インストール aptosid-on-a-stick</h3>
 				<!--- ####
 							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 #### -->
-							<p> <span class="highlight-3">まず準備としてUSB/SSDデバイスを ext2 または FAT32 にフォーマットします。(２GB以上) このデバイスにはパーティションが一つだけになるようにして、このパーティションを起動可能にします。(BIOSによってはこれをしないと起動できないことがあるため) 。</span></p>
+							<p> <span class="highlight-3">まず準備としてUSB/SD/flashデバイスを ext2 または FAT32 にフォーマットします。(２GB以上) このデバイスにはパーティションが一つだけになるようにして、このパーティションを起動可能にします。(BIOSによってはこれをしないと起動できないことがあるため) 。</span></p>
 
 							<!--- ####
 							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
@@ -684,7 +692,7 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 <!--- ####
 							<p>You now have a bootable USB stick. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen. (If vfat, it is probably best to start again though).</p>
 #### -->
-							<p>これで機動可能なUSB/SSDデバイスができました。あとからpersist モードを使いたくなった場合は機動時のGRUBのコマンド行に <span class="highlight-3">persist</span> を加えるか、または menu.lst の #kopt= の行に persist と書き込みます。. . (VFAT のフラッシュメモリならば多分はじめからインストールし直したほうがいいでしょう。)</p>
+							<p>これで機動可能なUSB/SD/flashデバイスができました。あとからpersist モードを使いたくなった場合は機動時のGRUBのコマンド行に <span class="highlight-3">persist</span> を加えるか、または menu.lst の #kopt= の行に persist と書き込みます。. . (VFAT のフラッシュメモリならば多分はじめからインストールし直したほうがいいでしょう。)</p>
 
 
 <!--- ####
@@ -715,13 +723,13 @@ $ man fll-iso2usb
 </pre>
 
 <!--- ####
-			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
+			<h3>Full installation to a USB/SD/flash (behaves as normal HD installation)</h3>
 #### -->
-			<h3>USB/SSD への通常の(ハードディスクへのインストールと同じ)フルインストール</h3>
+			<h3>USB/SD/flash への通常の(ハードディスクへのインストールと同じ)フルインストール</h3>
 			<!--- ####
-							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+							<p>The recommended mininmum size of a USB-stick/SD/flash-card is:<br />
 #### -->
-							<p>最小限のサイズとしてUSB/SSD デバイスは:<br />
+							<p>最小限のサイズとしてUSB/SD/flash デバイスは:<br />
 							<!--- ####
 							aptosid "LITE" needs 2.5 gig PLUS you need data space,<br />
 #### -->
@@ -732,19 +740,19 @@ $ man fll-iso2usb
 							"FULL" バージョンのaptosid はシステムに 4 GBe</p>
 							<p>程度は必要でしょう。これにユーザーとして必要なデータスペースを計算してサイズを決めてください。</p>
 							<!--- ####
-							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SD/flash-card as you would a standard PC.</span></p>
 #### -->
 							<p> <span class="highlight-3">準備としてデバイスを</span> <span class="highlight-2">ext2 </span><span class="highlight-3">にフォーマットしてから普通のハードディスクと同じようにパーティションします。</span></p>
 
 							<!--- ####
-							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Read <a href="hd-install-ja.htm#Installation">Installing to your HD</a></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SD/flash-device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Read <a href="hd-install-ja.htm#Installation">Installing to your HD</a></p>
 #### -->
-							<p>ライブCDからインストーラを起動してUSB/SSDデバイスのパーティションを aptosid のインストール先として選びます。インストーラのダイアログ上で例としてば<span class="highlight-3">sdbX </span>を選び、インストーラの指示に従ってインストールします。詳しくは<a href="hd-install-ja.htm#Installation">ハードディスクへのインストール</a>を参照。</p>
+							<p>ライブCDからインストーラを起動してUSB/SD/flashデバイスのパーティションを aptosid のインストール先として選びます。インストーラのダイアログ上で例としてば<span class="highlight-3">sdbX </span>を選び、インストーラの指示に従ってインストールします。詳しくは<a href="hd-install-ja.htm#Installation">ハードディスクへのインストール</a>を参照。</p>
 
 <!--- ####
-							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
+							<p><span class="highlight-3">To boot from your USB/SD/flash 'Boot from USB' must be enabled in your BIOS.</span></p>
 #### -->
-							<p><span class="highlight-3">USB/SSDデバイスから起動するには BIOS の設定で 'Boot from USB' が有効になっていなくてはなりません。</span></p>
+							<p><span class="highlight-3">USB/SD/flashデバイスから起動するには BIOS の設定で 'Boot from USB' が有効になっていなくてはなりません。</span></p>
 
 							<!--- ####
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
@@ -752,14 +760,14 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">その他のポイントとして: </span></p>
 						<ul>
 						<!--- ####
-							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							<li>A USB-stick/SD/flash-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SD/flash stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 #### -->
-							<li>USB/SSD へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
+							<li>USB/SD/flash へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
 
 							<!--- ####
-							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							<li>After booting the USB-stick/SD/flash-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
 #### -->
-							<li>他のPCで USB/SSD から起動する場合、そのPCのハードディスクにアクセスするにはfstabを修正する必要があるでしょう。</li>
+							<li>他のPCで USB/SD/flash から起動する場合、そのPCのハードディスクにアクセスするにはfstabを修正する必要があるでしょう。</li>
 
 							<!--- ####
 							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
@@ -779,7 +787,7 @@ $ man fll-iso2usb
 							<p>USB ハードディスクへのインストールには（とくにMSや他のディストロから来た新しいユーザーにとって）魅力があります。aptosid をUSB ハードディスクにインストールすれば、そのPCを複数のシステムで起動するための(パーティショニング、GRUB設定などの)ややこしい作業を避けることができるからです。</p>
 
 							<!--- ####
-							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SD/flash-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
 #### -->
 							<p>ライブモードからインストーラを起動して <span class="highlight-3">USBインストールではなく、普通のインストールをはじめて</span> aptosid システムをインストールしたいパーティション、例として <span class="highlight-3">sdbX </span> を選び、インストーラの指示に従います。GRUBはUSBハードディスクのパーティションにインストールします。</p>
 
@@ -797,7 +805,7 @@ $ man fll-iso2usb
 						<!--- ####
 							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 #### -->
-							<li>USB/SSD へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
+							<li>USB/SD/flash へのフルインストールは通常インストールを行ったPCのみで使えます。他のPCでも使いたい場合はnon-freeのグラフィックドライバーは使わず、特別な起動オプションも使わないようにします。例外として起動オプションに vesa を使うのはハードウェアの違うPCで起動するのに便利です。(これらの設定はますインストールがうまくいってから起動後に設定します。) </li>
 
 							<!--- ####
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
@@ -806,7 +814,7 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Page last revised 30/09/2010 1355 UTC</div>
 
 </div>
 </body>

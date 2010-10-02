@@ -434,12 +434,12 @@ persist=/aptosid/aptosid-rw
 							<p>Door persist te gebruiken kunnen pakketten met apt geïnstalleerd worden. Deze wijzigingen in de applicaties en de data zijn dan opnieuw beschikbaar bij de volgende boot.</p>
 	</div>
 	<div class="divider" id="persist-post">
-				<h2>fromiso en persist met een bootable USB-sticks/SSD-cards</h2>
+				<h2>fromiso en persist met een bootable USB-sticks/SD/flash-cards</h2>
 							<p>Het misschien ideale gebruik van persistence is met de install-usb-gui tool waarmee je eigen bootable flash drive gemaakt kan worden met eigen data en de benodigde software. Your files will be stored in a subfolder on the drive.</p>
 
 							<p><span class="highlight-3">persist</span> op een FAT bestandssysteem, zoals die in DOS/Windows 9x omgevingen en ook bij flash devices zijn toegepast, vereist dat je een groot bestand aanmaakt dat als een loop device werkt. Dat bestand moet geformatteerd worden.</p>
 
-							<p><span class="highlight-3">Op USB-sticks/SSD-cardsworden ext2 en vfat als bestandssysteme aanbevolen omdat met beiden  waarschijnlijk een betere cross platform beschikbaarheid voor een backup en herstel van data mogelijk is. Een MS Windows&#8482; driver voor etx2 is beschikbaar om de data te kunnen benaderen. Let ook op de specificaties van de USB-sticks/SSD-cards inzake de herschrijfbaarheid (gegarandeerde levensduur/herschrijfbaarheid).</span></p>
+							<p><span class="highlight-3">Op USB-sticks/SD/flash-cardsworden ext2 en vfat als bestandssysteme aanbevolen omdat met beiden  waarschijnlijk een betere cross platform beschikbaarheid voor een backup en herstel van data mogelijk is. Een MS Windows&#8482; driver voor etx2 is beschikbaar om de data te kunnen benaderen. Let ook op de specificaties van de USB-sticks/SD/flash-cards inzake de herschrijfbaarheid (gegarandeerde levensduur/herschrijfbaarheid).</span></p>
 
 					<h6>ext2 bestandssystemen</h6>
 							<p>Met ext2 wordt de hele partitie gebruikt. De actuele root partitie wordt in combinatie met een map /fll gebruikt (die wordt op de stick aangemaakt). In de /fll worden alle data van/voor persist modus bewaard.</p>
@@ -448,10 +448,18 @@ persist=/aptosid/aptosid-rw
 							<p>Als vfat wordt gebruikt, wordt een bestand voor persistance aangemaakt dat maximaal 2GB groot mag zijn maar niet kleiner dan 100MB (anders heeft het geen zin). Dat bestand wordt <span class="highlight-3">aptosid-rw</span> genoemd.</p>
 
 					 <h4>Voorbeeld voor het creeeren van een persist na de intiele installatie</h4>
-							<p>Ben je niet zeker van het koppelpunt (mountpoint), koppel dan de stick en voer <span class="highlight-3">ls -lh /media</span> uit om een lijst van al je systeem mountpoints te verkrijgen. Zoek dan naar <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span> of iets in die geest. Als je weergave anders is, vervang dan <span class="highlight-3">"/media/disk"</span> in de regel met je vereiste waarde, (bijvoorbeeld "/media/sdc1"):</p>
-
-<pre>
+							<p>Ben je niet zeker van het koppelpunt (mountpoint), koppel dan de stick en voer <span class="highlight-3">ls -lh /media</span> uit om een lijst van al je systeem mountpoints te verkrijgen. Zoek dan naar <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span> of iets in die geest. Als je weergave anders is, vervang dan <span class="highlight-3">"/media/disk"</span> in de regel met je vereiste waarde, (bijvoorbeeld "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Stel de grote van de persist partitie in:</p>
@@ -465,32 +473,32 @@ mkdir $disk/aptosid
 							<p>Run de code om de persist partitiee te maken:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">NTFS partities, die in Windows NT/2000/XP (TM) installaties voorkomen, kunnen NIET gebruikt worden voor persistence.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installatie van aptosid op een USB/SSD devices</h2>
+		<h2>Installatie van aptosid op een USB/SD/flash devices</h2>
 
-							<p>De installatie van aptosid op een USB-stick/SSD-card is niet moeilijker als een normale HD-installatie. Voer hiervoor de onderstaande stappen uit.</p>
+							<p>De installatie van aptosid op een USB-stick/SD/flash-card is niet moeilijker als een normale HD-installatie. Voer hiervoor de onderstaande stappen uit.</p>
 
 				<h5>Eisen:</h5>
-							<p>Elke PC die beschikt over een USB 2.0 protocol en ondersteuning beidt voor het opstarten via USB/SSD.</p>
+							<p>Elke PC die beschikt over een USB 2.0 protocol en ondersteuning beidt voor het opstarten via USB/SD/flash.</p>
 
 							<p>Een aptosid.iso image.</p>
 
-				<h5>3 soorten installaties naar USB/SSD</h5>
+				<h5>3 soorten installaties naar USB/SD/flash</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-nl.htm#usb-from1">fromiso </a>; aptosid specifiek: aptosid-on-a-stick</li>
-							<li>2) <a href="hd-install-opts-nl.htm#usb-hdd"> Full</a> (de volledige installatie naar een USB/SSD gedraagt zich als een normale HD installatie en is wordt uitgevoerd door de normale installer).</li>
+							<li>2) <a href="hd-install-opts-nl.htm#usb-hdd"> Full</a> (de volledige installatie naar een USB/SD/flash gedraagt zich als een normale HD installatie en is wordt uitgevoerd door de normale installer).</li>
 							<li>3) <a href="hd-ins-opts-oos-nl.htm#raw-usb"> RAW device </a> schrijf. Deze is ideaal wanneer je welke Linux, MS Windows of Mac OS X operating systeem gebruikt en je wilt een aptosid-on-a-stick installatie, (met caveats).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>USB/SSD fromiso Installatie, aptosid-on-a-stick</h3>
+				<h3>USB/SD/flash fromiso Installatie, aptosid-on-a-stick</h3>
 							<p> <span class="highlight-3">Zorg ervoor dat de usb device al geformateerd is met ext2 of fat32 voordat je begint (het moet tenminste 2 gig aan capaciteit hebben). Het apparaat mag maar over 1 partitie beschikken en sommige BIOSes zijn temperamentaal en moet gemarkeerd zijn als opstartbaar.</span></p>
 
 							<p>Indien je gebruikt maakt van een GUI formaterende applicatie zoals gparted, wees er dan zeker van dat je eerst de aanwezige partitie verwijderd hebt, creeer daarna de partitie voordat je gaat formateren.</p>
@@ -506,7 +514,7 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 			      <h6>Opties:</h6>
 							<p>In de aangeboden stappen kan je je voorkeuren zoals de taal, tijdzone en andere opties vastleggen en hierna persist activeren door daar een haakje te plaatsen.</p>
 
-							<p>Hierdoor verkrijg je een bootable USB/SSD. Als je dat haakje vergeten bent, kan je dat achteraf nog herstellen. Het kan door de (tijdelijke) toevoeging van <span class="highlight-3">persist</span> in de regel van je Grub scherm. (If vfat, it is probably best to start again though).</p>
+							<p>Hierdoor verkrijg je een bootable USB/SD/flash. Als je dat haakje vergeten bent, kan je dat achteraf nog herstellen. Het kan door de (tijdelijke) toevoeging van <span class="highlight-3">persist</span> in de regel van je Grub scherm. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Terminal voorbeeld:</h6>
@@ -524,22 +532,22 @@ $ man fll-iso2usb
 </pre>
 
 
-			<h3>Volledige installatie naar een USB/SSD (gedraagt zich als een normale HD installatie)</h3>
-							<p>De aanbevolen minimale grote van de USB-stick/SSD-card is:<br />
+			<h3>Volledige installatie naar een USB/SD/flash (gedraagt zich als een normale HD installatie)</h3>
+							<p>De aanbevolen minimale grote van de USB-stick/SD/flash-card is:<br />
 							aptosid "LITE" heeft 2.5 gig nodig PLUS data ruimte,<br />
 							aptosid "FULL" heeft 4 gig PLUS data ruimte</p>
 
-							<p> <span class="highlight-3">Zorg er voor dat het apparaat geformateerd is met </span> <span class="highlight-2">ext2 </span><span class="highlight-3">en partitioneer de USB-stick/SSD-card zoals je dat anders ook zou willen doen.</span></p>
+							<p> <span class="highlight-3">Zorg er voor dat het apparaat geformateerd is met </span> <span class="highlight-2">ext2 </span><span class="highlight-3">en partitioneer de USB-stick/SD/flash-card zoals je dat anders ook zou willen doen.</span></p>
 
-							<p>Start de installatie van de Live-ISO en kies de partitie op de USB/SSD-apparaat, waar je aptosid wilt installeren, bijvoorbeeld <span class="highlight-3">sdbX </span>en volg de aptosid installer prompts. Lees <a href="hd-install-nl.htm#Installation">Installatie op je  HD</a></p>
+							<p>Start de installatie van de Live-ISO en kies de partitie op de USB/SD/flash-apparaat, waar je aptosid wilt installeren, bijvoorbeeld <span class="highlight-3">sdbX </span>en volg de aptosid installer prompts. Lees <a href="hd-install-nl.htm#Installation">Installatie op je  HD</a></p>
 
-							<p><span class="highlight-3">Om op te starten van je USB/SSD, 'Boot from USB' moet ingeschakeld zijn in je BIOS.</span></p>
+							<p><span class="highlight-3">Om op te starten van je USB/SD/flash, 'Boot from USB' moet ingeschakeld zijn in je BIOS.</span></p>
 
 							<p><span class="highlight-3">Andere noemenswaardige punten zijn: </span></p>
 						<ul>
-							<li>Een USB-stick/SSD-kaart installatie zal normaal gebonden zijn aan de PC waarop je de installatie hebt uitgevoerd. Wil je de USB/SSD stick op andere PCs gebruiken, dan zal het niet moeten beschikken over niet-gratis grafische drivers en cheatcodes die voor geconfigureerd zijn, met uitzondering van de vesa cheatcode.</li>
+							<li>Een USB-stick/SD/flash-kaart installatie zal normaal gebonden zijn aan de PC waarop je de installatie hebt uitgevoerd. Wil je de USB/SD/flash stick op andere PCs gebruiken, dan zal het niet moeten beschikken over niet-gratis grafische drivers en cheatcodes die voor geconfigureerd zijn, met uitzondering van de vesa cheatcode.</li>
 
-							<li>Na het opstarten van de USB-stick/SSD-card op een andere PC, moet je de fstab aanpassen om toegang te krijgen naar de PCs harddrives.</li>
+							<li>Na het opstarten van de USB-stick/SD/flash-card op een andere PC, moet je de fstab aanpassen om toegang te krijgen naar de PCs harddrives.</li>
 
 							<li>"fromiso" met "persist" is een betere optie en zou de portabiliteit verbeteren.</li>
 						</ul>
@@ -549,7 +557,7 @@ $ man fll-iso2usb
 
 							<p>Een USB Hard Disk Drive heeft een goede en attractieve applicatie, (vooral voor nieuwkomers vanaf MS of ander distro), en dit is dat je aptosid kunt installeren op een USB HDD, plug het in without zonder dat het nodig is om de PC te configureren voor dualboot (herpartitionering, grub veranderingen etcetera).</p>
 
-							<p>Start de installatie van de Live-ISO, (of vanaf een USB-stick/SSD-kaart), <span class="highlight-3">als een standaard installatie, niet een USB installatie</span> en kies de partitie op het apparaat waar je aptosid wilt installeren , bijvoorbeeld <span class="highlight-3">sdbX </span>en volgt de aptosid installer prompts. Grub moet geschreven worden naar de USB HDD partitie.</p>
+							<p>Start de installatie van de Live-ISO, (of vanaf een USB-stick/SD/flash-kaart), <span class="highlight-3">als een standaard installatie, niet een USB installatie</span> en kies de partitie op het apparaat waar je aptosid wilt installeren , bijvoorbeeld <span class="highlight-3">sdbX </span>en volgt de aptosid installer prompts. Grub moet geschreven worden naar de USB HDD partitie.</p>
 
 							<p>Lees <a href="hd-install-nl.htm#Installation">Installatie op je HD</a></p>
 
@@ -563,7 +571,7 @@ $ man fll-iso2usb
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 14/08/2010 0100 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 30/09/2010 1355 UTC</div>
 </div>
 </body>
 </html>

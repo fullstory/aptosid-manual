@@ -433,12 +433,12 @@ persist=/aptosid/aptosid-rw
 							<p>Utilizzare persist significa anche che si possono installare pacchetti da apt ed avere l'applicazione ed ogni dato che si è salvato disponibile ed accessibile al prossimo riavvio.</p>
 	</div>
 	<div class="divider" id="persist-post">
-				<h2>fromiso e persist su di una chiavetta USB/scheda SSD</h2>
+				<h2>fromiso e persist su di una chiavetta USB/scheda SD/flash</h2>
 							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno. Your files will be stored in a subfolder on the drive.</p>
 
 							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
 
-							<p><span class="highlight-3">Nelle chiavette USB/schede SSD, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB/scheda SSD.</span></p>
+							<p><span class="highlight-3">Nelle chiavette USB/schede SD/flash, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB/scheda SD/flash.</span></p>
 
 					<h6>ext2 file system</h6>
 							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
@@ -447,10 +447,18 @@ persist=/aptosid/aptosid-rw
 							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">aptosid-rw</span>.</p>
 
 					 <h4>Esempio della creazione di persist dopo l'installazione iniziale</h4>
-							<p>Se non si è sicuri del punto di mount, montare la chiavetta ed avviare <span class="highlight-3">ls -lh /media</span> per ottenere una lista di tutti i punti di mount del sistema. Cercare qualcosa come <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se l'output è differente allora sostituire <span class="highlight-3">"/media/disk"</span> con quello richiesto, (per esempio "/media/sdc1"):</p>
-
-<pre>
+							<p>Se non si è sicuri del punto di mount, montare la chiavetta ed avviare <span class="highlight-3">ls -lh /media</span> per ottenere una lista di tutti i punti di mount del sistema. Cercare qualcosa come <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Se l'output è differente allora sostituire <span class="highlight-3">"/media/disk"</span> con quello richiesto, (per esempio "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Imposta la dimensione della partizione persist:</p>
@@ -464,32 +472,32 @@ mkdir $disk/aptosid
 							<p>Avvia il codice per creare una partizione persist:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">Partizioni NTFS, utilizzate di solito da installazioni Windows NT/2000/XP (TM), NON POSSONO essere utilizzate per la persistenza.</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installare aptosid su di una periferica USB/SSD</h2>
+		<h2>Installare aptosid su di una periferica USB/SD/flash</h2>
 
-							<p>Fare una installazione di aptosid su di una chiavetta USB o scheda SSD è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
+							<p>Fare una installazione di aptosid su di una chiavetta USB o scheda SD/flash è semplice come una normale installazione su hard disk. Seguire questa semplice guida.</p>
 
 				<h5>Requisiti:</h5>
-							<p>Qualsiasi PC con USB 2.0 e la possibilità di avviarsi da USB/SSD.</p>
+							<p>Qualsiasi PC con USB 2.0 e la possibilità di avviarsi da USB/SD/flash.</p>
 
 							<p>Una immagine aptosid.iso</p>
 
-				<h5>3 modi di installare su USB/SSD</h5>
+				<h5>3 modi di installare su USB/SD/flash</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso</a> aptosid specific: aptosid-on-a-stick</li>
-							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo</a> (l'installazione completa su USB/SSD si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
+							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo</a> (l'installazione completa su USB/SD/flash si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
 							<li>3) scrittura <a href="hd-ins-opts-oos-it.htm#raw-usb"> RAW device </a>. Questa è l'ideale quandoo si utilizza qualsiasi s.o. Linux, MS Windows o Mac OS X e si vuole installare aptosid-on-a-stick, (con avvisi).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Installazione fromiso USB/SSD, aptosid-on-a-stick</h3>
+				<h3>Installazione fromiso USB/SD/flash, aptosid-on-a-stick</h3>
 							<p> <span class="highlight-3">Preformattare la periferica USB con ext2 o fat32 prima di procedere (almeno 2 GB di capacità). La periferica dovrebbe avere solo 1 partizione e dal momento che alcuni BIOS sono sensibili questa deve essere marcata come avviabile.</span></p>
 
 							<p>Se si utilizza una applicazione ad interfaccia grafica per formattare come gparted, assicurarsi di cancellare la partizione esistente e quindi ricrearla prima di formattare.</p>
@@ -505,7 +513,7 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 			      <h6>Opzioni:</h6>
 							<p>Viene data la possibilità di scegliere la lingua, il fuso orario ed altre opzioni d'avvio e se attivare oppure no persist tramite una checkbox.</p>
 
-							<p>Adesso si ha una chiavetta USB/scheda SSD avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio (se vfat, probabilmente è meglio riniziare da capo).</p>
+							<p>Adesso si ha una chiavetta USB/scheda SD/flash avviabile. Se non si è attivato persist si ha la possibilità di metterlo in funzione aggiungendo <span class="highlight-3">persist</span> nella linea grub della schermata di avvio (se vfat, probabilmente è meglio riniziare da capo).</p>
 
 
 						<h6>Esempio da terminale:</h6>
@@ -522,22 +530,22 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 $ man fll-iso2usb
 </pre>
 
-			<h3>Installazione completa su USB/SSD (si comporta come una normale installazione su hard dsk)</h3>
-							<p>La dimensione minima raccomandata della chiavetta o scheda USB/SSD è:<br />
+			<h3>Installazione completa su USB/SD/flash (si comporta come una normale installazione su hard dsk)</h3>
+							<p>La dimensione minima raccomandata della chiavetta o scheda USB/SD/flash è:<br />
 							aptosid "LITE" = 2.5 GB PIÙ lo spazio per i dati,<br />
 							aptosid "FULL" = 4 GB PIÙ lo spazio per i dati.</p>
 
-							<p> <span class="highlight-3">Preformattare la periferica con</span> <span class="highlight-2">ext2</span> <span class="highlight-3">e partizionare la chiavetta o scheda USB/SSD come per un PC standard.</span></p>
+							<p> <span class="highlight-3">Preformattare la periferica con</span> <span class="highlight-2">ext2</span> <span class="highlight-3">e partizionare la chiavetta o scheda USB/SD/flash come per un PC standard.</span></p>
 
-							<p>Avviare l'installazione dal Live-ISO e scegliere la partizione sulla periferica USB/SSD dove deve essere installato aptosid, per esempio <span class="highlight-3">sdbX</span> e seguire le istruzioni del programma di installazione. Leggere <a href="hd-install-it.htm#Installation">Il programma di installazione di aptosid</a></p>
+							<p>Avviare l'installazione dal Live-ISO e scegliere la partizione sulla periferica USB/SD/flash dove deve essere installato aptosid, per esempio <span class="highlight-3">sdbX</span> e seguire le istruzioni del programma di installazione. Leggere <a href="hd-install-it.htm#Installation">Il programma di installazione di aptosid</a></p>
 
-							<p><span class="highlight-3">Per avviare dall'USB/SSD, "Boot from USB" deve essere abilitato nel BIOS.</span></p>
+							<p><span class="highlight-3">Per avviare dall'USB/SD/flash, "Boot from USB" deve essere abilitato nel BIOS.</span></p>
 
 							<p><span class="highlight-3">Altri punti fondamentali sono:</span></p>
 						<ul>
-							<li>Una installazione USB/SSD sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare la chiavetta USB o scheda SSD in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
+							<li>Una installazione USB/SD/flash sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare la chiavetta USB o scheda SD/flash in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
 
-							<li>Dopo aver avviato da USB/SSD in un altro PC, è necessario modificare fstab per accedere agli hard disk del PC stesso.</li>
+							<li>Dopo aver avviato da USB/SD/flash in un altro PC, è necessario modificare fstab per accedere agli hard disk del PC stesso.</li>
 
 							<li>"fromiso" con "persist" è una opzione migliore nel caso l'intenzione sia la portabilità.</li>
 						</ul>
@@ -547,20 +555,20 @@ $ man fll-iso2usb
 
 							<p>Un hard disk USB ha una applicazione abbastanza buona ed invitante, (particolarmente per i nuovi utenti provenienti da MS o da un'altra distro), ed è quella di installare aptosid in un USB HDD, collegarlo senza la necessità di configurare un PC per il doppio avvio (ripartizionare, cambiare grub, ecc.).</p>
 
-							<p>Avviare l'installazione dal Live-ISO, (o da USB/SSD), <span class="highlight-3">come installazione standard, non installazione USB</span> e scegliere la partizione nella periferica dove aptosid deve essere installato, per esempio <span class="highlight-3">sdbX </span> e sguire le istruzioni del programma di installazione aptosid. Grub deve essere scritto nella partizione dell'USB HDD.</p>
+							<p>Avviare l'installazione dal Live-ISO, (o da USB/SD/flash), <span class="highlight-3">come installazione standard, non installazione USB</span> e scegliere la partizione nella periferica dove aptosid deve essere installato, per esempio <span class="highlight-3">sdbX </span> e sguire le istruzioni del programma di installazione aptosid. Grub deve essere scritto nella partizione dell'USB HDD.</p>
 
 							<p>Leggere <a href="hd-install-it.htm#Installation">Il programma di installazione di aptosid</a></p>
 
 							<p><span class="highlight-3">Altri punti fondamentali sono:</span></p>
 
 						<ul>
-							<li>Una installazione USB/SSD sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare la chiavetta USB o scheda SSD in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
+							<li>Una installazione USB/SD/flash sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare la chiavetta USB o scheda SD/flash in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
 
 							<li>Se si vuole usare l'installazione in un'altra macchina fare attenzione perché si devono fare alcuni aggiustamenti dal momento che bisogna modificare fstab per accedere all'hard didsk del PC, ad xorg.conf e probabilmente alla configurazione di rete.</li>
 						</ul>
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Page last revised 30/09/2010 1355 UTC</div>
 
 </div>
 </body>

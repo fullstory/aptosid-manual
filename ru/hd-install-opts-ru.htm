@@ -443,12 +443,12 @@ persist=/aptosid/aptosid-rw
 							<p>Использование ключа persist позволит Вам устанавливать дополнительные пакеты из apt и не терять изменений при перезагрузке..</p>
 	</div>
 	<div class="divider" id="persist-post">
-				<h2>fromiso и persist на загружаемом USB-stick/SSD-card носителе</h2>
+				<h2>fromiso и persist на загружаемом USB-stick/SD/flash-card носителе</h2>
 							<p>Наверное лучшим примером использования persistence - это использование его вкупе с install-usb-gui для создания собственной загружаемой системы на USB накопителе, с добавлением нужных Вам приложений. Your files will be stored in a subfolder on the drive.</p>
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
 
-							<p><span class="highlight-3">Для USB-sticks/SSD-cards рекомендуется использовать ext2 и vfat, для лучшей кроссплатформенной поддержки, так как для этих файловых систем имеются драйвера и в Linux и в MS Windows™ , по крайней мере их легко можно установить. Read/Writes to flash type drives are contingent on the specifications of your USB-sticks/SSD-cards.</span></p>
+							<p><span class="highlight-3">Для USB-sticks/SD/flash-cards рекомендуется использовать ext2 и vfat, для лучшей кроссплатформенной поддержки, так как для этих файловых систем имеются драйвера и в Linux и в MS Windows™ , по крайней мере их легко можно установить. Read/Writes to flash type drives are contingent on the specifications of your USB-sticks/SD/flash-cards.</span></p>
 
 					<h6>Файловая система ext2</h6>
 							<p>Если Вы используете ext2, то раздел будет использован полностью под корневой раздел и папку /fll , которая будет создана для сохранения (persistence).</p>
@@ -457,10 +457,18 @@ persist=/aptosid/aptosid-rw
 							<p>Если Вы используете vfat? то persistence ограничивается файлом не более 2GB и не менее 100MB (так как меньший объём лишён всякого смысла). Этот файл должен называться <span class="highlight-3">aptosid-rw</span>.</p>
 
 					 <h4>Example of creating persist after initial installation</h4>
-							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
-
-<pre>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Set the size of the persist partition:</p>
@@ -474,32 +482,32 @@ mkdir $disk/aptosid
 							<p>Run the code to make the persist partition:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">Разделы NTFS, часто используемые в Windows NT/2000/XP (TM) нельзя использовать для сохранённой системы (persistence).</p>
 
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Установка aptosid на USB/SSD devices</h2>
+		<h2>Установка aptosid на USB/SD/flash devices</h2>
 
-							<p>Установка aptosid на USB-stick/SSD-card теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
+							<p>Установка aptosid на USB-stick/SD/flash-card теперь так же проста как и обычная установка на жесткий диск. Просто следуйте этому руководству.</p>
 
 				<h5>Требования:</h5>
-							<p>Любой компьютер, который поддерживает протокол USB 2.0 может загружаться с USB/SSD.</p>
+							<p>Любой компьютер, который поддерживает протокол USB 2.0 может загружаться с USB/SD/flash.</p>
 
 							<p>Образ диска aptosid.iso.</p>
 
-				<h5>Два способа установки на USB/SSD</h5>
+				<h5>Два способа установки на USB/SD/flash</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-ru.htm#usb-from1">fromiso </a>; aptosid specific: aptosid-on-a-stick</li>
-							<li>2) <a href="hd-install-opts-ru.htm#usb-hdd"> полная </a> (полная установка на USB/SSD - это тоже самое что и установка на жёсткий диск, и выполняется она через обыкновенную установочную программу).</li>
+							<li>2) <a href="hd-install-opts-ru.htm#usb-hdd"> полная </a> (полная установка на USB/SD/flash - это тоже самое что и установка на жёсткий диск, и выполняется она через обыкновенную установочную программу).</li>
 							<li>3) <a href="hd-ins-opts-oos-ru.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install aptosid-on-a-stick, (with caveats).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Установка на USB/SSD, метод fromiso, aptosid-on-a-stick</h3>
+				<h3>Установка на USB/SD/flash, метод fromiso, aptosid-on-a-stick</h3>
 							<p> <span class="highlight-3">Сначала отформатируйте Ваш носитель в систему ext2 или fat32 (по крайней мере 2 гигабайта) . На носителе должен быть только один раздел, и для некоторых BIOSов, отмечен как загружаемый.</span></p>
 
 							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
@@ -515,7 +523,7 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 			      <h6>Options:</h6>
 							<p>Вам предоставится возможность настроить язык, региональные настройки и другие загрузочные ключи, а так же активация сохранения системы(persist).</p>
 
-							<p>После установки у Вас будет система на загружаемом USB/SSD устройстве. Если Вы не активировали сохранение (persist), Вы всегда сможете сделать это добавив <span class="highlight-3">persist</span> непосредственно в строку загрузчика grub. (If vfat, it is probably best to start again though).</p>
+							<p>После установки у Вас будет система на загружаемом USB/SD/flash устройстве. Если Вы не активировали сохранение (persist), Вы всегда сможете сделать это добавив <span class="highlight-3">persist</span> непосредственно в строку загрузчика grub. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Пример установки из консоли:</h6>
@@ -531,20 +539,20 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 <pre>
 $ man fll-iso2usb
 </pre>
-			<h3>Полная установка на USB/SSD (как нормальная установка на жёсткий диск)</h3>
+			<h3>Полная установка на USB/SD/flash (как нормальная установка на жёсткий диск)</h3>
 							<p>Минимальный размер носителя:<br />
 							aptosid "LITE" требуется 2.5 ГБ плюс место для Ваших данных,<br />
 							aptosid "FULL" требуется 4 ГБ плюс место для Ваших данных</p>
 
-							<p> <span class="highlight-3">Сначала отформатируйте Ваш носитель в файловую систему </span> <span class="highlight-2">ext2 </span><span class="highlight-3">и разбейте USB-stick/SSD-card так, как Вы сделали бы это на жёстком диске.</span></p>
+							<p> <span class="highlight-3">Сначала отформатируйте Ваш носитель в файловую систему </span> <span class="highlight-2">ext2 </span><span class="highlight-3">и разбейте USB-stick/SD/flash-card так, как Вы сделали бы это на жёстком диске.</span></p>
 
 							<p>Загрузите систему с Live-ISO, запустите стандартную установочную программу и укажите разделы на Вашем носителе для установки, например <span class="highlight-3">sdbX </span>и следуйте дальнейшим указаниям установочного проводника. Прочтите подробнее в <a href="hd-install-ru.htm#Installation">Установка на жёсткий диск</a></p>
 
-							<p><span class="highlight-3">Для того чтобы загрузиться с USB/SSD, надо активировать опцию 'Boot from USB' в BIOS'е Вашего компьютера.</span></p>
+							<p><span class="highlight-3">Для того чтобы загрузиться с USB/SD/flash, надо активировать опцию 'Boot from USB' в BIOS'е Вашего компьютера.</span></p>
 
 							<p><span class="highlight-3">Другие, заслуживающие внимания моменты: </span></p>
 						<ul>
-							<li>После полной установки на USB/SSD, системы будет привязана к компьютеру, на котором производилась установка. Если Вы захотите воспользоваться этой системой на другом компьютере, приготовьтесь к проблемам. Придётся перенастраивать xorg, fstab и может быть ещё что-то, (так как вся настройка системы производится во время установки).</li>
+							<li>После полной установки на USB/SD/flash, системы будет привязана к компьютеру, на котором производилась установка. Если Вы захотите воспользоваться этой системой на другом компьютере, приготовьтесь к проблемам. Придётся перенастраивать xorg, fstab и может быть ещё что-то, (так как вся настройка системы производится во время установки).</li>
 							<li>Для использования Live системы, с автоматической настройкой под компьютер используйте метод "fromiso" с "persist".</li>
 						</ul>
 	</div>
@@ -553,7 +561,7 @@ $ man fll-iso2usb
 
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install aptosid to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
 
-							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SD/flash-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
 
 							<p>Read <a href="hd-install-ru.htm#Installation">Installing to your HD</a></p>
 
@@ -567,7 +575,7 @@ $ man fll-iso2usb
 
 	</div>
 
-	<div id="rev">Содержание, последний раз пересмотрено 14/08/2010 0100 UTC</div>
+	<div id="rev">Содержание, последний раз пересмотрено 30/09/2010 1355 UTC</div>
 </div>
 </body>
 </html>

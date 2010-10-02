@@ -4,6 +4,7 @@ set -e
 
 #	bg:Bulgarian:български::
 #	da:Danish:Dansk::
+#	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
 #	pl:Polish:Polski::
 I18N_LANGUAGES="
@@ -12,7 +13,6 @@ I18N_LANGUAGES="
 	en:English:English::
 	es:Spanish:Español::
 	fr:French:Français::
-	hr:Croatian:Hrvatski::
 	it:Italian:Italiano::
 	ja:Japanese:日本語:ttf-kochi-gothic:
 	nl:Dutch:Nederlands::

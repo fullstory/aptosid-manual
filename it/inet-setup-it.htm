@@ -334,7 +334,7 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Quindi wpasupplicant necessita di un file .conf, wpa-roam.conf</p>
+							<p>Quindi wpa_supplicant necessita di un file .conf, wpa-roam.conf</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
@@ -428,7 +428,7 @@ iface default inet dhcp
 		<div class="divider" id="net-set3">
 				<h2>Utilizzare wpa-roam.conf con configurazioni di rete specificate manualmente</h2>
 
-							<p>Con l'aiuto di <span class="highlight-3">IDString</span> e <span class="highlight-3">Priority</span> si ha indicazione verso quale rete il PC è connesso all'avvio. La priorità più alta è <span class="highlight-3">1000</span>, la più bassa è <span class="highlight-3">0</span>. Si deve anche aggiungere <span class="highlight-3">IDString</span> a <span class="highlight-3">/etc/network/interfaces</span>.</p>
+							<p>Con l'aiuto di <span class="highlight-3">IDString</span> e <span class="highlight-3">Priority</span> si ha indicazione verso quale rete il PC è connesso all'avvio. La priorità più alta è <span class="highlight-3">1000</span>, la più bassa è <span class="highlight-3">0</span>. Si deve anche aggiungere <span class="highlight-3">id_str</span> a <span class="highlight-3">/etc/network/interfaces</span>.</p>
 
 						<h6>La sintassi per /etc/network/interfaces.</h6>
 							<p>La prima è per la connessione a server DHCP, la seconda è per gli indirizzi ad IP fisso. Per modificare le impostazioni:</p>
@@ -528,8 +528,23 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>È buona idea fare il backup di /etc/network/interfaces e /etc/wpa_supplicant/wpa-roam.conf, ma <span class="highlight-3">codificare il backup in quanto contiene informazioni sensibili</span>. Un modo semplice è quello di creare un archivio protetto da password come 7zip, zip, rar oppure altri.</p>
+							<p>È buona idea fare il backup di /etc/network/interfaces e /etc/wpa_supplicant/wpa-roam.conf, ma <span class="highlight-3">codificare il backup in quanto contiene informazioni sensibili</span>.</p>
 
+							<p>A good method to safely backup and encrypt the config files is with tar and gpg. As root:</p>
+
+<pre>
+tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+</pre>
+							<p>Two files have now been created in $ HOME:<br />
+							backup_name.tar<br />
+							backup_name.tar.gpg<br /><br />
+							Delete backup_name.tar from your system as you only need the backup_name.tar.gpg file.</p>
+
+							<p>To decrypt the backup_name.tar.gpg file:</p>
+
+<pre>
+gpg -d backup_name.tar.gpg
+</pre>
 
 
 					<h6>3. Hidden SSIDs</h6>
@@ -576,7 +591,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
 </div>
 </body>
 </html>

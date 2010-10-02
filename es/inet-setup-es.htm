@@ -334,7 +334,7 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>A continuación, wpasupplicant necesita un fichero .conf de configuración; que sea wpa-roam.conf</p>
+							<p>A continuación, wpa_supplicant necesita un fichero .conf de configuración; que sea wpa-roam.conf</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
@@ -428,7 +428,7 @@ iface default inet dhcp
 		<div class="divider" id="net-set3">
 				<h2>Uso de wpa-roam.conf con configuración de la red establecida a mano</h2>
 
-							<p>Con la ayuda de <span class="highlight-3">IDString</span> y <span class="highlight-3">Priority</span> puede dirigir a qué red el ordenador se conecta en el momento del arranque. La prioridad más alta es <span class="highlight-3">1000</span>, y la más baja es <span class="highlight-3">0</span>. También tiene que añadir <span class="highlight-3">IDString</span> a <span class="highlight-3">/etc/network/interfaces</span>.</p>
+							<p>Con la ayuda de <span class="highlight-3">IDString</span> y <span class="highlight-3">Priority</span> puede dirigir a qué red el ordenador se conecta en el momento del arranque. La prioridad más alta es <span class="highlight-3">1000</span>, y la más baja es <span class="highlight-3">0</span>. También tiene que añadir <span class="highlight-3">id_str</span> a <span class="highlight-3">/etc/network/interfaces</span>.</p>
 
 						<h6>La sintaxis de /etc/network/interfaces.</h6>
 							<p>El primero es para la conexión a servidores DHCP, y el segundo es por si tiene una dirección IP fija. Ajuste su configuración:</p>
@@ -528,8 +528,23 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>Es buena idea hacer copia de seguridad de /etc/network/interfaces y /etc/wpa_supplicant/wpa-roam.conf, pero <span class="highlight-3">encripte su fichero backup puesto que contiene información confidencial</span>. Una manera fácil es usar un fochero protegido por clave como 7zip, zip, rar u otros.</p>
+							<p>Es buena idea hacer copia de seguridad de /etc/network/interfaces y /etc/wpa_supplicant/wpa-roam.conf, pero <span class="highlight-3">encripte su fichero backup puesto que contiene información confidencial</span>.</p>
 
+							<p>Un buen método para hacer en forma segura copia de seguridad y encriptar los ficheros de configuración es mediante tar y gpg. Haga como root:</p>
+
+<pre>
+tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+</pre>
+							<p>Se han creado dos ficheros en $ HOME:<br />
+							backup_name.tar<br />
+							backup_name.tar.gpg<br /><br />
+							Borre backup_name.tar de su sistema, puesto que solamente necesita el fichero backup_name.tar.gpg.</p>
+
+							<p>Para desencriptar backup_name.tar.gpg file:</p>
+
+<pre>
+gpg -d backup_name.tar.gpg
+</pre>
 
 
 					<h6>3. SSIDs escondidos</h6>
@@ -576,7 +591,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
 </div>
 </body>
 </html>

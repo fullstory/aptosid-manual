@@ -117,7 +117,7 @@
 		<li><a href="part-size-examp-ja.htm#part-example">パーティショニングの基本 &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-ja.htm#part-example">パーティションサイズの例</a></li>
-					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</li>
+					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</a></li>
 					  <li><a href="part-cfdisk-ja.htm#disknames">ディスクの名前について</a></li>
 					</ul>
 					</li>
@@ -334,7 +334,7 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Next wpasupplicant needs a .conf file, wpa-roam.conf</p>
+							<p>Next wpa_supplicant needs a .conf file, wpa-roam.conf</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
@@ -428,7 +428,7 @@ iface default inet dhcp
 		<div class="divider" id="net-set3">
 				<h2>Using wpa-roam.conf with manually specified network configurations</h2>
 
-							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">IDString</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
+							<p>With the help of <span class="highlight-3">IDString</span> and <span class="highlight-3">Priority</span> you can direct to which network the box is connected at boot time. Highest priority is <span class="highlight-3">1000</span>, lowest priority is <span class="highlight-3">0</span>. You have to add the <span class="highlight-3">id_str</span> to <span class="highlight-3">/etc/network/interfaces</span> as well.</p>
 
 						<h6>The syntax for /etc/network/interfaces.</h6>
 							<p>First is for the connection to DHCP servers, the second is if you are provided with a fixed IP address. To adjust your settings:</p>
@@ -528,8 +528,23 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>It is good to backup /etc/network/interfaces and /etc/wpa_supplicant/wpa-roam.conf, but <span class="highlight-3">encrypt your backup because it contains sensitive information</span>. An easy way is a password protected archive like 7zip, zip, rar or others.</p>
+							<p>It is a good idea to backup /etc/network/interfaces and /etc/wpa_supplicant/wpa-roam.conf, but <span class="highlight-3">encrypt your backup because it contains sensitive information</span>.</p>
 
+							<p>A good method to safely backup and encrypt the config files is with tar and gpg. As root:</p>
+
+<pre>
+tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+</pre>
+							<p>Two files have now been created in $ HOME:<br />
+							backup_name.tar<br />
+							backup_name.tar.gpg<br /><br />
+							Delete backup_name.tar from your system as you only need the backup_name.tar.gpg file.</p>
+
+							<p>To decrypt the backup_name.tar.gpg file:</p>
+
+<pre>
+gpg -d backup_name.tar.gpg
+</pre>
 
 
 					<h6>3. Hidden SSIDs</h6>
@@ -576,7 +591,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
 </div>
 </body>
 </html>

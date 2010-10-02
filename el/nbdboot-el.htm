@@ -17,11 +17,11 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<!-- Last translation revision edhunter 09/01/2010 0330 UTC-->
+<!-- Last translation revision edhunter 18/09/2010 1245 UTC-->
 <body>
 <div id="menu"> <!-- menu starts here el lang maintained by edhunter-->
-<!--aptosid Operating System Manual menu-version-00.00.2010.08.14 -->
-<!-- menu last updated by bluewater 2010.08.14 0100 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
+<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +102,7 @@
 		</li>
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-el.htm">Δημιουργία κατατμήσεων στον δίσκο</a>
 		<ul class="sub-menu" id="sm6">
+			<li><a href="part-gparted-el.htm#hd-ntfs3g">Γράφοντας σε NTFS κατάτμηση με το ntfs-3g</a></li>
 			<li><a href="part-gparted-el.htm#partition">Δημιουργία κατατμήσεων με χρήση γραφικών (GUI) εργαλείων &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-el.htm#partition">Δημιουργία κατατμήσεων στον δίσκο χρησιμοποιώντας το  GParted / KDE Partition Manager</a></li>
@@ -152,7 +153,6 @@
 		</li>
 <li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-el.htm">Κάρτες γραφικών, Οθόνες, Xorg &amp; Διάφοροι Οδηγοί</a>
 	<ul class="sub-menu" id="sm8">
-		<li><a href="hw-dev-hw-dri-el.htm#hd-ntfs3g">Γράφοντας σε NTFS κατάτμηση με το ntfs-3g</a></li>
 		<li><a href="hw-dev-mon-el.htm#mon-res">Ανάλυση Οθόνης (screen) και Οθόνες (monitor)  &#8658;</a>
 					<ul class="sub2-menu" id="sm8a">
 					  <li><a href="hw-dev-mon-el.htm#mon-res">Ανάλυση Οθόνης (screen) και Οθόνες (monitor)</a></li>
@@ -337,27 +337,37 @@ apt-get install nbd-server dnsmasq
 
 				<h3>Ρύθμιση του nbd-server</h3>
 
-							<p> Presuming the iso can be found at <span class="highlight-3">/dev/scd0</span>,  (which it probably can be if you booted from cd, otherwise substitue in any suitable file or device), then you can setup a nbd-server conf file called <span class="highlight-3">nbd-aptosid.conf</span> with a section called aptosid-iso to export the cd on port 9040 by running the following:</p>
+							<!--p> Presuming the iso can be found at <span class="highlight-3">/dev/scd0</span>,  (which it probably can be if you booted from cd, otherwise substitute in any suitable file or device), then you can setup a nbd-server conf file called <span class="highlight-3">nbd-aptosid.conf</span> with a section called aptosid-iso to export the cd on port 9040 by running the following:</p-->
+							<p>Αν υποθέσουμε ότι το ISO μπορεί να βρεθεί στο <span class="highlight-3">/dev/scd0</span>, (που μάλλον θα μπορεί αν εκκινήσατε από cd, σε διαφορετική περίπτωση χρησιμοποιείστε οποιοδήποτε άλλο κατάλληλο αρχείο ή συσκευή), τότε μπορείτε να ρυθμίσετε ένα nbd-server αρχείο ρυθμίσεων με όνομα <span class="highlight-3">nbd-aptosid.conf</span> με ένα κομμάτι με όνομα aptosid-iso για να διαμοιραστείτε το cd στο port 9040 με το να τρέξετε την παρακάτω εντολή:</p>
+
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
 nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
-							<p>The generic header is always required.   If you want to setup the nbd-server to work automatically on a real system you will probably want to setup /etc/nbd-server.conf instead. There are a lot more options to nbd-server than shown here, see <span class="highlight-3">man nbd-server.</span></p>
+							<!--p>The generic header is always required.   If you want to setup the nbd-server to work automatically on a real system you will probably want to setup /etc/nbd-server.conf instead. There are a lot more options to nbd-server than shown here, see <span class="highlight-3">man nbd-server.</span></p-->
+							<p>Η κεφαλίδα 'generic' χρειάζεται πάντα. Αν θέλετε να ρυθμίσετε τον nbd-server να δουλεύει αυτόματα πάνω σε ένα πραγματικό σύστημα, θα θέλετε μάλλον να ρυθμίσετε το /etc/nbd-server.conf . Ο nbd-server έχει πολλές περισσότερες ρυθμίσεις απ' ότι περιγράφουμε εδώ, δείτε <span class="highlight-3">man nbd-server.</span></p>
 
-							<p>To actually start the server now, as a normal user and without bothering setting up or copying the file to <span class="highlight-3">/etc/nbd-server.conf</span>, you can just run:</p>
+							<!--p>To actually start the server now, as a normal user and without bothering setting up or copying the file to <span class="highlight-3">/etc/nbd-server.conf</span>, you can just run:</p-->
+							<p>Για να ξεκινήσετε τον διακομιστή, σαν απλός χρήστης χωρίς να χρειάζετε να ρυθμίσετε ή να αντιγράψετε το αρχείο στο <span class="highlight-3">/etc/nbd-server.conf</span> , μπορείτε απλά να τρέξετε:</p>
 <pre>
 nbd-server -C nbd-aptosid.conf
 </pre>
-							<p>The target of the nbd-server does not have to be an iso or a cd/dvd/usb stick, it just has to contain a suitable filesystem image.</p>
+							<!--p>The target of the nbd-server does not have to be an iso or a cd/dvd/usb stick, it just has to contain a suitable filesystem image.</p-->
+							<p>Ο στόχος (target) του nbd-server δεν χρειάζετε να είναι κάποιο ISO ή ένα cd/dvd/usb stick, απλά πρέπει να περιέχει ένα κατάλληλο σύστημα αρχείων.</p>
 
 				  <h4>dnsmasq</h4>
-							<p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p>
 
-							<p>The main relevant options for dnsmasq to network boot aptosid are to setup a path for the tftp server files and a file for it to boot from there. </p>
+							<!--p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p-->
+							<p>Στο παράδειγμα που ακολουθεί, υποθέτουμε ότι έχετε ένα απλό δίκτυο στο οποίο το μηχάνημα σας έχει μια σύνδεση ethernet, η οποία ρυθμίζεται μέσω dhcp από ένα άλλο μηχάνημα και το οποίο οι πελάτες δικτυακής εκκίνησης μπορούν να χρησιμοποιήσουν για να ρυθμίσουν τις διεπαφές τους μέσω dhcp.</p>
 
-							<p>Create a <span class="highlight-3">tftp</span> directory for booting in <span class="highlight-3">/home</span> (you can create it where you want if you prefer another place). Thus the path becomes <span class="highlight-3">/home/tftp</span>.</p>
+							<!--p>The main relevant options for dnsmasq to network boot aptosid are to setup a path for the tftp server files and a file for it to boot from there. </p-->
+							<p>Οι επιλογές του dnsmasq που μας ενδιαφέρει να ρυθμίσουμε για να μπορέσουμε να εκκινήσουμε το aptosid μέσω δικτύου, είναι το μονοπάτι για τα αρχεία του tftp διακομιστή και ένα αρχείο για να μπορέσει να εκκινήση από αυτό.</p>
 
-							<p>Next create a file called <span class="highlight-3">pxe-aptosid.conf</span> and paste in the following:</p>
+							<!--p>Create a <span class="highlight-3">tftp</span> directory for booting in <span class="highlight-3">/home</span> (you can create it where you want if you prefer another place). Thus the path becomes <span class="highlight-3">/home/tftp</span>.</p-->
+							<p>Δημιουργήστε ένα κατάλαγο <span class="highlight-3">tftp</span> για την εκκίνηση μέσα στο <span class="highlight-3">/home</span> (μπορείτε να τον δημιουργίσετε και αλλού αν προτιμάτε). Το μονοπάτι θα είναι <span class="highlight-3">/home/tftp</span>.</p>
+
+							<!--p>Next create a file called <span class="highlight-3">pxe-aptosid.conf</span> and paste in the following:</p-->
+							<p>Μετά δημιουργήστε ένα αρχείο με όνομα <span class="highlight-3">pxe-aptosid.conf</span> και βάλτε μέσα τα ακόλουθα:</p>
 <pre>
 dhcp-range=0.0.0.0,proxy
 pxe-service=x86PC, &quot;boot linux&quot;, pxelinux
@@ -365,28 +375,37 @@ enable-tftp
 tftp-root=/home/tftp
 tftp-secure
 </pre>
-							<p>When using the dhcp proxy you need to provide a pxe menu with pxelinux as the only entry which will therefore  start it automatically.  This is what the lone pxe-service item is above.</p>
+							<!--p>When using the dhcp proxy you need to provide a pxe menu with pxelinux as the only entry which will therefore  start it automatically.  This is what the lone pxe-service item is above.</p-->
+							<p>Όταν χρησιμοποιείτε τον dhcp proxy, πρέπει να παρέχετε ένα pxe μενού με το pxelinux σαν μόνη επιλογή το οποίο και θα ξεκινάει αυτόματα. Αυτό είναι το μοναδικό pxe-service που αναφέρεται πιο πάνω.</p>
 
- 							<p>As root, move the newly created <span class="highlight-3">pxe-aptosid.conf</span> file to <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
+ 							<!--p>As root, move the newly created <span class="highlight-3">pxe-aptosid.conf</span> file to <span class="highlight-3">/etc/dnsmasq.d/</span>:</p-->
+							<p>Σαν root, μεταφέρετε το αρχείο <span class="highlight-3">pxe-aptosid.conf</span> στο <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
 <pre>
 sux
 mv pxe-aptosid.conf /etc/dnsmasq.d/
 </pre>
 
-							<p>Note: For a network (e.g. 192.168.0.*) with no other dhcp server you could swap the first two lines for:</p>
+							<!--p>Note: For a network (e.g. 192.168.0.*) with no other dhcp server you could swap the first two lines for:</p-->
+							<p>Σημείωση: Για ένα δίκτυο (π.χ. 192.168.0.*) χωρίς άλλο διακομιστή dhcp, μπορείτε να γράψετε τα παρακάτω στην θέση των δυο πρώτων γραμμών:</p>
 <pre>
 dhcp-range=192.168.0.100,192.168.0.199,1h
 dhcp-boot=pxelinux.0
 </pre>
 
-							<p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p>
+							<!--p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p-->
+							<p>Για να παρέχετε ip διευθύνσεις ξεκινώντας με 192.168.0.100 και τελειώνοντας με 192.168.0.199 και χρόνο ενικοίασης μια ώρα και για να παρέχετε το όνομα αρχείου για να τρέξει μόνο το pxelinux.0 σαν μέρος του dhcp request (όταν χρησιμοποιήτε το proxy, παρέχετε ένα pxe μενού με μόνη επιλογή το pxelinux το οποίο θα ξεκινάει αυτόματα). Αυτό μάλλον δεν θα ρυθμίσει το δίκτυο σας όπωςε επιθυμείτε εκτός και αν ο dnsmasq διακομιστής θα πρέπει να είναι και ο διακομιστής dns σας και gateway για τους πελάτες.</p>
 
-							<p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
+							<!--p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p-->
+							<p>Για να ενεργοποιήσετε το νέο αρχείο, θα πρέπει να φύγετε το # μπροστά από την γραμμή <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> η οποία βρίσκεται στο τέλος του αρχείου <span class="highlight-3">/etc/dnsmasq.conf</span> και να επανεκκινήσετε το dnsmasq.</p>
 
-							<p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p>
+							<!--p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p-->
+							<p>Το dnsmasq έχει πολλές επιλογές και μπορεί να χρησιμοποιηθεί σαν διακομιστής dns, dhcp, pxe και tftp. Τα πιο πάνω είναι τα βασικά κομμάτια που χρειάζονται για το pxelinux.</p>
 
 				  <h4>tftp</h4>
-							<p>tftp is the network equivalent of the boot directory. Using the continuing example of  the <span class="highlight-3">/home/tftp </span> directory you need to populate it. If the cdrom is mounted on <span class="highlight-3">/fll/scd0</span>:</p>
+
+							<!--p>tftp is the network equivalent of the boot directory. Using the continuing example of  the <span class="highlight-3">/home/tftp </span> directory you need to populate it. If the cdrom is mounted on <span class="highlight-3">/fll/scd0</span>:</p-->
+							<p>Το tftp είναι το αντίστοιχο του καταλόγου boot για το δίκτυο. Συνεχίζοντας το πιο πάνω παράδειγμα με το <span class="highlight-3">/home/tftp</span>, θα πρέπει τώρα να βάλετε κάποια αρχεία στον κατάλογο. Αν το cdrom είναι προσαρτισμένο στο <span class="highlight-3">/fll/scd0</span>:</p>
+
 <pre>
 cp /fll/scd0/boot/isolinux/* /home/tftp
 mkdir /home/tftp/pxelinux.cfg
@@ -398,28 +417,34 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
+							<!--p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p-->
+							<p>Τώρα μπορείτε να κάνετε τις αλλαγές που θέλετε στα αρχεία <span class="highlight-3">pxelinux.cfg/default</span> και <span class="highlight-3">gfxboot.cfg</span> τα οποία βρίσκονται μέσα στον κατάλογο <span class="highlight-3">/home/tftp</span> .</p>
 
-							<p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p>
+							<!--p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p-->
+							<p>Αντί αυτού θα μπορούσατε να απανεργοποιήσετε το F3 μενού εντελός και να αλλάξετε την γραμμή του πυρήνα να μοιάζει κάπως έτσι:</p>
 <pre>
 fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 </pre>
 
 
-					<h6>toram boot code</h6>
-							<p>If you add toram to the boot options, machines with enough ram will release the server as soon as they copy the file and machines without sufficient ram will carry on and boot normally. At least 1 gig of ram, (ideally 2 gig or more), is required for toram.</p>
+					<h6>toram κωδικός εκκίνησης</h6>
+							<!--p>If you add toram to the boot options, machines with enough ram will release the server as soon as they copy the file and machines without sufficient ram will carry on and boot normally. At least 1 gig of ram, (ideally 2 gig or more), is required for toram.</p-->
+							<p>Εάν προσθέσετε το toram στις επιλογές εκκίνησεις, υπολογιστές με αρκετή ram θα αποσυνδεθούν από τον διακομιστή μόλις αντιγράψουν τα απαραίτητα αρχεία και υπολογιστές με ανεπαρκή ram θα συνεχίσουν κανονικά την εκκίνηση. Χρειάζεται τουλάχιστον 1 gig ram για το toram (2 gig ή περισσότερα είναι το ιδανικό).</p>
 
-				      <h4>Network booting</h4>
+				    <h4>Εκκίνηση μέσω δικτύου</h4>
 
-							<p>Ensure that the client PC's BIOS is set to use <span class="highlight-3">Boot from Network</span>. </p>
+							<!--p>Ensure that the client PC's BIOS is set to use <span class="highlight-3">Boot from Network</span>. </p-->
+							<p>Σιγουρευτείτε ότι το BIOS του υπολογιστή-πελάτη είναι ρυθμισμένο για <span class="highlight-3">Boot from Network</span>.</p>
 
-							<p>As long as your bios supports booting from the network, the machine is connected to a network with your server and the aptosid kernel and initrd.img support your network card, you should be able to boot aptosid from the network. </p>
+							<!--p>As long as your bios supports booting from the network, the machine is connected to a network with your server and the aptosid kernel and initrd.img support your network card, you should be able to boot aptosid from the network. </p-->
+							<p>Εάν το BIOS του υπολογιστή υποστηρίζει εκκίνηση μέσω δικτύου, ο υπολογιστής είναι συνδεδεμένος με τον διακομιστή και ο πυρίνας και το initrd.img του aptosid υποστηρίζουν την κάρτα δικτύου σας, θα πρέπει να μπορείτε να εκκινήσετε το aptosid μέσω του δικτύου.</p>
 
-							<p>Some network cards may require non-free firmware which will require rebuilding the initrd image to include the firmware.</p>
+							<!--p>Some network cards may require non-free firmware which will require rebuilding the initrd image to include the firmware.</p-->
+							<p>Μερικές κάρτες δικτύου μπορεί να χρειάζονται μη-ελεύθερο firmware πράγμα που σημαίνει ότι θα πρέπει να το προσθέσετε στο initrd.img .</p>
 
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/08/2010 0100 UTC</div>
 
 </div>
 </body>

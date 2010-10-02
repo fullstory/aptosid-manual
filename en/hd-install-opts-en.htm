@@ -315,8 +315,8 @@
 
 					<h5>Requirements:</h5>
 
-							<p>* a functioning grub (on a floppy, a HD-Installation or the Live-CD)<br />
-							* a aptosid ISO Image e.g.: aptosid.iso and a Linux file system like ext2/3/4.  <span class="highlight-1">(If you rename your image to aptosid.ISO instead of aptosid.iso you will need to alter the commands accordingly as a unix file naming system is case sensitive.)</span></p>
+							<p>* a functioning grub (on a floppy, a HD-Installation or the Live-iso)<br />
+							* an aptosid ISO Image e.g.: aptosid.iso and a Linux file system like ext2/3/4.  <span class="highlight-1">(If you rename your image to aptosid.ISO instead of aptosid.iso you will need to alter the commands accordingly as a unix file naming system is case sensitive.)</span></p>
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso with Grub2</h2>
@@ -435,12 +435,12 @@ persist=/aptosid/aptosid-rw
 							<p>Using persist also means that you can install packages from apt and have the application and any data you have saved available for you to access at next boot up.</p>
 	</div>
 	<div class="divider" id="persist-post">
-				<h2>fromiso and persist on a bootable USB-sticks/SSD-cards</h2>
+				<h2>fromiso and persist on bootable USB-sticks/SD/flash-cards</h2>
 							<p>Perhaps the ideal use of persistence is in conjunction with the install-usb-gui tool to create your own bootable flash drive with your files and the software you need. Your files will be stored in a subfolder on the drive.</p>
 
 							<p><span class="highlight-3">persist</span> on a FAT filesystem, as commonly used for dos/Windows 9x installations and usually found by default on flash devices, requires you to create a single large file to use as a loop device, you then format this file.</p>
 
-							<p><span class="highlight-3">On USB-sticks/SSD-cards, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Read/writes to flash type drives are contingent on the specifications of your USB stick.</span></p>
+							<p><span class="highlight-3">On USB-sticks/SD/flash-cards, ext2 and vfat are the recommended file systems and most likely to give better cross platform ability for data rescue when needed most, as an MS Windows&#8482; driver is available for data-swapping. Read/writes to flash type drives are contingent on the specifications of your USB stick.</span></p>
 
 					<h6>ext2 file systems</h6>
 							<p>With ext2 the full partition will be used, the current root is taken and a directory /fll is created which is used for the persist allowing the usage of all free place in the device for the persist system.</p>
@@ -449,10 +449,18 @@ persist=/aptosid/aptosid-rw
 							<p>When vfat is used, persistance is made through a file that can be maximum 2GB  but not less than 100MB (as it would be of no use). This file should be named <span class="highlight-3">aptosid-rw</span>.</p>
 
 					 <h4>Example of creating persist after initial installation</h4>
-							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/sdc1"):</p>
-
-<pre>
+							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/disk-1").</p>
+<!--<pre>
 disk="/media/disk"
+</pre>-->
+							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+<pre>
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+							 <p>Therefore:</p>
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Set the size of the persist partition:</p>
@@ -461,36 +469,36 @@ size=1024
 </pre>
 							<p>Make a directory on the stick:</p>
 <pre>
-mkdir $disk/aptosid
+mkdir $disk-1/aptosid
 </pre>
 							<p>Run the code to make the persist partition:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">NTFS partitions, commonly used for Windows NT/2000/XP (TM)  installations, CANNOT be used at all for persistence.</p>
 	</div>
 	<div class="divider" id="usb-hd">
-		<h2>Installation of aptosid on USB/SSD devices</h2>
+		<h2>Installation of aptosid on USB/SD/flash devices</h2>
 
-							<p>To do an installation of aptosid on a USB-stick/SSD-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
+							<p>To do an installation of aptosid on a USB-stick/SD/flash-card is as easy as a normal HD-Install. Just follow this simple guideline.</p>
 
 				<h5>Requirements:</h5>
-							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SSD.</p>
+							<p>Any PC that has a USB 2.0 protocol and supports booting from USB/SD/flash.</p>
 
-							<p>A aptosid.iso image.</p>
+							<p>An aptosid.iso image.</p>
 
-				<h5>3 kinds of installation to USB/SSD</h5>
+				<h5>3 kinds of installation to USB/SD/flash</h5>
 					  <ul>
 							<li>1) <a href="hd-install-opts-en.htm#usb-from1">fromiso </a>; aptosid specific: aptosid-on-a-stick</li>
-							<li>2) <a href="hd-install-opts-en.htm#usb-hdd"> Full</a> (the full installation to a USB/SSD behaves as normal HD installation and is done through the normal installer).</li>
+							<li>2) <a href="hd-install-opts-en.htm#usb-hdd"> Full</a> (the full installation to a USB/SD/flash behaves as normal HD installation and is done through the normal installer).</li>
 							<li>3) <a href="hd-ins-opts-oos-en.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install aptosid-on-a-stick, (with caveats).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>USB/SSD fromiso Installation, aptosid-on-a-stick</h3>
+				<h3>USB/SD/flash fromiso Installation, aptosid-on-a-stick</h3>
 							<p> <span class="highlight-3">Pre format your usb device with ext2 or fat32 before proceeding (at least a 2 gig capacity) . The device should have 1 partition only and as some BIOSes are temperamental this must be marked bootable.</span></p>
 
 							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
@@ -499,14 +507,14 @@ dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo '
 
 							<p>The <span class="highlight-3">fromiso USB</span> installation is done through <span class="highlight-3">Menu>System>install-aptosid-to-usb</span>. </p>
 
-				<h5>USB fromiso from a aptosid-*.iso:</h5>
+				<h5>USB fromiso from an aptosid-*.iso:</h5>
 
-							<p>On a LIVE-CD click on <span class="highlight-3">aptosid Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
+							<p>On a LIVE-iso click on <span class="highlight-3">aptosid Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
 			      <h6>Options:</h6>
 							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
 
-							<p>You now have a bootable USB/SSD. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen. (If vfat, it is probably best to start again though).</p>
+							<p>You now have a bootable USB/SD/flash. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen. (If vfat, it is probably best to start again though).</p>
 
 
 						<h6>Terminal example:</h6>
@@ -524,22 +532,22 @@ $ man fll-iso2usb
 </pre>
 
 
-			<h3>Full installation to a USB/SSD (behaves as normal HD installation)</h3>
-							<p>The recommended mininmum size of a USB-stick/SSD-card is:<br />
+			<h3>Full installation to a USB/SD/flash (behaves as normal HD installation)</h3>
+							<p>The recommended mininmum size of a USB-stick/SD/flash-card is:<br />
 							aptosid "LITE" needs 2.5 gig PLUS you need data space,<br />
 							aptosid "FULL" needs 4 gig PLUS you need data space</p>
 
-							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SSD-card as you would a standard PC.</span></p>
+							<p> <span class="highlight-3">Pre format your device with</span> <span class="highlight-2">ext2 </span><span class="highlight-3">and partition the USB-stick/SD/flash-card as you would a standard PC.</span></p>
 
-							<p>Start the installation from the Live-ISO and choose the partition on the USB/SSD-device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Read <a href="hd-install-en.htm#Installation">Installing to your HD</a></p>
+							<p>Start the installation from the Live-ISO and choose the partition on the USB/SD/flash-device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Read <a href="hd-install-en.htm#Installation">Installing to your HD</a></p>
 
-							<p><span class="highlight-3">To boot from your USB/SSD 'Boot from USB' must be enabled in your BIOS.</span></p>
+							<p><span class="highlight-3">To boot from your USB/SD/flash 'Boot from USB' must be enabled in your BIOS.</span></p>
 
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
 						<ul>
-							<li>A USB-stick/SSD-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SSD stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							<li>A USB-stick/SD/flash-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SD/flash stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
 
-							<li>After booting the USB-stick/SSD-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
+							<li>After booting the USB-stick/SD/flash-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
 
 							<li>"fromiso" with "persist" is a better option should portability be the intention.</li>
 						</ul>
@@ -550,7 +558,7 @@ $ man fll-iso2usb
 
 							<p>A USB Hard Disk Drive has one quite good and appealing application, (particularly to new users coming from MS or another distro), and that is you can install aptosid to a USB HDD, plug it in without needing to configure a PC for dual boot (repartitioning, grub alterations etcetera).</p>
 
-							<p>Start the installation from the Live-ISO, (or from a USB-stick/SSD-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
+							<p>Start the installation from the Live-ISO, (or from a USB-stick/SD/flash-card), <span class="highlight-3">as a standard install, not a USB install</span> and choose the partition on the device, where aptosid is to be installed, for example <span class="highlight-3">sdbX </span>and follow the aptosid installer prompts. Grub must be written to the USB HDD partition.</p>
 
 							<p>Read <a href="hd-install-en.htm#Installation">Installing to your HD</a></p>
 
@@ -563,7 +571,7 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Page last revised 30/09/2010 1355 UTC</div>
 
 </div>
 </body>

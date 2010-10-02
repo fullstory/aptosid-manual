@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Wed, 10 Feb 2010 18:26:08 +0000 -->
+<!-- Last translation revision by hubi Tue, 28 Sep 2010 15:01:28 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
 <!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
@@ -334,7 +334,7 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Danach benötigt wpasupplicant eine Konfigurationsdatei: wpa-roam.conf</p>
+							<p>Danach benötigt wpa_supplicant eine Konfigurationsdatei: wpa-roam.conf</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
@@ -428,7 +428,7 @@ iface default inet dhcp
 		<div class="divider" id="net-set3">
 				<h2>wpa-roam.conf für benutzerdefinierte Netzwerkverbindungen</h2>
 
-							<p>Mittels <span class="highlight-3">IDString</span> und <span class="highlight-3">Priority</span> kann bestimmt werden, mit welchem Netzwerk sich während des Bootens verbunden werden soll. Höchste Priorität ist <span class="highlight-3">1000</span>, niedrigste Priorität ist <span class="highlight-3">0</span>. Der <span class="highlight-3">IDString</span> muss auch in die Datei <span class="highlight-3">/etc/network/interfaces</span> eingefügt werden.</p>
+							<p>Mittels <span class="highlight-3">IDString</span> und <span class="highlight-3">Priority</span> kann bestimmt werden, mit welchem Netzwerk sich während des Bootens verbunden werden soll. Höchste Priorität ist <span class="highlight-3">1000</span>, niedrigste Priorität ist <span class="highlight-3">0</span>. Der <span class="highlight-3">id_str</span> muss auch in die Datei <span class="highlight-3">/etc/network/interfaces</span> eingefügt werden.</p>
 
 						<h6>Die Syntax für /etc/network/interfaces</h6>
 							<p>Das erste Beispiel ist für die Verbindung zu einem DHCP-Server, das zweite zum Aufsetzen einer Verbindung mit fixer IP-Adresse:</p>
@@ -528,7 +528,24 @@ network={
 
 					<h6>2. Backup</h6>
 
-							<p>Es ist hilfreich, ein Backup von /etc/network/interfaces und /etc/wpa_supplicant/wpa-roam.conf anzulegen, aber <span class="highlight-3">man sollte das Backup verschlüsseln, da es vertrauliche Informationen enthalten kann</span>. Man kann dazu mit einem Passwort versehene Archivformate wie 7zip, zip, rar oder andere nutzen.</p>
+							<p>Es ist hilfreich, ein Backup von /etc/network/interfaces und /etc/wpa_supplicant/wpa-roam.conf anzulegen, aber <span class="highlight-3">man sollte das Backup verschlüsseln, da es vertrauliche Informationen enthalten kann</span>.</p>
+
+							<p>Eine geeignete Methode eines sicheren Backups der Konfigurationsdateien mit Verschlüsselung ist eine Kombination von tar und gpg. Als root:</p>
+
+<pre>
+tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+</pre>
+							<p>Zwei Dateien wurden nun in $HOME erstellt:<br />
+							backup_name.tar<br />
+							backup_name.tar.gpg<br /><br />
+							backup_name.tar kann nun gelöscht werden, da nur die Datei backup_name.tar.gpg benötigt wird.</p>
+
+							<p>Entschlüsselung der Datei backup_name.tar.gpg:</p>
+
+<pre>
+gpg -d backup_name.tar.gpg
+</pre>
+
 
 					<h6>3. Versteckte SSIDs</h6>
 							<p>Versteckte SSIDs werden erkannt, wenn <span class="highlight-3">scan_ssid=1</span> im Netzwerkblock gesetzt ist.</p>
@@ -574,7 +591,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
 </div>
 </body>
 </html>

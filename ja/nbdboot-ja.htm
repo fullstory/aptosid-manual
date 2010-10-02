@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<!-- Last translation revision bluewater 28/12/2009 1445 UTC-->
+<!-- Last translation revision muchan 23/Sep/2010 2335 UTC-->
 <body>
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
 <!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-ja.htm#part-example">パーティショニングの基本 &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-ja.htm#part-example">パーティションサイズの例</a></li>
-					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</li>
+					  <li><a href="part-uuid-ja.htm#uuid">UUID, パーティションのラベルとfstab</a></li>
 					  <li><a href="part-cfdisk-ja.htm#disknames">ディスクの名前について</a></li>
 					</ul>
 					</li>
@@ -307,48 +307,99 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="nbd1">
+			<!--- ####
 			<h2 id="top-header">Booting aptosid over a network (network block device - nbd)</h2>
+			#### -->
+			<h2 id="top-header">aptosid をネットワークから起動する (NBD - Network Block Device)</h2>
 
+							<!--- ####
 							<p><span class="highlight-2">Warning: dnsmasq includes a dhcp server which can conflict with an existing dhcp server on your network (your router may provide one). </span>   <span class="highlight-3">The safest option is to only use one dhcp server on any network. This means you should disable any other dhcp servers on the same network. The dnsmasq proxy options outlined below should be able to co-exist with another dhcp server on the same network, however please do not try this unless you administer the network and are ready to deal with any unforeseen consequences which might crop up.</span></p>
+							#### -->
+						<p><span class="highlight-2">注意: dnsmasq は新しい DHCPサーバーの設定をするため、今使用中のネットワーク上にあるDHCPサーバーと衝突することがあります。(使用中のルーターがDHCPとしても機能するように設定してあるかもしれません)。</span>   <span class="highlight-3">ローカルネットワークにはDHCPサーバーが一つだけ機能しているのが最も安全です。つまり、同じネットワーク上のDHCPサーバーを無効にしておくべきです。このページのdnsmasq プロキシーオプションは同じネットワーク上の他のDHCPサーバーとも共存できるはずではありますが、そのためなにか予想外の問題が起こってもにネットワークの管理者として対処していける自信がないかぎり、軽い気持ちで試さないほうが良いでしょう。</span></p>
 
+									<!--- ####
 			      <h4>The basics</h4>
+									#### -->
+			      <h4>基本</h4>
+							<!--- ####
 							<p>Network booting first requires that you have a machine capable of network booting, which can be connected via a network you run to a machine which you can setup to offer the network booting services. </p>
+							#### -->
+							<p>ネットワークからの起動はまずネットワーク起動ができるPCを持っていること、そのPCからネットワーク起動サービスを提供できるあなたが管理するコンピュータに接続できることが条件です。</p>
 
+							<!--- ####
 							<p>You do not want to do this on your workplace network, or any other network you do not control, unless you run that network or get permission and guidance from those who do. If you are co-operating in a larger network you can investigate all the options to dnsmasq, such as limiting the interfaces it listens on or the clients it will respond to, to restrict the impact of your setup on the network.</p>
+							#### -->
+							<p>つまりこれは職場のネットワークなど、あなたが管理者ではないネットワークで試すことではありません。自分のネットワークだったり、管理者から許可またはガイダンスを受けられる場合は例外といえます。 大きなネットワークを共同で管理している場合は、ネットワーク設定が他に及ぼす影響を限定するために、dnsmsq の提供するオプションすべてを調査するべきでしょう。</p>
 
+									<!--- ####
 			      <h4>The prerequisites</h4>
+									#### -->
+			      <h4>必要条件</h4>
+							<!--- ####
 							<p>A 2009-04 (or newer) aptosid iso booted up to use as the network boot server. The instructions should be basically the same with any up to date aptosid or debian sid machine and should provide all the clues you need to use on other systems. Linux is required to serve nbd devices.</p>
+							#### -->
+							<p>ネットワーク起動サーバーとして使う<!--A 2009-04 (or newer)--> aptosid のISO イメージ。設定の方法は最新の aptosid または Debian sid システムと基本的に同じで、他のシステムを管理するときの知識がここでも役に立つでしょう。NBD デバイスを提供するには Linux が必要です。</p>
 
-							<p>dnsmasq will be used to provide everything for the initial booting phases, again it shouldn't be hard to translate the required knowledge to other software.</p>
+							<p>起動の初期段階からすべてにわたって dnsmasq が提供するサービスが使われます。ここでも他のソフトウェアを使うときの知識が役に立つでしょう。</p>
 
+				<!--- ####
 				<h6>Installation</h6>
+				#### -->
+				<h6>インストール</h6>
 <pre>
 apt-get install nbd-server dnsmasq
 </pre>
 
+				<!--- ####
 				<h3>Setting up the nbd-server</h3>
+				#### -->
+				<h3>NBD サーバーの設定</h3>
 
+							<!--- ####
 							<p> Presuming the iso can be found at <span class="highlight-3">/dev/scd0</span>,  (which it probably can be if you booted from cd, otherwise substitue in any suitable file or device), then you can setup a nbd-server conf file called <span class="highlight-3">nbd-aptosid.conf</span> with a section called aptosid-iso to export the cd on port 9040 by running the following:</p>
+							#### -->
+							<p> ここでは CD から起動した場合を想定して ISO イメージが <span class="highlight-3">/dev/scd0</span> にあると仮定します。そうでない場合は実際のファイルまたはデバイス名を使ってください。この場合、次のコマンドで <span class="highlight-3">nbd-aptosid.conf</span> という名のNBDサーバー設定ファイルに aptosid-iso という部門を作り、CD の内容を 9040番のポートから移出する設定ができます:</p>
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
 nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
+							<!--- ####
 							<p>The generic header is always required.   If you want to setup the nbd-server to work automatically on a real system you will probably want to setup /etc/nbd-server.conf instead. There are a lot more options to nbd-server than shown here, see <span class="highlight-3">man nbd-server.</span></p>
+							#### -->
+							<p>[generic] というヘッダーは常に必要です。一時的な設定でなく、起動時に自動的にNDBサーバーが設定されるようにするには代わりに /etc/nbd-server.conf を作ります。NBDサーバーの設定にはまだまだいろいろなオプションがあります。<span class="highlight-3">man nbd-server</span> を参照</p>
 
+							<!--- ####
 							<p>To actually start the server now, as a normal user and without bothering setting up or copying the file to <span class="highlight-3">/etc/nbd-server.conf</span>, you can just run:</p>
+							#### -->
+							<p>設定ファイルを<span class="highlight-3">/etc/nbd-server.conf</span> にコピーすることなくこのサーバーを実際にスタートするのは単に次のコマンドを実行するだけです:</p>
 <pre>
 nbd-server -C nbd-aptosid.conf
 </pre>
+							<!--- ####
 							<p>The target of the nbd-server does not have to be an iso or a cd/dvd/usb stick, it just has to contain a suitable filesystem image.</p>
+							#### -->
+							<p>NBDサーバーのターゲットは必ずしも ISO イメージや CD/DVD/フラッシュメモリでなくても構いません。起動に必要なファイルシステムを含むことが必要なだけです。</p>
 
 				  <h4>dnsmasq</h4>
+							<!--- ####
 							<p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p>
+							#### -->
+							<p>以下の例ではシンプルなネットワーク上のPCに一つだけ ethernet のLAN接続があり、他のコンピュータからの DHCP によって設定され、ネットワーク起動クライアントとして DHCP によってインターフェイス設定できる状況を想定しています。</p>
 
+							<!--- ####
 							<p>The main relevant options for dnsmasq to network boot aptosid are to setup a path for the tftp server files and a file for it to boot from there. </p>
+							#### -->
+							<p>dnsmasq を使って aptosid をネット起動するのに一番肝心なオプションは tftp サーバーファイルへのパス設定とそこから起動するためのファイルの設定です。</p>
 
+							<!--- ####
 							<p>Create a <span class="highlight-3">tftp</span> directory for booting in <span class="highlight-3">/home</span> (you can create it where you want if you prefer another place). Thus the path becomes <span class="highlight-3">/home/tftp</span>.</p>
+							#### -->
+							<p>起動のための <span class="highlight-3">tftp</span> ディレクトリを <span class="highlight-3">/home</span> に作成します。(ほかの場所にしたかったらどこでも構いません)。この場合パスは <span class="highlight-3">/home/tftp</span> になります。</p>
 
+							<!--- ####
 							<p>Next create a file called <span class="highlight-3">pxe-aptosid.conf</span> and paste in the following:</p>
+							#### -->
+							<p><span class="highlight-3">pxe-aptosid.conf</span> というファイルを作り次の内容を張り付けます:</p>
 <pre>
 dhcp-range=0.0.0.0,proxy
 pxe-service=x86PC, &quot;boot linux&quot;, pxelinux
@@ -356,28 +407,49 @@ enable-tftp
 tftp-root=/home/tftp
 tftp-secure
 </pre>
+							<!--- ####
 							<p>When using the dhcp proxy you need to provide a pxe menu with pxelinux as the only entry which will therefore  start it automatically.  This is what the lone pxe-service item is above.</p>
+							#### -->
+							<p>DHCP プロキシーを使うときは pxeメニューを 唯一 pxelinux のエントリーだけで、そのためそこから自動的にスターとするように設定します。これが上のファイルの pxe-service の項目です。</p>
 
+								<!--- ####
  							<p>As root, move the newly created <span class="highlight-3">pxe-aptosid.conf</span> file to <span class="highlight-3">/etc/dnsmasq.d/</span>:</p>
+								#### -->
+ 							<p>root として今作成したばかりの <span class="highlight-3">pxe-aptosid.conf</span> ファイルを <span class="highlight-3">/etc/dnsmasq.d/</span> に移動します:</p>
 <pre>
 sux
 mv pxe-aptosid.conf /etc/dnsmasq.d/
 </pre>
 
+							<!--- ####
 							<p>Note: For a network (e.g. 192.168.0.*) with no other dhcp server you could swap the first two lines for:</p>
+							#### -->
+							<p>ノート: 他に DHCP サーバーのないネットワークでは、最初の２行を (ここでは例として 192.168.0.* のアドレスとして) 次のように換えることもできます:</p>
 <pre>
 dhcp-range=192.168.0.100,192.168.0.199,1h
 dhcp-boot=pxelinux.0
 </pre>
 
+							<!--- ####
 							<p>To give out ip addresses starting with 192.168.0.100 and ending with 192.168.0.199 with a lease time of an hour, and to provide the filename to just run pxelinux.0 as part of the dhcp request (when using the proxy you instead provide a pxe menu with only pxelinux as an entry which will therefore automatically start it). This probably won’t setup your network as you wish though unless your dnsmasq server should also be your dns server and gateway for the boot clients.</p>
+							#### -->
+							<p>これで 192.168.0.100 から 192.168.0.199 までのIPアドレスを一時間の制限で割り当て、pxelunux.0 として実行するファイル名を DHCP リクエストの一部として提供し、(プロキシーの設定では pxelinux を pxe メニューの唯一のエントリーと指定することで自動スタートする設定を使っています)。多分これでは dnsmasq サーバーが同時に起動クライアントの DNS サーバーであり、またゲートウェイでもある場合をのぞき、望み通りのネットワーク設定にはならないでしょう。</p>
 
+							<!--- ####
 							<p>To enable the new file you will need to uncomment the <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> setting at the bottom of <span class="highlight-3">/etc/dnsmasq.conf</span> and then restart dnsmasq.</p>
+							#### -->
+							<p>新しく作成されたこの設定ファイルを有効にするには <span class="highlight-3">/etc/dnsmasq.conf</span> の一番下の方の <span class="highlight-3">conf-dir=/etc/dnsmasq.d</span> のコメント行の行頭の # を消してファイルを保存し、dnsmasq を再スタートします。</p>
 
+							<!--- ####
 							<p>dnsmasq has a lot of options and can act as a dns server as well as a dhcp, pxe and tftp server. The above is simply a minimal outline of the pieces needed to use pxelinux.</p>
+							#### -->
+							<p>dnsmasq にはたくさんのオプションがあり DHCP、PXE、TFTP サーバーの他に DNS サーバーとしても設定することができます。上にあげた例は　pxelinux を使うのに必要な最低限のあらましを述べたにすぎません。</p>
 
 				  <h4>tftp</h4>
+							<!--- ####
 							<p>tftp is the network equivalent of the boot directory. Using the continuing example of  the <span class="highlight-3">/home/tftp </span> directory you need to populate it. If the cdrom is mounted on <span class="highlight-3">/fll/scd0</span>:</p>
+							#### -->
+							<p>tftp はネット起動にとって boot ディレクトリに相当するものです。先ほどからの <span class="highlight-3">/home/tftp </span> の例の続きとして、必要なファイルをこのディレクトリに揃えます。CDROMが /fll/scd0<span class="highlight-3">/fll/scd0</span> にマウントされているとして:</p>
 <pre>
 cp /fll/scd0/boot/isolinux/* /home/tftp
 mkdir /home/tftp/pxelinux.cfg
@@ -389,24 +461,48 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
+							<!--- ####
 							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p>
+							#### -->
+							<p>さあ、これで <span class="highlight-3">/home/tftp</span> ディレクトリの <span class="highlight-3">pxelinux.cfg/default</span> と <span class="highlight-3">gfxboot.cfg</span> というファイルに、起動オプションを好きなだけ書き込むことができるようになりました。とくにやっておくこととして、<span class="highlight-3">[install]</span> の部門の <span class="highlight-3">install= </span> の行を <span class="highlight-3">install=nbd</span> に変え, <span class="highlight-3">install.nbd.server</span> のところにサーバーのこのネットワーク上でのIPアドレスを設定し、<span class="highlight-3">install.nbd.port</span> を、NBDサーバーを作ったときに設定したポート番号に設定します。</p>
 
+							<!--- ####
 							<p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p>
+							#### -->
+							<p>別の方法として、F3 メニューを無効にしてカーネルのコマンドラインを次のようなものに変えることもできます:</p>
 <pre>
 fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 </pre>
 
 
+					<!--- ####
 					<h6>toram boot code</h6>
+					#### -->
+					<h6>起動オプション toram </h6>
+							<!--- ####
 							<p>If you add toram to the boot options, machines with enough ram will release the server as soon as they copy the file and machines without sufficient ram will carry on and boot normally. At least 1 gig of ram, (ideally 2 gig or more), is required for toram.</p>
+							#### -->
+							<p>起動オプションに toram を加えた場合、十分なメモリーがある機械ではファイルをコピーたらすぐにサーバーとの接続を解放しますが、メモリの少ない機械では接続したままでそのまま進行します。実際に toram オプションを有効に使うには最低 1Gb, 理想としては 2Gb 以上の RAM が必要です。</p>
 
+										<!--- ####
 				      <h4>Network booting</h4>
+										#### -->
+				      <h4> ネットワークからの起動</h4>
 
+							<!--- ####
 							<p>Ensure that the client PC's BIOS is set to use <span class="highlight-3">Boot from Network</span>. </p>
+							#### -->
+							<p>クライアントPC の BIOS設定で <span class="highlight-3">Boot from Network</span> (ネットワークからの起動)が有効になっていることを確認します。</p>
 
+							<!--- ####
 							<p>As long as your bios supports booting from the network, the machine is connected to a network with your server and the aptosid kernel and initrd.img support your network card, you should be able to boot aptosid from the network. </p>
+							#### -->
+							<p>BIOS がネットワークからの起動を可能に設定してあり、コンピュータがサーバーのあるネットワークに接続してあり、aptosid カーネルとinitrd.img がクライアントPCのネットワークカードをサポートしている限り、aptosid をネットワークから起動することができるはずです。</p>
 
+							<!--- ####
 							<p>Some network cards may require non-free firmware which will require rebuilding the initrd image to include the firmware.</p>
+							#### -->
+							<p>non-free のファームウェアが必要なネットワークカードを使うには、このファームウェアを含むように initrd.img を改めて作成する必要があります。</p>
 
 
 	</div>

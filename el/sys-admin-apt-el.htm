@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by edhunter 05/12/2009 1920 UTC -->
+<!-- Last translation revision by edhunter 17/09/2010 0500 UTC -->
 <div id="menu"> <!-- menu starts here el lang maintained by edhunter-->
-<!--aptosid Operating System Manual menu-version-00.00.2010.08.14 -->
-<!-- menu last updated by bluewater 2010.08.14 0100 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
+<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -101,6 +101,7 @@
 		</li>
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-el.htm">Δημιουργία κατατμήσεων στον δίσκο</a>
 		<ul class="sub-menu" id="sm6">
+			<li><a href="part-gparted-el.htm#hd-ntfs3g">Γράφοντας σε NTFS κατάτμηση με το ntfs-3g</a></li>
 			<li><a href="part-gparted-el.htm#partition">Δημιουργία κατατμήσεων με χρήση γραφικών (GUI) εργαλείων &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-el.htm#partition">Δημιουργία κατατμήσεων στον δίσκο χρησιμοποιώντας το  GParted / KDE Partition Manager</a></li>
@@ -151,7 +152,6 @@
 		</li>
 <li  onmouseover="showHide( 8 );" onmouseout="startTime();" ><a href="hw-dev-hw-dri-el.htm">Κάρτες γραφικών, Οθόνες, Xorg &amp; Διάφοροι Οδηγοί</a>
 	<ul class="sub-menu" id="sm8">
-		<li><a href="hw-dev-hw-dri-el.htm#hd-ntfs3g">Γράφοντας σε NTFS κατάτμηση με το ntfs-3g</a></li>
 		<li><a href="hw-dev-mon-el.htm#mon-res">Ανάλυση Οθόνης (screen) και Οθόνες (monitor)  &#8658;</a>
 					<ul class="sub2-menu" id="sm8a">
 					  <li><a href="hw-dev-mon-el.htm#mon-res">Ανάλυση Οθόνης (screen) και Οθόνες (monitor)</a></li>
@@ -360,7 +360,7 @@ deb http://ftp.us.debian.org/debian/ unstable main contrib non-free
 </pre>
 							<p>ΣΗΜΕΙΩΣΗ: σε αυτό το παράδειγμα το ftp.de καθορίζει την χρησιμοποίηση γερμανικής αποθήκης πακέτων(repository).Mπορείτε να τροποποιήσετε αυτό το αρχείο ως root, και να χρησιμοποιήσετε τα κοντινότερα σε εσάς repositories, απλά αλλάζοντας την χώρα, πχ το ftp.us σε ftp.de ή σε ftp.uk. Οι περισσότερες χώρες έχουν τοπικούς mirrors. Εξοικονομείται bandwidth και οι ταχύτητες αυξάνονται.</p>
 
-							<p><a href="http://www.debian.org/mirrors/">>Λίστα με τους διακομιστές του Debian και την κατάσταση τους</a>.</p>
+							<p><a href="http://www.debian.org/mirrors/">Λίστα με τους διακομιστές του Debian και την κατάσταση τους</a>.</p>
 
 							<p>Το ΑΡΤ για να διοχετεύεται με ενημερωμένες πληροφορίες για τα πακέτα, χρησιμοποεί μια βάση δεδομένων. Αυτή η βάση περιλαμβάνει τα πακέτα  αλλά επίσης και άλλα πακέτα που χρειάζονται για να δουλέψει ένα πακέτο (ονομάζονται εξαρτήσεις(dependencies)). To πρόγραμμα apt-get χρησιμοποιεί αυτή τη βάση δεδομένων όταν εγκαθιστά τα πακέτα που επιλέξατε για να ικανοποιήσει όλες τις εξαρτήσεις και να εγγυηθεί ότι τα πακέτα που επιλέξατε να εγκαταστήσετε θα λειτουργούν. H αναβάθμιση αυτής της βάσης δεδομένων πραγματοποιείται με την εντολή apt-get update.</p>
 
@@ -380,11 +380,14 @@ Get:6 http://ftp.de.debian.org unstable Release [79.6kB]
  		<!--h2>Installing a new package</h2-->
 
 		<h2>Εγκατάσταση ενός νέου πακέτου</h2>
-							<p><span class="highlight-2">Upgrading packages and installing new packages without stopping X can cause problems. Any method of installing packages under X has this problem.</span></p>
+							<!--p><span class="highlight-2">Upgrading packages and installing new packages without stopping X can cause problems. Any method of installing packages under X has this problem.</span></p-->
+							<p><span class="highlight-2">Η αναβάθμιση πακέτων και η εγκατάσταση νέων πακέτων χωρίς το σταμάτημα του X μπορεί να δημιουργήσει προβλήματα. Όλες οι μεθόδοι εγκατάστασης πακέτων μέσα στον X έχουν αυτό το πρόβλημα.</span></p>
 
-							<p><span class="highlight-2">As long as any package you want to install will not upgrade additional packages then it is safe to install it without stopping X. However if installing the package will cause other packages to upgrade, extreme caution should be taken and unless you are certain the packages which will be upgraded are not currently in use, you should stop X before installing the package.</span></p>
+							<!--p><span class="highlight-2">As long as any package you want to install will not upgrade additional packages then it is safe to install it without stopping X. However if installing the package will cause other packages to upgrade, extreme caution should be taken and unless you are certain the packages which will be upgraded are not currently in use, you should stop X before installing the package.</span></p-->
+							<p><span class="highlight-2">Αν το πακέτο που θέλετε να εγκαταστήσεται δεν αναβαθμίζει άλλα πακέτα, τότε είναι ασφαλής να το εγκαταστήσετε χωρίς να σταματήσετε τον X. Αν όμως η εγκατάσταση του πακέτου θα αναβαθμίσει και άλλα πακέτα, θα πρέπει να είστε πολύ προσεκτικός. Εκτός και να είστε σίγουρος πως τα πακέτα προς αναβάθμιση δεν χρησιμοποιούνται, καλύτερο είναν να σταματήσετε τον X πριν την εγκατάσταση.</span></p>
 
-							<p><span class="highlight-2">If you are in any doubt ensure you leave X as per the dist-upgrade instructions before installing any packages. <a href="sys-admin-apt-el.htm#du-st">Upgrade an Installed System -  dist-upgrade - The Steps</a></span> .</p>
+							<!--p><span class="highlight-2">If you are in any doubt ensure you leave X as per the dist-upgrade instructions before installing any packages. <a href="sys-admin-apt-el.htm#du-st">Upgrade an Installed System -  dist-upgrade - The Steps</a></span> .</p-->
+							<p><span class="highlight-2">Αν δεν είστε σίγουρος, σταματήστε τον X όπως περιγράφεται στις οδηγίες για το dist-upgrade πριν εγκαταστήσετε οποιαδήποτε πακέτα. <a href="sys-admin-apt-el.htm#du-st">Αναβάθμιση ενός εγκατεστημένου συστήματος - dist-upgrade - Τα βήματα</a></span> .</p>
 
 							<p>Υποθέτοντας ότι η βάση δεδομένων του Apt είναι αναβαθμισμένη και το όνομα του πακέτου γνωστό, τότε η παρακάτω εντολή θα εγκαταστήσει το πακέτο qemu για παράδειγμα και όλες τις εξαρτήσεις του: (στη συνέχεια θα μάθετε πως να αναζητάτε και να βρίσκετε πακέτα.)</p>
 
@@ -696,10 +699,11 @@ apt-get update
 apt-get install packagesearch
 </pre>
 
-							<!--p>When you first start Debian Package Search you need to adjust Packagesearch>Preferences to use <span class="highlight-3">apt-get</span>.</p-->
-							<p>Όταν τρέξετε για πρώτη φορά το Debian Package Search, θα πρέπει να ρυθμίσετε το Packagesearch>Preferences να χρησιμοποιεί το <span class="highlight-3">apt-get</span>.</p>
+							<!--p>When you first start Debian Package Search you need to adjust Packagesearch &gt; Preferences to use <span class="highlight-3">apt-get</span>.</p-->
+							<p>Όταν τρέξετε για πρώτη φορά το Debian Package Search, θα πρέπει να ρυθμίσετε το Packagesearch &gt; Preferences να χρησιμοποιεί το <span class="highlight-3">apt-get</span>.</p>
 
-							<p><span class="highlight-2">Please do not use Packagesearch to install packages, use it only as a GUI search engine. Upgrading packages and installing new packages without stopping X can cause problems. Please read <a href="sys-admin-apt-el.htm#apt-install">Installing a new package</a>.</span></p>
+							<!--p><span class="highlight-2">Please do not use Packagesearch to install packages, use it only as a GUI search engine. Upgrading packages and installing new packages without stopping X can cause problems. Please read <a href="sys-admin-apt-el.htm#apt-install">Installing a new package</a>.</span></p-->
+							<p><span class="highlight-2">Παρακαλώ μην χρησιμοποιείτε το Packagesearch για εγκατάσταση πακέτων, παρά μόνο σαν μια GUI μηχανή αναζήτησης. Η αναβάθμιση πακέτων ή η εγκατάσταση νέων πακέτων χωρίς το σταμάτημα του X μπορεί να δημιουργήσει προβλήματα. Παρακαλώ διαβάστε <a href="sys-admin-apt-el.htm#apt-install">Εγκατάσταση ενός νέου πακέτου</a>.</span></p>
 
 							<!--p>On initial use you may be prompted to install deborphan. Please use with care.</p-->
 							<p>Την πρώτη φορά χρήσης πιθανών να σας ζητηθεί να εγκαταστήσετε το deborphan. Παρακαλώ χρησιμοποιήστε το με προσοχή.</p>
@@ -722,8 +726,8 @@ apt-get install packagesearch
   							<li>ορφανά πακέτα</li>
 						</ul>
 
- 							<!--p>Additionally, information about the packages is displayed, including the files belonging to them. Please read the Help>Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p-->
-							<p>Επιπλέον παρουσιάζονται πολλές πληροφορίες για τα πακέτα, συμπεριλαμβανομένων και των αρχείων που ανήκουν σε αυτά. Παρακαλώ διαβάστε το Help>Contents για μια πλήρη επεξήγηση για το πως να χρησιμοποιήσετε την GUI εφαρμογή αναζήτησης πακέτων στο Debian. Προς το παρών του GUI είναι μόνο στα Αγγλικά.</p>
+ 							<!--p>Additionally, information about the packages is displayed, including the files belonging to them. Please read the Help &gt; Contents for a full explanation on how to use the Debian Package Search GUI application. At the moment the GUI is in English only.</p-->
+							<p>Επιπλέον παρουσιάζονται πολλές πληροφορίες για τα πακέτα, συμπεριλαμβανομένων και των αρχείων που ανήκουν σε αυτά. Παρακαλώ διαβάστε το Help &gt; Contents για μια πλήρη επεξήγηση για το πως να χρησιμοποιήσετε την GUI εφαρμογή αναζήτησης πακέτων στο Debian. Προς το παρών του GUI είναι μόνο στα Αγγλικά.</p>
 
 
 	</div>

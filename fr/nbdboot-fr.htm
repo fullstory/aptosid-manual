@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>aptosid Manual - Network booting (nbd).</title>
+	<title>Manuel d'aptosid - Démmarrage via le réseau (nbd).</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
 	<style type="text/css" media="all">@import url("../lib/css-js/version-date.css");</style>
@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<!-- Last translation revision bluewater 28/12/2009 1445 UTC-->
+<!-- Dernière traduction par Ljana le 7/10/2010-->
 <body>
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
 <!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
@@ -198,7 +198,7 @@
 					    <li><a href="ntp-server-fr.htm#ntp-server">Configurer le serveur d'horloge (timeserver)</a></li>
 					</ul>
 					</li>
-		<li><a href="tor-privoxy-fr.htm#tor">Coupe-feu &#8211; Confidentialité &#8658;</a>
+		<li><a href="tor-privoxy-fr.htm#tor">Pare-feu &#8211; Confidentialité &#8658;</a>
 					<ul class="sub2-menu" id="sm11b">
 					    <li><a href="tor-privoxy-fr.htm#tor">Tor</a></li>
 					    <li><a href="tor-privoxy-fr.htm#privoxy">Privoxy</a></li>
@@ -322,20 +322,28 @@
 
 							<p>dnsmasq will be used to provide everything for the initial booting phases, again it shouldn't be hard to translate the required knowledge to other software.</p>
 ### --->
-			<h2 id="top-header">Démarrer sidur en réseau (network block device - nbd)</h2>
+			<h2 id="top-header">Démarrer aptosid en réseau (network block device - nbd)</h2>
 
-							<p><span class="highlight-2">Attention: dnsmasq comprend un serveur DHCP qui peuvent entrer en conflit avec un serveur DHCP existant sur votre réseau (votre routeur peut fournir un). </span>   <span class="highlight-3">L'option la plus sûre est d'utiliser un seul serveur DHCP sur n'importe quel réseau. Cela signifie que vous devez désactiver tous les serveurs DHCP d'autres sur le même réseau. Les options de proxy dnsmasq décrites ci-dessous devraient être en mesure de coexister avec un autre serveur DHCP sur le même réseau, mais s'il vous plaît n'essayez que si vous administrez le réseau et prêts à faire face aux conséquences imprévues qui pourraient survenir.</span></p>
-
-			      <h4>Les bases</h4>
-							<p>le Démarrage en réseau exige d'abord que vous avez une machine capable de démarrer en réseau, qui peut être connecté via un réseau que vous exécutez sur une machine dont vous pouvez configurer pour offrir des services de démarrage en réseau. </p>
-
-							<p>Ne pas le faire sur votre réseau d'entreprise, ou tout autre réseau que vous ne contrôlez pas, sauf si vous administrez ce réseau ou obtenez la permission et l'assistance de ceux qui le font. Si vous êtes co-exploitant dans un réseau plus vaste, vous pouvez examiner toutes les options de dnsmasq, par exemple la limitation des interfaces qu'il audite ou sur le ou les clients gérés, de limiter l'impact de votre installation sur le réseau.</p>
+							<p><span class="highlight-2">Attention: dnsmasq comprend un serveur DHCP qui peut entrer en conflit avec un serveur DHCP existant sur votre réseau (votre routeur peut fournir un). </span>   <span class="highlight-3">L'option la plus sûre est d'utiliser un seul serveur DHCP quel que soit le réseau. Cela signifie que vous devez désactiver tous les autres serveurs DHCP du même réseau. Les options de proxy dnsmasq décrites ci-dessous devraient être en mesure de coexister avec un autre serveur DHCP sur le même réseau, mais s'il vous plaît n'essayez que si vous administrez tout ce réseau et si vous êtes prêt à faire face aux conséquences éventuelles.</span></p>
 
 			      <h4>Les préréquis</h4>
-							<p>Une ISO aptosid 2009-04 (ou plus récent)  démarré à utiliser comme serveur de démarrage réseau. Les instructions devraient être sensiblement les mêmes avec toute machine aptosid ou debian sid à jour et doit fournir tous les indices dont vous avez besoin d'utiliser sur d'autres systèmes. Linux est nécessaire pour servir de dispositifs NBD.</p>
+							<p>Le Démarrage en réseau exige a minima d'abord que vous disposiez :
+							<ul>
+							  <li>D'un réseau dont vous ayez le contrôle ;Ne pas le faire sur votre réseau d'entreprise, ou tout autre réseau dont vous n'auriez pas la complète maîtrise ou l'accord de ceux qui l'auraient. Si vous êtes co-exploitant dans un réseau plus vaste, vous pouvez examiner toutes les options de dnsmasq, comme par exemple comment resteindre les interfaces qu'il écoute ou les clients auquel il peut répondre, afin de limiter l'impact de votre installation sur ce réseau.</li>
 
-							<p>dnsmasq sera utilisé pour tout fournir au démarrage initial, encore, il ne devrait pas être difficile de traduire les connaissances requises pour d'autres logiciels.</p>
+							  <li>d'une première machine qui y soit connectée et qui soit capable d'être démarrée via le réseau ;</li>
 
+							  <li>d'une deuxième machine qui y soit connectée et qui puisse être configurée pour adresser des services de démarrage sur le réseau.</li>    
+
+							  <li>d'un cd-rom ou image iso sur clé d'aptosid (2010-02 ou plus) qui puisse être démarrée pour être utilisée comme serveur de démarrage réseau. Les instructions devraient être sensiblement les mêmes avec toute machine aptosid ou debian sid à jour et devraient vous fournir toutes les indications nécessaires pour d'autres systèmes. Linux est indispensable pour activer des matériels NBD. </li>
+
+							  <li>de dnsmasq qui sera utilisé pour fournir tout le nécessaire lors des phases de démarrage initiales. La transposition des connaissances nécessaires pour d'autres logiciels là encore, ne devrait pas poser de problème.</li>
+
+
+							</ul>  
+							</p>
+
+							
 <!--- ####
 				<h6>Installation</h6>
 <pre>
@@ -345,6 +353,9 @@ apt-get install nbd-server dnsmasq
 				<h3>Setting up the nbd-server</h3>
 
 							<p> Presuming the iso can be found at <span class="highlight-3">/dev/scd0</span>,  (which it probably can be if you booted from cd, otherwise substitue in any suitable file or device), then you can setup a nbd-server conf file called <span class="highlight-3">nbd-aptosid.conf</span> with a section called aptosid-iso to export the cd on port 9040 by running the following:</p>
+
+
+
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
 nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
@@ -431,27 +442,27 @@ apt-get install nbd-server dnsmasq
 
 				<h3>configuration du serveur nbd</h3>
 
-							<p> En supposant l'ISO peut être trouvé sur <span class="highlight-3">/dev/scd0</span>,  (Ce qui peut probablement être si le cas vous avez démarré à partir du CD, sinon substit pour n'importe quel fichier ou dispositif approprié), puis vous pouvez configurer un fichier serveur nbd-conf appelé <span class="highlight-3">nbd-aptosid.conf</span> avec une section intitulée aptosid-iso pour exporter le cd sur le port 9040 en exécutant le texte suivant</p>
+							<p> En supposant l'ISO démarrée puisse se trouver à l'adresse <span class="highlight-3">/dev/scd0</span>,  (Ce qui peut être le cas si vous avez démarré à partir du CD, sinon remplacez cette valeur par l'adresse ad hoc), vous pourrez insérer dans le fichier de configuration du serveur nbd-conf appelé <span class="highlight-3">nbd-aptosid.conf</span> une section intitulée aptosid-iso pour exporter le cd sur le port 9040 en exécutant la commande texte suivante :</p>
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
 nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
-							<p>L'en-tête générique est toujours nécessaire. Si vous voulez configurer le serveur NBD-pour fonctionner automatiquement sur un système réel, vous voudrez probablement configurer / etc / nbd-server.conf . Il ya beaucoup plus d'options pour nbd-server que montré ici, voir <span class="highlight-3">man nbd-server.</span></p>
+							<p>L'en-tête 'generic' est toujours nécessaire. Si vous voulez configurer le serveur NBD-pour fonctionner automatiquement sur un système réel, vous voudrez probablement configurer / etc / nbd-server.conf . Il y a beaucoup plus d'options pour nbd-server que montré ici. Consultez <span class="highlight-3">man nbd-server.</span></p>
 
 							<p>maintenant pour démarrer le serveur, en tant qu'utilisateur normal et sans se soucier de la configuration ou de copier le fichier dans le <span class="highlight-3">/etc/nbd-server.conf</span>, vous pouvez juste lancer:</p>
 <pre>
 nbd-server -C nbd-aptosid.conf
 </pre>
-							<p>L'objectif de la NBD-serveur n'a pas à être un ISO ou un CD / DVD / clé USB, il doit juste contenir une image de système de fichiers approprié.</p>
+							<p>La cible du serveur NBD n'a pas forcément à être un ISO ou un CD / DVD / clé USB, elle doit juste constituer en une image de système de fichiers appropriée.</p>
 
 				  <h4>dnsmasq</h4>
-							<p>The following example assumes you are running on a simple network where your machine has one ethernet connection which is setup by dhcp from another machine and which the network boot clients can use to setup their interfaces by dhcp.</p>
+							<p>Les exemples qui suivent supposent que vous utilisiez un simple réseau où votre machine dispose d'une connexion ethernet configurée en dhcp par une autre machine que les autres clients puissent également exploiter pour obtenir elles aussi des adresses dhcp.</p>
 
 							<p>Les principales options de dnsmasq pour démarrer aptosid en réseau est de configurer les fichiers du serveur TFTP et un fichier pour qu'il boot à partir de là. </p>
 
-							<p>Créer un répertoire <span class="highlight-3">tftp</span> pour démarrer dans le <span class="highlight-3">/home</span> (vous pouvez le créer dans n'importe lequel des repertoire de votre choix). Vous obtiendrez donc <span class="highlight-3">/home/tftp</span>.</p>
+							<p>Créer un répertoire <span class="highlight-3">tftp</span> pour démarrer dans le <span class="highlight-3">/home</span> (vous pouvez le créer dans n'importe quel repertoire de votre choix). Vous obtiendrez donc <span class="highlight-3">/home/tftp</span>.</p>
 
-							<p>Ensuite créer un fichier nommé <span class="highlight-3">pxe-aptosid.conf</span> et coller ceci:</p>
+							<p>Ensuite créer un fichier nommé <span class="highlight-3">pxe-aptosid.conf</span> et y coller ceci:</p>
 <pre>
 dhcp-range=0.0.0.0,proxy
 pxe-service=x86PC, &quot;boot linux&quot;, pxelinux

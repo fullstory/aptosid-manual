@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>Manuel de aptosid - Internet/Réseau - WiFi WPA-Supplicant</title>
+	<title>Manuel d'aptosid - Internet/Réseau - WiFi WPA-Supplicant</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -197,7 +197,7 @@
 					    <li><a href="ntp-server-fr.htm#ntp-server">Configurer le serveur d'horloge (timeserver)</a></li>
 					</ul>
 					</li>
-		<li><a href="tor-privoxy-fr.htm#tor">Coupe-feu &#8211; Confidentialité &#8658;</a>
+		<li><a href="tor-privoxy-fr.htm#tor">Pare-feu &#8211; Confidentialité &#8658;</a>
 					<ul class="sub2-menu" id="sm11b">
 					    <li><a href="tor-privoxy-fr.htm#tor">Tor</a></li>
 					    <li><a href="tor-privoxy-fr.htm#privoxy">Privoxy</a></li>
@@ -306,13 +306,13 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="wpa-basic">
-	<h2 id="top-header" >Guide basique de fonctionnement du sans fil - WiFi</h2>
+	<h2 id="top-header" >Guide basique de fonctionnement du WiFi</h2>
 
 							<p class="highlight-3">En raison des complexités juridiques, aptosid ne fournit sur le Live CD que des logiciels strictement libres, <a href="hw-dev-hw-dri-fr.htm#non-free">consultez svp ce lien, pour plus d'information sur les sources de firmware non-libres.</a></p>
 
 							<p>Pour faire fonctionner le wifi, Vous avez besoin de vous connecter par cable juste quelques minutes, le temps de télécharger le firmware approprié.</p>
 
-							<p>Si une connection cablée n'est pas possible, vous aurez à copier le firmware sur une clé ou un support amovible et l'installer en root à partir du suport:</p>
+							<p>Si une connection cablée n'est pas possible, vous aurez à copier le firmware sur une clé ou un support amovible et l'installer en root à partir du support:</p>
 <pre>
 #dpkg -i &lt;firmware.deb&gt;
 </pre>
@@ -563,9 +563,9 @@ wpa-ap-scan     0 ou 1 ou 2             Ajuste la méthode de détection de
 
 							<p>À la phase 'post-down', c'est le démon wpa_supplicant qui est tué.</p>
 
-			<h2>3. Mode #2: Mode Vagabond (Roaming Mode)</h2>
+			<h2>3. Mode #2: Mode Itinérant (Roaming Mode)</h2>
 
-							<p>Un mode vagabond simplifié est intégré par ce paquetage. Il se présente sous la forme d'un script de comportement pour wpa_cli, /sbin/wpa_action, et prend le contrôle d'ifupdown une fois activé. La page man de wpa_action(8) décrit avec force détails ses caractéristiques techniques.</p>
+							<p>Un mode itinérant simplifié est intégré par ce paquetage. Il se présente sous la forme d'un script de comportement pour wpa_cli, /sbin/wpa_action, et prend le contrôle d'ifupdown une fois activé. La page man de wpa_action(8) décrit avec force détails ses caractéristiques techniques.</p>
 
 							<p>Pour activer l'interfaçage vagabond, vous adapterez à votre configuration la strophe suivante dans votre fichier /etc/network/interfaces :</p>
 
@@ -578,17 +578,16 @@ iface eth1 inet manual
 
 
 <pre>
- # copy the template to /etc/wpa_supplicant/
+ # copiez ce modèle dans /etc/wpa_supplicant/
         cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf \
                 /etc/wpa_supplicant/wpa_supplicant.conf
-        # allow only root to read and write to file
+        # ne permettez qu'à root de lire et écrire ce fichier
         chmod 0600 /etc/wpa_supplicant/wpa_supplicant.conf
 
-NOTE: it is critical that the used wpa_supplicant.conf defines the location of
-      the 'ctrl_interface' so that a communication socket is created for the
-      wpa_cli (wpa-roam daemon) to attach. The mentioned example configuration,
-      /usr/share/doc/wpasupplicant/examples/wpa-roam.conf, has been set to a
-      sane default.
+IMPORTANT: il est fondammental que le fichier wpa_supplicant.conf utilisé se réfère à
+      une 'ctrl_interface' afin qu'un socket de communication puisse être créé pour 
+      être relié via wpa_cli (wpa-roam daemon). Dans le modèle de configuration évoqué ci-dessus,
+      /usr/share/doc/wpasupplicant/examples/wpa-roam.conf, la valeur neutre 'default' a été assignée.
 
 </pre>
 
@@ -611,21 +610,21 @@ wpa_supplicant.conf example:
 network={
         ssid="foo"
         key_mgmt=NONE
-        # this id_str will notify /sbin/wpa_action to 'ifup uni'
-        id_str="uni"
+        # cette id_str notifiera à /sbin/wpa_action 'ifup lafac' (d'activer 'lafac')
+        id_str="lafac"
 }
 
 network={
         ssid="bar"
         psk=123456789...
-        # this id_str will notify /sbin/wpa_action to 'ifup home_static'
-        id_str="home_static"
+        # cette id_str notifiera à /sbin/wpa_action 'ifup maison_static' (d'activer 'maison_static')
+        id_str="maison_static"
 }
 
 network={
         ssid=""
         key_mgmt=NONE
-        # no 'id_str' parameter is given, /sbin/wpa_action will 'ifup default'
+        # pas de paramètre 'id_str' , /sbin/wpa_action 'ifup default' (activera 'default')
 }
 </pre>
 	</div>
@@ -634,7 +633,7 @@ network={
 
 <pre>
 exemple de /etc/network/interfaces:
-# le démon vagabond DOIT utiliser la méthode manuelle inet
+# le démon itinérant DOIT utiliser la méthode manuelle inet
 # 'allow-hotplug' ou 'auto' garantissent que le démon démarre automatiquement
 allow-hotplug eth1
 iface eth1 inet manual
@@ -647,10 +646,10 @@ iface eth1 inet manual
 iface default inet dhcp
 
 
-# id_str="uni"
+# id_str="lafac"
 iface uni inet dhcp
 
-# id_str="home_static"
+# id_str="maison_static"
 iface home_static inet static
 
         address 192.168.0.20
@@ -672,28 +671,28 @@ iface home_static inet static
 							#### -->
 			<h2>Configurations  avec  wpa_supplicant, wpa_cli et wpa_gui </h2>
 
-							<p>Les processus wpa_supplicant peuvent etre modifiés par les membres du groupe "netdev" si on a utilisé la configuration wagabond de l'exemple précédent (ou par les  membres specifiés par GROUP= crtl_interface).</p>
+							<p>Les processus wpa_supplicant peuvent etre modifiés par les membres du groupe "netdev" si on a utilisé la configuration itinérante de l'exemple précédent (ou par les  membres specifiés par GROUP= crtl_interface).</p>
 <pre>
-# the default ctrl_interface option used in the example file
+# la velaur default est assignée à ctrl_interface dans le fichier de modèle
 	# /usr/share/doc/wpasupplicant/examples/wpa-roam.conf
         ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 
-To interact with the supplicant, the wpa_cli (command line) and wpa_gui (QT)
-have been provided. With these you may connect, disconnect, add/delete new
-network blocks, provide required interactive security information and so on.
+Pour interagir avec supplicant, les interfaces wpa_cli (mode console) et wpa_gui (Gui QT)
+ont été fournies. Avec ces dernières vous pourrez vous connecter, déconnecter, ajouter/supprimer des blocs réseau,
+fixer des paramètres de sécurisation, etc..
 </pre>
 
-			<h2>Contrôle du Démon Vagabond avec wpa_action</h2>
+			<h2>Contrôle du Démon itinérant avec wpa_action</h2>
 
-							<p>Une fois le Démon Vagabond lancé il assure le contrôle de ifupdown. Cela implique que wpa_cli appelle ifup quand wpa_supplicant s'est correctement associé à un point d'accès, et appelle ifdown quand la connexion est rompue ou fermée.</p>
+							<p>Une fois le Démon itinérant lancé il assure le contrôle de ifupdown. Cela implique que wpa_cli appelle ifup quand wpa_supplicant s'est correctement associé à un point d'accès, et appelle ifdown quand la connexion doit être rompue ou fermée.</p>
 
-							<p>Tant que le Démon Vagabond est actif il ne faut pas tenter de contrôler manuellement ifupdown, mais au contraire utiliser les commandes fournies à cet effet par /sbin/wpa_action pour arrêter et relancer le Démon Vagabond. Par exemple, pour arrêter le démon vagabond sur le contrôleur 'eth1' :</p>
+							<p>Tant que le Démon itinérant est actif il ne faut pas tenter de contrôler manuellement ifupdown, mais au contraire utiliser les commandes fournies à cet effet par /sbin/wpa_action pour arrêter et relancer le Démon itinérant. Par exemple, pour arrêter le démon itinérant sur le contrôleur 'eth1' :</p>
 
 <pre>
 wpa_action eth1 stop
 </pre>
 
-							<p>Et quand il est nécessaire de mettre-à-jour le Démon Vagabond avec de nouveaux paramètres détaillés, ceci peut s'opérer sans l'arrêter. On édite le fichier de configuration /etc/network/interfaces en y intégrant les nouveaux détails sur la configuration spécifique au réseau concerné (pointé par son 'id_str') et l'on relance simplement le démon comme ceci :</p>
+							<p>Et quand il est nécessaire de mettre-à-jour le Démon itinérant avec de nouveaux paramètres détaillés, ceci peut s'opérer sans l'arrêter. On édite le fichier de configuration /etc/network/interfaces en y intégrant les nouveaux détails sur la configuration spécifique au réseau concerné (pointé par son 'id_str') et l'on relance simplement le démon comme ceci :</p>
 
 <pre>
 wpa_action eth1 reload
@@ -703,15 +702,15 @@ wpa_action eth1 reload
 
 	</div>
 	<div class="divider" id="wpa3">
-		<h2>Réglages de précision du Vagabondage</h2>
+		<h2>Réglages de précision de l'itinérance</h2>
 
-							<p>Vous pouvez rencontrer des situations où de multiples points d'accès sont à proximité immédiate. Vous pouvez choisir manuellement auquel vous préférerez vous connecter, à l'aide de wpa_cli ou wpa_gui, ou assigner à chaque réseau son propre niveau de priorité. Ceci s'opère au moyen de l'option 'priority' de wpa_supplicant.conf.</p>
+							<p>Vous pouvez rencontrer des situations où de multiples points d'accès sont à proximité immédiate. Vous pourrez choisir manuellement auquel d'entre eux vous préférerez vous connecter, à l'aide de wpa_cli ou wpa_gui, ou assigner à chaque réseau son propre niveau de priorité. Ceci s'opère au moyen de l'option 'priority' de wpa_supplicant.conf.</p>
 
 	</div>
 	<div class="divider" id="wpa4">
 		<h2>Le fichier de log</h2>
 
-							<p>Un journal de l'activité (log) du démon vagabond s'enregistre dans /var/log/wpa_action.log. Il logue les informations suivantes :</p>
+							<p>Un journal de l'activité (log) du démon itinérant s'enregistre dans /var/log/wpa_action.log. Il logue les informations suivantes :</p>
 
 
 							<p>*date et heure<br />
@@ -736,9 +735,9 @@ wpa_action eth1 reload
 
 							<p>Outre ses possibilités internes pour mapper les interfaces logiques au moyen de 'id_str', wpa_action peut appeler des scripts externes. Un script de mapping doit retourner le nom de l'interface logique devant être activée. Tout script de mapping utilisant le mécanisme de mapping de ifupdown (cf man interfaces) devrait pouvoir fonctionner s'il est invoqué par wpa_action.</p>
 
-							<p>Pour appeler un script de mapping, vous ajoûterez une ligne 'wpa-mapping-script nom-du-script' dans la strophe d'interface correspondant au contrôleur vagabond (roaming device). (Il se peut que vous ayez à specifier le chemin absolu conduisant à ce script)</p>
+							<p>Pour appeler un script de mapping, vous ajoûterez une ligne 'wpa-mapping-script nom-du-script' dans la strophe d'interface correspondant au contrôleur itinérant (roaming device). (Il se peut que vous ayez à specifier le chemin absolu conduisant à ce script)</p>
 
-							<p>Le contenu des lignes commençant par wpa-map est adressé au script de mapping. Du fait qu'ifupdown ne tolère qu'une unique ligne wpa-map, vous pouvez rajoûter un numéro à wpa-map pour entrer des lignes supplémentaires, de cette façon :</p>
+							<p>Le contenu des lignes commençant par wpa-map est adressé au script de mapping. Du fait qu'ifupdown ne tolère qu'une unique ligne wpa-map, vous pouvez rajouter un numéro à wpa-map pour entrer des lignes supplémentaires, de cette façon :</p>
 
 <pre>
 iface wlan0 inet manual
@@ -773,13 +772,13 @@ iface wlan0 inet manual
         wpa-map1 work_static
 
 
-# school can only be chosen via 'id_str' matching
-iface school inet dhcp
+# ecole ne peut être choisie que si une 'id_str' y correspond
+iface ecole inet dhcp
 
         # resolvconf
         dns-nameservers 11.22.33.44 55.66.77.88
 
-iface home_static inet static
+iface maison_static inet static
 
         address 192.168.0.20
         netmask 255.255.255.0
@@ -790,7 +789,7 @@ iface home_static inet static
         test peer address 192.168.0.1 mac 00:01:02:03:04:05
 
 
-iface work_static inet static
+iface travail_static inet static
 
         address 192.168.3.200
         netmask 255.255.255.0
@@ -807,7 +806,7 @@ iface default-wparoam inet dhcp
 
 							<p>Dans cet exemple wpa_action n'utilisera guessnet que pour sélectionner une interface logique quand aucune option 'id_str' n'a été fournie par le réseau en cours dans  wpa_supplicant.conf.</p>
 
-							<p>Les lignes 'wpa-map' fournissent à guessnet les interfaces logiques à tester ainsi que l'interface à utiliser par défaut si tous les test échouent. Les lignes 'test' correspondant à chaque interface logique, sont utilisées par guessnet pour déterminer si la connexion à ce réseau est ou non effective. Par exemple, guessnet choisira l'interface logique 'home_static' si un contrôleur utilisant l'IP 192.168.0.1 et l'adresse MAC 00:01:02:03:04:05 est détecté. Si aucun test ne donne de résultat alors guessnet configurera l'interface 'default-guessnet'.</p>
+							<p>Les lignes 'wpa-map' fournissent à guessnet les interfaces logiques à tester ainsi que l'interface à utiliser par défaut si tous les test échouent. Les lignes 'test' correspondant à chaque interface logique, sont utilisées par guessnet pour déterminer si la connexion à ce réseau est ou non effective. Par exemple, guessnet choisira l'interface logique 'maison_static' si un contrôleur utilisant l'IP 192.168.0.1 et l'adresse MAC 00:01:02:03:04:05 est détecté. Si aucun test ne donne de résultat alors guessnet configurera l'interface 'default-guessnet'.</p>
 
 							<p>Lisez les pages man de guessnet(8) svp, pour plus d'information.</p>
 

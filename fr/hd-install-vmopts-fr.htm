@@ -19,9 +19,8 @@
 <body>
 <!-- Last translation revision by LjanA 26/09/2010 -->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
-<!-- menu last translation by LjanA 2010.09.22 -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +101,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-fr.htm">Partitionner un disque dur</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
+			<li><a href="part-lvm-fr.htm#part-lvm">Partitionner pour utiliser LVM - Gestionnaire de Volumes Logiques</a></li>
 			<li><a href="part-gparted-fr.htm#partition">&#8230;dans un environnement graphique &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-fr.htm#partition">&#8230;avec GParted / KDE Partition Manager</a></li>
@@ -123,7 +123,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM and Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-fr.htm#Inst-prep">Préparer l'installation &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,7 +146,8 @@
 					  <li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Installer aptosid sur une clé USB/carte SSD à partir de systèmes Linux, MS-Windows ou Mac-OS-X</a></li>
 					</ul>
 					</li>
-		<li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
+		  <li><a href="hd-install-crypt-fr.htm#install-crypt">Installation sur partitions cryptées - cryptroot</a></li>
+		  <li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
 		<li><a href="hd-install-vmopts-fr.htm#vmopts">Choix d'installation sur une machine virtuelle</a></li>
 		</ul>
 		</li>
@@ -384,12 +385,38 @@ $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive
 
 							<p>Si votre hôte ne supporte pas virtio ou vous préférez utiliser un chemin relatif, faites:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
 </pre>
-							<p>Consultez aussi:</p>
+
+							<p><span class="highlight-2">An important note regarding KVM partition naming:</span> When you install to a KVM image, your partitions change from <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span>. If your kvm image does not boot and drops you to a busybox, try:</p>
 <pre>
-$ man kvm
+kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
 </pre>
+							<p>When the grub menu appears, type <span class="highlight-2"> e </span> and change <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span> in the kernel boot command. When fully booted, you can effect a permanent change by editing the following line in <span class="highlight-3"> /etc/default/grub </span> with correct syntax, if required:</p>
+
+<pre>
+GRUB_CMD_LINE_LINUX=""
+</pre>
+							<p>Examples:</p>
+<pre>
+GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
+</pre>
+<pre>
+GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
+</pre>
+
+							<p>UUIDs are a better option use when using traditional partitioning methods.</p>
+
+							<p> Then update the grub.cfg with:</p>
+
+<pre>
+update-grub
+</pre>
+
+							<p>Reboot the KVM image with your preferred parameters.</p>
+
+							<p>See also: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
+
 				<h5>Gérer vos machines virtuelles KVM installées</h5>
 <pre>
 apt-get install aqemu
@@ -559,7 +586,7 @@ qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page révisée le 03/10/2010 0255 UTC</div>
+	<div id="rev">Page révisée le 29/10/2010 0410 UTC</div>
 
 </div>
 </body>

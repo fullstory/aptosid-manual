@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>Manuel de aptosid - Samba</title>
+	<title>Manuel d'aptosid - Samba</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,11 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by LjanA 27/06/2008 0840 UTC-->
+<!-- Last translation revision by LjanA 10/10/2010 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
-<!-- menu last translation by LjanA 2010.09.22 -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +101,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-fr.htm">Partitionner un disque dur</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
+			<li><a href="part-lvm-fr.htm#part-lvm">Partitionner pour utiliser LVM - Gestionnaire de Volumes Logiques</a></li>
 			<li><a href="part-gparted-fr.htm#partition">&#8230;dans un environnement graphique &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-fr.htm#partition">&#8230;avec GParted / KDE Partition Manager</a></li>
@@ -123,7 +123,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM and Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-fr.htm#Inst-prep">Préparer l'installation &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,7 +146,8 @@
 					  <li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Installer aptosid sur une clé USB/carte SSD à partir de systèmes Linux, MS-Windows ou Mac-OS-X</a></li>
 					</ul>
 					</li>
-		<li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
+		  <li><a href="hd-install-crypt-fr.htm#install-crypt">Installation sur partitions cryptées - cryptroot</a></li>
+		  <li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
 		<li><a href="hd-install-vmopts-fr.htm#vmopts">Choix d'installation sur une machine virtuelle</a></li>
 		</ul>
 		</li>
@@ -367,7 +368,7 @@ mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //serve
 
 		<h2>Configurer aptosid en tant que Serveur Samba</h2>
 
-							<p>Comme samba n'est pas inclus dans le live-cd aptosid, voudrez pour l'utiliser, l'installer en préalable :</p>
+							<p>Comme samba n'est pas inclus dans le live-cd aptosid, vous devrez pour l'utiliser l'installer en préalable :</p>
 
 <pre>
 su
@@ -382,12 +383,12 @@ apt-get install samba
 apt-get install samba
 </pre>
 
-							<p>Depuis une installation de aptosid sur disque dur, des ajustements de configuration complémentaires devront être effectués. En voici un exemple simple. Si vous souhaitez aller plus loin dans l'utilisation de Samba et la configuration d'un serveur Samba sous GNU/Linux, il vous est vivement conseillé de consulter avec attention toute la documentation de <a href="http://us5.samba.org/samba/">Samba.</a>.</p>
+							<p>Depuis une installation d'aptosid sur disque dur, des configurations complémentaires devront être effectuées. En voici un exemple simple. Si vous souhaitez aller plus loin dans l'utilisation de Samba et la configuration d'un serveur Samba sous GNU/Linux, il vous est vivement conseillé de consulter avec attention toute la documentation de <a href="http://us5.samba.org/samba/">Samba.</a>.</p>
 
 
 							<p>Pour ajuster sommairement la configuration de Samba faites ceci :</p>
 
-							<p>Dans un éditeur de texte (par exemple ; Kate, kedit, leafpad, nano, kwrite), ouvrez le fichier <span class="highlight-3">/etc/samba/smb.conf</span>, et entrez-y ceci :</p>
+							<p>Dans un éditeur de texte (par exemple ; Kate, mcedit, leafpad, nano, kwrite), ouvrez le fichier <span class="highlight-3">/etc/samba/smb.conf</span>, et entrez-y ceci :</p>
 
 
 <pre>
@@ -433,7 +434,7 @@ public = yes
 							<p>Modifier les privilèges du dossier et ses contenus à -rwxr-xr-x au moin:</p>
 
 <pre>
-ls -la pathTo/dirShareName/*
+ls -la CheminVers/NomDossierPartagé/*
 </pre>
 
 							<!--- ####
@@ -443,7 +444,7 @@ ls -la pathTo/dirShareName/*
 
 
 <pre>
-chmod -R 755 pathTo/dirShareName
+chmod -R 755 CheminVers/NomDossierPartagé
 </pre>
 
 							<!--- ####
@@ -452,7 +453,7 @@ chmod -R 755 pathTo/dirShareName
 							<p>Si vous voulez autoriser les modifications:</p>
 
 <pre>
-chmod -R 777 dirShareName
+chmod -R 777 NomDossierPartagé
 </pre>
 
 							<!--- ####
@@ -468,7 +469,7 @@ smbclient -L localhost
 							<!--- ####
 							<p>You should see something like:</p>
 							#### -->
-							<p>Vous devriez avoir quelque chose comme:</p>
+							<p>Vous devriez obtenir quelque chose comme:</p>
 
 <pre>
  smbclient -L localhost
@@ -486,7 +487,7 @@ Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 							<!--- ####
 							<p>If you did not set a password, just press ENTER</p>
 							#### -->
-							<p>Si vous n'avez pas saisir de mot de passe, appuyer seulement sur ENTRÉE</p>
+							<p>Si vous n'avez pas fixé de mot de passe, appuyez seulement sur ENTRÉE</p>
 							<p>Sauvez votre fichier.. Vous pouvez désormais démarrer/arrêter Samba avec :</p>
 
 <pre>
@@ -499,7 +500,7 @@ Domain=[MSHOME] OS=[Unix] Server=[Samba 3.0.26a]
 /etc/init.d/samba stop
 </pre>
 
-							<p>Vous pouvez également commander de démarrer/arrêter Samba automatiquement au boot et à l'arrêt de l'ordinateur, en suivant les précautions évoquées en haut de cette page, au moyen de cette série de commandes :</p>
+							<p>Vous pouvez également commander de démarrer/arrêter Samba automatiquement au démarrage et à l'arrêt de l'ordinateur, en suivant les précautions évoquées en haut de cette page, au moyen de cette série de commandes :</p>
 
 <pre>
 update-rc.d samba defaults

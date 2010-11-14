@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +102,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului</a>
 		<ul class="sub-menu" id="sm6">
 			 <li><a href="part-gparted-ro.htm#hd-ntfs3g">Scrierea pe partiții NTFS cu <i>ntfs-3g</i></a></li>
+			<li><a href="part-lvm-ro.htm#part-lvm">Partiționarea pentru a folosi LVM - Logical Volume Manager</a></li>
 			<li><a href="part-gparted-ro.htm#partition">Partiționarea cu GUI &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ro.htm#partition">Partiționarea HD cu GParted / KDE Partition Manager</a></li>
@@ -123,7 +124,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ro.htm">Opțiuni de Instalare - HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ro.htm">Opțiuni de Instalare - HD, USB, VM și Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-ro.htm#Inst-prep">Pregătirea Instalării &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,6 +147,7 @@
 					  <li><a href="hd-ins-opts-oos-ro.htm#raw-usb">Scrierea <i>aptosid</i> pe un USB/SSD stick cu orice sistem Linux, MS Windows sau Mac OS X</a></li>
 					</ul>
 					</li>
+		  <li><a href="hd-install-crypt-ro.htm#install-crypt">Instalarea pe partiții criptate - cryptroot</a></li>
 		  <li><a href="nbdboot-ro.htm#nbd1">Boot-area <i>aptosid</i> din rețea</a></li>
 		  <li><a href="hd-install-vmopts-ro.htm#vmopts">Instalarea în Mașini Virtuale</a></li>
 		</ul>
@@ -384,12 +386,38 @@ $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive
 
 							<p>Dacă sistemul "oaspete" nu suportă <i>virtio</i> sau voi nu ați specificat o cale absolută, folosiți:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
 </pre>
-							<p>Vedeți și:</p>
+
+							<p><span class="highlight-2">O observație importantă privind notarea partițiilor în KVM:</span> Când faceți instalarea într-o imagine KVM, numele partițiilor se vor schimba din <span class="highlight-3">sda</span> în <span class="highlight-3">vda</span>. Dacă imaginea kvm nu va boot-a și vă veți trezi în <i>busybox</i>, atunci încercați:</p>
 <pre>
-$ man kvm
+kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
 </pre>
+							<p>Când apare meniul grub, tastați <span class="highlight-2"> e </span> și schimbți <span class="highlight-3">sda</span> cu <span class="highlight-3">vda</span> în comanda de boot-are a kernel-ului. După boot-area completă, dacă este necesar, puteți face ca modificările să fie permanente editând următoarea linie din fișierul <span class="highlight-3"> /etc/default/grub </span> cu sintaxa corectă:</p>
+
+<pre>
+GRUB_CMD_LINE_LINUX=""
+</pre>
+							<p>Example:</p>
+<pre>
+GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
+</pre>
+<pre>
+GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
+</pre>
+
+							<p>Notarea UUIDs este recomandată când utilizați metodele tradiționale de partiționare.</p>
+
+							<p> Apoi actualizați <i>grub.cfg</i> cu comanda:</p>
+
+<pre>
+update-grub
+</pre>
+
+							<p>Reboot-ați imaginea KVM cu parametrii doriți de dumneavoastră.</p>
+
+							<p>Vedeți de asemenea și <a href="http://www.linux-kvm.org/page/Main_Page"> documentația KVM </a>.</p>
+
 				<h5>Administrarea mașinilor virtuale KVM instalate:</h5>
 <pre>
 apt-get install aqemu
@@ -519,7 +547,7 @@ apt-get install qtemu
  modprobe linear
  mdadm --build --verbose /dev/md0 --chunk=16 --level=linear --raid-devices=2 /dev/loop0 /dev/sdaN
 </pre>
-				<p>Rezultatul, /dev/md0, este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator).<br /> Ultimul  (şi cumva înşelător) pas este să setezi configuraţia discului (geometria discului şi tabela de partiţii) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 (un offset de exact 16 * 512 = 16384 bytes în acest exemplu). Faceţi acest lucru folosind <i>'fdisk'</i> de pe computerul gazdă, nu în emulator, din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca în secțiunea precedentă) iar acestea nu pot fi interpretate de codul software RAID.<br /> De acolo, de pe computerul gazdă:</p>
+				<p>Rezultatul, /dev/md0, este ceea ce vom folosi ca imagine de disc qemu (nu uitaţi să setaţi permisiunile în aşa fel încât să poată fi accesată de emulator).<br /> Ultimul pas (şi cumva înşelător) este să setați configuraţia discului (geometria discului şi tabela de partiţii) în aşa fel încât punctul de pornire din partiţia primară din MBR să se potrivească cu cel din /dev/sdaN din interiorul /dev/md0 (un offset de exact 16 * 512 = 16384 bytes în acest exemplu). Faceţi acest lucru folosind <i>'fdisk'</i> de pe computerul gazdă, nu în emulator, din cauză că rutina de detectie implicită din qemu de multe ori dă rezultate offset cu zecimale care nu se pot rotunji la Kilobytes (cum ar fi 31.5 KB ca în secțiunea precedentă) iar acestea nu pot fi interpretate de codul software RAID.<br /> De acolo, de pe computerul gazdă:</p>
 <pre>
   fdisk /dev/md0
 </pre>
@@ -561,7 +589,7 @@ apt-get install qtemu
 
 
 	</div>
-	<div id="rev">Page last revised 03/10/2010 0255 UTC</div>
+	<div id="rev">Page last revised 29/10/2010 0410 UTC</div>
 
 </div>
 </body>

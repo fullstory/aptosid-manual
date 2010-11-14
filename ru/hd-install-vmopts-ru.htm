@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +102,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ru.htm">Разметка диска</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-ru.htm#hd-ntfs3g">Запись на раздел NTFS с ntfs-3g</a></li>
+			<li><a href="part-lvm-ru.htm#part-lvm">Разметка с использованием LVM - Logical Volume Manager</a></li>
 			<li><a href="part-gparted-ru.htm#partition">Разметка диска с интерфесом &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ru.htm#partition">Разметка диска с gparted/KDE Partition Manager:  GParted/KDE Partition Manager</a></li>
@@ -123,7 +124,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ru.htm">Установка aptosid - HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ru.htm">Установка aptosid - HD, USB, VM и Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-ru.htm#Inst-prep">Подготовка установки &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,6 +147,7 @@
 					  <li><a href="hd-ins-opts-oos-ru.htm#raw-usb">Запись aptosid на USB/SSD устройство с помощью другого Linux, MS Windows или Mac OS</a></li>
 					</ul>
 					</li>
+		  <li><a href="hd-install-crypt-ru.htm#install-crypt">Установка на зашифрованные раздеклы - cryptroot</a></li>
 		  <li><a href="nbdboot-ru.htm#nbd1">Загрузка aptosid по сети</a></li>
 		  <li><a href="hd-install-vmopts-ru.htm#vmopts">Опции инсталляций на VM (Virtual Machine)</a></li>
 		</ul>
@@ -251,7 +253,7 @@
 					    <li><a href="sys-admin-kern-upg-ru.htm#dmakms">Динамическая инсталляция модулей ядра с dmakms</a></li>
 					</ul>
 				</li>
-		<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновления системы с dist-upgrade - краткий обзор &#8658;</a>
+		<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновления системы с dist-upgrade - Краткий обзор &#8658;</a>
 					<ul class="sub2-menu" id="sm12c">
 					    <li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с ISO-образа</a></li>
 					    <li><a href="sys-admin-apt-locarmirr-ru.htm#approx">Обновление нескольких компьютеров в локальной сети</a></li>
@@ -393,12 +395,38 @@ $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive
 
 							<p>If the guest does not support virtio, or you do not specify an absolute path,  use:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
 </pre>
-							<p>See also:</p>
+
+							<p><span class="highlight-2">An important note regarding KVM partition naming:</span> When you install to a KVM image, your partitions change from <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span>. If your kvm image does not boot and drops you to a busybox, try:</p>
 <pre>
-$ man kvm
+kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
 </pre>
+							<p>When the grub menu appears, type <span class="highlight-2"> e </span> and change <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span> in the kernel boot command. When fully booted, you can effect a permanent change by editing the following line in <span class="highlight-3"> /etc/default/grub </span> with correct syntax, if required:</p>
+
+<pre>
+GRUB_CMD_LINE_LINUX=""
+</pre>
+							<p>Examples:</p>
+<pre>
+GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
+</pre>
+<pre>
+GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
+</pre>
+
+							<p>UUIDs are a better option use when using traditional partitioning methods.</p>
+
+							<p> Then update the grub.cfg with:</p>
+
+<pre>
+update-grub
+</pre>
+
+							<p>Reboot the KVM image with your preferred parameters.</p>
+
+							<p>See also: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
+
 				<h5>Managing your KVM virtual machine installations</h5>
 <pre>
 apt-get install aqemu
@@ -562,7 +590,7 @@ qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
 
 
 </div>
-<div id="rev">Page last revised 03/10/2010 0255 UTC</div>
+<div id="rev">Page last revised 29/10/2010 0410 UTC</div>
 
 </div>
 </body>

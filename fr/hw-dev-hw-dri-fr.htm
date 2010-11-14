@@ -18,11 +18,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision par LjanA 27/09/2010-->
+<!-- Last translation revision par LjanA 10/10/2010-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
-<!-- menu last translation by LjanA 2010.09.22 -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -103,6 +102,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-fr.htm">Partitionner un disque dur</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
+			<li><a href="part-lvm-fr.htm#part-lvm">Partitionner pour utiliser LVM - Gestionnaire de Volumes Logiques</a></li>
 			<li><a href="part-gparted-fr.htm#partition">&#8230;dans un environnement graphique &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-fr.htm#partition">&#8230;avec GParted / KDE Partition Manager</a></li>
@@ -124,7 +124,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM and Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-fr.htm#Inst-prep">Préparer l'installation &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -147,7 +147,8 @@
 					  <li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Installer aptosid sur une clé USB/carte SSD à partir de systèmes Linux, MS-Windows ou Mac-OS-X</a></li>
 					</ul>
 					</li>
-		<li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
+		  <li><a href="hd-install-crypt-fr.htm#install-crypt">Installation sur partitions cryptées - cryptroot</a></li>
+		  <li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
 		<li><a href="hd-install-vmopts-fr.htm#vmopts">Choix d'installation sur une machine virtuelle</a></li>
 		</ul>
 		</li>
@@ -347,49 +348,49 @@ deb http://aptosid.com/debian/ sid main fix.main
 
 	</div>
 	<div class="divider" id="non-free-3d">
-		<h2>Binary, closed source drivers for: nVidia with dmakms &amp; xorg.conf.d</h2>
+		<h2>Pilotes binaires au code source fermé pour: nVidia avec dmakms &amp; xorg.conf.d</h2>
 
-							<p>For the most complete and accurate listing of supported nvidia GPUs please see the Supported Products List available from the <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>.</p>
+							<p>Pour obtenir la liste complète des puces grahiques nvidia supportées, reportez-vous à liste des produits supportés de <a href="http://www.nvidia.com/object/unix.html"> NVIDIA Linux Graphics Driver download page</a>(en).</p>
 
-							<p>You can also read <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> for other options.</p>
+							<p>Vous pourrez aussi consulter <a href="http://www.nvnews.net/vbulletin/showthread.php?t=122606">nvnews</a> pour d'autres sujets complémentaires(en) .</p>
 
-							<p>New and old installs will need to ensure that the systemwide config <span class="highlight-3">/etc/X11/xorg.conf.d</span> exists and add a file to the directory called <span class="highlight-3">20-nvidia.conf</span> : </p>
+							<p>Anciennes comme nouvelles installations de pilotes nécessiteront qu'un répertoire de configuration système <span class="highlight-3">/etc/X11/xorg.conf.d</span> existe et qu'il s'y trouve un fichier intitulé <span class="highlight-3">20-nvidia.conf</span> : </p>
 <pre>
 mkdir /etc/X11/xorg.conf.d
 touch /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
 
-							<p>With your favourite text editor, (e.g. kwrite, kate, mousepad, mcedit, vi, vim) open the file:</p>
+							<p>Avec votre éditeur de texte préféré (exemple: kate, nano, mousepad, mcedit, vi, vim) ouvrez le fichier:</p>
 
 <pre>
-&lt;editor&gt; /etc/X11/xorg.conf.d/20-nvidia.conf
+&lt;editeur&gt; /etc/X11/xorg.conf.d/20-nvidia.conf
 </pre>
-							<p>and add the following codebox in its entirety to 20-nvidia.conf:</p>
+							<p>et ajoutez-y la strophe qui suit dans son intégralité à 20-nvidia.conf:</p>
 <pre>
 #
 Section "Device"
          Identifier      "Device 0"
          Driver          "nvidia"
 EndSection
-# This is a trailing line, it is needed so that End Section is not the last line
+# Ceci est une ligne de guidage indispensable afin que End Section ne soit pas la dernière ligne
 </pre>
-							<p>If you have more than one graphics card you will need ascertain the PCI and to include it in the 20-nvidia.conf:</p>
+							<p>Si vous utilisez plus d'une carte graphique vous devrez vérifier vos périphériques PCI et inclure l'identifant nécessaire dans le fichier 20-nvidia.conf:</p>
 <pre>
 lspci | grep -i vga
 </pre>
-							<p>This should return syntax similar to this:</p>
+							<p>La commande devrait vous retourner quelque chose comme ceci:</p>
 <pre>
 01:00.0 VGA compatible controller:
 </pre>
-							<p>Add the 01:00.0 busid as an extra line under the 'Driver' line, however note that the syntax is <span class="highlight-3">PCI:x:y:z:</span> with zeros dropped and colons added,  therefore:</p>
+							<p>Ajoutez l'identifiant busid 01:00.0 sur une nouvelle ligne de la strophe sous la ligne 'Driver', en utilisant la syntaxe <span class="highlight-3">PCI:x:y:z:</span> en supprimant les zéros et créant des colonnes comme ceci:</p>
 
 <pre>
 BusID		 "PCI:1:0:0"
 </pre>
-					<h4>Installing the nvidia drivers</h4>
-							<p><span class="highlight-3">NOTE: Use apt-cache search nvidia and apt-cache show &lt;package&gt; to ascertain the correct driver for you. There are basically 2 types of nvidia drivers, the current Debian Sid 3D drivers  and the legacy Debian Sid 3D drivers.</span></p>
+					<h4>Installation des pilotes nvidia</h4>
+							<p><span class="highlight-3">IMPORTANT: Utilisez apt-cache search nvidia et apt-cache show &lt;paquet&gt; pour vous assurer de choisir le pilote qui vous convient. Il existe à la base 2 types de pilotes nvidia, le pilote conventionnel 3D pour Debian Sid (current), et le pilote traditionnel 3D pour debian Sid (legacy).</span></p>
 
-					<h5>For current 3d nvidia drivers  &ge; GeForce 6xxx :</h5>
+					<h5>Pour les pilotes 3D nvidia conventionnels  &ge; GeForce 6xxx :</h5>
 
 							<p>Préparez le module:</p>
 <pre>
@@ -410,45 +411,45 @@ apt-get install nvidia-glx
 </pre>
 							<p>Redémarrez votre ordinateur pour que l'installation du module prenne effet.</p>
 
-							<p>When xorg updates you only need to reinstall nvidia-glx:</p>
+							<p>Lorsque vous mettrez xorg à jour vous n'aurez juste qu'à réinstaller nvidia-glx:</p>
 <pre>
 apt-get install --reinstall nvidia-glx
 </pre>
 
-							<p>When a new Debian sid nvidia driver becomes available thru apt:</p>
+							<p>Et lorsqu'un nouveau pilote Debian Sid pour nvidia devient accessible au moyen d'apt vous ferez:</p>
 <pre>
 m-a a-i nvidia-kernel-source
 apt-get install --reinstall nvidia-glx
 </pre>
-							<p>Reboot PC for installation of the module to take effect.</p>
+							<p>Et redémarrerez le PC afin de rendre l'installation du module active.</p>
 
-					      <h4>Naming scheme for legacy nvidia drivers in Debian</h4>
+					      <h4>Schéma de dénomination pour les pilotes traditionnel nvia pour Débian</h4>
 						  <ul>
-						      <li>nvidia-kernel-legacy-71xx is for GeForce 2</li>
-						      <li>nvidia-kernel-legacy-96xx is for GeForce 4</li>
-						      <li>nvidia-kernel-legacy-173xx is for GeForce 5</li>
+						      <li>nvidia-kernel-legacy-71xx est pour les GeForce 2</li>
+						      <li>nvidia-kernel-legacy-96xx est pour les GeForce 4</li>
+						      <li>nvidia-kernel-legacy-173xx est pour les GeForce 5</li>
 						  </ul>
 
-					<h5>Example for legacy 3d nvidia drivers using &le; GeForce 5xxx :</h5>
+					<h5>Par exemple pour installer les pilotes 3D nvidia conventionnels pour une &le; GeForce 5xxx :</h5>
 
-							<p>For other legacy drivers just replace 173xx number with your driver number.</p>
+							<p>(Pour d'autres pilotes conventionnels vous remplacerez tout simplement le 173xx par le numéro approprié à votre pilote)</p>
 
 <pre>
 m-a a-i nvidia-kernel-legacy-173xx-source &amp;&amp; apt-get install nvidia-glx-legacy-173xx dmakms
 </pre>
 
-							<p>Alter dmakms:</p>
+							<p>Modification de dmakms:</p>
 <pre>
 echo nvidia-kernel-legacy-173xx-source >> /etc/default/dmakms
 </pre>
 
-						      <p>When xorg updates you only need to reinstall nvidia-glx-legacy:</p>
+						      <p>Lorsque vous mettrez xorg à jour vous n'aurez juste qu'à réinstaller nvidia-glx-legacy:</p>
 <pre>
 apt-get install --reinstall nvidia-glx-legacy-173xx
 </pre>
 					<h4>Échec du chargement du module</h4>
 
-							<p>Si le module nvidia venait à échouer à se charger, pour quelque raison que ce soit [nouveaux composant xorg, problème de système de fichier ou si X ne se lance plus aau redémarrage] :</p>
+							<p>Si le module nvidia venait à échouer à se charger, pour quelque raison que ce soit [nouveaux composants xorg, problème de système de fichier ou si X ne se lance plus au redémarrage] :</p>
 <pre>
 modprobe nvidia
 </pre>
@@ -458,11 +459,11 @@ modprobe nvidia
  <pre>
  m-a a-i -f nvidia-kernel-source
 </pre>
-							<p>or</p>
+							<p>ou bien</p>
  <pre>
  m-a a-i -f nvidia-kernel-legacy-173xx-source
 </pre>
-							<p>Ceci reconstruit le module <span class="highlight-3">puis redémarrez.</span></p>
+							<p>Ceci reconstruira le module <span class="highlight-3">et vous redémarrez.</span></p>
 
 						      <p>Pour finir, lisez:</p>
 <pre>
@@ -534,7 +535,7 @@ dpkg -i firmware-linux-nonfree*.deb
 					<li class="fwindex"><h4>
 					    <a href="#modem">Modem</a></h4></li>
 					<li class="fwindex"><h4>
-					    <a href="#serial">Serial/USB</a></h4></li>
+					    <a href="#serial">Série/USB</a></h4></li>
 
 				</ul>
 				<ul id="fwul-1">
@@ -568,7 +569,7 @@ dpkg -i firmware-linux-nonfree*.deb
  					<dt class="ok"></dt>
  					<dd><ul><li>/lib/firmware/cs46xx/cs46xx-old.fw</li> </ul></dd>
  					<dt class="note"></dt>
- 					<dd>follow the howto described in the bugreport carefully, MD5: 6510e1759d85b0627d36367febbb3a6a</dd>
+ 					<dd>Suivez scrupuleusement le how-to intégré au rapport de bug, MD5: 6510e1759d85b0627d36367febbb3a6a</dd>
  				</dl>
  			</dd>
  			<dt class="device audio usb" id="emi26">EMI 2|6  </dt>
@@ -792,7 +793,7 @@ dpkg -i firmware-linux-nonfree*.deb
  					<dt class="ok"></dt>
  					<dd><ul><li>/lib/firmware/b43/b0g0bsinitvals5.fw</li>  <li>/lib/firmware/b43/b0g0initvals5.fw</li>  <li>/lib/firmware/b43/ucode5.fw</li> </ul></dd>
  					<dt class="note"></dt>
- 					<dd>While this shouldn't be required for most 802.11b/g wlan cards anymore, the proprietary firmware gets preferred by b43, in case it is installed.</dd>
+ 					<dd>En dépit du fait qu'il ne soit plus indispensable pour la plupart des contrôleurs wifi 802.11b/g, le firmware propriétaire est toujours privilégié par b43, quand celui-ci est installé.</dd>
  				</dl>
  			</dd>
  			<dt class="device ieee802_11" id="ipw2100">Intel ipw2100 (11 MBit/s) and Intel ipw2200 (54 MBit/s) </dt>
@@ -1174,7 +1175,7 @@ dpkg -i firmware-linux-nonfree*.deb
  	<dt class="vga"><strong><a name="vga">vga</a></strong></dt>
  	<dd class="devices">
  		<dl class="class">
- 			<dt class="device vga" id="ati">ATi r128 and Radeon r100-r780 </dt>
+ 			<dt class="device vga" id="ati">ATi r128 et Radeon r100-r780 </dt>
  			<dd>
  				<dl class="dvals">
  					<dt class="drivers"></dt>
@@ -1198,7 +1199,7 @@ dpkg -i firmware-linux-nonfree*.deb
  					<dt class="drivers"></dt>
  					<dd>nv</dd>
  					<dt class="note"></dt>
- 					<dd>3d acceleration isn't possible with free drivers yet</dd>
+ 					<dd>l'accélaration 3d n'est pas possible actuellement avec les pilotes libres</dd>
  				</dl>
  			</dd>
  		</dl>
@@ -1206,7 +1207,7 @@ dpkg -i firmware-linux-nonfree*.deb
  	<dt class="video"><strong><a name="video">video</a></strong></dt>
  	<dd class="devices">
  		<dl class="class">
- 			<dt class="device video" id="cpia2">cameras based on Vision's CPiA2 </dt>
+ 			<dt class="device video" id="cpia2">cameras basées sur CPiA2 Vision </dt>
  			<dd>
  				<dl class="dvals">
  					<dt class="drivers"></dt>
@@ -1235,7 +1236,7 @@ dpkg -i firmware-linux-nonfree*.deb
 
 		</div>
 
-	<div id="rev">Dernière actualisation le 17/09/2010 1200 UTCv</div>
+	<div id="rev">Dernière actualisation le 17/09/2010 1200 UTC</div>
 
 </div>
 </body>

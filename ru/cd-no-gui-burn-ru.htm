@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by kostiagol 28/07/2009 1145 hrs UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +102,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ru.htm">Разметка диска</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-ru.htm#hd-ntfs3g">Запись на раздел NTFS с ntfs-3g</a></li>
+			<li><a href="part-lvm-ru.htm#part-lvm">Разметка с использованием LVM - Logical Volume Manager</a></li>
 			<li><a href="part-gparted-ru.htm#partition">Разметка диска с интерфесом &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ru.htm#partition">Разметка диска с gparted/KDE Partition Manager:  GParted/KDE Partition Manager</a></li>
@@ -123,7 +124,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ru.htm">Установка aptosid - HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ru.htm">Установка aptosid - HD, USB, VM и Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-ru.htm#Inst-prep">Подготовка установки &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,6 +147,7 @@
 					  <li><a href="hd-ins-opts-oos-ru.htm#raw-usb">Запись aptosid на USB/SSD устройство с помощью другого Linux, MS Windows или Mac OS</a></li>
 					</ul>
 					</li>
+		  <li><a href="hd-install-crypt-ru.htm#install-crypt">Установка на зашифрованные раздеклы - cryptroot</a></li>
 		  <li><a href="nbdboot-ru.htm#nbd1">Загрузка aptosid по сети</a></li>
 		  <li><a href="hd-install-vmopts-ru.htm#vmopts">Опции инсталляций на VM (Virtual Machine)</a></li>
 		</ul>
@@ -251,7 +253,7 @@
 					    <li><a href="sys-admin-kern-upg-ru.htm#dmakms">Динамическая инсталляция модулей ядра с dmakms</a></li>
 					</ul>
 				</li>
-		<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновления системы с dist-upgrade - краткий обзор &#8658;</a>
+		<li><a href="sys-admin-apt-ru.htm#apt-upgrade">Обновления системы с dist-upgrade - Краткий обзор &#8658;</a>
 					<ul class="sub2-menu" id="sm12c">
 					    <li><a href="sys-admin-upgrade-ru.htm#live-cd-upgrade">Обновление с ISO-образа</a></li>
 					    <li><a href="sys-admin-apt-locarmirr-ru.htm#approx">Обновление нескольких компьютеров в локальной сети</a></li>
@@ -384,7 +386,7 @@ ATA:1,1,0 _NEC , DVD_RW ND-3540A , 1.01
 
 		<h3>Примеры:</h3>
 
-		<h4 class="size-3">Сведения о пустых CD/DVD:</h4>
+		<h5>Сведения о пустых CD/DVD:</h5>
 <pre>
 $ wodim dev=/dev/scd0 -atip
 </pre>
@@ -393,7 +395,7 @@ $ wodim dev=/dev/scd0 -atip
 $ cdrdao disk-info --device ATA:1,0,0
 </pre>
 
-		<h4 class="size-3">Повторно записываемые накопители можно очистить командой:</h4>
+		<h5>Повторно записываемые накопители можно очистить командой:</h5>
 <pre>
 $ wodim -blank=fast -v dev=/dev/scd0
 </pre>
@@ -402,27 +404,27 @@ $ wodim -blank=fast -v dev=/dev/scd0
 $ cdrdao blank --device ATA:1,0,0 --blank-mode minimal
 </pre>
 
-		<h4 class="size-3">Копирование CD:</h4>
+		<h5>Копирование CD:</h5>
 <pre>
 $ cdrdao copy --fast-toc --device ATA:1,0,0 --buffers 256 -v2
 </pre>
 
-		<h4 class="size-3">Копирование CD "на лету" :</h4>
+		<h5>Копирование CD "на лету" :</h5>
 <pre>
 $ cdrdao copy --fast-toc --source-device ATA:1,1,0 --device ATA:1,0,0 --on-the-fly --buffers 256 --eject -v2
 </pre>
 
-		<h4 class="size-3">Запись звукового CD с файлами wav на 12ти кратной скорости:</h4>
+		<h5>Запись звукового CD с файлами wav на 12ти кратной скорости:</h5>
 <pre>
 $ wodim -v -eject -pad -dao speed=12 dev=/dev/scd0 defpregap=0 -audio *.wav
 </pre>
 
-		<h4 class="size-3">Запись CD из файла bin/cue:</h4>
+		<h5>Запись CD из файла bin/cue:</h5>
 <pre>
 $ cdrdao write --speed 24 --device ATA:1,0,0 --eject filenam.cue
 </pre>
 
-		<h4 class="size-3">Запись CD из ISO-образа:</h4>
+		<h5>Запись CD из ISO-образа:</h5>
 <pre>
 $ wodim dev=/dev/scd0 driveropts=burnfree,noforcespeed fs=14M speed=10 -dao -eject -overburn -v something.iso
 </pre>
@@ -436,27 +438,27 @@ $ wodim dev=/dev/scd0 driveropts=noforcespeed fs=14M speed=8 -dao -eject -overbu
 $ wodim dev=/dev/scd0 fs=14M speed=8 -dao -eject -overburn -v something.iso
 </pre>
 
-		<h4 class="size-3">Создание ISO-образа из папки и всех ее подкаталогов:</h4>
+		<h5>Создание ISO-образа из папки и всех ее подкаталогов:</h5>
 <pre>
 $ genisoimage -o myImage.iso -r -J -l directory
 </pre>
 
-		<h4 class="size-3">Можно использовать growisofs, чтобы записать DVD, например, ISO-файл:</h4>
+		<h5>Можно использовать growisofs, чтобы записать DVD, например, ISO-файл:</h5>
 <pre>
 $ growisofs -dvd-compat -Z /dev/dvd=image.iso
 </pre>
 
-		<h4 class="size-3">Запись нескольких файлов на DVD:</h4>
+		<h5>Запись нескольких файлов на DVD:</h5>
 <pre>
 $ growisofs -Z /dev/dvd -R -J datei1 datei2 datei3 ...
 </pre>
 
-		<h4 class="size-3">Если на DVD еще имеется место, то добавить файлы можно так:</h4>
+		<h5>Если на DVD еще имеется место, то добавить файлы можно так:</h5>
 <pre>
 $ growisofs -M /dev/dvd -R -J anotherfile andanotherfile...
 </pre>
 
-		<h4 class="size-3">Чтобы закрыть сеанс:</h4>
+		<h5>Чтобы закрыть сеанс:</h5>
 <pre>
 $ growisofs -M /dev/dvd=/dev/zero $
 </pre>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 17/04/2010 20.20 UTC -->
+<!-- Last translation revision by alessiog75 on 10/11/2010 18.10 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Un forum e wiki di aptosid.com" alt="aptosid.com logo" /></a>
 	</div>
@@ -101,7 +101,8 @@
 		</li>
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-it.htm">Partizionare il disco fisso</a>
 		<ul class="sub-menu" id="sm6">
-		<li><a href="part-gparted-it.htm#hd-ntfs3g">Scrivere su partizioni NTFS con ntfs-3g</a></li>
+			<li><a href="part-gparted-it.htm#hd-ntfs3g">Scrivere su partizioni NTFS con ntfs-3g</a></li>
+			<li><a href="part-lvm-it.htm#part-lvm">Partitioning to use LVM - Logical Volume Manager</a></li>
 			<li><a href="part-gparted-it.htm#partition">Partizionare con una GUI &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-it.htm#partition">Partizionare il disco fisso con  GParted/KDE Partition Manager</a></li>
@@ -123,7 +124,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-it.htm">Opzioni d'installazione - HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-it.htm">Opzioni d'installazione - HD, USB, VM and Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-it.htm#Inst-prep">Preparazione all'installazione &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,6 +147,7 @@
 					  <li><a href="hd-ins-opts-oos-it.htm#raw-usb">Installare aptosid su di un dispositivo USB/SSD con qualsiasi s.o. : Linux, MS Windows, Mac OS X</a></li>
 					</ul>
 					</li>
+		  <li><a href="hd-install-crypt-it.htm#install-crypt">Installing to encryted partitions - cryptroot</a></li>
 		  <li><a href="nbdboot-it.htm#nbd1">Avviare aptosid attraverso una rete</a></li>
 		  <li><a href="hd-install-vmopts-it.htm#vmopts">Opzioni di installazione della Macchina Virtuale</a></li>
 		</ul>
@@ -383,12 +385,38 @@ $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive
 
 							<p>Se il guest non ha il supporto per virtio, oppure se non si specifica un percorso assoluto, usare:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
 </pre>
-							<p>Vedere anche:</p>
+
+							<p><span class="highlight-2">Una nota importante a proposito del nome delle partizioni KVM:</span> quando si installa in una immagine KVM le partizioni cambiano da <span class="highlight-3">sda</span> a <span class="highlight-3">vda</span>. Se l'immagine KVM non si avvia e viene visualizzata una busybox, provare:</p>
 <pre>
-$ man kvm
+kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
 </pre>
+							<p>Quando compare il menù grub, digitare <span class="highlight-2"> e </span> e cambiare <span class="highlight-3">sda</span> con <span class="highlight-3">vda</span> nel comando di avvio del kernel. Quando il sistema si è completamente avviato, si può impostare in modo permanente modificando la seguente linea che si trova in <span class="highlight-3">/etc/default/grub </span> con la sintassi corretta, se necessario:</p>
+
+<pre>
+GRUB_CMD_LINE_LINUX=""
+</pre>
+							<p>Esempi:</p>
+<pre>
+GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
+</pre>
+<pre>
+GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
+</pre>
+
+							<p>Gli UUID sono un'opzione migliore quando si utilizzano i metodi di partizionamento tradizionali</p>
+
+							<p>Una volta fatta la modifica aggiornare il file grub.cfg con:</p>
+
+<pre>
+update-grub
+</pre>
+
+							<p>Riavviare l'immagine KVM con i parametri preferiti.</p>
+
+							<p>Vedere anche: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
+
 				<h5>Gestire le installazioni della macchina virtuale KVM</h5>
 <pre>
 apt-get install aqemu
@@ -556,7 +584,7 @@ qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 03/10/2010 0255 UTC</div>
+	<div id="rev">Page last revised 29/10/2010 0410 UTC</div>
 
 </div>
 </body>

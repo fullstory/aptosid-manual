@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
-	<title>Manuel de aptosid  - SSH</title>
+	<title>Manuel d'aptosid  - SSH</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,11 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by LjanA 04/06/2009 1812 UTC -->
+<!-- Last translation revision by LjanA 4/11/2010-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-00.01.2010.09.17 -->
-<!-- menu last updated by bluewater 2010.09.17 0730 hrs UTC -->
-<!-- menu last translation by LjanA 2010.09.22 -->
+<!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
+<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -102,6 +101,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-fr.htm">Partitionner un disque dur</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-fr.htm#hd-ntfs3g">Utiliser une partition NTFS grâce à ntfs-3g</a></li>
+			<li><a href="part-lvm-fr.htm#part-lvm">Partitionner pour utiliser LVM - Gestionnaire de Volumes Logiques</a></li>
 			<li><a href="part-gparted-fr.htm#partition">&#8230;dans un environnement graphique &#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-fr.htm#partition">&#8230;avec GParted / KDE Partition Manager</a></li>
@@ -123,7 +123,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-fr.htm">Choix du type d'installation &#8211; HD, USB, VM and Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-fr.htm#Inst-prep">Préparer l'installation &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -146,7 +146,8 @@
 					  <li><a href="hd-ins-opts-oos-fr.htm#raw-usb">Installer aptosid sur une clé USB/carte SSD à partir de systèmes Linux, MS-Windows ou Mac-OS-X</a></li>
 					</ul>
 					</li>
-		<li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
+		  <li><a href="hd-install-crypt-fr.htm#install-crypt">Installation sur partitions cryptées - cryptroot</a></li>
+		  <li><a href="nbdboot-fr.htm#nbd1">Démarrer aptosid à partir d'un réseau</a></li>
 		<li><a href="hd-install-vmopts-fr.htm#vmopts">Choix d'installation sur une machine virtuelle</a></li>
 		</ul>
 		</li>
@@ -406,18 +407,18 @@ PasswordAuthentication yes [sauf en cas d'utilisation de clés]
 							<p>ssh -X vous permet de vous connecter à un ordinateur distant pour pouvoir afficher son interface graphique sur votre propre écran. Comme $utilisateur (remarquez bien que le X doive être en majuscule):</p>
 
 <pre>
-$ ssh -X nomdelutilisateur@xxx.xxx.xxx.xxx (or IP)
+$ ssh -X nomdelutilisateur@xxx.xxx.xxx.xxx (ou IP)
 </pre>
 							<p>Entrez le mot de passe correspondant à l'utilisateur sur l'ordinateur distant et lancez l'application depuis la console:</p>
 
 <pre>
 $ iceweasel OU oocalc OU oowriter Ou kspread
 </pre>
-							<p>Some really slow network connections from your PC may benefit from having a level of compression to help speed transfers, therefore add an extra option, on fast networks it has the opposite effect:</p>
+							<p>Certaine connexions lentes de votre PC peuvent s'améliorer en ajoutant un niveau de compression pour accélerer les transferts. Pour ce faire ajoutez une option. Sur les réseaux rapides l'effet est inverse:</p>
 <pre>
-$  ssh -C -X username@xxx.xxx.xxx.xxx (or IP)
+$  ssh -C -X nomdelutilisateur@xxx.xxx.xxx.xxx (ou IP)
 </pre>
-							<p>Read:</p>
+							<p>À lire:</p>
 <pre>
 $man ssh
 </pre>
@@ -425,46 +426,46 @@ $man ssh
 							<p><span class="highlight-3">Note:<span> Si vous avez reçu un message d'erreur et que ssh ne vous autorise pas à vous connecter, rendez vous dans votre $HOME et cherchez un dossier caché qui s'appelle <span class="highlight-3">.ssh<span>, et enlevez-en le fichier qui s'appelle <span class="highlight-3"> known_hosts<span> puis re-essayez. Cette erreur peut se produire lorsque vous avez une addresse dynamique (DCHP).</p>
 	</div>
 	<div class="divider" id="ssh-scp">
-			<h2>Copying files and directories remotely via ssh with scp</h2>
+			<h2>Copier fichiers et répertoires distants en SSH avec scp</h2>
 
-							<p>scp uses the command line, (terminal/cli), to copy files between hosts on a network. It uses ssh authentication and security for data transfer, therefore, scp will ask for passwords or passphrases as required for authentication.</p>
+							<p>scp s'utilise en ligne de commande (console/terminal) pour copier les fichiers entre machine hôtes en réseau. Il utilise une authentification ssh et sécurise les transferts de données ; aussi scp vous demandera mots et phrases de passes pour fonctionner.</p>
 
-							<p>Assuming you have ssh rights to a remote PC or a server, scp allows you to copy partitions, directories or file, to and from that PC, to a specified location or destination of your choosing where you also have permissions. For example, this could include a PC or server you have the permission to access on your LAN, (or anywhere else in the world), to enable a transfer of data to a USB hard Drive connected to your PC.</p>
+							<p>Supposant que vous disposiez de permissions d'utilsateur de ssh sur un PC ou un serveur distant, scp vous permet de copier partitions, répertoires et fichiers sur et depuis cette machine vers ou depuis une autre machine sur laquelle vous disposez des mêmes prérogatives. Par exemple, ça peut s'appliquer aux machines de votre réseau domestique (ou d'autres machines ailleurs), pour réaliser le transfert de données stockées sur une clé USB connectée à votre PC.</p>
 
-							<p>You can recursively copy entire partitions and directories with the <span class="highlight-3">scp -r</span> option.  Note that scp -r follows symbolic links encountered in the tree traversal.</p>
+							<p>Vous pouvez copier récursivement des partitions ou répertoires dans leur ensemble en utilisan l'option <span class="highlight-3">scp -r</span>. Il est important de savoir que scp -r suivra les liens symboliques qu'il rencontrera dans son exploration des cibles.</p>
 
-					<h3>Examples:</h3>
-							 <p><span class="highlight-3"> Example 1:</span> Copy a partition:</p>
-
-<pre>
-scp -r &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/ /media/diskXpartX/
-</pre>
-							 <p><span class="highlight-3"> Example 2:</span> Copy a directory on a partition, in this case a directory called photos in $HOME:</p>
+					<h3>Exemples:</h3>
+							 <p><span class="highlight-3"> Exemple 1:</span> Copie d'une partition:</p>
 
 <pre>
-scp -r &lt;user&gt;@xxx.xxx.x.xxx:~/photos/ /media/diskXpartX/xx
+scp -r &lt;utilisateur&gt;@xxx.xxx.x.xxx:/media/disk1part6/ /media/diskXpartX/
 </pre>
-							 <p><span class="highlight-3">Example 3:</span> Copy a file from a directory on a partition, in this case a file in $HOME:</p>
-<pre>
-scp &lt;user&gt;@xxx.xxx.x.xxx:~/filename.txt /media/diskXpartX/xx
-</pre>
-							<p><span class="highlight-3">Example 4:</span> Copy a file on a partition:</p>
-<pre>
-scp &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/filename.txt /media/diskXpartX/xx
-</pre>
-
-							<p><span class="highlight-3">Example 5:</span> If you are already in the drive/directory that you wish to copy any directory or files to, use a '<span class="highlight-2"> <b>.</b> </span>' (dot) :</p>
-<pre>
-scp -r &lt;user&gt;@xxx.xxx.x.xxx:/media/disk1part6/filename.txt<span class="highlight-2"><b> .</b> </span>
-</pre>
-
-							<p><span class="highlight-3">Example 6:</span> To copy files from your PC/server to a another, (use <span class="highlight-3">scp -r</span> if copying a partition or a directory):</p>
+							 <p><span class="highlight-3"> Exemple 2:</span> Copie d'un répertoire sur une partition déterminée : ici un répertoire 'photos" dans un $HOME:</p>
 
 <pre>
-scp /media/disk1part6/filename.txt &lt;user&gt;@xxx.xxx.x.xxx:/media/diskXpartX/xx
+scp -r &lt;utilisateur&gt;@xxx.xxx.x.xxx:~/photos/ /media/diskXpartX/xx
+</pre>
+							 <p><span class="highlight-3">Exemple 3:</span> Copie d'un fichier sur une partition déterminée : ici un fichier dans un $HOME:</p>
+<pre>
+scp &lt;utilisateur&gt;@xxx.xxx.x.xxx:~/nomdufichier.txt /media/diskXpartX/xx
+</pre>
+							<p><span class="highlight-3">Exemple 4:</span> opie d'un fichier sur une partition:</p>
+<pre>
+scp &lt;utilisateur&gt;@xxx.xxx.x.xxx:/media/disk1part6/nomdufichier.txt /media/diskXpartX/xx
 </pre>
 
-							<p>Read:</p>
+							<p><span class="highlight-3">Exemple 5:</span> Si vous vous trouvez déjà dans le répertoire/disque où vous voulez copier un répertoire ou fichier, utilisez '<span class="highlight-2"> <b>.</b> </span>' (point) :</p>
+<pre>
+scp -r &lt;utilisateur&gt;@xxx.xxx.x.xxx:/media/disk1part6/nomdufichier.txt<span class="highlight-2"><b> .</b> </span>
+</pre>
+
+							<p><span class="highlight-3">Exemple 6:</span> Pour copier des fichiers d'un PC ou serveur vers un autre, (utilisez <span class="highlight-3">scp -r</span> si s'il s'agit d'une partition ou d'un répertoire):</p>
+
+<pre>
+scp /media/disk1part6/nomdufichier.txt &lt;utilisateur&gt;@xxx.xxx.x.xxx:/media/diskXpartX/xx
+</pre>
+
+							<p>À lire:</p>
 <pre>
 man scp
 </pre>
@@ -567,7 +568,7 @@ sshfs nom_d_utilisateur@machine_distante:répertoire point_de_montage_local
 
 							<p>Après le montage le répertoire distant se comporte exactement de la même façon que n'importe quel répertoire local. Vous pouvez y naviguer, éditer des fichiers et même y lancer des scripts, comme vous le feriez dans vos répertoires locaux.</p>
 
-							<p>Pour démonter un répertoire distant, utilisez la systaxe suivante :</p>
+							<p>Pour démonter un répertoire distant, utilisez la syntaxe suivante :</p>
 
 <pre>
 fusermount -u point_de_montage_local
@@ -576,7 +577,7 @@ fusermount -u point_de_montage_local
 							<p>Si vous utilisez fréquemment SSHFS ce peut être intéressant d'ajoûter son entrée à votre fstab :</p>
 
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#@nom_machine_distante:/répertoire_distant /point_de_montage fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
 </pre>
 
 							<p>Ceci fera en sorte que tout utilisateur membre du groupe <span class="highlight-3">fuse</span> puisse monter le système de fichiers en utilisant la célèbre commande de montage :</p>

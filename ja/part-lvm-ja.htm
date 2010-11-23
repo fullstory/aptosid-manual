@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 22/10/2010 1510 UTC -->
+<!-- Last translation revision muchan 21/Nov/2010 2102 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
-<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
+<!-- menu last updated by bluewater 2010.11.21 2009 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -101,7 +101,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ja.htm">ハードディスクのパーティショニング</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-ja.htm#hd-ntfs3g">ntfs-3gを使ってNTFSパーティションへの書き込み</a></li>
-			<li><a href="part-lvm-ja.htm#part-lvm">Partitioning to use LVM - Logical Volume Manager</a></li>
+			<li><a href="part-lvm-ja.htm#part-lvm">LVM(Logical Volume Manager)を使うパーティション</a></li>
 			<li><a href="part-gparted-ja.htm#partition"> GUI でパーティショニング&#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ja.htm#partition">GParted / KDE Partition Manager を使ってパーティショニング</a></li>
@@ -146,7 +146,7 @@
 					  <li><a href="hd-ins-opts-oos-ja.htm#raw-usb">USB/SSDドライブに他のLinuxや MS Windows、Mac OS X システムから aptosid を書き込む</a></li>
 					</ul>
 					</li>
-		  <li><a href="hd-install-crypt-ja.htm#install-crypt">Installing to encryted partitions - cryptroot</a></li>
+		  <li><a href="hd-install-crypt-ja.htm#install-crypt">暗号化パーティションへのインストール - cryptroot</a></li>
 		  <li><a href="nbdboot-ja.htm#nbd1">aptosidをネットワークから起動</a></li>
 		  <li><a href="hd-install-vmopts-ja.htm#vmopts">仮想マシンへのインストール</a></li>
 		</ul>
@@ -307,125 +307,248 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="part-lvm">
+				<!--- ####
 				<h2 id="top-header">LVM partitioning - Logical Volume Manager</h2>
+				#### -->
+				<h2 id="top-header">LVM パーティション - Logical Volume Manager</h2>
 
+							<!--- ####
 							<p><span class="highlight-2"> This is a basic guide to get you started. It is your responsibilty to learn more about LVM. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</span></p>
+							#### -->
+							<p><span class="highlight-2"> このページはは初心者むけの基本的なガイドです。LVMについて深く学ぶことはユーザーとしてのあなたの責任です。ページの最後のLVMについての情報源リンクは役にたつでしょうが、決してすべてを網羅しているわけではありません。</span></p>
 
+							<!--- ####
 							<p>Applicable for aptosid-2010-03-apate forward.</p>
+							#### -->
+							<p>aptosid-2010-03-apate 以降のリリースから有効になります。</p>
 
+							<!--- ####
 							<p>Logical volumes can span multiple disks and are scalable, unlike the traditional method of partitioning hard drives. </p>
+							#### -->
+							<p>ロジカルボリュームはハードドライブの従来のパーティションと違って、複数のディスクが使え、必要に応じて規模を拡大できます。</p>
 
+							<!--- ####
 							<p>However, whether it be the traditional method of partitioning or partitioning to use LVM, partitioning is not something you do very often, thus it requires deep thought, along with trial and error, before you will be happy with the outcome you desire.</p>
+							#### -->
+							<p>しかし、従来方法によるパーティションにしても、LVMを使う方法にしても、パーティショニングとは頻繁に行う作業ではないため、満足な結果が得られるにはよく考え、試行錯誤を繰り返す必要があるでしょう。</p>
 
+							<!--- ####
 							<p>There are 3 basic terms of of terminology you will need to know:</p>
+							#### -->
+							<p>知っておかなければならない三つの用語があります:</p>
 						  <ul>
+							<!--- ####
 							<li><span class="highlight-3">Physical Volumes:</span> These are your physical disks, or disk partitions, such as /dev/sda or /dev/sdb1. These are what you would be used to using when mounting/unmounting things. Using LVM we can combine multiple physical volumes into volume groups. </li>
+							#### -->
+							<li><span class="highlight-3">物理的ボリューム(Physical Volumes):</span> これは/dev/sda や /dev/sdb1 といった実際の物理的なハードディスクやパーティションです。今まで mount や unmount で使用していたものです。LVM を使う場合、複数の物理的ボリュームを一緒にボリュームグループとして使います。</li>
 
+							<!--- ####
 							<li><span class="highlight-3">Volume Groups:</span> A volume group is comprised of real physical volumes, and is the storage used to create logical volumes which you can create/resize/remove and use. You can consider a volume group like a "virtual disk" assembled from physical volumes. You can slice it up into "virtual partitions" which are logical volumes.</li>
+							#### -->
+							<li><span class="highlight-3">ボリュームグループ(Volume Groups):</span> ボリュームグループはいくつかの物理ボリュームから構成され、これを使って論理ボリュームを作成したり、サイズ変更したり、削除したりします。ボリュームグループを複数の物理ボリュームを組み合わせた「仮想ディスク」のように考えるとわかりやすいでしょう。これをいくつかの「仮想パーティション」に細分することもできて、その一つ一つを論理ボリュームと考えることができます。</li>
 
 
+							<!--- ####
 							<li><span class="highlight-3">Logical Volumes:</span> Logical volumes are the volumes that you will ultimately end up mounting upon your system. They can be added, removed, and resized on the fly. Since these are contained in the volume groups they can be bigger than any single physical volume you might have. (i.e. 4 x 250GB drives can be combined into one 1TB volume group, then split create 2 x 500GB logical volumes.)</li>
+							#### -->
+							<li><span class="highlight-3">論理ボリューム(Logical Volumes):</span> 論理ボリュームは最終的にシステムにマウントされるボリュームです。システムの作動中にこれを加えたり、削除したり、サイズ変更したりすることができます。論理ボリュームはボリュームグループに含まれるため、実際の物理ボリュームのどれか一つより大きいサイズに設定することができます。(例、四つの 250GB ドライブを合わせて 1TB のボリュームグループを作り、これを二つに分けて 500GB ずつの論理ボリュームを作るなど)</li>
 						  </ul>
 
+				<!--- ####
 				<h3>There are 6 basic steps required</h3>
+				#### -->
+				<h3>六つのステップが必要です</h3>
+							<!--- ####
 							<p><span class="highlight-3">The assumption for the following example is based upon new unpartitioned disks or where a new partitioning scheme is required, which will delete all existing data on the partitions you wish to convert to an LVM.</span></p>
+							#### -->
+							<p><span class="highlight-3">ここの例では新しいパーティションを作成する場合、または新しくパーティション構成を変更するため、LVM にコンバートするパーティション上のデータはすべて消去する場合を想定しています。</span></p>
 
+							<!--- ####
 							<p>Using cfdisk or fdisk is required, as to date Gparted and KDE Partition Manager, (partitionmanger), do not support LVM partitioning.</p>
+							#### -->
+							<p>現在のところ GParted や KDEパーティションマネージャなどの GUI パーティションマネージャは LVM パーティションをサポートしていないため、cfdisk または fdisk の使用がひつようです。</p>
 
+							<!--- ####
 							<p><span class="highlight-3">Step 1: </span> Create the partition table:</p>
+							#### -->
+							<p><span class="highlight-3">Step 1: </span> パーティションテーブルの作成:</p>
 <pre>
 cfdisk /dev/sda
+<!--- ####
 <span class="highlight-3"> n </span>to create a new partition on the disk
+#### -->
+<span class="highlight-3"> n </span>new: 新規パーティションの作成
+<!--- ####
 <span class="highlight-3"> p  </span>to make this the primary partition
-<span class="highlight-3"> 1  </span>to give the partition the number 1 as an identifier
+#### -->
+<span class="highlight-3"> p  </span>primary: このパーティションをプライマリーパーティションにする
+<!--- ####
+<span class="highlight-3"> p  </span>to make this the primary partition
+#### -->
+<span class="highlight-3"> 1  </span>no.1: このパーティションの識別ように1番の番号をあてる
+<!--- ####
 <span class="highlight-3"> ### size allocation </span> ### Set first and last cylinders to the default values (press enter) to span the entire drive
+#### -->
+<span class="highlight-3"> ### サイズ確保 </span> ### ドライブ全部に設定するには最初と最後のシリンダー番号をEnterでデフォルトに設定
+<!--- ####
 <span class="highlight-3"> t  </span>toggle the type of partition to create
+#### -->
+<span class="highlight-3"> t  </span>toggle: 作成するパーティションのタイプをトグル(順に変更)する。
+<!--- ####
 <span class="highlight-3"> 8e  </span>is the hex code for a Linux LVM
+#### -->
+<span class="highlight-3"> 8e  </span>が Linux LVM の16進数の番号です。
+<!--- ####
 <span class="highlight-3"> w  </span>to write your changes to the disk. ##This will write the partition table. If you have realised that you made a mistake at this point, you could restore the old partition layout and your data will be fine.##
+#### -->
+<span class="highlight-3"> w  </span> write: 変更をディスクに書き込む。##このコマンドでパーティションテーブルが変更されます。この時点までに間違えに気づいたら、以前のパーティションレイアウトに戻れますからデータはまだ無事です。##
 </pre>
 
+							<!--- ####
 							<p>Should you want the volume to span 2 or more disks, repeat this process on each of the disks.</p>
+							#### -->
+							<p>二つ以上のディスクにまたがる論理ボリュームを作りたかったら上のプロセスを各ディスクで行います。</p>
 
+							<!--- ####
 							<p><span class="highlight-3">Step 2:</span> Setup the partition as a Physical Volume. This will delete any data:</p>
+							#### -->
+							<p><span class="highlight-3">Step 2:</span> パーティションを物理ボリュームとして設定する。このコマンドでディスク上のデータは消去されます:</p>
 
 <pre>
 pvcreate /dev/sda1
 </pre>
 
+							<!--- ####
 							<p>Repeat the process on any other partitions as required.</p>
+							#### -->
+							<p>必要なパーティションすべてでこのプロセスを切り返します。</p>
 
+							<!--- ####
 							<p><span class="highlight-3">Step 3:</span> Create the Volume Group:</p>
+							#### -->
+							<p><span class="highlight-3">Step 3:</span> ボリュームグループの作成:</p>
 
 <pre>
 vgcreate vulcan /dev/sda1
 </pre>
+							<!--- ####
 							<p>Should you wish to span 3 disks, for example, you include the other disks in the vgcreate command:</p>
+							#### -->
+							<p>たとえば三つのディスクにまたがる vulcan という名のグループを作りたかったら、この vgcreate コマンドのパラメータに加えます。</p>
 
 <pre>
 vgcreate vulcan /dev/sda1 /dev/sdb1 /dev/sdc1
 </pre>
+							<!--- ####
 							<p>If you have done this correctly you'll be able to see the result in the output of:</p>
+							#### -->
+							<p>ここまで正しく進んでいるかどうか、次のコマンドの出力で確認できます。</p>
 <pre>
 vgscan
 </pre>
+							<!--- ####
 							<p>vgdisplay will give you the <span class="highlight-3"> size </span> properties:</p>
+							#### -->
+							<p>vgdisplay コマンドは <span class="highlight-3"> size </span> プロパティを表示します:</p>
 <pre>
 vgdisplay vulcan
 </pre>
+							<!--- ####
 							<p><span class="highlight-3">Step 4:</span> Creating the Logical Volume. Now it is time for you to decide how big you want the logical volume to be initially. One advantage of LVM is that you can adjust the size of the volume on at will without needing to reboot.</p>
+							#### -->
+							<!--- ####
+							<p><span class="highlight-3">Step 4:</span> Creating the Logical Volume. Now it is time for you to decide how big you want the logical volume to be initially. One advantage of LVM is that you can adjust the size of the volume on at will without needing to reboot.</p>
+							#### -->
+							<p><span class="highlight-3">Step 4:</span> 論理ボリュームの作成。論理ボリュームの作成時サイズを決めなくてはなりません。思い立ったときに再起動なしに論理ボリュームのサイズ変更ができるところが LVM の優れたところです。</p>
 
+							<!--- ####
 							<p>Lets assume that you initially want a 300GB volume called spock within the lvm called vulcan:</p>
+							#### -->
+							<p>仮に spock という名でサイズが 300GB の論理ボリュームを vulcan という名のボリュームグループ上に作成するには:</p>
 <pre>
 lvcreate -n spock --size 300g vulcan
 </pre>
 
+							<!--- ####
 							<p><span class="highlight-3">Step 5:</span> Format the volume and be patient while it is formating , it could take a while:</p>
+							#### -->
+							<p><span class="highlight-3">Step 5:</span> ボリュームをフォーマットする。時間がかかるので気長に待ちましょう:</p>
 <pre>
 mkfs.ext4 /dev/mapper/vulcan-spock
 </pre>
-							<p><span class="highlight-3">Step 6:</span></p>
+							<p><span class="highlight-3">Step 6:</span>マウント</p>
 <pre>
 mkdir /media/spock/
 </pre>
+							<!--- ####
 							<p>Edit fstab with your favorite editor to mount the volume during boot up. </p>
+							#### -->
+							<p>お好みのエディタで fstab を編集して論理ボリュームを起動時にマウントするように設定する。</p>
 <pre>
 mcedit /etc/fstab
 </pre>
+							<!--- ####
 							<p>Using <span class="highlight-3">/dev/mapper/vulcan-spock </span> is better than using UUID numbers with LVM, as then you can clone the filesystem and not have to worry about potential UUID collisions, especially with LVM, as you can end up with multiple filesystems with the same UUID number (snapshots being a prime example).</p>
+							#### -->
+							<p>特にLVM では(スナップショットなどのため)しばしば複数のファイルシステムが同じUUIDをもつことがよくあるため、ファイルシステムのクローンなどUUIDの衝突を心配しないよう、LVM についてはUUIDより <span class="highlight-3">/dev/mapper/vulcan-spock </span> などのパスを使うほうが良い。</p>
 
 
 <pre>
 /dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,noatime,barrier=0  0  2
 </pre>
+							<!--- ####
 							<p><span class="highlight-3"> Optional:</span> Change the owner of the volume so that other users have read/write access to the LVM:</p>
+							#### -->
+							<p><span class="highlight-3"> オプションとして:</span> ボリュームの所有者を変更して他のユーザーが読み書きできるように設定する:</p>
 
 <pre>
 chown -R root:users /media/spock
 chmod -R 774 /media/spock
 </pre>
+							<!--- ####
 							<p>Your basic LVM should now be set up.</p>
+							#### -->
+							<p>これで基本的な LVM が設定されました。</p>
 
+									<!--- ####
 					    <h3>Resizing the volume</h3>
+									#### -->
+					    <h3>論理ボリュームのサイズ変更</h3>
+							<!--- ####
 							<p>To resize the volume from 300GB to 500GB, as used in this example:</p>
+							#### -->
+							<p>論理ボリュームを 300GB から 500GB に変更するには:</p>
 <pre>
 umount /media/spock/
 vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
+							<!--- ####
 							<p>Then run the command for the filesystem to be resized:</p>
+							#### -->
+							<p>ファイルシステムのサイズ変更のコマンド:</p>
 <pre>
 e4fsck -f /dev/mapper/vulcan-spock
 resize4fs /dev/mapper/vulcan-spock
 mount /media/spock
 </pre>
+										<!--- ####
 					     <h5>An LVM GUI</h5>
+										#### -->
+					     <h5>GUI の LVM マネージャ</h5>
+							<!--- ####
 							<p><span class="highlight-3">system-config-lvm</span> provides a GUI and is available to help you manage your LVMs which is started from the command line as root:</p>
+							#### -->
+							<p><span class="highlight-3">system-config-lvm</span> を使えば GUI プログラムで LVM を管理することができます。root としてコマンドラインからインストールします:</p>
 
 <pre>
 apt-get install system-config-lvm
-man system-config-lvm <span class="highlight-3"> # required reading</span>
+man system-config-lvm <span class="highlight-3"> # 必ず読みましょう</span>
 </pre>
 
+						<!--- ####
 				  <h5>Sources and Resources:</h5>
+						#### -->
+				  <h5>LVM についての情報源:</h5>
 						     <ul>
 							 <li><a href="http://www.debian-administration.org/articles/410"> Debian Administration - A simple introduction to working with LVM </a></li>
 
@@ -451,4 +574,7 @@ man system-config-lvm <span class="highlight-3"> # required reading</span>
 
 </div>
 </body>
+<!--- ####
+							<!--- ####
+							#### -->
 </html>

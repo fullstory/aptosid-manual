@@ -20,7 +20,7 @@
 <!-- Last translation revision by muchan 12/Sep/0054 2140 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
-<!-- menu last updated by bluewater 2010.11.03 1130 hrs UTC -->
+<!-- menu last updated by bluewater 2010.11.21 2009 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -101,7 +101,7 @@
 <li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ja.htm">ハードディスクのパーティショニング</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-ja.htm#hd-ntfs3g">ntfs-3gを使ってNTFSパーティションへの書き込み</a></li>
-			<li><a href="part-lvm-ja.htm#part-lvm">Partitioning to use LVM - Logical Volume Manager</a></li>
+			<li><a href="part-lvm-ja.htm#part-lvm">LVM(Logical Volume Manager)を使うパーティション</a></li>
 			<li><a href="part-gparted-ja.htm#partition"> GUI でパーティショニング&#8658;</a>
 					<ul class="sub2-menu" id="sm6a">
 					  <li><a href="part-gparted-ja.htm#partition">GParted / KDE Partition Manager を使ってパーティショニング</a></li>
@@ -146,7 +146,7 @@
 					  <li><a href="hd-ins-opts-oos-ja.htm#raw-usb">USB/SSDドライブに他のLinuxや MS Windows、Mac OS X システムから aptosid を書き込む</a></li>
 					</ul>
 					</li>
-		  <li><a href="hd-install-crypt-ja.htm#install-crypt">Installing to encryted partitions - cryptroot</a></li>
+		  <li><a href="hd-install-crypt-ja.htm#install-crypt">暗号化パーティションへのインストール - cryptroot</a></li>
 		  <li><a href="nbdboot-ja.htm#nbd1">aptosidをネットワークから起動</a></li>
 		  <li><a href="hd-install-vmopts-ja.htm#vmopts">仮想マシンへのインストール</a></li>
 		</ul>
@@ -449,16 +449,25 @@ $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive
 $ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
 </pre>
 
+							<!--- ####
 							<p><span class="highlight-2">An important note regarding KVM partition naming:</span> When you install to a KVM image, your partitions change from <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span>. If your kvm image does not boot and drops you to a busybox, try:</p>
+							#### -->
+							<p><span class="highlight-2">KVM のパーティション名について重要なノート:</span> KVM のイメージにインストールするとパーティションの名前が <span class="highlight-3">sda</span> から <span class="highlight-3">vda</span> に変わります。KVMイメージが起動しないで busybox に落ちるときは、次のコマンドを試してみます:</p>
 <pre>
 kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
 </pre>
+							<!--- ####
 							<p>When the grub menu appears, type <span class="highlight-2"> e </span> and change <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span> in the kernel boot command. When fully booted, you can effect a permanent change by editing the following line in <span class="highlight-3"> /etc/default/grub </span> with correct syntax, if required:</p>
+							#### -->
+							<p>GRUB メニューが現れたとき、<span class="highlight-2"> e </span> のキーを押してカーネル起動コマンドの <span class="highlight-3">sda</span> を <span class="highlight-3">vda</span> に変えます。うまく起動できたら <span class="highlight-3"> /etc/default/grub </span> の次の行を正しいシンタックすで変更すれば次回から自動的に起動します。</p>
 
 <pre>
 GRUB_CMD_LINE_LINUX=""
 </pre>
+							<!--- ####
 							<p>Examples:</p>
+							#### -->
+							<p>例:</p>
 <pre>
 GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
 </pre>
@@ -466,17 +475,29 @@ GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
 GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
 </pre>
 
+							<!--- ####
 							<p>UUIDs are a better option use when using traditional partitioning methods.</p>
+							#### -->
+							<p>(通常のパーティションを使う場合は UUID を使うオプションの方が良い)</p>
 
+							<!--- ####
 							<p> Then update the grub.cfg with:</p>
+							#### -->
+							<p> そして grub.cfg を次のコマンドでアップデートします:</p>
 
 <pre>
 update-grub
 </pre>
 
+							<!--- ####
 							<p>Reboot the KVM image with your preferred parameters.</p>
+							#### -->
+							<p>そして KVM をお好みのパラメータで再起動します。</p>
 
+							<!--- ####
 							<p>See also: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
+							#### -->
+							<p>参考: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
 
 				<!--- ####
 				<h5>Managing your KVM virtual machine installations</h5>

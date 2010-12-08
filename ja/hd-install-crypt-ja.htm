@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 01/11/2010 1120 -->
+<!-- Last translation revision muchan 24/Nov/2010 2149 -->
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
 <!-- menu last updated by bluewater 2010.11.21 2009 hrs UTC -->
@@ -123,7 +123,7 @@
 					</li>
 		      </ul>
 		</li>
-<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ja.htm">インストール・オプション - HD, USB, VM and Cryptroot</a>
+<li  onmouseover="showHide( 7 );" onmouseout="startTime();" ><a href="hd-install-ja.htm">インストール・オプション - HD, USB, VM, Cryptroot</a>
 		<ul class="sub-menu" id="sm7">
 		  <li><a href="hd-install-ja.htm#Inst-prep">インストールの準備 &#8658;</a>
 					<ul class="sub2-menu" id="sm7a">
@@ -307,56 +307,113 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="install-crypt">
+				<!--- ####
 				<h2 id="top-header">Installing to a cryptroot</h2>
+				#### -->
+				<h2 id="top-header">cryptrootへのインストール</h2>
 
+							<!--- ####
 							<p><span class="highlight-2">Please note: There are some caveats using this guide for encryting root or data partitions. These are:</span> </p>
+							#### -->
+							<p><span class="highlight-2">注意: 暗号化されたパーティションへのインストールについてのこのページのガイドを使うにあたって、いくつか警告しておくことがあります:</span> </p>
 						    <ul>
 
+							<!--- ####
 							<li>Applicable for aptosid-2010-03-apate forward.</li>
+							#### -->
+							<li>aptosid-2010-03-apate 以降のリリースから有効になります。</li>
 
+							<!--- ####
 							<li>This is a basic guide to get you started. It is your responsibilty to learn more about LUKS, cryptsetup and encryption. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</li>
+							#### -->
+							<p><span class="highlight-2"> このページはは初心者むけの基本的なガイドです。LUKS(Linux Unified Key Setup)について深く学ぶことはユーザーとしてのあなたの責任です。ページの最後のLVMについての情報源リンクは役にたつでしょうが、決してすべてを網羅しているわけではありません。</span></p>
 
+							<!--- ####
 							<li>cryptsetup cannot encrypt an existing data partition, so you must create a new partition, set it up with cryptsetup and then move your data onto it.</li>
+							#### -->
+							<li>cryptsetup は既存のデータパーティションを暗号化することはできません。つまり、新しいパーティションを作成し、cryptsetup をつかって暗号化を設定して、そのうえにデータを移動することが必要です。</li>
 
+							<!--- ####
 							<li>You can also use key files and have multiple keys for the data, (up to 8,  including the removal of keys), which is outside the scope of this guide.</li>
+							#### -->
+						<li>暗号化キーのファイルを使うこと、複数のキーを使うことができます。(キー削除も含めて最大8個まで使えますが), これについてはこのガイドでは深く踏み込みません。</li>
 
+							<!--- ####
 							<li><span class="highlight-3">Do not forget the passphrases as you will lose access to everything! Even a chroot without knowing the passphrases will not of be of any help except for /boot.</span></li>
+							#### -->
+							<li><span class="highlight-3">設定したパスフレーズを忘れないこと！データすべてへのアクセスを失います。パスフレーズを知らなくては /boot へのアクセスを除いて chroot を使っても何もできません。</span></li>
 
+							<!--- ####
 							<li>Early in the boot process you will be asked for your passphrase for the crypt device and the system will boot up as expected.</li>
+							#### -->
+							<li>起動時の早い段階で暗号化デバイスのパスフレーズの入力を求められ、その後正常にシステムが起動されます。</li>
 						    </ul>
+											<!--- ####
 					      <h3>Encryption examples:</h3>
+											#### -->
+					      <h3>暗号化の例:</h3>
 						    <ul>
+							<!--- ####
 							<li><a href="hd-install-crypt-ja.htm#lvm">Using crypt within LVM groups</a>.</li>
+							#### -->
+							<li><a href="hd-install-crypt-ja.htm#lvm">LVM グループの内部の暗号化</a>.</li>
 
+							<!--- ####
 							<li><a href="hd-install-crypt-ja.htm#simple">Notes for crypt with traditional partitioning methods</a>.</li>
+							#### -->
+							<li><a href="hd-install-crypt-ja.htm#simple">従来のパーティションの暗号化についてのノート</a>.</li>
 						    </ul>
 
 			      </div>
 
 			      <div class="divider" id="lvm">
-					      <h2>Encryption within LVM groups</h2>
+					      <h2>LVM グループの内部の暗号化</h2>
 
+							<!--- ####
 							<p><span class= "highlight-3">This example uses crypt inside the LVM volume to enable you let you split your home from <span class= "highlight-2"> / </span> and have a swap partition without needing multiple passwords and is applicable from aptosid-2010-03-apate and later.</span></p>
+							#### -->
+							<p><span class= "highlight-3">以下の例では LVM ボリューム内部を暗号化し、home を<span class= "highlight-2"> / </span> のパーティションから分け、swap の使用にも複数のパスワードを必要としない設定を紹介します。aptosid-2010-03-apate 以降のリリースから有効にできます。</span></p>
 
+							<!--- ####
 							<p>Before running the installer you must prepare the filesystems which will be used for the installation. For basic LVM partitioning  guidelines, you need to refer to <a href="part-lvm-ja.htm#part=lvm">Logical Volume Manager - LVM partitioning</a>. </p>
+							#### -->
+							<p>インストーラを実行する前に、インストールに使用するファイルシステムを準備しなくてはなりません。基本的な LVM パーティションについては <a href="part-lvm-ja.htm#part=lvm">Logical Volume Manager - LVM partitioning</a> を参考にしてください。 </p>
 
+							<!--- ####
 							<p>You will need at least an unencrypted <span class= "highlight-3">/boot </span>filesystem and an encrypted <span class= "highlight-2"> / </span>filesystem and also create encrypted <span class= "highlight-3">/home and swap</span> filesystems. </p>
+							#### -->
+							<p>最低限として、暗号化されていない <span class= "highlight-3">/boot </span>ファイルシステムと暗号化された<span class= "highlight-2"> / </span> ファイルシステムが必要です。ここでは他に<span class= "highlight-3">/home</span> と<span class= "highlight-3"> swap</span> ファイルシステムも暗号化します。</p>
 						  <ol>
+							<!--- ####
 							<li>If you are not planning to use an existing lvm volume group then create a normal lvm volume group. This example will assume that the volume group is called <span class= "highlight-3">vg</span>  to hold your boot and encrypted data.</li>
+							#### -->
+							<li>もし既存の LVM ボリュームグループを使わないつもりならば、普通の LVM グループを作成します。このページの例では<span class= "highlight-3">vg</span> という名のボリュームグループに boot パーティションと暗号データを保存するように設定します。</li>
 
+							<!--- ####
 							<li>You will need a logical volume for /boot and the encrypted data so use <span class= "highlight-3">lvcreate</span> to create the logical volumes in <span class= "highlight-3">vg</span> volume group with the sizes you want:
+							#### -->
+							<li>/boot と暗号化されたデータの論理ボリュームが必要なので <span class= "highlight-3">lvcreate</span> でボリュームグループ <span class= "highlight-3">vg</span> に望むサイズの論理ボリュームを作成します:
 <pre>
 lvcreate -n boot --size 250m vg
 lvcreate -n crypt --size 300g vg
 </pre>
+							<!--- ####
 							Here you have named the logical volumes boot and crypt and made them 250Mb and 300Gb respectively.
+							#### -->
+							このコマンドで boot と crypt という名でそれぞれ 250MB と 300GB の論理ボリュームができました。
 							</li>
+							<!--- ####
 							<li>Create the filesystem for <span class= "highlight-3">/boot</span> so it will be available in the installer:
+							#### -->
+							<li><span class= "highlight-3">/boot</span> 用のパーティションにファイルシステムを作り、インストーラが書き込めるようにします:
 <pre>
 mkfs.ext4 /dev/mapper/vg-boot
 </pre>
 							</li>
+							<!--- ####
 							<li>Use <span class= "highlight-3">cryptsetup</span> to encrypt <span class= "highlight-3">vg-crypt</span> using the faster xtc option with the highest strength key length of 512bit and then open it. This will ask you for your password twice to set it and then a third time to open it. Open it here under the default boot time cryptopts target name of cryptroot:
+							#### -->
+							<li><span class= "highlight-3">cryptsetup</span> を使って <span class= "highlight-3">vg-crypt</span> を高速の xtc オプションと最強の 512bit の長さのキーを使って暗号化し、これをオープンします。設定のために２回、３回目はオープンのためパスワードを入力するように求められます。ここでは起動時の cryptopts デフォルトのターゲット名、cryptroot で開きます。:
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/mapper/vg-crypt
 </pre>
@@ -365,22 +422,35 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/map
 cryptsetup luksOpen /dev/mapper/vg-crypt cryptroot
 </pre>
 							</li>
+							<!--- ####
 							<li>Now use lvm inside the encrypted device to create a second volume group that will be used for the <span class= "highlight-3">/swap</span> and <span class= "highlight-3">/home</span> devices. <span class= "highlight-3">pvcreate</span> cryptroot to make it a physical volume and use it with <span class= "highlight-3">vgcreate</span> to create another volume group, we call it <span class= "highlight-3">cryptvg</span>:
+							#### -->
+							<li>今度は暗号化デバイス内部に LVM を使って <span class= "highlight-3">swap</span> と <span class= "highlight-3">/home</span> に使う第二のボリュームグループを作成します。cryptroot を <span class= "highlight-3">pvcreate</span> コマンドで物理ボリュームにして、<span class= "highlight-3">vgcreate</span> で別のボリュームグループを作ります。ここではこれを <span class= "highlight-3">cryptvg</span> という名で呼びます:
 <pre>
 pvcreate /dev/mapper/cryptroot
 vgcreate cryptvg /dev/mapper/cryptroot
 </pre>
 							</li>
+							<!--- ####
 							<li>Next use <span class= "highlight-3">lvcreate</span> with the new encrypted <span class= "highlight-3">cryptvg</span> volume group to create the <span class= "highlight-2"> / </span>, <span class= "highlight-3">/swap</span> and <span class= "highlight-3">/home </span>logical volumes with the sizes you want:
+							#### -->
+							<li>次に <span class= "highlight-3">lvcreate</span> を使って新たに暗号化された <span class= "highlight-3">cryptvg</span> ボリュームグループにお好みのサイズの <span class= "highlight-2"> / </span>、 <span class= "highlight-3">swap</span> と <span class= "highlight-3">/home </span> の論理ボリュームを作ります:
 
 <pre>
 lvcreate -n swap --size 2g cryptvg
 lvcreate -n root --size 40g cryptvg
 lvcreate -n home --size 80g cryptvg
 </pre>
+							<!--- ####
 							Here you have named the logical volumes swap, root and home and made them 2Gb, 40Gb and 80Gb respectively.
+							#### -->
+
+							このコマンドでは論理ボリュームに swap、root、home と名前をつけてそれぞれ 2Gb、40Gb、80Gb のサイズ設定しました。
 							</li>
+							<!--- ####
 							<li>Create the filesystems for cryptvg-swap, cryptvg-root and cryptvg-home so they are available in the installer:
+							#### -->
+							<li>cryptvg-swap、cryptvg-root、cryptvg-home にファイルシステムを作成しインストーラからアクセスできるようにします:
 <pre>
 mkswap /dev/mapper/cryptvg-swap
 mkfs.ext4 /dev/mapper/cryptvg-root
@@ -388,57 +458,99 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 </pre>
 							</li>
 
+							<!--- ####
 							<li><b>Now you are ready to run the installer where you should use:</b><br />
-							<span class= "highlight-3">vg-boot</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">cryptvg-root</span> for <span class= "highlight-2"> /</span>,<br />
-							<span class= "highlight-3">cryptvg-home</span> for <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span></li>
+							#### -->
+							<li><b>これでインストーラを実行する準備ができました。ここでは:</b><br />
+							<span class= "highlight-3">vg-boot</span> を <span class= "highlight-3">/boot</span>として、<br />
+							<span class= "highlight-3">cryptvg-root</span> を <span class= "highlight-2"> /</span>として、<br />
+						 <span class= "highlight-3">cryptvg-home</span> を <span class= "highlight-3">/home</span>として、<br />
+							and <span class= "highlight-3">cryptvg-swap</span> を <span class= "highlight-3">swap</span>として使います。</li>
 						    </ol>
 
+							<!--- ####
 							<p>The installed system should end up with a kernel command line including the following options:</p>
+							#### -->
+							<p>インストールが終わったとき、カーネルのコマンド行に次のようなオプションが含まれているはずです:</p>
 <pre>
 root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=cryptroot,lvm=cryptvg-root
 </pre>
+							<!--- ####
 							<p>You now have the crypt and boot under the vg lvm volume group and the root, home and swap inside the vgcrypt lvm volume group which is inside your password protected encrypted device.</p>
+							#### -->
+							<p>これで vg という名の LVM ボリュームグループの下に crypt と boot、パスワードで保護された暗号化デバイス内のボリュームグループ vgcrypt に root、home、swap という論理ボリュームができました。</p>
 
 			      </div>
 			  <div class="divider" id="simple">
+					<!--- ####
 					<h2>Notes for crypt with traditional partitioning methods</h2>
+					#### -->
+					<h2>従来のパーティショニングを暗号化する場合のノート</h2>
 
+							<!--- ####
 							<p>The first thing to decide is how you want to layout your disk. You will need a minimum of 2 partitions, one normal partition for your <span class="highlight-3">/boot</span> and one for the encypted data. </p>
+							#### -->
+							<p>まず始めにに、どのようにパーティションをレイアウトしたいか決めます。暗号化されていない <span class="highlight-3">/boot</span> を含むパーティションと、データの暗号化されたものと、最低二つのパーティションが必要です。</p>
 
+							<!--- ####
 							<p>Assuming you require swap (which should also be encrypted) you will need a third partition and will have to enter the password for swap seperately during bootup (so you will have two password prompts). </p>
+							#### -->
+							<p>もう一つ、(これも暗号化されるべき) swap用の第三のパーティションも必要でしょうから、起動の際に swap 用のパスワードを別に入力する必要があるでしょう。(つまり起動時に二回パスワードの入力を求められるようになるでしょう。)</p>
 
+							<!--- ####
 							<p>It is possible to use keys for the swap from inside the encrypted system with traditional partitioning, however you will not be able to suspend to disk. Due to these issues, the better option in the long term is to use  LVM volumes with fully encrypted partitions and keys.</p>
+							#### -->
+							<p>従来のパーティショニングを使っていても、暗号化されたシステムの内側から swap パーティションの暗号化キーを使うことも可能ではありますが、その場合はハードディスクへのサスペンドができなくなります。そのため、長期的にみて、LVM ボリュームを使って全部暗号化されたパーティションとキーを使う方が優れていると言えるでしょう。</p>
 
 							<!--<p>It is possible to use keys for the swap from inside the encrypted system with traditional partitioning, however you will not be able to suspend to disk. Due to these issues, LVM volumes with fully encrypted partitions with keys is definitely the better option in the long term.</p>-->
 
+									<!--- ####
 			      <h6> Essential assumptions:</h6>
+									#### -->
+			      <h6> 基本的なケースの例:</h6>
 						  <ul>
+							<!--- ####
 							<li> There are just 3 plain partitions on this disk:<br />
-							<span class="highlight-3"> /boot</span>,  of 250mb<br />
-							<span class="highlight-3"> swap</span>, of 2 gig<br />
-							<span class="highlight-2"> / </span> and <span class="highlight-3"> /home</span> combined (for example, the balance).</li>
+							#### -->
+							<li> ハードディスク上に三つだけパーティションがあるとしましょう:<br />
+							250MB の <span class="highlight-3"> /boot</span><br />
+							2GB の<span class="highlight-3"> swap</span><br />
+							<span class="highlight-2"> / </span> と <span class="highlight-3"> /home</span> の両方を含むパーティション</li>
 
+							<!--- ####
 							<li>2 passphrases will be required, 1 for swap the other for the <span class="highlight-2"> / </span> and <span class="highlight-3"> /home</span> combined.</li>
+							#### -->
+							<li>swap用と <span class="highlight-2"> / </span> と <span class="highlight-3"> /home</span> 用の二つのパスフレーズが必要です。</li>
 						   </ul>
 
+							<!--- ####
 							<p>Now that you have the partitioning done, you need to prepare the encrypted partitions so that they will be recognised by the installer.</p>
+							#### -->
+							<p>パーティショニングが準備できたところで、インストーラに認識される暗号化パーティションを用意する必要があります。</p>
 
+							<!--- ####
 							<p>If you have been using a GUI partitioning application, close it and open a terminal, as the encryption  commands need to be done from the command line.</p>
+							#### -->
+							<p>GUI のパーティションエディタを使った場合、プログラムを終了し、暗号化はコマンドラインを使うのでコンソールを開いてください。</p>
 
+											<!--- ####
 					      <h5>The /boot partition</h5>
-							<p>Make the <span class="highlight-3">/boot </span> partition an ext4 partition, if you have not already done so:</p>
+											#### -->
+					      <h5>/boot パーティション</h5>
+							<p><span class="highlight-3">/boot </span> パーティションを ext4 に作成します。まだできていなかったら次のコマンドで:</p>
 <pre>
 /sbin/mkfs.ext4 /dev/sda1
 </pre>
 
-
-
-
+											<!--- ####
 					      <h5>Encrypted swap partition</h5>
+											#### -->
+					      <h5>暗号化された swap</h5>
 
+							<!--- ####
 							<p>For the <span class="highlight-3">encrypted swap</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda2</span>, as an encrypted device, like the vg-crypt device above but opening it under a different name, swap.</p>
+							#### -->
+							<p><span class="highlight-3">暗号化された swap</span> のためにはまず、<span class="highlight-3">/dev/sda2</span> のデバイスを暗号化デバイスとしてフォーマットし、前述の vg-crypt デバイスの時のようにこれを swap という名前でオープンします。</p>
 
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
@@ -448,14 +560,23 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda
 cryptsetup luksOpen /dev/sda2 swap
 </pre>
 
+							<!--- ####
 							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will show up in the installer:</p>
+							#### -->
+							<p>作成された <span class="highlight-3">/dev/mapper/swap</span> をフォーマットしてインストーラに認識されるようにします:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
 </pre>
 
+											<!--- ####
 					      <h5>Encrypted / partition</h5>
+											#### -->
+					      <h5>暗号化された / パーティション</h5>
+							<!--- ####
 							<p>For the <span class="highlight-3">encrypted /</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda3</span>, as an encrypted device, like the vg-crypt device above.</p>
+							#### -->
+							<p><span class="highlight-3">暗号化された /</span> のためにはまず、<span class="highlight-3">/dev/sda3</span> のデバイスを前述の vg-crypt デバイスのときのように暗号化デバイスとしてフォーマットし、cryptroot の名前でオープンします。</p>
 
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda3
@@ -465,28 +586,48 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda
 cryptsetup luksOpen /dev/sda3 cryptroot
 </pre>
 
+							<!--- ####
 							<p>Format the created <span class="highlight-3">/dev/mapper/cryptroot</span> so it will show up in the installer:</p>
+							#### -->
+							<p>作成された <span class="highlight-3">/dev/mapper/cryptroot</span> をフォーマットして、インストーラに認識されるようにします:</p>
 
 <pre>
 /sbin/mkfs.ext4 /dev/mapper/cryptroot
 </pre>
 
+							<!--- ####
 					  <h3>Open the installer</h3>
+							#### -->
+					  <h3>インストーラを開く</h3>
+							<!--- ####
 							<p><b>Now you are ready to run the installer where you should use:</b><br />
-							<span class= "highlight-3">sda1</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> for <span class= "highlight-3">swap</span> and, <br />
-							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> /</span> and <span class= "highlight-3"> /home</span>.</p>
+							#### -->
+							<p><b>これでインストーラが実行できます。以下のパーティションを使って起動します:</b><br />
+							<span class= "highlight-3">sda1</span> を <span class= "highlight-3">/boot</span> として、<br />
+							<span class= "highlight-3">sda2</span> を <span class= "highlight-3">swap</span>  として、<br />
+							<span class= "highlight-3">cryptroot</span> を <span class= "highlight-2"> /</span> と <span class= "highlight-3"> /home</span>として。</p>
 
+							<!--- ####
 							<p>The installed system should end up with a kernel command line including the following options (though your UUID will be used):</p>
+							#### -->
+							<p>インストールの終わったシステムは起動時のカーネルのコマンドラインとして次のようなオプションを含むものになっているはずです。(実際には違った UUID になります):</p>
 <pre>
 root=/dev/mapper/cryptroot cryptopts=source=UUID=12345678-1234-1234-1234-1234567890AB,target=cryptroot
 </pre>
+							<!--- ####
 							<p>You now have /boot in a plain partition, an encrypted password protected swap along with an encrypted root and /home.</p>
+							#### -->
+							<p>これで /boot には通常のパーティション、暗号化されパスワードで保護された swap パーティションと暗号化された / と /home のパーティションが設定できました。</p>
 
 			      </div>
+						<!--- ####
 				  <h3>Sources and Resources:</h3>
+						#### -->
+				  <h3>参考になる情報源:</h3>
+							<!--- ####
 							<p>Required reading:</p>
-
+							#### -->
+							<p>必ず読むこと:</p>
 <pre>
 man cryptsetup
 </pre>

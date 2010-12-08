@@ -308,32 +308,32 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="part-lvm">
-				<h2 id="top-header">LVM partitioning - Logical Volume Manager</h2>
+				<h2 id="top-header">Partiționarea cu LVM - <i>Logical Volume Manager</i></h2>
 
-							<p><span class="highlight-2"> This is a basic guide to get you started. It is your responsibilty to learn more about LVM. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</span></p>
+							<p><span class="highlight-2"> Acesta este doar un ghid de bază cu care să puteți începe. Rămâne în responsabilitatea voastră să învățați mai multe despre LVM. Câteva surse de documentare ce vă pot fi de folos găsiți la sfârșitul acestei pagini dar ele pot fi mult mai multe.</span></p>
 
-							<p>Applicable for aptosid-2010-03-apate forward.</p>
+							<p>Ghidul este aplicabil pentru aptosid-2010-03-apate sau mai nou.</p>
 
-							<p>Logical volumes can span multiple disks and are scalable, unlike the traditional method of partitioning hard drives. </p>
+							<p>Spre deosebire de metodele tradiționale de partiționare a hard-disk-urilor, volumele logice pot cuprinde mai multe disk-uri și sunt scalabile. </p>
 
-							<p>However, whether it be the traditional method of partitioning or partitioning to use LVM, partitioning is not something you do very often, thus it requires deep thought, along with trial and error, before you will be happy with the outcome you desire.</p>
+							<p>Oricum, fie că folosiți metoda tradițională sau cea LVM, partiționarea nu este o activitate ce o faceți foarte des, implică multă gândire împreună cu încercări, eșecuri și erori, până veți fi mulțumiți de rezultate.</p>
 
-							<p>There are 3 basic terms of of terminology you will need to know:</p>
+							<p>Sunt 3 termeni de bază pe care trebuie să-i cunoașteți:</p>
 						  <ul>
-							<li><span class="highlight-3">Physical Volumes:</span> These are your physical disks, or disk partitions, such as /dev/sda or /dev/sdb1. These are what you would be used to using when mounting/unmounting things. Using LVM we can combine multiple physical volumes into volume groups. </li>
+							<li><span class="highlight-3">Volumele fizice (<i>Physical Volumes</i>):</span> Acestea sunt disk-urile voastre fizice sau partițiile de pe ele, cum ar fi /dev/sda sau /dev/sdb1. Astea le folosiți de regulă când le mount-ați/unmount-ați. Folosind LVM putem combina mai multe volume fizice în grupări de volume (<i>volume groups</i>). </li>
 
-							<li><span class="highlight-3">Volume Groups:</span> A volume group is comprised of real physical volumes, and is the storage used to create logical volumes which you can create/resize/remove and use. You can consider a volume group like a "virtual disk" assembled from physical volumes. You can slice it up into "virtual partitions" which are logical volumes.</li>
+							<li><span class="highlight-3">Grupări de volume (<i>Volume Groups</i>):</span> O grupare de volume conține mai multe volume fizice reale și este folosită pentru a realiza volume logice pe care le puteți crea/ redimensiona/ șterge și utiliza. Puteți considera o grupare de volume ca pe un "disk virtual" ansamblat din mai multe disk-uri reale. Îl puteți împărți în "partiții virtuale" care sunt volume logice.</li>
 
 
-							<li><span class="highlight-3">Logical Volumes:</span> Logical volumes are the volumes that you will ultimately end up mounting upon your system. They can be added, removed, and resized on the fly. Since these are contained in the volume groups they can be bigger than any single physical volume you might have. (i.e. 4 x 250GB drives can be combined into one 1TB volume group, then split create 2 x 500GB logical volumes.)</li>
+							<li><span class="highlight-3">Volume Logice (<i>Logical Volumes</i>):</span> Volumele logice sunt cele pe care le veți mount-a în sistemul vostru de operare. Acestea pot fi adăugate, șterse sau redimensionate direct. Fiind într-o grupare de volume ele pot fi chiar mai mari decât oricare dintre disk-urile fizice pe care le aveți.<br/>(<i>exemplu:</i> 4 disk-uri de câte 250GB pot fi combinate într-o grupare de volume de 1TB, iar apoi împărțite în 2 volume logice de câte 500GB fiecare.)</li>
 						  </ul>
 
-				<h3>There are 6 basic steps required</h3>
-							<p><span class="highlight-3">The assumption for the following example is based upon new unpartitioned disks or where a new partitioning scheme is required, which will delete all existing data on the partitions you wish to convert to an LVM.</span></p>
+				<h3>Sunt necesari 6 pași de bază</h3>
+							<p><span class="highlight-3">Următorul exemplu presupune că veți folosi niște hard-disk-uri noi, nepartiționate sau care necesită o nouă schemă de partiționare, ceea ce va duce la ștergerea completă a datelor de pe disk-urile ce le veți converti în LVM.</span></p>
 
-							<p>Using cfdisk or fdisk is required, as to date Gparted and KDE Partition Manager, (partitionmanger), do not support LVM partitioning.</p>
+							<p>Este necesară utilizarea <i>cfdisk</i> sau <i>fdisk</i> deoarece <i>Gparted</i> și <i>KDE Partition Manager</i>, (<i>partitionmanger</i>), nu pot crea partiții LVM.</p>
 
-							<p><span class="highlight-3">Step 1: </span> Create the partition table:</p>
+							<p><span class="highlight-3">Pasul 1: </span> Crearea tabelei de partiții:</p>
 <pre>
 cfdisk /dev/sda
 <span class="highlight-3"> n </span>to create a new partition on the disk
@@ -345,88 +345,88 @@ cfdisk /dev/sda
 <span class="highlight-3"> w  </span>to write your changes to the disk. ##This will write the partition table. If you have realised that you made a mistake at this point, you could restore the old partition layout and your data will be fine.##
 </pre>
 
-							<p>Should you want the volume to span 2 or more disks, repeat this process on each of the disks.</p>
+							<p>Dacă doriți ca volumul să cuprindă 2 sau mai multe disk-uri, repetați procesul pentru fiecare disk.</p>
 
-							<p><span class="highlight-3">Step 2:</span> Setup the partition as a Physical Volume. This will delete any data:</p>
+							<p><span class="highlight-3">Pasul 2:</span> Setați partiția ca Volum Fizic (Physical Volume). Această operațiune va șterge toate datele:</p>
 
 <pre>
 pvcreate /dev/sda1
 </pre>
 
-							<p>Repeat the process on any other partitions as required.</p>
+							<p>Repetați procesul pentru toate partițiile necesare.</p>
 
-							<p><span class="highlight-3">Step 3:</span> Create the Volume Group:</p>
+							<p><span class="highlight-3">Pasul 3:</span> Creați gruparea de volume:</p>
 
 <pre>
 vgcreate vulcan /dev/sda1
 </pre>
-							<p>Should you wish to span 3 disks, for example, you include the other disks in the vgcreate command:</p>
+							<p>Dacă doriți, de exeplu, să folsiți 3 disk-uri, includeți și alte disk-uri în comanda <i>vgcreate</i>:</p>
 
 <pre>
 vgcreate vulcan /dev/sda1 /dev/sdb1 /dev/sdc1
 </pre>
-							<p>If you have done this correctly you'll be able to see the result in the output of:</p>
+							<p>Dacă ați făcut totul corect veți puteva vedea rezultatul cu comanda:</p>
 <pre>
 vgscan
 </pre>
-							<p>vgdisplay will give you the <span class="highlight-3"> size </span> properties:</p>
+							<p><i>vgdisplay</i> vă va arăta <span class="highlight-3"> dimensiunea </span> :</p>
 <pre>
 vgdisplay vulcan
 </pre>
-							<p><span class="highlight-3">Step 4:</span> Creating the Logical Volume. Now it is time for you to decide how big you want the logical volume to be initially. One advantage of LVM is that you can adjust the size of the volume on at will without needing to reboot.</p>
+							<p><span class="highlight-3">Pasul 4:</span> Crearea Volumelor Logice (Logical Volume). Acum este momentul să decideți cât de mari să fie inițial volumele logice. Un avantaj al LVM este că puteți modifica mărimea volumelor fără să mai reboot-ați.</p>
 
-							<p>Lets assume that you initially want a 300GB volume called spock within the lvm called vulcan:</p>
+							<p>Să presupunem că vreți inițial un volum de 300GB numit <i>spock</i> în cadrul lvm numit <i>vulcan</i>:</p>
 <pre>
 lvcreate -n spock --size 300g vulcan
 </pre>
 
-							<p><span class="highlight-3">Step 5:</span> Format the volume and be patient while it is formating , it could take a while:</p>
+							<p><span class="highlight-3">Pasul 5:</span> Format-ați volumul și aveți răbdare pe timpul format-ării; s-ar putea să dureze ceva vreme:</p>
 <pre>
 mkfs.ext4 /dev/mapper/vulcan-spock
 </pre>
-							<p><span class="highlight-3">Step 6:</span></p>
+							<p><span class="highlight-3">Pasul 6:</span></p>
 <pre>
 mkdir /media/spock/
 </pre>
-							<p>Edit fstab with your favorite editor to mount the volume during boot up. </p>
+							<p>Modificați <i>fstab</i> cu editorul preferat pentru a mount-a volumul în timpul procesului de boot-are. </p>
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Using <span class="highlight-3">/dev/mapper/vulcan-spock </span> is better than using UUID numbers with LVM, as then you can clone the filesystem and not have to worry about potential UUID collisions, especially with LVM, as you can end up with multiple filesystems with the same UUID number (snapshots being a prime example).</p>
+							<p>Folosirea <span class="highlight-3">/dev/mapper/vulcan-spock </span> este mai ușoară decât codurile UUID când avem LVM, putând asfel să clonăm sistemul de fișiere fără grija că vom produce o coliziune UUID, mai ales cu LVM, sfârșind prin a avea mai multe sisteme de fișiere cu același număr UUID (acesta fiind doar un prim exemplu).</p>
 
 
 <pre>
 /dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,noatime,barrier=0  0  2
 </pre>
-							<p><span class="highlight-3"> Optional:</span> Change the owner of the volume so that other users have read/write access to the LVM:</p>
+							<p><span class="highlight-3"> Opțional:</span> Schimbați proprietarul volumului astfel ca și alți utilizatori să poată citi/scrie în LVM:</p>
 
 <pre>
 chown -R root:users /media/spock
 chmod -R 774 /media/spock
 </pre>
-							<p>Your basic LVM should now be set up.</p>
+							<p>Aveți acum un LVM cu setările de bază.</p>
 
-					    <h3>Resizing the volume</h3>
-							<p>To resize the volume from 300GB to 500GB, as used in this example:</p>
+					    <h3>Redimensionarea volumelor</h3>
+							<p>Pentru a redimensiona volumul de la 300GB la 500GB, faceți ca în exemplul următor:</p>
 <pre>
 umount /media/spock/
 vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Then run the command for the filesystem to be resized:</p>
+							<p>Apoi rulați comanda de redimensionare a sistemului de fișiere:</p>
 <pre>
 e4fsck -f /dev/mapper/vulcan-spock
 resize4fs /dev/mapper/vulcan-spock
 mount /media/spock
 </pre>
-					     <h5>An LVM GUI</h5>
-							<p><span class="highlight-3">system-config-lvm</span> provides a GUI and is available to help you manage your LVMs which is started from the command line as root:</p>
+					     <h5>O interfață grafică (GUI) pentru LVM </h5>
+							<p>Programul <span class="highlight-3">system-config-lvm</span> oferă o interfață grafică ce vă poate ajuta în administrarea LVM-urilor; pornește din linia de comandă ca <i>root</i>:</p>
 
 <pre>
 apt-get install system-config-lvm
-man system-config-lvm <span class="highlight-3"> # required reading</span>
+man system-config-lvm <span class="highlight-3"> # trebuie citit</span>
 </pre>
 
-				  <h5>Sources and Resources:</h5>
+				  <h5>Surse și resuse suplimentare:</h5>
 						     <ul>
 							 <li><a href="http://www.debian-administration.org/articles/410"> Debian Administration - A simple introduction to working with LVM </a></li>
 

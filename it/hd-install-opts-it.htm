@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 03/10/2010 16.05 UTC -->
+<!-- Last translation revision by alessiog75 on 19/12/2010 20.30 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
 <!-- menu last updated by alessiog75 2010.11.24 1840 hrs UTC -->
@@ -311,9 +311,13 @@
 		<h2 id="top-header">Avviare con "fromiso" - panoramica</h2>
 							<p  class="highlight-2">Per un uso normale si raccomanda ext4, è il file system predefinito per aptosid.</p>
 
-							<p>Con questa <a href="cheatcodes-it.htm#welcome-gen">opzione d'avvio</a> (cheatcode) si può avviare il sistema da un'immagine iso su una partizione (ext2/ext3/ext4), soluzione che è molto più veloce rispetto a quella da CD (l'installazione su disco fisso con "fromiso" dura una frazione di tempo sempre rispetto al CD).</p>
+							<p>Con questa opzione d'avvio (cheatcode) si può avviare il sistema da un'immagine iso su una partizione (ext2/3/4), soluzione che è molto più veloce rispetto a quella da CD (l'installazione su disco fisso con "fromiso" dura una frazione di tempo sempre rispetto al CD).</p>
 
 							<p>"fromiso" è evidentemente molto più veloce del CD/DVD e lascia il lettore libero. Come alternativa si può usare anche QEMU.</p>
+				<h5>Esigenze:</h5>
+
+							<p>* un grub funzionante (su floppy, installazione su disco fisso, o il liveCD)<br />
+							* una immagine iso di aptosid, esempio: aptosid.iso e un file system linux come ext2/3/4 <span class="highlight-1">(Se si cambia nome all'immagine, ad esempio: da aptosid.iso a aptosid.ISO si devono modificare i comandi che seguono secondo i nomi che si sono scelti, perché il sistema di denominazione dei file unix è sensibile al minuscolo/maiuscolo.)</span></p>
 </div>
 <div class="divider" id="grub2-fromiso">
 			<h2>fromiso con Grub2</h2>
@@ -377,13 +381,6 @@ update-grub
 	    </div>
 	    <div class="divider" id="fromiso-grub-leg">
 			<h2>fromiso con grub-legacy</h2>
-
-				<h5>Esigenze:</h5>
-
-							<p>* un grub funzionante (su floppy, installazione su disco fisso, o il liveCD)<br />
-							* una immagine iso di aptosid, esempio: aptosid.iso e un file system linux come ext2/ext3/ext4<br />
-							* Se si cambia nome all'immagine, ad esempio: da aptosid.iso a aptosid.ISO si devono modificare i comandi che seguono secondo i nomi che si sono scelti, perché il sistema di denominazione dei file unix è sensibile al minuscolo/maiuscolo.</p>
-
 				<h4 class="highlight-3">Procedimento:</h4>
 							<p>Scegliere un posto per la iso e per i due file di cui abbiamo bisogno, così si ottengono percorsi più corti. Perciò creare una directory base: per esempio "/media/sdaX", (sda1 o 2 o 5 o 6, o qualsiasi, per esempio) creare la directory "aptosid" e copiarci la iso dentro:</p>
 <pre>$ sux
@@ -416,7 +413,7 @@ initrd (hd0,4)/aptosid/initrd0.686
 
 				<h3>fromiso e persist su di un HD</h3>
 
-							<p>Si può avere un sistema live persistente su di un disco scrivibile attraverso un setup fromiso con l'opzione persist. Quando fromiso utilizza un sistema ext2/ext3/ext4 il default è semplicemente:</p>
+							<p>Si può avere un sistema live persistente su di un disco scrivibile attraverso un setup fromiso con l'opzione d'avvio persist. Quando fromiso utilizza un sistema ext2/ext3/ext4 il default è semplicemente:</p>
 
 <pre>
 persist
@@ -436,14 +433,14 @@ persist=/aptosid/aptosid-rw
 	</div>
 	<div class="divider" id="persist-post">
 				<h2>fromiso e persist su di una chiavetta USB/scheda SD/flash</h2>
-							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive  avviabile con i propri file ed il software di cui si ha bisogno. Your files will be stored in a subfolder on the drive.</p>
+							<p>Probabilmente l'utilizzo ideale della persistenza è in combinazione con lo strumento install-usb-gui per creare il proprio flash drive avviabile con i propri file ed il software di cui si ha bisogno. I file verranno memorizzati in una sotto directory nel drive stesso.</p>
 
 							<p><span class="highlight-3">persist</span> in un filesystem FAT, come comunemente utilizzato per le installazioni dos/Windows 9x e solitamente anche per le periferiche flash, richiede di creare un singolo file grande da utilizzare come una periferica loop, deve essere formattato.</p>
 
 							<p><span class="highlight-3">Nelle chiavette USB/schede SD/flash, ext2 e vfat sono i filesystem raccomandati e sono quelli che danno una migliore capacità di recupero dati fra piattaforme differenti nel momento del bisogno dal momento che un driver MS Windows&#8482; è disponibile per lo scambio dati. Le riscritture sui flash drive sono legate alle specifiche della chiavetta USB/scheda SD/flash.</span></p>
 
 					<h6>ext2 file system</h6>
-							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica.</p>
+							<p>Con ext2 verrà utilizzata l'intera partizione, viene presa la root attuale e viene creata una directory /fll la quale sarà utilizzata da persist permettendo l'utilizzo di tutto lo spazio nella periferica per il sistema persist.</p>
 
 					<h6>vfat file system</h6>
 							<p>Quando viene utilizzato vfat, la persistenza viene fatta attraverso un file di dimensioni comprese fra 100MB e 2GB (di meno non avrebbe senso). Questo file si dovrebbe chiamare <span class="highlight-3">aptosid-rw</span>.</p>
@@ -492,9 +489,9 @@ dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo
 
 				<h5>3 modi di installare su USB/SD/flash</h5>
 					  <ul>
-							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso</a> aptosid specific: aptosid-on-a-stick</li>
+							<li>1) <a href="hd-install-opts-it.htm#usb-from1">fromiso</a> ; specifico di aptosid: aptosid-on-a-stick</li>
 							<li>2) <a href="hd-install-opts-it.htm#usb-hdd">completo</a> (l'installazione completa su USB/SD/flash si comporta come una normale installazione su hard disk e viene fatta attraverso il normale programma di installazione).</li>
-							<li>3) scrittura <a href="hd-ins-opts-oos-it.htm#raw-usb"> RAW device </a>. Questa è l'ideale quandoo si utilizza qualsiasi s.o. Linux, MS Windows o Mac OS X e si vuole installare aptosid-on-a-stick, (con avvisi).</li>
+							<li>3) scrittura <a href="hd-ins-opts-oos-it.htm#raw-usb"> RAW device </a>. Questa è l'ideale quando si utilizza qualsiasi s.o. Linux, MS Windows o Mac OS X e si vuole installare aptosid-on-a-stick, (con avvisi).</li>
 					  </ul>
 
 	    </div>
@@ -510,7 +507,7 @@ dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo
 
 				<h5>USB fromiso from a aptosid-*.iso:</h5>
 
-							<p>In un LIVE-CD si può cliccare su <span class="highlight-3">aptosid Installer Icon</span> e scegliere <span class="highlight-3">Install to USB</span>.</p>
+							<p>In un LIVE-CD si può cliccare sull'icona <span class="highlight-3">aptosid Installer</span> e scegliere <span class="highlight-3">Install to USB</span>.</p>
 
 			      <h6>Opzioni:</h6>
 							<p>Viene data la possibilità di scegliere la lingua, il fuso orario ed altre opzioni d'avvio e se attivare oppure no persist tramite una checkbox.</p>
@@ -564,7 +561,7 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Altri punti fondamentali sono:</span></p>
 
 						<ul>
-							<li>Una installazione USB/SD/flash sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare la chiavetta USB o scheda SD/flash in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
+							<li>Una installazione su hard disk USB sarà collegata al PC che ha iniziato l'installazione originale. Se è vostra intenzione utilizzare l'hard disk USB in un altro PC, non deve avere driver grafici non-free e cheatcode preconfigurati, con l'eccezione del cheatcode vesa probabilmente già presente in menu.lst, (tutto da verificare dopo una installazione riuscita).</li>
 
 							<li>Se si vuole usare l'installazione in un'altra macchina fare attenzione perché si devono fare alcuni aggiustamenti dal momento che bisogna modificare fstab per accedere all'hard didsk del PC, ad xorg.conf e probabilmente alla configurazione di rete.</li>
 						</ul>

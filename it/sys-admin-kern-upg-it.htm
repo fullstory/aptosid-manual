@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>aptosid Manuals Master - Kernel Upgrading</title>
+	<title>Manuale aptosid - Aggiornamento del Kernel</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by alessiog75 on 04/11/2009 20.20 UTC -->
+<!-- Last translation revision by alessiog75 on 21/12/2010 22.00 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
 <!-- menu last updated by alessiog75 2010.11.24 1840 hrs UTC -->
@@ -311,9 +311,9 @@
 			<h2 id="top-header">Installare nuovi kernel</h2>
 					<h5><span class="highlight-3">I kernel aptosid sono nel repositorio aptosid come .deb e vengono inclusi automaticamente nel dist-upgrade.</span></h5>
 <div class="spacer01"></div>
-							<p>I kernel di aptosid sono disponibili nelle seguenti versioni:</p>
+							<p>I kernel sono disponibili nelle seguenti versioni:</p>
 						<ul>
-  							<li><b>aptosid-686</b> aptosid-686 - kernel per la famiglia di processori i686 tipo singolo/doppio core o più CPU</li>
+  							<li><b>aptosid-686</b> kernel per la famiglia di processori i686 singolo/doppio core o più</li>
 
   							<li><b>aptosid-amd64</b> kernel aptosid per 64 bit</li>
 						</ul>
@@ -331,22 +331,22 @@ apt-get install linux-image-2.6-aptosid-686 linux-headers-2.6-aptosid-686
 </pre>
 							<p>Riavviare per utilizzare il nuovo kernel.</p>
 
-							<p><span class="highlight-3">Se il nuovo kernel dovesse dare dei problemi, si può riavviare il pc scegliendo in grub l'ultimo kernel funzionante.</span></p>
+							<p><span class="highlight-3">Se il nuovo kernel dovesse dare dei problemi, si può riavviare e scegliere un kernel più vecchio.</span></p>
 
 					<h5>Moduli</h5>
 
- 							<p>Per trovare i moduli che servono, il seguente comando fornisce la lista del moduli correntemente disponibili; copiare questa stringa nella console/terminale:</p>
+ 							<p>Per trovare i moduli che servono, il seguente comando fornisce la lista del moduli correntemente disponibili; copiare questa linea nella console/terminale:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-aptosid| awk '/modules/{print $1}'
 </pre>
 
-							<p>Per avere una completa descrizione di ogni modulo, copiare la seguente stringa nella console/terminale:</p>
+							<p>Per avere una completa descrizione di ogni modulo, copiare la seguente linea nella console/terminale:</p>
 <pre>
 apt-cache search 2.6.*.slh.*-aptosid
 </pre>
 
 
- 							<p>Per installare il modulo che serve (per esempio virtual-ose e qc-usb):</p>
+ 							<p>Per installare i moduli che servono (per esempio virtual-ose e qc-usb):</p>
 
  <pre>
 apt-get install virtualbox-ose-modules-2.6.24-2.6.24.2.slh.7-aptosid-686 (EXAMPLE)
@@ -377,7 +377,7 @@ man m-a
 
 							<p>Il nome del pacchetto compatibile con module-assistant quindi deve essere aggiunto a <span class="highlight-3">/etc/default/dmakms</span>, in modo che l'operazione di preparare ed installare lo stesso modulo/i per ogni nuovo kernel Linux può essere automatizzato.</p>
 
-				<h4>Esempio: Installare <span class="highlight-3">speakup module</span> con module-assistant</h4>
+				<h4>Esempio: Installare <span class="highlight-3">il modulo speakup</span> con module-assistant</h4>
 							<p>Assicurarsi che la lista delle sorgenti software contenga <span class="highlight-3">contrib non-free</span> aggiunti nella linea in: <span class="highlight-3">/etc/apt/sources.list.d/debian.list</span> </p>
 <pre>
 apt-cache search speakup-s
@@ -395,13 +395,13 @@ mcedit /etc/default/dmakms
 speakup-source
 </pre>
 
-							<p>Ripetere lo stesso processo per ogni altro pacchetto compatibile con module-assistant.</p>
+							<p>Ripetere lo stesso processo per ogni altro pacchetto di modulo kernel compatibile con module-assistant.</p>
 
 							<p>Un pacchetto linux-headers deve essere installato per ogni pacchetto linux-image per fare in modo che module-assistant possa compilare i moduli del kernel.</p>
 
 					<h4>Errore nel caricamento del modulo</h4>
 
-							<p>Se il modulo non si dovesse caricare per qualsiasi motivo (nuovo componente X.Org, problema sul filesystema oppure se X non parte dopo il riavvio) eseguire:</p>
+							<p>Se il modulo non si dovesse caricare per qualsiasi motivo (nuovo componente xorg, problema sul filesystem oppure se X non parte dopo il riavvio):</p>
 <pre>
 modprobe &lt;modulo&gt;
 </pre>
@@ -419,7 +419,7 @@ modprobe &lt;modulo&gt;
 
 							<p>Ad ogni avvio, /etc/init.d/dmakms viene eseguito per verificare che ogni pacchetto sorgente del modulo compreso nella lista di /etc/default/dmakms abbia un corrispettivo pacchetto per il kernel Linux corrente, richiamando, se necessario, module-assistant per compilare ed installare il pacchetto.</p>
 
-							<p>Quando un nuovo pacchetto linux-image Debian viene installato, /etc/init.d/dmakms viene eseguito attraverso uno script postinst con due argomenti, 'start' e 'version string' del kernel Linux di cui preparare il pacchetto. A questo punto, i pacchetti dei moduli listati nel file di configurazione /etc/default/dmakms sono lavorati con module-assistant, ed i pacchetti derivati sono programmati per l'installazione allo spegnimento del sistema. <span class="highlight-3">La ragione dell'installazione allo spegnimento è perché si rende necessario ritardare l'installazione dino a che apt/dpkg non sono bloccati da altri processi</span>.</p>
+							<p>Quando un nuovo pacchetto linux-image Debian viene installato, /etc/init.d/dmakms viene eseguito attraverso uno script postinst con due argomenti, 'start' e 'version string' del kernel Linux di cui preparare il pacchetto. A questo punto, i pacchetti dei moduli listati nel file di configurazione /etc/default/dmakms sono lavorati con module-assistant, ed i pacchetti derivati sono programmati per l'installazione allo spegnimento del sistema. <span class="highlight-3">La ragione dell'installazione allo spegnimento è perché si rende necessario ritardare l'installazione sino a che apt/dpkg non sono bloccati da altri processi</span>.</p>
 
 <pre>
 $ /usr/share/doc/dmakms
@@ -435,9 +435,9 @@ $ /usr/share/doc/dmakms
 			<div class="divider" id="kern-remove">
 					<h2>Rimozione di vecchi kernel (kernel remover)</h2>
 
-							<p>Dopo l'installazione con successo di un nuovo kernel, i vecchi possono essere rimossi, comunque e' raccomandato tenerli per alcuni giorni nel caso si evidenzino problemi con il nuovo per cui potrete riavviare con uno dei vecchi kernel presenti nella lista di avvio di grub</p>
+							<p>Dopo l'installazione con successo di un nuovo kernel, i vecchi kernel possono essere rimossi, si raccomanda comunque di tenerli per alcuni giorni nel caso si evidenzino problemi con il nuovo kernel per cui si potrà riavviare il PC con uno dei vecchi kernel presenti nella lista di avvio di grub.</p>
 
-							<p>Old kernels can be removed from the system. To do so, install <span class="highlight-3">kernel-remover</span>:</p>
+							<p>I vecchi kernel possono essere rimossi dal sistema. Per farlo installare <span class="highlight-3">kernel-remover</span>:</p>
 
 <pre>
 apt-get update

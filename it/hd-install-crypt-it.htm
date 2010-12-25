@@ -2,7 +2,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>aptosid Manuals - Encryption Installations</title>
+	<title>Manuale aptosid - Installazioni crittografate</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
         <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 01/11/2010 1120 -->
+<!-- Last translation revision by alessiog75 on 19/12/2010 18.15 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
 <!--aptosid Operating System Manual menu-version-02.09.2010.11.03 -->
 <!-- menu last updated by alessiog75 2010.11.24 1840 hrs UTC -->
@@ -308,56 +308,56 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="install-crypt">
-				<h2 id="top-header">Installing to a cryptroot</h2>
+				<h2 id="top-header">Installare in una cryptroot</h2>
 
-							<p><span class="highlight-2">Please note: There are some caveats using this guide for encryting root or data partitions. These are:</span> </p>
+							<p><span class="highlight-2">Tenere presente che ci sono alcune avvertenze nell'utilizzo di questa guida per criptare le partizioni root opppure dati. Eccole:</span> </p>
 						    <ul>
 
-							<li>Applicable for aptosid-2010-03-apate forward.</li>
+							<li>Applicabile solo da aptosid-2010-03-apate in poi.</li>
 
-							<li>This is a basic guide to get you started. It is your responsibilty to learn more about LUKS, cryptsetup and encryption. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</li>
+							<li>Questa è una guida di base per partire. È vostra responsabilità saperne di più riguardo a LUKS, cryptsetup e crittografia. Le Fonti e le Risorse che potrebbero essere utili sono elencate alla fine di questa pagina, tuttavia la lista non è certamente esaustiva.</li>
 
-							<li>cryptsetup cannot encrypt an existing data partition, so you must create a new partition, set it up with cryptsetup and then move your data onto it.</li>
+							<li>cryptsetup non può crittografare una partizione dati esistente, quindi si deve creare una nuova partizione, configurarla con cryptsetup e quindi spostarci i dati.</li>
 
-							<li>You can also use key files and have multiple keys for the data, (up to 8,  including the removal of keys), which is outside the scope of this guide.</li>
+							<li>Si può anche utilizzare file chiave ed avere chiavi multiple per i dati, (fino ad 8,  includendo la rimozione delle chiavi), ma questo è oltre lo scopo di questa guida.</li>
 
-							<li><span class="highlight-3">Do not forget the passphrases as you will lose access to everything! Even a chroot without knowing the passphrases will not of be of any help except for /boot.</span></li>
+							<li><span class="highlight-3">Non ci si deve dimenticare le frasi di accesso dal momento che si perderebbe tutto! Persino un chroot senza conoscere le frasi di accesso non può essere di aiuto se non per la directory /boot.</span></li>
 
-							<li>Early in the boot process you will be asked for your passphrase for the crypt device and the system will boot up as expected.</li>
+							<li>Durante il processo d'avvio iniziale verrà richiesta la frase di accesso per la periferica criptata ed il sistema si avvierà normalmente.</li>
 						    </ul>
-					      <h3>Encryption examples:</h3>
+					      <h3>Esempi di crittografia:</h3>
 						    <ul>
-							<li><a href="hd-install-crypt-it.htm#lvm">Using crypt within LVM groups</a>.</li>
+							<li><a href="hd-install-crypt-it.htm#lvm">Utilizzare la crittografia con i gruppi LVM</a>.</li>
 
-							<li><a href="hd-install-crypt-it.htm#simple">Notes for crypt with traditional partitioning methods</a>.</li>
+							<li><a href="hd-install-crypt-it.htm#simple">Note per la crittografia con i metodi di partizionamento tradizionali</a>.</li>
 						    </ul>
 
 			      </div>
 
 			      <div class="divider" id="lvm">
-					      <h2>Encryption within LVM groups</h2>
+					      <h2>Utilizzare la crittografia con i gruppi LVM</h2>
 
-							<p><span class= "highlight-3">This example uses crypt inside the LVM volume to enable you let you split your home from <span class= "highlight-2"> / </span> and have a swap partition without needing multiple passwords and is applicable from aptosid-2010-03-apate and later.</span></p>
+							<p><span class= "highlight-3">Questo esempio utilizza la crittografia dentro il volume LVM e permette di separare la home da <span class= "highlight-2"> / </span> ed avere una partizione di swap senza la necessità di password multiple ed è applicabile da aptosid-2010-03-apate in poi.</span></p>
 
-							<p>Before running the installer you must prepare the filesystems which will be used for the installation. For basic LVM partitioning  guidelines, you need to refer to <a href="part-lvm-it.htm#part=lvm">Logical Volume Manager - LVM partitioning</a>. </p>
+							<p>Prima di avviare il programma di installazione si deve preparare i filesystem che verranno utilizzati per l'installazione. Per le linee guida base per il partizionamento LVM, ci si deve riferire a <a href="part-lvm-it.htm#part=lvm">Logical Volume Manager - partizionamento LVM</a>.</p>
 
-							<p>You will need at least an unencrypted <span class= "highlight-3">/boot </span>filesystem and an encrypted <span class= "highlight-2"> / </span>filesystem and also create encrypted <span class= "highlight-3">/home and swap</span> filesystems. </p>
+							<p>C'è bisogno di almeno una partizione con un filesystem non criptato <span class= "highlight-3">/boot </span> un filesystem criptato <span class= "highlight-2"> / </span> ed inoltre creare filesystem criptati <span class= "highlight-3">/home e swap</span>.</p>
 						  <ol>
-							<li>If you are not planning to use an existing lvm volume group then create a normal lvm volume group. This example will assume that the volume group is called <span class= "highlight-3">vg</span>  to hold your boot and encrypted data.</li>
+							<li>Se non si prevede di utilizzare un gruppo di volumi lvm esistente creare normalmente un gruppo di volumi lvm. Questo esempio considera che il gruppo di volumi si chiami <span class= "highlight-3">vg</span> per contenere l'avvio ed i dati criptati.</li>
 
-							<li>You will need a logical volume for /boot and the encrypted data so use <span class= "highlight-3">lvcreate</span> to create the logical volumes in <span class= "highlight-3">vg</span> volume group with the sizes you want:
+							<li>C'è bisogno di un volume logico per /boot ed i dati criptati, utilizzare <span class= "highlight-3">lvcreate</span> per creare i volumi logici nel gruppo di volumi <span class= "highlight-3">vg</span> con le dimensioni che si vogliono:
 <pre>
 lvcreate -n boot --size 250m vg
 lvcreate -n crypt --size 300g vg
 </pre>
-							Here you have named the logical volumes boot and crypt and made them 250Mb and 300Gb respectively.
+							Qui si sono chiamati i volumi logici boot e crypt con dimensioni rispettivamente di 250Mb e 300Gb.
 							</li>
-							<li>Create the filesystem for <span class= "highlight-3">/boot</span> so it will be available in the installer:
+							<li>Creare il filesystem per <span class= "highlight-3">/boot</span> in modo che sia disponibile per il programma di installazione:
 <pre>
 mkfs.ext4 /dev/mapper/vg-boot
 </pre>
 							</li>
-							<li>Use <span class= "highlight-3">cryptsetup</span> to encrypt <span class= "highlight-3">vg-crypt</span> using the faster xtc option with the highest strength key length of 512bit and then open it. This will ask you for your password twice to set it and then a third time to open it. Open it here under the default boot time cryptopts target name of cryptroot:
+							<li>Utilizzare <span class= "highlight-3">cryptsetup</span> per criptare <span class= "highlight-3">vg-crypt</span> utilizzando l'opzione più veloce xtc con la lunghezza della chiave più sicura (512bit) e quindi aprirla. Verrà richiesta la password due volte per impostarla ed una terza volta per aprirla. Aprirla con le impostazioni di default di cryptopts usando come nome cryptroot:
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/mapper/vg-crypt
 </pre>
@@ -366,22 +366,22 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/map
 cryptsetup luksOpen /dev/mapper/vg-crypt cryptroot
 </pre>
 							</li>
-							<li>Now use lvm inside the encrypted device to create a second volume group that will be used for the <span class= "highlight-3">/swap</span> and <span class= "highlight-3">/home</span> devices. <span class= "highlight-3">pvcreate</span> cryptroot to make it a physical volume and use it with <span class= "highlight-3">vgcreate</span> to create another volume group, we call it <span class= "highlight-3">cryptvg</span>:
+							<li>Adesso utilizzare lvm dentro la periferica criptata per creare un secondo gruppo di volumi che verrà utilizzato per le periferiche <span class= "highlight-3">/swap</span> e <span class= "highlight-3">/home</span>. <span class= "highlight-3">pvcreate</span> cryptroot per farla diventare un volume fisico ed utilizzarla con <span class= "highlight-3">vgcreate</span> per creare un altro gruppo di volumi che si chiamerà <span class= "highlight-3">cryptvg</span>:
 <pre>
 pvcreate /dev/mapper/cryptroot
 vgcreate cryptvg /dev/mapper/cryptroot
 </pre>
 							</li>
-							<li>Next use <span class= "highlight-3">lvcreate</span> with the new encrypted <span class= "highlight-3">cryptvg</span> volume group to create the <span class= "highlight-2"> / </span>, <span class= "highlight-3">/swap</span> and <span class= "highlight-3">/home </span>logical volumes with the sizes you want:
+							<li>Quindi utilizzare <span class= "highlight-3">lvcreate</span> nel nuovo gruppo di volumi criptato <span class= "highlight-3">cryptvg</span> per creare i volumi logici <span class= "highlight-2"> / </span>, <span class= "highlight-3">/swap</span> e <span class= "highlight-3">/home </span> delle dimensioni che si vogliono:
 
 <pre>
 lvcreate -n swap --size 2g cryptvg
 lvcreate -n root --size 40g cryptvg
 lvcreate -n home --size 80g cryptvg
 </pre>
-							Here you have named the logical volumes swap, root and home and made them 2Gb, 40Gb and 80Gb respectively.
+							Adesso si hanno i volumi logici swap, root e home creati rispettivamente con 2Gb, 40Gb e 80Gb.
 							</li>
-							<li>Create the filesystems for cryptvg-swap, cryptvg-root and cryptvg-home so they are available in the installer:
+							<li>Creare i filesystems per cryptvg-swap, cryptvg-root e cryptvg-home in modo da renderli disponibili nel programma di installazione:
 <pre>
 mkswap /dev/mapper/cryptvg-swap
 mkfs.ext4 /dev/mapper/cryptvg-root
@@ -389,47 +389,47 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 </pre>
 							</li>
 
-							<li><b>Now you are ready to run the installer where you should use:</b><br />
-							<span class= "highlight-3">vg-boot</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">cryptvg-root</span> for <span class= "highlight-2"> /</span>,<br />
-							<span class= "highlight-3">cryptvg-home</span> for <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span></li>
+							<li><b>Adesso tutto è pronto per avviare il programma di installazione dove si dovranno utilizzare:</b><br />
+							<span class= "highlight-3">vg-boot</span> per <span class= "highlight-3">/boot</span>,<br />
+							<span class= "highlight-3">cryptvg-root</span> per <span class= "highlight-2"> /</span>,<br />
+							<span class= "highlight-3">cryptvg-home</span> per <span class= "highlight-3">/home</span>,<br />
+							and <span class= "highlight-3">cryptvg-swap</span> per <span class= "highlight-3">swap</span></li>
 						    </ol>
 
-							<p>The installed system should end up with a kernel command line including the following options:</p>
+							<p>Il sistema installato alla fine dovrebbe avere una linea di comando per il kernel che include le seguenti opzioni:</p>
 <pre>
 root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=cryptroot,lvm=cryptvg-root
 </pre>
-							<p>You now have the crypt and boot under the vg lvm volume group and the root, home and swap inside the vgcrypt lvm volume group which is inside your password protected encrypted device.</p>
+							<p>Adesso si hanno la crypt e la boot dentro il gruppo di volumi vg e root, home e swap dentro il gruppo di volumi vgcrypt che si trova dentro la periferica criptata protetta da password.</p>
 
 			      </div>
 			  <div class="divider" id="simple">
-					<h2>Notes for crypt with traditional partitioning methods</h2>
+					<h2>Note per la crittografia con i metodi di partizionamento tradizionali</h2>
 
-							<p>The first thing to decide is how you want to layout your disk. You will need a minimum of 2 partitions, one normal partition for your <span class="highlight-3">/boot</span> and one for the encypted data. </p>
+							<p>La prima cosa da decidere è come si vuole partizionare il disco. C'è bisogno di almeno 2 partizioni, una partizione normale per <span class="highlight-3">/boot</span> e una per i dati criptati.</p>
 
-							<p>Assuming you require swap (which should also be encrypted) you will need a third partition and will have to enter the password for swap seperately during bootup (so you will have two password prompts). </p>
+							<p>Assumendo che è necessario swap (la quale deve essere criptata a sua volta) c'è la necessità di una terza partizione e si dovrà inserire la password per swap separatamente durante l'avvio (così si avranno due richieste di password).</p>
 
-							<p>It is possible to use keys for the swap from inside the encrypted system with traditional partitioning, however you will not be able to suspend to disk. Due to these issues, the better option in the long term is to use  LVM volumes with fully encrypted partitions and keys.</p>
+							<p>È possibile utilizzare chiavi per la swap dall'interno del sistema criptato con il partizionamento tradizionale, tuttavia non si potrà fare il sospendi su disco. A causa di questi problemi, l'opzione migliore nel lungo termine è quella di utilizzare i volumi LVM con partizioni e chiavi completamente criptate.</p>
 
 							<!--<p>It is possible to use keys for the swap from inside the encrypted system with traditional partitioning, however you will not be able to suspend to disk. Due to these issues, LVM volumes with fully encrypted partitions with keys is definitely the better option in the long term.</p>-->
 
-			      <h6> Essential assumptions:</h6>
+			      <h6>Assunzioni essenziali:</h6>
 						  <ul>
-							<li> There are just 3 plain partitions on this disk:<br />
-							<span class="highlight-3"> /boot</span>,  of 250mb<br />
-							<span class="highlight-3"> swap</span>, of 2 gig<br />
-							<span class="highlight-2"> / </span> and <span class="highlight-3"> /home</span> combined (for example, the balance).</li>
+							<li>Ci sono solo 3 partizioni in questo disco:<br />
+							<span class="highlight-3"> /boot</span>,  di 250mb<br />
+							<span class="highlight-3"> swap</span>, di 2 Gb<br />
+							<span class="highlight-2"> / </span> e <span class="highlight-3"> /home</span> combinate (per esempio, bilanciate).</li>
 
-							<li>2 passphrases will be required, 1 for swap the other for the <span class="highlight-2"> / </span> and <span class="highlight-3"> /home</span> combined.</li>
+							<li>Sono richieste 2 frasi di accesso, 1 per swap e l'altra per <span class="highlight-2"> / </span> e <span class="highlight-3"> /home</span> combinate.</li>
 						   </ul>
 
-							<p>Now that you have the partitioning done, you need to prepare the encrypted partitions so that they will be recognised by the installer.</p>
+							<p>Adesso che si è fatto il partizionamento, si devono preparare le partizioni criptate in modo che siano riconosciute dal programma di installazione.</p>
 
-							<p>If you have been using a GUI partitioning application, close it and open a terminal, as the encryption  commands need to be done from the command line.</p>
+							<p>Se si è utilizzata una applicazione grafica per il partizionamento, chiuderla ed aprire un terminale, dato che i comandi per la crittografia devono essere eseguiti dalla linea di comando.</p>
 
-					      <h5>The /boot partition</h5>
-							<p>Make the <span class="highlight-3">/boot </span> partition an ext4 partition, if you have not already done so:</p>
+					      <h5>La partizione /boot</h5>
+							<p>Creare la partizione <span class="highlight-3">/boot </span> come ext4, se non si è ancora fatto:</p>
 <pre>
 /sbin/mkfs.ext4 /dev/sda1
 </pre>
@@ -437,9 +437,9 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 
 
 
-					      <h5>Encrypted swap partition</h5>
+					      <h5>Partizione swap criptata</h5>
 
-							<p>For the <span class="highlight-3">encrypted swap</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda2</span>, as an encrypted device, like the vg-crypt device above but opening it under a different name, swap.</p>
+							<p>Per la partizione <span class="highlight-3">swap criptata</span> per prima cosa si deve formattare ed aprire la periferica grezza, <span class="highlight-3">/dev/sda2</span>, come una periferica criptata, come la periferica vg-crypt come sopra ma aprirla con un nome differente, swap.</p>
 
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
@@ -449,14 +449,14 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda
 cryptsetup luksOpen /dev/sda2 swap
 </pre>
 
-							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will show up in the installer:</p>
+							<p>Formattare <span class="highlight-3">/dev/mapper/swap</span> in modo che sia visualizzata nel programma di installazione:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
 </pre>
 
-					      <h5>Encrypted / partition</h5>
-							<p>For the <span class="highlight-3">encrypted /</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda3</span>, as an encrypted device, like the vg-crypt device above.</p>
+					      <h5>Partizione / criptata</h5>
+							<p>Per la partizione <span class="highlight-3">/ criptata</span> per prima cosa si deve formattare ed aprire la periferica grezza, <span class="highlight-3">/dev/sda3</span>, come una periferica criptata, come la periferica vg-crypt come sopra.</p>
 
 <pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda3
@@ -466,34 +466,34 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda
 cryptsetup luksOpen /dev/sda3 cryptroot
 </pre>
 
-							<p>Format the created <span class="highlight-3">/dev/mapper/cryptroot</span> so it will show up in the installer:</p>
+							<p>Formattare <span class="highlight-3">/dev/mapper/cryptroot</span> in modo che sia visualizzata nel programma di installazione:</p>
 
 <pre>
 /sbin/mkfs.ext4 /dev/mapper/cryptroot
 </pre>
 
-					  <h3>Open the installer</h3>
-							<p><b>Now you are ready to run the installer where you should use:</b><br />
-							<span class= "highlight-3">sda1</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> for <span class= "highlight-3">swap</span> and, <br />
-							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> /</span> and <span class= "highlight-3"> /home</span>.</p>
+					  <h3>Aprire il programma di installazione</h3>
+							<p><b>Adesso si è pronti per avviare il programma di installazione dove si deve usare:</b><br />
+							<span class= "highlight-3">sda1</span> per <span class= "highlight-3">/boot</span>, <br />
+							<span class= "highlight-3">sda2</span> per <span class= "highlight-3">swap</span>, <br />
+							<span class= "highlight-3">cryptroot</span> per <span class= "highlight-2"> /</span> e <span class= "highlight-3"> /home</span>.</p>
 
-							<p>The installed system should end up with a kernel command line including the following options (though your UUID will be used):</p>
+							<p>Il sistema installato alla fine dovrebbe avere una linea di comando per il kernel che include le seguenti opzioni (sebbene verrà utilizzato l'UUID esistente):</p>
 <pre>
 root=/dev/mapper/cryptroot cryptopts=source=UUID=12345678-1234-1234-1234-1234567890AB,target=cryptroot
 </pre>
-							<p>You now have /boot in a plain partition, an encrypted password protected swap along with an encrypted root and /home.</p>
+							<p>A questo punto si ha /boot in una partizione semplice, uno swap criptato protetto da password ed una partizione criptata con root e /home.</p>
 
 			      </div>
-				  <h3>Sources and Resources:</h3>
-							<p>Required reading:</p>
+				  <h3>Fonti e Risorse:</h3>
+							<p>Letture necessarie:</p>
 
 <pre>
 man cryptsetup
 </pre>
 							<p><a href="http://code.google.com/p/cryptsetup/">LUKS</a>.</p>
 
-							<p><a href="http:www.redhat.com/">Redhat</a> and <a href="www.redhat.com/Fedora/">Fedora </a>.</p>
+							<p><a href="http:www.redhat.com/">Redhat</a> e <a href="www.redhat.com/Fedora/">Fedora </a>.</p>
 
 							<p><a href="http://www.enterprisenetworkingplanet.com/netsecur/article.php/3683011"> Protect Your Stuff With Encrypted Linux Partitions</a>.</p>
 

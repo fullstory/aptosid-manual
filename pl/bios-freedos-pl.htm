@@ -314,26 +314,26 @@
 
 							<p>Zdarza się, że mamy potrzebę, lub też musimy zaktualizować BIOS naszego komputera. Niestety program dostarczany przez producenta płyty głównej jest zazwyczaj aplikacją przeznaczoną do pracy w MS-DOS.</p>
 
-							<p>Przedstawiona tutaj metoda aktualizacji BIOSu za pomocą USB pozwala ominąć systemowe ograniczenia narzucone przez producenta. Sposób ten zadziała z każdym pendrive oraz kartą pamięci micro/mini/SD (przy wykorzystaniu odpowiedniego adaptera).</p>
+							<p>Przedstawiona tutaj metoda aktualizacji BIOS za pomocą dysku USB pozwala ominąć systemowe ograniczenia narzucone przez producenta. Sposób ten zadziała z każdym dyskiem USB oraz kartą pamięci micro/mini/SD (przy wykorzystaniu odpowiedniego adaptera).</p>
 
-							<p>Zanim zaczniesz, musisz się upewnić, że Twój BIOS pozwala na bootiwanie z USB i jest kompatybilny z dyskami twardymi na USB. Niektóre BIOSy akceptują stacje dyskietek, napędy CD-ROM oraz napędy ZIP podpinane do USB, one również mogą być wykorzystane, jednak będzie to znacznie trudniejsze niż w przypadku zwykłego pendrive.</p>
+							<p>Zanim zaczniesz, musisz się upewnić, że BIOS Twojego komputera pozwala na uruchamianie komputera z USB i jest kompatybilny z dyskami twardymi na USB. Niektóre BIOS-y akceptują stacje dyskietek, napędy CD-ROM oraz napędy ZIP podpinane do USB. One również mogą być wykorzystane, jednak będzie to znacznie trudniejsze niż w przypadku zwykłego dysku USB.</p>
 
 
 				<h3>Do przeprowadzenia operacji niezbędne będą:</h3>
 						<ol>
-							<li>Pendrive, najlepiej poniżej 2GB (maksymalny rozmiar partycji FAT16 to 2GB). Podstawowa instalacja FreeDOS (fdbasecd.iso) zajmuje jedynie 5.8MB miejsca na dysku. <span class="highlight-3">FAT16 jest zalecanym formatem systemu plików, ponieważ FAT32 nie jest wykrywany jako bootowalny przez wszystkie BIOS</span>.</li>
+							<li>Dysk USB, najlepiej poniżej 2GB (maksymalny rozmiar partycji FAT16 to 2GB). Podstawowa instalacja FreeDOS (fdbasecd.iso) zajmuje jedynie 5.8MB miejsca na dysku. <span class="highlight-3">FAT16 jest zalecanym systemem plików, ponieważ na dyskach USB z FAT32 może nie zostać wykryty sektor startowy przez niektóre BIOS-y.</span>.</li>
 
 							<li>Obraz instalacyjny FreeDOS - <a href="http://www.freedos.org/freedos/files/"> fdbasecd.iso (8MB)</a>.</li>
 
-							<li>qemu (apt-get install qemu), qemu jest wymagane przez instalator. Emulowany BIOS qemu sprawia, że pendrive jest rozpoznawany przez FreeDOS jako standardowy dysk twardy, więc można na nim instalować jak na normalnym dysku (przy okazji oszczędzając na wypalaniu płyty z FreeDOS).</li>
+							<li>qemu (apt-get install qemu), który jest wymagany przez instalator. Emulowany BIOS qemu sprawia, że dysk USB jest rozpoznawany przez FreeDOS jako standardowy dysk twardy, więc można na nim instalować jak na normalnym dysku (przy okazji oszczędzając na wypalaniu płyty z FreeDOS).</li>
 						</ol>
 
-				<h5><span class="highlight-2">BARDZO WAŻNE: na żadnym etapie pendrive nie może zostać zamontowany. Bądź ostrożny przy wybieraniu węzła, w przeciwnym wypadku wszelkie dane ze źle wybranego dysku przepadną.</span></h5>
+				<h5><span class="highlight-2">BARDZO WAŻNE: na żadnym etapie dysk USB nie może zostać zamontowany. Bądź ostrożny przy wybieraniu węzła, w przeciwnym wypadku wszelkie dane ze źle wybranego dysku przepadną.</span></h5>
 
 	<div class="spacer02"></div>
-							<p>Podłącz pendrive do komputera <span class="highlight-2">nie montując go w systemie</span> i sprawdź do którego węzła został przypisany (ostatnie komunikaty dmesg). W tym przewodniku przyjmiemy, że jest to <span class="highlight-3">/dev/sdb</span>  .</p>
+							<p>Podłącz dysk USB do komputera <span class="highlight-2">nie montując go w systemie</span> i sprawdź do którego węzła został przypisany (ostatnie komunikaty dmesg). W tym przewodniku przyjmiemy, że jest to <span class="highlight-3">/dev/sdb</span>  .</p>
 
-							<p>Wyczyść swój pendrive, ponieważ <span class="highlight-3">wszystkie zapisane na nim dane zostaną utracone</span>. </p>
+							<p>Wyczyść dysk USB, <span class="highlight-3">wszystkie zapisane na nim dane zostaną utracone</span>. </p>
 
 
 <pre>
@@ -344,12 +344,12 @@ dd if=/dev/zero of=/dev/sdb bs=1M count=16
 16+0 records out
 16777216 bytes (17 MB) copied, 2.35751 s, 7.1 MB/s
 </pre>
-					<h3>Partycjonowanie pendrive'a</h3>
-							<p>Poprawne partycjonowanie i formatowanie Twojego pendrive jest prawdopodobnie najtrudniejszym etapem aktualizacji.</p>
+					<h3>Partycjonowanie dysku USB</h3>
+							<p>Poprawne partycjonowanie i formatowanie dysku USB jest prawdopodobnie najtrudniejszym etapem aktualizacji.</p>
 
 							<p>Jeśli pojemność dysku jest mniejsza od 2GB, ustaw system FAT16 (oferuje większą kompatybilność).</p>
 
-							<p>Następnie poleceniem fdisk wyświetl informację o dysku:</p>
+							<p>Następnie poleceniem fdisk wyświetl informację o urządzeniu:</p>
 <pre>
 # fdisk /dev/sdb
 fdisk /dev/sdb
@@ -373,7 +373,7 @@ Using default value 1
 Last cylinder or +size or +sizeM or +sizeK (1-1018, default 1018):
 Using default value 1018
 </pre>
-							<p>Potwierdź utworzenie nowej partycji poprzez wyświetlenie tabeli partycji:</p>
+							<p>Potwierdź poprawne utworzenie nowej partycji poprzez wyświetlenie tabeli partycji:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>p</b></span>
 
@@ -437,7 +437,7 @@ Disk identifier: 0xa8993739
    Device Boot      Start         End      Blocks   Id  System
 /dev/sdb1   *           1        1018     1956595+   6  FAT16
 </pre>
-							<p>Zapisz tabelę partycji na swój pendrive i wyjdź z fdisk:</p>
+							<p>Zapisz tabelę partycji i wyjdź z fdisk:</p>
 <pre>
 Command (m for help): <span class="highlight-3"><b>w</b></span>
 The partition table has been altered!
@@ -450,7 +450,7 @@ information.
 Syncing disks.
 # exit
 </pre>
-							<p>Sformatuj nowo powstałą partycje na twoim Pendrive:</p>
+							<p>Sformatuj nowo powstałą partycje:</p>
 <pre>
 mkfs -t vfat -n FreeDOS /dev/sdb1
 exit
@@ -467,7 +467,7 @@ qemu -hda /dev/sdb -cdrom /path/to/fdbasecd.iso -boot d
 							<p><span class="highlight-1">ctrl-alt</span> Przełacza myszę i klawiaturę pomiędzy qemu i systemem na którym jest uruchomiony. Dzięki temu można przełączać pulpity by ponownie wyświetlić wszelkie instrukcje na każdym z etapów.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot01.jpg" title="QEMU FreeDOS" alt="QEMU FreeDOS" /></div>
-							<p>To uruchomi FreeDOS CD i ustawi surowy dysk USB (raw) jako podstawowy, główny dysk twardy (tutaj emulowany BIOS w programie qemu sprawi że dysk USB pojawi się jako zwykły dysk twardy). Teraz w "Boot-Menu"  wirtualnego FreeDOS wybierz instalatora:</p>
+							<p>To uruchomi FreeDOS CD i ustawi surowy dysk USB (raw) jako podstawowy, główny dysk twardy (tutaj emulowany BIOS w programie qemu sprawi że dysk USB pojawi się jako zwykły dysk twardy). Teraz w "Start-Menu"  wirtualnego FreeDOS wybierz instalatora:</p>
 <pre>
 1) Continue to boot FreeDOS from CD-ROM
 <span class="highlight-3"><b>1</b></span>
@@ -490,18 +490,18 @@ enter
 
 	<div class="spacer02"></div>
 
-							<p>Instalator poprosi  o restart  - <span class="highlight-3">lecz nie restartuj teraz, ponieważ trzeba  naprawić dwa błedy instalatora FreeDOS, mbr i bootmenu</span>. Daj literę <span class="highlight-3"><b>n</b></span>.</p>
+							<p>Instalator poprosi  o restart  - <span class="highlight-3">lecz nie restartuj teraz, ponieważ trzeba naprawić dwa błedy instalatora FreeDOS, mbr i start-menu</span>. Daj literę <span class="highlight-3"><b>n</b></span>.</p>
 	<div class="spacer02"></div>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot18.jpg" title="Freedos Installation - do not reboot type n" alt="freedos-do not reboot type n" /></div>
 
 	<div class="spacer02"></div>
-				<h3>Zapisanie sektora rozruchowego na dysku USB </h3>
+				<h3>Zapisanie sektora rozruchowego na dysk USB </h3>
 							<p>Naprawa mbr następuje poprzez:</p>
 
 <pre>
 fdisk /mbr 1
 </pre>
-							<p>Drugim błedem, który wymaga naprawy jest bootmenu w nowym fdconfig.sys, uruchom:</p>
+							<p>Drugim błedem, który wymaga naprawy jest start-menu w nowym fdconfig.sys, uruchom:</p>
 <pre>
 cd \
 edit fdconfig.sys
@@ -514,21 +514,21 @@ NOTE it is to read: <span class="highlight-3">1234?</span>
 </pre>
 		<div class="screenshot"><img src="../lib/images-common/images-qemu-freedos/qemu-boot23.jpg" title="Edit fdconfig.sys " alt="fdconfig.sys" /></div>
 	<div class="spacer02"></div>
-							<p><span class="highlight-2">Nie zmieniaj nic innego, jako że ta linia  zależy od konfiguracji instalacji.</span></p>
+							<p><span class="highlight-2">Nie zmieniaj nic innego, jako że ta linia zależy od konfiguracji instalacji.</span></p>
 
-							<p>Zapisz i wyjdz z  "edit":</p>
+							<p>Zapisz i wyjdź z "edit":</p>
 <pre>
 [alt]+[f]
 </pre>
 							<p>Po powrocie do wiersza polecenia, można opuścić qemu.</p>
 
- 							<p>Teraz test dla  sprawdzenia, czy qemu  uruchomi dysk USB.</p>
+ 							<p>Teraz test dla sprawdzenia, czy qemu uruchomi dysk USB.</p>
 <pre>
 qemu -hda /dev/sdb -boot c
 </pre>
- 							<p>Twój dysk USB jest teraz uruchamialny i zawiera  pełną instalację FreeDOS z 5.4 MB, do flashowania. Powinien się załadować bez żadnych dodatkowych sterowników <span class="highlight-3">(menu option 4), wczytanie  plików himem.sys i emm386  mogłoby kolidować z programami flashujacymi!</span>:</p>
+ 							<p>Dysk USB jest teraz uruchamialny i zawiera pełną instalację FreeDOS z 5.4 MB, gotową do aktualizacji BIOS. Powinien się załadować bez żadnych dodatkowych sterowników <span class="highlight-3">(menu option 4), wczytanie  plików himem.sys i emm386  mogłoby kolidować z programami flashujacymi!</span>:</p>
 
-				<h3>Aktualizacja BIOSU</h3>
+				<h3>Aktualizacja BIOS</h3>
 							<p>Zakładając, że komputer jest uruchomiony, podłącz pamięć USB FreeDOS. Zamontuj go i pobierz potrzebne pliki BIOS, zgodnie z zaleceniami producenta płyty głównej i systemu BIOS, na dysk USB FreeDOS. Następnie odmontuj dysk USB.</p>
 
 							<p>Wyłacz komputer, podłącz dysk USB FreeDOS, włącz komputer tak aby wystartować FreeDOS z dysku USB i postępuj zgodnie z zaleceniami producenta płyty głównej i systemu BIOS.</p>

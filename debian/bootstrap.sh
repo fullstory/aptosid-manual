@@ -6,7 +6,6 @@ set -e
 #	da:Danish:Dansk::
 #	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
-#	nl:Dutch:Nederlands::
 I18N_LANGUAGES="
 	de:German:Deutsch::
 	el:Greek:Ελληνικά::
@@ -15,6 +14,7 @@ I18N_LANGUAGES="
 	fr:French:Français::
 	it:Italian:Italiano::
 	ja:Japanese:日本語:ttf-kochi-gothic:
+	nl:Dutch:Nederlands::
 	pl:Polish:Polski::
 	pt-br:Brazilian_Portuguese:Português::
 	ro:Romanian:Română::

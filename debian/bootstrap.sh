@@ -7,6 +7,7 @@ set -e
 #	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
 I18N_LANGUAGES="
+	cz:Czech:Čeština::
 	de:German:Deutsch::
 	el:Greek:Ελληνικά::
 	en:English:English::

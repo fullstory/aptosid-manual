@@ -342,9 +342,11 @@ ctrl+alt+backspace
 		<div class="divider" id="xrandr">
 					<h2>Dual Monitoren en xrandr</h2>
 
-							<p class="highlight-2">Je gaat hier de xorg config bestanden wijzigen, maak eerst een backup van je xorg.conf, voordat je verder gaat!</p>
+							<p> <span class="highlight-2">xorg.conf is deprecated, if you use free drivers.</span> If you have an xorg.conf stanza under <span class= "highlight-3">/etc/X11/xorg.conf.d</span>, because you use proprietary drivers for your graphics card, you should save it now before proceeding.</p>
 
-							<p>Een van de grootste voordelen van xorg 7.4 is hotplug. Met xrandr kun je een hoofdscherm en een tweede scherm configureren zonder het herstarten van X. xrandr vervangt xinerama en mergedFB. Als xrandr 1.2 ingeschakeld is, kan de "oude manier van configureren" van xorg.conf ( xinerama en mergedFB) mogelijk niet meer werken.</p>
+							<p>xorg.conf, if present at all, is now modular, for example, each module contains everything referring a "device"  for instance, the display or a mouse.</p>
+
+							<p>With xrandr you can configure your primary and secondary screen without restarting X, (hotplug). xrandr vervangt xinerama en mergedFB. Als xrandr 1.2 ingeschakeld is, kan de "oude manier van configureren" van xorg.conf ( xinerama en mergedFB) mogelijk niet meer werken.</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded aptosid install -->
 
 				<h5>Ondersteunde Videokaart Drivers</h5>
@@ -482,57 +484,28 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 -->
 							<p>NOTITIE: Dit werkt alleen als je je fysieke scherm ook kan roteren.</p>
 
-
-<!--
-				<h4>Voorbeeld van een permanent geconfigureerde PC - twee schermen met xrandr</h4>
--->
-				<h4>Voorbeeld van een permanente configuratie van een PC met een twee monitoren en met xrandr</h4>
-
+				<h6>Example of a permanently configured PC with dual monitors with xrandr with code snippet in <span class="highlight-3"> /etc/X11/xorg.conf.d/30-screen.conf</span>:</h6>
 
 <pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
+#30-screen.conf
+Section "Monitor"
+	Identifier      "DVI-0"
+	Option          "Primary"       "true"
+EndSection
+
+Section "Monitor"
+	Identifier      "DVI-1"
+	Option          "RightOf"       "DVI-0"
 EndSection
 
 Section "Device"
-        Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Driver    "ati"
-        BusID      "PCI:1:0:0"
-        Option    "monitor-VGA-0" "ACER AL512"
-        Option    "monitor-DVI-0" "VIEWSONIC E70"
-EndSection
-
-Section "Monitor"
-        Identifier      "ACER AL512"
-EndSection
-
-Section "Monitor"
-        Identifier      "VIEWSONIC E70"
-        Option    "RightOf" "ACER AL512"
-        # 1024x768 @ 85.00 Hz (GTF) hsync: 68.60 kHz; pclk: 94.39 MHz
-        Modeline "1024x768_85.00"  94.39  1024 1088 1200 1376  768 769 772 807  -HSync +Vsync
-        Option    "PreferredMode" "1024x768_85.00"
-EndSection
-
-Section "Screen"
-        Identifier      "Default Screen"
-        Device    "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Monitor  "ACER AL512"
-        DefaultDepth    24
-        SubSection "Display"
-                Virtual  2048 768
-        EndSubSection
-EndSection
-
-Section "ServerLayout"
-        Identifier      "Default Layout"
-        Screen    "Default Screen"
-
+	  Identifier     "ATI Radeon HD 2600"
+	  Option         "Monitor-DVI-0" "DVI-0"
+	  Option         "Monitor-DVI-1" "DVI-1"
 EndSection
 </pre>
 
-<!--
+
 							<p>Opmerkingen</p>
 -->
 							<p>Notitie</p>
@@ -587,63 +560,6 @@ Uitvoer namen:
 * DVI1: tweede externe DVI poort (indien aanwezig)
 </pre>
 				    </div>
-					<h5>Appendix B</h5>
-
-						<h6>xorg.conf confomr xorg 7.4:</h6>
-
-							<p>NB: Eeen seriele muis werkt niet met deze instellingen! Maak een backup van xorg.conf voordat je instellingen aanpast!</p>
-<pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
-EndSection
-
-Section "Files"
-        FontPath        "/usr/share/fonts/X11/misc"
-        FontPath        "/usr/share/fonts/X11/100dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/75dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/100dpi"
-        FontPath        "/usr/share/fonts/X11/75dpi"
-        FontPath        "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"
-EndSection
-
-Section "Module"
-        Load            "ddc"           # ddc probing of monitor
-        Load            "dbe"
-        Load            "dri"
-        Load            "extmod"
-        Load            "glx"
-        Load            "bitmap"        # bitmap-fonts
-        Load            "freetype"
-        Load            "record"
-EndSection
-
-#This section is most important for xrandr, remove everything except the following:
-Section "Monitor"
-        Identifier      "Monitor0"
-        Option  "DPMS"  "true"
-EndSection
-
-Section "Device"
-        Identifier      "Card0"
-        Driver          "intel"
-          #This is just optional, "XAA" is probably more stable for the majority of users
-        Option          "AccelMethod" "EXA"
-EndSection
-
-Section "Screen"
-        Identifier      "Screen0"
-        Device          "Card0"
-        Monitor         "Monitor0"
-        DefaultColorDepth 24
-        SubSection "Display"
-                Depth   24
-                # Here you can set virtual screen size:
- 		Virtual 2048 2048
-        EndSubSection
-EndSection
-</pre>
-
 
 						<h6>Links</h6>
 							<p><a href="http://wiki.debian.org/XStrikeForce/HowToRandR12"> http://wiki.debian.org/XStrikeForce/HowToRandR12</a></p>
@@ -656,15 +572,12 @@ EndSection
 	<div class="divider" id="mon-binary">
 				<h2>Dual Monitors (gebruikmakend van binaries)</h2>
 							<p> <span class="highlight-3">Voor proprietary drivers lees de documentatie van je videokaart.</span></p>
-
-							<p class="highlight-2">Als je de xorg config bestanden aanpast, maak a.u.b., s.v.p., please een back-up van de xorg.conf, vóórdat je verder gaat!</p>
-
 			<h3>nvidia</h3>
 							<p>Voor nvidia non-free kan de nvidia xorg configurator gebruikt worden <a href="http://www.sorgonet.com/linux/nv-online/"> om de xorg bestanden aan te passen.</a></p>
 
 			<h5>Native ATI - radeon</h5>
 
-							<p><a  href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794">Lees hier meer over bekende goed werkende configuratie-bestanden xorg.confs met de free radeon driver.</a></p>
+							<!--<p><a  href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794">Lees hier meer over bekende goed werkende configuratie-bestanden xorg.confs met de free radeon driver.</a></p>-->
 
 							<p>Notitie: Hiervoor heb je informatie nodig over de configuratie van de tweede monitor. Om dat snel te doen, trek 1 monitor eruit en boot met de liveCD om een correct xorg.conf bestand aan te maken. Dat bestand kan gekopieerd worden. Hierna kan dezelfde actie met de andere monitor gedaan worden.</p>
 
@@ -672,7 +585,7 @@ EndSection
 
 		</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 14/08/2010 0100 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 01/02/2010 1405 UTC</div>
 </div>
 </body>
 </html>

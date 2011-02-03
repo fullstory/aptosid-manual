@@ -363,15 +363,14 @@ ctrl+alt+retour
 		<div class="divider" id="xrandr">
 					<h2>Double Moniteurs et xrandr</h2>
 
-							<!--- ####
-							<p class="highlight-2">You are about to edit xorg config files, please, please, please make a back-up of xorg.conf, before going any further!</p>
-							#### -->
-							<p class="highlight-2">Vous vous apprêtez à éditer les fichiers de configuration X de xorg, alors s'il vous plait, s'il vous plait, faites une sauvegarde de xorg.conf avant d'éditer quoique ce soit!</p>
+							<p> <span class="highlight-2">xorg.conf is deprecated, if you use free drivers.</span> If you have an xorg.conf stanza under <span class= "highlight-3">/etc/X11/xorg.conf.d</span>, because you use proprietary drivers for your graphics card, you should save it now before proceeding.</p>
+
+							<p>xorg.conf, if present at all, is now modular, for example, each module contains everything referring a "device"  for instance, the display or a mouse.</p>
 
 							<!--- ####
-							<p>One of the greatest advantages of xorg 7.4 is hotplug. With xrandr you can configure your primary and secondary screen without restarting X. xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p>
+							<p>With xrandr you can configure your primary and secondary screen without restarting X, (hotplug).  xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p>
 							#### -->
-							<p>Un des plus grands avantage de xorg 7.4 est la détection à la volée. Avec xrandr vous pouvez configurer votre ecran principal et secondaire sans avoir besoin de redémarrer X.
+							<p>With xrandr you can configure your primary and secondary screen without restarting X, (hotplug).
 							xrandr est le remplaçant de xinerama, mergeFB,...De ce fait, si le pilote xrandr 1.2 est activé, la "vieille façon de configurer" xorg.conf pourra ne plus fonctionner.</p>
 							<!-- mergedFB doesn't work anymore in a dist-upgraded aptosid install -->
 
@@ -540,55 +539,26 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 							#### -->
 							<p>REMARQUE: Ceci ne présente d'intérêt que si vous pouvez matériellement faire tourner votre moniteur...</p>
 
-				<!--- ####
-				<h4>Example of a permanently configured PC with dual monitors with xrandr</h4>
-				#### -->
-				<h4>Un exemple de xorg.conf pour ordinateur avec double-moniteur permanent avec xrandr</h4>
+				<h6>Example of a permanently configured PC with dual monitors with xrandr with code snippet in <span class="highlight-3"> /etc/X11/xorg.conf.d/30-screen.conf</span>:</h6>
 
 <pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
+#30-screen.conf
+Section "Monitor"
+	Identifier      "DVI-0"
+	Option          "Primary"       "true"
+EndSection
+
+Section "Monitor"
+	Identifier      "DVI-1"
+	Option          "RightOf"       "DVI-0"
 EndSection
 
 Section "Device"
-        Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Driver    "ati"
-        BusID      "PCI:1:0:0"
-        Option    "monitor-VGA-0" "ACER AL512"
-        Option    "monitor-DVI-0" "VIEWSONIC E70"
-EndSection
-
-Section "Monitor"
-        Identifier      "ACER AL512"
-EndSection
-
-Section "Monitor"
-        Identifier      "VIEWSONIC E70"
-        Option    "RightOf" "ACER AL512"
-        # 1024x768 @ 85.00 Hz (GTF) hsync: 68.60 kHz; pclk: 94.39 MHz
-        Modeline "1024x768_85.00"  94.39  1024 1088 1200 1376  768 769 772 807  -HSync +Vsync
-        Option    "PreferredMode" "1024x768_85.00"
-EndSection
-
-Section "Screen"
-        Identifier      "Default Screen"
-        Device    "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Monitor  "ACER AL512"
-        DefaultDepth    24
-        SubSection "Display"
-                Virtual  2048 768
-        EndSubSection
-EndSection
-
-Section "ServerLayout"
-        Identifier      "Default Layout"
-        Screen    "Default Screen"
-
+	  Identifier     "ATI Radeon HD 2600"
+	  Option         "Monitor-DVI-0" "DVI-0"
+	  Option         "Monitor-DVI-1" "DVI-1"
 EndSection
 </pre>
-
-
 
 
 							<p>Important</p>
@@ -648,69 +618,6 @@ Nom des sorties:
 * DVI1: sortie DVI secondaire (si elle existe)
 </pre>
 				    </div>
-					<h5>Appendice B</h5>
-
-						<!--- ####
-						<h6>xorg.conf the xorg 7.4 way:</h6>
-						#### -->
-						<h6>xorg.conf "version 7.4"</h6>
-
-							<!--- ####
-							<p>Note: A serial mouse won't work with this configuration! Backup your xorg.conf before making changes!</p>
-							#### -->
-							<p>Note: Une souris sur le port série ne marche pas avec cette configuration! Sauvegardez votre xorg.conf avant tout changement!</p>
-<pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
-EndSection
-
-Section "Files"
-        FontPath        "/usr/share/fonts/X11/misc"
-        FontPath        "/usr/share/fonts/X11/100dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/75dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/100dpi"
-        FontPath        "/usr/share/fonts/X11/75dpi"
-        FontPath        "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"
-EndSection
-
-Section "Module"
-        Load            "ddc"           # ddc probing of monitor
-        Load            "dbe"
-        Load            "dri"
-        Load            "extmod"
-        Load            "glx"
-        Load            "bitmap"        # bitmap-fonts
-        Load            "freetype"
-        Load            "record"
-EndSection
-
-# Cette section est la plus importante pour xrandr. Enlevez tout sauf le suivant:
-Section "Monitor"
-        Identifier      "Monitor0"
-        Option  "DPMS"  "true"
-EndSection
-
-Section "Device"
-        Identifier      "Card0"
-        Driver          "intel"
-        # Ici, ce n'est que optionel, "XAA" est probablement plus stable pour la majorité des utilisateurs
-        Option          "AccelMethod" "EXA"
-EndSection
-
-Section "Screen"
-        Identifier      "Screen0"
-        Device          "Card0"
-        Monitor         "Monitor0"
-        DefaultColorDepth 24
-        SubSection "Display"
-                Depth   24
-                # Ici vous configurez la définition pour l'écran virtuel:
-                Virtual 2048 2048
-        EndSubSection
-EndSection
-</pre>
-
 
 						<!--- ####
 						<h6>Links</h6>
@@ -725,25 +632,24 @@ EndSection
 	</div>
 	<div class="divider" id="mon-binary">
 				<h2>Double Moniteurs (avec les pilotes propriétaires)</h2>
-<!--- ####
-				<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
-#### -->
-				<p> <span class="highlight-3">En ce qui concerne les pilotes propriétaires, lisez la documentation du fabricant de votre carte graphique.</span></p>
-							<p class="highlight-2">Vous êtes sur le point de vous immerger dans les fichiers de configuration de xorg. S'il vous plait ! Faites une sauvegarde de votre fichier xorg.conf, avant d'aller plus loin !</p>
+						<!--- ####
+							<p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p>
+						  #### -->
+							<p> <span class="highlight-3">En ce qui concerne les pilotes propriétaires, lisez la documentation du fabricant de votre carte graphique.</span></p>
+
 
 				<h3>nvidia</h3>
-							<p>Pour
-obtenir un double affichage avec les pilotes propriétaires Nvidia, utilisez simplement l'outil de configuration xorg de nvidia <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> et modifiez vos fichiers xorg en conséquence.</p>
+							<p>Pour obtenir un double affichage avec les pilotes propriétaires Nvidia, utilisez simplement l'outil de configuration xorg de nvidia <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> et modifiez vos fichiers xorg en conséquence.</p>
 
 				<h4>Pilote libre ATI - radeon</h4>
 
-							<p>L'article <a href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> propose quelques fichiers xorg.conf qui fonctionnent avec le pilote libre 'radeon'.</p>
+							<!--<p>L'article <a href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> propose quelques fichiers xorg.conf qui fonctionnent avec le pilote libre 'radeon'.</p>-->
 
 							<p>AVERTISSEMENT: Vous devrez vous munir de l'information nécessaire à la configuration de votre second moniteur. Une méthode pour y parvenir consiste à démarrer sur le Live-CD pour générer un fichier xorg.conf, de copier celui-ci, puis de le faire à nouveau avec le second moniteur.</p>
 
 
 		</div>
-	<div id="rev">Dernière révision le 14/08/2010 0100 UTC</div>
+	<div id="rev">Dernière révision le 01/02/2010 1405 UTC</div>
 
 </div>
 </body>

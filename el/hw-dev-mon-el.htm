@@ -339,12 +339,13 @@ xrandr --output VGA --mode 1440x900
 					<!--h2>Dual Monitors and xrandr</h2-->
 					<h2>Δυο οθόνες και xrandr</h2>
 
-							<!--p class="highlight-2">You are about to edit xorg config files, please, please, please make a back-up of xorg.conf, before going any further!</p-->
-							<p class="highlight-2">Είστε έτοιμοι να επεξεργαστείτε τα αρχεία ρύθμισης του xorg , παρακαλώ, παρακαλώ, παρακαλώ κάντε ένα αντίγραφο ασφαλείας του xorg.conf πριν συνεχίσετε!</p>
+							<p> <span class="highlight-2">xorg.conf is deprecated, if you use free drivers.</span> If you have an xorg.conf stanza under <span class= "highlight-3">/etc/X11/xorg.conf.d</span>, because you use proprietary drivers for your graphics card, you should save it now before proceeding.</p>
 
-							<!--p>One of the greatest advantages of xorg 7.4 is hotplug. With xrandr you can configure your primary and secondary screen without restarting X. xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p-->
+							<p>xorg.conf, if present at all, is now modular, for example, each module contains everything referring a "device"  for instance, the display or a mouse.</p>
+
+							<!--p>With xrandr you can configure your primary and secondary screen without restarting X, (hotplug). xrandr replaces xinerama and mergedFB. With xrandr 1.2 enabled, the "old way configuration" in xorg.conf ( xinerama and mergedFB) may not work anymore.</p-->
 							<!-- mergedFB doesn't work anymore in a dist-upgraded aptosid install -->
-							<p>Ένα από τα μεγαλύτερα πλεονεκτήματα του xorg 7.4 είναι το hotplug. Με το xrandr μπορείτε να ρυθμίσετε την πρωτεύων και δευτερεύων οθόνη σας χωρίς να επανεκκινήσετε X. Το xrandr αντικαθιστά το xinerama και το mergedFB. Με το xrandr 1.2 ενεργοποιημένο, ο "παλιός τρόπος ρύθμισης" μέσα στο xorg.conf (xinerama και mergedFB) μπορεί να μην δουλεύει πλέον.</p>
+							<p>With xrandr you can configure your primary and secondary screen without restarting X, (hotplug). Το xrandr αντικαθιστά το xinerama και το mergedFB. Με το xrandr 1.2 ενεργοποιημένο, ο "παλιός τρόπος ρύθμισης" μέσα στο xorg.conf (xinerama και mergedFB) μπορεί να μην δουλεύει πλέον.</p>
 
 				<!--h5>Supported Card Drivers</h5-->
 				<h5>Υποστηριζόμενοι Οδηγοί Καρτών</h5>
@@ -475,53 +476,26 @@ xrandr --verbose --output LVDS --mode 1280x800 --output VGA  --mode 1024x768 --r
 
 							<p>Σημείωση: Αυτό δουλεύει μόνο αν μπορείτε να γυρίσετε και την πραγματική σας οθόνη</p>
 
-				<!--h4>Example of a permanently configured PC with dual monitors with xrandr</h4-->
-				<h4>Παράδειγμα ενός μόνιμα ρυθμισμένου υπολογιστή με δυο οθόνες με το xrandr</h4>
+				<h6>Example of a permanently configured PC with dual monitors with xrandr with code snippet in <span class="highlight-3"> /etc/X11/xorg.conf.d/30-screen.conf</span>:</h6>
 
 <pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
+#30-screen.conf
+Section "Monitor"
+	Identifier      "DVI-0"
+	Option          "Primary"       "true"
+EndSection
+
+Section "Monitor"
+	Identifier      "DVI-1"
+	Option          "RightOf"       "DVI-0"
 EndSection
 
 Section "Device"
-        Identifier      "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Driver    "ati"
-        BusID      "PCI:1:0:0"
-        Option    "monitor-VGA-0" "ACER AL512"
-        Option    "monitor-DVI-0" "VIEWSONIC E70"
-EndSection
-
-Section "Monitor"
-        Identifier      "ACER AL512"
-EndSection
-
-Section "Monitor"
-        Identifier      "VIEWSONIC E70"
-        Option    "RightOf" "ACER AL512"
-        # 1024x768 @ 85.00 Hz (GTF) hsync: 68.60 kHz; pclk: 94.39 MHz
-        Modeline "1024x768_85.00"  94.39  1024 1088 1200 1376  768 769 772 807  -HSync +Vsync
-        Option    "PreferredMode" "1024x768_85.00"
-EndSection
-
-Section "Screen"
-        Identifier      "Default Screen"
-        Device    "ATI Technologies Inc RV370 [Sapphire X550 Silent]"
-        Monitor  "ACER AL512"
-        DefaultDepth    24
-        SubSection "Display"
-                Virtual  2048 768
-        EndSubSection
-EndSection
-
-Section "ServerLayout"
-        Identifier      "Default Layout"
-        Screen    "Default Screen"
-
+	  Identifier     "ATI Radeon HD 2600"
+	  Option         "Monitor-DVI-0" "DVI-0"
+	  Option         "Monitor-DVI-1" "DVI-1"
 EndSection
 </pre>
-
-
 
 
 							<p>Σημείωση</p>
@@ -586,65 +560,6 @@ Output names:
 * DVI1: δεύτερη εξωτερική DVI πόρτα (αν υπάρχει)
 </pre>
 				    </div>
-					<h5>Προσάρτημα B</h5>
-
-						<h6>xorg.conf με τον τρόπο του xorg 7.4 :</h6>
-
-							<!--p>Note: A serial mouse won't work with this configuration! Backup your xorg.conf before making changes!</p-->
-							<p>Σημείωση: Ένα σειριακό ποντίκι δεν θα δουλέψει με αυτές τις ρυθμίσεις! Κάντε backup το xorg.conf σας πριν κάνετε αλλαγές!</p>
-<pre>
-Section "ServerLayout"
-        Identifier      "XFree86 Configured"
-        Screen          0       "Screen0"       0       0
-EndSection
-
-Section "Files"
-        FontPath        "/usr/share/fonts/X11/misc"
-        FontPath        "/usr/share/fonts/X11/100dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/75dpi/:unscaled"
-        FontPath        "/usr/share/fonts/X11/100dpi"
-        FontPath        "/usr/share/fonts/X11/75dpi"
-        FontPath        "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"
-EndSection
-
-Section "Module"
-        Load            "ddc"           # ddc probing of monitor
-        Load            "dbe"
-        Load            "dri"
-        Load            "extmod"
-        Load            "glx"
-        Load            "bitmap"        # bitmap-fonts
-        Load            "freetype"
-        Load            "record"
-EndSection
-
-#This section is most important for xrandr, remove everything except the following:
-Section "Monitor"
-        Identifier      "Monitor0"
-        Option  "DPMS"  "true"
-EndSection
-
-Section "Device"
-        Identifier      "Card0"
-        Driver          "intel"
-          #This is just optional, "XAA" is probably more stable for the majority of users
-        Option          "AccelMethod" "EXA"
-EndSection
-
-Section "Screen"
-        Identifier      "Screen0"
-        Device          "Card0"
-        Monitor         "Monitor0"
-        DefaultColorDepth 24
-        SubSection "Display"
-                Depth   24
-                # Here you can set virtual screen size:
- 		Virtual 2048 2048
-        EndSubSection
-EndSection
-</pre>
-
-
 						<h6>Σύνδεσμοι</h6>
 							<p><a href="http://wiki.debian.org/XStrikeForce/HowToRandR12"> http://wiki.debian.org/XStrikeForce/HowToRandR12</a></p>
 							<p><a href="http://bgoglin.livejournal.com/9846.html">http://bgoglin.livejournal.com/9846.html</a></p>
@@ -659,9 +574,6 @@ EndSection
 							<!--p> <span class="highlight-3">For proprietary drivers read the documentation from your graphic card manufacturer.</span></p-->
 							<p> <span class="highlight-3">Για κλειστού κώδικα οδηγούς, διαβάστε το εγχειρίδιο χρήσης του κατασκευαστή της κάρτας γραφικών σας.</span></p>
 
-							<!--p class="highlight-2">You are about to edit xorg config files, please, please, please make a back-up of xorg.conf, before going any further!</p-->
-							<p class="highlight-2">Είστε έτοιμοι να επεξεργαστείτε τα αρχεία ρύθμισης του xorg , παρακαλώ, παρακαλώ, παρακαλώ κάντε ένα αντίγραφο ασφαλείας του xorg.conf πριν συνεχίσετε!</p>
-
 			<h3>nvidia</h3>
 							<!--p>For nvidia nv and non-free simply use the nvidia xorg configurator <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> and alter your xorg files accordingly.</p-->
 							<p>Για nvidia nv και μη-ελεύθερους (non-free) απλά χρησιμοποιείστε τις nvidia xorg ρυθμίσεις <a href="http://www.sorgonet.com/linux/nv-online/"> http://www.sorgonet.com/linux/nv-online/</a> και αλλάξτε τα xorg αρχεία σας ανάλογα.</p>
@@ -669,13 +581,13 @@ EndSection
 			<h3>Native ATI - radeon</h3>
 
 							<!--p><a href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> has some working xorg.confs with the free radeon driver.</p-->
-							<p><a href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> έχει μερικά xorg.confs που δουλεύουν με τον ελεύθερο radeon οδηγό.</p>
+							<!--<p><a href="http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794"> http://aptosid.com/index.php?name=PNphpBB2&amp;file=viewtopic&amp;p=19794#19794</a> έχει μερικά xorg.confs που δουλεύουν με τον ελεύθερο radeon οδηγό.</p>-->
 
 							<!--p>NOTE: You will need to get the configuration information of the second monitor. To do this, you need to unplug one monitor and boot the liveCD to generate xorg.conf, copy it, then do the same with the other one.</p-->
 							<p>ΣΗΜΕΙΩΣΗ: Θα πρέπει να βρείτε τις πληροφορίες ρυθμίσεων της δεύτερης οθόνης. Για να το κάνετε αυτό θα πρέπει να αποσυνδέσετε την μια οθόνη και να εκκινήσετε από το liveCD για να δημιουργήσετε ένα xorg.conf, αντιγράψτε το και μετά κάντε το ίδιο με την άλλη οθόνη.</p>
 
 		</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/08/2010 0100 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 01/02/2010 1405 UTC</div>
 </div>
 </body>
 </html>

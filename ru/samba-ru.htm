@@ -5,10 +5,10 @@
 	<title>Руководство aptosid - Конфигурация Samba-ru</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style type="text/css" media="all">@import url("../lib/css-js/content.css");</style>
-        <style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
-        <style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
+	<style type="text/css" media="all">@import url("../lib/css-js/menu.css");</style>
+	<style type="text/css" media="print">@import url("../lib/css-js/print.css");</style>
         <link rel ="shortcut icon" href="../lib/favicon/manual.ico" />
-        <script type="text/javascript" src="../lib/css-js/menu2.js"></script>
+	<script type="text/javascript" src="../lib/css-js/menu2.js"></script>
         <!--[if lt IE 8]>
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-7_override.css">
         <![endif]-->
@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by RoEn xx/xx/2008 0300 UTC -->
+<!-- Last translation revision by RoEn 07/03/2011 0300 UTC -->
 <div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01 -->
+<!-- menu last updated by bluewater 2011.03.01 0710 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -83,7 +83,7 @@
 				<li><a href="term-konsole-ru.htm#term-kon">Терминал и оболочка &#8658;</a>
 					<ul class="sub2-menu" id="sm4a">
 					  <li><a href="term-konsole-ru.htm#term-kon">Терминал и оболочка</a></li>
-					  <li><a href="term-konsole-ru.htm#colours"> Цветная подскаса в терминале</a></li>
+					  <li><a href="term-konsole-ru.htm#colours"> Цветная подсказка в терминале</a></li>
 					  <li><a href="term-konsole-ru.htm#cli-help">Помощь в терминале</a></li>
 					  <li><a href="help-ru.htm#init3-tools">Полезные инструменты в текстовом режиме (tty) - init 3</a></li>
 					  <li><a href="term-konsole-ru.htm#term-cmds">Команды в терминале</a></li>
@@ -197,7 +197,7 @@
 					    <li><a href="lamp-apache-ru.htm#serv-ssl">SSL</a></li>
 					    <li><a href="lamp-sql-ru.htm#serv-mysql">Настройка MySQL</a></li>
 					    <li><a href="lamp-ppp-ru.htm#serv-php">PHP в apache</a></li>
-					    <li><a href="ntp-server-ru.htm#ntp-server">Сервер времени</a></li>
+					    <li><a href="ntp-server-ru.htm#ntp-server">Установка сервера времени</a></li>
 					</ul>
 					</li>
 		<li><a href="tor-privoxy-ru.htm#tor">Брандмауэры и веб-прокси &#8658;</a>
@@ -316,7 +316,7 @@
 							<li><p>Все команды в терминале или консоли выполняют от имени <b>root</b>.</p></li>
 
 							<li><p>URL в Konqueror открывают от имени <b>обычного пользователя</b>.</p>
-							<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя расшаренного файла</p></li>
+							<p class="data">server = имя сервера или IP компьютера Windows<br />share = имя расшаривания папки</p></li>
 						</ul>
 
 							<p>В менеджере файлов KDE Konqueror введите URL: <span class="highlight-3">smb://server</span> или весь путь: <span class="highlight-3">smb://server/share</span></p>
@@ -326,12 +326,12 @@
 smbclient -L server
 </pre>
 
-							<p>Чтобы получить возможность работать в директории (с доступом для всех пользователей)используем существующую точку монтирования. или создаем заново, если таковая отсутствует (имя любое):</p>
+							<p>Чтобы получить возможность работать в директории (с доступом для всех пользователей) используете существующую точку монтирования. или создаете заново, если таковая отсутствует (имя любое):</p>
 <pre>
 mkdir -p /media/server_share
 </pre>
 
-							<p>Затем монтируем ресурс (файловая система-VFAT):</p>
+							<p>Затем монтируете расшаривание (файловой системы-VFAT):</p>
 <pre>
 mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/share /mnt/server_share
 </pre>
@@ -341,7 +341,7 @@ mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777 //server/sh
 mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //server/share /mnt/server_share
 </pre>
 
-							<p>Чтобы отмонтировать windows-ресурс:</p>
+							<p>Чтобы отмонтировать расшаривание:</p>
 <pre>
 umount /media/server_share
 </pre>
@@ -353,25 +353,24 @@ umount /media/server_share
 
 	</div>
 	<div class="divider" id="setup">
-		<h2>aptosid как сервер Samba</h2>
+		<h2>Как настпоивать aptosid как сервер Samba</h2>
 
-		<p>Пакет samba не содержится на LiveCD, поэтому необходимы следующие шаги, чтобы получить доступ к сети&nbsp;через Samba:</p>
+		<p>Пакет samba не содержится на ISO-образе, поэтому необходимы следующие шаги, чтобы получить доступ к сети&nbsp;через Samba:</p>
 <pre>
-su
-fix-unionfs
-apt-get install samba
+sux
+apt-get update
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
-		<h5>Инсталляция на&nbsp;жестком диске:</h5>
-<pre>
-apt-get install samba
-</pre>
+		<h4>Инсталляция на жестком диске:</h4>
+				    <h5>Пример 1:</h5>
 
-		<p>При существующей инсталляции (aptosid) на жестком диске необходимо изменить конфигурацию Samba. Здесь будет рассмотрен простой пример. Больше об использовании сервера Samba под Linux можно найти на <a href="http://de4.samba.org/samba/">страницах документации Samba.</a>.</p>
+							<p>При существующей инсталляции (aptosid) на жестком диске необходимо изменить конфигурацию Samba. Здесь будет рассмотрен простой пример. Больше об использовании сервера Samba под Linux можно найти на <a href="http://de4.samba.org/samba/">страницах документации Samba.</a>.</p>
 
 		<p>Конфигурация Samba должна быть изменена следующим образом:</p>
 
-		<p>Как root открываем файл <span class="highlight-3">/etc/samba/smb.conf</span> в одном из редакторов, таких как kedit или kwrite:</p>
+		<p>
+          В качестве root Вы редактируйте файл <span class="highlight-3">/etc/samba/smb.conf</span> в одном из редакторов, таких как kedit или kwrite:</p>
 
 		<pre># Globale Changes - Proposal everything simple as possible - no passwords, perform like Windows 9x
 
@@ -398,8 +397,54 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Перезагрузите сервер Samba:</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4>Пример 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Проверка ресурсов samba</h6>
+							<p>Затем редактируйте файл <span class="highlight-3"> /etc/samba/smb.conf</span>, чтобы давать право разрешения (будьте осторожным с тем, какие папки Вы размыкайте), например:</p>
+
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Перезагрузите сервер Samba.</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Проверка ресурсов samba</h2>
 							<p>Чтобы настроить общие ресурсы, не заостряя внимания на безопасности (если Вы подключены по локальной сети), сделайте следующее:</p>
 
 							<p>Установите права доступа к папке и её содержимому, проверьте чтобы было хотя бы -rwxr-xr-x:</p>
@@ -415,14 +460,14 @@ ls -la pathTo/dirShareName/*
 chmod -R 755 pathTo/dirShareName
 </pre>
 
-							<p>Если хотите чтобы все имели права на изменения:</p>
+							<p>Если хотите, чтобы все пользователи имели права на изменения:</p>
 
 
 <pre>
 chmod -R 777 dirShareName
 </pre>
 
-							<p>Проверьте, всё ли работает: ( не забудьте запустить сервер):</p>
+							<p>Проверьте, всё ли работает (не забудьте запустить сервер):</p>
 
 
 <pre>
@@ -462,10 +507,10 @@ update-rc.d samba defaults
 
 							<p>Теперь Samba стартует при загрузке.</p>
 
-							<p><a href="http://wiki.linuxquestions.org/wiki/Samba">Читайте подробную информацию</a>.</p>
+							<p><a href="http://wiki.linuxquestions.org/wiki/Samba">Прочитайте также подробную информацию</a>.</p>
 
 	</div>
-			<div id="rev">Содержание, последний раз пересмотрено 14/08/2010 0100 UTC</div>
+		<div id="rev">Содержание, последний раз пересмотрено 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

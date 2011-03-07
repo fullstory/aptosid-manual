@@ -3,11 +3,11 @@
 set -e
 
 #	bg:Bulgarian:български::
-#	da:Danish:Dansk::
 #	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
 I18N_LANGUAGES="
 	cz:Czech:Čeština::
+	da:Danish:Dansk::
 	de:German:Deutsch::
 	el:Greek:Ελληνικά::
 	en:English:English::

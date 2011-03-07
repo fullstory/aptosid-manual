@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ceti 30/09/2008 0955 hrs UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintained by ceti-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Ir para aptosid.com forums e wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -353,20 +353,15 @@ umount /mnt/server_share
 
 		<p>Como o Samba não está no LiveCD do aptosid, abra o terminal e faça o seguinte para acessá-lo:</p>
 <pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-		<h5>Instalação no HD:</h5>
-		<p>O aptosid não pré-instala o Samba no HD; portanto, abra um terminal e faça-o agora:</p>
-<pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
-		<p>Após a instalação, é necessário ajustar as configurações. Damos um exemplo aqui. Se você quiser se aprofundar no uso desse aplicativo e em como configurar o Linux como Servidor Samba, <a href="http://us5.samba.org/samba/"> recomendamos a leitura da Documentação sobre o Samba</a>.</p>
+		<h4>Instalação no HD:</h4>
+				    <h5>Example 1:</h5>
+
+							<p>Após a instalação, é necessário ajustar as configurações. Damos um exemplo aqui. Se você quiser se aprofundar no uso desse aplicativo e em como configurar o Linux como Servidor Samba, <a href="http://us5.samba.org/samba/"> recomendamos a leitura da Documentação sobre o Samba</a>.</p>
 
 		<p>Para ajustar a configuração do Samba, faça o seguinte:</p>
 
@@ -398,8 +393,53 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Confirmando o que está sendo compartilhado</h6>
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Confirmando o que está sendo compartilhado</h2>
 							<p>Para configurar os compartilhamentos sem atentar muito com segurança, digite os seguintes comandos (isto é, configuração LAN):</p>
 
 							<p>Confirme que as permissões das pastas e o que elas contêm são, no mínimo: -rwxr-xr-x:</p>
@@ -462,7 +502,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Mais informações sobre o Samba aqui</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Page last revised 05/03/2011 0540 UTC</div>
 </div>
 </body>
 </html>

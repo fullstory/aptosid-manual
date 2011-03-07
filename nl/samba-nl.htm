@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by by HarzG 11/10/2008 1500 hrs UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -353,18 +353,13 @@ umount /mnt/server_share
 
 							<p>Omdat samba niet op de aptosid live-CD is, moeten de volgende stappen uitgevoerd worden voor een samba-netwerktoegang:</p>
 <pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-				<h5>HD installaties:</h5>
-							<p>samba is niet standaard geïnstalleerd. Wil je samba installeren, dan moet je het volgende uitvoeren:</p>
-<pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
+
+				<h4>HD installaties:</h4>
+				    <h5>Example 1:</h5>
 
 							<p>Op een HD-Installatie is het nodig om de Samba configuratie aan te passen. Hieronder staat een eenvoudig voorbeeld. Wil je meer weten over he installeren en configureren van een Linux-Samba-Server, kijk dan in de <a href="http://nl2.samba.org/samba/"> Samba documentatie</a>.</p>
 
@@ -399,8 +394,53 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Controle van de samba shares</h6>
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Controle van de samba shares</h2>
 							<p>Om de samba-shares zo in te stellen zonder acht te nemen op de beveiliging, voer je het volgend uit (dit geld voor een LAN setup):</p>
 
 							<p>Voor de map en zijn inhoud moeten de rechten tenminste op -rwxr-xr-x staan, dat kan je controleren met:</p>
@@ -466,7 +506,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Meer samba informatie is hier te vinden</a>.</p>
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 14/08/2010 0100 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 05/03/2011 0540 UTC</div>
 </div>
 </body>
 </html>

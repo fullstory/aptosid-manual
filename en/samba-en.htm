@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 14/08/2010 0100 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by bluewater-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -31,7 +31,7 @@
 			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Choose another language DE, EN" alt="lang-switch" /></a>
 	</div>
 	<ul>
-<li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-en.htm">aptosid OS Manual</a>
+<li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-en.htm">GO FIXL!!</a>
 			<ul class="sub-menu" id="sm1">
 				<li><a href="welcome-en.htm#welcome-gen">aptosid OS Manual &#8658;</a>
 					<ul class="sub2-menu" id="sm1a">
@@ -355,29 +355,23 @@ umount /mnt/server_share
 	<div class="divider" id="setup">
 		<h2>How to set up aptosid as Samba-Server</h2>
 
-							<p>As samba is not on the aptosid live-cd. you will need to do the following to have samba access:</p>
-<pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-		<h5>HD installations:</h5>
 							<p>As samba is not pre-installed you will need to do the following to have samba access:</p>
 <pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
+			  <h4>HD installations:</h4>
+				    <h5>Example 1:</h5>
 
 							<p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>
 
 							<p>To adjust the samba-configuration you do as follows:</p>
 
-							<p>you open the file <span class="highlight-3">/etc/samba/smb.conf</span> in an editor (e.g. kedit or kwrite) and enter this:</p>
+							<p>Open the file <span class="highlight-3">/etc/samba/smb.conf</span> in an editor (e.g. kedit or kwrite) and enter this:</p>
 
 <pre>
-# Globale Changes - Proposal everything simple as
+# Global Changes - Proposal everything simple as
 #possible - no passwords, perform like Windows 9x
 
 [global]
@@ -403,8 +397,53 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Checking the shares in samba</h6>
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Checking the shares in samba</h2>
 							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
 
 							<p>Set folder and its content at least -rwxr-xr-x:</p>
@@ -470,7 +509,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba information here</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Page last revised 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

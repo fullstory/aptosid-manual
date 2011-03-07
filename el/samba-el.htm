@@ -19,8 +19,8 @@
 <body>
  <!-- Last translation revision edhunter 18/09/2010 1245 UTC-->
 <div id="menu"> <!-- menu starts here el lang maintained by edhunter-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -370,20 +370,14 @@ umount /mnt/server_share
 							<!--p>As samba is not on the aptosid live-cd. you will need to do the following to have samba access:</p>-->
 							<p>Δεδομένου ότι το samba δεν είναι στο live-Cd aptosid, θα πρέπει να κάνετε τα εξής για να έχετε πρόσβαση στο samba:</p>
 <pre>
-su
+sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
 		<!--h5>HD installations:</h5>-->
-		<h5>HD (σκληρός δίσκος) εγκατάσταση</h5>
-							<!--p>As samba is not pre-installed you will need to do the following to have samba access:</p>-->
-							<p>Δεδομένου ότι το samba δεν είναι προ-εγκατεστημένο θα πρέπει να κάνετε τα εξής για να έχετε πρόσβαση στον samba:</p>
-<pre>
-sux
-apt-get update
-apt-get install samba
-</pre>
+		<h4>HD (σκληρός δίσκος) εγκατάσταση</h4>
+				    <h5>Example 1:</h5>
 
 							<!--p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>-->
 							<p>Σε μια HD-εγκατάσταση είναι απαραίτητο να ρυθμίσετε τη διαμόρφωση Samba. Εδώ είναι ένα απλό παράδειγμα. Εάν θέλετε να ξέρετε περισσότερα για τη χρήση Samba και την οργάνωση ενός κεντρικού υπολογιστή Linux Samba <a href="http://us5.samba.org/samba/"> ενδείκνυται να διαβάσετε την τεκμηρίωση Samba.</a>.</p>
@@ -421,9 +415,54 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<!--h6>Checking the shares in samba</h6>-->
-				<h6>Έλεγχος των συμμετοχών (shares) στο samba</h6>
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<!--h2>Checking the shares in samba</h2>-->
+				<h2>Έλεγχος των συμμετοχών (shares) στο samba</h2>
 							<!--p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>-->
 							<p>Για να θέσει τις συμμετοχές αδιαφορώντας για την ασφάλεια, στο samba βάλτε τις ακόλουθες εντολές (δηλ. για μια οργάνωση του τοπικού LAN):</p>
 
@@ -501,7 +540,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Για περισσότερες πληροφορίες για τον samba δείτε εδώ.</a>.</p>
 	</div>
 
-			<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/08/2010 0100 UTC</div>
+			<div id="rev">Τελευταία αναθεώρηση περιεχομένου 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

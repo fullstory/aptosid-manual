@@ -19,8 +19,8 @@
 <body>
 <!-- Poslední revizi překladu provedl pumrel 12.2.2011 2120 CET -->
 <div id="menu"> <!-- menu starts here -cz lang maintainer pumrel-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Na stránky aptosid.com, forum a wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -365,21 +365,14 @@ umount /mnt/sdilena_polozka_serveru
 <!--							<p>As samba is not on the aptosid live-cd. you will need to do the following to have samba access:</p>-->
 							<p>Jelikož se samba nenacháhí na live-cd aptosidu, bude nutné, abyste provedli následující, pro přístup k sambě:</p>
 <pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-<!--		<h5>HD installations:</h5>
-							<p>As samba is not pre-installed you will need to do the following to have samba access:</p>-->
-		<h5>Instalace na HD:</h5>
-							<p>Jelikož není samba předinstalováná, musíte provést následující, abyste k ní dostali přístup:</p>
-<pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
+<!--		<h5>HD installations:</h5>-->
+		<h4>Instalace na HD:</h4>
+				    <h5>Example 1:</h5>
 <!--							<p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>-->
 							<p>U instalace na pevném disku je potřeba provést úpravy v nastavení Samby. Zde je jednoduchý příklad. Jestli se chcete dozvědět více o použití Samby a nastavení Linuxového serveru Samba, tak <a href="http://us5.samba.org/samba/"> je dopočeníhodné si přečíst dokumentaci k Sambě.</a>.</p>
 <!--							<p>To adjust the samba-configuration you do as follows:</p>-->
@@ -418,10 +411,59 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
 
-<!--				<h6>Checking the shares in samba</h6>
+
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
+
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+
+
+				<!--				<h2>Checking the shares in samba</h2>
 							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>-->
-				<h6>Prohlédnutí si sdílených položek samby</h6>
+				<h2>Prohlédnutí si sdílených položek samby</h2>
 							<p>Pro nastavení sdílených položek v sambě bez ohledu na bezpečnost proveďte následující příkazy (například pro nastavení LAN):</p>
 <!--							<p>Set folder and its content at least -rwxr-xr-x:</p>-->
 							<p>Nastavte u adresáře a jeho obsahu alespoň -rwxr-xr-x:</p>
@@ -491,7 +533,7 @@ update-rc.d samba defaults
 	</div>
 
 <!--			<div id="rev">Page last revised 14/08/2010 0100 UTC</div>-->
-			<div id="rev">Obsah naposledy revidován 14/08/2010 0100 UTC</div>
+			<div id="rev">Obsah naposledy revidován 05/03/2011 0540 UTC</div>
 </div>
 </body>
 </html>

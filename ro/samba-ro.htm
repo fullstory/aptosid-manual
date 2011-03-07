@@ -18,8 +18,8 @@
 </head>
 <body>
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -351,20 +351,15 @@ umount /mnt/server_share
 		<h2>Setarea aptosid ca Server Samba</h2>
 		<p>Pentru că samba nu este pe live-cd va trebui să executaţi următoarele pentru a avea acces samba :</p>
 <pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-		<h5>Instalarea pe HD :</h5>
-		<p>Pentru că samba nu este pre-instalată va trebui să executaţi următoarele pentru a avea acces samba :</p>
-<pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
-		<p>Într-un sistem instalat pe Hard Disc trebuie să ajustaţi configurarea Samba . Aici aveţi un exemplu simplu .Dacă vreţi să ştiţi mai multe despre folosirea Samba şi despre setarea unui server Samba în Linux <a href="http://us5.samba.org/samba/"> vă recomandăm să citiţi documentaţia Samba .</a>.</p>
+		<h4>Instalarea pe HD :</h4>
+				    <h5>Example 1:</h5>
+
+							<p>Într-un sistem instalat pe Hard Disc trebuie să ajustaţi configurarea Samba . Aici aveţi un exemplu simplu .Dacă vreţi să ştiţi mai multe despre folosirea Samba şi despre setarea unui server Samba în Linux <a href="http://us5.samba.org/samba/"> vă recomandăm să citiţi documentaţia Samba .</a>.</p>
 
 		<p>Pentru a ajusta configurarea Samba faceţi următoarele :</p>
 
@@ -396,8 +391,53 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Verificarea share-urilor în samba</h6>
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Verificarea share-urilor în samba</h2>
 							<p>Pentru a face share cu samba fără a uita de securitate executați următoarele comenzi (i.e.  pentru o setare LAN ):</p>
 
 							<p>Setați directorul și conținutul său să fie cel puțin -rwxr-xr-x:</p>
@@ -464,7 +504,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> More samba information here</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Page last revised 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

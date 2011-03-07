@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by muchan  14/12/2007 0030 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -163,14 +163,14 @@
 					</li>
 		<li><a href="gpu-ja.htm#foss-xorg">GPU firmware &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
-					  <li><a href="gpu-ja.htm#ati-3d">AMD/ATI 3D drivers</a></li>
-					  <li><a href="gpu-ja.htm#intel">Intel 2D and 3D drivers</a></li>
-					  <li><a href="gpu-ja.htm#nvidia">Nvidia 3D drivers</a></li>
-					  <li><a href="gpu-ja.htm#foss-xorg">Open Source Xorg drivers</a></li>
+					  <li><a href="gpu-ja.htm#ati-3d">AMD/ATI 3D ドライバ</a></li>
+					  <li><a href="gpu-ja.htm#intel">Intel 2D/3D ドライバ</a></li>
+					  <li><a href="gpu-ja.htm#nvidia">Nvidia 3D ドライバ</a></li>
+					  <li><a href="gpu-ja.htm#foss-xorg">Xorg のオープンソースドライバ</a></li>
 					</ul>
 					</li>
-			  <li><a href="nf-firm-ja.htm#fw-detect">Firmware detection - non-free </a></li>
-			  <li><a href="nf-firm-ja.htm#non-free-firmware">Adding non-free to Sources List</a></li>
+			  <li><a href="nf-firm-ja.htm#fw-detect">Firmwareの探知 - non-free </a></li>
+			  <li><a href="nf-firm-ja.htm#non-free-firmware">non-free をソースリスとに加える</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-ja.htm">ウィンドウマネージャ</a>
@@ -390,24 +390,16 @@ umount /mnt/server_share
 							#### -->
 							<p>ライブCDの場合: SambaはaptosidのライブCDには含まれていないのでまずインストールする必要があります:</p>
 <pre>
-su
+sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
 		<!--- ####
 		<h5>HD installations:</h5>
 		#### -->
-		<h5>ハードディスクにインストールしてある場合:</h5>
-							<!--- ####
-							<p>As samba is not pre-installed you will need to do the following to have samba access:</p>
-							#### -->
-							<p>Sambaは自動的にインストールされないため次のようにインストールします:</p>
-<pre>
-sux
-apt-get update
-apt-get install samba
-</pre>
+		<h4>ハードディスクにインストールしてある場合:</h4>
+				    <h5>Example 1:</h5>
 
 							<!--- ####
 							<p>On a HD-Install it is neccessary to adjust the Samba Configuration. Here is a simple example. If you want to know more about the usage of Samba and the setup of a Linux Samba Server <a href="http://us5.samba.org/samba/"> advisable to read the Samba Documentation.</a>.</p>
@@ -451,11 +443,56 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
 				<!--- ####
-				<h6>Checking the shares in samba</h6>
+				<h2>Checking the shares in samba</h2>
 				#### -->
-				<h6>Sambaの共有フォルダのチェック</h6>
+				<h2>Sambaの共有フォルダのチェック</h2>
 							<!--- ####
 							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
 							#### -->
@@ -551,7 +588,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Sambaについてもっと詳しく知りたければこちらのページへ。</a>.</p>
 	</div>
 
-			<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Page last revised 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

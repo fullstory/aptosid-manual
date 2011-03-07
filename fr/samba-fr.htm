@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by LjanA 10/10/2010 UTC-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -66,7 +66,8 @@
 					  <li><a href="cd-dl-burning-fr.htm#burn-nero">Graver sous Windows</a></li>
 					  <li><a href="cd-dl-burning-fr.htm#burn-linux">Graver sous Linux</a></li>
 					  <li><a href="cd-no-gui-burn-fr.htm#burning-no-gui">Script burniso</a></li>
-					  <li><a href="cd-no-gui-burn-fr.htm#burn-no-gui-gen">Graver depuis un terminal</a></li><li><a href="cd-dl-burning-fr.htm#download-aptosid">Miroirs de téléchargement aptosid</a></li>
+					  <li><a href="cd-no-gui-burn-fr.htm#burn-no-gui-gen">Graver depuis un terminal</a></li>
+					  <li><a href="cd-dl-burning-fr.htm#download-aptosid">Miroirs de téléchargement aptosid</a></li>
 					</ul>
 					</li>
 		      </ul>
@@ -372,17 +373,13 @@ mount -t cifs -o username=Administrator,file_mode=0777,dir_mode=0777,lfs //serve
 							<p>Comme samba n'est pas inclus dans le live-cd aptosid, vous devrez pour l'utiliser l'installer en préalable :</p>
 
 <pre>
-su
-apt-get install samba
+sux
+apt-get update
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
-			<h5>Installations sur disque dur :</h5>
-
-							<p>Comme samba n'est pas inclus dans l'installation aptosid de base, pour l'utiliser il vous faudra l'installer en préalable:</p>
-
-<pre>
-apt-get install samba
-</pre>
+			<h4>Installations sur disque dur :</h4>
+				    <h5>Example 1:</h5>
 
 							<p>Depuis une installation d'aptosid sur disque dur, des configurations complémentaires devront être effectuées. En voici un exemple simple. Si vous souhaitez aller plus loin dans l'utilisation de Samba et la configuration d'un serveur Samba sous GNU/Linux, il vous est vivement conseillé de consulter avec attention toute la documentation de <a href="http://us5.samba.org/samba/">Samba.</a>.</p>
 
@@ -419,11 +416,56 @@ writable = yes
 path = /media/sda5
 public = yes
 </pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Example 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
+							<p>Next edit <span class="highlight-3"> /etc/samba/smb.conf</span> to give it  share permissions, (be careful with what folders you enable), for example:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, be careful!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#any other folder you want to share with windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Restart the samba server</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
 				<!--- ####
-				<h6>Checking the shares in samba</h6>
+				<h2>Checking the shares in samba</h2>
 				#### -->
-				<h6>Rechercher les partages avec samba</h6>
+				<h2>Rechercher les partages avec samba</h2>
 							<!--- ####
 							<p>To set the shares without regard to security in samba do the folowing commands (i.e.  for a LAN setup):</p>
 							#### -->
@@ -512,7 +554,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Plus d'info sur samba par ici (en).</a>.</p>
 	</div>
 
-			<div id="rev">Dernière actualisation le 14/08/2010 0100 UTC</div>
+			<div id="rev">Dernière actualisation le 05/03/2011 0540 UTC</div>
 
 </div>
 </body>

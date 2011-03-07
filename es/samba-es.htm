@@ -19,17 +19,16 @@
 <body>
 <!-- Last translation revision by Richard 18/12/2007 2100hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintained by Luis_P -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.02.12 -->
-<!-- menu last updated by bluewater 2011.02.12 0710 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
+<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="ir a aptosid.com y Forum y Wiki" alt="aptosid.com logo" /></a>
 	</div>
 	<ul id="top-list">
 		<li><a href="manual-search-es.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Search Manual" alt="Search" />Buscar</a> </li>
-		<!--<li><a href="http://manual.aptosid.com/meta-manual">Selección de programas de la comunidad</a></li>-->
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Seleccione otra idioma - Choose another language" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Seleccione otro idioma - Choose another language" alt="lang-switch" /></a>
 	</div>
 	<ul>
 <li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-es.htm">Manual aptosid</a>
@@ -162,7 +161,6 @@
 					  <li><a href="hw-dev-mon-es.htm#mon-binary">Monitores Duales (utilizando binarios)</a></li>
 					</ul>
 					</li>
-
 		<li><a href="gpu-es.htm#foss-xorg">firmware GPU &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-es.htm#ati-3d">Controladores AMD/ATI 3D</a></li>
@@ -319,12 +317,12 @@
 
 							<p>En KDE - entre el URL en Konqueror <span class="highlight-3">smb://server</span> o el URL completo:  <span class="highlight-3">smb://server/share</span></p>
 
-							<p>En una consola podrá ver los shares (compartidos) ubicado en el servidor ejecutando:</p>
+							<p>En una consola podrá ver los shares (compartidos) ubicados en el servidor ejecutando:</p>
 <pre>
 smbclient -L server
 </pre>
 
-							<p>Para montar una dirección compartida, un share, en un directorio -(con pleno acceso para TODOS los usuarios) recuerde esto: El punto de montaje tiene que existir. Si no existe, primero tiene que crear un directorio así (el Nombre es arbitrario):</p>
+							<p>Para montar una dirección compartida, un share, en un directorio (con pleno acceso para TODOS los usuarios) recuerde esto: El punto de montaje tiene que existir. Si no existe, primero tiene que crear un directorio así (el Nombre es arbitrario):</p>
 <pre>
 mkdir -p /mnt/server_share
 </pre>
@@ -355,20 +353,15 @@ umount /mnt/server_share
 
 		<p>Puesto que Samba no esta en el LiveCD, necesitará hacer lo siguiente para tener acceso a samba:</p>
 <pre>
-su
-apt-get update
-apt-get install samba
-</pre>
-
-		<h5>Instalaciones en el DD:</h5>
-		<p>Ya que Samba no esta preinstalado, necesitará hacer lo siguiente para tener aceso a samba:</p>
-<pre>
 sux
 apt-get update
-apt-get install samba
+apt-get install samba samba-tools smbclient smbfs samba-common-bin
 </pre>
 
-		<p>En una instalación al Disco Duro es necesario ajustar la configuración de Samba. Aquí está un ejemplo sencillo. Si desea saber más sobre el uso de Samba y la configuración de un servidor Samba en Linux, <a href="http://us5.samba.org/samba/"> lea la documentación de samba.</a></p>
+		<h4>Instalaciones en el DD:</h4>
+				    <h5>Ejemplo 1:</h5>
+
+							<p>En una instalación al Disco Duro es necesario ajustar la configuración de Samba. Aquí está un ejemplo sencillo. Si desea saber más sobre el uso de Samba y la configuración de un servidor Samba en Linux, <a href="http://us5.samba.org/samba/"> lea la documentación de samba.</a></p>
 
 		<p>Para ajustar la configuración de samba, haga lo siguiente:</p>
 
@@ -400,8 +393,53 @@ writable = si
 path = /media/sda5
 public = si
 </pre>
+							<p>Vuelva a arrancar el servidor samba</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h4> Ejemplo 2:</h4>
+<pre>
+groupadd smbuser
+useradd -g smbuser &lt;the-user-you-want&gt;
+smbpasswd -a &lt;the-user-you-want&gt;
+smbpasswd -e &lt;the-user-you-want&gt;
+</pre>
 
-				<h6>Revisando las comparticiones de Samba</h6>
+							<p>A continuación edite <span class="highlight-3"> /etc/samba/smb.conf</span> para permitirle compartir (tenga cuidado con los directorios a los que da el permiso), por ejemplo:</p>
+<pre>
+[homes]
+   comment = Home Directories
+   browseable = yes.
+   writeable = yes
+
+[media, tenga cuidado!]
+    path = /media
+    browseable = yes
+    read only = no
+    #read only = yes
+    guest ok = no
+    writeable = yes
+
+[video]
+    path = /var/lib/video
+    browseable = yes
+    #read only = no
+    read only = yes
+    guest ok = no
+
+#cualquier otro directorio que quiera compartir con windows/linux/mac
+    #path = path = /media/xxxx/xxxx
+    #browseable = yes
+    #read only = no
+    #read only = yes
+    #guest ok = no
+
+</pre>
+							<p>Vuelva a arrancar el servidor samba</p>
+<pre>
+/etc/init.d/samba restart
+</pre>
+				<h2>Revisando las comparticiones de Samba</h2>
 						<p>Para fijar las comparticiones sin tomar en cuenta la seguridad en Samba, haga los siguientes comandos (por ejemplo para una configuración en LAN):</p>
 
 						<p>Fije el directorio y su contenido, por lo menos con permisos -rwxr-xr-x:</p>
@@ -469,7 +507,7 @@ update-rc.d samba defaults
 							<p><a href="http://wiki.linuxquestions.org/wiki/Samba"> Aquí hay más información de Samba</a>.</p>
 
 	</div>
-			<div id="rev">Página modificada el 14/08/2010 0100 UTC</div>
+			<div id="rev">Página modificada el 05/03/2011 0540 UTC</div>
 </div>
 </body>
 </html>

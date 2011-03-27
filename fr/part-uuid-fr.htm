@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation by Ljana 1/10/2010 -->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-fr.htm#part-example">Partitionner  &#8211; Concepts de base &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-fr.htm#part-example">Tailles des partitions  &#8211; Exemples</a></li>
-					  <li><a href="part-uuid-fr.htm#uuid">UUID  &#8211; Labels de partition &#8211; fstab</a></li>
+					  <li><a href="part-uuid-fr.htm#uuid">UUID, Rebuilding fstab and creating new mount points</a></li>
 					  <li><a href="part-cfdisk-fr.htm#disknames">Noms des disques et partitions</a></li>
 					</ul>
 					</li>
@@ -309,8 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Reconstruire son fstab</h2>
-
+			<h2 id="top-header">Rebuilding fstab and creating mount points</h2>
+							<p class="highlight-3">By default aptosid uses uuid in your fstab when you install.</p>
 
 							<p>Pour exploiter une partition nouvellement créée (par exemple /dev/sda6 ou /dev/sdd7), et qui n'apparaît pas dans le fichier de configuration /etc/fstab ou que vous voudriez voir montée au démarrage, commencez par entrer dans un terminal/console en tant qu'utilisateur la commande suivante:</p>
 
@@ -328,11 +328,11 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
-<p>Dans cet exemple <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> est l'entrée manquante. Ce qu'il va vous falloir réaliser, c'est entrer la partition identifiée par son UUID dans votre fichier /etc/fstab. Pour ce faire utilisez un éditeur de texte (comme nano ou mcedit) avec des privilèges root:</p>
+							<p>Dans cet exemple <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> est l'entrée manquante. Ce qu'il va vous falloir réaliser, c'est entrer la partition identifiée par son UUID dans votre fichier /etc/fstab. Pour ce faire utilisez un éditeur de texte (comme nano ou mcedit) avec des privilèges root:</p>
 
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 
 							<p>Autre exemple:</p>
@@ -353,17 +353,44 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<!--- ####
-					<h5 class="highlight-3">Note: mountpoint names (in fstab) must be existing directories,  aptosid creates these directories during installation under /media  and they can be named sda1, sda1, ....,disk0, disk1<br />
-					fstab mountpoints for partitions created after initial installation will need to be created and added manually</h5>
-					#### -->
-					<h5 class="highlight-3">Important : le nom du point de montage (dans fstab) doit être celui d'un répertoire existant vraiment. Aptosid crée ces répertoires pendant l'installation sous /media et ils sont nommés disk1part1, disk5part6, etc.<br />
-					Pour les partitions créées après l'installation initiale, il vous faudra créer les sous-répertoires de montage ad hoc dans /media et leurs point de montage devront être ajoutés manuellement dans le fichier /etc/fstab</h5>
+			<h3>Creating new mount points</h3>
+							<p> <span class="highlight-3">Note:</span> A mount point name, as noted in fstab, needs to have an existing directory. aptosid creates these directories during the installation process under <span class="highlight-3">/media</span> and they are named <span class="highlight-3">diskXpartX</span>.</p>
 
-<div class="divider" id="uuid-fstab">
+							<p>If you have manipulated the partition table after the initial installation and assuming you have already altered fstab, (for example, 2 new partitions have been created), the directory for each mount point will not exist and it needs to be manually created.</p>
+
+					  <h5>Example:</h5>
+
+							<p>First, as root, confirm the existing mount points:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>It should return the existing mount points, for example:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Staying in /media, create the mount points of the new partitions:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>To test or use partitions immediately:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Upon a reboot of the computer the filesystems will be mounted automatically. Read:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
+	<div class="divider" id="uuid-fstab">
 
 	<h2>Aperçu général : UUID, label de partition et fstab</h2>
 
@@ -514,8 +541,7 @@ kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Plus d'information sur l'identification sur lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

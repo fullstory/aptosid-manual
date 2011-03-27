@@ -19,8 +19,8 @@
 <body>
 <!-- Poslední revizi překladu provedl pumrel 28.1.2011 2310 CET -->
 <div id="menu"> <!-- menu starts here -cz lang maintainer pumrel-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Na stránky aptosid.com, forum a wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-cz.htm#part-example">Základy vytváření diskový oddílů &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-cz.htm#part-example">Příklady velikostí diskových oddílů</a></li>
-					  <li><a href="part-uuid-cz.htm#uuid">UUID, Popisy diskových oddílů a fstab</a></li>
+					  <li><a href="part-uuid-cz.htm#uuid">UUID, Rebuilding fstab and creating new mount points</a></li>
 					  <li><a href="part-cfdisk-cz.htm#disknames">Pojmenovávání diskových oddílů a ostatní</a></li>
 					</ul>
 					</li>
@@ -309,9 +309,10 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-<!--			<h2 id="top-header">Re Building fstab</h2>-->
-			<h2 id="top-header">Konstruování fstab</h2>
-<!--							<p>To show a newly created partition (say sda6 or sdb7), that does not appear in fstab or want to be mounted, in a konsole as user ($), type the following command:</p>-->
+			<h2 id="top-header">Rebuilding fstab and creating mount points</h2>
+							<p class="highlight-3">By default aptosid uses uuid in your fstab when you install.</p>
+
+							<!--							<p>To show a newly created partition (say sda6 or sdb7), that does not appear in fstab or want to be mounted, in a konsole as user ($), type the following command:</p>-->
 							<p>K zobrazení nově vytvořeného diskového oddílu (řekněme sda6 nebo sdb7), který se neobjevuje v fstab a chceme jej připojit, zadejte do konzole jako uživatel ($) následující příkaz:</p>
 <pre>
  ls -l /dev/disk/by-uuid
@@ -331,7 +332,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 							<p>V tomto příkladu je <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> chybějící položka. Dalším krokem je přidání UUID diskového oddílu do etc/fstab. Pro připsání do /etc/fstaba použijte textový editor (jako kate nebo kwrite) s právy root:</p>
 <pre>
 # &lt;název souborového systému&gt; &lt;přípojný bod&gt;   &lt;typ&gt;  &lt;volby&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 <!--							<p>Another example:</p>-->
 							<p>Jiný příklad:</p>
@@ -353,13 +354,43 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 							<p>V tomto příkladu je chybějící položka <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> a je přídána do /etc/fstab takto :</p>
 <pre>
 # &lt;název souborového systému&gt; &lt;přípojný bod&gt;   &lt;typ&gt;  &lt;volby&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-<!--					<h5 class="highlight-3">Note: mountpoint names (in fstab) must be existing directories,  aptosid creates these directories during installation under /media  and they can be named sda1, sda2, ....,disk0, disk1<br />
-					fstab mountpoints for partitions created after initial installation will need to be added manually.</h5>-->
-					<h5 class="highlight-3">Poznámka: názvy přípojných bodů (v fstab) musí být existující adresáře. aptosid tyto adresáře vytváří při instalaci v /media a mohou být pojmenovány sda1, sda2, .... disk0, disk1<br />
-					přípojné body fstabu pro diskové oddíly vytvořené ručně po instalaci budou muset být ručně připsány.</h5>
+			<h3>Creating new mount points</h3>
+							<p> <span class="highlight-3">Note:</span> A mount point name, as noted in fstab, needs to have an existing directory. aptosid creates these directories during the installation process under <span class="highlight-3">/media</span> and they are named <span class="highlight-3">diskXpartX</span>.</p>
+
+							<p>If you have manipulated the partition table after the initial installation and assuming you have already altered fstab, (for example, 2 new partitions have been created), the directory for each mount point will not exist and it needs to be manually created.</p>
+
+					  <h5>Example:</h5>
+
+							<p>First, as root, confirm the existing mount points:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>It should return the existing mount points, for example:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Staying in /media, create the mount points of the new partitions:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>To test or use partitions immediately:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Upon a reboot of the computer the filesystems will be mounted automatically. Read:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 <!--			<h2>Overview: UUID, Partition Labelling and fstab</h2>
 							<p>Persistent block device naming has been made possible by the introduction of udev and has some advantages over bus-based naming.</p>-->
@@ -508,9 +539,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Více o nazývání zde na lissot.net</a> </p>
 
 	</div>
-<!--			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>-->
-			<div id="rev">Obsah naposledy revidován 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Obsah naposledy revidován 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by ragupo 18/02/2011 0722hrs UTC -->
+<!-- Last translation revision by ragupo 16/03/2011 1649hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by ragupo-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Tilbage til aptosid.com forums og wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-da.htm#part-example">Basal partitionering &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-da.htm#part-example">Eksempler på partitionsstørrelser</a></li>
-					  <li><a href="part-uuid-da.htm#uuid">UUID, Partitions etiketter og fstab</a></li>
+					  <li><a href="part-uuid-da.htm#uuid">UUID, Genopbygning af fstab og oprettelse af nye monteringspunkter</a></li>
 					  <li><a href="part-cfdisk-da.htm#disknames">Nomenklatur for diske og partitionsnavngivning</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Genopret fstab</h2>
+			<h2 id="top-header">Genopbygning af fstab og oprettelse af nye monteringspunkter</h2>
+							<p class="highlight-3">Som standard anvende aptosid uuid i din fstab når du installerer.</p>
 
 							<p>For at se en nyligt oprettet partition (f.eks. sda6 eller sdb7) -som ikke vises i fstab eller ikke kan monteres- i en konsol som bruger ($), skriv da følgende kommando:</p>
 
@@ -330,7 +331,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 							<p>I dette eksempel er  <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> den manglende indføring (partition). Næste skridt er at skrive denne UUID ind i din etc/fstab. Brug en tekst editor til dette (f.eks kate eller kwrite) med root privilegier:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Et andet eksempel:</p>
 
@@ -351,12 +352,43 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 							<p>I dette tilfælde er  <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> den manglende tilføjelse, og den bliver tilføjet etc/fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">BEMÆRK: navne på monteringspunkter (i fstab) skal repræsentere eksisterende mapper,  aptosid opretter disse mapper under installationen under /media og de kan være navngivet sda1, sda2, ....,disk0, disk1<br />
-					fstab monteringspunkter til partitioner oprettet på et senere tidspunkt (efter installationen af aptosid) skal oprettes og tilføjes manuelt.</h5>
+			<h3>oprettelse af nye monteringspunkter</h3>
+							<p> <span class="highlight-3">Bemærk:</span> Navnet på et monteringspunkt, som angivet i fstab, skal have en eksisterende mappe. aptosid opretter disse under installationen under <span class="highlight-3">/media</span> og navngiver dem <span class="highlight-3">diskXpartX</span>.</p>
 
+							<p>Hvis du har ændret partitionstabellen efter den oprindelige installation og hvis du allerede har ændret din fstab (for eksempel oprettet to nye partitioner), så findes mappen for hvert monteringspunkt ikke endnu og skal så oprettes manuelt.</p>
+
+					  <h5>Eksempel:</h5>
+
+							<p>Først skal du som root bekræfte de eksisterende monteringspunkter:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>Dette skulle returnere de eksisterende monteringspunkter, for eksempel:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Bliv i /media og opret de nye partitioners monteringspunkter:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>For at teste eller anvende de nye partitioner med det samme:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Når du har genstartet vil de nye filsystemer monteres automatisk. Læs:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 			<h2>Oversigt: UUID, Partitions betegnelser og fstab</h2>
 							<p>Med introduktionen af udev er 'persistent block device' navngivning blevet muligt, og det har nogle fordele frem for at anvende bus-baseret navngivning.</p>
@@ -478,8 +510,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p>Kilde:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  som anvendte <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Indhold fra wiki.archlinux.org var defineret som tilgængeligt i henhold til GNU Free Documentation License 1.2. Redigeret og tilpasset aptosid manualerne</p>
 
 	</div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

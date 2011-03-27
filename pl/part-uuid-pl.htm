@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by maslot 04/01/2008 1800 UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintained by -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Przejdź do aptosid.com, forum oraz wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-pl.htm#part-example">Podstawy partycjonowania &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-pl.htm#part-example">Przykładowe rozmiary partycji</a></li>
-					  <li><a href="part-uuid-pl.htm#uuid">UUID, Etykiety partycji, fstab</a></li>
+					  <li><a href="part-uuid-pl.htm#uuid">UUID, Rebuilding fstab and creating new mount points</a></li>
 					  <li><a href="part-cfdisk-pl.htm#disknames">Nazewnictwo dysków</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Odtwarzanie fstab</h2>
+			<h2 id="top-header">Rebuilding fstab and creating mount points</h2>
+							<p class="highlight-3">By default aptosid uses uuid in your fstab when you install.</p>
 
 							<p>Aby dodać nową partycję (np. sda6 lub sdb7) do fstab, w konsoli jako użytkownik ($), wpisz następujące polecenie:</p>
 
@@ -327,10 +328,10 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
-							<p>W tym przykładzie <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> jest brakującym wpisem. Następnym krokiem jest wpisanie UUID partycji do etc/fstab. Aby to zrobić, użyj edytora tekstowego (jak kate lub kwrite) z uprawnieniami roota:</p>
+							<p>W tym przykładzie <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> jest brakującym wpisem. Następnym krokiem jest wpisanie UUID partycji do /etc/fstab. Aby to zrobić, użyj edytora tekstowego (jak kate lub kwrite) z uprawnieniami roota:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Inny przykład:</p>
 
@@ -348,15 +349,46 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 
-							<p>W tym przypadku <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> jest brakującym wpisem i zostanie dodany do etc/fstab:</p>
+							<p>W tym przypadku <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> jest brakującym wpisem i zostanie dodany do /etc/fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">Uwaga: nazwy punktów montowania (w fstab) muszą być istniejącymi katalogami, aptosid tworzy te katalogi podczas instalacji w /media i mogą posiadać nazwy sda1, sda2, ....,disk0, disk1<br />
-					punkty montowania fstab dla partycji tworzonych po instalacji muszą być utworzone i dodane ręcznie.</h5>
+			<h3>Creating new mount points</h3>
+							<p> <span class="highlight-3">Note:</span> A mount point name, as noted in fstab, needs to have an existing directory. aptosid creates these directories during the installation process under <span class="highlight-3">/media</span> and they are named <span class="highlight-3">diskXpartX</span>.</p>
 
+							<p>If you have manipulated the partition table after the initial installation and assuming you have already altered fstab, (for example, 2 new partitions have been created), the directory for each mount point will not exist and it needs to be manually created.</p>
+
+					  <h5>Example:</h5>
+
+							<p>First, as root, confirm the existing mount points:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>It should return the existing mount points, for example:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Staying in /media, create the mount points of the new partitions:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>To test or use partitions immediately:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Upon a reboot of the computer the filesystems will be mounted automatically. Read:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 			<h2>Konfiguracja fstab</h2>
 
@@ -479,7 +511,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Więcej o nazwach na lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

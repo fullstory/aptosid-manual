@@ -18,9 +18,9 @@
 </head>
 <body>
 <!-- Last translation revision by edhunter  03/08/2008 2320 UTC -->
-<div id="menu"> <!-- menu starts here el lang maintained by edhunter-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<div id="menu"> <!-- menu starts here el lang maintained by ------ -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-el.htm#part-example">Γενικά για κατατμήσεις &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-el.htm#part-example">Παραδείγματα για το μέγεθος των κατατμήσεων</a></li>
-					  <li><a href="part-uuid-el.htm#uuid">UUID, ετικέτες κατατμήσεων και fstab</a></li>
+					  <li><a href="part-uuid-el.htm#uuid">UUID, Rebuilding fstab and creating new mount points</a></li>
 					  <li><a href="part-cfdisk-el.htm#disknames">Ονομασία δίσκων εν συντομία</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Ξανα-φτιάχνοντας το fstab</h2>
+			<h2 id="top-header">Rebuilding fstab and creating mount points</h2>
+							<p class="highlight-3">By default aptosid uses uuid in your fstab when you install.</p>
 
 							<p>Για να εμφανίσετε μια καινούργια κατάτμηση (partition) (π.χ. sda6 ή sdb7), που δεν εμφανίζεται στο fstab ή δεν γίνεται mount, σε ένα τερματικό σαν απλός χρήστης ($), πληκτρολογήστε την ακόλουθη εντολή:</p>
 
@@ -330,7 +331,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 							<p>Σε αυτό το παράδειγμα, το  <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> είναι η χαμένη καταχώρηση. Το επόμενο βήμα είναι να βάλουμε το UUID τμήμα (partition) στο etc/fstab. Για να το προθέσετε στο αρχείο fstab χρησιμοποιήστε έναν κειμενογράφο (όπως το kate ή το kwrite) με δικαιώματα υπερχρήστη (root privileges):</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Ένα ακόμη παράδειγμα:</p>
 
@@ -351,15 +352,43 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 							<p>Σε αυτή την περίπτωση το <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> είναι η χαμένη καταχώρηση και την προσθέτουμε στο /etc/fstab ως εξής:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<!--h5 class="highlight-3">Note: mountpoint names (in fstab) must be existing directories,  aptosid creates these directories during installation under /media  and they can be named sda1, sda2, ....,disk0, disk1<br />
-					fstab mountpoints for partitions created after initial installation will need to be created and added manually</h5-->
+			<h3>Creating new mount points</h3>
+							<p> <span class="highlight-3">Note:</span> A mount point name, as noted in fstab, needs to have an existing directory. aptosid creates these directories during the installation process under <span class="highlight-3">/media</span> and they are named <span class="highlight-3">diskXpartX</span>.</p>
 
-					<h5 class="highlight-3">Σημείωση: τα ονόματα των σημείων προσάρτησης (mountpoint) (στο fstab), πρέπει να είναι υπάρχοντες καταλόγοι (directories),  το aptosid δημιουργεί αυτούς τους καταλόγους κατά την διάρκεια της εγκατάστασης μέσα στο /media  και μπορούν να ονομαστούν sda1, sda2, ....,disk0, disk1<br />
-					fstab σημεία προσάρτησης για κατατμήσεις που δημιουργήθηκαν μετά την αρχική εγκατάσταση πρέπει να δημιουργηθούν και να προστεθούν χειροκίνητα</h5>
+							<p>If you have manipulated the partition table after the initial installation and assuming you have already altered fstab, (for example, 2 new partitions have been created), the directory for each mount point will not exist and it needs to be manually created.</p>
 
+					  <h5>Example:</h5>
+
+							<p>First, as root, confirm the existing mount points:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>It should return the existing mount points, for example:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Staying in /media, create the mount points of the new partitions:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>To test or use partitions immediately:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Upon a reboot of the computer the filesystems will be mounted automatically. Read:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 			<!--h2>Overview: UUID, Partition Labelling and fstab</h2-->
 			<h2>Επισκόπηση: UUID, Ετικέτες (Labels) Κατατμήσεων και fstab</h2>
@@ -531,8 +560,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<!--p><a href="http://www.lissot.net/partition/ext2fs/labels.html">There is more on labeling here at lissot.net</a> </p-->
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Περισσότερα για τις ετικέτες στο lissot.net</a> </p>
 	</div>
-			<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

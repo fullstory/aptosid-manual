@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Di 24. Feb 13:46:35 CET 2009 -->
+<!-- Last translation revision by hubi Wed, 16 Mar 2011 13:39:21 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Zu aptosid.com (Forum und Wiki)" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-de.htm#part-example">Grundlagen für die Partitionierung &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-de.htm#part-example">Partitionierungsbeispiele</a></li>
-					  <li><a href="part-uuid-de.htm#uuid">UUID, Labels und fstab</a></li>
+					  <li><a href="part-uuid-de.htm#uuid">UUID, Anpassung der fstab und Erstellung neuer Einhängepunkte</a></li>
 					  <li><a href="part-cfdisk-de.htm#disknames">Kurzanleitung zur Benennung von Partitionen</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Aktualisieren der fstab</h2>
+			<h2 id="top-header">Anpassung der fstab und Erstellung neuer Einhängepunkte</h2>
+							<p class="highlight-3">aptosid nutzt bei der Installation uuid in fstab.</p>
 
 							<p>Um eine neu erstellte Partition anzuzeigen (nehmen wir sda6 oder sdb7 als Beispiel), die nicht in der fstab erscheint oder sich nicht mounten lässt, tippt man als user ($) folgenden Befehl in die Konsole:</p>
 
@@ -330,7 +331,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 							<p>In diesem Beispiel ist <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> der fehlende Eintrag. Der nächste Schritt ist, die UUID/Partition in die /etc/fstab einzutragen. Um sie zu dieser hinzuzufügen, benutzt man einen Texteditor (wie kate oder kwrite) mit Rootrechten; in diesem Beispiel sähe der Eintrag so aus:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Ein anderes Beispiel:</p>
 
@@ -351,12 +352,43 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 							<p>In diesem Fall ist <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> der fehlende Eintrag und dieser wird zur <em>/etc/fstab</em> hinzugefügt:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">Anmerkung:<br /><br />Einhängepunkte in /etc/fstab müssen existierende Verzeichnisse sein. Diese werden von aptosid während der Installation im Verzeichnis /media angelegt und können Bezeichnungen wie <em>sda1, sdb2, disk0, disk1</em> o.ä. haben.<br /><br />
-					Einhängepunkte für Partitionen, die nach der Erstinstallation angelegt wurden, müssen zum Beispiel in /media oder einem gewünschten Ort angelegt sowie in /etc/fstab eingetragen werden.</h5>
+			<h3>Erstellung neuer Einhängepunkte</h3>
+							<p> <span class="highlight-3">Anmerkung:</span> Ein Einhängepunkt, der in fstab festgelegt wird, muss einem existierenden Verzeichnis zugeordnet sein. Diese Verzeichnisse werden während des Installationsprozesses von aptosid unterhalb von <span class="highlight-3">/media</span> angelegt und besitzen das Benennungsschema <span class="highlight-3">diskXpartX</span>.</p>
 
+							<p>Wenn nun die Partitionierungstabelle nach der Installation verändert (zum Beispiel: es wurden zwei neue Partitionen angelegt) und fstab angepasst wurde, existiert jedoch kein Einhängepunkt, welcher manuell angelegt werden muss.</p>
+
+					  <h5>Beispiel:</h5>
+
+							<p>Als erstes ermittelt man als Root die bestehenden Einhängepunkte:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>Die Ausgabe zeigt zum Beispiel:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Im Verzeichnis /media werden nun die Einhängepunkte der neuen Partitionen angelegt:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>So können die neuen Partitionen sofort genutzt oder getestet werden:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Nach einem Neustart des Computers werden die neuen Dateisysteme automatisch eingebunden. Siehe auch:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 			<h2>Übersicht: UUID, Partitions-Label und fstab</h2>
 							<p>Die dauerhafte Benennung (persistent naming) von Blockgeräten wurde mit Einführung von udev ermöglicht und hat einige Vorteile gegenüber der Benennung auf Bus-Basis. Im Folgenden nennen wir eine Kennzeichnung nach dieser Methode einen "dauerhaften Bezeichner".</p>
@@ -480,8 +512,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 							<p>Mehr über Labels findet man auf <a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

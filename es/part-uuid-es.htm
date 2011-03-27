@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 28/02/2009 0300 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintained by Luis_P -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="ir a aptosid.com y Forum y Wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-es.htm#part-example">Particionado Básico &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-es.htm#part-example">Ejemplos de dimensiones de particiones</a></li>
-					  <li><a href="part-uuid-es.htm#uuid">UUID, Etiquetas de Particiones y 'fstab'</a></li>
+					  <li><a href="part-uuid-es.htm#uuid">UUID, Reconstruir fstab y crear nuevos puntos de montaje</a></li>
 					  <li><a href="part-cfdisk-es.htm#disknames">Nombrar discos: en breve</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Reconstrucción del fstab</h2>
+			<h2 id="top-header">Reconstruir fstab y crear nuevos puntos de montaje</h2>
+							<p class="highlight-3">Por defecto, aptosid usa uuid en su fstab cuando se instala.</p>
 
 							<p>Para mostrar información sobre una partición nuevamente creada (por ejemplo, sda6 ó sdb7), que no aparece en el fstab o no se ha podido montar, en una consola como usuario ($) escriba la siguiente orden:</p>
 
@@ -330,7 +331,7 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f
 							<p>En este ejemplo, <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> es la entrada que falta. El próximo paso es entrar la información de la partición UUID en el /etc/fstab. Utilice un editor de texto (como kate o kwrite) con privilegios de root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Otro ejemplo:</p>
 
@@ -351,15 +352,45 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 							<p>En este caso, <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> es la entrada faltante y se agrega a /etc/fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">Nota: los nombres de los puntos de monaje (en fstab) tieneb que ser directorios existentes, aptosid los crea durante la instalación bajo <b>/media</b>, y pueden ser nombrados como sda1, sda2, ...,disk0, disk1...<br />
-					los puntos de montaje para fstab para particiones que se hayan creado después de la instalación inicial, tendrán que ser creados y agregados manualmente.</h5>
+			<h3>Creación de nuevos puntos de montaje</h3>
+							<p> <span class="highlight-3">Nota:</span> Un nombre de punto de montaje, como se indica en fstab, necesita tener un directorio existente. aptosid crea esos directorios durante el proceso de instalación bajo <span class="highlight-3">/media</span> y se nombran como <span class="highlight-3">diskXpartX</span>.</p>
 
+							<p>Si se ha manipulado la tabla de particiones después de la instalación inicial y suponiendo que ya se ha cambiado fstab, (por ejemplo, se han creados 2 particiones nuevas), el directorio para cada punto de montaje no existirá y será necesario crearlo manualmente.</p>
+
+					  <h5>Ejemplo:</h5>
+
+							<p>Primero, como root, confirme los puntos de montaje existentes:</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>Debería devolver los puntos de montaje que existen, por ejemplo:</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Estando en /media, cree los puntos de montajes de las nuevas particiones:</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>Para probar o usar las particiones inmediatamente:</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Cuando vuelva a arrancar el sistema de ficheros se montará automáticamente. Lea:</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
-<br clear="all"><br clear="all">
-			<h2>Visión de conjunto: UUID, Etiqueta (Label) de Partición y fstab</h2>
+		      <h2>Visión de conjunto: UUID, Etiqueta (Label) de Partición y fstab</h2>
 							<p>Los nombres persistentes de dispositivos de bloque han sido posibles a través de la introducción de "udev" y tiene algunas ventajas sobre el nombramiento basado en el "bus".</p>
 
 							<p>A medida que las distribuciones de Linux están evolucionando y la detección de hardware es más fiable, aparecen problemas nuevos y cambios:<br /> <br clear="all"><b>1)</b>Si tiene más de un controlador de sata/scsi o de ide, el orden en que están agregados es al azar. Esto puede tener como consecuencia nombres de dispositivos como el hdX y hdY variando al azar con cada arranque. Lo mismo ocurre en los sdX y sdY. Los nombres permanentes permiten que el usuario no tenga que preocuparse por esto.<br />
@@ -473,8 +504,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 <p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Más información acerca de la identificación en lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
-</div>
+			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

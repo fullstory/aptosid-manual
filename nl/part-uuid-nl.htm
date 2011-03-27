@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by xxxx  xx/xx/2007 1300 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.01-repo-->
-<!-- menu last updated by bluewater 2011.03.01 1035 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
+<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -118,7 +118,7 @@
 		<li><a href="part-size-examp-nl.htm#part-example">Partitioneren Basis &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-nl.htm#part-example">Partitie Grootte Voorbeelden</a></li>
-					  <li><a href="part-uuid-nl.htm#uuid">UUID, Partitie Labels en fstab</a></li>
+					  <li><a href="part-uuid-nl.htm#uuid">UUID, heropbouwen van fstab en creëren van nieuwe mount punten</a></li>
 					  <li><a href="part-cfdisk-nl.htm#disknames">Schijf benoemen in brief</a></li>
 					</ul>
 					</li>
@@ -309,7 +309,8 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Het herbouwen van fstab</h2>
+			<h2 id="top-header">Heropbouwen van fstab en het creëren van mount punten</h2>
+							<p class="highlight-3">Per default gebruikt aptosid uuid in de fstab bij de installatie.</p>
 
 							<p>Om een nieuw gecreeerde partitie (bv. sda6 of sdb7), welke niet in fstab staat of niet aangekoppeld is te gebruiken als een normale gebruiker ($) ga je in het konsole het volgende commando uitvoeren:</p>
 
@@ -327,10 +328,10 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
-							<p>In dit voorbeeld is <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> een missende waarde in fstab. De volgende stap is om de UUID partitie in het bestand etc/fstab te plaatsen. Om dit toe te voegen maak je gebruik van een teksteditor (zoals kate of kwrite), doe dit wel met root rechten:</p>
+							<p>In dit voorbeeld is <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> een missende waarde in fstab. De volgende stap is om de UUID partitie in het bestand /etc/fstab te plaatsen. Om dit toe te voegen maak je gebruik van een teksteditor (zoals kate of kwrite), doe dit wel met root rechten:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/sda6 ext3	auto,users,exec	0 2
+<b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
 							<p>Een ander voorbeeld:</p>
 
@@ -348,15 +349,46 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 
-							<p>In dit geval is <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> de missende waarde en wordt aan etc/fstab toegevoegd:</p>
+							<p>In dit geval is <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> de missende waarde en wordt aan /etc/fstab toegevoegd:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
-<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/sdb7 ext3	auto,users,exec	0 2
+<b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-					<h5 class="highlight-3">Notitie: aankoppelnamen (in fstab) moeten bestaande directories zijn,  aptosid creeert deze directories tijdens de installatie onder /media  en ze worden als volgt genoemd sda1, sda2, ....,disk0, disk1<br />
-					fstab aankoppelpunten (mountpoints) voor partitie's gecreeerd na de installatie moeten met de hand aangemaakt worden.</h5>
+			<h3>Het creëren van nieuwe mount punten</h3>
+							<p> <span class="highlight-3">Opmerking:</span> Een mount punt benaming, zoals vermeld in /etc/fstab, moet een bestaande directory hebben. aptosid creëert deze directories gedurende het installatie proces onder <span class="highlight-3">/media</span> en ze worden <span class="highlight-3">diskXpartX</span> genoemd.</p>
 
+							<p>Indien je de partitietabel hebt gewijzigd na de installatie en veronderstel dat je /etc/fstab reeds hebt aangepast, (bijvoorbeeld, 2 nieuwe partities werden gecreërd), de directory voor elk mount punt bestaat nog niet en moet manueel worden gecreëerd.</p>
+
+					  <h5>Voorbeeld:</h5>
+
+							<p>Vooreerst, als root, bevestig dat de bestaande mount punten :</p>
+
+<pre>
+cd /media
+ls
+</pre>
+							<p>Dit zal de bestaande mount punten geven, bijvoorbeeld :</p>
+<pre>
+disk1part1 disk1part3 disk2part1
+</pre>
+							<p>Blijf in /media en creëer de mount punten voor de nieuwe partities :</p>
+<pre>
+mkdir disk1part6
+mkdir disk2part7
+</pre>
+
+							<p>Om te testen of de partities onmiddelijk te gebruiken :</p>
+<pre>
+mount /dev/sda6 /media/disk1part6
+mount /dev/sda6 /media/disk2part7
+</pre>
+							<p>Na het heropstarten van de computer zullen de bestandssystemen automatisch worden gemount. Lees ook :</p>
+<pre>
+man mount
+</pre>
+
+	</div>
 	<div class="divider" id="uuid-fstab">
 			<h2>Overzicht: UUID, Partitie aanduiding (label) en fstab</h2>
 							<p>De permante labels van partities werden mogelijk door udev en deze permanente labels hebben voordelen t.o.v. bus-based benamingen.</p>
@@ -479,8 +511,7 @@ kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b556
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 14/08/2010 0100 UTC</div>
-</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 14/03/2011 0345 UTC</div>
 </div>
 </body>
 </html>

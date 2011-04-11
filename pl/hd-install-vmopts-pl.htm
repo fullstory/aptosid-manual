@@ -309,17 +309,26 @@
 <!-- menu ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
-				<h2 id="top-header">Opcji maszyn wirtualnych</h2>
+				<h2 id="top-header">Opcje maszyn wirtualnych</h2>
 
 						<ul>
 							<li><a href="hd-install-vmopts-pl.htm#kvm">KVM dla Intel VT lub AMD-V</a></li>
 							<li><a href="hd-install-vmopts-pl.htm#vbox">Virtualbox</a></li>
 							<li><a href="hd-install-vmopts-pl.htm#qemu">QEMU</a></li>
-
+							<li><a href="hd-install-vmopts-pl.htm#oos">Instalacja innych dystrybucji jako obrazów w maszynie wirtualnej</a></li>
 						</ul>
+
+							<p><span class="highlight-3">Poniższe przykłady dotyczą aptosida, w prosty sposób można zastapić aptosida inną pożądaną dystrybucją.</span></p>
+	</div>
+	<div class="divider" id="oos">
+			    <h2>Instalacja innych dystybucji jako obrazów w maszynie wirtualnej</h2>
+							<p>Uwaga: Jeśli zechcesz lub kiedy dokonujesz instalacji do obrazu maszyny wirtualnej, większość dystrybucji Linuxa przypuszczalnie będzie potrzebowała alokacji 12G. Jeśli jednak masz potrzebę mieć MS Windows w maszynie wirtualnej, będziesz potrzebował miejsca ok 30G, lub więcej, na obraz. Wszystkie wielkości alokacji bezwzględnie zależą od twoich potrzeb. </p>
+
+							<p>Ogólnie, wielkość przydzielonego na obraz miejsca, nie zabierze dodatkowej przestrzeni na dysku dopóki nie będą instalowane dane. Nawet wtedy, miejsce będzie alokowane na dysku dynamicznie, w zależności od aktualnej ilości danych, zwiększając lub zmniejszając obraz. Wynika to ze współczynników kompresji qcow2.</p>
+
 		      </div>
 		      <div class="divider" id="kvm">
-				<h2>Uruchamianie i instalacja aptosid do maszyny wirtualnej KVM</h2>
+				<h2>Włączanie Wirtualnej Maszyny KVM</h2>
 							<p>KVM to pełne rozwiązanie wirtualizacyjne dla systemu Linux na sprzęcie x86 z rozszerzeniem wirtualizacji (Intel VT lub AMD-V). </p>
 
 				      <h3>Warunki</h3>
@@ -365,20 +374,20 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
 </pre>
 
-							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and you should see on the left hand side a box that has a disk ready for partitioning and formatting, most likely noted as <span class="highlight-3"> /dev/sda</span>. Underneath that are the options for partitioning, choose gparted or partitionmanager. Whilst the KDE partionmanager has a  different layout to gparted, which used in the following example, it is just as intuitive to work with.</p>
+							<p>Po starcie systemu z cdroma kliknij na ikonę instalatora aptosida aby aktywować skrypt instalacyjny, (lub użyj menu), kliknij na zakładkę Partycjonowanie, a wtedy zobaczysz po lewej stronie pole zawierające dysk gotowy do partycjonowania i formatowania, oznaczony najprawdopodobniej jako<span class="highlight-3"> /dev/sda</span>. Poniżej znajdują się opcje partycjonowania, wybierz gparted lub partitionmanager. Jako że KDE partionmanager ma inny układ niż gparted, który został użyty w poniższym przykładzie, do pracy z nim użyj swojej intuicji.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>In the Gparted menu you can confirm that Gparted sees the image with <span class="highlight-3">View>Device Information</span> which should state it is a <span class="highlight-3">ATA QEMU Harddisk</span> and most likely noted as <span class="highlight-3"> /dev/sda</span>,(in this example), as this will be crucial when moving back to the installer and choosing where to put Grub, as it needs to go to <span class="highlight-3"> /dev/sda</span>.</p>
+							<p>W menu Gparted możesz potwierdzić, że Gparted widzi obraz przez opcję <span class="highlight-3">View>Device Information</span> która powinna określić go jako <span class="highlight-3">ATA QEMU Harddisk</span> i najbardziej prawdopodobnie oznaczony jako <span class="highlight-3"> /dev/sda</span> (w tym przykładzie), ponieważ będzie miało to zasadnicze znaczenie przy powrocie do instalatora i wyborze gdzie umieścić Gruba jako, że musi to być <span class="highlight-3"> /dev/sda</span>.</p>
 
-							<p>Next, in the <span class="highlight-3">Partition</span> menu choose <span class="highlight-3"> Device>Create Partiton Table</span> and create the partition table. </p>
+							<p>Następnie, w menu <span class="highlight-3">Partycja</span> wybierz <span class="highlight-3"> Device>Create Partiton Table</span> i utwórz tabelę patycji. </p>
 
-							<p>Then format the partition table with ext4 and also include a swap of 2 gig. The formatting will take time so be patient.</p>
+							<p>Potem sformatuj partycję na ext4, a także utwórz partycję wymiany (swap) wielkości 2 GB. Formatowanie zajmie trochę czasu więc bądź cierpliwy.</p>
 
-							<p>After formatting has completed, click OK to be returned to the installer and proceed as if you are performing a standard install, (again, be patient). <span class="highlight-2">Note: Install the Grub to /dev/sda</span>.</p>
+							<p>Po zakończeniu formatowania kliknij przycisk OK, aby powrócić do instalatora i postępuj jak przy wykonaniu standardowej instalacji (ponownie, bądź cierpliwy). <span class="highlight-2">Uwaga: Zainstaluj Gruba na /dev/sda</span>.</p>
 
-							<p>You now have a aptosid-*-VM ready for use:</p>
+							<p>Od teraz masz aptosid-*-VM gotowy do użytku:</p>
 
 <pre>
 $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
@@ -426,7 +435,7 @@ apt-get install aqemu
 
 	</div>
 	<div class="divider" id="vbox">
-		<h2>Booting and installing aptosid to a VirtualBox Virtual Machine</h2>
+		<h2>Booting and installing to a VirtualBox Virtual Machine</h2>
 							<p>The Steps:.</p>
 						<ul>
  							<li>1. utwórz obraz twardego dysku dla VirtualBox</li>
@@ -467,7 +476,7 @@ virtualbox-ose-source
 
 	</div>
 	<div class="divider" id="qemu">
-		<h2>Booting and installing aptosid to a QEMU Virtual Machine</h2>
+		<h2>>Booting and installing a QEMU Virtual Machine</h2>
 
 		<ul>
  			<li>1. utworzenie obrazu twardego dysku dla qemu</li>
@@ -587,7 +596,7 @@ qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
 
 
 	</div>
-	<div id="rev">Page last revised 29/10/2010 0410 UTC</div>
+	<div id="rev">Page last revised 08/04/2011 1205 UTC</div>
 
 </div>
 </body>

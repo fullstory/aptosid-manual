@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by xxxx  xx/xx/2007 1300 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-nl.htm#fromiso">Booten van uw iso-cd &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-nl.htm#fromiso">Booten vanaf uw iso-cd - Overzicht</a></li>
-					  <li><a href="hd-install-opts-nl.htm#fromiso-grub-leg">Booten vanaf uw iso-cd met grub-legacy</a></li>
 					  <li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booten vanaf uw iso-cd met Grub 2</a></li>
 					  <li><a href="hd-install-opts-nl.htm#fromiso-persist">Booten vanaf uw iso-cd en vasthouden</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-nl.htm#non-free-firmware">"non-free" toevoegen aan de Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-nl.htm">Window Managers</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-nl.htm">Window Managers</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-nl.htm">Window Managers &#8658;</a>
+			  <li><a href="wm-dm--nl.htm">KDE and XFCE Window Managers &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-nl.htm#xfce-notes">Handige Xfce extras</a></li>
-					    <li><a href="wm-kde-nl.htm#install-add">Handige extra KDE Apps</a></li>
-					    <li><a href="wm-kde-nl.htm#desk-freeze">Desktop Freezes (beweegt niet meer)</a></li>
-					    <li><a href="wm-kde-nl.htm#kde-login">Kan niet inloggen (KDE)</a></li>
-					    <li><a href="wm-kde-nl.htm#ch-th">Thema's veranderen</a></li>
+					    <li><a href="wm-dm--nl.htm#xfce-notes">Handige Xfce extras</a></li>
+					    <li><a href="wm-dm-nl.htm#install-add">Handige extra KDE Apps</a></li>
+					    <li><a href="wm-dm-nl.htm#desk-freeze">Desktop Freezes (beweegt niet meer)</a></li>
+					    <li><a href="wm-dm-nl.htm#kde-login">Kan niet inloggen (KDE)</a></li>
+					    <li><a href="wm-dm-nl.htm#ch-th">Thema's veranderen</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-nl.htm#dm">Display Managers - dm</a></li>
+		      <li><a href="wm-dm-nl.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-nl.htm">Internet verbinding, WiFi, LAN en Netwerken</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-nl.htm#start-services">Services en init runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-nl.htm#start-services">Services inschakelen/uitschakelen</a></li>
+					    <li><a href="sys-admin-gen-nl.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-nl.htm#init">aptosid runlevels - init</a></li>
 					</ul>
 					</li>
@@ -482,36 +482,13 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-					<h4>Permanente namen in de boot manager</h4>
-
-							<p>Om de permanente namen (persistent names) in de boot manager te kunnen gebruiken, moeten de volgende voorbereidingen getroffen worden:<br />
-
-							<b>1)</b> Er wordt een mkinitcpio initramfs image gebruikt.<br />
-							<b>2)</b> Udev is geactiveerd in /etc/mkinitcpio.conf<br />
-							<b>3)</b> Voor het aanmaken van initramfs image, moet versie 101-3 of hoger van de  klibc-udev geïnstalleerd zijn (persistent naming in eerdere versies werkt niet!). Als een oudere versie van klibc-udev from geactualiseerd wordt en je wilt persistent naming gebruiken, dan moet het initramfs image opnieuw worden aangemaakt voor een reboot.</p>
-
-							<p>In het bovengenoemde voorbeeld is /dev/sda1 de root partitie. In het grub-bestand  menu.lst, wordt de (de huidige, oude) kernel aanduiding zoals onderstaand weergegeven:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
-</pre>
-							<p>Afhankelijk van de gekozen manier van permanenten benamingen, kan dat als volgt aangepast worden:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
-</pre>
-							<p>of</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
-</pre>
-
-							<p>Er is nog een alternative methode door een label embedded aanduiding in het bestandssystem. Als in het bestandssysteem /dev/sda1 als "root" is gelabeld, dan kan in grub de volgende aanduiding staan:</p>
-<pre>
- kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
-</pre>
 							<p>(source:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  welke gebruikt maakte van <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Inhoud van wiki.archlinux.org stond ter beschikking volgensr GNU Free Documentation License 1.2 ) en is gewijzigd voor de aptosid-handleidingen</p>
+
+							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">There is more on labeling here at lissot.net</a> </p>
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 14/03/2011 0345 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

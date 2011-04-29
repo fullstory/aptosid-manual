@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by HarzG 06/04/2009 1845 UTC-->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-nl.htm#fromiso">Booten van uw iso-cd &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-nl.htm#fromiso">Booten vanaf uw iso-cd - Overzicht</a></li>
-					  <li><a href="hd-install-opts-nl.htm#fromiso-grub-leg">Booten vanaf uw iso-cd met grub-legacy</a></li>
 					  <li><a href="hd-install-opts-nl.htm#grub2-fromiso">Booten vanaf uw iso-cd met Grub 2</a></li>
 					  <li><a href="hd-install-opts-nl.htm#fromiso-persist">Booten vanaf uw iso-cd en vasthouden</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-nl.htm#non-free-firmware">"non-free" toevoegen aan de Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-nl.htm">Window Managers</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-nl.htm">Window Managers</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-nl.htm">Window Managers &#8658;</a>
+			  <li><a href="wm-dm--nl.htm">KDE and XFCE Window Managers &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-nl.htm#xfce-notes">Handige Xfce extras</a></li>
-					    <li><a href="wm-kde-nl.htm#install-add">Handige extra KDE Apps</a></li>
-					    <li><a href="wm-kde-nl.htm#desk-freeze">Desktop Freezes (beweegt niet meer)</a></li>
-					    <li><a href="wm-kde-nl.htm#kde-login">Kan niet inloggen (KDE)</a></li>
-					    <li><a href="wm-kde-nl.htm#ch-th">Thema's veranderen</a></li>
+					    <li><a href="wm-dm--nl.htm#xfce-notes">Handige Xfce extras</a></li>
+					    <li><a href="wm-dm-nl.htm#install-add">Handige extra KDE Apps</a></li>
+					    <li><a href="wm-dm-nl.htm#desk-freeze">Desktop Freezes (beweegt niet meer)</a></li>
+					    <li><a href="wm-dm-nl.htm#kde-login">Kan niet inloggen (KDE)</a></li>
+					    <li><a href="wm-dm-nl.htm#ch-th">Thema's veranderen</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-nl.htm#dm">Display Managers - dm</a></li>
+		      <li><a href="wm-dm-nl.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-nl.htm">Internet verbinding, WiFi, LAN en Netwerken</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-nl.htm#start-services">Services en init runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-nl.htm#start-services">Services inschakelen/uitschakelen</a></li>
+					    <li><a href="sys-admin-gen-nl.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-nl.htm#init">aptosid runlevels - init</a></li>
 					</ul>
 					</li>
@@ -383,37 +383,6 @@ update-grub
 </pre>
 						      <p>Je grub2 grub.cfg wordt geupdate om verschillende ISOs te zien welke je in de directory , welke je gespecificeerd hebt, geplaatst hebt en zijn bij de volgende boot beschikbaar.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>fromiso with grub-legacy</h2>
-
-				<h4 class="highlight-3">Volgorde, stapsgewijs:</h4>
-							<p>Kies een map/locatie voor het iso-bestand en de 2 andere bestanden die nodig zijn. Hiervoor maken wij een map in de partitie "/media/sdaX" bijv. sda1 of 2 of een andere naam. Maak in deze partitie een map "aptosid" en verschuif het iso-bestand in deze map:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Dan wordt het ISO-bestand gemount met:</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt/test
-</pre>
-							<p>Hierna wordt een kopie van de vmlinuz en initrd.img bestanden van de gemounte iso naar de map gekopieerd. <span class="highlight-3">De HD/map is je eigen keus. Hier staat slechts een voorbeeld. NB: De namen (vmlinuz en initrd.img) zijn ingekort t.o.v. de originele namen met cijfers achter deze namen.</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>Hierna moet Grub aangepast worden. Hiervoor wordt het bestand <span class="highlight-3"> /boot/grub/menu.lst </span> bewerkt en de volgende regels toegevoegd <span class="highlight-3"> NA ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">LET OP: er worden geen wildcards (?*) in Grub voor bestandsnamen toegestaan! </span> <span class="highlight-3">De HD is je eigen keus - hier staat slechts een voorbeeld:</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>Na de volgende boot heb je een nieuw menu item in Grub om de iso image te starten. Omdat alle bestandsnamen werden ingekort (geen cijfers achter aptosid.iso, vmlinuz en initrd.img), kan in Grub de menu.lst voortaan ongewijzigd blijven.</p>
-
-	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Algemene informatie over fromiso met persist</h2>
 
@@ -575,7 +544,7 @@ $ man fll-iso2usb
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 30/09/2010 1355 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 26/04/2011 1210 UTC</div>
 </div>
 </body>
 </html>

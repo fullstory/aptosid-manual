@@ -18,9 +18,9 @@
 </head>
 <body>
 <!-- Last translation revision by RoEn 17/01/2009 0300 UTC -->
-<div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<div id="menu"> <!-- menu starts here - ru language maintained by RoEn -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-ru.htm#fromiso">Загрузка 'fromiso' &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-ru.htm#fromiso">Загрузка 'fromiso' - обзор</a></li>
-					  <li><a href="hd-install-opts-ru.htm#fromiso-grub-leg">Загрузка 'fromiso' с grub 1</a></li>
 					  <li><a href="hd-install-opts-ru.htm#grub2-fromiso">Загрузка 'fromiso' с grub 2</a></li>
 					  <li><a href="hd-install-opts-ru.htm#fromiso-persist">Способы 'fromiso' и 'persist'</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-ru.htm#non-free-firmware">Добавление non-free в список источников</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-ru.htm">Оконные менеджеры</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-ru.htm">Оконные менеджеры</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-ru.htm">Оконные менеджеры &#8658;</a>
+			  <li><a href="wm-dm-ru.htm">Оконные менеджеры KDE и Xfce&#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-ru.htm#xfce-notes">Полезные инструменты для xfce</a></li>
-					    <li><a href="wm-kde-ru.htm#install-add">Полезные инструменты для KDE</a></li>
-					    <li><a href="wm-kde-ru.htm#desk-freeze">Рабочий стол зависает</a></li>
-					    <li><a href="wm-kde-ru.htm#kde-login">Проблемы входа в KDE</a></li>
-					    <li><a href="wm-kde-ru.htm#ch-th">Управление темами</a></li>
+					    <li><a href="wm-dm-ru.htm#xfce-notes">Полезные инструменты для Xfce</a></li>
+					    <li><a href="wm-dm-ru.htm#install-add">Полезные инструменты для KDE</a></li>
+					    <li><a href="wm-dm-ru.htm#desk-freeze">Рабочий стол зависает</a></li>
+					    <li><a href="wm-dm-ru.htm#kde-login">Проблемы входа в KDE</a></li>
+					    <li><a href="wm-dm-ru.htm#ch-th">Управление темами</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-ru.htm#dm">Дисплейные менеджеры - dm</a></li>
+		      <li><a href="wm-dm-ru.htm#dm">Установква дополнительных дисплейных менеджеров</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-ru.htm">Интернет, Wifi и локальная сеть</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-ru.htm#start-services">Службы и режимы загрузки &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-ru.htm#start-services">Выбор служб</a></li>
+					    <li><a href="sys-admin-gen-ru.htm#pkill">завершениe службы или процесса</a></li>
 					    <li><a href="sys-admin-gen-ru.htm#init">Режимы загрузки init в aptosid</a></li>
 					</ul>
 					</li>
@@ -475,32 +475,12 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-					<h4>Использование длинных имен в менеджере загрузки</h4>
-
-							<p>Чтобы использовать длинные наименования в диспетчере начальной загрузки необходимы следующие шаги:<br /> <b>1)</b> Использование mkinitcpio initramfs image<br /> <b>2)</b> Udev активирован в: /etc/mkinitcpio.conf<br /> <b>3)</b> при создании initramfs image необходимо использовать klibc-udev версии 101-3 или&nbsp;выше (persistent naming является в предыдущих версиях не дееспособным). Если klibc-udev обновлен на новую версию и желательно использование длинных наименований, то генерация initramfs-image осуществляется до перезагрузки.</p>
-
-							<p>В вышеупомянутом примере /dev/sda1 является  root разделом. Замена строка ядра в&nbsp;файле /boot/grub/menu.lst выглядит (в зависимости от выбора схем наименования) следующим образом:<br /></p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
-</pre>
-							<p>модифицирована в</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
-</pre>
-							<p>или</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
-</pre>
-
-							<p>Альтернативный метод такой: присвоить метку файловой системе. Если, например, файловая система /dev/sda1 имеет метку (Label) "root", то строка ядра в /boot/grub/menu.lst&nbsp;выглядела бы следующим образом:</p>
-<pre>
- kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
-</pre>
 							<p>Источники: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> ссылаясь на <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. Содержание&nbsp;wiki.archlinux.org является&nbsp;засвидетельствованным как под GNU Free Documentation License 1.2. Редактировано и соответственно переведено для aptosid руководства.</p>
+
 							<p>Больше о метках: <a href="http://www.lissot.net/partition/ext2fs/labels.html">lissot.net</a> </p>
 
 	</div>
-		<div id="rev">Содержание, последний раз пересмотрено 14/03/2011 0345 UTC</div>
+		<div id="rev">Содержание, последний раз пересмотрено 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

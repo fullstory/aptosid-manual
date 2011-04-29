@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by Richard 01/06/2009 1400hrs UTC-->
 <div id="menu"> <!-- menu starts here es lang maintained by Luis_P -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="ir a aptosid.com y Forum y Wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-es.htm#fromiso">Arranque fromiso &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-es.htm#fromiso">Iniciar fromiso - Vista general</a></li>
-					  <li><a href="hd-install-opts-es.htm#fromiso-grub-leg">Iniciar 'fromiso' con el anterior grub</a></li>
 					  <li><a href="hd-install-opts-es.htm#grub2-fromiso">Iniciar 'fromiso' con Grub 2</a></li>
 					  <li><a href="hd-install-opts-es.htm#fromiso-persist">'fromiso' y 'persist'</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-es.htm#non-free-firmware">Añadir non-free a Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-es.htm">Gestor de ventanas</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-es.htm">Gestor de ventanas</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-es.htm">Gestores de Ventanas &#8658;</a>
+			  <li><a href="wm-dm-es.htm">Gestores de Ventanas KDE y XFCE &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-es.htm#xfce-notes">Utilidades de XFCE</a></li>
-					    <li><a href="wm-kde-es.htm#install-add">Utilidades extras de KDE</a></li>
-					    <li><a href="wm-kde-es.htm#desk-freeze">El escritorio se traba</a></li>
-					    <li><a href="wm-kde-es.htm#kde-login">No puedo hacer login en KDE</a></li>
-					    <li><a href="wm-kde-es.htm#ch-th">Cambiar Temas</a></li>
+					    <li><a href="wm-dm-es.htm#xfce-notes">Utilidades de XFCE</a></li>
+					    <li><a href="wm-dm-es.htm#install-add">Utilidades extras de KDE</a></li>
+					    <li><a href="wm-dm-es.htm#desk-freeze">El escritorio se traba</a></li>
+					    <li><a href="wm-dm-es.htm#kde-login">No puedo hacer login en KDE</a></li>
+					    <li><a href="wm-dm-es.htm#ch-th">Cambiar Temas</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-es.htm#dm">Gestores de pantalla - dm</a></li>
+		      <li><a href="wm-dm--es.htm#dm">Instalación de otros gestores de escritorio</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-es.htm">Conexión a Internet, WiFi, LAN y Redes</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-es.htm#start-services">Servicios y niveles de ejecución &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-es.htm#start-services">Activar/desactivar servicios</a></li>
+					    <li><a href="sys-admin-gen-es.htm#pkill">Matar un proceso o servicio</a></li>
 					    <li><a href="sys-admin-gen-es.htm#init">niveles de ejecución en aptosid - init</a></li>
 					</ul>
 					</li>
@@ -382,36 +382,6 @@ update-grub
 </pre>
 						      <p>Su fichero grub2 grub.cfg será actualizado para ver los distintos ISOs que usted puso en el directorio que especificó y que estarán disponibles en el siguiente arranque.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>fromiso con el anterior grub</h2>
-
-				<h4 class="highlight-3">Proceso:</h4>
-							<p>Escoja un lugar para el iso y 2 archivos que necesitaremos, así que busque nombres cortos. Tendrá que crear un directorio base, por ejemplo, "/media/sdaX", (sda1, 2, 5, 6 ó lo que sea), cree el directorio "aptosid" y copie el iso en él:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Ahora monte la imagen ISO (Alternativamente el mc [midnight commander] puede usarse porque automonta el archivo .iso, y permite copiar los archivos del .iso que necesita):</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Ahora, copie los archivos, vmlinuz y initrd.img, desde el .iso montado hacia el directorio <span class="highlight-3">  Sustituya la variable del disco duro por el *suyo*. :: Esto es un ejemplo solamente:</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>A continuación tiene que personalizar el Grub. Para ello edite el archivo <span class="highlight-3"> /boot/grub/menu.lst </span> y agregue las siguientes líneas <span class="highlight-3"> DESPUÉS del ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTA: no están permitidos los comodines en la línea de comando de grub! </span> <span class="highlight-3"> Sustituya la variable del disco duro por el *suyo*. :: Esto es un ejemplo solamente:</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>En la próxima inicialización tendrá un nuevo renglón en el menu de Grub para arrancar la imagen ISO. Si los archivos  aptosid.iso, vmlinuz y intird.img se actualizan con lanzamientos más recientes, el menu.lst de grub no necesitará ser modificado.</p>
-	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Información General sobre 'fromiso' con 'persist'</h2>
 
@@ -547,7 +517,7 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Otras cosas importantes a tener en cuenta: </span></p>
 						<ul>
-							<li>Un lápiz USB o una tarjeta SD/flash de instalación estará normalmente ligada al PC en el que se hizo originalmente la instalación. Si tiene intención de usar el dispositivo USB/SD/flash en otros PCs, no debería tener configurados controladores gráficos non-free ni chuletas, con la excepción de tener probablemente el cheatcode vesa grabado en menu.lst, (esto deberá ser hecho después de que la instalación haya tenido éxito).</li>
+							<li>Un lápiz USB o una tarjeta SD/flash de instalación estará normalmente ligada al PC en el que se hizo originalmente la instalación. Si tiene intención de usar el dispositivo USB/SD/flash en otros PCs, no debería tener configurados controladores gráficos non-free ni chuletas, con la excepción de tener probablemente el cheatcode vesa grabado en grub.cfg, (esto deberá ser hecho después de que la instalación haya tenido éxito).</li>
 
 							<li>Después de arrancar el dispositivo USB/SD/flash en otro PC, necesitará cambiar fstab para acceder a sus discos duros.</li>
 
@@ -566,13 +536,13 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Otras cosas importantes: </span></p>
 
 						<ul>
-							<li>Un lápiz USB o una tarjeta SD/flash de instalación estará normalmente ligada al PC en el que se hizo originalmente la instalación. Si tiene intención de usar el dispositivo USB/SD/flash en otros PCs, no debería tener configurados controladores gráficos non-free ni chuletas, con la excepción de tener probablemente el cheatcode vesa grabado en menu.lst, (esto deberá ser hecho después de que la instalación haya tenido éxito).</li>
+							<li>Un lápiz USB o una tarjeta SD/flash de instalación estará normalmente ligada al PC en el que se hizo originalmente la instalación. Si tiene intención de usar el dispositivo USB/SD/flash en otros PCs, no debería tener configurados controladores gráficos non-free ni chuletas, con la excepción de tener probablemente el cheatcode vesa grabado en grub.cfg, (esto deberá ser hecho después de que la instalación haya tenido éxito).</li>
 
 							<li>Si desea usar la instalación en otra máquina, debe ser consciente de que tiene que hacer algunos ajustes como cambiar fstab para poder acceder a los discos duros, también xorg.conf y probablemente la configuración de red.</li>
 						</ul>
 
 	</div>
-	<div id="rev">Contenido revisado el 30/09/2010 1355 UTC</div>
+	<div id="rev">Contenido revisado el 26/04/2011 1210 UTC</div>
 
 </div>
 </body>

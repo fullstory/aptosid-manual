@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ceti  19/04/2009 2303 UTC -->
 <div id="menu"> <!-- menu starts here pt-br lang maintained by ceti-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Ir para aptosid.com forums e wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-pt-br.htm#fromiso">Como dar o 'boot' com fromiso &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-pt-br.htm#fromiso">Como inicializar com fromiso - visão geral</a></li>
-					  <li><a href="hd-install-opts-pt-br.htm#fromiso-grub-leg">Como inicializar com 'fromiso' e grub-legacy</a></li>
 					  <li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Como inicializar com 'fromiso' e Grub 2</a></li>
 					  <li><a href="hd-install-opts-pt-br.htm#fromiso-persist">fromiso e persist</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-pt-br.htm#non-free-firmware">Adding non-free to Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-pt-br.htm">Gerenciadores de janelas</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-pt-br.htm">Gerenciadores de janelas</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-pt-br.htm">Gerenciadores de janelas &#8658;</a>
+			  <li><a href="wm-dm-pt-br.htm">KDE and XFCE Gerenciadores de janelas &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-pt-br.htm#xfce-notes">Extras úteis para o Xfce</a></li>
-					    <li><a href="wm-kde-pt-br.htm#install-add">Extras úteis para o KDE</a></li>
-					    <li><a href="wm-kde-pt-br.htm#desk-freeze">Congelamentos do desktop</a></li>
-					    <li><a href="wm-kde-pt-br.htm#kde-login">"Não consigo entrar no KDE"</a></li>
-					    <li><a href="wm-kde-pt-br.htm#ch-th">Como mudar os temas</a></li>
+					    <li><a href="wm-dm-pt-br.htm#xfce-notes">Extras úteis para o Xfce</a></li>
+					    <li><a href="wm-dm-pt-br.htm#install-add">Extras úteis para o KDE</a></li>
+					    <li><a href="wm-dm-pt-br.htm#desk-freeze">Congelamentos do desktop</a></li>
+					    <li><a href="wm-dm-pt-br.htm#kde-login">"Não consigo entrar no KDE"</a></li>
+					    <li><a href="wm-dm-pt-br.htm#ch-th">Como mudar os temas</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-pt-br.htm#dm">Gerenciadores de ambientes - dm</a></li>
+		      <li><a href="wm-dm-pt-br.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-pt-br.htm">Conexão com a Internet, WiFi, LAN e redes</a>
@@ -277,7 +276,8 @@
 		<li><a href="sys-admin-gen-pt-br.htm#start-services">Serviços e runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-pt-br.htm#start-services">Habilitar/desabilitar serviços</a></li>
-					    <li><a href="sys-admin-gen-pt-br.htm#init">Runlevels no aptosid - init</a></li>
+					    <li><a href="sys-admin-gen-pt-br.htm#pkill">Killing a service or process</a></li>
+					    li><a href="sys-admin-gen-pt-br.htm#init">Runlevels no aptosid - init</a></li>
 					</ul>
 					</li>
 		<li><a href="sys-admin-rsync-pt-br.htm#rsync">Como fazer backups do sistema &#8658;</a>
@@ -479,37 +479,12 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-					<h4>Persistência no Gerenciador de Boot</h4>
-
-							<p>Para usar nomes persistentes no gerenciador de boot, são necessários todos estes pré-requisitos:<br />
-
-							<b>1)</b> estar utilizando uma imagem mkinitcpio initramfs<br />
-							<b>2)</b> ter udev ativado em /etc/mkinitcpio.conf<br />
-							<b>3)</b> quando a imagem initramfs é gerada, a versão 101-3 ou superior da klibc-udev é instalada (persistência em quaisquer das versões anteriores não funciona). Se você estiver atualizando a klibc-udev a partir de uma versão anterior e quiser usar nomeação persistente, gere novamente a imagem do initramfs antes de reinicializar seu computador.</p>
-
-							<p>No exemplo acima, /dev/sda1 é a partição root. No arquivo /boot/grub/menu.lst, a linha referente ao kernel é parecida com esta:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
-</pre>
-							<p>Dependendo do esquema de nomeação que você preferir, mude-a para uma das seguintes:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
-</pre>
-							<p>ou</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
-</pre>
-
-							<p>Há uma maneira alternativa de usar o rótulo incorporado ao sistema de arquivos. Por exemplo, se o sistema de arquivos em /dev/sda1 for rotulado "root", a linha no arquivo 'menu.lst' fica assim:</p>
-<pre>
- kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
-</pre>
 							<p>Fonte: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> que usou <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a>. O conteúdo de wiki.archlinux.org é disponibilizado sob a GNU Free Documentation License 1.2 e foi reeditado para o Manual do aptosid.</p>
 
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Mais sobre rotulação ('labelling') pode ser encontrado em lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
+			<div id="rev">Content last revised 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

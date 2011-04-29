@@ -18,9 +18,9 @@
 </head>
 <body>
 <!--Last translation revision by RoEn 27/02/2011 1800 UTC -->
-<div id="menu"> <!-- menu starts here ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<div id="menu"> <!-- menu starts here - ru language maintained by RoEn -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-ru.htm#fromiso">Загрузка 'fromiso' &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-ru.htm#fromiso">Загрузка 'fromiso' - обзор</a></li>
-					  <li><a href="hd-install-opts-ru.htm#fromiso-grub-leg">Загрузка 'fromiso' с grub 1</a></li>
 					  <li><a href="hd-install-opts-ru.htm#grub2-fromiso">Загрузка 'fromiso' с grub 2</a></li>
 					  <li><a href="hd-install-opts-ru.htm#fromiso-persist">Способы 'fromiso' и 'persist'</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-ru.htm#non-free-firmware">Добавление non-free в список источников</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-ru.htm">Оконные менеджеры</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-ru.htm">Оконные менеджеры</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-ru.htm">Оконные менеджеры &#8658;</a>
+			  <li><a href="wm-dm-ru.htm">Оконные менеджеры KDE и Xfce&#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-ru.htm#xfce-notes">Полезные инструменты для xfce</a></li>
-					    <li><a href="wm-kde-ru.htm#install-add">Полезные инструменты для KDE</a></li>
-					    <li><a href="wm-kde-ru.htm#desk-freeze">Рабочий стол зависает</a></li>
-					    <li><a href="wm-kde-ru.htm#kde-login">Проблемы входа в KDE</a></li>
-					    <li><a href="wm-kde-ru.htm#ch-th">Управление темами</a></li>
+					    <li><a href="wm-dm-ru.htm#xfce-notes">Полезные инструменты для Xfce</a></li>
+					    <li><a href="wm-dm-ru.htm#install-add">Полезные инструменты для KDE</a></li>
+					    <li><a href="wm-dm-ru.htm#desk-freeze">Рабочий стол зависает</a></li>
+					    <li><a href="wm-dm-ru.htm#kde-login">Проблемы входа в KDE</a></li>
+					    <li><a href="wm-dm-ru.htm#ch-th">Управление темами</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-ru.htm#dm">Дисплейные менеджеры - dm</a></li>
+		      <li><a href="wm-dm-ru.htm#dm">Установква дополнительных дисплейных менеджеров</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-ru.htm">Интернет, Wifi и локальная сеть</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-ru.htm#start-services">Службы и режимы загрузки &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-ru.htm#start-services">Выбор служб</a></li>
+					    <li><a href="sys-admin-gen-ru.htm#pkill">завершениe службы или процесса</a></li>
 					    <li><a href="sys-admin-gen-ru.htm#init">Режимы загрузки init в aptosid</a></li>
 					</ul>
 					</li>
@@ -383,36 +383,6 @@ update-grub
 </pre>
 						      <p>Your grub2 grub.cfg will be updated to see the different ISOs you have placed in the directory you specified and will be available on your next boot up.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>Метод fromiso с устаревшей версию grub (grub1)</h2>
-
-				<h4 class="highlight-3">Процесс:</h4>
-							<p>Мы выбираем место для ISO и двух файлов, которые нам потребуются. Создаём базовый каталог "aptosid" в "/media/sdaX" (в раздел sda1,2,3 или какой вам подходит) и перемещаем ISO в этот каталог:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Теперь смонтируем ISO-образ. Для этой цели можно воспользоваться программой mc [midnight commander], так как этот файловый менеджер смонтирует ISO-образы автоматически. Это позволяет копировать отдельные файлы с ISO:</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Теперь скопируем файлы vmlinuz и initrd.img из смонтированного ISO образа в каталог. <span class="highlight-3">Название жесткого диска и место куда копируем, Вы установите сами, это лишь пример:</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>Следующий шаг настройка grub. Для этого отредактируем файл<span class="highlight-3"> /boot/grub/menu.lst </span> и добавим в него после строки <span class="highlight-3"> ### END DEBIAN AUTOMAGIC KERNELS LIST</span> <span class="highlight-2">следующие строки. ЗАМЕЧАНИЕ: Не используйте нерегулярные буквы в конфигурационном файле grub!</span> <span class="highlight-3">Название жесткого диска и куда копируем, зависит от вас, это лишь пример:</span></p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>При следующей загрузке в меню grub станет доступен пункт запуска ISO-образа. Если файлы aptosid.iso, vmlinuz и intird.img заменяются на новые версии, содержимое файла menu.lst уже не придётся менять.</p>
-	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Общая информация об использовании методов fromiso и persist</h2>
 
@@ -565,14 +535,14 @@ $ man fll-iso2usb
 						<ul>
 							<!--<li>USB-инсталляция на  жесткий диско связана, как правило, на компьютер, на котором проводилась инсталляция.-->
 
-							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the grub.cfg, (all to be attended to after a successful installation).</li>
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
 
 	</div>
 
-	<div id="rev">Содержание, последний раз пересмотрено 30/09/2010 1355 UTC</div>
+	<div id="rev">Содержание, последний раз пересмотрено 26/04/2011 1210 UTC</div>
 </div>
 </body>
 </html>

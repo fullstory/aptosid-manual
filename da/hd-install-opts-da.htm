@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ragupo 12/02/2011 0043hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by ragupo-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Tilbage til aptosid.com forums og wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-da.htm#fromiso">Opstart fromiso &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-da.htm#fromiso">Opstart fromiso - Overblik</a></li>
-					  <li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Opstart 'fromiso' med grub-legacy</a></li>
 					  <li><a href="hd-install-opts-da.htm#grub2-fromiso">Opstart 'fromiso' med Grub 2</a></li>
 					  <li><a href="hd-install-opts-da.htm#fromiso-persist">Fromiso og persist</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-da.htm#non-free-firmware">Tilføj non-free til kildelisten </a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-da.htm#install-add">Window Managers</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-da.htm#install-add">Window Managers</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-da.htm">Window Managers &#8658;</a>
+			  <li><a href="wm-dm-da.htm">KDE and XFCE Window Managers &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-da.htm#xfce-notes">Nyttige Xfce ekstras</a></li>
-					    <li><a href="wm-kde-da.htm#install-add">Nyttige ekstra KDE Apps</a></li>
-					    <li><a href="wm-kde-da.htm#desk-freeze">Skrivebordet fyser</a></li>
-					    <li><a href="wm-kde-da.htm#kde-login">ingen login i KDE mulig</a></li>
-					    <li><a href="wm-kde-da.htm#ch-th">Ændre Themes</a></li>
+					    <li><a href="wm-dm-da.htm#xfce-notes">Nyttige Xfce ekstras</a></li>
+					    <li><a href="wm-dm-da.htm#install-add">Nyttige ekstra KDE Apps</a></li>
+					    <li><a href="wm-dm-da.htm#desk-freeze">Skrivebordet fyser</a></li>
+					    <li><a href="wm-dm-da.htm#kde-login">ingen login i KDE mulig</a></li>
+					    <li><a href="wm-dm-da.htm#ch-th">Ændre Themes</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-da.htm#dm">Display Managers - dm</a></li>
+		      <li><a href="wm-dm-da.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-da.htm">Internet forbindelse, WiFi, LAN og Netwærk</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-da.htm#start-services">Tjenester og init runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-da.htm#start-services">Tjenester aktiver/deaktiver</a></li>
+					    <li><a href="sys-admin-gen-da.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-da.htm#init">aptosid runlevels - init</a></li>
 					</ul>
 					</li>
@@ -383,37 +383,6 @@ update-grub
 </pre>
 						      <p>Din grub2 grub.cfg bliver så opdateret til at se de forskellige ISO's du har placeret i den mappe du har angivet, og de vil være tilgængelige ved næste opstart.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>fromiso med grub-legacy</h2>
-
-				<h4 class="highlight-3">Fremgangsmåde:</h4>
-							<p>Vælg et sted for iso'en og de to filer vi skal bruge, sådan at vi får nogle kortere filnavne. Opret for eksempel en mappe der hedder: "/media/sdaX", (sda1 eller, 2, eller 5, eller 6, eller hvadend, for eksempel), opret mappen "aptosid" heri og kopier ISO'en hertil:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Monter så ISO-imaget (Alternativt kan mc [midnight commander] anvendes, denne auto-monterer .iso filer og lader dig kopiere de nødvendige filer ud):</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Kopier nu vmlinuz og initrd.img filerne fra det monterede ISO-image til mappen <span class="highlight-3">og HD (sdaX/sdbY) er DIN kendte variable; dette er kun et eksempel:</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>Nu skal du modificere grub, hertfor skal du redigere filen<span class="highlight-3"> /boot/grub/menu.lst </span> og tilføje følgende linier <span class="highlight-3"> EFTER ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">BEMÆRK: ingen wildcards for filnavne er tilladte på grub linien! </span> <span class="highlight-3">og HD (sdaX/sdbY) er DIN kendte variable; dette er kun et eksempel:</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>Ved næste opstart har du en ny menu indgang i din grub til at starte fra iso-imageet. Skulle du opgradere din aptosid.iso, vmlinuz og intird.img fileer med senere frigivelser, så skal  grub's menu.lst ikke ændres af den grund.</p>
-	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>General information om fromiso med persist</h2>
 
@@ -547,7 +516,7 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Andre nævneværdige punkter:</span></p>
 						<ul>
-							<li>En USB-stick/SD/flash-kort installation vil normalt være undet til den maskine hvorpå den oprindelige installation blev foretaget fra. Hvis det er din intention at kunne anvende USB/SD/flash enheden på andre computere skal den ikke have non-free grafikdrivere og cheetcodes prækonfigureret, med undtagelse af vesa cheatcode som er hardcoded ind i menu.lst. Dette skal man selv efterfølgende rette til.</li>
+							<li>En USB-stick/SD/flash-kort installation vil normalt være undet til den maskine hvorpå den oprindelige installation blev foretaget fra. Hvis det er din intention at kunne anvende USB/SD/flash enheden på andre computere skal den ikke have non-free grafikdrivere og cheetcodes prækonfigureret, med undtagelse af vesa cheatcode som er hardcoded ind i grub.cfg. Dette skal man selv efterfølgende rette til.</li>
 
 							<li>Efter opstart fra en USB-nøgle/SD/flash-kort på en anden computer, skal du ændre fstab for at få adgang til den nye computers harddiske.</li>
 
@@ -567,14 +536,14 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Andre bemærkninger:</span></p>
 
 						<ul>
-							<li>En USB HDD installation vil være bundet til den maskine hvor installationen oprindeligt blev foretaget på. Hvis det er din intention at kunne anvende USB/SD/flash enheden på andre computere skal den ikke have non-free grafikdrivere og cheetcodes prækonfigureret, med undtagelse af vesa cheatcode som er hardcoded ind i menu.lst. Dette skal man selv efterfølgende rette til.</li>
+							<li>En USB HDD installation vil være bundet til den maskine hvor installationen oprindeligt blev foretaget på. Hvis det er din intention at kunne anvende USB/SD/flash enheden på andre computere skal den ikke have non-free grafikdrivere og cheetcodes prækonfigureret, med undtagelse af vesa cheatcode som er hardcoded ind i grub.cfg. Dette skal man selv efterfølgende rette til.</li>
 
 							<li>Hvis du vil anvende installationen på andre maskiner skal du være opmærksom på at du skal justere et par ting for at få adgang til den anden maskinen harddiske, måske også xorg.conf og sikkert netværks konfigurationen.</li>
 						</ul>
 
 
 	</div>
-			<div id="rev"> Content last revised 30/09/2010 1355 UTC</div>
+			<div id="rev"> Content last revised 26/04/2011 1210 UTC</div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ceti 26/01/2010 2213 UTC-->
 <div id="menu"> <!-- menu starts here pt-br lang maintained by ceti-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Ir para aptosid.com forums e wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-pt-br.htm#fromiso">Como dar o 'boot' com fromiso &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-pt-br.htm#fromiso">Como inicializar com fromiso - visão geral</a></li>
-					  <li><a href="hd-install-opts-pt-br.htm#fromiso-grub-leg">Como inicializar com 'fromiso' e grub-legacy</a></li>
 					  <li><a href="hd-install-opts-pt-br.htm#grub2-fromiso">Como inicializar com 'fromiso' e Grub 2</a></li>
 					  <li><a href="hd-install-opts-pt-br.htm#fromiso-persist">fromiso e persist</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-pt-br.htm#non-free-firmware">Adding non-free to Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-pt-br.htm">Gerenciadores de janelas</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-pt-br.htm">Gerenciadores de janelas</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-pt-br.htm">Gerenciadores de janelas &#8658;</a>
+			  <li><a href="wm-dm-pt-br.htm">KDE and XFCE Gerenciadores de janelas &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-pt-br.htm#xfce-notes">Extras úteis para o Xfce</a></li>
-					    <li><a href="wm-kde-pt-br.htm#install-add">Extras úteis para o KDE</a></li>
-					    <li><a href="wm-kde-pt-br.htm#desk-freeze">Congelamentos do desktop</a></li>
-					    <li><a href="wm-kde-pt-br.htm#kde-login">"Não consigo entrar no KDE"</a></li>
-					    <li><a href="wm-kde-pt-br.htm#ch-th">Como mudar os temas</a></li>
+					    <li><a href="wm-dm-pt-br.htm#xfce-notes">Extras úteis para o Xfce</a></li>
+					    <li><a href="wm-dm-pt-br.htm#install-add">Extras úteis para o KDE</a></li>
+					    <li><a href="wm-dm-pt-br.htm#desk-freeze">Congelamentos do desktop</a></li>
+					    <li><a href="wm-dm-pt-br.htm#kde-login">"Não consigo entrar no KDE"</a></li>
+					    <li><a href="wm-dm-pt-br.htm#ch-th">Como mudar os temas</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-pt-br.htm#dm">Gerenciadores de ambientes - dm</a></li>
+		      <li><a href="wm-dm-pt-br.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-pt-br.htm">Conexão com a Internet, WiFi, LAN e redes</a>
@@ -277,7 +276,8 @@
 		<li><a href="sys-admin-gen-pt-br.htm#start-services">Serviços e runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-pt-br.htm#start-services">Habilitar/desabilitar serviços</a></li>
-					    <li><a href="sys-admin-gen-pt-br.htm#init">Runlevels no aptosid - init</a></li>
+					    <li><a href="sys-admin-gen-pt-br.htm#pkill">Killing a service or process</a></li>
+					    li><a href="sys-admin-gen-pt-br.htm#init">Runlevels no aptosid - init</a></li>
 					</ul>
 					</li>
 		<li><a href="sys-admin-rsync-pt-br.htm#rsync">Como fazer backups do sistema &#8658;</a>
@@ -382,37 +382,6 @@ update-grub
 </pre>
 						      <p>Seu arquivo grub2 grub.cfg será atualizado e mostrará as diferentes ISOs que você tem no diretório especificado e que estarão disponíveis na sua próxima reinicialização.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>fromiso com grub-legacy</h2>
-
-				<h4 class="highlight-3">Processo:</h4>
-							<p>Escolha um lugar para a ISO e os dois arquivos de que vamos precisar. Daí, crie um diretório-base, por exemplo: "/media/sdaX", (sda1 ou 2 ou 5 ou 6 ou seja lá o que você quiser), crie o diretório "aptosid" e copie a ISO nele:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Agora, monte a ISO (você pode usar, alternativamente, o mc [midnight commander] para isso, pois ele automonta de forma transparente arquivos .iso e deixa que você copie os arquivos necessários):</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Agora, copie os arquivos vmlinuz e initrd.img da imagem .iso que foi montada para o diretório,<span class="highlight-3"> sendo o HD sua variável conhecida. O que se segue é somente um exemplo:</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>A seguir, você precisa editar o grub. Portanto, edit o arquivo<span class="highlight-3"> /boot/grub/menu.lst </span>e adicione as seguintes linhas<span class="highlight-3"> APÓS ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE-se que não são permitidos coringas! </span> <span class="highlight-3">O HD é SUA variável conhecida; isto é apenas um exemplo!!!:</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit a partir da ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>Ao reiniciar a máquina, você verá um novo item no grub, referente à ISO. Quando você atualizar sua imagem iso e os arquivos vmlinuz e intird.img para lançamentos mais recentes, não será necessário fazer nenhuma modificação no arquivo menu.lst do GRUB.</p>
-
-	</div>
 	<div class="divider" id="fromiso-persist">
 		<h2>Informações gerais sobre fromiso com persist</h2>
 
@@ -547,7 +516,7 @@ $ man fll-iso2usb
 
 							<p><span class="highlight-3">Outras observações importantes: </span></p>
 						<ul>
-							<li>Uma instalação em dispositivos USB ou cartões SD/flash será, normalmente, direcionada para uso no PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que os drivers não livres da placa de vídeo provavelmente não estarão instalados e nem os 'cheatcodes' pré-configurados (com exceção do cheatcode VESA já declarado no menu.lst).</li>
+							<li>Uma instalação em dispositivos USB ou cartões SD/flash será, normalmente, direcionada para uso no PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que os drivers não livres da placa de vídeo provavelmente não estarão instalados e nem os 'cheatcodes' pré-configurados (com exceção do cheatcode VESA já declarado no grub.cfg).</li>
 
 							<li>Após dar o boot do dispositivo USB/SD/flash em outro PC, será necessário alterar o arquivo fstab (que está em /etc) para que as partições do HD fiquem acessíveis.</li>
 
@@ -566,13 +535,13 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Outras observações importantes:</span></p>
 
 						<ul>
-							<li>Uma instalação no HD-USB será direcionada para o PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que o HD-USB não deverá estar com os drivers não livres da placa de vídeo instalados nem com as 'cheatcodes' pré-configuradas (com exceção, provavelmente, da cheatcode VESA já aposta no menu.lst).</li>
+							<li>Uma instalação no HD-USB será direcionada para o PC que iniciou a instalação original. Se você tiver a intenção de usá-la em outras máquinas, lembre-se de que o HD-USB não deverá estar com os drivers não livres da placa de vídeo instalados nem com as 'cheatcodes' pré-configuradas (com exceção, provavelmente, da cheatcode VESA já aposta no grub.cfg).</li>
 
 							<li>Se você quiser usar a instalação em outra máquina, esteja alertado para o fato de que serão necessários alguns ajustes, como alterar o arquivo /etc/fstab (para que as partições do PC fiquem acessíveis), editar o xorg.conf e, provavelmente, refazer a configuração da rede.</li>
 						</ul>
 
 	</div>
-	<div id="rev">Page last revised 30/09/2010 1355 UTC</div>
+	<div id="rev">Page last revised 26/04/2011 1210 UTC</div>
 
 </div>
 </body>

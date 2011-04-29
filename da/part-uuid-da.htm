@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ragupo 16/03/2011 1649hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by ragupo-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Tilbage til aptosid.com forums og wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-da.htm#fromiso">Opstart fromiso &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-da.htm#fromiso">Opstart fromiso - Overblik</a></li>
-					  <li><a href="hd-install-opts-da.htm#fromiso-grub-leg">Opstart 'fromiso' med grub-legacy</a></li>
 					  <li><a href="hd-install-opts-da.htm#grub2-fromiso">Opstart 'fromiso' med Grub 2</a></li>
 					  <li><a href="hd-install-opts-da.htm#fromiso-persist">Fromiso og persist</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-da.htm#non-free-firmware">Tilføj non-free til kildelisten </a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-da.htm#install-add">Window Managers</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-da.htm#install-add">Window Managers</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-da.htm">Window Managers &#8658;</a>
+			  <li><a href="wm-dm-da.htm">KDE and XFCE Window Managers &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-da.htm#xfce-notes">Nyttige Xfce ekstras</a></li>
-					    <li><a href="wm-kde-da.htm#install-add">Nyttige ekstra KDE Apps</a></li>
-					    <li><a href="wm-kde-da.htm#desk-freeze">Skrivebordet fyser</a></li>
-					    <li><a href="wm-kde-da.htm#kde-login">ingen login i KDE mulig</a></li>
-					    <li><a href="wm-kde-da.htm#ch-th">Ændre Themes</a></li>
+					    <li><a href="wm-dm-da.htm#xfce-notes">Nyttige Xfce ekstras</a></li>
+					    <li><a href="wm-dm-da.htm#install-add">Nyttige ekstra KDE Apps</a></li>
+					    <li><a href="wm-dm-da.htm#desk-freeze">Skrivebordet fyser</a></li>
+					    <li><a href="wm-dm-da.htm#kde-login">ingen login i KDE mulig</a></li>
+					    <li><a href="wm-dm-da.htm#ch-th">Ændre Themes</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-da.htm#dm">Display Managers - dm</a></li>
+		      <li><a href="wm-dm-da.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-da.htm">Internet forbindelse, WiFi, LAN og Netwærk</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-da.htm#start-services">Tjenester og init runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-da.htm#start-services">Tjenester aktiver/deaktiver</a></li>
+					    <li><a href="sys-admin-gen-da.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-da.htm#init">aptosid runlevels - init</a></li>
 					</ul>
 					</li>
@@ -482,35 +482,10 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-				<h4>Permanent navngivning i boot manageren</h4>
-
-							<p>For at benytte dig af persistent names i din bootmanager, skal de følgende krav være opfyldt:<br />
-
-							<b>1)</b> Du bruger et mkinitcpio initramfs image<br />
-							<b>2)</b> Du har udev aktiveret i /etc/mkinitcpio.conf<br />
-							<b>3)</b> Da dit initramfs image belv genereret var version 101-3 (eller større) af klibc-udev installeret (persistent naming virker ikke i tidligere versioneri). Hvis du opdaterer klibc-udev fra en tidligere version og vil bruge persistent naming skal du regenerere dit initramfs image før du genstarter.</p>
-
-							<p>I det ovennævnte eksempel er /dev/sda1 root partitionen. I Grub menu.lst filee ser kernel linien ud som dette:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
-</pre>
-							<p>Afhængigt af den metode du har valgt til at navngive, ændrer du dette til en af de følgende:</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-label/root vga=0x318 ro
-</pre>
-							<p>eller</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
-</pre>
-
-							<p>Der findes en alternativ måde at anvende filsystemets labels på. Hvis for eksempel (som i ovenstående eksempel) filsystemet i /dev/sda1 har label'en "root", så kan du skrive denne linie i Grub:</p>
-<pre>
- kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
-</pre>
 							<p>Kilde:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  som anvendte <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Indhold fra wiki.archlinux.org var defineret som tilgængeligt i henhold til GNU Free Documentation License 1.2. Redigeret og tilpasset aptosid manualerne</p>
 
 	</div>
-			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
+			<div id="rev">Content last revised 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

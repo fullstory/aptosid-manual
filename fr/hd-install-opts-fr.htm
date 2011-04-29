@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision par LjanA 24/09/2010-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-fr.htm#fromiso">Démarrer en mode ''fromiso'' &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-fr.htm#fromiso">''fromiso'' Généralités</a></li>
-					  <li><a href="hd-install-opts-fr.htm#fromiso-grub-leg">Démarrer ''fromiso'' avec grub-legacy</a></li>
 					  <li><a href="hd-install-opts-fr.htm#grub2-fromiso">Démarrer ''fromiso'' avec grub2</a></li>
 					  <li><a href="hd-install-opts-fr.htm#fromiso-persist">''fromiso'' and persistance</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-fr.htm#non-free-firmware">Adding non-free to Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-fr.htm">Gestionnaire de fenêtres</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-fr.htm">Gestionnaire de fenêtres</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-fr.htm">Gestionnaire de fenêtres &#8658;</a>
+			  <li><a href="wm-dm-fr.htm">KDE and XFCE Gestionnaire de fenêtres &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-fr.htm#xfce-notes">Applications supplémentaires utiles pour Xfce</a></li>
-					    <li><a href="wm-kde-fr.htm#install-add">Applications supplémentaires utiles pour KDE</a></li>
-					    <li><a href="wm-kde-fr.htm#desk-freeze">Écran gelé</a></li>
-					    <li><a href="wm-kde-fr.htm#kde-login">Ouverture de session impossible (login) dans KDE</a></li>
-					    <li><a href="wm-kde-fr.htm#ch-th">Changer les fonds d'écran</a></li>
+					    <li><a href="wm-dm-fr.htm#xfce-notes">Applications supplémentaires utiles pour Xfce</a></li>
+					    <li><a href="wm-dm-fr.htm#install-add">Applications supplémentaires utiles pour KDE</a></li>
+					    <li><a href="wm-dm-fr.htm#desk-freeze">Écran gelé</a></li>
+					    <li><a href="wm-dm-fr.htm#kde-login">Ouverture de session impossible (login) dans KDE</a></li>
+					    <li><a href="wm-dm-fr.htm#ch-th">Changer les fonds d'écran</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-fr.htm#dm">Gestionnaire d'affichage &#8211; dm (display manager)</a></li>
+		      <li><a href="wm-dm-fr.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-fr.htm">Internet &#8211; WiFi &#8211; LAN &#8211; Réseaux</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-fr.htm#start-services">Services (démons) &#8211; init &#8211; Niveaux d'exécution &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-fr.htm#start-services">Activer / Désactiver des services (démons)</a></li>
+					    <li><a href="sys-admin-gen-fr.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-fr.htm#init">Niveaux d'exécution aptosid &#8211; init</a></li>
 					</ul>
 					</li>
@@ -383,89 +383,6 @@ update-grub
 </pre>
 						      <p>Votre grub.cfg de grub2 sera alors recalculé pour prendre en compte les différentes images ISO disposées dans le répertoire paramétré et qui seront disponibles au démarrage suivant.</p>
 	    </div>
-	    <div class="divider" id="fromiso-grub-leg">
-			<h2>fromiso avec grub-legacy (grub1)</h2>
-
-<!--- ####
-				<h4 class="highlight-3">Process:</h4>
-							<p>Choose a place for the iso and 2 files we need, so we get shorter names. Therefore create a base-directory: for example "/media/sdaX", (sda1 or, 2, or 5, or 6, or whatever, for example) create the directory "aptosid" and copy the iso into it:</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Now mount the ISO image (Alternatively mc [midnight commander] can be used, as it transparently auto-mounts .iso files and lets you copy out the files needed.):</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Now copy the vmlinuz and initrd.img files from the mounted iso image to the directory <span class="highlight-3">and the HD is YOUR known variable::This is an example only :</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz* /media/sda5/aptosid/vmlinuz
-cp /mnt/boot/initrd.img* /media/sda5/aptosid/initrd.img
-umount /mnt
-</pre>
-							<p>Next you have to customise grub. Therefore edit the file<span class="highlight-3"> /boot/grub/menu.lst </span> and add the following lines <span class="highlight-3"> AFTER the ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE no wildcards on grub line for filenames allowed! </span> <span class="highlight-3">The HD is YOUR known variable::This is an example only:</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd.img
-</pre>
-							<p>With next boot you have a new menu item in grub to start the iso image. Should you upgrade your aptosid.iso, vmlinuz and intird.img files with later releases, grub's menu.lst does not need to be altered.</p>
-#### -->
-				<h4 class="highlight-3">Processus :</h4>
-							<p>Choisir un endroit où copier l'ISO et les deux fichiers dont nous avons besoin, nous aurons anisi des noms simplifiés. Pour cela créez un repertoire : par exemple "/media/sdaX", (sda1 ou 2, ou 5, ou 6,...) puis créer le dossier "aptosid" et y copier l'ISO :</p>
-<pre>$ sux
-mkdir -p /media/sdaX/aptosid
-mv aptosid.iso /media/sdaX/aptosid
-</pre>
-							<p>Monter ensuite le fichier image (on peut aussi utiliser mc [midnight commander], puisque de façon transparente et automatique il monte les fichiers ISO et vous permet de copier les fichiers nécessaires) :</p>
-
-<pre>
-mount -t iso9660 -o loop,ro /media/sdaX/aptosid/aptosid.iso /mnt
-</pre>
-							<p>Maintenant copier les fichiers vmlinuz et initrd.img de l'image montée vers le répertoire de destination <span class="highlight-3">selon le chemin à spécifier vers votre propre disque dur. À titre d'exemple :</span></p>
-
-<pre>
-cp /mnt/boot/vmlinuz0.686 /media/sda5/aptosid/vmlinuz0.686
-cp /mnt/boot/initrd0.686 /media/sda5/aptosid/initrd0.686
-umount /mnt
-</pre>
-							<p>Modifier ensuite le fichier de configuration de grub. Pour cela éditer le fichier<span class="highlight-3"> /boot/grub/menu.lst </span> et ajouter les lignes suivantes <span class="highlight-3"> APRES le ### END DEBIAN AUTOMAGIC KERNELS LIST</span>: <span class="highlight-2">NOTE les caractères spéciaux tels que * ne sont pas autorisés dans les noms de fichiers! </span> <span class="highlight-3">Les variables du disque dur vous sont propres, ce qui suit n'est qu'un exemple :</span> </p>
-<pre>
-### ISO boot
-title aptosid 32bit from ISO
-kernel (hd0,4)/aptosid/vmlinuz0.686 boot=fll quiet vga=791 fromiso=/aptosid/aptosid.iso
-initrd (hd0,4)/aptosid/initrd0.686
-</pre>
-							<p>Au redémarrage vous aurez un nouvel élément dans le menu de grub pour permettre de démarrer l'ISO. Lorsque vous mettrez à jour votre aptosid.iso et les fichiers vmlinuz et intird.img, le menu.lst de grub n'aura pas besoin d'être modifié.</p>
-
-							</div>
-	<div class="divider" id="fromiso-persist">
-		<h2>Information générale sur fromiso avec persist</h2>
-
-				<h3>fromiso et persist sur un disque dur</h3>
-
-							<p>Vous pouvez avoir un système live persistant sur un disque inscriptible en combinant une installation fromiso avec le code de démarrage persist. When the fromiso uses ext2/ext3/ext4 system the default is simply:</p>
-
-<pre>
-persist
-</pre>
-<!--							<p>When the fromiso uses a vfat filesystem, then you must use a file that contains a linux filesystem and the cheatcode will look like:</p> -->
-							<p>Lorsque fromiso utilise un système de fichier vfat, il vous faudra alors utiliser un fichier qui contiendra un système de fichier linux et le cheatcode ressemblera à ceci:</p>
-<pre>
-persist=/aptosid/aptosid-rw
-</pre>
-
-							<p>aptosid utilise aufs pour activer ce que l'on appelle "copie à l'écriture" sur votre ISO, pour vous permettre de créer et de mettre à jour des fichiers et des répertoires tout en gardant les nouveaux fichiers en mémoire. Le code de démarrage <span class="highlight-3">persist</span> va stocker vos nouveaux fichiers sur la même partition que celle utilisée pour stocker votre image ISO.</p>
-
-							<p><span class="highlight-3">fromiso</span> vous met à disposition un système live qui contient toutes les fonctionnalités automatiques du live CD aptosid. Cela permet de bénéficier de fonctionnalités telles que la configuration automatique du matériel. En contrepartie cela signifie aussi que les mêmes fichiers devront être recréés à chaque démarrage, à moins que vous n'utilisiez des codes de démarrage aditionnels.</p>
-
-							<p>L'utilisation de <span class="highlight-3">persist</span> avec d'autres codes de démarrage spécifiques à aptosid tels que noxorgconf, nonetwork, etc signifie qu'il n'aura pas à recréer les mêmes fichiers à chaque démarrage.</p>
-
-							<p>L'utilisation de persist signifie aussi que vous pouvez installer des paquets depuis apt et avoir à disposition les applications installées et n'importe quelles autres données sauvées par vous-mêmes au prochain démarrage.</p>
-	</div>
 	<div class="divider" id="persist-post">
 				<h2>fromiso et persist sur une clef USB-sticks/SD/flash-cards bootable</h2>
 
@@ -598,7 +515,7 @@ $ man fll-iso2usb
 
 <!--							<p><span class="highlight-3">Other note worthy points are: </span></p>
 						<ul>
-							<li>A USB-stick/SD/flash-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SD/flash stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							<li>A USB-stick/SD/flash-card install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB/SD/flash stick on other PCs, it should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the grub.cfg, (all to be attended to after a successful installation).</li>
 
 							<li>After booting the USB-stick/SD/flash-card to another PC, you will need to alter fstab to access the PCs hard drives.</li>
 
@@ -617,13 +534,13 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Other note worthy points are: </span></p>
 
 						<ul>
-							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the menu.lst, (all to be attended to after a successful installation).</li>
+							<li>A USB HDD install will be usually be bound to the PC that initiated the original installation. If it is your intention to be able to use the USB HDD on other PCs, the USB HDD should not have non-free graphics drivers and cheatcodes pre configured, with the exception to probably have the vesa cheatcode hardcoded into the grub.cfg, (all to be attended to after a successful installation).</li>
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li> -->
 
 							<p><span class="highlight-3">Autres points à noter: </span></p>
 						<ul>
-							<li>Une installation sur support USB/SD/flash-card sera configuré par rapport au PC duquel il a été installé. Si vous avez l'intention d'utiliser votre clé USB/SD/flash sur d'autres ordinateurs, Il ne devrait donc pas avoir les pilotes graphiques et les codes de démarrage non libres préconfigurés, sauf si le code de démarrage vesa est déjà configuré dans le menu.lst, (tout ceci bien attendu après une installation réussie).</li>
+							<li>Une installation sur support USB/SD/flash-card sera configuré par rapport au PC duquel il a été installé. Si vous avez l'intention d'utiliser votre clé USB/SD/flash sur d'autres ordinateurs, Il ne devrait donc pas avoir les pilotes graphiques et les codes de démarrage non libres préconfigurés, sauf si le code de démarrage vesa est déjà configuré dans le grub.cfg, (tout ceci bien attendu après une installation réussie).</li>
 
 							<li>Après avoir démarré  la clé USB/SD/flash-card d'un autre ordinateur, modifier le fstab afin d'accéder aux autres disques durs de l'ordinateur.</li>
 
@@ -642,13 +559,13 @@ $ man fll-iso2usb
 							<p><span class="highlight-3">Autres remarques: </span></p>
 
 						<ul>
-							<li>Une installation sur Disque Dur externe (USB) sera configuré par rapport au PC duquel il a été installé. Si vous avez l'intention d'utiliser votre Disque Dur externe (USB) sur d'autres ordinateurs, Il ne devrait donc pas avoir les pilotes graphiques et les codes de démarrage non libres préconfigurés, sauf si le code de démarrage vesa est déjà configuré dans le menu.lst, (tout ceci bien attendu après une installation réussie).</li>
+							<li>Une installation sur Disque Dur externe (USB) sera configuré par rapport au PC duquel il a été installé. Si vous avez l'intention d'utiliser votre Disque Dur externe (USB) sur d'autres ordinateurs, Il ne devrait donc pas avoir les pilotes graphiques et les codes de démarrage non libres préconfigurés, sauf si le code de démarrage vesa est déjà configuré dans le grub.cfg, (tout ceci bien attendu après une installation réussie).</li>
 
 							<li>Si vous souhaitez l'utiliser sur d'autres ordinateurs, il faudra effectuer quelques modifications, comme modifier le fstab pour accéder aux autres disques dur de l'ordinateur le xorg.conf et probablement la connexion réseau.</li>
 							</ul>
 
 	</div>
-	<div id="rev">Dernière révision le 30/09/2010 1355 UTC</div>
+	<div id="rev">Dernière révision le 26/04/2011 1210 UTC/div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation by Ljana 1/10/2010 -->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-02.10.2011.03.14 REPO -->
-<!-- menu last updated by bluewater 2011.03.14 0620 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
+<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -136,7 +136,6 @@
 		<li><a href="hd-install-opts-fr.htm#fromiso">Démarrer en mode ''fromiso'' &#8658;</a>
 					<ul class="sub2-menu" id="sm7b">
 					  <li><a href="hd-install-opts-fr.htm#fromiso">''fromiso'' Généralités</a></li>
-					  <li><a href="hd-install-opts-fr.htm#fromiso-grub-leg">Démarrer ''fromiso'' avec grub-legacy</a></li>
 					  <li><a href="hd-install-opts-fr.htm#grub2-fromiso">Démarrer ''fromiso'' avec grub2</a></li>
 					  <li><a href="hd-install-opts-fr.htm#fromiso-persist">''fromiso'' and persistance</a></li>
 					</ul>
@@ -173,18 +172,18 @@
 			  <li><a href="nf-firm-fr.htm#non-free-firmware">Adding non-free to Sources List</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-kde-fr.htm">Gestionnaire de fenêtres</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-fr.htm">Gestionnaire de fenêtres</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-kde-fr.htm">Gestionnaire de fenêtres &#8658;</a>
+			  <li><a href="wm-dm-fr.htm">KDE and XFCE Gestionnaire de fenêtres &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
-					    <li><a href="wm-xfce-fr.htm#xfce-notes">Applications supplémentaires utiles pour Xfce</a></li>
-					    <li><a href="wm-kde-fr.htm#install-add">Applications supplémentaires utiles pour KDE</a></li>
-					    <li><a href="wm-kde-fr.htm#desk-freeze">Écran gelé</a></li>
-					    <li><a href="wm-kde-fr.htm#kde-login">Ouverture de session impossible (login) dans KDE</a></li>
-					    <li><a href="wm-kde-fr.htm#ch-th">Changer les fonds d'écran</a></li>
+					    <li><a href="wm-dm-fr.htm#xfce-notes">Applications supplémentaires utiles pour Xfce</a></li>
+					    <li><a href="wm-dm-fr.htm#install-add">Applications supplémentaires utiles pour KDE</a></li>
+					    <li><a href="wm-dm-fr.htm#desk-freeze">Écran gelé</a></li>
+					    <li><a href="wm-dm-fr.htm#kde-login">Ouverture de session impossible (login) dans KDE</a></li>
+					    <li><a href="wm-dm-fr.htm#ch-th">Changer les fonds d'écran</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-kde-fr.htm#dm">Gestionnaire d'affichage &#8211; dm (display manager)</a></li>
+		      <li><a href="wm-dm-fr.htm#dm">Installing additional Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-fr.htm">Internet &#8211; WiFi &#8211; LAN &#8211; Réseaux</a>
@@ -277,6 +276,7 @@
 		<li><a href="sys-admin-gen-fr.htm#start-services">Services (démons) &#8211; init &#8211; Niveaux d'exécution &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-fr.htm#start-services">Activer / Désactiver des services (démons)</a></li>
+					    <li><a href="sys-admin-gen-fr.htm#pkill">Killing a service or process</a></li>
 					    <li><a href="sys-admin-gen-fr.htm#init">Niveaux d'exécution aptosid &#8211; init</a></li>
 					</ul>
 					</li>
@@ -494,54 +494,13 @@ LABEL=Boot
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-		<h4>Utiliser l'identification permanente dans votre chargeur de démarrage</h4>
-							<p>Pour utiliser l'identification permanente dans votre chargeur de démarrage, toutes les conditions qui suivent doivent être réunies :</p>
-
-						<ol>
-							<li>Vous utilisez une image mkinitcpio initramfs</li>
-
-							<li>udev est activé dans votre fichier /etc/mkinitcpio</li>
-
-							<li>Quand votre image initramfs a été générée, version 101-3 et suivantes de klibc-udev a été installée (l'identification permanente est défectueuse dans les versions antérieures). Si vous mettez-à-jour klibc-udev afin de pouvoir utiliser l'identification permanente, régénérez votre image initramfs avant de redémarrer.</li>
-						</ol>
-
-							<p>Dans l'exemple /dev/sda1 est la partition racine. Dans la menu.lst de GRUB, la ligne désignant le noyau se présente comme suit :</p>
-
-<pre>
-kernel /boot/vmlinuz26 root=/dev/sda1 vga=0x318 ro
-</pre>
-							<p>En fonction du schéma d'identification qui vous agrée le mieux, changez-la pour :</p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-label/ro
-</pre>
-							<p>ou </p>
-<pre>
-kernel /boot/vmlinuz26 root=/dev/disk/by-uuid/2d781b26-0285-421a-b9d0-d4a0d3b55680 vga=0x318 ro
-</pre>
-
-							<p>Pour les partitions Linux, la syntaxe recommandée, peut être encore plus simple :</p>
-
-
-<pre>
-title		Debian GNU/Linux, kernel 2.6.22.3-rc1-slh-smp-1
-root		(hd3,0)
-kernel		/boot/vmlinuz-2.6.22.3-rc1-slh-smp-1 root=UUID=2d781b26-0285-421a-b9d0-d4a0d3b55680 ro  quiet vga=791
-initrd		/boot/initrd.img-2.6.22.3-rc1-slh-smp-1
-</pre>
-
-<p>Soit root=UUID=XnXXXnnXnnX , pour identifier par son UUID un périphérique bloc.</p>
-
-							<p>Une alternative existe pour appliquer à votre système une désignation par label. Par exemple si le système de fichiers de /dev/sda1 est étiqueté "root", vous pourriez utiliser cette ligne dans GRUB :</p>
-<pre>
-kernel /boot/vmlinuz26 root=LABEL=root vga=0x318 ro
-</pre>
 
 							<p>Source:<a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  qui s'inspire de <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Les contenus de wiki.archlinux.org sont considérés couverts par la GNU Free Documentation License 1.2 ) et ont été réédités pour le manuels aptosid.</p>
 
 							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Plus d'information sur l'identification sur lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 14/03/2011 0345 UTC</div>
+			<div id="rev">Content last revised 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

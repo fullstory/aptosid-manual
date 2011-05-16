@@ -276,7 +276,7 @@
 		<li><a href="sys-admin-gen-ro.htm#start-services">Servicii și init runlevel-e &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-ro.htm#start-services">Servicii -activare/dezactivare</a></li>
-					    <li><a href="sys-admin-gen-ro.htm#pkill">Killing a service or process</a></li>
+					    <li><a href="sys-admin-gen-ro.htm#pkill">Omorârea unui serviciu sau proces</a></li>
 					    <li><a href="sys-admin-gen-ro.htm#init">runlevel-e aptosid - init</a></li>
 					</ul>
 					</li>
@@ -316,38 +316,49 @@
 				<h6>konq-plugins - plugin-uri pentru Konqueror. </h6>
 
 							<p>Acest pachet conține o varietate de plugin-uri utile pentru Konqueror. Acesta este un manager de fișiere, web browser și cititor de documente pentru KDE. Multe dintre aceste plugin-uri vor apare în  menu-ul Tools al lui Konqueror.</p>
+<pre>
+apt-get install konq-plugins
+</pre>
 
  							<p>Îmbunătățirile pentru web browsing includ: traducerea paginilor web, arhivarea paginilor web, auto-reîmprospătare, analiza structurală HTML și CSS, o bară de unelte pentru căutare, o bară laterală care vă anunță noutățile, acced rapid la opțiunile comune, semne de carte (bookmarklets), o monitorizare a crash-urilor, un indicator de microformat, o bară laterală de bookmarks 'del.icio.us' și integrarea cu 'aKregator RSS feed reader'.</p>
 
  							<p>Îmbunătățirile pentru directory browsing includ: filtre pentru directoare, crearea de galerii cu imagini, arhivare compresare și extragere, un rapid copy/move, o bară laterală  media player, o metabar/sidebar cu informații despre fișiere, un ajutor pentru directoare media, o reprezentare grafică a utilizării disk-urilor și un convertor/transformator de imagini. </p>
 
-				<!--<h6>kdeaddons - add-on plugins and applets provided with KDE</h6>
-							<p>This metapackage includes a collection of add-on plugins and applets provided with the official release of KDE.</p>-->
+				<h6>Căutare cu KDE Deskop Search - (Nepomuk și Strigi) </h6>
+							<p>În aptosid-kde.iso <i>KDE's Nepomuk semantic desktop search</i> nu este activat. Pentru al activa trebuie să faceți următoarele:</p>
 
-				<h6>unrar - Dezarhivator pentru fișiere .rar (versiunea non-free)</h6>
-							<p>Dezarhivatorul pentru fișiere .rar (versiunea non-free) 'Unrar' poate extrage fișiere din arhivele .rar. Dacă doriți să creați arhive .rar, instalați pachetul 'rar'.</p>
+							<p>Instalați pachetele <i>virtuoso-minimal</i> și <i>strigi-client</i>:</p>
 
+<pre>
+apt-get install virtuoso-minimal strigi-client
+</pre>
+
+							<p>Navigați la <i>System Settings &gt; System Administration &gt; Startup and Shutdown &gt;Service Manager</i>, marcați căsuța pentru <span class="highlight-3">Nepomuk Search Module</span>, apoi dați click pe <span class="highlight-3">Apply</span>.</p>
+
+							<p>Navigați la <i>System Settings > Workspace Appearance and Behavior &gt; Desktop Search &gt; Basic Settings</i>, marcați căsuțele pentru <span class="highlight-3">Enable Nepomuk Semantic Desktop</span> și <span class="highlight-3">Enable Strigi Desktop File Indexer</span>, apoi dați click pe <span class="highlight-3">Apply</span>. <br />Notă: spațiul alocat memoriei utilizată de baza de date a Nepomuk poate fi ajustată în tab-ul <span class="highlight-3">Advanced Settings</span>.</p>
+
+							<p>Sesiunea KDE trebuie repornită pentru ca serviciul de indexare să devină operațional. Așteptați-vă ca prima operațiune de indexare să dureze mult timp.  <a href="http://nepomuk.kde.org/"> Mai multe informații despre Nepomuk aici</a>. </p>
 
 	</div>
 	<div class="divider" id="kde-login">
 			<h2>Probleme la logarea în sistem sub KDE</h2>
 
-							<p>Conţinutul directorului  /tmp este în mod normal golit  la fiecare secvenţă de boot , deci şi uniele directoare sau specificaţii necesare serverului de ecran sunt deasemeni şterse .</p>
+							<p>Conţinutul directorului  /tmp este în mod normal golit la fiecare secvenţă de boot deci şi unele directoare sau specificaţii necesare serverului de ecran sunt deasemeni şterse.</p>
 
-							<p>În mod automat , la pornire , scriptul x11-common din X-Org recrează aceste setări .</p>
+							<p>În mod automat, la pornire, scriptul x11-common din X-Org recrează aceste setări.</p>
 
-							<p>Este posibil totuşi să nu fie recreate la pornire şi de aceea pentru a le rechema executaţi : </p>
+							<p>Este posibil totuşi să nu fie recreate la pornire şi de aceea pentru a le rechema executaţi: </p>
 <pre>
 # X-ORG: # dpkg-reconfigure x11-common
 </pre>
 
 							<p>KDE are nevoie de 5% din partiția unde rezidă directorul /tmp și sunt create fișierele temporare după login. Dacă partiția voastră este ocupată 95% cu diverse fișiere nu veți putea să vă log-ați în KDE și veți fi redirecționați într-un tty.</p>
 
-							<p>La fel întâmplă și cu kdm care nu vă lasă să vă log-ați. O soluție este să vă log-ați într-un tty de unde puteți șterge și/sau curăța aplicații sau fișiere de care nu mai aveți nevoie.</p>
+							<p>La fel se întâmplă și cu kdm care nu vă lasă să vă log-ați. O soluție este să vă log-ați într-un tty de unde puteți șterge și/sau curăța aplicații sau fișiere de care nu mai aveți nevoie.</p>
 
-							<p>O altă alternativă ar fi să folosiți un alt manager de ferestre X care are nevoie de mai puțin spațiu pentru rulare (de exemplu 'fluxbox' este deja prezent într-o instalare aptosid), sau utilizând 'chroot' de pe un aptosid live-CD/DVD pentru a curăța partiția și de a putea apoi boota în KDE.</p>
+							<p>O altă alternativă ar fi să folosiți un alt manager de ferestre X care are nevoie de mai puțin spațiu pentru rulare (de exemplu 'fluxbox' este deja prezent într-o instalare aptosid) sau utilizând 'chroot' de pe un aptosid live-CD/DVD pentru a curăța partiția și de a putea apoi boota în KDE.</p>
 
-							<p>85% ocupare este maximum recomandat la o partiție accesată de KDE pentru fișierele sale /tmp .(15% spațiu liber).</p>
+							<p>85% ocupare este maximum recomandat la o partiție accesată de KDE pentru fișierele sale /tmp. (15% spațiu liber).</p>
       </div>
 	<div class="divider" id="ch-th">
 			<h2>Instalarea 'aptosid KDE Art' și 'Themes'</h2>
@@ -377,7 +388,7 @@ kdesu systemsettings
 							<p><a href="http://kde.org">Mai multe informaţii despre KDE şi link-uri</a> </p>
 	</div>
        	<div class="divider" id="xfce-notes">
-			<h2 id="top-header">Extrase utile Xfce</h2>
+			<h2 >Extrase utile Xfce</h2>
 
 	</div>
 	<div class="divider" id="xfce-notes-1">
@@ -428,29 +439,29 @@ update-rc.d slim start 01 5 . stop 01 0 1 2 3 4 6 .
 	</div>
 	<div class="divider" id="desk-freeze">
 			<h2>Desktop-ul se blochează</h2>
-							<p>Într-o aşa situaţie nu întotdeauna e nevoie de butonul de reset (F13 :)) . Acesta poate deteriora sistemul de fişiere sau duce la pierderea de date . Nicicum sistemul de fişiere nu va fi în regulă după un reset hard  (filesystem not clean)</p>
+							<p>Într-o asemenea situaţie nu întotdeauna e nevoie de butonul de reset (F13 :)). Acesta poate deteriora sistemul de fişiere sau duce la pierderea de date. Nicicum sistemul de fişiere nu va fi în regulă după un reset hard  (filesystem not clean)</p>
 
-							<p>Mai întâi încercaţi să combinația de taste <span class="highlight-3">alt-ctl-F1</span> sau să restartaţi serverul X  <span class="highlight-3">alt-ctl-backspace</span>, ( dacă nici una din aceste două opţiuni nu funcţionează încă mai există speranţă ) :</p>
+							<p>Mai întâi încercaţi să combinația de taste <span class="highlight-3">alt-ctl-F1</span> sau să restartaţi serverul X  <span class="highlight-3">alt-ctl-backspace</span>, (dacă nici una din aceste două opţiuni nu funcţionează încă mai există speranţă):</p>
 
-							<p>Tasta SYSRQ  (tasta "print" , în partea dreaptă superioară a tastaturii ) vă ajută să reporniţi curat un sistem care nu răspunde .</p>
+							<p>Tasta SYSRQ  (tasta "print", în partea dreaptă superioară a tastaturii ) vă ajută să reporniţi curat un sistem care nu răspunde.</p>
 
-							<p>Următoarele combinaţii de taste sunt posibile :<br />
+							<p>Următoarele combinaţii de taste sunt posibile:<br />
     							*<span class="highlight-3"> alt+sysrq+r</span> (redă controlul tastaturii )<br />
     							*<span class="highlight-3"> alt+sysrq+s</span> (emite un  sync)<br />
     							*<span class="highlight-3"> alt+sysrq+e</span> (trimite term tuturor proceselor în afară de init)<br />
     							*<span class="highlight-3"> alt+sysrq+i</span> (trimite kill tuturor proceselor în afară de init)<br />
-    							*<span class="highlight-3"> alt+sysrq+u</span> (fişierele sunt montate read-only , previne fsck la reboot)<br />
-    							*<span class="highlight-3"> alt+sysrq+b</span> (restartează sistemul  fără paşii anteriori  echivalent cu un hard reset).</p>
+    							*<span class="highlight-3"> alt+sysrq+u</span> (fişierele sunt montate read-only, previne fsck la reboot)<br />
+    							*<span class="highlight-3"> alt+sysrq+b</span> (restartează sistemul fără paşii anteriori echivalent cu un hard reset).</p>
 
 
-							<p>cel mai bine e să acordaţi câteva secunde fiecărui pas pentru a se executa; finalizarea tuturor proceselor , de exemplu , poate lua ceva timp . Tastele necesare pot fi uşor amintite cu :<br />
+							<p>cel mai bine e să acordaţi câteva secunde fiecărui pas pentru a se executa; finalizarea tuturor proceselor, de exemplu, poate lua ceva timp. Tastele necesare pot fi uşor amintite cu:<br />
 							<b>"<span class="highlight-2">R</span>eboot <span class="highlight-2">S</span>ystem <span class="highlight-2">E</span>ven <span class="highlight-2">I</span>f <span class="highlight-2">U</span>tterly <span class="highlight-2">B</span>roken" </b></p>
 
 							<p>Alt mod de a le ține minte este:<br />
 							<b> "<span class="highlight-2">R</span>aising <span class="highlight-2">S</span>kinny <span class="highlight-2">E</span>lephants <span class="highlight-2">I</span>s <span class="highlight-2">U</span>tterly <span class="highlight-2">B</span>oring" </b></p>
 
 	</div>
-			<div id="rev">Page last revised 20/04/2011 0630 UTC</div>
+			<div id="rev"> Page last revised 01/05/2011 1215 UTC </div>
 
 </div>
 </body>

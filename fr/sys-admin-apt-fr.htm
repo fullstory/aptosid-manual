@@ -471,18 +471,47 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Revenir à la version antérieure</h3>
-							<p>Les étapes de cet exemple utiliseront <span class="highlight-3">kmahjongg</span> : </p>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
+
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
 
 						<ol>
-							<li><pre>activez/décommentez les sources testing dans <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(en enlevant le #) de manière à pouvoir accéder à <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing </pre></li>
-							<li>Puis commandez le gel en l'état du logiciel nouvellement installé avec :<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>Re-commentez la ligne de sources testing dans /etc/apt/sources.list.d/debian.list </pre></li>
-							<li><pre>apt-get update</pre></li>
-			</ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
 
-							<p>Quand vous voudrez à nouveau obtenir la dernière version disponible du paquet, vous ferez :</p>
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
+
+							p>Quand vous voudrez à nouveau obtenir la dernière version disponible du paquet, vous ferez :</p>
 <pre>
 echo kmahjongg install|dpkg --set-selections
 apt-get update
@@ -600,11 +629,15 @@ init 5 &amp;&amp; exit
 
 				<h4>Quelques explications sur les raisons d'employer APT-GET et RIEN D'AUTRE pour un dist-upgrade</h4>
 
-							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage ne sont pas toujours capables d'intégrer certains changements radicaux et brutaux qui se produisent fréquemment dans les développements de SID (changements de dépendances, de noms de paquets, de scripts de maintenance, etc.). Ceci n'est pas dû à des erreurs des développeurs de ces outils, ce sont des outils bien pratiques et utile à la branche stable de Debian ; c'est juste qu'ils ne sont pas adaptés à la branche SID (unstable).</p>
+							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage ne sont pas toujours capables d'intégrer certains changements radicaux et brutaux qui se produisent fréquemment dans les développements de SID (changements de dépendances, de noms de paquets, de scripts de maintenance, etc.). 
+
+							<p>Ceci n'est pas dû à des erreurs des développeurs de ces outils, ce sont des outils bien pratiques et utile à la branche stable de Debian ; c'est juste qu'ils ne sont pas adaptés à la branche SID (unstable).</p>
 
 							<p>Utilisez ce que vous voudrez pour rechercher des paquetages, mais tenez-vous en à apt-get pour tout ce qui touche à l'installation, à la désinstallation et à la mise-à-niveau de paquetages ou d'installation.</p>
 
-							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage présentent des limitations face à la sélection complexe de paquetages ; ajoûtez celà au contexte extrêmement changeant des cibles Sid, pire encore à celui de miroirs externes dont la qualité se discute souvent (nous ne les recommandons pas ni n'en utilisons, mais supposons qu'ils correspondent à une réalité sur votre machine) et vous avez tout risque d'obtenir un désastre. L'autre point c'est bien sûr que fonctionnant pour beaucoup en mode graphique, soit init 5 et/ou X, vous risquiez d'endommager votre système de manière irrémédiable en les utilisant à un upgrade ou dist-upgrade...</p>
+							<p>Les gestionnaires de paquetages comme adept, aptitude, synaptic ou kpackage présentent des limitations face à la sélection complexe de paquetages ; ajoûtez celà au contexte extrêmement changeant des cibles Sid, pire encore à celui de miroirs externes dont la qualité se discute souvent (nous ne les recommandons pas ni n'en utilisons, mais supposons qu'ils correspondent à une réalité sur votre machine) et vous avez tout risque d'obtenir un désastre. </p>
+
+							<p>L'autre point c'est bien sûr que fonctionnant pour beaucoup en mode graphique, soit X, vous risquiez d'endommager votre système de manière irrémédiable en les utilisant à un upgrade ou dist-upgrade...</p>
 
 							<p>D'un autre côté, on notera qu'apt-get effectue mot-pour-mot ce que vous lui demandez ; c'est-à-dire que si un problème se pose, il vous en avertit, vous pouvez l'identifier et y remédier dans de nombreux cas. Si apt-get vous propose de désinstaller la moitié de votre système (par exemple lors de la transition radicale de librairies), c'est à vous, l'administrateur, d'y prêter l'attention nécessaire.</p>
 
@@ -698,7 +731,7 @@ apt-get install packagesearch
 	</div>
 <p>Rappel : vous trouverez l'intégralité de l'information sur le système APT à la page <a href="http://www.debian.org/doc/manuals/apt-howto/">APT-HOWTO</a> ou en installant le paquet apt-howto-fr, disponible en version texte ou html.</p>
 
-			<div id="rev">Dernière actualisation le 16/09/2010 1450 UTC  </div>
+			<div id="rev">Dernière actualisation le 13/05/2011 0825 UTC  </div>
 
 </div>
 </div>

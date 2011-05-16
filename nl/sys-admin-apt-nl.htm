@@ -174,7 +174,7 @@
 		</li>
 <li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-nl.htm">Window Managers</a>
 		    <ul class="sub-menu" id="sm9">
-			  <li><a href="wm-dm--nl.htm">KDE and XFCE Window Managers &#8658;</a>
+			  <li><a href="wm-dm--nl.htm">KDE en XFCE Window Managers &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
 					    <li><a href="wm-dm--nl.htm#xfce-notes">Handige Xfce extras</a></li>
 					    <li><a href="wm-dm-nl.htm#install-add">Handige extra KDE Apps</a></li>
@@ -183,7 +183,7 @@
 					    <li><a href="wm-dm-nl.htm#ch-th">Thema's veranderen</a></li>
 					</ul>
 					</li>
-		      <li><a href="wm-dm-nl.htm#dm">Installing additional Display Managers</a></li>
+		      <li><a href="wm-dm-nl.htm#dm">Installie van bijkomende Display Managers</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 11 );" onmouseout="startTime();" ><a href="inet-ceni-nl.htm">Internet verbinding, WiFi, LAN en Netwerken</a>
@@ -276,7 +276,7 @@
 		<li><a href="sys-admin-gen-nl.htm#start-services">Services en init runlevels &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-nl.htm#start-services">Services inschakelen/uitschakelen</a></li>
-					    <li><a href="sys-admin-gen-nl.htm#pkill">Killing a service or process</a></li>
+					    <li><a href="sys-admin-gen-nl.htm#pkill">Een service of een process stoppen</a></li>
 					    <li><a href="sys-admin-gen-nl.htm#init">aptosid runlevels - init</a></li>
 					</ul>
 					</li>
@@ -467,16 +467,45 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Downgrading</h3>
-							<p>De volgende stappen moeten bijv. voor <span class="highlight-3">kmahjongg</span> worden doorlopen:</p>
+							<p> <span class="highlight-2">Debian ondersteunt het downgraden van paketten niet. Hoewel het kan werken in enkele eenvoudige situaties, zo kan het ook spectaculair falen in andere gevallen. Gelieve te kijken naar </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<ol>
-							<li><pre>Maak de testing sources beschikbaar in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(verwijder de #) en daar moet dus staan <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing</pre></li>
-							<li>Zet het nieuwe pakket op hold door:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>Plaats het hekje # weer voor de testing sources in /etc/apt/sources.list.d/debian.list </pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<p>Ondanks het feit dat downgraden niet wordt ondersteunt, blijkt het toch te werken voor eenvoudige pakketten. De stappen voor het downgraden van een eenvoudig pakket, zoals <span class="highlight-3">kmahjongg</span> bevoorbeeld, zijn:</p>
+
+						<ol>
+							<li>Wijzig de unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> in commentaar met een <span class="highlight-3">#</span></li>
+
+							<li>Voeg de testing sources toe aan <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, bijvoorbeeld:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Zet het nieuw geinstalleerde pakket "on hold" met:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>Wijzig de testing sources in /etc/apt/sources.list.d/debian.list in commentaar met &lt;#&gt; en uncomment de unstable sources zodanig dat je terug de unstable sources zal gebruiken, daarna:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>Als je de laatste versie van een pakket wilt installeren:</p>
 <pre>
@@ -575,15 +604,21 @@ init 5 &amp;&amp; exit
 
 				<h4>De redenen om niets anders dan apt-get voor een dist-upgrade te gebruiken</h4>
 
-							<p>Pakket managers zoals adept, aptitude, synaptic en kpackage zijn niet altijd in staat om de grote hoeveelheid aan veranderingen in Sid-systemen volledig en correct te verwerken (veranderde afhankelijkheden, veranderde namen, script veranderingen, ...). Dat is geen fout van de ontwikkelaars van deze hulpmiddelen. Zij hebben prachtige programma's geschreven voor de Debian Stable systemen, maar zij zijn niet gemaakt voor de bijzonderheden van Debian Sid systemen.</p>
+							<p>Pakket managers zoals adept, aptitude, synaptic en kpackage zijn niet altijd in staat om de grote hoeveelheid aan veranderingen in Sid-systemen volledig en correct te verwerken (veranderde afhankelijkheden, veranderde namen, script veranderingen, ...).</p>
+
+							<p> Dat is geen fout van de ontwikkelaars van deze hulpmiddelen. Zij hebben prachtige programma's geschreven voor de Debian Stable systemen, maar zij zijn niet gemaakt voor de bijzonderheden van Debian Sid systemen.</p>
 
 							<p>Je kan voor het zoeken naar pakketten gebruiken wat je wilt, maar neem uitsluitend apt-get voor   installeren/verwijderen/dist-upgrading.</p>
 
-							<p>Probleem 1: Pakket managers zoals adept, aptitude, synaptic en kpackage zijn 'non-deterministic' voor complexe pakketten. Als in het dagelijks geactualiseerde aanbod van Debian Sid en in verschillende externe  bronnen van verschillende qualiteit (wij gebruiken of adviseren deze niet, maar zij zijn wel de realiteit op een groot aantal user systemen) grafische pakket managers gebruikt worden, kunnen problemen ontstaan die niet eenvoudig gerepareerd kunnen worden. Probleem 2: Deze grafische package managers gebruiken runlevel 5 (init 5) en/of werken in X. Als je dus een dist-upgrade in init 5 en/of X uitvoert (ook een 'upgrade' wordt niet aanbevolen), kunnen problemen voor je systeem ontstaan, misschien niet vandaag of morgen, maar de problemen komen vrijwel zeker op je systeem.</p>
+							<p>Pakket managers zoals adept, aptitude, synaptic en kpackage zijn 'non-deterministic' voor complexe pakketten. Als in het dagelijks geactualiseerde aanbod van Debian Sid en in verschillende externe  bronnen van verschillende qualiteit (wij gebruiken of adviseren deze niet, maar zij zijn wel de realiteit op een groot aantal user systemen) grafische pakket managers gebruikt worden, kunnen problemen ontstaan die niet eenvoudig gerepareerd kunnen worden. </p>
+
+							<!--<p>Deze grafische package managers gebruiken in X. Als je dus een dist-upgrade in init 5 en/of X uitvoert (ook een 'upgrade' wordt niet aanbevolen), kunnen problemen voor je systeem ontstaan, misschien niet vandaag of morgen, maar de problemen komen vrijwel zeker op je systeem.</p>-->
+
+							<p>Een bijkomende opmerking: al deze GUI pakket managers moeten in X worden gebruikt. Met het maken van een dist-upgrade in X (of zelfs met een "upgrade", hoewel dit niet is aangeraden ) zal je het systeem onherstelbaar beschadigen, misschien niet vandaag of morgen, maar na verloop van tijd zal het toch gebeuren.</p>
 
 							<p>Apt-get doet eenvoudig wat het behoort te doen. Als er tijdens de installatie een probleem ontstaat (afhankelijkheden, ontbrekende pakketten), dan wordt je geïnformeerd voordat de installatie doorgaat. Als apt-get de helft van je systeem wil verwijderen dan moet de administrator (jezelf dus) er serieus naar kijken voordat je 'y' en enter gebruikt.</p>
 
-							<p>Dat is de reden waarom Debian builds apt-get gebruiken en geen andere package managers.</p>
+							<p>Dat is de reden waarom Debian builds apt-get gebruiken en geen andere pakket managers.</p>
 
 	</div>
 	<div class="divider" id="apt-cache">
@@ -667,7 +702,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Een uitgebreide beschrijving van het APT-System is te zien in de APT-HOWTO</a> </p>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 16/09/2010 1450 UTC v</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 13/05/2011 0825 UTC</div>
 </div>
 </body>
 </html>

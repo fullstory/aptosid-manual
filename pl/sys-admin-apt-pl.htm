@@ -464,16 +464,45 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Cofnięcie do starszej wersji (Downgrading)</h3>
-							<p>Należy wykonać następujące kroki, <span class="highlight-3">kmahjongg</span> jest przykładem:</p>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<ol>
-							<li><pre>włącz/odkomentuj źródła testing w <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(wykasuj #) aby przybrały postać <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing</pre></li>
-							<li>Umieść nowo zainstalowany pakiet na liście oczekujących przy pomocy:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>skomentuj źródła testing w /etc/apt/sources.list.d/debian.list  </pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
+
+						<ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
+
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>Kiedy będziesz chciał zainstalować najnowszą wersję pakietu, wykonaj polecenie:</p>
 <pre>
@@ -573,15 +602,21 @@ init 5 &amp;&amp; exit
 
 				<h4>Powody, dla których powinieneś używać tylko apt-get do dist-upgrade</h4>
 
-				<p>Menadżery pakietów takie jak adept, aptitude, synaptic i kpackage nie zawsze są w stanie wziąć pod uwagę wielkiej ilości zmian, która ma miejsce w Sidzie (zmiany zależności, zmiany nazw, zmiany skryptów, ...). Nie jest to jednak wina twórców tych narzędzi, piszą oni wspaniałe programy, które świetnie działają w stabilnej gałęzi debiana, nie są one po prostu odpowiednie dla specjalnych potrzeb Debiana  Sid.</p>
+							<p>Menadżery pakietów takie jak adept, aptitude, synaptic i kpackage nie zawsze są w stanie wziąć pod uwagę wielkiej ilości zmian, która ma miejsce w Sidzie (zmiany zależności, zmiany nazw, zmiany skryptów, ...). </p>
 
-				<p>Używaj, czego chcesz, do wyszukiwania pakietów, ale pozostań przy apt-get do właściwego instalowania/usuwania/aktualizacji.</p>
+							<p>Nie jest to jednak wina twórców tych narzędzi, piszą oni wspaniałe programy, które świetnie działają w stabilnej gałęzi debiana, nie są one po prostu odpowiednie dla specjalnych potrzeb Debiana  Sid.</p>
 
-				<p>Menadżery pakietów takie jak adept, aptitude, synaptic i kpackage nie są przewidywalne (w przypadu kompleksowego wyboru pakietów). Połącz to z szybko poruszającym się celem, jakim jest sid, i nawet gorszymi zewnętrznymi repozytoriami o kwestionowanej jakości (nie używamy ich, ani nie polecamy, ale są rzeczywistością na systemach użytkowników), a będziesz zabiegał o katastrofę. Inną kwestią jest to, że wszystkie te graficzne menadżery pakietów muszą działać w trybie init 5, w X, a wykonywanie dist-upgrade w trybie init 5 (lub nawet 'upgrade' co jest niezalecane) może zakończyć się uszkodzeniem twojego systemu bez możliwości naprawy, może nie dziś lub jutro, ale w dalszej przyszłości.</p>
+							<p>Używaj, czego chcesz, do wyszukiwania pakietów, ale pozostań przy apt-get do właściwego instalowania/usuwania/aktualizacji.</p>
 
-				<p>Z drugiej strony apt-get robi dokładnie to, o co jest proszony, jeśli następuje awaria możesz ją zlokalizować i znaleźć komunikaty o błędach/naprawić je, jeśli apt-get chce usunąć połowę systemu (z powodu zmian w bibliotekach) jest czas na reakcję administratora (czyli ciebie).</p>
+							<p>Menadżery pakietów takie jak adept, aptitude, synaptic i kpackage nie są przewidywalne (w przypadu kompleksowego wyboru pakietów). Połącz to z szybko poruszającym się celem, jakim jest sid, i nawet gorszymi zewnętrznymi repozytoriami o kwestionowanej jakości (nie używamy ich, ani nie polecamy, ale są rzeczywistością na systemach użytkowników), a będziesz zabiegał o katastrofę. </p>
 
-				<p>To jest powód, dla którego deweloperzy debiana używają apt-get, a nie inne menadżery pakietów.</p>
+							<!--<p>Inną kwestią jest to, że wszystkie te graficzne menadżery pakietów muszą działać w X, a wykonywanie dist-upgrade w X (lub nawet 'upgrade' co jest niezalecane) może zakończyć się uszkodzeniem twojego systemu bez możliwości naprawy, może nie dziś lub jutro, ale w dalszej przyszłości.</p>-->
+
+							<p>The other item to note is that all of these types of GUI  package managers need to run in in X, and in doing a dist-upgrade in X, (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, however in time you will.</p>
+
+							<p>Z drugiej strony apt-get robi dokładnie to, o co jest proszony, jeśli następuje awaria możesz ją zlokalizować i znaleźć komunikaty o błędach/naprawić je, jeśli apt-get chce usunąć połowę systemu (z powodu zmian w bibliotekach) jest czas na reakcję administratora (czyli ciebie).</p>
+
+							<p>To jest powód, dla którego deweloperzy debiana używają apt-get, a nie inne menadżery pakietów.</p>
 
 	</div>
 	<div class="divider" id="apt-cache">
@@ -664,7 +699,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Kompletny opis systemu APT można znaleźć w APT-HOWTO</a> </p>
 
-			<div id="rev">Strona ostatnio modyfikowana 16/09/2010 1450 UTC</div>
+			<div id="rev">Strona ostatnio modyfikowana 13/05/2011 0825 UTC</div>
 
 </div>
 </div>

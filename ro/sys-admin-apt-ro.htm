@@ -276,7 +276,7 @@
 		<li><a href="sys-admin-gen-ro.htm#start-services">Servicii și init runlevel-e &#8658;</a>
 					<ul class="sub2-menu" id="sm13b">
 					    <li><a href="sys-admin-gen-ro.htm#start-services">Servicii -activare/dezactivare</a></li>
-					    <li><a href="sys-admin-gen-ro.htm#pkill">Killing a service or process</a></li>
+					    <li><a href="sys-admin-gen-ro.htm#pkill">Omorârea unui serviciu sau proces</a></li>
 					    <li><a href="sys-admin-gen-ro.htm#init">runlevel-e aptosid - init</a></li>
 					</ul>
 					</li>
@@ -467,16 +467,45 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Întoarcerea la o versiune anterioară a unui pachet</h3>
-							<p>Pașii următori folosesc <span class="highlight-3">kmahjongg</span> ca exemplu:</p>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<ol>
-							<li><pre>activați sursele testing în <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(ștergeți semnul <span class="highlight-3"> # </span>) care va arăta astfel <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing</pre></li>
-							<li>Punem pachetul nou instalat în <i>'hold'</i> cu:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>comentați sursele testing în <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> </pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
+
+						<ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
+
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>Când vreți să luați ultima versiune a pachetului faceți următoarele:</p>
 <pre>
@@ -579,15 +608,19 @@ init 5 &amp;&amp; exit
 
 				<h4>Motivele pentru care NU TREBUIE să folosiţi altceva în afară de <i>apt-get</i> pentru <i>dist-upgrade</i></h4>
 
-				<p>Managere de pachete ca <i>adept</i>, <i>aptitude</i>, <i>synaptic</i> şi <i>kpackage</i>  nu sunt capabile întotdeauna să contorizeze enorm de multele schimbări care se întâmplă în Sid (schimbări de dependenţe, de nume, schimbări de scripturi de întreţinere, ...). Nu este vina dezvoltatorilor şi nici a programelor pe care aceştia le fac, totuşi ei fac unelte excelente pentru ramura <i>debian stable</i>, acestea pur şi simplu nu se potrivesc perfect cu nevoile speciale din <i>Debian Sid</i>.</p>
+							<p>Managere de pachete ca <i>adept</i>, <i>aptitude</i>, <i>synaptic</i> şi <i>kpackage</i>  nu sunt capabile întotdeauna să contorizeze enorm de multele schimbări care se întâmplă în Sid (schimbări de dependenţe, de nume, schimbări de scripturi de întreţinere, ...). </p>
 
-				<p>Utilizaţi orice doriţi pentru a căuta pachete dar rămâneţi fermi în a folosi doar <i>apt-get</i> pentru procesele de  instalare/ştergere/dist-upgrade</p>
+							<p>Nu este vina dezvoltatorilor şi nici a programelor pe care aceştia le fac, totuşi ei fac unelte excelente pentru ramura <i>debian stable</i>, acestea pur şi simplu nu se potrivesc perfect cu nevoile speciale din <i>Debian Sid</i>.</p>
 
-				<p>Managere de Pachete ca <i>adept</i>, <i>aptitude</i>, <i>synaptic</i> şi <i>kpackage</i> sunt, până la urmă, incerte (pentru selecţie complexă de pachete), adăugaţi la aceasta o ţintă mereu în mişcare precum <i>sid</i> şi poate un şi mai rău repozitoriu extern de o calitate îndoielnică (noi nu recomandăm acestea dar ele sunt o realitate printre utilizatori) şi veţi fi condusi la dezastru.<br /> Un alt lucru care trebuie ţinut minte este că toate aceste tipuri de managere de pachete cu GUI trebuiesc rulate în <i>init 5</i>, şi/sau în X, iar dacă faceţi un <i>dist-upgrade</i> în <i>init 5</i> şi/sau X, (nici măcar un '<i>upgrade</i>' nu este recomandat), veţi sfârşi prin a aduce daune ireparabile sistemului dumneavoastră, nu neaparat azi sau mâine, dar în timp sigur.</p>
+							<p>Utilizaţi orice doriţi pentru a căuta pachete dar rămâneţi fermi în a folosi doar <i>apt-get</i> pentru procesele de  instalare/ştergere/dist-upgrade</p>
 
-				<p><i>apt-get</i>, pe de altă parte, face exact ce i se cere să facă, dacă există vreo scăpare pe care aţi identificat-o  şi încercaţi să o depanaţi/reparaţi şi <i>apt-get</i> vrea să îndepărteze jumătate din sistem (ca urmare a tranziţiilor librăriilor) este decizia administratorului (adică a dumneavoastră), măcar să analizaţi cu atenţie.</p>
+							<p>Managere de Pachete ca <i>adept</i>, <i>aptitude</i>, <i>synaptic</i> şi <i>kpackage</i> sunt, până la urmă, incerte (pentru selecţie complexă de pachete), adăugaţi la aceasta o ţintă mereu în mişcare precum <i>sid</i> şi poate un şi mai rău repozitoriu extern de o calitate îndoielnică (noi nu recomandăm acestea dar ele sunt o realitate printre utilizatori) şi veţi fi condusi la dezastru.<?p>
 
-				<p>Acesta este motivul pentru care debian foloseşte <i>apt-get</i> şi nu alte managere de pachete.</p>
+							<p>Un alt lucru care trebuie ţinut minte este că toate aceste tipuri de managere de pachete cu GUI trebuiesc rulate în X, iar dacă faceţi un <i>dist-upgrade</i> în X, (nici măcar un '<i>upgrade</i>' nu este recomandat), veţi sfârşi prin a aduce daune ireparabile sistemului dumneavoastră, nu neaparat azi sau mâine, dar în timp sigur.</p>
+
+							<p><i>apt-get</i>, pe de altă parte, face exact ce i se cere să facă, dacă există vreo scăpare pe care aţi identificat-o  şi încercaţi să o depanaţi/reparaţi şi <i>apt-get</i> vrea să îndepărteze jumătate din sistem (ca urmare a tranziţiilor librăriilor) este decizia administratorului (adică a dumneavoastră), măcar să analizaţi cu atenţie.</p>
+
+							<p>Acesta este motivul pentru care debian foloseşte <i>apt-get</i> şi nu alte managere de pachete.</p>
 
 	</div>
 	<div class="divider" id="apt-cache">
@@ -673,7 +706,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">O descriere completă despre Sistemul APT poate fi găsită la  APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 16/089/2010 1450 UTC 16/09/2010 1450 UTC </div>
+			<div id="rev">Page last revised 13/05/2011 0825 UTC </div>
 
 
 </div>

@@ -463,17 +463,45 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Revertiendo paquetes</h3>
-							<p> Este ejemplo utilizará <span class="highlight-3">kmahjongg</span>:</p>
+							<p> <span class="highlight-2">Debian no soporta la reversión de paquetes. Si bien puede funcionar en algunos casos simples, puede fallar de forma estrepitosa en otros paquetes. Vea, por favor </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Reversión de emergencia</a>.</p>
 
-							<ol>
+							<p>A pesar del hecho de que no está soportada, se sabe que la reversión funciona para paquetes simples. Los pasos para revertir un solo paquete (usando <span class="highlight-3">kmahjongg</span> como ejemplo) son:</p>
 
-							<li><pre>activar las fuentes de "testing" en <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(borrar el # para que el script pueda leer la línea) <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing </pre></li>
-							<li>Ponga el paquete nuevamente instalado en "hold" con:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>a continuación comente la fuente "testing" en /etc/apt/sources.list.d/debian.list </pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+						<ol>
+							<li>comentar las fuentes inestables en <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> con un <span class="highlight-3">#</span></li>
+
+							<li>Añadir las fuentes "testing" en <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, por ejemplo:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Poner el paquete recién instalado en hold con:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+						
+							<li>comentar con # las fuentes de testing en /etc/apt/sources.list.d/debian.list y quitar el <span class="highlight-3">#</span> de las fuentes inestables, y así volverá a usarlas:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>Cuando desee actualizar a la versión más reciente, haga esto:</p>
 <pre>
@@ -571,18 +599,21 @@ init 5 &amp;&amp; exit
 
 				<h4>¿Por qué recomendamos SOLAMENTE "apt-get" para "dist-upgrade"?</h4>
 
-				<p>Los gestores de paquetes "adept", "aptitude", "synaptic" y "kpackage" no son siempre capaces de acomodarse a los muchos cambios que suceden en Sid (cambios de dependencias, de nombres, en los scripts de los mantenedores, etcétera). Esto no es un fallo de los desarrolladores ni de estas herramientas, que son excelentes para la rama estable de Debian. Simplemente, no son aptas para las necesidades especiales de Debian Sid.</p>
+							<p>Los gestores de paquetes "adept", "aptitude", "synaptic" y "kpackage" no son siempre capaces de acomodarse a los muchos cambios que suceden en Sid (cambios de dependencias, de nombres, en los scripts de los mantenedores, etcétera). </p>
 
-				<p>Utilice lo que más le agrade para buscar paquetes, pero recomendamos utilizar el "apt-get" para "install", "remove", "purge" y "dist-upgrade".</p>
+							<p>Esto no es un fallo de los desarrolladores ni de estas herramientas, que son excelentes para la rama estable de Debian. Simplemente, no son aptas para las necesidades especiales de Debian Sid.</p>
 
-				<p>Los gestores de paquetes "adept", "aptitude", "synaptic" y "kpackage" no son determinísticos para selecciones complejas de paquetes: cuando estas se mezclan con un conjunto de paquetes tan cambiantes como hay en Sid, y aún peor, un repositorio externo de calidad cuestionable (no lo recomendamos, pero ésta es una realidad en algunos sistemas de usuarios) se estará acercando al desastre. Otra cosa a notar es que todos estos gestores de paquetes necesitan ejecutarse en el nivel 5, y/o en X, y hacer un dist-upgrade (ni siquiera upgrade) en nivel 5 ó en X está desaconsejado. Puede dañar el sistema hasta un punto irreparable, quizás no hoy ni mañana, pero dentro de algún tiempo sucederá.</p>
+							<p>Utilice lo que más le agrade para buscar paquetes, pero recomendamos utilizar el "apt-get" para "install", "remove", "purge" y "dist-upgrade".</p>
 
-				<p>Por otro lado "apt-get" hace exactamente lo que se espera de él. Si hay alguna rotura puede encontrar el lugar del error para depurar y arreglar la causa. Si acaso "apt-get" quiere borrar la mitad del sistema (debido a transiciones de librerias) es una decisión que el administrador (probablemente usted) tendrá que tomar después de leer todos los mensajes.</p>
+							<p>Los gestores de paquetes "adept", "aptitude", "synaptic" y "kpackage" no son determinísticos para selecciones complejas de paquetes: cuando estas se mezclan con un conjunto de paquetes tan cambiantes como hay en Sid, y aún peor, un repositorio externo de calidad cuestionable (no lo recomendamos, pero ésta es una realidad en algunos sistemas de usuarios) se estará acercando al desastre.</p>
 
-				<p>Esta es la razón porque el sistema "Debian builds" utiliza apt-get y ninguna otra de las demás herramientas de paquetes.</p>
+							<p>Otra cosa a notar es que todos estos gestores de paquetes necesitan ejecutarse en X, y hacer un dist-upgrade (ni siquiera upgrade) en X está desaconsejado. Puede dañar el sistema hasta un punto irreparable, quizás no hoy ni mañana, pero dentro de algún tiempo sucederá.</p>
+
+							<p>Por otro lado "apt-get" hace exactamente lo que se espera de él. Si hay alguna rotura puede encontrar el lugar del error para depurar y arreglar la causa. Si acaso "apt-get" quiere borrar la mitad del sistema (debido a transiciones de librerias) es una decisión que el administrador (probablemente usted) tendrá que tomar después de leer todos los mensajes.</p>
+
+							<p>Esta es la razón porque el sistema "Debian builds" utiliza apt-get y ninguna otra de las demás herramientas de paquetes.</p>
 
 	</div>
-
 	<div class="divider" id="apt-cache">
 			<h2>Buscando un paquete con el apt-cache</h2>
 
@@ -675,7 +706,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">Una descripción completa del APT-System puede encontrarse en el APT-HOWTO</a> </p>
 
-			<div id="rev">Última modificación 16/09/2010 1450 UTC </div>
+			<div id="rev">Última modificación 13/05/2011 0825 UTC </div>
 
 </div>
 </div>

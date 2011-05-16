@@ -446,7 +446,7 @@ Purging configuration files for gaim ...
 		</div>
 	<div class="divider" id="apt-downgrade">
 						<h2>Hold and/or Downgrade a package</h2>
-								<p>Sometimes it may be necessary to rollback to a previous version of a package or put it on hold, due to a major bug with the latest version you have just installed. </p>
+								<p>Sometimes it may be necessary to rollback to a previous version of a package or put it on hold, due to a major bug with the latest version you have just installed.</p>
 
 					<h3>Hold</h3>
 <pre>
@@ -462,21 +462,45 @@ echo package install|dpkg --set-selections
 dpkg --get-selections | grep hold
 </pre>
 					<h3>Downgrading</h3>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<p>The steps are using <span class="highlight-3">kmahjongg</span> as an example:</p>
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
 
-							<ol>
-							<li><pre>enable/uncomment testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span><br />(delete the #) so that it reads <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
+						<ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
 
-							<li><pre>apt-get install kmahjongg/testing </pre></li>
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
 
-							<li>Put the newly installed package on hold with:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
 
-							<li><pre>comment the testing sources in /etc/apt/sources.list.d/debian.list </pre></li>
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
 
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>When you do want to get the latest version of the package just do this:</p>
 <pre>
@@ -582,11 +606,11 @@ init 5 &amp;&amp; exit
 
 							<p>Use whatever you like to search for packages, but stick with apt-get for actually installing/removing/dist-upgrading.</p>
 
-							<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection),  mix that with a quickly moving target like sid and even worse an external  repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster.</p>
+							<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection), mix that with a quickly moving target like sid and even worse an external repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster.</p>
 
-							<p>The other item to note is that all of these types of GUI  package managers need to run in init 5, and/or,  in X, and in doing a dist-upgrade in init 5 and/or X , (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, however in time you will.</p>
+							<p>The other item to note is that all of these types of GUI  package managers need to run in in X, and in doing a dist-upgrade in X, (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, however in time you will.</p>
 
-							<p>apt-get on the other hand strictly does what it is asked to do,  if there is any breakage you can pinpoint and debug/ fix the cause,  if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
+							<p>apt-get on the other hand strictly does what it is asked to do, if there is any breakage you can pinpoint and debug/ fix the cause, if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
 
 							<p>This is the reason why debian builds use apt-get, not the other package manager tools.</p>
 
@@ -674,7 +698,7 @@ apt-get install packagesearch
 
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/"> A complete description of the APT-System can be found at APT-HOWTO</a></p>
 
-			<div id="rev">Page last revised 16/09/2010 1450 UTC </div>
+			<div id="rev">Page last revised 13/05/2011 0825 UTC </div>
 
 </div>
 </div>

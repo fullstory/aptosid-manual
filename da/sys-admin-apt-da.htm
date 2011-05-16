@@ -462,16 +462,45 @@ dpkg --get-selections | grep hold
 </pre>
 
 					<h3>Nedgradering af en pakke</h3>
-							<p> I det følgende bruger vi <span class="highlight-3">kmahjongg</span> som eksempel:</p>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<ol>
-							<li><pre>tillad/afkommenter testing sources i<span class="highlight-3"> /etc/apt/sources.list.d/debian.list </span><br />(slet #) så der står <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing </pre></li>
-							<li>Sæt så den nyligt installerede pakke på hold med:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>kommenter igen testing sources i /etc/apt/sources.list.d/debian.list </pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
+
+						<ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
+
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<p>Når du vil installere den seneste nye version af pakken, gør du følgende:</p>
 <pre>
@@ -571,15 +600,19 @@ init 5 &amp;&amp; exit
 
 				<h4>De gode grunde til IKKE at anvende NOGET SOM HELST ANDET end apt-get til dist-upgrade</h4>
 
-				<p>Pakkemanagere som adept, aptitude, synaptic og kpackage er ikke altid i stand til at tage højde for den store mængde af ændringer der sker i sid (afhængigheder ændres, navne ændres, vedligeholdelses scripts ændres, ...). Det er dog ikke udviklernes af disse værktøjers skyld; -de skaber udemærkede værktøjer der er utroligt gode til den stabile del af debian, de er bare ikke egnet til de massive ændringer der opstår i, og derfor de specielle krav der er til opdatering af den ustabile version som debian Sid er.</p>
+							<p>Pakkemanagere som adept, aptitude, synaptic og kpackage er ikke altid i stand til at tage højde for den store mængde af ændringer der sker i sid (afhængigheder ændres, navne ændres, vedligeholdelses scripts ændres, ...).</p> 
 
-				<p>Du kan sagtens bruge disse værktøjer til at søge efter pakker som du gerne vil installere, men du bør holde dig til apt-get når du skal installere/afinstallere/dist-upgrading</p>
+							<p>Det er dog ikke udviklernes af disse værktøjers skyld; -de skaber udemærkede værktøjer der er utroligt gode til den stabile del af debian, de er bare ikke egnet til de massive ændringer der opstår i, og derfor de specielle krav der er til opdatering af den ustabile version som debian Sid er.</p>
 
-				<p>Pakkemanager som adept, aptitude, synaptic og kpackage er alle non-deterministiske (for komplekse pakke udvalg), og med et hurtigt bevægende mål som sid, og værre endnu, -eksterne repositorier af tvivlsom kvalitet (vi hverken anbefaler eller anvender disse, men de er en realitet på brugernes systemer) har du en eksplosiv blanding der skriger efter katastrofen. Et andet problem er at alle disse GUI pakke-managere alle skal eksekveres i init 5 og/eller i X, og det at foretage en dist-upgrade i init 5 og/eller i X (eller enddog bare en upgrade, selvom dette ikke anbefales), vil uværgeligt føre til at du beskadiger dit system forbi det punkt hvor det kan genoprettes. Måske ikke idag, og måske heller ikke imorgen, men det vil ske før eller siden!.</p>
+							<p>Du kan sagtens bruge disse værktøjer til at søge efter pakker som du gerne vil installere, men du bør holde dig til apt-get når du skal installere/afinstallere/dist-upgrading</p>
 
-				<p>apt-get på den anden side holder sig strengt til de instruktioner den får og gør præcist som den får besked på. Hvis der er nogle pakker der ødelægges kan du nemt finde og debug/ fikse årsagen, hvis apt-get vil fjerne halvdelen af systemet (f.eks. pga. biblioteksændringer) så er det op til systemadministratoren (det vil sige dig) at vurdere om det nu virkeligt også skal gennemføres.</p>
+							<p>Pakkemanager som adept, aptitude, synaptic og kpackage er alle non-deterministiske (for komplekse pakke udvalg), og med et hurtigt bevægende mål som sid, og værre endnu, -eksterne repositorier af tvivlsom kvalitet (vi hverken anbefaler eller anvender disse, men de er en realitet på brugernes systemer) har du en eksplosiv blanding der skriger efter katastrofen.</p>
 
-				<p>Det er af disse grunde at debian builds anvender apt-get, ikke de ander pakke managers.</p>
+							<p>Et andet problem er at alle disse GUI pakke-managere alle skal eksekveres i X, og det at foretage en dist-upgrade i X (eller enddog bare en upgrade, selvom dette ikke anbefales), vil uværgeligt føre til at du beskadiger dit system forbi det punkt hvor det kan genoprettes. Måske ikke idag, og måske heller ikke imorgen, men det vil ske før eller siden!.</p>
+
+							<p>apt-get på den anden side holder sig strengt til de instruktioner den får og gør præcist som den får besked på. Hvis der er nogle pakker der ødelægges kan du nemt finde og debug/ fikse årsagen, hvis apt-get vil fjerne halvdelen af systemet (f.eks. pga. biblioteksændringer) så er det op til systemadministratoren (det vil sige dig) at vurdere om det nu virkeligt også skal gennemføres.</p>
+
+							<p>Det er af disse grunde at debian builds anvender apt-get, ikke de ander pakke managers.</p>
 
 	</div>
 	<div class="divider" id="apt-cache">
@@ -663,7 +696,7 @@ apt-get install packagesearch
 	</div>
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">En fuldstændig beskrivelse af APT-Systemet kan findes ved APT-HOWTO</a> </p>
 
-			<div id="rev">Page last revised 16/09/2010 1450 UTC</div>
+			<div id="rev">Page last revised 13/05/2011 0825 UTC</div>
 
 </div>
 </div>

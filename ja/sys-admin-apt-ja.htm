@@ -549,26 +549,45 @@ dpkg --get-selections | grep hold
 					<h3>Downgrading</h3>
 					#### -->
 					<h3>ダウングレード</h3>
-							<!--- ####
-							<p>The steps are using <span class="highlight-3">kmahjongg</span> as an example:</p>
-							#### -->
-							<p>ここでは例として<span class="highlight-3">kmahjongg</span>をダウングレードします:</p>
+							<p> <span class="highlight-2">Debian does not support downgrading packages. While it may work in simple cases, it could fail spectacularly for other packages. Please refer to </span><a href="http://www.debian.org/doc/manuals/reference/ch02.en.html#_emergency_downgrading"> Emergency downgrading</a>.</p>
 
-							<!--- ####
-							<ol>
-							<li><pre>enable/uncomment testing sources in <span class="highlight-3">/etc/apt/sources.list </span><br />(delete the #) so that it reads <br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get install -t testing kmahjongg</pre></li>
-							<li><pre>comment the testing sources in /etc/apt/sources.list </pre></li>
-							</ol>
-							#### -->
-							<ol>
-							<li><pre><span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> のtesting の行を有効にする<br />(行の始めの#を消してコメントからはずす)。 次のようになります:<br />deb http://ftp.nl.debian.org/debian/ testing main contrib non-free</pre></li>
-							<li><pre>apt-get update</pre></li>
-							<li><pre>apt-get install kmahjongg/testing </pre></li>
-							<li>今インストールされたパッケージをホールドにする:<br /><pre>echo kmahjongg hold|dpkg --set-selections</pre></li>
-							<li><pre>/etc/apt/sources.list.d/debian.list の testing の行をコメントに戻す</pre></li>
-							<li><pre>apt-get update</pre></li>
-							</ol>
+							<p>Despite the fact that it is not supportable, downgrading has been known to work for simple packages. The steps for downgrading a simple packages using <span class="highlight-3">kmahjongg</span> as an example are:</p>
+
+						<ol>
+							<li>comment unstable sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span> with a <span class="highlight-3">#</span></li>
+
+							<li>Add testing sources in <span class="highlight-3">/etc/apt/sources.list.d/debian.list </span>, for example:<br />
+<pre>
+deb http://ftp.nl.debian.org/debian/ testing main contrib non-free
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+
+							<li>
+<pre>
+apt-get install kmahjongg/testing
+</pre>
+							</li>
+
+							<li>Put the newly installed package on hold with:<br />
+<pre>
+echo kmahjongg hold|dpkg --set-selections
+</pre>
+							</li>
+
+							<li>comment &lt;#&gt;the testing sources in /etc/apt/sources.list.d/debian.list with and uncomment the unstable sources so that you get back to using unstable sources, then:</li>
+
+							<li>
+<pre>
+apt-get update
+</pre>
+							</li>
+						</ol>
 
 							<!--- ####
 							<p>When you do want to get the latest version of the package just do this:</p>
@@ -726,30 +745,34 @@ init 5 &amp;&amp; exit
 				#### -->
 				<h4>dist-upgradeにapt-get以外の方法を使ってはいけない理由</h4>
 
-				<!--- ####
-				<p>Package managers like adept, aptitude, synaptic and kpackage  are not always able to account for the huge amount of changes which happen in Sid (depedency changes, name changes, maintainer script changes, ...). That's not the fault of the developers of those tools though, they write a excellent tools and fabulous for the debian stable branch, they are simply just not suitable for the very special needs of Debian Sid.</p>
-				#### -->
-				<p>adept, aptitude, synaptic, kpackageといったパッケージマネージャはSidに起こるような大きな変化 (依存関係の変更、パッケージ名の変更、メンテ用のスクリプトの変更など)に常にうまく対処できるようには作られていません。 これは別に上記のツールの開発者の過失というわけではなく、Debianのstableのために優れた道具を開発したことを讃えるべきですが、単にDebian Sidの特殊な要求に対処するのには向いていないというだけのことです。</p>
+							<!--- ####
+							<p>Package managers like adept, aptitude, synaptic and kpackage  are not always able to account for the huge amount of changes which happen in Sid (depedency changes, name changes, maintainer script changes, ...).</p>
 
-				<!--- ####
-				<p>Use whatever you like to search for packages, but stick with apt-get for actually installing/removing/dist-upgrading</p>
-				#### -->
-				<p>パッケージを探すためにはどんなツールを使っても構いませんが、実際にパッケージのインストール/除去またはdist-upgradeをするときにはあくまでapt-getを使うようにしてください。</p>
+							<p>That's not the fault of the developers of those tools though, they write a excellent tools and fabulous for the debian stable branch, they are simply just not suitable for the very special needs of Debian Sid.</p>
+							#### -->
+							<p>adept, aptitude, synaptic, kpackageといったパッケージマネージャはSidに起こるような大きな変化 (依存関係の変更、パッケージ名の変更、メンテ用のスクリプトの変更など)に常にうまく対処できるようには作られていません。 これは別に上記のツールの開発者の過失というわけではなく、Debianのstableのために優れた道具を開発したことを讃えるべきですが、単にDebian Sidの特殊な要求に対処するのには向いていないというだけのことです。</p>
 
-				<!--- ####
-				<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection),  mix that with a quickly moving target like sid and even worse an external  repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster. The other item to note is that all of these types of GUI  package managers need to run in init 5, and/or,  in X, and in doing a dist-upgrade in init 5 and/or X , (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, in time you will.</p>
-				#### -->
-				<p>複雑な依存関係の入り組んだパッケージ選択にあたって, 少なくともadept, aptitude, synaptic, kpackageといったパッケージマネージャは決定論的に作られてはいません。 めまぐるしく変化するSidや、品質管理に疑問の残る外部レポジトリーのことも考えると, わざわざ破局を招いているようなものです。 (外部レポジトリーはaptosidに含まれていませんし、特に使用を勧めるものではありませんが、あれこれ使われているのが実際でしょう)。 もう一つ注意してほしいことはこれらGUIのパッケージマネージャはinit 5またはXウィンドウ上で実行される必要があることで、dist-upgrade (またはaptosidから推奨されていない'update')をXの上で行うのは、たとえ今日,明日は無事にすんでも、いつかきっとシステムに回復不可能なダメージを与えることになるでしょう。</p>
+							<!--- ####
+							<p>Use whatever you like to search for packages, but stick with apt-get for actually installing/removing/dist-upgrading</p>
+							#### -->
+							<p>パッケージを探すためにはどんなツールを使っても構いませんが、実際にパッケージのインストール/除去またはdist-upgradeをするときにはあくまでapt-getを使うようにしてください。</p>
 
-				<!--- ####
-				<p>apt-get on the other hand strictly does what it is asked to do,  if there is any breakage you can pinpoint and debug/ fix the cause,  if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
-				#### -->
-				<p>それに比べてapt-getはやるべきことだけを厳密に行うプログラムです。 依存関係に問題があったら正確に指摘するので原因をデバッグ/修正できますし、もしapt-getが(ライブラリの移行などのため)現行システムの半分を消去しようとしていたら、何か変だぞとちょっと調べてみるのはそれこそアドミンの（つまりあなたの）仕事です。</p>
+							<!--- ####
+							<p>Package managers like adept, aptitude, synaptic and kpackage are at the least, non-deterministic (for complex package selection),  mix that with a quickly moving target like sid and even worse an external  repository of questionable quality (we don't use or recommend those,  but they're a reality on your user systems) and you will be courting disaster. </p>
 
-				<!--- ####
-				<p>This is the reason why debian builds use apt-get, not the other package manager tools.</p>
-				#### -->
-				<p>そのためDebian自体の配布でも他のパッケージマネージャではなく、apt-getが使われているわけです。</p>
+							<p>The other item to note is that all of these types of GUI  package managers need to run in in X, and in doing a dist-upgrade in X , (or even an 'upgrade' which is not recommended), you will end up damaging up your system beyond repair, maybe not today or tomorrow, in time you will.</p>
+							#### -->
+							<p>複雑な依存関係の入り組んだパッケージ選択にあたって, 少なくともadept, aptitude, synaptic, kpackageといったパッケージマネージャは決定論的に作られてはいません。 めまぐるしく変化するSidや、品質管理に疑問の残る外部レポジトリーのことも考えると, わざわざ破局を招いているようなものです。 (外部レポジトリーはaptosidに含まれていませんし、特に使用を勧めるものではありませんが、あれこれ使われているのが実際でしょう)。 もう一つ注意してほしいことはこれらGUIのパッケージマネージャはinit 5またはXウィンドウ上で実行される必要があることで、dist-upgrade (またはaptosidから推奨されていない'update')をXの上で行うのは、たとえ今日,明日は無事にすんでも、いつかきっとシステムに回復不可能なダメージを与えることになるでしょう。</p>
+
+							<!--- ####
+							<p>apt-get on the other hand strictly does what it is asked to do,  if there is any breakage you can pinpoint and debug/ fix the cause,  if apt-get wants to remove half of the system (due to library transitions) it's the admin's call (that means you) to have at least a serious look.</p>
+							#### -->
+							<p>それに比べてapt-getはやるべきことだけを厳密に行うプログラムです。 依存関係に問題があったら正確に指摘するので原因をデバッグ/修正できますし、もしapt-getが(ライブラリの移行などのため)現行システムの半分を消去しようとしていたら、何か変だぞとちょっと調べてみるのはそれこそアドミンの（つまりあなたの）仕事です。</p>
+
+							<!--- ####
+							<p>This is the reason why debian builds use apt-get, not the other package manager tools.</p>
+							#### -->
+							<p>そのためDebian自体の配布でも他のパッケージマネージャではなく、apt-getが使われているわけです。</p>
 
 	</div>
 	<div class="divider" id="apt-cache">
@@ -872,7 +895,7 @@ apt-get install packagesearch
 
 			<p><a href="http://www.debian.org/doc/manuals/apt-howto/">(英語版はこちらへ)</a> </p>
 
-			<div id="rev">Page last revised 16/09/2010 1450 UTC </div>
+			<div id="rev">Page last revised 13/05/2011 0825 UTC</div>
 
 </div>
 </div>

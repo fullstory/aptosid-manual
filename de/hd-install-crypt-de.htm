@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mon, 14 Feb 2011 01:09:30 +0000 -->
+<!-- Last translation revision hubi Sun, 12 Jun 2011 08:06:50 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
 <!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
@@ -394,7 +394,7 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							<span class= "highlight-3">vg-boot</span> für <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> für <span class= "highlight-2"> /</span>,<br />
 							<span class= "highlight-3">cryptvg-home</span> für <span class= "highlight-3">/home</span>,<br />
-							und <span class= "highlight-3">cryptvg-swap</span> für <span class= "highlight-3">swap</span></li>
+							und <span class= "highlight-3">cryptvg-swap</span> für <span class= "highlight-3">swap</span> sollten automatisch erkannt werden.</li>
 						    </ol>
 
 							<p>Das installierte System sollte eine Kernel-Befehlszeile mit folgenden Optionen aufweisen:</p>
@@ -441,16 +441,20 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 					      <h5>Verschlüsselte swap-Partition</h5>
 
 							<p>Für die <span class="highlight-3">verschlüsselte swap</span> muss das Gerät <span class="highlight-3">/dev/sda2</span> zunächst formatiert und als verschlüsseltes Gerät geöffnet werden - wie vg-crypt oben, aber unter einem anderen Namen: swap.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-							<p>Die erstellte <span class="highlight-3">/dev/mapper/swap</span> wird formatiert, damit der Installer sie sehen kann:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Die erstellte <span class="highlight-3">/dev/mapper/swap</span> wird formatiert, damit der Installer sie erkennen kann:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
@@ -476,8 +480,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 					  <h3>Start des Installers</h3>
 							<p><b>Nun kann der Installer geöffent werden und folgende Optionen sind zu benutzen:</b><br />
 							<span class= "highlight-3">sda1</span> für <span class= "highlight-3">/boot</span><br />
-							<span class= "highlight-3">sda2</span> für <span class= "highlight-3">swap</span> <br />
-							<span class= "highlight-3">cryptroot</span> für <span class= "highlight-2"> /</span> und <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">cryptroot</span> für <span class= "highlight-2"> /</span> und <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> sollten automatisch erkannt werden.</p>
 
 							<p>Das installierte System sollte eine Kernel-Befehlszeile mit folgenden Optionen aufweisen (UUID wird benutzt):</p>
 <pre>
@@ -502,7 +506,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid-WIKI-Eintrag</a> (Englisch)</p>
 
-	<div id="rev">Page last revised 06/11/2010 1350 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

@@ -331,10 +331,10 @@ apt-get install nbd-server dnsmasq
 
 				<h3>Configuración del servidor nbd</h3>
 
-							<p> Suponiendo que el iso se encuentre en <span class="highlight-3">/dev/scd0</span>, (lo que probablemente será así si arrancó desde un cd, y si no substituyalo por el fichero o dispositivo correcto), puede configurar un fichero de configuración para el servidor nbd con el nombre <span class="highlight-3">nbd-aptosid.conf</span> con una sección llamada aptosid-iso para exportar el cd por el puerto 9040 corriendo lo siguiente:</p>
+							<p> Suponiendo que el iso se encuentre en <span class="highlight-3">/dev/scd0</span>, (lo que probablemente será así si arrancó desde un cd, y si no substituyalo por el fichero o dispositivo correcto), puede configurar un fichero de configuración para el servidor nbd con el nombre <span class="highlight-3">nbd-aptosid.conf</span> con una sección llamada aptosid-iso para exportar el cd con la orden siguiente:</p>
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
-nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
+nbd-server 0.0.0.0:10809 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
 							<p>El encabezamiento genérico siempre es necesario. Si quiere configurar el servidor nbd para trabajar automáticamente en un sistema real, probablemente querrá configurar /etc/nbd-server.conf. Hay muchas más opciones en el servidor nbd que pueden verse en: <span class="highlight-3">man nbd-server.</span></p>
 
@@ -392,11 +392,13 @@ chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
 
-							<p>Ahora ya puede editar las opciones de arranque que más le agraden en <span class="highlight-3">/home/tftp</span> tanto en el fichero <span class="highlight-3">pxelinux.cfg/default</span> como en el <span class="highlight-3">gfxboot.cfg</span>. En particular se aconseja que en la sección <span class="highlight-3">[install]</span> ponga <span class="highlight-3">install= </span> a <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> a la IP del servidor de red y <span class="highlight-3">install.nbd.port</span> al puerto que estableció cuando creó nbd-server.</p>
+							<p>Ahora ya puede editar las opciones de arranque que más le agraden en <span class="highlight-3">/home/tftp</span> tanto en el fichero <span class="highlight-3">pxelinux.cfg/default</span> como en el <span class="highlight-3">gfxboot.cfg</span>
+
+							<p>En particular se sugiere que en la sección <span class="highlight-3">[install]</span> haga que <span class="highlight-3">install= </span> señale <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> a la dirección IP del servidor de la red y <span class="highlight-3">install.nbd.port</span> al nombre de la sección nbd export, por ejemplo, aptosid-iso (ya que los valores exportados de nbd tienen ahora nombre y no simplemente números de puerto).</p>
 
 							<p>Si lo prefiere puede desactivar completamente el menú F3 y editar las líneas de órdenes del kernel para que quede algo así:</p>
 <pre>
-fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
+fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,aptosid-iso nonetwork
 </pre>
 
 
@@ -413,7 +415,7 @@ fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1305 UTC </div>
 
 </div>
 </body>

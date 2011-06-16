@@ -394,7 +394,7 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							<span class= "highlight-3">vg-boot</span> per <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> per <span class= "highlight-2"> /</span>,<br />
 							<span class= "highlight-3">cryptvg-home</span> per <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> per <span class= "highlight-3">swap</span></li>
+							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span> should be automagically recognised.</li>
 						    </ol>
 
 							<p>Il sistema installato alla fine dovrebbe avere una linea di comando per il kernel che include le seguenti opzioni:</p>
@@ -441,16 +441,20 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 					      <h5>Partizione swap criptata</h5>
 
 							<p>Per la partizione <span class="highlight-3">swap criptata</span> per prima cosa si deve formattare ed aprire la periferica grezza, <span class="highlight-3">/dev/sda2</span>, come una periferica criptata, come la periferica vg-crypt come sopra ma aprirla con un nome differente, swap.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-							<p>Formattare <span class="highlight-3">/dev/mapper/swap</span> in modo che sia visualizzata nel programma di installazione:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will be recognised by the installer:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
@@ -476,8 +480,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 					  <h3>Aprire il programma di installazione</h3>
 							<p><b>Adesso si è pronti per avviare il programma di installazione dove si deve usare:</b><br />
 							<span class= "highlight-3">sda1</span> per <span class= "highlight-3">/boot</span>, <br />
-							<span class= "highlight-3">sda2</span> per <span class= "highlight-3">swap</span>, <br />
-							<span class= "highlight-3">cryptroot</span> per <span class= "highlight-2"> /</span> e <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> / </span> and <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> should be automagically recognised.</p>
 
 							<p>Il sistema installato alla fine dovrebbe avere una linea di comando per il kernel che include le seguenti opzioni (sebbene verrà utilizzato l'UUID esistente):</p>
 <pre>
@@ -502,7 +506,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Page last revised 06/11/2010 1350 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

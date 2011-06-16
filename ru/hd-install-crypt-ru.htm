@@ -326,21 +326,21 @@
 
 							<li>Early in the boot process you will be asked for your passphrase for the crypt device and the system will boot up as expected.</li>
 						    </ul>
-					      <h3>Примеры шифрования:</h3>
+					      <h3>Encryption examples:</h3>
 						    <ul>
-							<li><a href="hd-install-crypt-ru.htm#lvm">Шифрование в пределах групп LVM</a>.</li>
+							<li><a href="hd-install-crypt-en.htm#lvm">Using crypt within LVM groups</a>.</li>
 
-							<li><a href="hd-install-crypt-ru.htm#simple">Примечания для шифрования с традиционными методами разделения</a>.</li>
+							<li><a href="hd-install-crypt-en.htm#simple">Notes for crypt with traditional partitioning methods</a>.</li>
 						    </ul>
 
 			      </div>
 
 			      <div class="divider" id="lvm">
-					      <h2>Шифрование в пределах групп LVM</h2>
+					      <h2>Encryption within LVM groups</h2>
 
 							<p><span class= "highlight-3">This example uses crypt inside the LVM volume to enable you let you split your home from <span class= "highlight-2"> / </span> and have a swap partition without needing multiple passwords and is applicable from aptosid-2010-03-apate and later.</span></p>
 
-							<p>Before running the installer you must prepare the filesystems which will be used for the installation. For basic LVM partitioning  guidelines, you need to refer to <a href="part-lvm-ru.htm#part=lvm">Logical Volume Manager - LVM partitioning</a>. </p>
+							<p>Before running the installer you must prepare the filesystems which will be used for the installation. For basic LVM partitioning  guidelines, you need to refer to <a href="part-lvm-en.htm#part=lvm">Logical Volume Manager - LVM partitioning</a>. </p>
 
 							<p>You will need at least an unencrypted <span class= "highlight-3">/boot </span>filesystem and an encrypted <span class= "highlight-2"> / </span>filesystem and also create encrypted <span class= "highlight-3">/home and swap</span> filesystems. </p>
 						  <ol>
@@ -394,7 +394,7 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							<span class= "highlight-3">vg-boot</span> for <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> for <span class= "highlight-2"> /</span>,<br />
 							<span class= "highlight-3">cryptvg-home</span> for <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span></li>
+							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span> should be automagically recognised.</li>
 						    </ol>
 
 							<p>The installed system should end up with a kernel command line including the following options:</p>
@@ -405,7 +405,7 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 
 			      </div>
 			  <div class="divider" id="simple">
-					<h2>Примечания для шифрования с традиционными методами разделения</h2>
+					<h2>Notes for crypt with traditional partitioning methods</h2>
 
 							<p>The first thing to decide is how you want to layout your disk. You will need a minimum of 2 partitions, one normal partition for your <span class="highlight-3">/boot</span> and one for the encypted data. </p>
 
@@ -415,7 +415,7 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 
 							<!--<p>It is possible to use keys for the swap from inside the encrypted system with traditional partitioning, however you will not be able to suspend to disk. Due to these issues, LVM volumes with fully encrypted partitions with keys is definitely the better option in the long term.</p>-->
 
-			      <h6>Основные предположения:</h6>
+			      <h6> Essential assumptions:</h6>
 						  <ul>
 							<li> There are just 3 plain partitions on this disk:<br />
 							<span class="highlight-3"> /boot</span>,  of 250mb<br />
@@ -429,31 +429,38 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 
 							<p>If you have been using a GUI partitioning application, close it and open a terminal, as the encryption  commands need to be done from the command line.</p>
 
-					      <h5>Раздел /boot</h5>
+					      <h5>The /boot partition</h5>
 							<p>Make the <span class="highlight-3">/boot </span> partition an ext4 partition, if you have not already done so:</p>
 <pre>
 /sbin/mkfs.ext4 /dev/sda1
 </pre>
 
-					      <h5>Шифрованный раздел swap</h5>
+
+
+
+					      <h5>Encrypted swap partition</h5>
 
 							<p>For the <span class="highlight-3">encrypted swap</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda2</span>, as an encrypted device, like the vg-crypt device above but opening it under a different name, swap.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will show up in the installer:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will be recognised by the installer:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
 </pre>
 
-					      <h5>Шифрованный раздел /</h5>
+					      <h5>Encrypted / partition</h5>
 							<p>For the <span class="highlight-3">encrypted /</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda3</span>, as an encrypted device, like the vg-crypt device above.</p>
 
 <pre>
@@ -473,8 +480,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 					  <h3>Open the installer</h3>
 							<p><b>Now you are ready to run the installer where you should use:</b><br />
 							<span class= "highlight-3">sda1</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> for <span class= "highlight-3">swap</span> and, <br />
-							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> /</span> and <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> /</span> and <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> should be automagically recognised.</p>
 
 							<p>The installed system should end up with a kernel command line including the following options (though your UUID will be used):</p>
 <pre>
@@ -483,23 +490,23 @@ root=/dev/mapper/cryptroot cryptopts=source=UUID=12345678-1234-1234-1234-1234567
 							<p>You now have /boot in a plain partition, an encrypted password protected swap along with an encrypted root and /home.</p>
 
 			      </div>
-				  <h3>Источники и ресурсы:</h3>
-							<p>Прочитайте необходимо:</p>
+				  <h3>Sources and Resources:</h3>
+							<p>Required reading:</p>
 
 <pre>
 man cryptsetup
 </pre>
 							<p><a href="http://code.google.com/p/cryptsetup/">LUKS</a>.</p>
 
-							<p><a href="http://www.redhat.com/">Redhat</a> и <a href="http://www.redhat.com/Fedora/">Fedora </a>.</p>
+							<p><a href="http://www.redhat.com/">Redhat</a> and <a href="http://www.redhat.com/Fedora/">Fedora </a>.</p>
 
-							<p><a href="http://www.enterprisenetworkingplanet.com/netsecur/article.php/3683011"> Защитите ваши данныес с зашифрованным разделением Linux (англ.)</a>.</p>
+							<p><a href="http://www.enterprisenetworkingplanet.com/netsecur/article.php/3683011"> Protect Your Stuff With Encrypted Linux Partitions</a>.</p>
 
-							<p><a href="http://blog.bodhizazen.net/linux/kvm-how-to-use-encrypted-images/">Как используют зашифрованные изображения в KVM (англ.)?</a></p>
+							<p><a href="http://blog.bodhizazen.net/linux/kvm-how-to-use-encrypted-images/">KVM how to use encrypted images</a>.</p>
 
-							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid-wiki</a>.</p>
+							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Содержание, последний раз пересмотрено 06/11/2010 1350 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

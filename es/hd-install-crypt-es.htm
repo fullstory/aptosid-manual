@@ -322,7 +322,7 @@
 
 							<li>También puede usar ficheros de claves y tener varias claves para los datos (hasta 8, incluído el borrado de claves), cosa que va más allá de la intención de esta guía.</li>
 
-							<li><span class="highlight-3">No olvide sus claves o !perderá el acceso a todo! Incluso chroot sin saber las claves no servirá de nada, salvo para arrancar /boot.</span></li>
+							<li><span class="highlight-3">No olvide sus claves o ¡perderá el acceso a todo! Incluso chroot sin saber las claves no servirá de nada, salvo para arrancar /boot.</span></li>
 
 							<li>En los primeros pasos del proceso de arranque se le preguntará por su clave del volumen cifrado y el sistema arrancará como siempre.</li>
 						    </ul>
@@ -391,10 +391,10 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							</li>
 
 							<li><b>Ahora ya está listo para ejecutar el instalador en el que debe utilizar:</b><br />
-							<span class= "highlight-3">vg-boot</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">cryptvg-root</span> for <span class= "highlight-2"> /</span>,<br />
-							<span class= "highlight-3">cryptvg-home</span> for <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span></li>
+							<span class= "highlight-3">vg-boot</span> para <span class= "highlight-3">/boot</span>,<br />
+							<span class= "highlight-3">cryptvg-root</span> para <span class= "highlight-2"> /</span>,<br />
+							<span class= "highlight-3">cryptvg-home</span> para <span class= "highlight-3">/home</span>,<br />
+							y <span class= "highlight-3">cryptvg-swap</span> para <span class= "highlight-3">swap</span> debería ser reconocido <em>automágicamente</em>.</li>
 						    </ol>
 
 							<p>El sistema instalado debe terminar con una línea de comandos del núcleo que incluya las opciones siguientes:</p>
@@ -441,16 +441,20 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 					      <h5>Partición swap cifrada</h5>
 
 							<p>Para el <span class="highlight-3">swap encriptado </span> necesitará primero dar formato y abrir el dispositivo en bruto, <span class="highlight-3">/dev/sda2</span>, como un dispositivo cifrado, igual que el dispositivo vg-crypt arriba mencionado pero abriéndolo con un nombre distinto, swap.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-							<p>Dé formato al creado <span class="highlight-3">/dev/mapper/swap</span> para que se muestre al instalador:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Dé formado al recién creado <span class="highlight-3">/dev/mapper/swap</span> para que pueda ser reconocido por el instalador:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
@@ -475,9 +479,9 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 
 					  <h3>Abra el instalador</h3>
 							<p><b>Ahora ya está listo para ejecutar el instalador en el que debe utilizar:</b><br />
-							<span class= "highlight-3">sda1</span> para <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> para <span class= "highlight-3">swap</span> and, <br />
-							<span class= "highlight-3">cryptroot</span> para <span class= "highlight-2"> /</span> y <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">sda1</span> para <span class= "highlight-3">/boot</span><br />
+							<span class= "highlight-3">cryptroot</span> para <span class= "highlight-2"> / </span> y <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> debería ser <em>automágicamente</em> reconocido.</p>
 
 							<p>El sistema instalado debe terminar con una línea de comandos del núcleo que incluya las opciones siguientes: (aunque se usará su UUID):</p>
 <pre>
@@ -502,7 +506,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Page last revised 06/11/2010 1350 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

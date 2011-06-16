@@ -17,7 +17,7 @@
         <link rel="stylesheet" type="text/css" href="../lib/css-js/ie_5-6_override.css">
         <![endif]-->
 </head>
-<!-- Last translation revision hubi Tue, 05 Jan 2010 14:57:38 +0000-->
+<!-- Last translation revision hubi Sun, 12 Jun 2011 08:06:50 +0000-->
 <body>
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
@@ -332,10 +332,10 @@ apt-get install nbd-server dnsmasq
 
 				<h3>Aufsetzen eines nbd-Servers</h3>
 
-							<p> Vorausgesetzt die iso ist unter <span class="highlight-3">/dev/scd0</span> zu finden (bei einem Boot von einer CD, ansonsten wird der Pfad zur gegebenen Datei oder Gerät gesetzt), kann eine Konfigurationsdatei für einen nbd-Server mit dem Namen <span class="highlight-3">nbd-aptosid.conf</span> erstellt werden. Diese beinhaltet eine Sektion namens aptosid-iso, um die CD auf Port 9040 zu exportieren. Dies erfolgt mit diesem Befehl:</p>
+							<p> Vorausgesetzt die iso ist unter <span class="highlight-3">/dev/scd0</span> zu finden (bei einem Boot von einer CD, ansonsten wird der Pfad zur gegebenen Datei oder zum Gerät gesetzt), kann eine Konfigurationsdatei für einen nbd-Server mit dem Namen <span class="highlight-3">nbd-aptosid.conf</span> erstellt werden. Diese beinhaltet eine Sektion namens aptosid-iso, um die CD zu exportieren. Dies erfolgt mit diesem Befehl:</p>
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
-nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
+nbd-server 0.0.0.0:10809 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
 							<p>Der Header "generic" wird immer benötigt. Falls Sie jedoch einen automatisch funktionierenden nbd-Server auf einem realen System aufsetzen wollen, sollte stattdessen eine Datei  /etc/nbd-server.conf erstellt werden. Um alle Optionen für nbd-Server kennenzulernen, lesen Sie bitte <span class="highlight-3">man nbd-server.</span></p>
 
@@ -393,11 +393,13 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<p>Nun können die Boot-Optionen unter <span class="highlight-3">/home/tftp</span> in den Dateien <span class="highlight-3">pxelinux.cfg/default</span> und <span class="highlight-3">gfxboot.cfg</span> nach Belieben bearbeitet werden. Konkret wird vorgeschlagen, in der Sektion <span class="highlight-3">[install]</span> <span class="highlight-3">install= </span>auf <span class="highlight-3">install=nbd</span> und <span class="highlight-3">install.nbd.server</span> auf die IP des Netzwerk-Servers zu setzen. Der Client greift mittels <span class="highlight-3">install.nbd.port value</span> auf denjenigen Server zu, der bei Erstellen des nbd-Servers definiert wurde.</p>
+							<p>Nun können die Boot-Optionen unter <span class="highlight-3">/home/tftp</span> in den Dateien <span class="highlight-3">pxelinux.cfg/default</span> und <span class="highlight-3">gfxboot.cfg</span> nach Belieben bearbeitet werden.</p>
+
+							<p>Im besonderen wird vorgeschlagen, dass in der Sektion <span class="highlight-3">[install]</span> folgende Parameter auf die angegebenen Werte gesetzt wird: <span class="highlight-3">install= </span>auf <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> auf die IP des Netzwerk-Servers und <span class="highlight-3">install.nbd.port</span> auf den Namen der NBD-Export-Sektion, zum Beispiel aptosid-iso (NBD-Exporte besitzen eher Namen als nur Port-Nummern).</p>
 
 							<p>Auch kann das F3-Menü gänzlich deaktiviert und die Kernel-Befehlszeile mit einem Befehl ähnlich diesem ausgestattet werden:</p>
 <pre>
-fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
+fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,aptosid-iso nonetwork
 </pre>
 
 
@@ -414,7 +416,7 @@ fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 
 
 	</div>
-	<div id="rev">Page last revised 14/08/2010 0100 UTC </div>
+	<div id="rev">Page last revised 11/06/2011 1305 UTC </div>
 
 </div>
 </body>

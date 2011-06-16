@@ -343,7 +343,7 @@ apt-get install nbd-server dnsmasq
 
 <pre>
 echo '[generic]' &gt; nbd-aptosid.conf
-nbd-server 9040 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
+nbd-server 0.0.0.0:10809 /dev/scd0 -o aptosid-iso &gt;&gt; nbd-aptosid.conf
 </pre>
 							<!--p>The generic header is always required.   If you want to setup the nbd-server to work automatically on a real system you will probably want to setup /etc/nbd-server.conf instead. There are a lot more options to nbd-server than shown here, see <span class="highlight-3">man nbd-server.</span></p-->
 							<p>Η κεφαλίδα 'generic' χρειάζεται πάντα. Αν θέλετε να ρυθμίσετε τον nbd-server να δουλεύει αυτόματα πάνω σε ένα πραγματικό σύστημα, θα θέλετε μάλλον να ρυθμίσετε το /etc/nbd-server.conf . Ο nbd-server έχει πολλές περισσότερες ρυθμίσεις απ' ότι περιγράφουμε εδώ, δείτε <span class="highlight-3">man nbd-server.</span></p>
@@ -418,13 +418,14 @@ cp /usr/lib/syslinux/pxelinux.0 /home/tftp/
 chown -R dnsmasq.dnsmasq /home/tftp/*
 </pre>
 
-							<!--p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the one set when you created you nbd-server.</p-->
-							<p>Τώρα μπορείτε να κάνετε τις αλλαγές που θέλετε στα αρχεία <span class="highlight-3">pxelinux.cfg/default</span> και <span class="highlight-3">gfxboot.cfg</span> τα οποία βρίσκονται μέσα στον κατάλογο <span class="highlight-3">/home/tftp</span> .</p>
+							<p>Now you can edit boot options to your satisfaction in <span class="highlight-3">/home/tftp</span> on both the <span class="highlight-3">pxelinux.cfg/default</span> and the <span class="highlight-3">gfxboot.cfg</span> file. </p>
+
+							<p>In particular it is suggested that under the <span class="highlight-3">[install]</span> section you set the <span class="highlight-3">install= </span>to <span class="highlight-3">install=nbd</span>, <span class="highlight-3">install.nbd.server</span> to the server's IP on the network and <span class="highlight-3">install.nbd.port</span> to the name of the nbd export section, for example. aptosid-iso (as nbd exports are named now rather then simply using port numbers).</p>
 
 							<!--p>Alternatively you could disable the F3 menu completely and edit the kernel command lines to use something like:</p-->
 							<p>Αντί αυτού θα μπορούσατε να απανεργοποιήσετε το F3 μενού εντελός και να αλλάξετε την γραμμή του πυρήνα να μοιάζει κάπως έτσι:</p>
 <pre>
-fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
+fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,aptosid-iso nonetwork
 </pre>
 
 
@@ -445,7 +446,7 @@ fromhd=/dev/nbd0 root=/dev/nbd0 nbdroot=192.168.1.23,9040 nonetwork
 
 
 	</div>
-	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 14/08/2010 0100 UTC</div>
+	<div id="rev">Τελευταία αναθεώρηση περιεχομένου 11/06/2011 1305 UTC </div>
 
 </div>
 </body>

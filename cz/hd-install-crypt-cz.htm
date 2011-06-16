@@ -414,7 +414,7 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							<span class= "highlight-3">vg-boot</span> pro <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> pro <span class= "highlight-2"> /</span>,<br />
 							<span class= "highlight-3">cryptvg-home</span> pro <span class= "highlight-3">/home</span>,<br />
-							a <span class= "highlight-3">cryptvg-swap</span> pro <span class= "highlight-3">swap</span></li>
+							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span> should be automagically recognised.</li>
 						    </ol>
 
 <!--							<p>The installed system should end up with a kernel command line including the following options:</p>-->
@@ -475,17 +475,20 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 
 <!--							<p>For the <span class="highlight-3">encrypted swap</span> you first need to format and open the raw device, <span class="highlight-3">/dev/sda2</span>, as an encrypted device, like the vg-crypt device above but opening it under a different name, swap.</p>-->
 							<p>Pro <span class="highlight-3">zašifrovaný swap</span> musíte nejdříve naformátovat a otevřít samotné zařízení, <span class="highlight-3">/dev/sda2</span>, jako šifrované zařízení, podobně jako zařízení vg-crypt výše, ale otevřené pod jiným názvem, swap.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-<!--							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will show up in the installer:</p>-->
-							<p>Naformátujte právě vytvořený <span class="highlight-3">/dev/mapper/swap</span>, aby se objevil v instalátoru:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will be recognised by the installer:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
@@ -516,8 +519,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 <!--							<p><b>Now you are ready to run the installer where you should use:</b><br />-->
 							<p><b>Nyní jste připraveni spustit instalátor, kde byste měli použít:</b><br />
 							<span class= "highlight-3">sda1</span> pro  <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> pro <span class= "highlight-3">swap</span> a, <br />
-							<span class= "highlight-3">cryptroot</span> pro <span class= "highlight-2"> /</span> a <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> / </span> and <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> should be automagically recognised.</p>
 
 <!--							<p>The installed system should end up with a kernel command line including the following options (though your UUID will be used):</p>-->
 							<p>Instalovaný systém by měl získat řádku přikazu kernelu, která by měla zahrnovat následující volby (použito bude ale vaše UUID):</p>
@@ -546,7 +549,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Obsah naposledy revidován 06/11/2010 1350 UTC</div>
+	<div id="rev">Obsah naposledy revidován 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

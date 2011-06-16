@@ -393,8 +393,8 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 							<li><b>Acum sunteți pregătiți să rulați programul de instalare unde va trebui să folosiți:</b><br />
 							<span class= "highlight-3">vg-boot</span> pentru <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> pentru <span class= "highlight-2"> /</span>,<br />
-							<span class= "highlight-3">cryptvg-home</span> pentru <span class= "highlight-3">/home</span>,<br />
-							și <span class= "highlight-3">cryptvg-swap</span> pentru <span class= "highlight-3">swap</span></li>
+							<span class= "highlight-3">cryptvg-home</span> pentru <span class= "highlight-3">/home</span>, și <br />
+							<span class= "highlight-3">cryptvg-swap</span> pentru <span class= "highlight-3">swap</span> ar trebui să fie recunoscută automat.</li>
 						    </ol>
 
 							<p>Sistemul instalat ar trebui să se termine cu o linie de comandă a kernel-ului incluzând următoarele opțiuni:</p>
@@ -441,21 +441,24 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 					      <h5>Criptați partiția swap</h5>
 
 							<p>Pentru <span class="highlight-3">swap-ul criptat</span> trebuie mai întâi s-o formatați și s-o deschideți, <span class="highlight-3">/dev/sda2</span>, ca un dispozitiv criptat, precum dispozitivul <i>vg-crypt</i> de mai sus dar sub numele de <i>swap</i>.</p>
-
-<pre>
+<ol>
+<li><pre>
 cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/sda2
-</pre>
+</pre></li>
 
-<pre>
+<li><pre>
 cryptsetup luksOpen /dev/sda2 swap
-</pre>
+</pre></li>
 
-							<p>Formatați <span class="highlight-3">/dev/mapper/swap</span> nou creat astfel apărând în programul de instalare:</p>
+<li><pre>
+echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
+</pre></li>
+</ol>
+							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will be recognised by the installer:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
 </pre>
-
 					      <h5>Criptarea partiției / </h5>
 							<p>Pentru <span class="highlight-3"> /-ul criptat</span> trebuie mai întâi s-o formatați și s-o deschideți, <span class="highlight-3">/dev/sda3</span>, ca un dispozitiv criptat, precum dispozitivul <i>vg-crypt</i> de mai sus.</p>
 
@@ -476,8 +479,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 					  <h3>Deschideți programul de instalare</h3>
 							<p><b>Acum sunteți pregătiți să rulați programul de instalare unde trebuie să folosiți:</b><br />
 							<span class= "highlight-3">sda1</span> pentru <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">sda2</span> pentru <span class= "highlight-3">swap</span> și, <br />
-							<span class= "highlight-3">cryptroot</span> pentru <span class= "highlight-2"> /</span> și <span class= "highlight-3"> /home</span>.</p>
+							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> / </span> and <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> should be automagically recognised.</p>
 
 							<p>Sistemul instalat ar trebui să se termine cu o linie de comandă a kernel-ului incluzând următoarele opțiuni  (totuși va fi folosită notația voastră UUID):</p>
 <pre>
@@ -502,7 +505,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Page last revised 01/11/2010 1120 UTC</div>
+	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
 
 </div>
 </body>

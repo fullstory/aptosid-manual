@@ -18,8 +18,8 @@
 </head>
 <body id="part">
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -98,7 +98,7 @@
 				<li><a href="cheatcodes-vga-ro.htm#vga">Code-uri VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului - Tradițional, GPT și LVM</a>
 		<ul class="sub-menu" id="sm6">
 			 <li><a href="part-gparted-ro.htm#hd-ntfs3g">Scrierea pe partiții NTFS cu <i>ntfs-3g</i></a></li>
 			<li><a href="part-lvm-ro.htm#part-lvm">Partiționarea pentru a folosi LVM - Logical Volume Manager</a></li>
@@ -112,6 +112,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-ro.htm#partition">Partiționarea HD cu <i>cfdisk</i></a></li>
 					    <li><a href="part-cfdisk-ro.htm#formating">Formatarea după partiționare cu <i>cfdisk</i></a></li>
+					    <li><a href="part-gdisk-ro.htm#gdisk-6">Formatarea după partiționare cu <i>gdisk</i></a></li>
+					    <li><a href="part-gdisk-ro.htm#gisk-1">GPT - Partiționarea cu <i>gdisk</i></a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-ro.htm#part-example">Partiționare - Sumar &#8658;</a>
@@ -159,7 +161,7 @@
 					  <li><a href="hw-dev-mon-ro.htm#mon-binary">Monitoare Duale (folosind binare)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-ro.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-ro.htm#foss-xorg">GPU drivere &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-ro.htm#ati-3d">AMD/ATI 3D -drivere</a></li>
 					  <li><a href="gpu-ro.htm#intel">Intel 2D și 3D -drivere</a></li>
@@ -309,29 +311,29 @@
 <div id="main-page">
 	<div class="divider" id="partition">
 		<h2 id="top-header">Partiţionare Hard Discului folosind Gparted/KDE Partition Manager</h2>
-			<h5><span class="highlight-2">ATENŢIE !: pentru numirea discurilor </span><a href="part-uuid-ro.htm"> Vă rugăm consultaţi UUID , Etichetarea partiţiilor şi fstab , pentru că implicit aptosid acum foloseşte UUID</a></h5>
+			<h5><span class="highlight-2">ATENŢIE !: pentru numirea discurilor </span><a href="part-uuid-ro.htm"> Vă rugăm consultaţi UUID, Etichetarea partiţiilor şi fstab, pentru că implicit aptosid acum foloseşte UUID</a></h5>
 
-			<h5>Rularea programelor de partiționare se face de către administrator (root), deci tipăriți într-un terminal <span class="highlight-3">sux</span> apoi parola de root. Pe un Live-ISO nu este setată niciuna deci tipăriți <span class="highlight-3">sux</span> apoi apăsați 'enter' . Vedeți și: <a href="live-mode-ro.htm" >Modul "Live"</a></h5>
+			<h5>Rularea programelor de partiționare se face de către administrator (root), deci tipăriți într-un terminal <span class="highlight-3">sux</span> apoi parola de root. Pe un Live-ISO nu este setată niciuna deci tipăriți <span class="highlight-3">sux</span> apoi apăsați 'enter'. Vedeți și: <a href="live-mode-ro.htm" >Modul "Live"</a></h5>
 
 	<div class="spacer02"></div>
-							<p class="warning-box">După redimensionarea unei partiţii NTFS vi se va cere să reporniţi sistemul ! NU FACEŢI nici o altă operaţiune pe această partiţie înainte de repornire , în caz contrar vor apare erori .<a href="part-gparted-ro.htm#ntfs"> Vă rugăm CITIȚI aici.</a></p>
+							<p class="warning-box">După redimensionarea unei partiţii NTFS vi se va cere să reporniţi sistemul! NU FACEŢI nici o altă operaţiune pe această partiţie înainte de repornire, în caz contrar vor apare erori.<a href="part-gparted-ro.htm#ntfs"> Vă rugăm CITIȚI aici.</a></p>
 
 							<p class="highlight-2">Întotdeauna salvaţi-vă datele!</p>
 
 				<h3>Informații de bază</h3>
-							<p>Orice partiţie trebuie să aibă un sistem de fişiere . Linux ştie să folosească diferite sisteme de fişiere. Există ReiserFs , Ext4 , iar pentru utilizatorii experimentaţi XFS şi JFS . Ext2 este foarte la îndemână ca format de stocare atâta vreme cât există un disc MS Windows&#8482; pentru schimbul de date. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
+							<p>Orice partiţie trebuie să aibă un sistem de fişiere. Linux ştie să folosească diferite sisteme de fişiere. Există ReiserFs, Ext4 iar pentru utilizatorii experimentaţi XFS şi JFS. Ext2 este foarte la îndemână ca format de stocare atâta vreme cât există un disc MS Windows&#8482; pentru schimbul de date. <a href="http://www.fs-driver.org/">Ext2 Installable File System For MS Windows</a>.</p>
 
-							<p  class="highlight-2">Pentru utilizare uzuală recomandăm tipul ext4 , este sistemul de fişiere implicit pentru aptosid şi este foarte bine întreţinut .</p>
+							<p  class="highlight-2">Pentru utilizare uzuală recomandăm tipul ext4. Este sistemul de fişiere implicit pentru aptosid şi este foarte bine întreţinut.</p>
 
-		<h2>Using KDE Partition Manager &amp; Gparted</h2>
-							<p>Creating and managing partitions is not something that is typically done every day. Therefore, a good idea is to read this guide once, to get comfortable with the concepts and some of the panels that will appear.</p>
+		<h2>Utilizarea <i>KDE Partition Manager</i> &amp; <i>Gparted</i></h2>
+							<p>Crearea și administrarea partițiilor nu sunt activități pe care să le executați zilnic. În consecință, ar fi bine să citiți acest ghid o dată și să vă familiarizați cu noțiunile și unele ferestre care vor apare.</p>
 
-						  <h3>KDE Partition Manager - run in a terminal:</h3>
+						  <h3>KDE Partition Manager - rulați într-un terminal:</h3>
 <pre>
 sux
 partitionmanager
 </pre>
-						  <h3>Gparted - run in a terminal:</h3>
+						  <h3>Gparted - rulați într-un terminal:</h3>
 <pre>
 sux
 gparted
@@ -340,19 +342,19 @@ gparted
 
 		<ul>
 			<li>
-							<p>When GParted or KDE Partition Manager runs , a window is opened, and drives are scanned.</p>
+							<p>Când GParted sau KDE Partition Manager rulează, o fereastră se deschide și discurile sunt scanate.</p>
 
-							<p>In KDE Partition Manager the drives are shown in a list on the left.</p>
+							<p>În KDE Partition Manager discurile apar într-o listă în partea stângă.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-kpart/kpart-02.png"  title="KDE Partition Manager partition information" alt="KDE Partition Manager partition information" /></div>
 
-							<p>In Gparted, if you click the menu (at the top left), a pop down is presented. You can select to refresh the display of the drives on your system.</p>
+							<p>În Gparted, dacă dați click pe menu (în stânga-sus), o listă derulantă este prezentată. Puteți alege și împrospătarea afișării discurilor din sistemul vostru.</p>
 
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted02-en.png"  title="Gparted Devices View" alt="gparted" /></div>
 			</li>
 		  </ul>
-						<h6><span class="highlight-2">The following screenshots are of Gparted. KDE Partition Manager behaves in much the same manner.</span></h6>
+						<h6><span class="highlight-2">Următoarele screenshot-uri sunt ale Gparted. KDE Partition Manager arată foarte asemănător.</span></h6>
 		  <ul>
 			<li>
 				<h3>Edit</h3>
@@ -366,49 +368,49 @@ gparted
 				<ul>
 					<li>
 						<h4>Device Information</h4>
-							<p>Fereastra <b>Harddisk Information</b> afișează detalii despre Hard Disc cum ar fi Model , Mărime (Size) etc. Această fereastră este foarte utilă într-un sistem cu mai multe discuri unde informaţiile sunt folosite să confirme că discul examinat este chiar cel dorit .</p>
+							<p>Fereastra <b>Harddisk Information</b> afișează detalii despre Hard Disc cum ar fi Model, Mărime (Size) etc. Această fereastră este foarte utilă într-un sistem cu mai multe discuri unde informaţiile sunt folosite să confirme că discul examinat este chiar cel dorit.</p>
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted03-en.png" title="Gparted Harddisk Information"  alt="operation view" /></div>
 					</li>
 					<li>
 						<h4>Pending Operations</h4>
-							<p>În bara de jos a ferestrei este lista cu operaţiunile care aşteaptă să fie executate . Informaţia este folositoare pentru că oferă detalii despre numărul de operaţiuni în aşteptare.</p>
+							<p>În bara de jos a ferestrei este lista cu operaţiunile care aşteaptă să fie executate. Informaţia este folositoare pentru că oferă detalii despre numărul de operaţiuni în aşteptare.</p>
 					</li>
 				</ul>
 			</li>
 			<li>
 				<h3>Device</h3>
-							<p>Meniul Device permite setarea unei  etichete de disc. Dacă cea curentă este nepotrivită , puteţi să o schimbaţi folosind această opţiune.</p>
+							<p>Meniul Device permite setarea unei etichete de disc. Dacă cea curentă este nepotrivită, puteţi să o schimbaţi folosind această opţiune.</p>
 			</li>
 			<li>
 				<h3>Partition Menu</h3>
-							<p>Acest meniu este de importanţă majoră . Permite să faceţi multe operaţii , unele dintre ele chiar periculoase .</p>
+							<p>Acest meniu este de importanţă majoră. Permite să faceţi multe operaţii, unele dintre ele chiar periculoase.</p>
 
-							<p><b>Delete</b> este selectat dacă doriţi să stergeţi o partiţie . Pentru a executa ştergerea , întâi trebuie să selectaţi partiţia.</p>
+							<p><b>Delete</b> este selectat dacă doriţi să stergeţi o partiţie. Pentru a executa ştergerea, întâi trebuie să selectaţi partiţia.</p>
 
 							<p><b>Resize/Move</b> este o funcţie folositoare.</p>
 
 			</li>
 			<li>
 				<h3>Crearea unei noi partiţii</h3>
-							<p>În bara de unelte , butonul <b>New</b> permite să creezi o nouă partiţie , dacă aţi selectat deja un spaţiu nealocat de pe disc. Apare o nouă fereastră care vă lasă să alegeţi mărimea dorită , tipul partiţiei - Primary , Extended sau Logical , precum şi sistemul de fişiere dorit .</p>
+							<p>În bara de unelte, butonul <b>New</b> permite să creezi o nouă partiţie, dacă aţi selectat deja un spaţiu nealocat de pe disc. Apare o nouă fereastră care vă lasă să alegeţi mărimea dorită, tipul partiţiei - Primary, Extended sau Logical, precum şi sistemul de fişiere dorit.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted07-en.png"  title="Gparted New Partition" alt="file system" /></div>
 			</li>
 			<li>
 				<h3>Dacă aţi făcut o greşeală</h3>
-							<p>Dacă aţi făcut o greşeală puteţi folosi butonul "Delete" pentru a şterge partiţia aleasă , sau , dacă nu s-a aplicat încă schimbarea , folosiţi butonul "Undo".</p>
+							<p>Dacă aţi făcut o greşeală puteţi folosi butonul "Delete" pentru a şterge partiţia aleasă sau, dacă nu s-a aplicat încă schimbarea, folosiţi butonul "Undo".</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted04-en.png"   title="Gparted Delete" alt="delete" /></div>
 			</li>
 			<li>
 				<h3>Redimensionarea /Mutarea</h3>
-							<p>Când doriţi redimensionarea unei partiţii selectate apăsaţi butonul  <b>Resize/Move</b> : o nouă fereastră va apare . Folosiţi mouse-ul pentru a reduce (sau creşte ) mărimea partiţiei alese , sau dacă preferaţi folosiţi săgeţile .</p>
+							<p>Când doriţi redimensionarea unei partiţii selectate apăsaţi butonul  <b>Resize/Move</b>: o nouă fereastră va apare. Folosiţi mouse-ul pentru a reduce (sau creşte) mărimea partiţiei alese sau dacă preferaţi folosiţi săgeţile.</p>
 
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted05-en.png"    title="Gparted Resize" alt="resize / move" /></div>
-							<p>După ce comanda "Resize" a fost dată , apăsaţi pe "Apply" pentru că nici o operaţie nu este făcută pe Hard Disc până când nu apăsaţi acest buton .</p>
+							<p>După ce comanda "Resize" a fost dată, apăsaţi pe "Apply" pentru că nici o operaţie nu este făcută pe Hard Disc până când nu apăsaţi acest buton.</p>
 		<div class="screenshot"><img src="../lib/images-common/images-gparted/gparted09-en.png"     title="Gparted Apply" alt="operation view" /></div>
 
-							<p>Durata operaţiilor depinde de noua mărime a partiţiilor .</p>
+							<p>Durata operaţiilor depinde de noua mărime a partiţiilor.</p>
 
 							<p><b>După manipularea tabelei de partiţii vă rugăm ieşiţi din aptosid şi&nbsp;reporniţi sistemul în aptosid pentru a fi recitită noua tabelă de alocare a partiţiilor.</b></p>
 			</li>
@@ -418,23 +420,23 @@ gparted
 	<div class="divider" id="ntfs">
 		<h2>Redimensionarea partiţiilor NTFS </h2>
 
-							<p class="warning-box">După redimensionarea unei partiţii NTFS vi se va cere să reporniţi sistemul ! NU FACEŢI nici o altă operaţiune pe această partiţie înainte de repornire , în caz contrar vor apare erori .</p>
+							<p class="warning-box">După redimensionarea unei partiţii NTFS vi se va cere să reporniţi sistemul!<br /> NU FACEŢI nici o altă operaţiune pe această partiţie înainte de repornire, în caz contrar vor apare erori.</p>
 
 						<ul>
-							<li>După pornirea în MS Windows&#8482;, sistemul vă va arăta un ecran special şi un mesaj despre consistenţa discului : Checking file system on c:</li>
+							<li>După pornirea în MS Windows&#8482;, sistemul vă va arăta un ecran special şi un mesaj despre consistenţa discului: Checking file system on c:</li>
 
-							<li>Lăsaţi AUTOCHK să ruleze : NT trebuie să-şi verifice sistemul de fişiere după operaţiunea de redimensionare .</li>
+							<li>Lăsaţi AUTOCHK să ruleze: NT trebuie să-şi verifice sistemul de fişiere după operaţiunea de redimensionare.</li>
 
-							<li>La finalul acestui proces , computerul se va restarta automat pentru a doua oară . Aceasta asigură că totul a mers perfect .</li>
+							<li>La finalul acestui proces, computerul se va restarta automat pentru a doua oară. Aceasta asigură că totul a mers perfect.</li>
 
-							<li>După restart , Windows XP va fi în regulă , dar trebuie să lăsaţi sistemul să termine procesul de pornire şi să asteptaţi ecranul de login !</li>
+							<li>După restart, Windows XP va fi în regulă, dar trebuie să lăsaţi sistemul să termine procesul de pornire şi să asteptaţi ecranul de login!</li>
 						</ul>
 
-							<p><b>Documentaţie Completă GParted </b>:Pentru a citi documentaţia completă , inclusiv Cum Să copiaţi partiţiile , mergeţi la  <a href="http://gparted.sourceforge.net">GParted</a></p>
+							<p><b>Documentaţie Completă GParted </b>:Pentru a citi documentaţia completă, inclusiv Cum Să copiaţi partiţiile, mergeţi la <a href="http://gparted.sourceforge.net">GParted</a></p>
 	</div>
 		<div class="divider" id="hd-ntfs3g">
 			<h2>Scrierea pe partiții NTFS cu ntfs-3g</h2>
-							<p class="highlight-2"><b>Atenţie</b>: Chiar dacă <i>'ntfs-3g'</i> este considerat ca <i>'stable'</i>, niciodată nu-l folosiţi fără salvarea prealabilă a datelor şi, bineînteles, nu pe sisteme productive! Dacă nu ţineţi cont de aceasta, vina pentru pierderea de date vă aparţine, folosiţi pe risc propriu !</p>
+							<p class="highlight-2"><b>Atenţie</b>: Chiar dacă <i>'ntfs-3g'</i> este considerat ca <i>'stable'</i>, niciodată nu-l folosiţi fără salvarea prealabilă a datelor şi, bineînteles, nu pe sisteme productive! Dacă nu ţineţi cont de aceasta, vina pentru pierderea de date vă aparţine. Folosiţi pe risc propriu!</p>
 
 							<p>Deschideţi o consolă şi introduceţi următoarele comenzi: Vedeţi și <a href="part-cfdisk-ro.htm" >Partiţionarea HardDiscurilor - Numirea Discurilor</a></p>
 
@@ -447,7 +449,7 @@ Pentru a ieși din poziția de <i>root</i> tastați:
 exit
 </pre>
 
-						<p>Acum partiţia NTFS ar trebui să fie mount-ată <b>rw</b> şi să puteţi scrie date pe ea. Dar, încă o dată, aveţi grijă ! <span class="highlight-3">Utilizaţi doar în situaţii de urgentă, nu este recomandat pentru utilizarea zilnică.</span></p>
+						<p>Acum partiţia NTFS ar trebui să fie mount-ată <b>rw</b> şi să puteţi scrie date pe ea. Dar, încă o dată, aveţi grijă!<br /> <span class="highlight-3">Utilizaţi doar în situaţii de urgentă, nu este recomandat pentru utilizarea zilnică.</span></p>
 </div>
 
 				<div id="rev">Content last revised 14/08/2010 0100 UTC</div>

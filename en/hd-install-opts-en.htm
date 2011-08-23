@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 14/08/2010 0100 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by bluewater-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-en.htm#vga">VGA Codes</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-en.htm">Partitioning the Hard Drive - Traditional and LVM</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-en.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		    <ul class="sub-menu" id="sm6">
 			  <li><a href="part-gparted-en.htm#hd-ntfs3g">Writing on NTFS partitions with ntfs-3g</a></li>
 			  <li><a href="part-lvm-en.htm#part-lvm">Partitioning to use LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-en.htm#partition">Partitioning  your HD using cfdisk</a></li>
 					    <li><a href="part-cfdisk-en.htm#formating">Formatting after partitioning with cfdisk</a></li>
+					    <li><a href="part-gdisk-en.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-en.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-en.htm#part-example">Partitioning Basics &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-en.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-en.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-en.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-en.htm#ati-3d">AMD/ATI 3D drivers</a></li>
 					  <li><a href="gpu-en.htm#intel">Intel 2D and 3D drivers</a></li>
@@ -169,7 +171,7 @@
 					</ul>
 					</li>
 			  <li><a href="nf-firm-en.htm#fw-detect">Firmware detection - non-free </a></li>
-			  <li><a href="nf-firm-en.htm#non-free-firmware">Adding non-free to Sources List</a></li>
+			  <li><a href="nf-firm-en.htm#non-free-firmware">Adding non-free to sources</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-en.htm#install-add">Window Managers</a>
@@ -482,7 +484,7 @@ dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo
 
 							<p>On a LIVE-iso click on <span class="highlight-3">aptosid Installer Icon</span> and choose <span class="highlight-3">Install to USB</span>.</p>
 
-			      <h6>Options:</h6>
+				  <h6>Options:</h6>
 							<p>You are given the opportunity to make language, timezone and other bootcodes choices and whether or not to activate persist via a checkbox.</p>
 
 							<p>You now have a bootable USB/SD/flash. If you did not activate persist you are able to turn it on by adding <span class="highlight-3">persist</span> on the grubline of the grub screen. (If vfat, it is probably best to start again though).</p>
@@ -540,9 +542,56 @@ $ man fll-iso2usb
 
 							<li>If you want to use the installation on another machine be aware that you must make some adjustments. You will need to alter fstab to access the PCs hard drives, maybe xorg.conf and probably the network configuration.</li>
 						</ul>
+<!-- hiding crpa until another day
+	</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Bootable GPT removable devices</h2>
+
+				    <h3>fromhd with (U)EFI bootable GPT removable devices</h3>
+							<p>In order to create a removable fromisohd, (F4), (U)EFI bootable device, such as a USB stick, the contents of the aptosid ISO can be extracted to a <span class="highlight-3"> vfat </span> formatted partition and the partition marked as bootable. Refer to <a href="part-gdisk-en.htm#gdisk-1">Partitioning with gdisk for GPT disks</a></p>
+<pre>
+mount aptosid.iso /media/iso
+</pre>
+
+<pre>
+mount /dev/stick /media/stick
+</pre>
+
+<pre>
+cp -a /media/iso/* /media/stick/
+</pre>
+	</div>
+	<div class="divider" id="usb-gpt-2">
+			<h3>fromhd with PC-BIOS bootable GPT removable devices</h3>
+							<p>Optionally, this removable medium can also be made compatible with PC-BIOS booting by installing a traditional bootsector in addition to the EFI bootloader (assuming /dev/sdz1 to be the target partition on the USB stick). Refer to <a href="part-gdisk-en.htm#gdisk-1">Partitioning with gdisk for GPT disks</a>.</p>
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdz1
+</pre>
+<pre>
+install-mbr /dev/sdz
+</pre>
+	</div>
+	<div class="divider" id="usb-gpt-3">
+							<h5><span class="highlight-2">NOTE:</span></h5> 
+
+						  <ul>
+							<li>You can edit the  boot options for <span class="highlight-3">(U)EFI booting</span>, use the <span class="highlight-2"> e </span> command to edit <span class="highlight-3">/boot/grub/x86_64-efi/extlinux.cfg</span> to change boot options (for example to set language).</li>
+
+							<li>See <a href="sys-admin-grub2-en.htm#grub2">Grub2 - Overview</a></li>
+						   <ul>
+
+							<p>To edit the boot options for <span class="highlight-3">PC-BIOS booting</span> use <span class="highlight-2"> e </span> to edit <span class="highlight-3">/boot/isolinux//syslinux.cfg </span> to change boot options (for example to set language).</p>
+						   
 
 	</div>
-	<div id="rev">Page last revised 26/04/2011 1210 UTC</div>
+	<div class="divider" id="usb-gpt-4">
+			<h3>Full installation to bootable GPT removable devices (behaves as normal HD installation)</h3>
+
+							<p> Refer to <a href="part-gdisk-en.htm#gdisk-1">Partitioning with gdisk for GPT disks</a>
+
+							-->
+	</div>
+	<div id="rev">Page last revised 16/08/2011 1120 UTC</div>
 
 </div>
 </body>

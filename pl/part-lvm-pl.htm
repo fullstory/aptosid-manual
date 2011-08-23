@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 22/10/2010 1510 UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintained by -->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Przejdź do aptosid.com, forum oraz wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-pl.htm#vga">Kody VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-pl.htm">Partycjonowanie dysku twardego</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-pl.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-pl.htm#hd-ntfs3g">Zapis na partycje NTFS z użyciem ntfs-3g</a></li>
 			<li><a href="part-lvm-pl.htm#part-lvm">Partycjonowanie w celu użycia LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-pl.htm#partition">Partycjonowanie dysku z użyciem cfdisk</a></li>
 					    <li><a href="part-cfdisk-pl.htm#formating">Formatowanie dysku po partycjonowaniu z użyciem cfdisk</a></li>
+					    <li><a href="part-gdisk-pl.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-pl.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-pl.htm#part-example">Podstawy partycjonowania &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-pl.htm#mon-binary">Dwa monitory (używając binariów)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-pl.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-pl.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-pl.htm#ati-3d">Sterowniki AMD/ATI 3D</a></li>
 					  <li><a href="gpu-pl.htm#intel">Sterowniki Intel 2D i 3D</a></li>
@@ -383,7 +385,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">Krok 5:</span> sformatować wolumin (cierpliwość przy formatowaniu, to może trochę potrwać): </p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Krok 6:</span></p>
 <pre>
@@ -393,11 +395,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Zastosowanie <span class="highlight-3">/dev/mapper/vulcan-spock </span> jest lepszy niż użyć numerów UUID z LVM, ponieważ jest tak łatwiej do klonowania systemu plików (nie ma kolizje-UUID). Zwłaszcza z LVM, można tworzyć systemy plików z tymi samymi numerami UUID (przykład: snapshots).</p>
+							<p>Zastosowanie <span class="highlight-3">/dev/vulcan/spock </span> jest lepszy niż użyć numerów UUID z LVM, ponieważ jest tak łatwiej do klonowania systemu plików (nie ma kolizje-UUID). Zwłaszcza z LVM, można tworzyć systemy plików z tymi samymi numerami UUID (przykład: snapshots).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3"> Opcjonalne:</span> Właściciel wolumina może być zmieniony tak, że inni użytkownicy mogą czytać / zapisać na LVM: </p>
 
@@ -408,17 +410,57 @@ chmod -R 774 /media/spock
 							<p>Twoje podstawowe LVM powinien być utworzony. </p>
 
 					    <h3>Zmiana rozmiaru wolumenu </h3>
-							<p>Aby w naszym przykładzie zmienić wielkość od 300GB do 500GB , użyj ten kod:</p>
+
+							<p><span class="highlight-3">It is highly recommended that you use a live ISO to change the partition sizes. Whilst growing the partition 'on the fly' may be error free, the same can not be said when reducing the volume, as anomalies will cause data loss, particularly if <span class="highlight-2 "> / (root) </span> or <span class="highlight-2">/home</span> are involved.</span></p>
+
+							<h5>To resize the volume from 300GB to 500GB, as used in this example:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Teraz wykonywany będzie  dla systemu plików specyficzny kod na zmianę rozmiaru: </p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>To resize the volume from 500GB down to 280GB, as used in this example:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Then resize the volume</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>Zarządzanie LVM z programu GUI</h5>
 							<p><span class="highlight-3">system-config-lvm</span> oferuje graficzny interfejs do zarządzania LVMs. Program jest uruchamiany jako root:</p>
 
@@ -449,7 +491,7 @@ man system-config-lvm <span class="highlight-3"> # lekturą obowiązkową</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

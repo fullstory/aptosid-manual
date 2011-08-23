@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision muchan 21/Nov/2010 2102 UTC -->
 <div id="menu"><!-- menu starts here ja lang maintained by muchan-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com, Forum and Wiki" alt="logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-ja.htm#vga">VGA コード</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ja.htm">ハードディスクのパーティショニング</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ja.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-ja.htm#hd-ntfs3g">ntfs-3gを使ってNTFSパーティションへの書き込み</a></li>
 			<li><a href="part-lvm-ja.htm#part-lvm">LVM(Logical Volume Manager)を使うパーティション</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-ja.htm#partition"> cfdisk を使ってパーティショニング</a></li>
 					    <li><a href="part-cfdisk-ja.htm#formating">cfdiskでパーティション後のフォーマッティング</a></li>
+					    <li><a href="part-gdisk-ja.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdiskja.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-ja.htm#part-example">パーティショニングの基本 &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-ja.htm#mon-binary">デュアルモニター（バイナリードライバ）</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-ja.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-ja.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-ja.htm#ati-3d">AMD/ATI 3D ドライバ</a></li>
 					  <li><a href="gpu-ja.htm#intel">Intel 2D/3D ドライバ</a></li>
@@ -476,7 +478,7 @@ lvcreate -n spock --size 300g vulcan
 							#### -->
 							<p><span class="highlight-3">Step 5:</span> ボリュームをフォーマットする。時間がかかるので気長に待ちましょう:</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Step 6:</span>マウント</p>
 <pre>
@@ -490,13 +492,13 @@ mkdir /media/spock/
 mcedit /etc/fstab
 </pre>
 							<!--- ####
-							<p>Using <span class="highlight-3">/dev/mapper/vulcan-spock </span> is better than using UUID numbers with LVM, as then you can clone the filesystem and not have to worry about potential UUID collisions, especially with LVM, as you can end up with multiple filesystems with the same UUID number (snapshots being a prime example).</p>
+							<p>Using <span class="highlight-3">/dev/vulcan/spock </span> is better than using UUID numbers with LVM, as then you can clone the filesystem and not have to worry about potential UUID collisions, especially with LVM, as you can end up with multiple filesystems with the same UUID number (snapshots being a prime example).</p>
 							#### -->
-							<p>特にLVM では(スナップショットなどのため)しばしば複数のファイルシステムが同じUUIDをもつことがよくあるため、ファイルシステムのクローンなどUUIDの衝突を心配しないよう、LVM についてはUUIDより <span class="highlight-3">/dev/mapper/vulcan-spock </span> などのパスを使うほうが良い。</p>
+							<p>特にLVM では(スナップショットなどのため)しばしば複数のファイルシステムが同じUUIDをもつことがよくあるため、ファイルシステムのクローンなどUUIDの衝突を心配しないよう、LVM についてはUUIDより <span class="highlight-3">/dev/vulcan/spock </span> などのパスを使うほうが良い。</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<!--- ####
 							<p><span class="highlight-3"> Optional:</span> Change the owner of the volume so that other users have read/write access to the LVM:</p>
@@ -516,24 +518,57 @@ chmod -R 774 /media/spock
 					    <h3>Resizing the volume</h3>
 									#### -->
 					    <h3>論理ボリュームのサイズ変更</h3>
-							<!--- ####
-							<p>To resize the volume from 300GB to 500GB, as used in this example:</p>
-							#### -->
-							<p>論理ボリュームを 300GB から 500GB に変更するには:</p>
+
+							<p><span class="highlight-3">It is highly recommended that you use a live ISO to change the partition sizes. Whilst growing the partition 'on the fly' may be error free, the same can not be said when reducing the volume, as anomalies will cause data loss, particularly if <span class="highlight-2 "> / (root) </span> or <span class="highlight-2">/home</span> are involved.</span></p>
+
+							<h5>To resize the volume from 300GB to 500GB, as used in this example:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<!--- ####
-							<p>Then run the command for the filesystem to be resized:</p>
-							#### -->
-							<p>ファイルシステムのサイズ変更のコマンド:</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
-										<!--- ####
+							<h5>To resize the volume from 500GB down to 280GB, as used in this example:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Then resize the volume</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>An LVM GUI</h5>
 										#### -->
 					     <h5>GUI の LVM マネージャ</h5>
@@ -572,11 +607,8 @@ man system-config-lvm <span class="highlight-3"> # 必ず読みましょう</spa
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>
-<!--- ####
-							<!--- ####
-							#### -->
 </html>

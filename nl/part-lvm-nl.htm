@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 22/10/2010 1510 UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-nl.htm#vga">VGA Codes</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-nl.htm">Partitioneren van uw harde schijf</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-nl.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-nl.htm#hd-ntfs3g">Schrijven op een NTFS partitie met ntfs-3g</a></li>
 			<li><a href="part-lvm-nl.htm#part-lvm">Partitioneren vanwege LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-nl.htm#partition">Harde schijf partitioneren met cfdisk</a></li>
 					    <li><a href="part-cfdisk-nl.htm#formating">Formatteren (schijf leegmaken) na het partitioneren met cfdisk</a></li>
+					    <li><a href="part-gdisk-nl.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-nl.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-nl.htm#part-example">Partitioneren Basis &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-nl.htm#mon-binary">Dual-schermen (gebruikmakend van binaries)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-nl.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-nl.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-nl.htm#ati-3d">AMD/ATI 3D drivers</a></li>
 					  <li><a href="gpu-nl.htm#intel">Intel 2D en 3D drivers</a></li>
@@ -383,7 +385,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">Stap 5:</span>Formateer het volume en wacht geduldig af, het kan een tijdje duren (koffie, biertje, ...) :</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Stap 6:</span></p>
 <pre>
@@ -393,11 +395,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Het gebruiken van <span class="highlight-3">/dev/mapper/vulcan-spock </span> is beter dan UUID nummers met LVM, omdat je dan het bestandssysteem kan clonen zonder je om UUID botsingen te bekommeren, zeker met LVM, waar je meerdere bestandssystemen kan bekomen met hetzelfde UUID nummer (snapshots bevoorbeeld).</p>
+							<p>Het gebruiken van <span class="highlight-3">/dev/vulcan/spock </span> is beter dan UUID nummers met LVM, omdat je dan het bestandssysteem kan clonen zonder je om UUID botsingen te bekommeren, zeker met LVM, waar je meerdere bestandssystemen kan bekomen met hetzelfde UUID nummer (snapshots bevoorbeeld).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3"> Optioneel:</span> Wijzig de eigenaar van het volume zodanig dat andere gebruikers read/write toegang krijgen tot LVM: </p>
 
@@ -408,17 +410,57 @@ chmod -R 774 /media/spock
 							<p>Uw basis LVM zou nu aangemaakt moeten zijn.</p>
 
 					    <h3>Wijzigen van de grootte van een volume</h3>
-							<p>Bevoorbeeld, om de grootte van het volume van 300GB naar 500GB te veranderen :</p>
+
+							<p><span class="highlight-3">Het is sterk aanbevolen een Live ISO te gebruiken bij het wijzigen van de grootte van partities. Hoewel het vergroten van een partities "on the fly" zonder fouten kan gebeuren, kan men dit niet zeggen wanneer je een partitie verkleint, afwijkingen kunnen het verlies van data veroorzaken, zeker wanneer <span class="highlight-2 "> / (root) </span> of <span class="highlight-2">/home</span> er bij betrokken zijn.</span></p>
+
+							<h5>Om een volume van 300GB naar 500GB te vergroten, zie volgend voorbeeld:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Daarna draai de volgende commando's voor het te wijzigen bestandssysteem :</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Daarna draai het commando om het bestandssysteem te wijzigen:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>Om een volume van 500GB naar 280GB te verkleinen, zie volgend voorbeeld:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Daarna draai het commando om het bestandssysteem te wijzigen:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Daarna wijzig het volume:</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>Een LVM GUI</h5>
 							<p><span class="highlight-3">system-config-lvm</span> geeft je een GUI en helpt je bij het beheer van de LVM's. Het wordt gestart vanuit de commandline als root :</p>
 
@@ -449,7 +491,7 @@ man system-config-lvm <span class="highlight-3"> #lezen noodzakelijk !</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

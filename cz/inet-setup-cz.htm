@@ -19,8 +19,8 @@
 <body>
 <!-- Poslední revizi překladu provedl pumrel 11.3.2011 1210 CET -->
 <div id="menu"> <!-- menu starts here -cz lang maintainer pumrel-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Na stránky aptosid.com, forum a wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-cz.htm#vga">VGA kódy</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-cz.htm">Diskové oddíly</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-cz.htm">Vytváření diskových oddílů - tradičně, s GPT a s LVM</a>
 		<ul class="sub-menu" id="sm6">
 			  <li><a href="part-gparted-cz.htm#hd-ntfs3g">Zapisování na diskový oddíl NTFS pomocí ntfs-3g</a></li>
 			  <li><a href="part-lvm-cz.htm#part-lvm">Vytvoření disk. oddílů pro použití LVM - Logical Volume Manager</a></li>
@@ -113,9 +113,11 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-cz.htm#partition">Vytváření diskových oddílů pomocí cfdisk</a></li>
 					    <li><a href="part-cfdisk-cz.htm#formating">Formátování po vytvoření diskových oddilů pomocí cfdisk</a></li>
+					    <li><a href="part-gdisk-cz.htm#gdisk-6">Formátování po vytvoření diskových oddílů s gdiskem</a></li>
+					    <li><a href="part-gdisk-cz.htm#gisk-1">Diskové oddíly GPT s gdiskem</a></li>
 					</ul>
 					</li>
-		<li><a href="part-size-examp-cz.htm#part-example">Základy vytváření diskový oddílů &#8658;</a>
+		<li><a href="part-size-examp-cz.htm#part-example">Základy vytváření diskových oddílů &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-cz.htm#part-example">Příklady velikostí diskových oddílů</a></li>
 					  <li><a href="part-uuid-cz.htm#uuid">UUID, přestavění fstab a vytváření přípojných bodů</a></li>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-cz.htm#mon-binary">Dva monitory (za použití binárních ovladačů)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-cz.htm#foss-xorg">Firmware GPU&#8658;</a>
+		<li><a href="gpu-cz.htm#foss-xorg">Ovladače GPU &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-cz.htm#ati-3d">3D ovladače pro AMD/ATI</a></li>
 					  <li><a href="gpu-cz.htm#intel">2D a 3D ovladače pro Intel</a></li>
@@ -172,7 +174,7 @@
 			  <li><a href="nf-firm-cz.htm#non-free-firmware">Přidání non-free do seznamu zdrojů</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a "href="wm-dm-cz.htm">Správci oken</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-cz.htm#install-add">Správci oken</a>
 		    <ul class="sub-menu" id="sm9">
 			  <li><a href="wm-dm-cz.htm">KDE and XFCE Správci oken &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
@@ -553,27 +555,25 @@ network={
 							<p>Je dobrý nápad zálohovat /etc/network/interfaces a /etc/wpa_supplicant/wpa-roam.conf, ale <span class="highlight-3">svou zálohu zašifrujte, protože obsahuje citlivá data</span>.</p>
 <!--							<p>A good method to safely backup and encrypt the config files is with tar and gpg. As root:</p>-->
 							<p>Dobrý způsob, jak bezpečně zazálohovat a zašifrovat konfigurační soubor je s pomocí tar a gpg. Jako root:</p>
-<pre>
-tar -cf nazev_zalohy.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c nazev_zalohy.tar
-</pre>
-<!--							<p>Two files have now been created in $ HOME:<br />
-							backup_name.tar<br />
-							backup_name.tar.gpg<br /><br />
-							Delete backup_name.tar from your system as you only need the backup_name.tar.gpg file.</p>-->
-							<p>Dva soubory byly vytvořeny v $ HOME:<br />
-							nazev_zalohy.tar<br />
-							nazev_zalohy.tar.gpg<br /><br />
-							Smažte nazev_zalohy.tar z vašeho systému, neboť jediné, co potřebujete je soubor nazev_zalohy.tar.gpg.</p>
-
-<!--							<p>To decrypt the backup_name.tar.gpg file:</p>-->
-							<p>Nyní zkuste soubor nazev_zalohy.tar.gpg rozšifrovat:</p>
 
 <pre>
-gpg -d nazev_zalohy.tar.gpg
+tar -cf- /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf  |  gpg -c > backup_name.tar.gpg
+</pre>
+							<p>A file has now been created in $ HOME:<br />
+							backup_name.tar.gpg</p>
+
+							<p>To list the contents of the backup_name.tar.gpg file:</p>
+
+<pre>
+gpg -d -o - backup_name.tar.gpg  | tar vtf -
+</pre>
+							<p>To extract and decrypt the contents of the archive backup_name.tar.gpg file:</p>
+
+<pre>
+gpg -d -o - backup_name.tar.gpg  | tar vxf -
 </pre>
 
-
-<!--					<h6>3. Hidden SSIDs</h6>-->
+					<h6>3. Hidden SSIDs</h6>-->
 					<h6>3. Skryté SSID</h6>
 <!--							<p>Hidden SSIDs are detected when <span class="highlight-3">scan_ssid=1</span> is defined in the network block.</p>-->
 							<p>Skryté SSID jsou nalezeny, pokud je nadefinováno <span class="highlight-3">scan_ssid=1</span> v síťové části.</p>
@@ -629,8 +629,7 @@ PSK Heslo: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-<!--			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>-->
-			<div id="rev">Obsah naposledy revidován 28/09/2010 0945 UTC</div>
+			<div id="rev">Obsah naposledy revidován 21/08/2012 1620 UTC</div>
 </div>
 </body>
 </html>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 22/10/2010 1510 UTC -->
 <div id="menu"> <!-- menu starts here es lang maintained by Luis_P -->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="ir a aptosid.com y Forum y Wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-es.htm#vga">Códigos VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-es.htm">Particionar el Disco Duro</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-es.htm">Particionar el Disco Duro; Modos tradicional, GPT y LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-es.htm#hd-ntfs3g">Escribir en Particiones NTFS con ntfs-3g</a></li>
 			<li><a href="part-lvm-es.htm#part-lvm">Particiones para usar LVM - Gestor Lógico de Volúmenes</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-es.htm#partition">Particionar el Disco Duro con cfdisk</a></li>
 					    <li><a href="part-cfdisk-es.htm#formating">Formatear después de particionar con cfdisk</a></li>
+					    <li><a href="part-gdisk-es.htm#gdisk-6">Formatear después de particionar con gdisk</a></li>
+					    <li><a href="part-gdisk-es.htm#gisk-1">GPT Particionar con gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-es.htm#part-example">Particionado Básico &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-es.htm#mon-binary">Monitores Duales (utilizando binarios)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-es.htm#foss-xorg">firmware GPU &#8658;</a>
+		<li><a href="gpu-es.htm#foss-xorg">Controladores GPU &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-es.htm#ati-3d">Controladores AMD/ATI 3D</a></li>
 					  <li><a href="gpu-es.htm#intel">Controladores Intel 2D y 3D</a></li>
@@ -383,7 +385,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">Paso 5:</span> Dé formato al volumen y tenga paciencia mientras se formatea, lo que puede tardar un buen rato:</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Paso 6:</span></p>
 <pre>
@@ -393,11 +395,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Es mejor usar <span class="highlight-3">/dev/mapper/vulcan-spock </span> que usar los números UUID con LVM, puesto que puede clonar el sistema de archivos sin tener que preocuparse por posibles colisiones UUID, en especial con LVM, ya que podría acabar con varios sistemas con el mismo número UUID (los snapshots pueden ser un buen ejemplo).</p>
+							<p>Es mejor usar <span class="highlight-3">/dev/vulcan/spock </span> que usar los números UUID con LVM, puesto que puede clonar el sistema de archivos sin tener que preocuparse por posibles colisiones UUID, en especial con LVM, ya que podría acabar con varios sistemas con el mismo número UUID (los snapshots pueden ser un buen ejemplo).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3"> Opcional:</span> Cambie el propietario del volumen para que otros usuarios tengan acceso de lectura y escritura a LVM:</p>
 
@@ -408,17 +410,57 @@ chmod -R 774 /media/spock
 							<p>Su sistema básico LVM debe crearse ahora.</p>
 
 					    <h3>Cambio del tamaño del volumen</h3>
-							<p>Para cambiar el volumen de 300GB a 500GB, que son los tamaños usados en este ejemplo:</p>
+
+							<p><span class="highlight-3">Se recomienda encarecidamente usar un ISO <em>live</em> para cambiar los tamaños de las particiones. Si bien incrementar el tamaño de la partición "sobre la marcha" puede hacerse sin errores, no puede decirse lo mismo al reducir el volumen siendo posible que las anomalías causen la pérdida de datos, particularmente si <span class="highlight-2 "> / (root) </span> o <span class="highlight-2">/home</span> son modificados.</span></p>
+
+							<h5>Para aumentar el tamaño desde 300GB a 500GB, según este ejemplo:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Ahora dé la orden para que el sistema de ficheros cambie su tamaño:</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>A continuación dé la orden para que el sistema de ficheros cambie de dimensiones:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>Para disminuir desde 500GB hasta 280GB, según este ejemplo:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>A continuación dé la orden para que el sistema de ficheros cambie de dimensiones:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Cambie el tamaño del volumen</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>Un GUI para LVM</h5>
 							<p><span class="highlight-3">system-config-lvm</span> proporciona un GUI que le puede ayudar a gestionar sus LVMs; se arranca desde la línea de órdenes como superusuario:</p>
 
@@ -449,7 +491,7 @@ man system-config-lvm <span class="highlight-3"> # lectura imprescindible</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

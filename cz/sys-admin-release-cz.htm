@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Poslední revizi překladu provedl pumrel 12.2.2011 2120 CET -->
+<!-- Poslední revizi překladu provedl pumrel 18.8.2011 -->
 <div id="menu"> <!-- menu starts here -cz lang maintainer pumrel-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Na stránky aptosid.com, forum a wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-cz.htm#vga">VGA kódy</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-cz.htm">Diskové oddíly</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-cz.htm">Vytváření diskových oddílů - tradičně, s GPT a s LVM</a>
 		<ul class="sub-menu" id="sm6">
 			  <li><a href="part-gparted-cz.htm#hd-ntfs3g">Zapisování na diskový oddíl NTFS pomocí ntfs-3g</a></li>
 			  <li><a href="part-lvm-cz.htm#part-lvm">Vytvoření disk. oddílů pro použití LVM - Logical Volume Manager</a></li>
@@ -113,9 +113,11 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-cz.htm#partition">Vytváření diskových oddílů pomocí cfdisk</a></li>
 					    <li><a href="part-cfdisk-cz.htm#formating">Formátování po vytvoření diskových oddilů pomocí cfdisk</a></li>
+					    <li><a href="part-gdisk-cz.htm#gdisk-6">Formátování po vytvoření diskových oddílů s gdiskem</a></li>
+					    <li><a href="part-gdisk-cz.htm#gisk-1">Diskové oddíly GPT s gdiskem</a></li>
 					</ul>
 					</li>
-		<li><a href="part-size-examp-cz.htm#part-example">Základy vytváření diskový oddílů &#8658;</a>
+		<li><a href="part-size-examp-cz.htm#part-example">Základy vytváření diskových oddílů &#8658;</a>
 					<ul class="sub2-menu" id="sm6c">
 					  <li><a href="part-size-examp-cz.htm#part-example">Příklady velikostí diskových oddílů</a></li>
 					  <li><a href="part-uuid-cz.htm#uuid">UUID, přestavění fstab a vytváření přípojných bodů</a></li>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-cz.htm#mon-binary">Dva monitory (za použití binárních ovladačů)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-cz.htm#foss-xorg">Firmware GPU&#8658;</a>
+		<li><a href="gpu-cz.htm#foss-xorg">Ovladače GPU &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-cz.htm#ati-3d">3D ovladače pro AMD/ATI</a></li>
 					  <li><a href="gpu-cz.htm#intel">2D a 3D ovladače pro Intel</a></li>
@@ -172,7 +174,7 @@
 			  <li><a href="nf-firm-cz.htm#non-free-firmware">Přidání non-free do seznamu zdrojů</a></li>
 		</ul>
 		</li>
-<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a "href="wm-dm-cz.htm">Správci oken</a>
+<li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-cz.htm#install-add">Správci oken</a>
 		    <ul class="sub-menu" id="sm9">
 			  <li><a href="wm-dm-cz.htm">KDE and XFCE Správci oken &#8658;</a>
 					  <ul class="sub2-menu" id="sm9a">
@@ -311,76 +313,97 @@
 	<div class="divider" id="rolling">
 		<h2 id="top-header">Průběžné poznámky</h2>
 
-<!--							<p><span class="highlight-3">This page is a summary of the Release Notes and will only be updated after each release. Read the full Release Notes on <a href="http://aptosid.com">aptosid.com</a></span>, the <span class="highlight-3">Live ISO</span> or <span class="highlight-3">apt-get install aptosid-releasenotes</span>.</p>-->
+							<!--<p><span class="highlight-3">This page is a summary of the Release Notes and will only be updated after each release. Read the full Release Notes on <a href="http://aptosid.com">aptosid.com</a></span>, the <span class="highlight-3">Live ISO</span> or <span class="highlight-3">apt-get install aptosid-releasenotes</span>.</p>-->
 							<p><span class="highlight-3">Tato stránka shrnuje poznámky k vydání a bude aktualizováná pouze po každém vydání. Přečtěte si kompletní poznámky k vydání na <a href="http://aptosid.com">aptosid.com</a></span>, <span class="highlight-3">Live ISO</span> nebo <span class="highlight-3">apt-get install aptosid-releasenotes</span>.</p>
 
 		<!--<h2>Release notes for aptosid 2011-01 Γῆρας - Geras</h2>-->
-		<h2>Poznámky k vydání aptosidu 2011-01 Γῆρας - Geras</h2>
-
-				 <p>
-<!--					New features in aptosid 2011-01 &quot;Γῆρας&quot; are in particular kernel 2.6.37 and numerous integration and stabilization fixes after completing the transition to aptosid.
-					Kernel 2.6.37 doesn't only improve and stabilise hardware support for newer devices, it also improves ext4 performance (lazy inode table initialization), implements the USB Attached SCSI Protocol (UASP) for USB 3.0 storage and adds support for Intel's new Sandy Bridge graphics cards.
-					Wlan support has been consolidated, with carl9170 now replacing ar9170usb for 802.11n Atheros USB wlan cards, which now support HT/ aggregation operations and AP mode.
-					A major improvement for low latency uses (like audio mastering) is the completed Big Kernel Lock (BKL) removal, which premiers in aptosid 2011-01 &quot;Γῆρας&quot;.-->
-					Nové rysy aptosidu 2011-01 &quot;Γῆρας&quot; jsou především nový kernel 2.6.37 a četné opravy integrace a stabilizace po kompletním přechodu na aptosid. Kernel 2.6.37 nejen že vylepšuje a stabilizuje podporu hardwaru pro nová zařízení, ale také vyplepšuje výkon ext4 ('lazy inode table initialization'), implementuje USB Attached SCSI Protocolo (UASP) pro úložiště USB 3.0 a přidává podporu pro nové grafické kardy nového Syndy Bridge od Intelu.
-					Podporova wlan byla konsolidována, ar9170usb nahrazuje carl9170 pro bezdrátové USB karty 802.11n Atheros, který nyní podporuje operace HT/agregace a mód AP. Velkým vylepšením pro použití nízkých latencí (jako audio mastering) je kompletní odstranění Big Kernel Lock (BKL), které se objevuje v aptosidu 2011-01 &quot;Γῆρας&quot; poprvé.
-				</p>
-
+		<h2>Poznámky k vydání aptosidu 2011-02 Ἡμέρα - Imera</h2>
+<!--				<p>
+					New features in aptosid 2011-02 &quot;Ἡμέρα&quot; are in particular kernel 2.6.39 and numerous integration and stabilisation fixes.
+					Kernel 2.6.39 doesn't only improve and stabilise hardware support for newer devices, it also improves latency and general system performance.
+					A major improvement for low latency uses is the completed Big Kernel Lock (BKL) removal in combination with cgroup based process auto-grouping by the scheduler and the implementation of forced threaded interrupt handlers.
+					Better locking granularity for userspace applications through RCU-based name lookups has also led to improved VFS performance and latencies.
+				</p>-->
 				<p>
-
-<!--					As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and aptosid' own packages, in order to improve the general distribution infrastructure.
-					The past months have allowed to take special care of the small aspects in many packages, to improve general policy compliance and functionality.-->
-					Jako obvykle bylo začleněno velké množství jednotlivých vylepšení funkcionality a oprav bugů do kompletního balíku i jednotlivých balíčků aptosidu, aby byla vylepšena celková infrastruktura distribuce.
-					Poslední měsíce umožnily, aby byla věnována zvláštní pozornost malým součástém mnoha balíčků, vylepšení celkovému splnění požadavků a funkcionality.
+					Nové prvky v aptosidu 2011-02 &quot;Ἡμέρα&quot; jsou především kernel 2.6.39 a četné integrační a stabilizační opravy.
+					Kernel 2.6.39 nejen že vylepšuje a stabilizuje podporu hardwaru novějších zařízení, také vylepšuje latenci a povšechný výkon systému.
+					Hlavním vylepšením pro nízkou latenci je kompletní odstranění 'Big Kernel Lock (BKL)' v kombinaci automatickým seskupováním procesů založených na cgroup plánovačem úloh a implementace 'forced threaded interrupt handlers'. 
+					Vylepšená granularita zaymkání pro aplikace uživatelského rozhraní skrz name lookup založených na RCU také vedla k vylepšení VFS a latencí.
 				</p>
 
+<!--				<p>
+					In the graphics arena AMD Fusion&ndash; and Radeon HD62xx/ HD63xx/ HD67xx graphics are now supported and an accelerated KMS based framebuffer driver has become available for KVM-cirrus emulated graphics.
+					Driver support has also been improved for Intel Sandy Bridge graphics and enhanced powersaving is now possible through dynamic render P-state support.
+					Starting with this release, nouveau provides a KMS based driver for nVidia graphics cards with basic acceleration features up to the NVC0 chipset generation.
+				</p>-->
 				<p>
-<!--					Although this release happened in close temporal proximity to the Debian 6.0 &quot;Squeeze&quot; release, it is still based on Debian sid as of this day and is not meant or suited as an alternative way to install &quot;Squeeze&quot;.
-					Many security sensitive packages in aptosid (Debian sid) already sport a higher version number than their corresponding package in "Squeeze".-->
-					I když se vydání uskutečnilo velmi blízko vydání nového Debianu 6.0 &quot;Squeeze&quot;, je stále založeno na Debianu sid, jak je tomu dnes, a není míněno jako náhrada nebo alternativa k instalaaci &quot;Squeeze&quot;.
-					Velké množství bezpečnostně citlivých balíčků v aptosidu (Debianu sid) již teď nese vyšší číslo verze než jejich odpovídající balíčky ve "Squeezu".
+					V odvětví grafiky jsou nově podporovány AMD Fusion&ndash; a Radeon HD62xx/ HD63xx/ HD67xx a byl zpřístupněný akcelerovaný ovladač  framebufferu KMS pro emulovanou grafiku KVM-cirrus.
+					Byla také vylepšena podpora pro grafiky Intel Sandy Bridge a šetření energií skrz podporu dynamického renderovaní P-state.
+					Počínaje tímto vydáním umožňuje nouveau ovladač KMS pro grafické karty nVidia se základními prvky akcelerace až po generaci čipsetu NVC0.
 				</p>
 
+<!--				<p>
+					Wlan support has been consolidated by the introduction of rtl8192ce and rtl8192cu drivers for RealTek 802.11n chipsets RTL8188CE/ RTL8192CE (PCIe) and RTL8188CU/ RTL8192CU (USB) wlan cards.
+					Likewise rt2800pci and rt2800usb now support the newer RaLink rt33xx, rt35xx and rt53xx chipset generations, with Intel supporting the 2xxx series and the 6000G2A/ 6000G2B Series of wlan cards in iwlagn.
+					Experimental support has become available for SSB based Broadcom 802.11n chipsets (BCM4321, BCM4322), these require new firmware images not provided by b43-fwcutter, yet.
+				</p>-->
 				<p>
-<!--					aptosid after the &quot;freeze&quot;:<br />-->
-					aptosid po &quot;zmrazení&quot;:<br />
-<!--					Now that "Squeeze" is about to be released, the version freeze that reached up to sid will be lifted again within the next few days.-->
-					Teď, když má být vydán "Sqeeze", zmrazení verzí, které bylo uplatněno v sidu, bude opět brzy odejmuto.
-<!--					Given that there are a number of high impact changes (KDE 4.6, xserver-xorg-core 1.9.3, gtk3, udisk/ upower replacing hal) staging in experimental and are just waiting for the freeze to be lifted, the following 2-3 weeks might be slightly more vibrant and potentially less coordinated than usual in regards to package updates from Debian, therefore we recommend a little caution during dist-upgrades.-->
-					Jelikož již je přítomno velké množství změn s velkým dopadem (KDE 4.6, xserver-xorg-core 1.9.3, gtk3, udisk/ upower nahrazují hal), které sedí v experimentálním repozitáři a jen čekají na odejmutí zmrazení, budou následující 2-3 týdny poněkud živější a méně koordivané, než bývá zvykem při aktualizaci balíčků z Debianu, tudíž doporučejeme dbát zvýšené pozornosti při dist-upgradech.
-<!--					This might involve checking for eventual upgrade warnings on <a href="aptosid.com">aptosid.com</a> or to wait a few hours if KDE 4.6 or X.org are among the upgrading packages for experiences from advanced users.-->
-					K tomu patří občasné zkonstrolování varování o aktualizacích na <a href="aptosid.com">aptosid.com</a> nebo se také vyplátí pár hodin počkat, až budou KDE 4.6 nebo X.org mezi aktualizovatelnými balíčky, abyste mohli obdržet zkušenosti od pokročilejších uživatelů.
-<!--					Please be aware that it might not always be possible to react in time, now that Debian employs four mirror pushes a day.-->
-					Prosím buďte obezřetní, neboť není možné reagovat úplně včas, když teď Debian uskutečňuje čtyři zrcadlení za den.
+					Podpora Wlan byla zkonsolidována zavedením ovladaču rtl8192ce a rtl8192cu pro čipsety RealTek 802.11n RTL8188CE/ RTL8192CE (PCIe) a karty wlan RTL8188CU/ RTL8192CU (USB).
+					Nápodobně také rt2800pci a rt2800usb nově podporují novější generace čipsetů RaLink rt33xx, rt35xx a rt53xx. Intel nyní podporuje sérii 2xxx a série 6000G2A/ 6000G2B karet wlan v ovladači iwlagn.
+					Experimentální podpora byla nyní zavedena pro čipsety Broadcom 802.11n založené na SSB (BCM4321, BCM4322). Ty zatím vyžadují obrazy firmwaru, které nejsou zprostředkovány b43-fwcutter.
 				</p>
 
+<!--				<p>
+					Starting with KDE 4.6 and XFCE 4.8, HAL has now become obsolete and got replaced by event driven udev based alternatice (udisks, upower and advances in udev itself), which allows to run common desktop setups without the HAL d&aelig;mon.
+					Another major improvement in Ἡμέρα is the implementation of initial support for GPT and UEFI booting, which allows to access harddisks exceeding 2 TiB or to use them for booting on news systems using UEFI instead of the traditional PC-BIOS.
+				</p>-->
 				<p>
-<!--					Our special thanks go to the aptosid art- and manual teams and especially all <a href="cd-dl-burning-cz.htm#download-aptosid">aptosid Download Mirrors</a> hosters for their efforts regarding aptosid.-->
-					Naše zvláštní díky patří art- a manuálovému týmu aptosidu a především všem hostitelům <a href="cd-dl-burning-cz.htm#download-aptosid">Zrcadel stahování aptosidu</a>  za jejich snahu týkající se aptosidu.
+					Počínaje KDE 4.6 a XFCE 4.8 je nyní HAL již zastaralý a byl nahrazen alternativou událostmi řízeným udev (udisk, upower a pokroky v samotném v udev), což umožňuje spouštět běžná nastavné desktopu bez démona HAL.
+					Dalším významným vylepšením v Ἡμέρα je implemetace počáteční podpory pro zavádění GPT a UEFI, což umožňuje přistupovat k diskům větší velikosti jak 2 TiB nebo je používát pro zavádění na novějších systémech s použitím UEFI místi tradičního PC-BIOS.
 				</p>
-	    </div>
+<!--				<p>
+					As usual, a large number of individual functionality enhancements and bugfixes have been applied to the full package line up and aptosid's own packages, in order to improve the general distribution infrastructure.
+					The past months have allowed to take special care of the small aspects in many packages, to improve general policy compliance and functionality.
+				</p>-->
+				<p>
+					Jako obvykle bylo uplatněno velké množství individuálních vylepšení funkčností a oprav bugů do celkového objemu balíčků, ale i do balíčků aptosidu. Měla by tak být vylepšena celková infrastruktura distribuce..
+					Předešlé měsíce umožnily se speciálně věnovat malým aspektům mnoha balíčků, tak aby byla dodržena pravidla compliance a funkčnosti.
+				</p>
+
+<!--				<p>
+					We'd like to thank our new sponsor <a href="http://www.webtropia.com/?o_ref=aptosid">Webtropia</a> (part of myLoc managed IT AG), who provides 3 dedicated servers for our development&ndash; and hosting infrastructure and are looking forward to a lasting and successful co-operation with this fine hosting business.
+					With the new servers from <a href="http://www.myloc.de/">myLoc managed IT AG</a> we are finally able to have proper technical solutions for our needs, e.g. fully separated hardware for fast kernel- and ISO-building, and an extra server for running all our other sites in virtual machines (lab.aptosid.com, manual.aptosid.com, etc.).
+					All our servers are running our own server version of aptosid.
+				</p>-->
+				<p>
+					Chtěli bychom poděkovat našemu novému sponzoru <a href="http://www.webtropia.com/?o_ref=aptosid">Webtropia</a> (součást myLoc řídícím IT AG), který zprostředkuje 3 dedikované servery pro náš vývoj&ndash; a hostingovou infrastrukturu. Těšíme se na další a dlouhotrvající úspěšnou spolupráci s touto skvělou hostingovou službou.
+					S novými servery od <a href="http://www.myloc.de/">myLoc řidím IT AG</a> jsme nyní konečně schopni mít potřebné technické zázemí pro naše potřebu, jako je naprosto oddělený hardware pro rychlé stavění kernelu a ISO, a extra server pro spouštění všech našich stránek ve virtuálních strojích (lab.aptosid.com, manual.aptosid.com atd.).
+					Všechny naše servery využívají vlastní serverovou verzi aptosidu.
+				</p>
+
+<!--				<p>
+					Our special thanks go to the aptosid art- and manual teams and especially <a href="http://www.webtropia.com/?o_ref=aptosid">webtropia.com</a> and all <a href="mirrors-en.html">mirror</a> hosters for their efforts regarding aptosid.
+				</p>-->
+				<p>
+					Díky patří zvláště týmum art- a manual a předevřím<a href="http://www.webtropia.com/?o_ref=aptosid">webtropia.com</a> a všem hostitelům <a href="mirrors-en.html">zrcadel</a> za jejich snahu související s aptosidem.
+				</p>
+			</div>
 	   <div class="divider" id="whats-new">
-<!--		<h2>Now to the interesting topics, like what's on the menu for now:</h2>-->
+		<!--<h2>Now to the interesting topics, like what's on the menu for now:</h2>-->
 		<h2>Nyní to zajímavé, jako co je momentálně v menu:</h2>
 				<ul>
-<!--					<li>Debian sid, as of 2011-02-05.</li>-->
-					<li>Debian sid, dne 2011-02-05.</li>
-					<li>kernel 2.6.37 (smp, hard preemption).</li>
-					<li>xserver-xorg-core 1.7.7.</li>
-<!--					<li>enable KMS support for ATi and Intel based graphics chipsets.</li>-->
-					<li>umožnění KMS podpory pro gravické čipsety založené na ATi a Intel .</li>
-<!--					<li>DRI (3d) support for ATi Radeon chipsets up to r7xx (refer to <a href="gpu-cz.htm#ati-3d">non-free sources and Drivers</a>).</li>-->
-					<li>Podpora DRI (3d) pro čipsety ATi Radeon chipsets až do r7xx (odkažte se na <a href="gpu-cz.htm#ati-3d">nesvobodné zdroje a ovladače</a>).</li>
-
-					<li>KDE 4.4.5 (en + de).</li>
-					<li>Iceweasel 3.5.16</li>
-
-
-<!--					<li>new, SVG based, art theme created by the aptosid art team.</li>-->
+					<li>Debian sid, ze dne 2011-07-13.</li>
+					<li>kernel 2.6.39.3 (smp, hard preemption).</li>
+					<li>xserver-xorg-core 1.10.2.902.</li>
+					<li>zapnutá podpora KMS pro graické čipsety ATi, Intel a nVidia.</li>
+					<li>Podpora DRI (3d) pro čipsety ATi Radeon chipsets až po r7xx (podívejte se na <a href="firmware-en.html">nesvobodné zdroje a ovladače</a>).</li>
+					<li>KDE 4.6.4 (en + de).</li>
+					<li>Iceweasel 5.0</li>
 					<li>nové, na SVG založené, grafické téma vytvořené art týmem aptosidu.</li>
-					<li><a href="file:///usr/share/aptosid-manual/index.html">offline manual</a> pro <a href="file:///usr/share/aptosid-manual/en/welcome-en.htm">en</a> + <a href="file:///usr/share/aptosid-manual/de/welcome-de.htm">de</a> přímo na disku, online manuály pro další jazyky jsou k dispozici online na <a href="http://manual.aptosid.com/">http://manual.aptosid.com/</a> a také pomocí apt; velké díky patří týmum dokumentace a překládání!<br />Všimněte si, že je offline manuál k dispozici pouze na Live-CD nebo nainstalovaném systému.</li>
 
-<!--					<li>many changes for the manual.</li>
+					<li><a href="file:///usr/share/aptosid-manual/index.html">offline manual</a> pro <a href="file:///usr/share/aptosid-manual/en/welcome-en.htm">en</a> + <a href="file:///usr/share/aptosid-manual/de/welcome-de.htm">de</a> přímo na disku, online manuály pro další jazyky jsou k dispozici na <a href="http://manual.aptosid.com/">http://manual.aptosid.com/</a> a také pomocí apt; velké díky patří týmum dokumentace a překladu!<br />Všimněte si, že je offline manuál k dispozici pouze na Live-CD nebo nainstalovaném systému.</li>
+
+					<!--<li>many changes for the manual.</li>
 					<li>ath5k support for 54/ "108" MBit/s Atheros wlan cards (AR2425, AR5210, AR5211, AR5212, AR5213 and AR5414).</li>
 					<li>ath9k support for 802.11n Atheros wlan cards (AR5418+AR5133, AR5416+AR5133, AR5416+AR2133, AR9160, AR9280, AR9281 and AR9285).</li>
 					<li>ath9k_htc support for 802.11n Atheros USB wlan cards (AR7010/ AR9271).</li>
@@ -392,9 +415,9 @@
 					<li>podpora carl9170 pro usb wlan karty 802.11n Atheros (AR9170 &quot;otus&quot;), nyní podporující HT/ agregace a mód AP.</li>
 					<li>
 
-<!--						b43/ b43legacy support for Broadcom wlan cards.<br />-->
+						<!--b43/ b43legacy support for Broadcom wlan cards.<br />-->
 						podpora b43/ b43legacy pro wlan karty Broadcom.<br />
-<!--						<a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF 5.2</a> opensource firmware for the following Broadcom AirForce 802.11b/g wireless cards:-->
+						<!--<a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF 5.2</a> opensource firmware for the following Broadcom AirForce 802.11b/g wireless cards:-->
 						<a href="http://www.ing.unibs.it/openfwwf/">OpenFWWF 5.2</a> svobodný firmware pro následující bezdrátové karty Broadcom AirForce 802.11b/g:
 						<ul>
 							<li>BCM4306</li>
@@ -403,18 +426,18 @@
 
 							<li>BCM4320</li>
 						</ul>
-<!--						experimental support for LP-PHY, non-free firmware images (firmware-b43-lpphy-installer) required.-->
+						<!--experimental support for LP-PHY, non-free firmware images (firmware-b43-lpphy-installer) required.-->
 						experimentální podpora LP-PHY, jsou nezbytné uzavřené obrazy firmwaru (firmware-b43-lpphy-installer).
 					</li>
 
-<!--					<li>iwl3945 support (Intel Pro Wireless 3945 chipsets).</li>
+					<!--<li>iwl3945 support (Intel Pro Wireless 3945 chipsets).</li>
 					<li>iwlagn support for IPW 4965 and the IEEE 802.11 a/b/g/n part of the Intel Wireless WiFi Link 1000/ 5xxxAGN/ 6000/ 6050 family.</li>
 					<li>iwmc3200wifi support for Intel Wireless Multicomm 802.11.</li>-->
 					<li>podpora iwl3945 (čipsety Intel Pro Wireless 3945).</li>
 					<li>podpora iwlagn pro součásti IPW 4965 a IEEE 802.11 a/b/g/n rodiny Intel Wireless WiFi Link 1000/ 5xxxAGN/ 6000/ 6050.</li>
 					<li>podpora iwmc3200wifi pro Intel Wireless Multicomm 802.11.</li>
 
-<!--					<li>rt2x00 support for RaLink rt2400, rt2500, rt2570, rt61 and rt73 802.11b/g cards.</li>
+					<!--<li>rt2x00 support for RaLink rt2400, rt2500, rt2570, rt61 and rt73 802.11b/g cards.</li>
 					<li>support for RaLink rt2770, rt2870 and rt3070 802.11b/g/n USB cards through rt2x00.</li>
 					<li>support for RealTek RTL8180L and RTL8185 PCI/ cardbus wlan cards.</li>
 					<li>support for RealTek RTL8187 and RTL8187B USB wlan cards.</li>-->
@@ -424,14 +447,14 @@
 					<li>podpora pro usb wlan karty RealTek RTL8187 a RTL8187B.</li>
 
 					<li>memtest86+.</li>
-<!--					<li>OpenJDK 6 as part of the kde-full variant.</li>
+					<!--<li>OpenJDK 6 as part of the kde-full variant.</li>
 					<li>employ &quot;insserv&quot; to reorder the bootsequence based on LSB headers.</li>
 					<li>support kvm (Kernel-based Virtual Machine) for kde-full; kvm depends on hardware virtualisation support (AMD pacifica virtualisation extensions &quot;svm&quot; or Intel IVT (vanderpool) virtualisation extensions &quot;vmx&quot;)</li>-->
 					<li>OpenJDK 6 jako součást varianty kde-full.</li>
 					<li>použití &quot;insserv&quot; k přeskládání zaváděcí sekvence založené na hlavičká LSB.</li>
 					<li>podpora kvm (Kernel-based Virtual Machine) pro kde-full; kvm zavísí na podpoře virtualizace hardwaru (rozšíření virtualizace AMD pacifica &quot;svm&quot; nebo rozšíření virtualizace Intel IVT (vanderpool) &quot;vmx&quot;)</li>
 
-<!--					<li>access point support for many mac80211 based wlan cards through nl80211 and hostapd (optional).</li>
+					<!--<li>access point support for many mac80211 based wlan cards through nl80211 and hostapd (optional).</li>
 					<li>client support for network booting over PXE/ NBD.</li>
 					<li>fixed persistency on vfat/ ntfs for the live system.</li>
 					<li>switch to squashfs-xz, improving compression ratio by ~15% and reducing disk seeks.</li>
@@ -442,40 +465,38 @@
 					<li>fix ntpdate dependencies.</li>-->
 					<li>podpora přístupového bodu pro mnohé wlan karty založené na mac80211 skrze nl80211 a hostapd (volitelné).</li>
 					<li>klientská podpora pro síťové zavádění přes PXE/ NBD.</li>
-					<li>opravená možnost persistency na live systémech vfat/ ntfs.</li>
-					<li>změna k squashfs-xz, vylepšení kompresního poměru o ~15% a snížené prohledávání disku.</li>
-					<li>přidáná Holandština mezi podporované jazyky a do liveapt.</li>
-					<li>přidáná Polština mezi podporované jazyky a do liveapt.</li>
-					<li>přidáná Čeština mezi podporované jazyky a do liveapt.</li>
-					<li>nyní je jako výchozí volba použito relatime pro linuxové souborové systému, ext4 využivá barriers.</li>
-					<li>oprava závislostí ntpdate.</li>
-
+					<li>připyla Dánština mezi podporované jazyky a do liveaptu.</li>
+					<li>schémata vytváření diskových oddílů GPT nyní podporována.</li>
+					<li>podpora pro zavádění UEFI.</li>
+					<li>odstranění HALu.</li>
+					<li>přechod na /run/ , nahrazuje /var/run/ a /var/lock/</li>
+					<li>/tmp/ je nyní připojen jako tmpfs využívající až 20% fyzické paměti RAM v Debianu. Toto může být změněno skrz TAMTMP v /etc/default/rcS.</li>
 				</ul>
 			</div>
 			<div class="divider" id="faq">
-<!--				<h2>Frequently asked questions</h2>-->
+				<!--<h2>Frequently asked questions</h2>-->
 				<h2>Často kladené otázky</h2>
 
 				<h3>Instalace</h3>
 				<p>
 
-<!--					It is recommended to set keymaps, locales and timezone before booting the live system to be installed, by selecting them from the boot menu [F2], [F3].
+					<!--It is recommended to set keymaps, locales and timezone before booting the live system to be installed, by selecting them from the boot menu [F2], [F3].
 					This way, locale settings propagate to all required places for the installed system and don't require cumbersome changes at several places.-->
 					Je doporučeno nastavist rozložení klávesníce, lokální jazyk a časové pásmo, ještě před zavedení live systému a instalací. jejich vybrání v zaváděcím menu pomocí [F2] a [F3].
 					Tímto způsobem se nastavení rozšíří na všechna potřebna místo pro isntalaci systému a není nutné provádět krkolomné úpravy na více místech.
 				</p>
 
-<!--				<h3>Kernel based Mode Setting (KMS) and intel/ radeon graphics</h3>-->
+				<!--<h3>Kernel based Mode Setting (KMS) and intel/ radeon graphics</h3>-->
 				<h3>Kernel based Mode Setting (KMS) a grafiky intel/ radeon</h3>
 				<p>
-<!--					KMS support is required by xserver-xorg-video-intel, which means kernel parameters like &quot;i915.modeset=0&quot; or &quot;vga=791&quot; are no longer valid and actively break starting X on intel graphics cards.
+					<!--KMS support is required by xserver-xorg-video-intel, which means kernel parameters like &quot;i915.modeset=0&quot; or &quot;vga=791&quot; are no longer valid and actively break starting X on intel graphics cards.
 					Given that i915/ xserver-xorg-video-intel doesn't require any kind of firmware, there should no longer be KMS related bugs in relation to intel graphics.-->
 					Podpora KMS je nezbytná pro xserver-xorg-video-intel, což znamená, že  použití parametrů jako &quot;i915.modeset=0&quot; nebo &quot;vga=791&quot; již nejsou platné a aktivně poškozují spouštění X na grafických kartách Intel.
 					Jelikož i915/ xserver-xorg-video-intel nevyžaduje žádný druh firmwaru, již by neměly být obvyklé chyby spojené s KMS a grafickými kartami Intel.
 				</p>
 
 				<p>
-<!--					For KMS to function in combination with ATi/ AMD radeon graphics, firmware images (firmware-linux-nonfree, see <a href="nf-firm-cz.htm#non-free-firmware">non-free Drivers</a>) are required, which can't be shipped on aptosid live media, while X.org should transparently fall back to vesa on problematic cards, special attention might be needed in rare cases.
+					<!--For KMS to function in combination with ATi/ AMD radeon graphics, firmware images (firmware-linux-nonfree, see <a href="nf-firm-cz.htm#non-free-firmware">non-free Drivers</a>) are required, which can't be shipped on aptosid live media, while X.org should transparently fall back to vesa on problematic cards, special attention might be needed in rare cases.
 					If X doesn't manage to start on ATi/ AMD radeon graphics cards, it might help to supply &quot;radeon.modeset=0&quot; as boot option for the live CD and to install the required firmware package &quot;<a href="nf-firm-cz.htm#non-free-firmware">firmware-linux-nonfree</a>&quot; on the live system, before installing to the harddisk.
 					Once firmware-linux-nonfree is installed, kernel parameters like &quot;radeon.modeset=0&quot; or &quot;vga=791&quot; should not be used anymore, as they might interfere with KMS operations, which are needed for radeon to work properly.-->
 					Aby KMS fungovalo ve spolupráci s ATi/AMD grafickými kartami, jsou nezbytné obrazy firmwaru (firmware-linux-nonfree, podívjte se na <a href="gpu-cz.htm">nesvobodné ovladače</a>) , které nemohou být dodávány na live mediích aptosidu. Ačkoliv by se měl X.org vrátit k vesa na problematických kartách, ve speciálních případech by mělo být dbáno zvýšené pozornosti.
@@ -483,14 +504,16 @@
 					Jakmile je nainstalován firmware-linux-nonfree, parametry kernelu jako &quot;radeon.modeset=0&quot; nebo &quot;vga=791&quot; by již neměly být použity, neboť by mohli interferovat s operacemi KMS, které jsou nezbytné pro správnou funkci radeonu.
 				</p>
 
+<!--				<p>
+					Nouveau doesn't require any kind of firmware and supports KMS natively, framebuffer kernel parameters like &quot;vga=791&quot; are no longer valid and break starting X on nVidia graphics cards.
+				</p>-->
 				<p>
-<!--					Similar advice applies to other upcoming KMS capable drivers, like nouveau.-->
-					Podobné doporučení lze uplatnit i pro nadcházející ovladače schopné KMS, jako je nouveau.
+					Nouveau nevyžaduje žádný firmware a nativně podporuje KMS, paramatery framebufferu kernelu jako &quot;vga=791&quot; jsou již neplatné a mohli by zbořit X na grafických kartách nVidie.
 				</p>
 
 				<h3>grub2</h3>
 				<p>
-<!--					While grub2 offers increased flexibility for installations, like supporting new filesystems (ext4) or advanced installation options like LVM2 and improved detection capabilities for other distributions and operating systems, right now it is limited to a textmode menu.
+					<!--While grub2 offers increased flexibility for installations, like supporting new filesystems (ext4) or advanced installation options like LVM2 and improved detection capabilities for other distributions and operating systems, right now it is limited to a textmode menu.
 					A new theming effort is currently under development and will be available in the future.
 					Even though support for plain wallpapers would be already supported by grub2, it is still fragile and prolongs the system boot.
 					Internally the configuration system for grub2 uses scripts snippets under /etc/grub.d/ to create its configuration file &quot;grub.cfg&quot; in a way that allows many self updating features, such as automating fromiso support with the help of &quot;grub2-fll-fromiso&quot; (optional).-->
@@ -502,7 +525,7 @@
 
 		<h3>isohybrid</h3>
 				<p>
-<!--					With isolinux supporting gfxboot, it is possible to use isohybrid, which allows writing an ISO directly to USB storage or sd/ sdhc/ mmc memory sticks to make these bootable.
+					<!--With isolinux supporting gfxboot, it is possible to use isohybrid, which allows writing an ISO directly to USB storage or sd/ sdhc/ mmc memory sticks to make these bootable.
 					isohybrid adds an MBR to the ISO and sets up a partition table with one active entry, the partition containing the ISO.
 					This allows writing aptosid ISOs directly to USB storage devices of sdhc memory cards in addition to the well known possibility of using &quot;install-aptosid-to-usb&quot; (install-usb-gui).
 					This option is particularly useful if there is no existing aptosid installation available and if an installation medium needs to be created from another distribution or operating system.
@@ -519,32 +542,73 @@ cat /path/to/aptosid-*.iso &gt; /dev/USB_raw_device_node
 </pre>
 
 				<p>
-<!--					Further information about the aptosid install is available from the <a href="http://manual.aptosid.com/">aptosid manual</a> at <a href="http://manual.aptosid.com/en/hd-install-cz.htm">Installation options</a>.-->
+					<!--Further information about the aptosid install is available from the <a href="http://manual.aptosid.com/">aptosid manual</a> at <a href="http://manual.aptosid.com/en/hd-install-cz.htm">Installation options</a>.-->
 					Dodatečné informace o instalaci aptosidu jsou k dispozici v <a href="http://manual.aptosid.com/">manuálu aptosidu</a> at <a href="http://manual.aptosid.com/en/hd-install-cz.htm">Volby instalace</a>.
 				</p>
 
-<!--		<h3>Wireless regulatory domain settings</h3>-->
+		<!--<h3>Wireless regulatory domain settings</h3>-->
 		<h3>Nastavení regulační domény bezdrátu</h3>
 				<p>
 
-<!--					The regulatory domain framework for cfg80211 based wlan cards requires crda to allow access to wireless channels above ch11 (2.4 GHz or their 5 GHz equivalents), without crda only the "world domain" (channel 1-11) is available.-->
-					Sestava regulační domény pro wlan karty založené na cfg80211 vyžaudje crda pro umožnění přístupu k bezdrátovým kanálům nad ch11 (2.4 GHz nebo jejich ekvivalenty 5 GHz), bez crda je dostupná pouze doména "world" (kanál1-11).
+					<!--The regulatory domain framework for cfg80211 based wlan cards requires crda to allow access to wireless channels above ch11 (2.4 GHz or their 5 GHz equivalents), without crda only the "world domain" (channel 1-11) is available.-->
+					Framework regulační domény pro wlan karty založené na cfg80211 vyžaudje crda pro umožnění přístupu k bezdrátovým kanálům nad ch11 (2.4 GHz nebo jejich ekvivalenty 5 GHz), bez crda je dostupná pouze doména "world" (kanál1-11).
 				</p>
 <pre>
 # apt-get update apt-get install crda
 </pre>
-<!--		<h3>Network booting aptosid</h3>-->
+		<!--<h3>Network booting aptosid</h3>-->
 		<h3>Síťové zavádění aptosidu</h3>
 				<p>
-<!--					Network booting aptosid over PXE (Preboot Execution Environment) and NBD (Network Block Device) is supported, the required settings can be configured from within the boot menu [F4].
+					<!--Network booting aptosid over PXE (Preboot Execution Environment) and NBD (Network Block Device) is supported, the required settings can be configured from within the boot menu [F4].
 					Instructions about how to set up an example PXE+NBD boot server can be obtained at <a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=9">aptosid netboot introduction</a> and in the manual; <a href="nbdboot-cz.htm#nbd1">Booting aptosid over a network</a>.-->
-					Je podporováné síťové zavádění skrze PXE (Preboot Execution Environment) nebo NBD (Network Block Device). Nezbytné nastavení je možné upravit z menu zavádění [F4].
+					Je podporováno síťové zavádění skrze PXE (Preboot Execution Environment) nebo NBD (Network Block Device). Nezbytné nastavení je možné upravit z menu zavádění [F4].
 					Instrukce, jak nastavit ukázkový zaváděcí server PXE+NBD, jsou k dispozici v <a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=9">Úvod do síťového zavádění aptosidu</a> a v manuátlu; <a href="nbdboot-cz.htm#nbd1">Zavádění aptosidu přes síť</a>.
 				</p>
 
-		  <h3>Localisation</h3>
+				<h3>Zavádění UEFI</h3>
+<!--				<p>
+					Preliminary support for booting with UEFI has been added to the amd64 editions for aptosid 2011-02 &quot;Ἡμέρα&quot;.
+					While the installer GUI has not been finalised yet, the bootloader will be an EFI program installed to /efi/aptosid within your &quot;EFI system partition&quot; and mounted below /boot/efi/ on your installed system, provided the following conditions are met:
+				</p>-->
 				<p>
-<!--					A special feature of kde-full releases is the ability to select other languages than German or US English from the grub menu (F4), which automatically installs localisations for the desktop and many applications while booting.
+					Předběžná podpora pro zavádění pomocí UEFI byla přidána od edice amd64 aptosidu 2011-02 &quot;Ἡμέρα&quot;.
+					Ačkoliv není GUI instalátor ještě hotov, bude zavaděč program EFI nainsatlovaný v /efi/aptosid ve vašem &quot;diskovém oddílu systému EFI &quot; a bude připojen pod /boot/efi/ na vašem nainstalovaném systému, pokud budou splněny následující podmínky:
+				</p>
+
+				<ul>
+					<li>systém x86-64/ EM64T (amd64).</li>
+<!--					<li>booted using UEFI, this is apparent from the plain white/blue grub2 menu, instead of the usual graphical boot menu provided by isolinux for BIOS booting, on the live medium.</li>
+					<li>a vfat formatted EFI system partition on a GPT disk (type EF00) exists on the target system.</li>
+					<li>the install target is not a USB disk.</li>-->
+					<li>zavedení pomocí UEFI, to je patrvné z modro-bílého menu grub2, namísto obvyklého grafického zaváděcího menu isolinuxu pro zadávadění z BIOSu, jak tomu je na live mediu.</li>
+					<li>naformátovaný diskový oddíl EFI na disku GPT (type EF00) existující na daném systému.</li>
+					<li>systém není USB disk.</li>
+				</ul>
+
+<!--				<p>
+					At the moment aptosid only offers UEFI booting for its 64 bit edition (amd64), 32 bit UEFI (such as older Apple systems) is currently not supported.
+					Multiboot with other 64 bit operating systems should be possible, but could not be tested yet.
+				</p>-->
+				<p>
+					V současnosti podporuje aposid zavádění UEFI pouze u své 64 bitové edice (amd64), 32 bitové UEFI (jako například starší systémy Apple) není právě podporováno.
+					Multiboot s dalšími 64 bitovými operačními systémy by mělo být možné, ale nemohlo být ještě otestováno.
+				</p>
+
+				<h3>Zaveditelná vyměnitelná zařízení UEFI</h3>
+<!--				<p>
+					In order to create a UEFI bootable device, such as a USB stick, the contents of the aptosid ISO can be extracted to a vfat formatted partition and the partition marked as bootable.
+					Optionally this removable medium can also be made compatible with PC-BIOS booting by installing a traditional bootsector in addition to the EFI bootloader (assuming /dev/sdz1 to be the target partition on the USB stick).
+				</p>-->
+				<p>
+					Pro vytvoření zařítení zaveditelného pomocí UEFI, jako například USB klíč, může být obsah obrazu aptosidu rozbalen na diskový oddíl naformátovaný pomocí vfat, který musí být zároveň označen jako zaveditelný. Volitelně taky může být takovéto vyměnitelné zařízení kompatibilní se zaváděním PC-BIOS nainstalování tradičního bootsektoru k zavaděči EFI (za předpokladu, že je cílovým diskovým oddílem USB disku /dev/sdz1).
+				</p>
+
+				<pre>syslinux -i -d /boot/isolinux /dev/sdz1
+install-mbr /dev/sdz</pre>
+
+				<h3>Lokalizace</h3>
+				<p>
+					<!--A special feature of kde-full releases is the ability to select other languages than German or US English from the grub menu (F4), which automatically installs localisations for the desktop and many applications while booting.
 					This ensures they are also present after installing aptosid, while only installing the required languages for the given system.
 					The amount of memory required for this feature depends on the language and aptosid may refuse to install the given language packs automatically with insufficient RAM and the boot sequence  will be continued in english language but with the desired locales-settings (currency, date/ time format, keyboard charsets).
 					1 GB memory or more is supposed to be safe for all supported languages, which are:-->
@@ -557,6 +621,7 @@ cat /path/to/aptosid-*.iso &gt; /dev/USB_raw_device_node
 				<ul>
 					<li>Angličtina(GB, AU)</li>
 					<li>Čeština</li>
+					<li>Dánština</li>
 					<li>Francouzština</li>
 					<li>Holandština</li>
 					<li>Japoština</li>
@@ -571,7 +636,7 @@ cat /path/to/aptosid-*.iso &gt; /dev/USB_raw_device_node
 
 				<p>
 
-<!--					The language selection depends on the availability of aptosid-manual translations, get involved to add your language.
+					<!--The language selection depends on the availability of aptosid-manual translations, get involved to add your language.
 					Levels of up-to-date translation completeness of the following languages has dropped below the quorum for inclusion at this moment:-->
 					Výběr jazyků závisí na dostupnosti překladů manuálu aptosidu. Zúčastněte se, abyste přidali váš jazyk.
 					Úplnost následující jazyků momentálně klesla pod vyžadovanou úroveň pro zahrnutí do vydání:
@@ -579,48 +644,81 @@ cat /path/to/aptosid-*.iso &gt; /dev/USB_raw_device_node
 
 				<ul>
 					<li>Bulharština</li>
-					<li>Dánština</li>
 					<li>Chorvatšina</li>
 					<li>Maďarština</li>
 				</ul>
 
 				<p>
-<!--					Additional help is urgently needed for these languages to bring the translations up to date for the language concerned.-->
+					<!--Additional help is urgently needed for these languages to bring the translations up to date for the language concerned.-->
 					Je nezbytně nutná další pomoc pro aktualizaci výše vypsaných překladů do těchto jazyků.
 				</p>
 
 
 	</div>
 	<div class="divider" id="upgrade">
-<!--			<h2>Hints for Upgraders:</h2>-->
+			<!--<h2>Hints for Upgraders:</h2>-->
 			<h2>Tipy pro aktualizátory:</h2>
 				<p>
-<!--					aptosid tries hard to provide seamless upgrade path for debian and aptosid' own packages, nevertheless a few things remain that could be improved with manual interaction.-->
-					aptosid se tvrdě snaží, aby umožnil bezešvou aktualizaci pro balíčky debianu i aptosidu, nicméně zůstává pár věcí, které je možno vylepšit ručním zásahem.
+					<!--aptosid tries hard to provide seamless upgrade path for debian and aptosid' own packages, nevertheless a few things remain that could be improved with manual interaction.-->
+					aptosid se velmi snaží, aby umožnil bezešvou aktualizaci pro balíčky debianu i aptosidu, nicméně zůstává pár věcí, které je možno vylepšit ručním zásahem.
 				</p>
 
 			<h3>nouveau</h3>
 
 				<p>
-<!--					X.org in Debian prefers xserver-xorg-video-nouveau over xserver-xorg-video-nv since xorg 1:7.5+6, which unfortunately can't be supported by aptosid until it leaves the staging section and gains a stable ABI between kernel- and userspace.
-					Therefore we recommend users of nvidia graphics cards to purge xserver-xorg-video-nouveau, so xserver-xorg-video-nv &mdash; which doesn't suffer from incompatible ABI changes &mdash; can take precedence again.-->
-					Od verze xorg 1:7.5+6 upřednostňuje X.org v Debianu xserver-xorg-video-nouveau nad xserver-xorg-video-nv, který bohužel nemůže být v aptosidu podporován, dokud nevystoupí ze sekce staging a nezíská stabilní ABI mezi jaderným a uživatelským prostorem.
-					Doporučujeme tedy uživatelům aptosidu purge balíčků xserver-xorg-video-nouveau, aby mohl balíček xserver-xorg-video-nv &mdash; který netrpí inkompatibilitou změn ABI &mdash; opět získat přednost.
+<!--					xserver-xorg-video-nv has been removed from Debian, which means xserver-xorg-video-nouveau now takes its place.
+					Therefore we recommend users of nvidia graphics cards to purge xserver-xorg-video-nv, and install xserver-xorg-video-nouveau; configuration changes should not be required.
+					On selected chipset generations, basic video and 3d acceleration is available through xserver-xorg-video-nouveau and libgl1-mesa-dri-experimental.-->
+					xserver-xorg-video-nv byl z Debianu odstraněn, což znamená, že je nahrazen pomocí xserver-xorg-video-nouveau.
+					Doporučujeme použít volby 'purge' k odstranění xserver-xorg-video-nv a nainstalovat xserver-xorg-video-nouveau; konfigurační změny by neměly být vyžadovány.
+					Na vybraných řadách čipsetů je možná jednoduchá akcelerace videa a 3d skrze xserver-xorg-video-nouveau a libgl1-mesa-dri-experimental.
 				</p>
 <pre>
-apt-get remove --purge xserver-xorg-video-nouveau
+apt-get install xserver-xorg-video-nouveau libgl1-mesa-dri-experimental
 </pre>
+
+				<h3>KDE 4.6 a XFCE 4.8</h3>
 				<p>
-<!--					We will offer nouveau support as soon as it can be done in a responsible way.-->
-					Nabídneme podporu nouveau hned, jak to bude možné udělat zodpovědně.
+<!--					Upgrading to KDE 4.6 or XFCE 4.8 might not pull all required packages in certain corner cases, please make sure to install them manually.
+					Without these packages, powermanagement, mounting of removable media and applying system wide configuration changes in systemsettings only work partially.-->
+					Povýšení na KDE 4.6 nebo XFCE 4.8 by nemuselo v určitých krajích případech stáhnout všechny požadované balíčky. V takovém případě je prosím nainstalujte manuálně.
+					Bez těchto balíčků bude fungovat jen zčásti správa napájení, připojování vyměnitelných medií a uplatňování změn systémové konfigurace v nastavení systému.
 				</p>
-		  </div>
-<!--			<h3>Obsolete packages</h3>-->
+<pre>
+apt-get install polkit-kde-1 udisks upower
+</pre>
+
+				<h3>hal</h3>
+				<p>
+<!--					HAL is no longer required by KDE 4.6.x or XFCE 4.8 and can get removed safely.
+					Take care that purging the packages below doesn't remove any packages you want to keep.-->
+					HAL již není nadále KDE 4.6.x nebo XFCE 4.8 vyžadován a může být bezpečně odstraněn.
+					Ujistěte se, že volba 'purge' u těchto balíčků nezpůsobí i odstranění některých, které si přejete ponechat.
+				</p>
+<pre>
+apt-get purge hal hal-info libhal-storage1
+</pre>
+
+			<!--<h3>Obsolete packages</h3>-->
 			<h3>Prošlé balíčky</h3>
 				<p>
 					<!--As part of the continuing development of aptosid, a number of packages have been replaced by better alternatives or become redundant.-->
 					Jako součást kontinuálního vývoje aptosidu již bylo určité množství balíčků nahrazeno lepšími variantami a jsou tedy nadbytečné.
 				</p>
+
+				<ul>
+					<li>
+						kaboom<br />
+<!--						Transitional helper for KDE3 &rarr; KDE4 migrations of user configuration, which can be removed after the successful migration.-->
+						Přechodná výpomoc při migraci uživatelské konfigurace mezi KDE3 &rarr; a KDE4 migrations. Po úspěšné migraci může být odebrán.
+					</li>
+
+					<li>
+						modconf<br />
+<!--						This package has been removed from Debian after &quot;squeeze&quot; and doesn't serve any real purpose these days.-->
+						Tento balíček byl z Debianu odstraněn po vydání &quot;squeeze&quot; a již neslouží žádnému účelu..
+					</li>
+				</ul>
 
 				<p>
 <!--					Transitional packages and obsolete libraries can often be identified by &quot;deborphan&quot;.
@@ -633,15 +731,28 @@ apt-get remove --purge xserver-xorg-video-nouveau
 $ deborphan
 </pre>
 
-<!--							<p>The following command is able to find packages not available from any active apt repository and may hint at obsolete packages, be careful about manually installed packages though. apt-show-versions is a separate package and isn't necessarily preinstalled. </p>-->
+							<!--<p>The following command is able to find packages not available from any active apt repository and may hint at obsolete packages, be careful about manually installed packages though. apt-show-versions is a separate package and isn't necessarily preinstalled. </p>-->
 							<p>Následující příkaz je schopen najít balíčky, které nejsou k dispozici v žádném aktivním repozitářní a mohou tedy poukazovat na prošlé balíčky. Buďte ale obezřetní s ručně instalovanými balíčky. apt-show-versions je separátní balíček a nemusí být nutně předinstalován. </p>
 
 <pre>
 $ apt-show-versions | awk '/No available version in archive/{print $1}'
 </pre>
+			</div>
+			<div class="divider" id="howto-involve">
+<!--				<h2>How to get involved</h2>-->
+				<h2>Jak se zapojit</h2>
+				<p>
+<!--					Getting involved in aptosid is easy, just join us at our <a href="http://aptosid.com/index.php?name=PNphpBB2">Forum</a> or even better on IRC (irc.oftc.net, port 6667, channel <a href="irc://irc.oftc.net:6667/#aptosid">#aptosid</a>) and discuss your patches/ proposals or additions.-->
+					Zapojení se do projektu aptosid je jednoduché. Prostě se k nám připojte na <a href="http://aptosid.com/index.php?name=PNphpBB2">Foru</a> nebo ještě lépe na IRC kanálu (irc.oftc.net, port 6667, kanál<a href="irc://irc.oftc.net:6667/#aptosid">#aptosid</a>) a zde prodiskutujte vaše patche nebo doplňky.
+				</p>
 
-
-<div id="rev">Obsah naposledy revidován 07/02/2011 0655 UTC </div>
+				<p>
+<!--					We will gladly discuss any dfsg-free patches and contributions, especially regarding alternative window managers (GNOME, LXDE), general cleanup tasks or translations/ localisations.-->
+					Velmi rádi prodiskutujeme jakékoliv dfsg-free patche a příspěvky, zvláště pokud se budou týkat alternativních správců oken (GNOME, LXDE), povšechné úklidové činnsosti nebo překladu či lokalizace.
+				</p>
+			</div>
+	
+			<div id="rev">Obsah naposledy revidován 14/07/2011 0840 UTC  </div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision ragupo 26/02/2011 1105hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by ragupo-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Tilbage til aptosid.com forums og wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-da.htm#vga">VGA Codes</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-da.htm">Partitionering af din harddisk</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-da.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		    <ul class="sub-menu" id="sm6">
 			  <li><a href="part-gparted-da.htm#hd-ntfs3g">Skriv til NTFS partitioner med ntfs-3g</a></li>
 			<li><a href="part-lvm-da.htm#part-lvm">Partitionering med anvendelse af LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-da.htm#partition">Partitionering af harddisken med cfdisk</a></li>
 					    <li><a href="part-cfdisk-da.htm#formating">Formattering efter partitionering med cfdisk</a></li>
+					    <li><a href="part-gdisk-ca.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-da.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-da.htm#part-example">Basal partitionering &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-da.htm#mon-binary">Dual Monitors (med binære drivere)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-da.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-da.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-da.htm#ati-3d">AMD/ATI 3D drivere</a></li>
 					  <li><a href="gpu-da.htm#intel">Intel 2D and 3D drivere</a></li>
@@ -383,7 +385,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">5:</span> Formater enheden og vær tålmodig, det kan tage noget tid:</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">6:</span></p>
 <pre>
@@ -393,11 +395,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Anvendelse af <span class="highlight-3">/dev/mapper/vulcan-spock </span> er bedre end at bruge UUID numre med LVM, fordi du så kan klone filsystemet og ike behøver bekymre dig om potentielle UUID kollisioner. Dette gælder specifikt for LVM, hvor du kan ende med at have flere filsystemer med samme UUID nummer (oprettelsesn af snapshots kan for eksempel gøre dete).</p>
+							<p>Anvendelse af <span class="highlight-3">/dev/vulcan/spock </span> er bedre end at bruge UUID numre med LVM, fordi du så kan klone filsystemet og ike behøver bekymre dig om potentielle UUID kollisioner. Dette gælder specifikt for LVM, hvor du kan ende med at have flere filsystemer med samme UUID nummer (oprettelsesn af snapshots kan for eksempel gøre dete).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3"> Valgfrit:</span> Skift ejeren af volumen, sådan at andre brugere har læse/ skrive adgang til LVM:</p>
 
@@ -408,17 +410,58 @@ chmod -R 774 /media/spock
 							<p>Din basale LVM skulle nu være sat op.</p>
 
 					    <h3>Ændring af størrelsen på volume</h3>
-							<p>For at ændre størrelsen på volumen fra 300GB til 500GB, for eksempel:</p>
+
+							<p><span class="highlight-3">It is highly recommended that you use a live ISO to change the partition sizes. Whilst growing the partition 'on the fly' may be error free, the same can not be said when reducing the volume, as anomalies will cause data loss, particularly if <span class="highlight-2 "> / (root) </span> or <span class="highlight-2">/home</span> are involved.</span></p>
+
+							<h5>To resize the volume from 300GB to 500GB, as used in this example:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Kør derefter kommandoen for at ændre størrelsen på filsystemet:</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>To resize the volume from 500GB down to 280GB, as used in this example:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Then resize the volume</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
+					     
 					     <h5>En grafisk brugerflade til LVM</h5>
 							<p><span class="highlight-3">system-config-lvm</span> leverer en grafisk brugerflade til LVM og kan hjælpe dig med at administrere dine LVM. Det startes fra kommandolinien som root:</p>
 
@@ -449,7 +492,7 @@ man system-config-lvm <span class="highlight-3"> # anbefalet læsning</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

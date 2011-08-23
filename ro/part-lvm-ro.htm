@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 22/10/2010 1510 UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-ro.htm#vga">Code-uri VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului - Tradițional, GPT și LVM</a>
 		<ul class="sub-menu" id="sm6">
 			 <li><a href="part-gparted-ro.htm#hd-ntfs3g">Scrierea pe partiții NTFS cu <i>ntfs-3g</i></a></li>
 			<li><a href="part-lvm-ro.htm#part-lvm">Partiționarea pentru a folosi LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-ro.htm#partition">Partiționarea HD cu <i>cfdisk</i></a></li>
 					    <li><a href="part-cfdisk-ro.htm#formating">Formatarea după partiționare cu <i>cfdisk</i></a></li>
+					    <li><a href="part-gdisk-ro.htm#gdisk-6">Formatarea după partiționare cu <i>gdisk</i></a></li>
+					    <li><a href="part-gdisk-ro.htm#gisk-1">GPT - Partiționarea cu <i>gdisk</i></a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-ro.htm#part-example">Partiționare - Sumar &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-ro.htm#mon-binary">Monitoare Duale (folosind binare)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-ro.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-ro.htm#foss-xorg">GPU drivere &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-ro.htm#ati-3d">AMD/ATI 3D -drivere</a></li>
 					  <li><a href="gpu-ro.htm#intel">Intel 2D și 3D -drivere</a></li>
@@ -383,7 +385,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">Pasul 5:</span> Format-ați volumul și aveți răbdare pe timpul format-ării; s-ar putea să dureze ceva vreme:</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Pasul 6:</span></p>
 <pre>
@@ -393,11 +395,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Folosirea <span class="highlight-3">/dev/mapper/vulcan-spock </span> este mai ușoară decât codurile UUID când avem LVM, putând asfel să clonăm sistemul de fișiere fără grija că vom produce o coliziune UUID, mai ales cu LVM, sfârșind prin a avea mai multe sisteme de fișiere cu același număr UUID (acesta fiind doar un prim exemplu).</p>
+							<p>Folosirea <span class="highlight-3">/dev/vulcan/spock </span> este mai ușoară decât codurile UUID când avem LVM, putând asfel să clonăm sistemul de fișiere fără grija că vom produce o coliziune UUID, mai ales cu LVM, sfârșind prin a avea mai multe sisteme de fișiere cu același număr UUID (acesta fiind doar un prim exemplu).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3"> Opțional:</span> Schimbați proprietarul volumului astfel ca și alți utilizatori să poată citi/scrie în LVM:</p>
 
@@ -408,17 +410,57 @@ chmod -R 774 /media/spock
 							<p>Aveți acum un LVM cu setările de bază.</p>
 
 					    <h3>Redimensionarea volumelor</h3>
-							<p>Pentru a redimensiona volumul de la 300GB la 500GB, faceți ca în exemplul următor:</p>
+
+							<p><span class="highlight-3">Dacă folosiți un live ISO este foarte recomandat să modificați dimensiunea partițiilor. În timp ce mărirea partițiilor 'on the fly' poate fi fără erori, nu se poate spune același lucru atunci când sunt micșorate volumele, anomalii ce pot duce la pierderea de date, în particular dacă partițiile <span class="highlight-2 "> / (root) </span> sau <span class="highlight-2">/home</span> sunt implicate.</span></p>
+
+							<h5>Pentru redimensionarea volumului de la 300GB la 500GB, așa cum este folosit în acest exemplu:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Apoi rulați comanda de redimensionare a sistemului de fișiere:</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Apoi executați comanda următoare pentru redimensionarea sistemului de fișiere:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>Pentru redimensionarea (micșorarea) volumului de la 500GB la 280GB, așa cum este folosit în acest exemplu:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Apoi executați comanda următoare pentru redimensionarea sistemului de fișiere:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Apoi redimensionați volumul:</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>O interfață grafică (GUI) pentru LVM </h5>
 							<p>Programul <span class="highlight-3">system-config-lvm</span> oferă o interfață grafică ce vă poate ajuta în administrarea LVM-urilor; pornește din linia de comandă ca <i>root</i>:</p>
 
@@ -449,7 +491,7 @@ man system-config-lvm <span class="highlight-3"> # trebuie citit</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

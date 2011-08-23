@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by alessiog75 on 20/12/2010 21.40 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Un forum e wiki di aptosid.com" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-it.htm#vga">Codici VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-it.htm">Partizionare il disco fisso</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-it.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-it.htm#hd-ntfs3g">Scrivere su partizioni NTFS con ntfs-3g</a></li>
 			<li><a href="part-lvm-it.htm#part-lvm">Partizionare per utilizzare LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-it.htm#partition">Partizionare il disco fisso con cfdisk</a></li>
 					    <li><a href="part-cfdisk-it.htm#formating">Formattare dopo aver partizionato con cfdisk</a></li>
+					    <li><a href="part-gdisk-it.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-it.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-it.htm#part-example">Basi del partizionamento &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-it.htm#mon-binary">Doppio schermo (usando i driver binari)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-it.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-it.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-it.htm#ati-3d">Driver 3D per AMD/ATI</a></li>
 					  <li><a href="gpu-it.htm#intel">Driver 2D e 3D per Intel</a></li>
@@ -382,7 +384,7 @@ lvcreate -n spock --size 300g vulcan
 
 							<p><span class="highlight-3">Passo 5:</span> formattare il volume, si deve essere pazienti per questa operazione dato che potrebbe durare un bel po':</p>
 <pre>
-mkfs.ext4 /dev/mapper/vulcan-spock
+mkfs.ext4 /dev/vulcan/spock
 </pre>
 							<p><span class="highlight-3">Passo 6:</span></p>
 <pre>
@@ -392,11 +394,11 @@ mkdir /media/spock/
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Utilizzare <span class="highlight-3">/dev/mapper/vulcan-spock </span> è meglio dell'utilizzo dei numeri UUID con LVM, dal momento che si può clonare il filesystem senza doversi preoccupare riguardo a potenziali collisioni di UUID, specialmente con LVM, dove ci si può trovare con filesystem multipli con lo stesso numero UUID (un esempio su tutti l'utilizzo delle snapshot).</p>
+							<p>Utilizzare <span class="highlight-3">/dev/vulcan/spock </span> è meglio dell'utilizzo dei numeri UUID con LVM, dal momento che si può clonare il filesystem senza doversi preoccupare riguardo a potenziali collisioni di UUID, specialmente con LVM, dove ci si può trovare con filesystem multipli con lo stesso numero UUID (un esempio su tutti l'utilizzo delle snapshot).</p>
 
 
 <pre>
-/dev/mapper/vulcan-spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
+/dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 							<p><span class="highlight-3">Opzionale:</span> cambiare il proprietario del volume in modo che altri utenti abbiano accesso lettura/scrittura a LVM:</p>
 
@@ -407,17 +409,57 @@ chmod -R 774 /media/spock
 							<p>Adesso si dovrebbe aver configurato un LVM di base.</p>
 
 					    <h3>Ridimensionare il volume</h3>
-							<p>Per ridimensionare il volume da 300GB a 500GB, come in questo esempio:</p>
+
+							<p><span class="highlight-3">It is highly recommended that you use a live ISO to change the partition sizes. Whilst growing the partition 'on the fly' may be error free, the same can not be said when reducing the volume, as anomalies will cause data loss, particularly if <span class="highlight-2 "> / (root) </span> or <span class="highlight-2">/home</span> are involved.</span></p>
+
+							<h5>To resize the volume from 300GB to 500GB, as used in this example:</h5>
 <pre>
 umount /media/spock/
-vextend -L+500g /dev/mapper/vulcan-spock
 </pre>
-							<p>Quindi avviare il comando per il filesystem che deve essere ridimensionato:</p>
+
 <pre>
-e4fsck -f /dev/mapper/vulcan-spock
-resize4fs /dev/mapper/vulcan-spock
+lvextend -L+500g /dev/vulcan/spock
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
+							<h5>To resize the volume from 500GB down to 280GB, as used in this example:</h5>
+<pre>
+umount /media/spock/
+</pre>
+							<p>Then run the command for the filesystem to be resized:</p>
+
+<pre>
+e2fsck -f /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock 280g
+</pre>
+
+							<p>Then resize the volume</p>
+<pre>
+lvreduce -L-200g /dev/vulcan/spock
+</pre>
+
+<pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
+mount /media/spock
+</pre>
+
 					     <h5>Una interfaccia grafica per LVM</h5>
 							<p><span class="highlight-3">system-config-lvm</span> fornisce una interfaccia grafica ed è disponibile come aiuto per la gestione di LVM ed è avviato dalla linea di comando come root:</p>
 
@@ -448,7 +490,7 @@ man system-config-lvm <span class="highlight-3"> # richiede la lettura</span>
 						      </ul>
 
 	</div>
-	<div id="rev">Page last revised 22/10/2010 1510 UTC</div>
+	<div id="rev">Page last revised 26/07/2011 2325 UTC</div>
 
 </div>
 </body>

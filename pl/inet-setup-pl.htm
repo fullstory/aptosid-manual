@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 06/12/2008 0230 UTC -->
 <div id="menu"> <!-- menu starts here pl lang maintained by -->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Przejdź do aptosid.com, forum oraz wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-pl.htm#vga">Kody VGA</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-pl.htm">Partycjonowanie dysku twardego</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-pl.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		<ul class="sub-menu" id="sm6">
 			<li><a href="part-gparted-pl.htm#hd-ntfs3g">Zapis na partycje NTFS z użyciem ntfs-3g</a></li>
 			<li><a href="part-lvm-pl.htm#part-lvm">Partycjonowanie w celu użycia LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-pl.htm#partition">Partycjonowanie dysku z użyciem cfdisk</a></li>
 					    <li><a href="part-cfdisk-pl.htm#formating">Formatowanie dysku po partycjonowaniu z użyciem cfdisk</a></li>
+					    <li><a href="part-gdisk-pl.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-pl.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-pl.htm#part-example">Podstawy partycjonowania &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-pl.htm#mon-binary">Dwa monitory (używając binariów)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-pl.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-pl.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-pl.htm#ati-3d">Sterowniki AMD/ATI 3D</a></li>
 					  <li><a href="gpu-pl.htm#intel">Sterowniki Intel 2D i 3D</a></li>
@@ -536,19 +538,21 @@ network={
 							<p>Dobrą metodą na bezpieczne tworzenie kopii zapasowych i szyfrowanie plików konfiguracyjnych to kombinacja gpg i tar. Jako root:</p>
 
 <pre>
-tar -cf backup_name.tar /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf &amp;&amp; gpg -c backup_name.tar
+tar -cf- /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf  |  gpg -c > backup_name.tar.gpg
 </pre>
-							<p>Dwie pliki zostały utworzone w $ HOME:<br />
-							backup_name.tar<br />
-							backup_name.tar.gpg<br /><br />
-							Usuń backup_name.tar z systemu jak potrzebujesz tylko backup_name.tar.gpg.</p>
+							<p>A file has now been created in $ HOME:<br />
+							backup_name.tar.gpg</p>
 
-							<p>Aby odszyfrować plik backup_name.tar.gpg:</p>
+							<p>To list the contents of the backup_name.tar.gpg file:</p>
 
 <pre>
-gpg -d backup_name.tar.gpg
+gpg -d -o - backup_name.tar.gpg  | tar vtf -
 </pre>
+							<p>To extract and decrypt the contents of the archive backup_name.tar.gpg file:</p>
 
+<pre>
+gpg -d -o - backup_name.tar.gpg  | tar vxf -
+</pre>
 
 					<h6>3. Ukryte SSIDs</h6>
 							<p>Ukryte SSID są wykrywane podczas <span class="highlight-3">scan_ssid=1</span> jest zdefiniowany w bloku sieci.</p>
@@ -594,7 +598,7 @@ PSK Password: VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 
 	      </div>
-			<div id="rev">Content last revised 28/09/2010 0945 UTC</div>
+			<div id="rev">Content last revised 21/08/2012 1620 UTC</div>
 </div>
 </body>
 </html>

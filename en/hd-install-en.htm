@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 14/08/2010 0100 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by bluewater-->
-<!--aptosid Operating System Manual menu-version-02.11.2011.04.23 -->
-<!-- menu last updated by bluewater 2011.04.26 1425 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
+<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -99,7 +99,7 @@
 				<li><a href="cheatcodes-vga-en.htm#vga">VGA Codes</a></li>
 			</ul>
 		</li>
-<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-en.htm">Partitioning the Hard Drive - Traditional and LVM</a>
+<li  onmouseover="showHide( 6 );" onmouseout="startTime();" ><a href="part-gparted-en.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>
 		    <ul class="sub-menu" id="sm6">
 			  <li><a href="part-gparted-en.htm#hd-ntfs3g">Writing on NTFS partitions with ntfs-3g</a></li>
 			  <li><a href="part-lvm-en.htm#part-lvm">Partitioning to use LVM - Logical Volume Manager</a></li>
@@ -113,6 +113,8 @@
 					 <ul class="sub2-menu" id="sm6b">
 					    <li><a href="part-cfdisk-en.htm#partition">Partitioning  your HD using cfdisk</a></li>
 					    <li><a href="part-cfdisk-en.htm#formating">Formatting after partitioning with cfdisk</a></li>
+					    <li><a href="part-gdisk-en.htm#gdisk-6">Formatting after partitioning with gdisk</a></li>
+					    <li><a href="part-gdisk-en.htm#gisk-1">GPT Partitioning with gdisk</a></li>
 					</ul>
 					</li>
 		<li><a href="part-size-examp-en.htm#part-example">Partitioning Basics &#8658;</a>
@@ -160,7 +162,7 @@
 					  <li><a href="hw-dev-mon-en.htm#mon-binary">Dual Monitors (using binaries)</a></li>
 					</ul>
 					</li>
-		<li><a href="gpu-en.htm#foss-xorg">GPU firmware &#8658;</a>
+		<li><a href="gpu-en.htm#foss-xorg">GPU drivers &#8658;</a>
 					<ul class="sub2-menu" id="sm8b">
 					  <li><a href="gpu-en.htm#ati-3d">AMD/ATI 3D drivers</a></li>
 					  <li><a href="gpu-en.htm#intel">Intel 2D and 3D drivers</a></li>
@@ -169,7 +171,7 @@
 					</ul>
 					</li>
 			  <li><a href="nf-firm-en.htm#fw-detect">Firmware detection - non-free </a></li>
-			  <li><a href="nf-firm-en.htm#non-free-firmware">Adding non-free to Sources List</a></li>
+			  <li><a href="nf-firm-en.htm#non-free-firmware">Adding non-free to sources</a></li>
 		</ul>
 		</li>
 <li  onmouseover="showHide( 9 );" onmouseout="startTime();" ><a href="wm-dm-en.htm#install-add">Window Managers</a>
@@ -339,18 +341,35 @@ dpkg -l|awk '/^ii/{ print $2 }'|grep -v -e ^lib -e -dev -e $(uname -r) >/home/us
 							<p>First, you need to set your boot order in the BIOS to CD-ROM. With most computers you can get to the Bios-setup by pressing [del] key while booting (with some BIOS-Versions you can simply choose the boot device while booting, with AMI-BIOS, e.g., with F11 or F8).</p>
 
 							<p>aptosid should boot up now in most cases. If that's not the case, you can use Boot-options, (called cheatcodes) which can be issued in the boot manager. Using boot parameters (e.g. for screen resolution or language selection) can save a lot of time with the post-install configuration. <a href="cheatcodes-en.htm#cheatcodes-aptosid">Also see Cheatcodes</a> and <a href="cheatcodes-vga-en.htm#vga">VGA Resolutions</a></p>
+<!-- hiding crap for the moment
+	</div>
+	<div class="divider" id="efi">
+				<h2>(U)EFI booting</h2>
+							<p>The bootloader will be an EFI program installed to <span class="highlight-3">/efi/aptosid </span> within your <span class="highlight-3"> EFI system partition </span> and mounted below <span class="highlight-3">/boot/efi/</span> on your installed system, provided the following conditions are met:</p>
 
+						<ul>
+							<li>The BIOS needs to be EFI capable, and turned on, and selected to be bootable.</li>
+							<li>x86-64/ EM64T system (amd64) machines.</li>
+							<li>A current aptosid-amd64.iso</li><li>Booted using UEFI and this is apparent from the plain white/blue grub2 menu, instead of the usual graphical boot menu provided by isolinux for BIOS booting, on the live medium.</li>
+							<li>A vfat formatted EFI system partition on a GPT disk (type EF00) exists on the target system.</li>
+							<li>The install target is not a USB disk.</li>
+						</ul>
+							<p>For partitioning GPT disks consult <a href="part-gdisk-en.htm#gdisk-1">Partitioning with gdisk for GPT disks.</a></p>
+-->
+	</div>
+	<div class="divider" id="lang">
 			<h2>Choosing the language for your installation</h2>
 				<h6><span class="highlight-3">Language Installs with KDE-full </span></h6>
 
 							<p>Select your main language from the <span class="highlight-2">grub menu (F4)</span> in the <span class="highlight-3">kde-full release</span>, to install the localisations for the desktop and many applications while booting. </p>
 
-							<p>This ensures they are also present after installing aptosid, while only installing the required languages for the given system. The amount of memory required for this feature depends on the language and aptosid may refuse to install the given language packs automatically with insufficient RAM and the boot sequence will be continued in English language but with the desired locales settings (currency, date and time format, keyboard charsets). 512 MB memory or more should be safe for all supported languages, which are:</p>
+							<p>This ensures they are also present after installing aptosid, while only installing the required languages for the given system. The amount of memory required for this feature depends on the language and aptosid may refuse to install the given language packs automatically with insufficient RAM and the boot sequence will be continued in English language but with the desired locales settings (currency, date and time format, keyboard charsets). 1 GB memory or more should be safe for all supported languages, which are:</p>
 
 							<p>
    							Default - Deutsch (German) <br />
 							Default - English (English-US)<br />
 							*Čeština (Czech)<br />
+    							*Dansk (Danish)<br />
     							*Ellīniká (Greek)<br />
     							*Español (Spanish)<br />
     							*English (GB)<br />
@@ -379,7 +398,6 @@ dpkg -l|awk '/^ii/{ print $2 }'|grep -v -e ^lib -e -dev -e $(uname -r) >/home/us
 
 					<h6>First Time boot up to the HD</h6>
 							<p><span class="highlight-3">After booting up for the first time you will discover that aptosid has forgotten its network configuration</span>. The network can be comfortably set up from <a href="inet-ceni-en.htm#netcardconfig">Kmenu > Internet > Ceni</a>. For additional WIFI/WLAN roaming<a href="inet-wpagui-en.htm"> please read this.</a></p>
-
 	</div>
 	<div class="divider" id="Installation">
 					<h2>The aptosid-Installer</h2>
@@ -520,7 +538,7 @@ dbus-launch &lt;Application&gt;
 
 							<p class="highlight-2">Under no circumstances should you be as root in the console/terminal to run applications that a standard user uses to go about being productive on a day to day basis, like sending emails, creating spreadsheets or surfing the internet and so forth. </p>
 	</div>
-	<div id="rev">Content last revised 29/01/2011 1120 UTC</div>
+	<div id="rev">Content last revised 16/08/2011 0945 UTC</div>
 
 </div>
 </body>

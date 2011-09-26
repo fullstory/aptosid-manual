@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by alessiog75 on 10/04/2011 17.30 UTC -->
 <div id="menu"> <!-- menu starts here it lang maintained by alessiog75 -->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Un forum e wiki di aptosid.com" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-it.htm#grub1-grub2">Grub2 - Aggiornare da Grub1</a></li>
 					    <li><a href="sys-admin-grub2-it.htm#grub2">Grub2 - Panoramica</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
 				<h2 id="top-header">Opzioni per la Macchina Virtuale</h2>
@@ -356,7 +371,7 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>Un'altra opzione è riavviare così che gli script di init di qemu-kvm si prenderanno cura di caricare i moduli.</p>
+							 <p>When you start your system the qemu-kvm initscripts will take care of loading the modules.</p>
 
 					  <h4>Se si utilizza KVM per avviare una aptosid-*.iso</h4>
 
@@ -373,60 +388,28 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 
 							<p>Avviare aptosid-*.iso con i seguenti parametri per abilitare KVM a riconoscere la presenza di una immagine hard disk QEMU disponibile:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Dopo che si è avviato il cdrom cliccare l'icona del programma di installazione aptosid per fare avviare il programma di installazione, (oppure utilizzare il menu), cliccare sulla scheda Partizionamento e si dovrebbe vedere sulla sinistra un rettangolo con un disco pronto per il partizionamento e la formattazione, molto probabilmente chiamato <span class="highlight-3">/dev/sda</span>. Al di sotto di questo ci sono le opzioni per il partizionamento, scegliere gparted o partitionmanager. KDE partionmanager ha una disposizione differente rispetto a gparted, utilizzato nel seguente esempio, è semplicemente intuitivo lavorarci.</p>
+							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and launch the partition application you prefer. For the partitioning you can follow the instructions from <a href="part-gparted-it.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>  (do not forget to add a swap partition If you are short of memory). Please be aware that formatting will take time so be patient.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>Nel menu di Gparted si può avere conferma che Gparted vede l'immagine con <span class="highlight-3">View>Device Information</span> che dovrebbe mostrare come <span class="highlight-3">ATA QEMU Harddisk</span> e molto probabilmente si chiama <span class="highlight-3">/dev/sda</span>, (in questo esempio), dal momento che questa informazione sarà cruciale quando si torna al programma di installazione e si sceglie dove mettere Grub, dato che esso va in <span class="highlight-3">/dev/sda</span>.</p>
-
-							<p>Quindi, nel menu <span class="highlight-3">Partizionamento</span> scegliere <span class="highlight-3">Device>Create Partiton Table</span> e creare la tabella delle partizioni.</p>
-
-							<p>A seguire formattare la tabella delle partizioni con ext4 e includere anche una partizione di swap di 2 Gb. La formattazione richiede un po' di tempo quindi si deve essere pazienti.</p>
-
-							<p>Al termine della formattazione cliccare OK per tornare al programma di installazione e procedere come se si stesse facendo una installazione standard, (di nuovo, portare pazienza). <span class="highlight-2">Nota: installare Grub in /dev/sda</span>.</p>
-
-							<p>Adesso si ha una aptosid-*-VM pronta per l'uso:</p>
+							<p>You now have a VM ready for use:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
-
-							<p>Se il guest non ha il supporto per virtio, oppure se non si specifica un percorso assoluto, usare:</p>
+							<p>Some guests do not support virtio, therefore you need to use other options when launching KVM, for example:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">Una nota importante a proposito del nome delle partizioni KVM:</span> quando si installa in una immagine KVM le partizioni cambiano da <span class="highlight-3">sda</span> a <span class="highlight-3">vda</span>. Se l'immagine KVM non si avvia e viene visualizzata una busybox, provare:</p>
+							 <p>or</p>
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>Quando compare il menù grub, digitare <span class="highlight-2"> e </span>, quindi cambiare <span class="highlight-3">sda</span> con <span class="highlight-3">vda</span> nel comando di avvio del kernel. Quando il sistema si è completamente avviato, si può impostare in modo permanente modificando la seguente linea che si trova in <span class="highlight-3">/etc/default/grub </span> con la sintassi corretta, se necessario:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Esempi:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>Gli UUID sono un'opzione migliore quando si utilizzano i metodi di partizionamento tradizionali</p>
-
-							<p>Una volta fatta la modifica aggiornare il file grub.cfg con:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Riavviare l'immagine KVM con i parametri preferiti.</p>
-
 							<p>Vedere anche: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
 
 				<h5>Gestire le installazioni della macchina virtuale KVM</h5>
@@ -569,7 +552,7 @@ losetup -f /percorso/verso/mbr
 
 
 
-			<h4>Usare il modulo acceleratore di QEMU</h4>
+			<!--<h4>Usare il modulo acceleratore di QEMU</h4>
 
 				<p>Gli sviluppatori di qemu hanno creato un modulo opzionale per il kernel per accelerare qemu quasi fino ai livelli di prestazioni native del sistema. Questo dovrebbe essere caricato con l'opzione:</p>
 <pre>
@@ -589,14 +572,14 @@ qemu [...] -kernel-kqemu
 			<h4>Per attivare qemu:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+</pre>-->
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Qui si trova la documentazione ufficiale del progetto QEMU.</a></p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Alcuni contenuti riguardo a QEMU sono stati tratti dal wiki di arklinux sotto la Licenza 1.2 della documentazione libera GNU e modificati per il manuale aptosid.</a></p>
 
 
 
 	</div>
-	<div id="rev">Page last revised 10/08/2011 0045 UTC</div>
+	<div id="rev">Page last revised 12/09/2011 1010 UTC</div>
 
 </div>
 </body>

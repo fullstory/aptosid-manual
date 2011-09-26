@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-ro.htm#grub1-grub2">Grub2 - Actualizarea de la Grub1</a></li>
 					    <li><a href="sys-admin-grub2-ro.htm#grub2">Grub2 - Introducere</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
 				<h2 id="top-header">Mașini Virtuale - opțiuni</h2>
@@ -326,7 +341,7 @@
 			    <h2>Instalarea altor distribuții pe o imagine VM</h2>
 							<p>Notă: Dacă și când doriți să instalați într-o mașină virtuală, majoritatea distribuțiilor vor avea nevoie doar de 12G spațiu alocat. Oricum dacă veți dori să instalați MS Windows, va trebui să alocați cam 30G sau mai mult. Spațiul alocat depinde totuși de cerințele voastre. </p>
 
-							<p>În general, spațiul alocat unei imagini nu va utiliza și spațiu de pe HDD până nu vor fi instalate și datele. Chiar și atunci spațiul va vi ocupat dinamic pe măsură ce cantitatea de date crește sau scade pe imagine. Aceasta se realizează cu ratele de compresie ale <i>qcow2</i>.</p>
+							<p>În general, spațiul alocat unei imagini nu va utiliza și spațiu de pe HDD până nu vor fi instalate și datele. Chiar și atunci spațiul va vi ocupat dinamic pe măsură ce cantitatea de date crește pe imagine. Aceasta se realizează cu ratele de compresie ale <i>qcow2</i>.</p>
 
 		      </div>
 		      <div class="divider" id="kvm">
@@ -356,7 +371,7 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>Altă opțiune ar fi să reboot-ați sistemul deoarece programul <i>qemu-kvm</i> va avea grijă să încarce modulele.</p>
+							 <p>Când veți porni sistemul, script-urile qemu-kvm vor avea grijă să încarce modulele.</p>
 
 					  <h4>Utilizare KVM pentru a boot-a un aptosid-*.iso</h4>
 
@@ -373,61 +388,29 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 
 							<p>Boot-ați imaginea aptosid-*.iso cu următorii parametrii pentru a permite lui KVM să recunoască că aceasta este o imagine QEMU de hard disk disponibilă:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>După ce ați boot-at de pe cdrom, dați click pe icon-ul aptosid installer pentru a începe procesul de instalare, (sau folosiți menu-ul), dați click pe tab-ul <i>Partitioning</i> și veți vedea pe partea stângă a ferestrei că este un disk gata pentru a fi partiționat și fomatat, de obicei notat cu <span class="highlight-3"> /dev/sda</span>. Dedesupt se află sunt opțiunile de partiționare de unde alegeți <i>gparted</i> sau <i>partitionmanager</i>. Deoarece <i>KDE partionmanager</i> are o interfață diferită față de <i>gparted</i>, care va fi folosită în următorul exemplu, este doar o problemă de intuiție în a lucra cu aceasta.</p>
+							<p>După ce ați boot-at de pe CD/DVD dați click pe icon-ul aptosid installer pentru a porni installer-ul, (sau folosiți menniul), apoi click pe tab-ul Partitioning și lansați aplicația de partiționare preferată. Pentru partționare puteți urma instrucțiunile de la <a href="part-gparted-ro.htm">Partiționarea Hard Disk-ului - Tradițional, GPT și LVM</a> (nu uitați să adăugați o partiție swap dacă dispuneți de memorie mică). Țineți cont că procesul durează deci aveți răbdare.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>În menu-ul <i>Gparted</i> puteți confima că <i>Gparted</i> vede imaginea cu <span class="highlight-3">View>Device Information</span> care ar trebui să-l indentifice ca <span class="highlight-3">ATA QEMU Harddisk</span> și cel mai probabil notat ca <span class="highlight-3"> /dev/sda</span>, (în acest exemplu), informații cruciale când vă veți întoarce în programul de instalare și să stabiliți unde va fi pus Grub, care trebuie instalat în <span class="highlight-3"> /dev/sda</span>.</p>
-
-							<p>Apoi, din menu-ul <span class="highlight-3">Partition</span> alegeți <span class="highlight-3"> Device>Create Partiton Table</span> și creați tabela de partiții. </p>
-
-							<p>Continuați cu formatarea tabelei de partiții în <i>ext4</i> și includeți de asemenea o partiție <i>swap</i> de 2 gig.<br />Formatarea va lua ceva timp așa că aveți răbdare.</p>
-
-							<p>După terminarea formatării dați click pe OK pentru a reveni la programul de instalare și continuați ca la o instalare normală, (din nou, aveți răbdare).<br /><span class="highlight-2">Notă: Instalați Grub-ul în /dev/sda</span>.</p>
-
-							<p>Aveți acum un aptosid-*-VM gata de utilizat:</p>
-
+							<p>Aveți acum o VM gata de utilizare:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Dacă sistemul "oaspete" nu suportă <i>virtio</i> sau voi nu ați specificat o cale absolută, folosiți:</p>
+							<p>Unele sisteme nu suportă virtio, trebuinb deci să folosiți alte opțiuni la lansarea KVM, de exemplu:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">O observație importantă privind notarea partițiilor în KVM:</span> Când faceți instalarea într-o imagine KVM, numele partițiilor se vor schimba din <span class="highlight-3">sda</span> în <span class="highlight-3">vda</span>. Dacă imaginea kvm nu va boot-a și vă veți trezi în <i>busybox</i>, atunci încercați:</p>
+							 <p>sau</p>
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>Când apare meniul grub, tastați <span class="highlight-2"> e </span> și schimbți <span class="highlight-3">sda</span> cu <span class="highlight-3">vda</span> în comanda de boot-are a kernel-ului. După boot-area completă, dacă este necesar, puteți face ca modificările să fie permanente editând următoarea linie din fișierul <span class="highlight-3"> /etc/default/grub </span> cu sintaxa corectă:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Example:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>Notarea UUIDs este recomandată când utilizați metodele tradiționale de partiționare.</p>
-
-							<p> Apoi actualizați <i>grub.cfg</i> cu comanda:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Reboot-ați imaginea KVM cu parametrii doriți de dumneavoastră.</p>
-
 							<p>Vedeți de asemenea și <a href="http://www.linux-kvm.org/page/Main_Page"> documentația KVM </a>.</p>
 
 				<h5>Administrarea mașinilor virtuale KVM instalate:</h5>
@@ -572,7 +555,7 @@ apt-get install qtemu
 
 
 
-			<h4>Folosirea Modulului Accelerator QEMU</h4>
+			<!--<h4>Folosirea Modulului Accelerator QEMU</h4>
 
 				<p>Programatorii de qemu au creat un modul de kernel optional care accelerează qemu pană aproape a lucra în timp real. Acesta trebuie încărcat cu opţiunea:</p>
 <pre>
@@ -594,14 +577,14 @@ apt-get install qtemu
 
 <pre>
   qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+</pre>-->
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Documentaţia Oficială a Proiectului QEMU</a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Anumit conţinut din manualul aptosid despre QEMU a fost transpus pe această pagină sub GNU Free Documentation License 1.2  şi modificat pentru manualul aptosid</a> </p>
 
 
 
 	</div>
-	<div id="rev">Page last revised 10/08/2011 0045 UTC</div>
+	<div id="rev">Page last revised 18/09/2011 1010 UTC</div>
 
 </div>
 </body>

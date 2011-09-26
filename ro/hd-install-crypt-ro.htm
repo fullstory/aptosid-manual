@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 01/11/2010 1120 -->
 <div id="menu"> <!-- menu starts here ro lang maintained by Dorin-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="La pagina aptosid.com forum-uri şi wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-ro.htm#grub1-grub2">Grub2 - Actualizarea de la Grub1</a></li>
 					    <li><a href="sys-admin-grub2-ro.htm#grub2">Grub2 - Introducere</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="install-crypt">
 				<h2 id="top-header">Instalarea pe partiții criptate - <i>cryptroot</i></h2>
@@ -404,9 +419,12 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=cryptroot,lvm=cryptvg-root
 </pre>
 							<p>Aveți acum <i>crypt</i> și <i>boot</i> sub grupul lvm <i>vg</i> iar <i>root</i>, <i>home</i> și <i>swap</i> sub grupul lvm <i>vgcrypt</i> care se află pe dispozitivul vostru criptat și protejat de parolă.</p>
-
-			      </div>
-			  <div class="divider" id="simple">
+<pre>
+cryptsetup luksOpen /dev/mapper/cryptvg-root cryptvg
+vgchange -a y
+</pre>
+			  </div>
+			   <div class="divider" id="simple">
 					<h2>Indicații de criptare cu metodele tradiționale de partiționare</h2>
 
 							<p>În primul rând trebuie să decideți cum vreți să arate disk-ul. Veți avea nevoie de minim 2 partiții, o partiție normală pentru <span class="highlight-3">/boot</span> și una pentru datele criptate. </p>
@@ -456,7 +474,7 @@ cryptsetup luksOpen /dev/sda2 swap
 echo "swap UUID=$(blkid -o value -s UUID /dev/sda2) none luks" >> /etc/crypttab
 </pre></li>
 </ol>
-							<p>Format the created <span class="highlight-3">/dev/mapper/swap</span> so it will be recognised by the installer:</p>
+							<p>Formatați partiția <span class="highlight-3">/dev/mapper/swap</span> creată ca ea să fie recunoscută de installer:</p>
 
 <pre>
 /sbin/mkswap /dev/mapper/swap
@@ -481,8 +499,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 					  <h3>Deschideți programul de instalare</h3>
 							<p><b>Acum sunteți pregătiți să rulați programul de instalare unde trebuie să folosiți:</b><br />
 							<span class= "highlight-3">sda1</span> pentru <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">cryptroot</span> for <span class= "highlight-2"> / </span> and <span class= "highlight-3"> /home</span> <br />
-							<span class= "highlight-3">swap</span> should be automagically recognised.</p>
+							<span class= "highlight-3">cryptroot</span> pentru <span class= "highlight-2"> / </span> și <span class= "highlight-3"> /home</span> <br />
+							<span class= "highlight-3">swap</span> trebuie să fie recunoscută automat.</p>
 
 							<p>Sistemul instalat ar trebui să se termine cu o linie de comandă a kernel-ului incluzând următoarele opțiuni  (totuși va fi folosită notația voastră UUID):</p>
 <pre>
@@ -507,7 +525,7 @@ man cryptsetup
 
 							<p><a href="http://aptosid.com/index.php?module=wikula&amp;tag=FullDiskEncryptionTheDebianWay">aptosid wiki</a>.</p>
 
-	<div id="rev">Page last revised 11/06/2011 1235 UTC</div>
+	<div id="rev">Page last revised 06/09/2011 0920 UTC</div>
 
 </div>
 </body>

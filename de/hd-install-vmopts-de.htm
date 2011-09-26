@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+<!-- <!-- <!-- <!-- <!-- <!-- <!-- <!-- <!-- <!-- <!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" --> --> --> --> --> --> --> --> --> --> -->
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -17,10 +17,10 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Sat, 09 Apr 2011 12:07:39 +0000 -->
+<!-- Last translation revision by hubi Sun, 25 Sep 2011 11:14:12 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Zu aptosid.com (Forum und Wiki)" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-de.htm#grub1-grub2">Grub2 - Aktualisierung von Grub1</a></li>
 					    <li><a href="sys-admin-grub2-de.htm#grub2">Grub2 - Überblick</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
 				<h2 id="top-header">Optionen für virtuelle Maschinen</h2>
@@ -356,7 +371,7 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>Eine andere Option ist ein Neustart, bei dem die Initskripte von qemu bzw. kvm die Module laden.</p>
+							 <p>When you start your system the qemu-kvm initscripts will take care of loading the modules.</p>
 
 					  <h4>KVM zum Booten einer aptosid-*.iso</h4>
 
@@ -373,61 +388,29 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 
 							<p>Die aptosid-*.iso wird mit folgenden Parametern gebootet, um KVM die Möglichkeit zur Erkennung eines QEMU-Festplattenimages zu geben:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Sobald die CD-ROM gebootet hat, klickt man auf das aptosid-Installer-Ikon oder nutzt den Menü-Eintrag, um den Installer zu starten. Nach einem Klick auf den Partitionierungs-Reiter sollte auf der linken Seite ein Feld zu sehen sein, das die virtuelle Festplatte vorhanden und bereit für das Partitionieren und Formatieren ist. Die Benennung ist vermutlich <span class="highlight-3"> /dev/sda</span>. Darunter sind die Optionen zur Erstellung von Partitionen, es kann geparted oder partitionmanager gewählt werden. Auch wenn der KDE partionmanager eine andere Benutzerführung als gparted besitzt, ist die Benutzerführung selbsterklärend. Insofern können folgende Beispiele, die anhand von gparted vorgestellt werden, ohne Schwierigkeiten im KDE partitionmanager angewendet werden.</p>
+							<p>Wenn die CR-ROM hochgefahren ist, klickt man auf den aptosid-Installer, um das Installationsprogramm zu aktivieren (oder man verwendet das Menü), klickt auf den Reiter "Partitioning" und startet die bevorzugte Partitionierungsanwendung. Anleitungen finden sich im Kapitel <a href="part-gparted-de.htm">Partitionierung der Festplatte - traditionell, GPT und LVM</a>. Eine Swap-Partition wird benötigt, wenn nicht genug RAM zur Verfügung steht. Die Formatierung benötigt einige Zeit.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>Im Gparted-Menü kann mit <span class="highlight-3">View>Device Information</span> überprüft werden, ob die Abbilddatei vorhanden ist. Sie sollte mit <span class="highlight-3">ATA QEMU Harddisk</span> bezeichnet sein und die Benennung ist vermutlich <span class="highlight-3"> /dev/sda</span>. Letztere ist von zentraler Bedeutung, wenn man zurück zum Installer geht und auswählt, wohin Grub installiert werden soll. Grub muss in unserem Beispiel nach <span class="highlight-3">/dev/sda</span> installiert werden.</p>
-
-							<p>Als nächstes wird im Menüpunkt <span class="highlight-3">Partition</span> <span class="highlight-3">Device>Create Partiton Table</span> ausgewählt und die Partitionierungstabelle gewählt.</p>
-
-							<p>Die Partitionierungstabelle wird mit ext4 formatiert und auch 2GB Swap inkludieren. Die Formatierung benötigt etwas Zeit.</p>
-
-							<p>Nach Beenden der Formatierung klickt man auf OK und wird zum Installer zurückgebracht. Dort setzt man wie bei einer Standardinstallation fort (diese benötigt etwas Zeit). <span class="highlight-2">Anmerkung: in userem Fall wird Grub nach /dev/sda installiert</span>.</p>
-
-							<p>Eine aptosid-*-VM ist nun bereit, genutzt zu werden:</p>
-
+							<p>Nun steht eine VM zur Verfügung:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Falls der Gast virtio nicht unterstützt oder kein absoluter Pfad angegeben wird, benutzt man disen Befehl:</p>
+							<p>Einige Gastsysteme unterstützen virtio nicht. In diesem Fall müssen beim Start von KVM andere Optionen gesetzt werden. Zum Beispiel:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">Eine wichtige Anmerkung bezüglich der Benennung von KVM-Partitionen:</span> Wenn ein KVM-Abbild installiert wird, ändert sich die Benennung einer Partition von <span class="highlight-3">sda</span> nach <span class="highlight-3">vda</span>. Falls das KVM-Abbild nicht bootet und stattdessen die busybox erscheint, versucht man am besten diesen Befehl:</p>
+							 <p>oder</p>
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>Wenn nun das Grub-Menü erscheint, tippt man <span class="highlight-2"> e </span> und ändert <span class="highlight-3">sda</span> nach <span class="highlight-3">vda</span> in der Kernel-Bootzeile. Nach Start des Systems kann diese Option permanent gesichert werden, indem folgende Zeile in <span class="highlight-3"> /etc/default/grub </span> mit der korrekten Syntax angepasst wird:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Beispiele:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>UUIDs sind eine bessere Option, wenn traditionelle Partitionierungen verwendet werden.</p>
-
-							<p>Im Anschluss wird grub.cfg mit diesem Befehl aktualisiert:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Das KVM-Abbild wird mit den angepassten Parametern gestartet.</p>
-
 							<p>Weitere Informationen: <a href="http://www.linux-kvm.org/page/Main_Page">KVM-Dokumentation</a> (Englisch).</p>
 
 				<h5>Verwaltung einer KVMInstallation</h5>
@@ -567,7 +550,7 @@ losetup -f /path/to/mbr
 
 
 
-			<h4>Das QEMU Beschleunigungs-Modul (Accelerator Module)</h4>
+			<!--<h4>Das QEMU Beschleunigungs-Modul (Accelerator Module)</h4>
 
 							<p>Die Entwickler von qemu haben ein optionales Kernelmodul erstellt, um qemu beinahe auf natives Niveau beschleunigen zu können. Dieses Modul sollte mit dieser Option geladen werden:</p>
 <pre>
@@ -587,12 +570,12 @@ qemu [...] -kernel-kqemu
 			<h4>Aktivierung von QEMU:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+</pre>-->
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">Die offizielle englischsprachige Dokumentation des QEMU-Projekts </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Einige Abschnitte für QEMU wurden für das aptosid-Handbuch  unter der GNU Free Documentation License 1.2 verwendet und für das aptosid-Handbuch angepasst. Die Übersetzung ins Deutsche erfolgte durch das aptosid-Team.</a> </p>
 
 	</div>
-	<div id="rev">Page last revised 10/08/2011 0045 UTC</div>
+	<div id="rev">Page last revised 12/09/2011 1010 UTC</div>
 
 </div>
 </body>

@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by bluewater 22/04/2009 1350hrs UTC -->
 <div id="menu"> <!-- menu starts here nl lang maintained by btorrem Bram0s -->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Naar aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-nl.htm#grub1-grub2">Grub2 -Upgraden vanaf Grub1</a></li>
 					    <li><a href="sys-admin-grub2-nl.htm#grub2">Grub2 - Overzicht</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
 				<h2 id="top-header">Virtual Machine opties</h2>
@@ -356,7 +371,7 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>Een andere optie is een herstart zodat de qemu-kvm initscripts dan het laden van de modules voor zijn rekening neemt.</p>
+							 <p>When you start your system the qemu-kvm initscripts will take care of loading the modules.</p>
 
 					  <h4>Gebruik KVM om op te starten van een aptosid-*.iso</h4>
 
@@ -373,60 +388,29 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 
 							<p>Start de aptosid-*.iso op met de volgende parameters om KVM in te schakelen en te laten herkennen dat er een QEMU hard disk image beschikbaar is:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Wanneer de cdrom opgestart is klik je op de aptosid installeer icon om de installatie te starten, (of gebruik het menu), klik op het Partitioneringstab en aan de linkerkant van de box zou je een disk moeten zie welke klaar is om te worden gepartitioneerd en geformateerd, meestal weergegeven als <span class="highlight-3"> /dev/sda</span>. Hierbeneden staan de partitie opties, kies gparted or partitionmanager. De KDE partionmanager heeft een andere layout dan gparted, dewelke word gebruikt in het volgende voorbeeld, maar het net even intiutief om mee te werken.</p>
+							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and launch the partition application you prefer. For the partitioning you can follow the instructions from <a href="part-gparted-nl.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>  (do not forget to add a swap partition If you are short of memory). Please be aware that formatting will take time so be patient.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>In het Gparted menu kun je zien dat Gparted de image ziet via <span class="highlight-3">View>Device Information</span> dit zou de disk als volgt moeten zien <span class="highlight-3">ATA QEMU Harddisk</span> en wordt meestal gezien als <span class="highlight-3"> /dev/sda</span>,(in dit voorbeeld), aangezien dit cruciaal is als we terug gaan naar de installatie om aan te geven waar Grub op moet komen te staan, want deze moet op <span class="highlight-3"> /dev/sda</span> komen te staan.</p>
-
-							<p>Nu in het <span class="highlight-3">Partition</span> menu kies je <span class="highlight-3"> Device>Create Partiton Table</span> en creeer je de partitie tabel. </p>
-
-							<p>Formateer nu de partitie tabel met ext4 en maak een swap aan van 2 gig. Het formatteren zal wat tijd in beslag nemen, heb geduld.</p>
-
-							<p>Nadat het formatteren voltooid is, klik je op OK om naar het installatie menu te komen en ga je verder met de installatie zoals een normale installatie, (en nogmaals heb geduld). <span class="highlight-2">Letop: Installeer Grub op /dev/sda</span>.</p>
-
-							<p>Je hebt nu een aptosid-*-VM klaar voor gebruik:</p>
+							<p>You now have a VM ready for use:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Indien het gastsysteem virtio niet ondersteunt, of je specifieerd niet een absolute pad,  gebruik dan:</p>
+							<p>Some guests do not support virtio, therefore you need to use other options when launching KVM, for example:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">Een belangrijke nota over de KVM partitie benamingen:</span> Wanneer je naar een KVM image installeert, veranderen je partities van <span class="highlight-3">sda</span> naar <span class="highlight-3">vda</span>. Indien je KVM image niet boot en je terugvalt op een busybox, probeer dan:</p>
+							 <p>or</p>
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>Wanneer het grub menu verschijnt, type <span class="highlight-2"> e </span> en verander <span class="highlight-3">sda</span> naar <span class="highlight-3">vda</span> in het kernel boot command. Wanneer je volledig bent opgestart, kan je de wijziging permanent maken door de volgende lijn te wijzigen in <span class="highlight-3"> /etc/default/grub </span> met de correcte syntax, indien nodig:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Voorbeelden:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>UUIDs zijn een betere optie wanneer traditionele partitie methodes worden gebruikt.</p>
-
-							<p> Daarna update de grub.cfg met:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Reboot het KVM image met jouw voorkeur parameters.</p>
-
 							<p>Zie ook: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentatie</a>.</p>
 
 				<h5>Beheren van je KVM virtuele machine installaties</h5>
@@ -566,7 +550,7 @@ losetup -f /path/to/mbr
 
 
 
-			<h4>QEMU Acceleratie Module gebruiken</h4>
+			<!--<h4>QEMU Acceleratie Module gebruiken</h4>
 
 				<p>De ontwikkelaars van qemu hebben een optionele kernel module gemaakt om qemu sneller te laten lopen, soms bijna op je echte pc snelheid. Deze module moet je laden met de optie:</p>
 <pre>
@@ -586,14 +570,14 @@ qemu [...] -kernel-kqemu
 			<h4>Om qemu te activeren doen we:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+</pre>-->
 		<p><a href="http://www.nongnu.org/qemu/user-doc.html">De officiële documentatie van het QEMU Project </a> </p>
 		<p><a href="http://wiki.archlinux.org/index.php/Qemu">Sommige teksten voor QEMU voor het aptosid-handleiding was vanaf deze site onder GNU Free Documentation License 1.2 benaderd en veranderd voor deze aptosid-handleiding</a> </p>
 
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 10/08/2011 0045 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 12/09/2011 1010 UTC</div>
 </div>
 </body>
 </html>

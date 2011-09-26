@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision bluewater 14/08/2010 0100 UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by bluewater-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="To aptosid.com forums and wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -28,7 +28,7 @@
 		<li><a href="manual-search-en.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Search Manual" alt="Search" />Search online - offline</a> </li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Choose another language DE, EN" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Choose another language CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU" alt="Choose another language CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU" /></a>
 	</div>
 	<ul>
 <li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-en.htm">aptosid OS Manual</a>
@@ -304,10 +304,25 @@
 					    <li><a href="sys-admin-grub2-en.htm#grub1-grub2">Grub2 -Upgrading from Grub1</a></li>
 					    <li><a href="sys-admin-grub2-en.htm#grub2">Grub2 - Overview</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
 <!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
@@ -326,12 +341,12 @@
 			    <h2>Installing other distributions to a VM image</h2>
 							<p>Note: If and when you wish to install to a virtual machine image, most Linux distributions will probably only need an allocation of 12G. However if you have a requirement to have MS Windows in a virtual machine, you will need to allocate about a 30G, or more, to the image. All image allocation sizes ultimately depend on your requirements. </p>
 
-							<p>Generally, an image allocation size, will not take up additional hard drive space until data is installed. Even then, it will only take space dynamically on a hard drive, contingent to the actual amount of data that expands or decreases on the image. This is due to the compression ratios of qcow2.</p>
+							<p>Generally, an image allocation size, will not take up additional hard drive space until data is installed. Even then, it will only take space dynamically on a hard drive, contingent to the actual amount of data that expands on the image. This is due to the compression ratios of qcow2.</p>
 
 		      </div>
 		      <div class="divider" id="kvm">
 				<h2>Enabling a KVM Virtual Machine</h2>
-							<p>KVM is a full virtualisation solution for Linux on x86 hardware containing virtualisation extensions (Intel VT or AMD-V).</p>
+							<p>KVM is a full virtualisation solution for Linux running on x86 CPU with virtualisation extensions (Intel VT or AMD-V).</p>
 
 				      <h3>Prerequisites</h3>
 
@@ -356,78 +371,47 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>Another option is reboot as the qemu-kvm initscripts will take care of loading the modules.</p>
+							 <p>When you start your system the qemu-kvm initscripts will take care of loading the modules.</p>
 
-					  <h4>Using KVM to boot an aptosid-*.iso</h4>
+					  <h4>Using KVM to boot an aptosid-*.iso</h4> 
 
 							<p><span class="highlight-2">As user:</span></p>
 <pre>
 $ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;aptosid.iso&gt;
 </pre>
 
-				<h5>Installing an aptosid-*.iso to a KVM image</h5>
+				<h5>Installing  aptosid to a KVM image</h5>
 							<p>First create a hard disk image, (this image will be minimal and only grow as required due to qcow2 compression ratios):</p>
 <pre>
-$ qemu-img create -f qcow2 aptosid-20xx-*-.img 12G
+$ qemu-img create -f qcow2 aptosid-VM.img 12G
 </pre>
 
 							<p>Boot the aptosid-*.iso with the following parameters to enable KVM to recognise that there is an QEMU hard disk image available:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and you should see on the left hand side a box that has a disk ready for partitioning and formatting, most likely noted as <span class="highlight-3"> /dev/sda</span>. Underneath that are the options for partitioning, choose gparted or partitionmanager. Whilst the KDE partionmanager has a  different layout to gparted, which used in the following example, it is just as intuitive to work with.</p>
+							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and launch the partition application you prefer. For the partitioning you can follow the instructions from <a href="part-gparted-en.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>  (do not forget to add a swap partition If you are short of memory). Please be aware that formatting will take time so be patient.</p>
 
-	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
+<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>In the Gparted menu you can confirm that Gparted sees the image with <span class="highlight-3">View>Device Information</span> which should state it is a <span class="highlight-3">ATA QEMU Harddisk</span> and most likely noted as <span class="highlight-3"> /dev/sda</span>,(in this example), as this will be crucial when moving back to the installer and choosing where to put Grub, as it needs to go to <span class="highlight-3"> /dev/sda</span>.</p>
-
-							<p>Next, in the <span class="highlight-3">Partition</span> menu choose <span class="highlight-3"> Device>Create Partiton Table</span> and create the partition table. </p>
-
-							<p>Then format the partition table with ext4 and also include a swap of 2 gig. The formatting will take time so be patient.</p>
-
-							<p>After formatting has completed, click OK to be returned to the installer and proceed as if you are performing a standard install, (again, be patient). <span class="highlight-2">Note: Install the Grub to /dev/sda</span>.</p>
-
-							<p>You now have an aptosid-*-VM ready for use:</p>
+							<p>You now have a VM ready for use:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>If the guest does not support virtio, or you do not specify an absolute path,  use:</p>
+							<p>Some guests do not support virtio, therefore you need to use other options when launching KVM, for example:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">An important note regarding KVM partition naming:</span> When you install to a KVM image, your partitions change from <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span>. If your kvm image does not boot and drops you to a busybox, try:</p>
+or
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>When the grub menu appears, type <span class="highlight-2"> e </span> and change <span class="highlight-3">sda</span> to <span class="highlight-3">vda</span> in the kernel boot command. When fully booted, you can effect a permanent change by editing the following line in <span class="highlight-3"> /etc/default/grub </span> with correct syntax, if required:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Examples:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>UUIDs are a better option use when using traditional partitioning methods.</p>
-
-							<p> Then update the grub.cfg with:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Reboot the KVM image with your preferred parameters.</p>
-
 							<p>See also: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
 
 				<h5>Managing your KVM virtual machine installations</h5>
@@ -499,9 +483,9 @@ apt-get install qtemu
 
 							<p>Use the command:</p>
 <pre>
-qemu-img create -f qcow aptosid.qcow 3G
+qemu-img create -f qcow aptosid-VM.img 3G
 </pre>
-							<p>To create the image file named "aptosid.qcow". The "3G" parameter specifies the size of the disk - in this case 3 GB. You can use suffix M for megabytes (for example "256M"). You shouldn't worry too much about the size of the disk - the qcow format compresses the image so that the empty space doesn't add up to the size of the file.</p>
+							<p>To create the image file named "aptosid-VM.img". The "3G" parameter specifies the size of the disk - in this case 3 GB. You can use suffix M for megabytes (for example "256M"). You shouldn't worry too much about the size of the disk - the qcow format compresses the image so that the empty space doesn't add up to the size of the file.</p>
 
 
 				<h4>Installing the operating system</h4>
@@ -511,13 +495,13 @@ qemu-img create -f qcow aptosid.qcow 3G
 Ctrl+Alt
 </pre>
 
-							<p>If you need to use a bootable floppy, run Qemu with:</p>
+							<p>If you want to use a bootable floppy, run Qemu with:</p>
 <pre>
-qemu -floppy aptosid.iso -net nic -net user -m 512 -boot d aptosid.qcow
+qemu -floppy aptosid.iso -net nic -net user -m 512 -boot d aptosid-VM.img
 </pre>
 							<p>If your CD-ROM is bootable, run Qemu with:</p>
 <pre>
-qemu -cdrom aptosid.iso -net nic -net user -m 512 -boot d aptosid.qcow
+qemu -cdrom aptosid.iso -net nic -net user -m 512 -boot d aptosid-VM.img
 </pre>
 							<p>Now install aptosid as if you were going to install it on a real HD</p>
 
@@ -534,7 +518,7 @@ qemu [hd_image]
 <pre>
 qemu-img create -b [[base''image]] -f qcow [[overlay''image]]
 </pre>
-							<p>Substitute the hard disk image for base_image (in our case aptosid.qcow). After that you can run qemu with:</p>
+							<p>Substitute the hard disk image for base_image (in our case aptosid-VM.img). After that you can run qemu with:</p>
 <pre>
 qemu [overlay_image]
 </pre>
@@ -570,34 +554,34 @@ losetup -f /path/to/mbr
 
 
 
-				<h4>Using the QEMU Accelerator Module</h4>
+<!-- 				<h4>Using the QEMU Accelerator Module</h4> -->
 
-							<p>The developers of qemu have created an optional kernel module to accelerate qemu to sometimes near native levels. This should be loaded with the option</p>
-<pre>
-major=0
-</pre>
-							<p>to automate the creation of the required /dev/kqemu device. The following command</p>
-<pre>
-echo "options kqemu major=0" >> /etc/modules
-</pre>
-							<p>This will amend modprobe.conf to ensure that the module option is added every time the module is loaded.</p>
+<!-- 							<p>The developers of qemu have created an optional kernel module to accelerate qemu to sometimes near native levels. This should be loaded with the option</p> -->
+<!-- <pre> -->
+<!-- major=0 -->
+<!-- </pre> -->
+<!-- 							<p>to automate the creation of the required /dev/kqemu device. The following command</p> -->
+<!-- <pre> -->
+<!-- echo "options kqemu major=0" >> /etc/modules -->
+<!-- </pre> -->
+<!-- 							<p>This will amend modprobe.conf to ensure that the module option is added every time the module is loaded.</p> -->
 
-<pre>
-qemu [...] -kernel-kqemu
-</pre>
-							<p>This enables full virtualization and thus improves speed considerably.</p>
+<!-- <pre> -->
+<!-- qemu [...] -kernel-kqemu -->
+<!-- </pre> -->
+<!-- 							<p>This enables full virtualization and thus improves speed considerably.</p> -->
 
-				<h4>To activate qemu:</h4>
-<pre>
-qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+<!-- 				<h4>To activate qemu:</h4> -->
+<!-- <pre> -->
+<!-- qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512 -->
+<!-- </pre> -->
 							<p><a href="http://www.nongnu.org/qemu/user-doc.html">The official documentation of the QEMU Project </a> </p>
 
 							<p><a href="http://wiki.archlinux.org/index.php/Qemu">Some content for QEMU for the aptosid-manual was accessed off this site under GNU Free Documentation License 1.2 and modified for the aptosid-manual</a> </p>
 
 
 	</div>
-	<div id="rev">Page last revised 10/08/2011 0045 UTC</div>
+	<div id="rev">Page last revised 18/09/2011 1010 UTC</div>
 
 </div>
 </body>

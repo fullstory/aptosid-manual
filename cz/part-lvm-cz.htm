@@ -19,8 +19,8 @@
 <body>
 <!-- Poslední revizi překladu provedl pumrel 31.1.2011 0050 CET -->
 <div id="menu"> <!-- menu starts here -cz lang maintainer pumrel-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Na stránky aptosid.com, forum a wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-cz.htm#grub1-grub2">Grub2 - povýšení z Grub1</a></li>
 					    <li><a href="sys-admin-grub2-cz.htm#grub2">Grub2 - přehled</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="part-lvm">
 <!--				<h2 id="top-header">LVM partitioning - Logical Volume Manager</h2>-->
@@ -337,8 +352,8 @@
 				<h3>Je 6 nezbytných základních kroků</h3>
 <!--							<p><span class="highlight-3">The assumption for the following example is based upon new unpartitioned disks or where a new partitioning scheme is required, which will delete all existing data on the partitions you wish to convert to an LVM.</span></p>-->
 							<p><span class="highlight-3">Předpokladem k následujícímu příkladu je nový pevný disk bez diskových oddílů - nebo takovém, kde je potřeba nové schéma diskových oddílů, kde budou všechna data na diskových oddílech, které chcete převést na LVM, smazána.</span></p>
-<!--							<p>Using cfdisk or fdisk is required, as to date Gparted and KDE Partition Manager, (partitionmanger), do not support LVM partitioning.</p>-->
-							<p>Použití cfdisku nebo fdisku je nezbytné, jelikož aktuální Gparted nebo KDE Partition Manager (partitionmanger) nepodporují vytváření diskových oddílů LVM.</p>
+<!--							<p>Using cfdisk or fdisk is required, as to date Gparted and KDE Partition Manager, (partitionmanager), do not support LVM partitioning.</p>-->
+							<p>Použití cfdisku nebo fdisku je nezbytné, jelikož aktuální Gparted nebo KDE Partition Manager (partitionmanager) nepodporují vytváření diskových oddílů LVM.</p>
 <!--							<p><span class="highlight-3">Step 1: </span> Create the partition table:</p>-->
 							<p><span class="highlight-3">Krok 1: </span> Vytvoření tabulky diskových oddílů:</p>
 <pre>
@@ -419,12 +434,16 @@ mcedit /etc/fstab
 /dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
 <!--							<p><span class="highlight-3"> Optional:</span> Change the owner of the volume so that other users have read/write access to the LVM:</p>-->
-							<p><span class="highlight-3"> Volitelné:</span> Změňte vlastníka svazku, ať mají na LVM práva číst/psát i ostatní uživatelé:</p>
+							<p><span class="highlight-3"> Volit
+
 <pre>
-chown -R root:uzivatele /media/spock
-chmod -R 774 /media/spock
+chown root:users /media/spock
 </pre>
-<!--							<p>Your basic LVM should now be set up.</p>-->
+
+<pre>
+chmod 775 /media/spock
+</pre>
+							<!--<p>Your basic LVM should now be set up.</p>-->
 							<p>Vaše základní LVM by mělo být nyní nastaveno.</p>
 <!--					    <h3>Resizing the volume</h3>-->
 					    <h3>Škálování svazku</h3>
@@ -437,22 +456,22 @@ umount /media/spock/
 </pre>
 
 <pre>
-lvextend -L+500g /dev/vulcan/spock
+lvextend -L+200g /dev/vulcan/spock
 </pre>
 							<p>Then run the command for the filesystem to be resized:</p>
-
-<pre>
-resize2fs /dev/vulcan/spock
-</pre>
 
 <pre>
 e2fsck -f /dev/vulcan/spock
 </pre>
 
 <pre>
+resize2fs /dev/vulcan/spock
+</pre>
+
+<pre>
 mount /media/spock
 </pre>
-							<h5>To resize the volume from 500GB down to 280GB, as used in this example:</h5>
+							<h5>To resize the volume from 300GB down to 280GB, as used in this example:</h5>
 <pre>
 umount /media/spock/
 </pre>
@@ -468,7 +487,7 @@ resize2fs /dev/vulcan/spock 280g
 
 							<p>Then resize the volume</p>
 <pre>
-lvreduce -L-200g /dev/vulcan/spock
+lvreduce -L-20g /dev/vulcan/spock
 </pre>
 
 <pre>
@@ -479,7 +498,7 @@ resize2fs /dev/vulcan/spock
 mount /media/spock
 </pre>
 
-					     <h5>An LVM GUI</h5>-->
+					     <!--<h5>An LVM GUI</h5>-->
 					     <h5>Grafické rozhraní pro LVM</h5>
 <!--							<p><span class="highlight-3">system-config-lvm</span> provides a GUI and is available to help you manage your LVMs which is started from the command line as root:</p>-->
 							<p><span class="highlight-3">system-config-lvm</span> dodává GUI a je schopen vám pomoci spravovat vaše LVM. Instalaci provede v příkazové řádce jako root:</p>

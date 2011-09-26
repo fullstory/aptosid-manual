@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision par LjanA 24/09/2010-->
 <div id="menu"> <!-- menu starts here fr lang maintained by alphad, LjanA-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Vers aptosid.com, forum et wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-fr.htm#grub1-grub2">Grub2 &#8211; Mise à niveau depuis Grub1</a></li>
 					    <li><a href="sys-admin-grub2-fr.htm#grub2">Grub2 &#8211; Vue d'ensemble</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="fromiso">
 		<h2 id="top-header">Démarrer depuis une image ISO ("fromiso") - Overview</h2>
@@ -398,17 +413,25 @@ update-grub
 							<p>Avec ext2 la partition sera utilisée dans son intégralité. La racine actuelle est utilisée est un répertoire /fll est créé. Ce répertoire est utilisé pour persister l'utilisation de l'intégralité de l'espace libre sur le périphérique pour le système persisté.</p>
 <h6>système de fichiers vfat</h6>
 						      <p>Quand vfat est utilisé, la persistance est assurée grâce à un fichier dont la taille ne peut excéder 2GB et ne peux pas être inférieure à 100MB (car il serait alors inutile). Ce fichier devrait être nommé <span class="highlight-3">aptosid-rw</span>.</p>
-
+<!--
 					 <h4>Example of creating persist after initial installation</h4>
 							<p>If you are not sure of the mount point, mount the stick and run <span class="highlight-3">ls -lh /media</span> to provide a list of all your system mount points. Look for something like <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. If your output states differently then replace <span class="highlight-3">"/media/disk"</span> in line with your requirement, (for example "/media/disk-1").</p>
+-->
+					 <h4>Exemple de création de persistance après l'installation initiale</h4>
+							<p>Si vous n'êtes pas sûr du point de montage, monter la clé et exécuter <span class="highlight-3">ls -lh /media</span> afin de voir la liste de tous les points de montage du système. Chercher quelque chose comme <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Si le résultat est différent alors remplacer <span class="highlight-3">"/media/disk"</span> par ce qui est requis, (par example "/media/disk-1").</p>
+                                                        
 <!--<pre>
 disk="/media/disk"
 </pre>-->
+<!--
 							<p>Continuing the example, the command <span class="highlight-3"> df -h </span> will clarify the information, :</p>
+-->
+							<p>Reprenant le même exemple, la commande <span class="highlight-3"> df -h </span> donnera plus d'informations, :</p>
 <pre>
 /dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
 /dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
 </pre>
+<!--                                                        
 							 <p>Therefore:</p>
 <pre>
 disk="/media/disk-1"
@@ -427,7 +450,26 @@ mkdir $disk/aptosid
 <pre>
 dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
+-->
+							 <p>Par conséquent :</p>
+<pre>
+disk="/media/disk-1"
+</pre>
 
+							<p>Définissez la taille de la partition de persistance:</p>
+<pre>
+size=1024
+</pre>
+							<p>Créer un repertoire sur la clé:</p>
+<pre>
+mkdir $disk/aptosid
+</pre>
+							<p>Exécutez le code pour rendre la partition persistante:</p>
+
+<pre>
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
+</pre>
+                                                        
 							<p class="highlight-2">Les partitions NTFS, souvent utilisées sur les installations de Windows NT/2000/XP (TM) ne peuvent EN AUCUN CAS être utilisées pour faire de la persistance.</p>
 
 	</div>
@@ -458,21 +500,28 @@ dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo
 					  <ul>
 							<li>1) <a href="hd-install-opts-fr.htm#usb-from1">fromiso </a>; aptosid specific: aptosid-on-a-stick</li>
 							<li>2) <a href="hd-install-opts-fr.htm#usb-hdd"> Totale </a>(l'installation totale sur un support USB/SD/flash se fait comme sur un disque dur normal à l'aide de l'installateur aptosid).</li>
+                                                        <!--
 							<li>3) <a href="hd-ins-opts-oos-fr.htm#raw-usb"> RAW device </a> write. This is ideal when using any Linux, MS Windows or Mac OS X operating system and wish to install aptosid-on-a-stick, (with caveats).</li>
+                                                        -->
+                                                        <li>3) <a href="hd-ins-opts-oos-fr.htm#raw-usb"> Installation brute (RAW device) </a>. C'est l'idéal lorsque l'on utilise n'importe quel système d'exploitation (Linux, MS Windows ou Mac OS X) et qu'on souhaite installer aptosid-sur-une clé, (avec des réserves).</li>
 					  </ul>
 
 	    </div>
 	    <div class="divider" id="usb-from1">
-				<h3>Installation sur suport USB/SD/flash par la méthode fromiso, aptosid-on-a-stick </h3>
+				<h3>Installation sur suport USB/SD/flash par la méthode fromiso, aptosid-sur-une-clé </h3>
 							<p> <span class="highlight-3">Avant de commencer formater la clé usb en ext2 ou fat32 (au moins une capacité de 2 giga) . La clé de devrait comporter qu'une seule partition et bootable pour être reconnue par le BIOS.</span></p>
-
+<!--                                                        
 							<p>If using a GUI formatting application like gparted, please ensure that you first delete the existing partition, then recreate the partition before formatting.</p>
 
 				<h5>USB fromiso from a HD aptosid installed system:</h5>
+-->
+							<p>Si vous utilisez une application de formatage avec interface graphique comme gparted, s'il vous plaît s'assurez vous d'abord de supprimer la partition existante, puis recréer la partition avant de formater.</p>
+
+				<h5>USB fromiso à partir d'un système aptosid installé:</h5>
 
 							<p>L'installation <span class="highlight-3">fromiso USB</span> se fait par le <span class="highlight-3">Menu>System>install-aptosid-to-usb</span>. </p>
 
-				<h5>USB fromiso from a aptosid-*.iso:</h5>
+				<h5>USB fromiso à partir de l'image aptosid-*.iso:</h5>
 
 							<p>A partir du LIVE-CD vou pouvez cliquer directement sur l'icône <span class="highlight-3">aptosid Installer</span> et choisir <span class="highlight-3">Install to USB</span>.</p>
 

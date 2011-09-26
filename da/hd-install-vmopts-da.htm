@@ -19,8 +19,8 @@
 <body>
 <!-- Last translation revision by ragupo 17/02/2011 1656hrs UTC -->
 <div id="menu"> <!-- menu starts here en lang maintained by ragupo-->
-<!--aptosid Operating System Manual menu-version-02.12.2011.08.12 -->
-<!-- menu last updated by bluewater 2011.08.12 0814 hrs UTC -->
+<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
+<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Tilbage til aptosid.com forums og wiki" alt="aptosid.com logo" /></a>
 	</div>
@@ -304,11 +304,26 @@
 					    <li><a href="sys-admin-grub2-da.htm#grub1-grub2">Grub2 -Opgradering fra Grub1</a></li>
 					    <li><a href="sys-admin-grub2-da.htm#grub2">Grub2 - Overblik</a></li>
 					</ul>
-					</li>
-			</ul>
+				  </li>
+			    </ul>
 		</li>
-	</ul>
-<!-- menu ends here --> </div>
+<li><a></a></li>
+</ul>
+
+<div id="menu-header-5">
+<a href="http://aptosid.com/index.php?module=Content&amp;func=view&amp;pid=8"><img src="../lib/logos/aptosid_donate_75.png" title="Donate" alt="Donate" /></a>
+</div>
+
+<ul>
+<li  onmouseover="showHide( 15 );" onmouseout="startTime();" ><a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]">Sponsored by webtropia.com</a>
+		</li>
+</ul>
+
+<ul>
+<li><a></a></li>
+</ul>
+
+<!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="vmopts">
 				<h2 id="top-header">Virtual Machine installations muligheder</h2>
@@ -326,7 +341,7 @@
 			    <h2>Installing other distributions to a VM image</h2>
 							<p>Note: If and when you wish to install to a virtual machine image, most Linux distributions will probably only need an allocation of 12G. However if you have a requirement to have MS Windows in a virtual machine, you will need to allocate about a 30G, or more, to the image. All image allocation sizes ultimately depend on your requirements. </p>
 
-							<p>Generally, an image allocation size, will not take up additional hard drive space until data is installed. Even then, it will only take space dynamically on a hard drive, contingent to the actual amount of data that expands or decreases on the image. This is due to the compression ratios of qcow2.</p>
+							<p>Generally, an image allocation size, will not take up additional hard drive space until data is installed. Even then, it will only take space dynamically on a hard drive, contingent to the actual amount of data that expands on the image. This is due to the compression ratios of qcow2.</p>
 
 		      </div>
 		      <div class="divider" id="kvm">
@@ -356,7 +371,7 @@ modprobe kvm-intel
 apt-get install qemu-kvm qemu-utils
 modprobe kvm-amd
 </pre>
-							 <p>En anden mulighed er at genstarte maskinen eftersom qemu-kvm initscripts så tager sig af at indlæse modulerne.</p>
+							 <p>When you start your system the qemu-kvm initscripts will take care of loading the modules.</p>
 
 					  <h4>Anvendelse af KVM til at starte en aptosid-*.iso</h4>
 
@@ -373,60 +388,28 @@ $ qemu-img create -f qcow2 aptosid-2010-*-.img 12G
 
 							<p>Boot the aptosid-*.iso med følgende parametrefor at tillade KVM at opdage at der er QEMU harddisk image tilgængeligt:</p>
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid.iso&gt; -boot d &lt;/path/to/aptosid-20xx-*-.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -cdrom &lt;/path/to/aptosid-*.iso&gt; -boot d &lt;/path/to/aptosid-VM.img&gt;
 </pre>
 
-							<p>Når først cden er startet klikker du på aptosid installationsprogrammets ikon, eller brug menuen. Vælg fanebladet for partitionering og her skulle du nu i venstre side se en boks med en disk der er parat til partitionering og formattering. Disken er højest sandsynligt markeret som <span class="highlight-3"> /dev/sda</span>. Nedenunder er der valgmuligheder for partitionering, vælg gparted eller partitionmanager. Selvom KDE partionsmanageren har et anderledes udseende end gparted der anvendes i det følgende eksempel, så er den lige så intuitiv at arbejde med.</p>
+							<p>Once the cdrom has booted up click on the aptosid installer icon to activate the installer, (or use the menu), click on the Partitioning tab and launch the partition application you prefer. For the partitioning you can follow the instructions from <a href="part-gparted-da.htm">Partitioning the Hard Drive - Traditional, GPT and LVM</a>  (do not forget to add a swap partition If you are short of memory). Please be aware that formatting will take time so be patient.</p>
 
 	<div class="screenshot"><img src="../lib/images-common/images-vm/kvm-gparted02.png" title="gparted kvm hard disk naming" alt="gparted kvm hard disk naming" /></div>
 	<div class="spacer02"></div>
 
-							<p>I Gparted menuen kan du sikre dig at Gparted har set dit harddisk image med <span class="highlight-3">View>Device Information</span> der skulle fortælle dig at detr drejer sig om en <span class="highlight-3">ATA QEMU Harddisk</span> og højest sandsynligt have navngivet den <span class="highlight-3"> /dev/sda</span>,(i dette eksempel). Dette er vigtigt når man skal tilbage til installationsprogrammet og installere grub, da grub skal installeres på <span class="highlight-3"> /dev/sda</span>.</p>
-
-							<p>Næste trin er at gåt til <span class="highlight-3">Partition</span> menuen og vælge <span class="highlight-3"> Device>Create Partiton Table</span> og oprette partitions tabellen.</p>
-
-							<p>Dernæst skal du formattere partitionstabellen med ext4 og inkludere en swap partition på 2 GB. Formatteringen vil tage noget tid, så bevar tålmodigheden.</p>
-
-							<p>Efter formatteringen er færdig skal du klikke ok for at returnere tilo installationsprogrammet, dernæst fortsætter du som i en almindelig installation (igen, vær tålmodig). <span class="highlight-2">Bemærk: Installer Grub til /dev/sda</span>.</p>
-
-							<p>Nu har du en aptosid-*-VM parat til brug:</p>
+							<p>You now have a VM ready for use:</p>
 
 <pre>
-$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;absolute/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic,model=virtio -net user -soundhw ac97 -m 512 -monitor stdio -drive if=virtio,boot=on,file=&lt;path/to/aptosid-VM.img&gt;
 </pre>
-
-							<p>Hvis gæstsystemet ikke understøtter virtio, eller du ikke har angivet en absolute sti, anvend da:</p>
+							<p>Some guests do not support virtio, therefore you need to use other options when launching KVM, for example:</p>
 <pre>
-$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/aptosid-20xx-*.img&gt;
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt; -cdrom your_other.iso -boot d
 </pre>
 
-							<p><span class="highlight-2">En vigtig bemærkning angående KVM partitions navngivning:</span> Når du installerer til et KVM image så ændrer dine partitioner sig fra <span class="highlight-3">sda</span> til <span class="highlight-3">vda</span>. Hvis dit KVM image ikke starter op og smider dig ud i en busybox, prøv da følgende:</p>
+							 <p>or</p>
 <pre>
-kvm -m 512 -monitor stdio /media/diskxpartx/path/aptosid-*.img
+$ kvm -net nic, -net user -soundhw ac97 -m 512 -monitor stdio -hda &lt;/path/to/your_guest.img&gt;
 </pre>
-							<p>Når grub menuen dukker op skriv da <span class="highlight-2"> e </span> og ændrer <span class="highlight-3">sda</span> til <span class="highlight-3">vda</span> i kernel boot kommandoen. Efter en fuldstændig opstart kan du gøre denne ændring permanent ved at redigerere følgende linie i <span class="highlight-3"> /etc/default/grub </span> så den har den korrekte syntaks, hvis nødvendigt:</p>
-
-<pre>
-GRUB_CMD_LINE_LINUX=""
-</pre>
-							<p>Eksempler:</p>
-<pre>
-GRUB_CMD_LINE_LINUX="root=UUID=1234-5678-1234-13456 ro quiet"
-</pre>
-<pre>
-GRUB_CMD_LINE_LINUX="root=/dev/vda3 ro quiet"
-</pre>
-
-							<p>Det er mere fornuftigt at anvende UUID til traditionelle partitionerings metoder.</p>
-
-							<p>Opdater så grub.cfg med følgende kommando:</p>
-
-<pre>
-update-grub
-</pre>
-
-							<p>Genstart KVM image med dine foretrukne parametre.</p>
-
 							<p>Se desuden: <a href="http://www.linux-kvm.org/page/Main_Page"> KVM documentation</a>.</p>
 
 				<h5>Administration af dine KVM virtual machine installationer</h5>
@@ -564,7 +547,7 @@ losetup -f /path/to/mbr
 </pre>
 						      <p>Du kan selvfølgelig helt sikkert sætte en hvilken som helst bootloader på dette qemu diskimage, forudsat at den originale /boot/sdaN partition indeholder de nødvendige værktøjer.</p>
 
-			<h4>Anvendelse af QEMU Accelerator Module</h4>
+			<!--<h4>Anvendelse af QEMU Accelerator Module</h4>
 
 						      <p>Udviklerne af qemu har skabt et optional kernel module til at accelerere qemu til næsten native hastighed. Dette bør indlæses med parametren</p>
 <pre>
@@ -584,13 +567,13 @@ qemu [...] -kernel-kqemu
 			<h4>For at aktivere qemu:</h4>
 <pre>
 qemu -cdrom /tmp/pkg/aptosid-debug.iso -net nic -net user -m 512
-</pre>
+</pre>-->
 						      <p><a href="http://www.nongnu.org/qemu/user-doc.html">Den officielle dokumentation for QEMU Project </a> </p>
 
 						      <p><a href="http://wiki.archlinux.org/index.php/Qemu">Noget indhold om QEMU til aptosid-manualen stammer fra denne side under GNU Free Documentation License 1.2 og er blevet modificeret til aptosid-manualen</a> </p>
 
 	</div>
-	<div id="rev">Page last revised 10/08/2011 0045 UTC</div>
+	<div id="rev">Page last revised 18/09/2011 1010 UTC</div>
 
 </div>
 </body>

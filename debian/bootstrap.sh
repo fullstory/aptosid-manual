@@ -3,13 +3,13 @@
 set -e
 
 #	bg:Bulgarian:български::
+#	el:Greek:Ελληνικά::
 #	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
 I18N_LANGUAGES="
 	cz:Czech:Čeština::
 	da:Danish:Dansk::
 	de:German:Deutsch::
-	el:Greek:Ελληνικά::
 	en:English:English::
 	es:Spanish:Español::
 	fr:French:Français::

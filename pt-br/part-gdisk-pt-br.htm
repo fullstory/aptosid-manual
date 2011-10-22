@@ -327,33 +327,33 @@
 <div id="main-page">
 	<div class="divider" id="gdisk-1">
 		<h2 id="top-header">GPT gdisk partitioning overview</h2>
-							<p>GPT gdisk, Globally Unique Identifier (GUID) Partition Table (GPT), is a tool to partition hard drives of any size <span class="highlight-3">and required for disks that are greater than 2 TB in size</span>. By default, gdisk will make sure your partitions are well aligned for SSDs, (or hard drives that do not actually have 512 byte sectors).</p> 
+							<p>GPT gdisk, Globally Unique Identifier (GUID) Partition Table (GPT), é um programa para particionar discos duros de qualquer tamanho <span class="highlight-3">e absolutamente necessário para discos que excedem 2TB em tamanho</span>.  As partições criadas emm SSDs (ou em discos rígidos que não têm setores de 512 bytes) com gdisk são sempre correctamente alinhadas .</p> 
 
-							<p>The crucial advantage of GPT is that GPT alleviates the need to rely on primary, extended or logical partitions that are inherent to MBR for partitioning. GPT can support almost an unlimited number of partitions and is only limited by the amount of space reserved for partition entries in the GPT disk. Note though that the <span class="highlight-3">gdisk</span> tool defaults 128 partitions.</p>
+							<p>Uma das vantagens principais do particionamento com GPT é não haver necessidade de partições primárias ou lógicas ( específicas e necessárias quando se usa MBR) e não haver qualquer limite no número de partições num disco ( embora  <span class="highlight-3">gdisk</span> reserve para o efeito apenas espaço para 128 partições).</p>
 
-							<p>However, using GPT on small USB/SSD sticks, (for example an 8GB stick), could be counter productive if you need to transfer data from one computer to another, or, from one OS to another OS.</p>
+							<p>Contudo o uso de GPT em discos ou pen USB/SSD de pequeneo tamanho ( por exemplo 8GB ) não é recomendado, em especial, se vão ser utilizados frequentemente para transferir ficheiros entre sistemas operativos diferentes.</p>
 
 							<!--<p><span class="highlight-2">NOTE : USB booting is not supported with GPT.</span></p>-->
 
-				 <h3  class="highlight-2">Important Notes</h3>
+				 <h3  class="highlight-2">Notas importantes</h3>
 
-							<p><span class="highlight-3">The terms UEFI and EFI are interchangeable and mean the same concept. </span></p>
+							<p><span class="highlight-3">Os termps UEFI (Unified Extensible Firmware Interface) e EFI (Extensible Firmware Interface) vão ser utilizados aleatóriamente mas possuem ambos o mesmo significado. </span></p>
 
-						<h5>GPT data disks</h5>
-							<p><span class="highlight-3">Some operating systems can not support GPT data disks, please refer to the respective operating system documentation.</span></p>
+						<h5>GPT discos para data</h5>
+							<p><span class="highlight-3">Alguns sistemas operativos não suportam discos GPT para data. Por favor consulte a respectiva documentação.</span></p>
 
-							<p>GPT data disks are applicable for 32 and 64 bit machines under Linux.</p>
+     							<p>GPT discos para data são possíveis para sistemas de linux em 32 e em 64 bits.</p>
 
-						  <h5>Booting GPT disks</h5>
+						  <h5>Arranque de disco GPT</h5>
 
-							<p>Dual and triple booting GPT disks with Linux, BSD and Apple are supported using <span class="highlight-3" >EFI </span> mode in 64 bit.</p>
+							<p>Discos com duplo e triplo arranque (boot) com Linux, BSD e Apple são suportados usando o modo <span class="highlight-3" >EFI </span> em 64 bit.</p>
 
-							<p>Dual booting GPT disks with both Linux and MS Windows is possible, provided that your MS Windows OS can boot GPT disks in <span class="highlight-3"> UEFI </span> mode in 64 bit,.</p>
+							<p>O arranque dual usando discos com GPT com Linux e MS Windows é possível desde que o  MS Windows OS possa fazer o arranque de um disco particionado com GPT usando o modo <span class="highlight-3"> UEFI </span> em 64 bit,.</p>
 
-						  <h5>GUI partitioning tools to use GPT</h5>
-							<p>Aside from the terminal based gdisk, GUI tools like 'gparted' and 'partitionmanager' do provide a GUI interface supporting GPT disks. Having stated that, gdisk should be your preferred tool to help prevent unintentional GUI anomalies. However 'Gparted - gparted' along with 'KDE Partition Manager - partitionmanager', (amongst others), are great tools to give you a visual depiction of what you actioned in gdisk.</p>
+						  <h5>Ferramentas de particionamento gráfico com suport de GPT</h5>
+							<p>Além do gdisk (baseado na consola) também 'gparted' e 'partitionmanager' fornecem uma interface gráfica com suport para o particionamento GPT. Contudo gdisk é preferível para evitar anomalias indesejáveis causadas pelos programas gráficos. Apesar de tudo 'Gparted - gparted' e 'KDE Partition Manager - partitionmanager', (entre outros), são excelentes ferramentas para fornecer uma representação gráfica do particionamente efectuado.</p>
 
-							<p  class="highlight-3">Mandatory reading before proceeding any further:</p>
+							<p  class="highlight-3">Leitura altamente recomendada:</p>
 						<ul>
 <li>
 <pre>
@@ -366,14 +366,21 @@ man gdisk
 						  </ul>
 	</div>
 	<div class="divider" id="gdisk-2">
-		<h2>Partitioning your HD using gdisk for a Linux system</h2>
-						<h6>Understanding key gdisk commands such as <span class="highlight-2"> m </span> to bring you back to the main menu, <span class="highlight-2"> d </span> ,<span class="highlight-2"> n </span>, <span class="highlight-2"> p </span> and <span class="highlight-2"> t </span>, amongst others, will in the main, become core commands regarding your gdisk partitioning requirements, and it is worthwhile to explore gdisk on a 'test' disk.</h6>
+		<h2>Como particionar um HD usando o gdisk para uso num sistema Linux</h2>
+						<h6>Aprender os comandos básicos do gdisk como <span class="highlight-2"> m </span> para regressar ao menu principal, <span class="highlight-2"> d </span> ,<span class="highlight-2"> n </span>, <span class="highlight-2"> p </span> e <span class="highlight-2"> t </span>, entre outros, os principais commandos necessários quando se usa o gdisk para particionar um disco pelo que vale a pena "treinar" numd disco de "teste".</h6>
 
 											 
-					<h5><span class="highlight-2"> IMPORTANT NOTE about the n command:</span></h5> 
+					<h5><span class="highlight-2"> IMPORTANTE quando usar o commando "n":</span></h5> 
 						<!--<h6> After creating the first partition you need to press  <span class="highlight-3"> &lt; Enter &gt; 2 times </span> each time you use <span class="highlight-2"> n </span>  to bring up the last sector to set the size of the subsequent partitions.</h6>-->
 
-							<p>When using the <span class="highlight-2"> n </span> command, you press &lt;Enter&gt; to give the partition the next free number and you then you need to press &lt;Enter&gt; again to accept the default start sector for the next partition before setting the size you need for the last sector. For example:</p>
+							<p>Ao usar o commando <span class="highlight-2"> n</span>, é necessário pressionar &lt;Enter&gt; para definir o número da partição e depois novamente &lt;Enter&gt; para aceitar o sector de começo antes de entrar o tamanho que deseja para a partição. Por exemplo:</p>
+					<!-- 	<h6>Understanding key gdisk commands such as <span class="highlight-2"> m </span> to bring you back to the main menu, <span class="highlight-2"> d </span> ,<span class="highlight-2"> n </span>, <span class="highlight-2"> p </span> and <span class="highlight-2"> t </span>, amongst others, will in the main, become core commands regarding your gdisk partitioning requirements, and it is worthwhile to explore gdisk on a 'test' disk.</h6> -->
+
+											 
+					<!-- <h5><span class="highlight-2"> IMPORTANT NOTE about the n command:</span></h5>  -->
+					<!-- 	<\!--<h6> After creating the first partition you need to press  <span class="highlight-3"> &lt; Enter &gt; 2 times </span> each time you use <span class="highlight-2"> n </span>  to bring up the last sector to set the size of the subsequent partitions.</h6>-\-> -->
+
+					<!-- 		<p>When using the <span class="highlight-2"> n </span> command, you press &lt;Enter&gt; to give the partition the next free number and you then you need to press &lt;Enter&gt; again to accept the default start sector for the next partition before setting the size you need for the last sector. For example:</p> -->
 
 <pre>
 Command (? for help):  n  
@@ -382,27 +389,27 @@ First sector (34-15728606, default = <span class="highlight-3">411648</span>) or
 Last sector (<span class="highlight-3">411648</span>-15728606, default = 15728606) or {+-}size{KMGTP}: +6144M
 </pre>
 
-		  <h3>Example of partitioning a GPT disk</h3>
-							<p><i>Scale to suit your requirements</i>:</p>
+		  <h3>Exemplos de particionamento usando GPT</h3>
+							<p><i>Adapte conforme as suas necessidades</i>:</p>
 						   <ol>
-							<li>Creating a bootloader partition, <span class="highlight-1"> (assuming the disk is not a pure data disk and it needs to be bootable) </span></li>
-							<li>Creating a swap partition, <span class="highlight-1"> (assuming the disk is not a pure data disk and it needs to be bootable) </span></li>
-							<li>Creating linux partitions </li>
-							<li>Creating other data partitions </li>	   
+							<li>Criação de uma partição de arranque, <span class="highlight-1"> (presupondo que o disco não vai ser sómente data e que necessita de ter poder iniciar o sistema) </span></li>
+							<li>Criação de uma partição para swap, <span class="highlight-1"> (presupondo que o disco não vai ser sómente data e que necessita de ter poder iniciar o sistema) </span></li>
+							<li>Criação de partições para o linux </li>
+							<li>Criação de partições para data </li>	   
 						   </ol>
 
-							<p><span class="highlight-2">NOTE: The following example uses a USB stick to demonstrate the steps required. and thus it is not exhaustive.</span></p>
+							<p><span class="highlight-2">Nota: O próximo exemplo usa uma pen USB para efeitos de demonstração dos passos necessários e como tal não é exaustivo.</span></p>
 
-					<h3>The Steps</h3>
-							<p>If you are not sure of the name of the disk, use fdisk to acertain the name, (root privalages are required for all partitioning and formatting commands):</p>
+					<h3>os passos</h3>
+							<p>Se necessitar de saber o nome do disco, use fdisk para o determinar: (são necessários privilégios de root para todas as actividades relacionadas com o particionamento e formatação das partições):</p>
 <pre>
 fdisk -l
 </pre>
-							<p>fdisk will give you the path required and possibly include other partition names within the disk, however you need to look for the actual disk path, irrespective of partitions that may exist on the disk. For example, assume that it is <span class="highlight-3"> sdb </span> and start gdisk with the path to disk:</p>
+							<p>fdisk mostrar-lhe-á todos os discos e possívelmente incluirá a lista das partições existentes, mas nós só vamos necessitar do nome do disco qualquer que sejam as partições existentes nele. Supondo, por exemplo que se trata de <span class="highlight-3"> sdb </span> então vamos lançar gdisk com:</p>
 <pre >
 gdisk /dev/sdb
 </pre>
-							<p><span class="highlight-3">The initial output is a warning if the disk is not a new disk or a disk already using GPT:</span></p>
+							<p><span class="highlight-3">A primeira mensagem é uma chamada de atenção se o disco não usa GPT ou se se tratar de um disco novo sem uma tabela de partições:</span></p>
 <pre>
 GPT fdisk (gdisk) version 0.7.2
 Partition table scan:
@@ -417,9 +424,9 @@ you don't want to convert your MBR partitions to GPT format!
 ***************************************************************
 Command (? for help):
 </pre>
-							<p>When starting <span class="highlight-3">gdisk</span> on a disk with existing MBR partitions and no GPT, the program displays a message surrounded by asterisks about converting the existing partitions to GPT. <span class="highlight-3">This is intended to scare you away if you launch gdisk on the wrong disk by accident or if you don't know what you're doing. You must explicitly respond to this warning before proceeding. This is a deliberate message to keep you from accidentally damaging your boot disks.</span></p>
+							<p>Se o <span class="highlight-3">gdisk</span>  encontrou um disco com uma tabela de partições MBR sem GPT, então uma mensagem de chamada de atenção é mostrada. <span class="highlight-3">Isto é propositado para assustar o utilizador no caso de ter utilizado um disco errado e impedir que acidentalmete outros discos de arranque MBR sejam destruidos.</span></p>
 
-							<p>Type <span class="highlight-2"> ? </span> and you will see a list of available commands, (the <span class="highlight-3">coloured</span> commands are for documentation purposes):</p>
+							<p>Entrando <span class="highlight-2"> ? </span> vai-lhe mostrar a lista dos comandos, (os comandos <span class="highlight-3">coloridos</span> são os comandos de ajuda e documentação):</p>
 <pre>
 Command (? for help): <span class="highlight-2"> ? </span>
 b	back up GPT data to a file
@@ -439,7 +446,7 @@ w	write table to disk and exit
 x	extra functionality (experts only)
 ?	print this menu
 </pre>
-							<p>To verify that you're working on the disk you think you're working type <span class="highlight-2"> p </span>.</p>
+							<p>Para verificar que está a utilizar o disco desejado verifique a lista actual de partições entrando para isso <span class="highlight-2"> p </span>.</p>
 <pre>
 Command (? for help): <span class="highlight-2"> p </span>
 Disk /dev/sdb: 16547840 sectors, 7.9 GiB <span class="highlight-2">This example is using an 8GB stck</span>
@@ -452,10 +459,10 @@ Total free space is 16547773 sectors (7.9 GiB)
 Number  Start (sector)    End (sector)  Size       Code  Name
 </pre>
 
-							<p>The <span class="highlight-3">Code </span> column of the output shows the partition type code and the <span class="highlight-3">Name </span> column displays a free-form text string that you can modify.</p>
+							<p>A coluna <span class="highlight-3">Code </span> mostra o tipo da partição e a coluna <span class="highlight-3">Name </span> contém uma designação da partição que pode ser modificada livremente.</p>
 
-				    <h3>Deleting the partition table</h3>
-							<p>You now need to delete the entire partition table on the disk to be able to set up GPT partitioning:</p>
+				    <h3>Removendo a tabela de partiçóes</h3>
+							<p>Caso o disco já possua uma tabela de partições você vai precisar de a remover para definir a nova tabela (GPT) de partições:</p>
 <pre>
 command (? for help): <span class="highlight-2"> d </span>
 </pre>
@@ -464,30 +471,30 @@ command (? for help): <span class="highlight-2"> d </span>
 
 	</div>
 	<div class="divider" id="gdisk-3">
-			<h2>To GPT-EFI Boot or GPT-BIOS Boot</h2>
+			<h2>Para o arranque usando GPT-EFI ou GPT-BIOS</h2>
 
 							<p>Should booting a GPT disk be a requirement, there are 2 options to format the boot sector of a GPT disk.</p>
 
 							<p>The options are:</p>
 						    <ul>
-							<li><span class="highlight-3" >Your machine is (U)EFI aware via the BIOS and turned on, and selected to be bootable.</span></li>
-							<li>You wish to use EFI to boot a GPT disk formatted disk</li>
+							<li><span class="highlight-3" >A sua máquina pode utilizar (U)EFI que está ativado na BIOS e selecionável para possível arranque.</span></li>
+							<li>Você quer utilizar EFI para arrancar de um disco utilizando GPT</li>
 						     </ul>
-							<p><span class="highlight-2"> or </span></p>
+							<p><span class="highlight-2"> ou </span></p>
 						    <ul>
-							<li>Your machine is <span class="highlight-2"> not </span>  (U)EFI aware via the BIOS</li>
-							<li>You wish to use the BIOS to boot a GPT formatted disk</li>
+							<li>A sua máquina <span class="highlight-2"> não </span>  é capaz de utilizar (U)EFI através da BIOS</li>
+							<li>Você vai querer utilizar a BIOS para arrancar de um disco utilizando uma tabela de partições GPT</li>
 						    </ul>
 
-					<h3>EFI booting </h3>
-							<p><span class="highlight-2">The BIOS needs to be EFI capable, and turned on, and selected to be bootable.</span> </p>
+					<h3>arranque utilizando EFI </h3>
+							<p><span class="highlight-2">A BIOS precisa de oferecer a opção EFI, esta estar ativada como capay de arranque.</span> </p>
 
-							<p>If you are going to boot using EFI you must have a FAT formatted EFI System Partition (type <span class="highlight-3">EF00 </span>) as the first partition. This partition will contain your bootloader(s). When you install it will ignore any "where to boot from" choices in install-gui and an aptosid bootloader will be installed on the EFI System Partition under <span class="highlight-3">/efi/aptosid </span>. The EFI System partition will also be mounted as <span class="highlight-3">/boot/efi</span> as long as you leave the "mount other partitions" option selected, you do not need to tell the installer to mount this partition.</p>
+							<p>Neste caso você vai precisar de uma primeira partição formatada com o sistema FAT como Partição "EFI System Partition" (tipo <span class="highlight-3">EF00 </span>). Esta partição vai ser utilizada para conter os "botlaoders" dos diferentes sistemas. Ao instalar o "aptosid" ignore esta partição nas escolhas do instalador. M "bootloader" para o arranque do aptosid será instaldo na partição do sistema EFI e pode ser encontrada em  <span class="highlight-3">/efi/aptosid </span>. Esta partição vai ser montada em  <span class="highlight-3">/boot/efi</span> se você deixar a opção "montar todas as partições" ativada.</p>
 
 							<!--<p><span class="highlight-2">NOTE: USB booting is not supported with GPT.</span></p>-->
 
-					    <h4>Creating the EFI bootloader partition</h4>
-							  <p>Type <span class="highlight-2"> n </span> to add a new partition and <span class="highlight-3"> +200M </span> to give the bootloader a size.</p>
+					    <h4>Criar a partição EFI</h4>
+							  <p>Type <span class="highlight-2"> n </span> para addicionar uma partição nova e utilize para ela um espaçp equivalente a <span class="highlight-3"> +200M </span>.</p>
 <pre>
 Command (? for help): <span class="highlight-2"> n </span>
 Partition number (1-128, default 1): <span class="highlight-2"> 1 </span>
@@ -501,7 +508,7 @@ Use 'l' on the experts' menu to adjust alignment
 Last sector (2048-16547806, default = 16547806) or {+-}size{KMGTP}: <span class="highlight-2"> +200M </span>
 Current type is 'Linux filesystem'
 </pre>
-							  <p> By typing <span class="highlight-2"> L </span> a list of codes will be presented:</p>
+							  <p> Entre <span class="highlight-2"> L </span> para obter a lista dos códigos das partições:</p>
 <pre>
 Hex code or GUID (L to show codes, Enter = 8300): <span class="highlight-2"> L </span>
 0700 Microsoft basic data  0c01 Microsoft reserved    2700 Windows RE          
@@ -522,18 +529,19 @@ bf09 Solaris Reserved 3    bf0a Solaris Reserved 4    bf0b Solaris Reserved 5
 c001 HP-UX data            c002 HP-UX service         <span class="highlight-2">ef00 EFI System</span>          
 ef01 MBR partition scheme  ef02 BIOS boot partition   fd00 Linux RAID
 </pre>
-							<p>Enter <span class="highlight-3">ef00</span> to make it a UEFI partition:</p>
+							<p>user <span class="highlight-3">ef00</span> para criar a partição UEFI:</p>
 <pre>
 Hex code or GUID (L to show codes, Enter = 8300): <span class="highlight-2">ef00</span>
 Changed system type of partition to 'EFI System'
 </pre>
 
-				    <h3>BIOS Boot partition</h3>
-					      <h4>Creating a BOIS boot partition</h4>
+				    <h3>Partição de arranque BIOS</h3>
+					      <h4>Criando uma partição de arranque de BIOS</h4>
 
-							<p>If your system does not suppert UEFI, you can make a BIOS boot partition, as it replaces the sector of disk on a DOS partitioned drive that lives between the partition table and the first partition where grub is written directly.</p>
+							<p>Se o seu sistema não suporta UEFI, você pode utilizar uma partição de arranque de BIOS (escolha typo EF02) <span class="highlight-3"">não formatada</span>. Ao instalar aptosid instale o grub no MBR. Grub reconhecerá esta partição e vai utilizá-la para o bootloader</p>
 
 							<p>Type <span class="highlight-2"> n </span> to add a new partition and <span class="highlight-3"> +200M </span> to give the bootloader a size. (The reason to make it +200M,compared with conventional thinking of +32M, is to have in place an EFI sized partition should you ever need to change the disk to EFI booting).</p>
+							<p>Use  <span class="highlight-2"> n </span> para adicionar uma partição nova e  atribua-lhe um tamanho de <span class="highlight-3"> +200M </span>. (A única razão para usar este tamanho é para não ter problemas na eventualidade de mais tarde querer utilizar o disco para fazer o arranque do system em modo UEFI ( com outra placa mãe ou depois de um BIOS upgrade.).</p>
 
 <pre>
 Command (? for help): <span class="highlight-2"> n </span>
@@ -548,21 +556,22 @@ Use 'l' on the experts' menu to adjust alignment
 Last sector (2048-16547806, default = 16547806) or {+-}size{KMGTP}: <span class="highlight-2"> +200M </span>
 Current type is 'Linux filesystem'
 </pre>
-							<p>Enter <span class="highlight-3">ef02</span> to make it a BIOS boot partition:</p>
+							<p>Escolha <span class="highlight-3">ef02</span> para criar uma partição de arranque para a BIOS:</p>
 <pre>
 Hex code or GUID (L to show codes, Enter = 8300): <span class="highlight-2">ef02</span>
 Changed system type of partition to 'BIOS boot'
 </pre>
 
-							<p><span class="highlight-2">Important Note: The Boot BIOS partition is not to be formatted</span></p>
+							<p><span class="highlight-2">Importante: A partição para arranque por BIOS não deve ser formatada</span></p>
 
 	</div>
 	<div class="divider" id="gdisk-4">		  
-					<h3>Creating the swap partition</h3>
+					<h3>Criando uma partição de swap</h3>
 
-							<p>The allocation of a swap partition should never be underestimated, particularly for laptops and notebooks, as laptops and notebooks need to have the ability to suspend to disk, if required. It should at least equal your RAM.</p>
+							<p>A reserva e criação de uma partição para o swap não deve ser menosprezada em especial no caso de máquinas portáveis (laptop ou netbook) pois a sua existência pode ser vital em especial se o utilizador vai querer usar a possibiladate de "suspende para disco". O tamanho do swap deverá ser no minimo igual á memória (RAM) presente no sistema.</p>
 
 							<p>Type <span class="highlight-2"> n </span> to add a new partition and <span class="highlight-3">+2G</span>, (or, <span class="highlight-3">+2048M</span>) to give the swap partition a size witha type code of <span class="highlight-3"> 8200 </span>. An example of this would look like this:</p>
+							<p>Use <span class="highlight-2"> n </span> para adicionar uma partição nova, e use <span class="highlight-3">+2G</span>, (ou, <span class="highlight-3">+2048M</span>) para criar uma partição com 2GB de tamanho ( depende da quantidadae de memória existente no seu sistema) e usando para o tipo da partição o codigo <span class="highlight-3"> 8200 </span>. Por exemplo:</p>
 
 <pre>
 Command (? for help): <span class="highlight-2"> n </span> 
@@ -577,8 +586,8 @@ Changed type of partition to 'Linux swap
 					  
 		  </div>
 	<div class="divider" id="gdisk-5">		  
-					<h3>Creating the data partitions</h3>
-							<p>Type <span class="highlight-2"> n </span> to add a new partition and <span class="highlight-3">XXXG</span> to give the partition a size. In this example <span class="highlight-3">+4G</span>:</p>
+					<h3>Criação de uma partição para data</h3>
+							<p>Use <span class="highlight-2"> n </span> para adicionar uma partição nova con o tamanho que deseja <span class="highlight-3">XXXG</span>. Para tipo da partição use <span class="highlight-2"> 8300 </span>. Por exemplo <span class="highlight-3">+4G</span>:</p>
 <pre>
 Partition number (3-128, default 3): <span class="highlight-2"> 3 </span>
 First sector (34-15728606, default = 4605952) or {+-}size{KMGTP}: 
@@ -588,9 +597,10 @@ Hex code or GUID (L to show codes, Enter = 8300): <span class="highlight-2">8300
 Changed type of partition to 'Linux filesystem
 </pre>
 
-							<p><span class="highlight-3">Repeat the same process for the other partitions according to your requirements.</span></p>
+							<p><span class="highlight-3">Repita o processo o número de vezes que desejar para criar as partições que pretende.</span></p>
 
 							<p>As this example is a stick it may be wise to make an <span class="highlight-3"> Any OS Data </span> partition, witha type code of <span class="highlight-3">0700</span>, otherwise give it the code for a Linux filesystem (8300):</p>
+							<p>Neste exemplo  utilizando uma USB pen é aconselhável  utilizar uma partição do tipo <span class="highlight-3"> Any OS Data </span>, usando <span class="highlight-3">0700</span>, ou então utilize o tipo de uma partição para o Linux <span class="highlight-3">8300</span>):</p>
 <pre>
 Command (? for help): <span class="highlight-2"> n </span>
 Partition number (4-128, default 4): <span class="highlight-2"> 4 </span>
@@ -600,7 +610,7 @@ Current type is 'Linux filesystem'
 Hex code or GUID (L to show codes, Enter = 8300): <span class="highlight-2"> 0700 </span>
 Changed type of partition to 'Microsoft basic data'
 </pre>
-							<p>To examine the partitions you have created:</p>
+							<p>Para examinar as partições criadas:</p>
 <pre>
 Command (? for help): <span class="highlight-2"> p </span>
 Disk /dev/sdx: 15728640 sectors, 7.5 GiB
@@ -617,13 +627,13 @@ Number  Start (sector)    End (sector)  Size       Code  Name
    3         4605952        12994559   4.0 GiB     8300  Linux File System
    4        12994560        15656959   1.3 GiB     0700  Any OS Data
 </pre>
-							<p>To add a description of each partition use the <span class="highlight-2"> c </span> command to describe each partitions purpose. For example:</p>
+							<p>Se desejar pode atribuir a cada partição uma descrição usando o commando <span class="highlight-2"> c </span>. Por exemplo:</p>
 <pre>
 Command (? for help): <span class="highlight-2"> c </span>
 Partition number (1-4): <span class="highlight-2"> 4 </span>
 Enter name: <span class="highlight-3"> Descriptive name of your choosing</span>
 </pre>
-							<p>The <span class="highlight-2">w</span> writes your changes to disk whilst <span class="highlight-2">q</span> command exits without saving your changes:</p>
+							<p>O commando <span class="highlight-2">w</span> vai escrever todas as mudanças efectuadas enquanto que o commando <span class="highlight-2">q</span> fechará o gdisk sem as salvaguardar:</p>
 <pre>
 Command (? for help): <span class="highlight-2"> w </span>
 
@@ -636,71 +646,66 @@ The operation has completed successfully.
 </pre>
 		  </div>
 	<div class="divider" id="gdisk-6">
-			      <h2>Formatting the partitions</h2>
-							<p>As gdisk creates partitions not filesystems, you will need to format each of your partions via the terminal. However you will need to know the names of the partitions so you can format each one correctly, therefore run:</p>
-<pre>
-fdisk -l
-</pre>
-							<p>fdisk will give you the path required. Assuming that it is <span class="highlight-3"> sdb </span> :</p>
+			      <h2>Formatando as partições</h2>
+							<p>"gdisk" cria apenas partições pelo que vai ser sempre (quase sempre) necessário formatá-las, por isso tome nota do número das diferentes partições (se for necessário pode usar o comando <span class="highlight-3">p </span> para recordar as partições). Usando no nosso exemplo /dev/sdb </p>
+
 <pre>
 gdisk /dev/sdb
 Command (? for help): <span class="highlight-2"> p </span>
 </pre>
 							  
-							<p>Now do <span class="highlight-2"> q </span> to exit gdisk and be back at the <span class="highlight-2"> # </span> root prompt, allowing you to enter the path for each partition number:</p>
+							<p>Utilize <span class="highlight-2"> q </span> para fechar gdisk e regressar à linha de comando <span class="highlight-2"> # </span> poderemos então formatar as partições.</p>
 
-							<p>For the UEFI partition, <span class="highlight-2">(Do not format a BIOS Boot partition)</span>:</p>
+							<p>Se criou uma partição <span class="highlight-3">ef02 BIOS boot partition</span>  <span class="highlight-2">não a formate</span>, se a primeira partição for <span class="highlight-3">ef00 EFI System</span> então formate-a com VFAT:</p>
 
 <pre>
  mkfs -t vfat /dev/sdb1
 </pre>
-							<p>For the Linux partition, <span class="highlight-3">(The syntax for any other Linux partitions will of course change for each additiional Linux File System partitions, that is sdb4, sdb5, and counting</span>:</p>
+							<p>Para as partições do Linux por exemplo <span class="highlight-3">/dev/sda3</span>:</p>
 <pre>
  mkfs -t ext4 /dev/sdb3
 </pre>
-							 <p>For the 'Any OS Partition', <span class="highlight-3">(possibly only required if a USB stick is required for cross platform interoperability)</span>:</p>
+							 <p>Para as partições do tipo 'Any OS Partition', <span class="highlight-3">(possívelmente so necessárias para pen USB utilizadas em mais de um sistema operativo)</span>:</p>
 <pre>
  mkfs -t vfat /dev/sdb4
 </pre>
 
-							<p>Format the swap partition:</p>
+							<p>formatar a partição do swap:</p>
 <pre >
 mkswap /dev/sdb2
 </pre>
 
-							<p>Then:</p>
+							<p>ativar o swap use:</p>
 
 <pre >
 swapon /dev/sdb2
 </pre>
 
-							<p>Then check, if swap is recognized, by entering in console:</p>
+							<p>Verifique que o swap é reconhecido, usando o comando:</p>
 <pre >
 swapon -s
 </pre>
-							<p>If swap is recognised correctly, enter</p>
-<pre >
-swapoff -a
-</pre>
-							<p>These commands work just as they would on MBR partitions.</p>
+							<p>Estes commandos funcionam da mesma maneira como com uma tabela de partições no MBR.</p>
 
-							<h5><span class="highlight-2"> It is absolutely imperative to reboot so that the new partitioning and format scheme can be read by the kernel.</span></h5>
+							<h5><span class="highlight-2"> è absolutamente necessário reiniciar o sistema para que as partições e o sistema de ficheiros seja reconhecido e registado no kernel.</span></h5>
 
-							<p>After you have rebooted you are now ready to start installation to, or use, a GPT disk.</p>
+							<p>Depoir do re-início você está pronto para efetuar a instalação do aptosid ou utilizar o seu disco com a tabela de partições GPT.</p>
 
 		  </div>
 	<div class="divider" id="gdisk-7">
-			<h2>Advanced gdisk commands</h2>
+			<h2>Comandos avançados do gdisk</h2>
 
-							<p>Before saving your changes, you may want to verify that there are no glaring problems with the GPT data structures. You can do this with the <span class="highlight-2">v</span> command:</p>
+							<p>Antes de salvaguardar as sua mudanças, pode verificar que não há problemas flagrantes na tabela de partições. Para isso utilize o comando <span class="highlight-2">v</span>:</p>
 <pre>
 Command (? for help): <span class="highlight-2"> v </span>
 No problems found. 0 free sectors (0 bytes) available in 0
 segments, the largest of which is 0 sectors (0 bytes) in size
 </pre>
-							<p>In this case, every available byte on the disk is allocated to partitions and no problems were found. If free space were available for partition creation, you'd see how much was available. If gdisk found problems, such as overlapping partitions or mismatched main and backup partition tables, it would report them here. Of course, gdisk includes safeguards to ensure that you can't create such problems yourself. The v option's sanity checks are intended to help you spot problems that might result from data corruption.</p>
 
-							<p>If problems had been detected, you might be able to correct them using various options on the <span class="highlight-3"> recovery &amp; transformation menu </span>, which is a second menu of options available by typing <span class="highlight-2"> r </span> :</p>
+							<p>Neste exemplo, o disco está completamente alocado a uma partição e não há problemas latentes. No caso de existir espaço livre, existirem partições sobreadjacentes ou qualquer problema com a tabela principal de partições ou um backup deta o "gdisk" daria notícia do mesmo. A principal utilização do comando <span class="highlight-2">v</span> é ajudar a identificar problemas provenientes de corrupção de data.</p>
+
+							<p>Se foram detectados alguns problemas, você pode corrigi-los com a ajuda das mais variadas opções que o "gdisk" oferece, por exemplo no <span class="highlight-3"> recovery &amp; transformation menu </span>, ao qual pode aceder usando <span class="highlight-2"> r </span> :</p>
+
 <pre>
 Command (? for help): <span class="highlight-2"> r </span>
 
@@ -725,7 +730,7 @@ x	extra functionality (experts only)
 ?	print this menu
 </pre>
 
-							<p>A third menu, the <span class="highlight-3"> experts menu </span>, can be accessed by typing <span class="highlight-2"> x </span> in either the <span class="highlight-3">main menu </span> or the <span class="highlight-3">recovery &amp; transformation menu</span>.</p>
+							<p>Um terceiro menu , <span class="highlight-3"> experts menu </span>, pode ser ativado por meio do comando <span class="highlight-2"> x </span> em qualquer dos menu <span class="highlight-3">main menu </span> ou  <span class="highlight-3">recovery &amp; transformation menu</span>.</p>
 
 <pre>
 recovery/transformation command (? for help): <span class="highlight-2">x</span>
@@ -750,11 +755,11 @@ w       write table to disk and exit
 z       zap (destroy) GPT data structures and exit
 ?       print this menu
 </pre>
-							<p>You can do some low-level editing, such as changing partition or disk GUIDs (<span class="highlight-2"> c </span> and <span class="highlight-2"> g </span>, respectively). The <span class="highlight-2"> z </span> option immediately destroys the GPT data structures, which you should do if you want to re-use a GPT disk using some other partitioning scheme. If these structures aren't erased, some partitioning tools can become confused by the apparent presence of two partitioning systems.</p>
+							<p>A maior parte destes comandos têm que ser utilizados cuidadosamente. O uso incorrecto pode "confundir" algumas ferramentas de particionar discos. Por exemplo, o comando <span class="highlight-2"> z </span> detroi todas as struturas GPT o que deverá ser efetuado se vocẽ quer utilizar um disco inicialmente particionado usando GPT utilizando um outro esquema de particionamento.</p>
 
-							<p>Generally speaking, the options on both the <span class="highlight-3">recovery &amp; transformation  </span> menu and the <span class="highlight-3">experts</span> menu should not be used by anything but GPT experts. Non-experts might be forced to use these menus if a disk is damaged, though. Before taking drastic actions, you should use the <span class="highlight-2"> b </span> main-menu option to create a backup in a file, and store that file on a USB flash drive or some other place that's not on the disk you're modifying. That way, you'll be able to recover your orginal configuration if you damage your partitions.</p>
+							<p>Falando de um modo geral as opções no menu <span class="highlight-3">recovery &amp; transformation  </span> e no menu <span class="highlight-3">experts</span> só deverão ser usados depois de ler atentamente a documentação do "gdisk". Se você tiver necessidade de utilizar estes menus é aconselhável efectuar um backup da tabela de partições num ficheiro externo utilizando o comando  <span class="highlight-2"> b </span> antes de efectuar quaisquer modificações. Deste modo é sempre possível reconstruir a tabela de partições original a partir do backup.</p>
 
-				    <h6>Sources: </h6>
+				    <h6>Fontes de informação: </h6>
 							<p> <a href="http://www.rodsbooks.com/gdisk/"> GPT fdisk Tutorial by Roderick W. Smith</a></p>
 
 							<p> <a href="http://msdn.microsoft.com/en-us/windows/hardware/gg463525"> Windows Hardware Developer Center </a></p>

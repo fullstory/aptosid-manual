@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Sat, 13 Mar 2010 16:42:57 +0000 -->
+<!-- Last translation revision hubi Fri, 14 Oct 2011 14:10:14 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
 <!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
@@ -403,25 +403,34 @@ update-grub
 	<div class="divider" id="fromiso-persist">
 		<h2>Allgemeine Informationen zu fromiso und persist</h2>
 
+	<!--</div>
+	<div class="divider" id="persist-firm-1">-->
+				    <h3>Firmware</h3>
+							<p><span class="highlight-3">Dies gilt für alle Anwendungen mit Persist, außer Installationen auf RAW-Geräte.</span> Für RAW-Geräte siehe <a href="hd-ins-opts-oos-de.htm#raw-usb">Installation einer aptosid-ISO auf einen USB-Stick, eine SSD-Karte, einem SHDC-Gerät unter Verwendung einer anderen Linuxdistribution, MS Windows oder Mac OS X</a></p>
+
+							<p>Um Firmware auf einem Live-System in dessen <span class="highlight-3">/lib/firmware</span> zu speichern, muss sie in einem Verzeichnis <span class="highlight-3">/aptosid/firmware</span> auf dem Stick abgelegt werden. Dies kann beim Booten aktiviert werden, indem <span class="highlight-3">Yes</span> vom grafischen <span class="highlight-3">Driver menu</span> gewählt wird oder indem in der Kernelbefehlszeile <span class="highlight-3">firmware</span> angefügt wird. <span class="highlight-3">firmware=/lib/firmware</span> lädt die auf dem Computer gefundene Firmware ab der ersten Installation. Um dieses Verhalten als Grundeinstellung zu wählen, können die Boot-Konfigurationsdateien angepasst werden, so z.B. die Datei <span class="highlight-3">/boot/isolinux/syslinux.cfg</span>.</p>
+
+							<p>Sowohl persist als auch firmware kann Dateien an verschiedenen Orten verwenden. Wenn zum Beispiel die Datei für Persistenz sich im Rootverzeichnis des Sticks gespeichert ist und den Namen <span class="highlight-3">persist.img</span> trägt, wird der Kernel-Parameter <span class="highlight-3">persist=/persist.img</span> verwendet. Falls Firmware sich in einem Verzeichnis fw befindet, wird der Kernelparameter <span class="highlight-3">firmware=/fw</span> gesetzt.</p>
+	
+
 				<h3>fromiso und persist auf einer Festplatte</h3>
 
-							<p>Ein persistentes (dauerhaftes) Live-System kann auf einer Festplatte eingerichtet werden, wenn man eine fromiso-Installation mit der Bootoption "persist" einrichtet. Falls das fromiso-System ext2/ext3/ext4 nutzt, ist der Basisbefehl der Bootoption einfach:</p>
+							<p>Ein persistentes Livesystem kann auf einer beschreibbaren Festplatte verwendet werden, wenn ein fromiso-System mit einem persist-Bootparmeter verbunden wird. Persist auf einem Dateisystem mit ext2/ext3/ext4 ist unkompliziert:</p>
 
 <pre>
 persist
 </pre>
-							<p>Falls das fromiso-System vfat nutzt, muss eine Datei benutzt werden und die Bootoption muss eine dem Beispiel entsprechende Syntax verwenden:</p>
+							<p>Um persist mit einem VFat-Dateisystem zu benutzen, muss eine Datei verwendet werden, die ein Linux-Dateisystem beinhaltet. Der Boot-Parameter sieht dann so aus:</p>
 <pre>
 persist=/aptosid/aptosid-rw
 </pre>
+							<p>aptosid verwendet AUFS, um "copy on write" auf der ISO zu ermöglichen, womit neue Dateien bzw. Verzeichnisse geschrieben werden können. Wenn vorhandene Verzeichnisse oder Dateien aktualisiert werden, wird die neue Version temporär im RAM gespeichert. Der Boot-Parameter <span class="highlight-3">persist</span> speichert neue Dateien in der gleichen Partition, wo sich auch das ISO-Abbild befindet.</p>
 
-							<p>aptosid verwendet aufs, um "copy on write" über eine ISO zu ermöglichen, womit man Verzeichnisse und Daten neu anlegen bzw. aktualisieren kann, indem neue Daten im Speicher vorgehalten werden. Mit der Bootoption <span class="highlight-3">persist</span> werden die neuen Daten auf der gleichen Festplatte abgespeichert, welche auch Speicherort für die fromiso-Abbilddatei ist.</p>
+							<p><span class="highlight-3">fromiso</span> ergibt ein Live-System, welches alle automatischen Routinen einer aptosid-Live-ISO bietet. Dies hat den Vorteil, dass zum Beispiel die Hardware automatisch konfiguriert wird. Gleichzeitig bedeutet es, dass bei jedem Systemstart die gleichen Dateien erstellt werden, wenn nicht zusätzliche Parameter verwendet werden</p>
 
-							<p><span class="highlight-3">fromiso</span> ermöglicht ein Live-System, welches alle automatisierten Fähigkeiten einer aptosid-Live-CD bietet. Dies hat den Vorteil, dass zum Beispiel die Hardware automatisch erkannt wird, es bedeutet aber auch, dass nach einem Neustart ein unveränderter Datensatz wieder zur Verfügung steht, solange man nicht andere Anweisungen gibt.</p>
+							<p><span class="highlight-3">persist</span> zusätzlich mit aptosid spezifischen Bootparametern wie  noxorgconf oder nonetwork bedeutet, dass die automatische Erstellung von Dateien während des Bootvorgangs unterbunden wird. Siehe auch <a href='http://manual.aptosid.com/de/cheatcodes-de.htm#cheatcodes'>Bootoptionen</a></p>
 
-							<p>Die Verwendung von <span class="highlight-3">persist</span> gemeinsam mit anderen aptosid spezifischen Bootoptionen wie noxorgconf oder nonetwork bedeutet, dass beim Booten nicht mehr der gleiche, unveränderte Datensatz aufgerufen wird.</p>
-
-							<p>persist bedeutet auch, dass man Programmpakete mittels apt installieren kann und die neuen Programme wie auch die geänderten Daten nach einem Neustart sofort wieder zur Verfügung stehen.</p>
+							<p>Mit Ausnahme einer Kernelaktualisierung können unter Verwendung von persist auch Programmpakete mit apt installiert werden. Alle neuen Anwendungen und Dateien stehen mit dem nächsten Systemstart zur Verfügung. Einige Programmpakete benötigen die Freischaltung von contrib und non-free in der APT-Quellenliste, siehe <a href="nf-firm-de.htm#non-free-firmware">Nicht freie Quellen für APT freischalten</a> </p>
 	</div>
 	<div class="divider" id="persist-post">
 				<h2>fromiso und persist auf einem bootfähigen USB-sticks/SSD-cards</h2>
@@ -438,10 +447,18 @@ persist=/aptosid/aptosid-rw
 							<p>Wenn vfat verwendet wird, wird der persist-Modus mittels einer Datei ermöglicht, die maximal 2GB groß sein kann, aber mindestens 100MB groß sein soll (weniger macht keinen Sinn). Diese Datei sollte  <span class="highlight-3">aptosid-rw</span> benannt werden. </p>
 
 					 <h4>Beispiel, wie man persist nach erfolgter Installation setzt</h4>
-							<p>Wenn man nicht sicher ist, wie der Mount-Punkt heißt, wird der USB-Stick eingebunden und der Befehl <span class="highlight-3">ls -lh /media</span> ausgeführt, um eine Liste mit allen Mount-Punkten des Systems zu erhalten. Man schaut nach einem Eintrag wie <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Falls die Ausgabe anders lautet als <span class="highlight-3">"/media/disk"</span> in unserem Beispiel, muss die Zeile unseres Beispiels durch den wirklichen Mount-Punkt ersetzt werden (z.B. "/media/sdc1"):</p>
+							<p>Wenn man nicht sicher ist, wie der Mount-Punkt heißt, wird der USB-Stick eingebunden und der Befehl <span class="highlight-3">ls -lh /media</span> ausgeführt, um eine Liste mit allen Mount-Punkten des Systems zu erhalten. Man schaut nach einem Eintrag wie <span class="highlight-3">drwxr-xr-x  6 username root 4.0K Jan  1  1970 disk</span>. Falls die Ausgabe anders lautet als <span class="highlight-3">"/media/disk"</span> in unserem Beispiel, muss die Zeile unseres Beispiels durch den wirklichen Mount-Punkt ersetzt werden (z.B. "/media/disk-1"):</p>
 
+							<p>Um das Beispiel fortzusetzen: der Befehl <span class="highlight-3"> df -h </span> schafft Klarheit:</p>
 <pre>
-disk="/media/disk"
+/dev/sdc2             3.4G  4.0K  3.4G   1% /media/disk
+/dev/sdc1             4.1G  1.1G  2.8G  28% /media/disk-1
+</pre>
+
+							 <p>Daher:</p>
+							 
+<pre>
+disk="/media/disk-1"
 </pre>
 
 							<p>Größe der persistenten Partition festlegen:</p>
@@ -450,12 +467,12 @@ size=1024
 </pre>
 							<p>Erstellen eines Verzeichnisses:</p>
 <pre>
-mkdir $disk/aptosid
+mkdir $disk-1/aptosid
 </pre>
 							<p>Erstellen der persistenten Partition:</p>
 
 <pre>
-dd if=/dev/zero of=$disk/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk/aptosid/aptosid-rw"
+dd if=/dev/zero of=$disk-1/aptosid/aptosid-rw bs=1M count=$size &amp;&amp;  echo 'y' | LANG=C /sbin/mkfs.ext2 $disk-1/aptosid/aptosid-rw &amp;&amp;  tune2fs -c 0 "$disk-1/aptosid/aptosid-rw"
 </pre>
 
 							<p class="highlight-2">NTFS-Partitionen [das gebräuchliche Dateisystem von Windows-Installationen (NT/2000/XP) können NICHT für Persistenz verwendet werden.</p>
@@ -551,8 +568,38 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-	<div id="rev">Content last revised 26/04/2011 1210 UTC</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Vollständige Installation auf einen GPT-Wechsel-Datenträger (verhält sich wie eine normale Festplatteninstallation)</h2>
 
+							<p> Siehe <a href="part-gdisk-en.htm#gdisk-1">Partitionierung einer GPT mit gdisk</a> und die Instruktionen von <a href="hd-install-en.htm">Installationsoptionen - HD, USB, VM und Cryptroot</a>.</p>
+
+	</div>
+	<div class="divider" id="usb-efi-1">
+			<h2>Bootbare (U)EFI-Wechseldatenträger</h2>
+							<p><span class='highlight-1'>Anwendbar ab aptosid 2011-02.</span></p>
+
+							<p>Falls mit EFI gebootet werden soll, ohne ein optisches Medium zu brennen, wird eine VFat-Partition mit einem portablen EFI-Bootloader <span class="highlight-3">/efi/boot/bootx64.efi</span> benötigt. Die ISOs aptosid amd64 liefern eine solche Datei aus sowie eine Grub-Konfiguration, welche diese laden kann. Um einen USB-Stick dafür vorzubereiten, muss nur der Inhalt der Aptosid-ISO auf das Root-Dateisystem eines mit <span class="highlight-3">vfat</span> formatierten USB-Sticks kopiert werden. Diese Partition muss mit Hilfe eines Partitionierungsprogramms auch als bootbar markiert werden.</p>
+
+							<p>Selbstverständlich ermöglicht das ausschließliche Kopieren der Dateien auf eine VFat-Partition eines USB-Sticks kein Booten in ein traditionelles BIOS-System, aber es ist ziemlich einfach, dies mithilfe von syslinux und install-mbr aktivieren. Dazu müssen (ohne dass der USB-Stick eingebunden ist) diese beiden Befehle ausgeführt werden: </p>
+
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdXN
+install-mbr /dev/sdX
+</pre>
+
+							<p>Ein so vorbereiteter USB-Stick bootet mit EFI in ein einfaches Grub2-Menü bzw. mit einem traditionellen BIOS in ein grafisches gfxboot-Menü.</p>
+
+							<p>Einer der Vorteile, einen USB-Stick auf diese Weise vorzubereiten - im Gegensatz zur Erstellung eines Raw-Sticks unter Verwendung von isohybrid - ist die Möglichkeit, dass die Boot-Dateien am Stick bearbeitet werden können, um die automatische Verwendung benutzerdefinierter Optionen zu ermöglichen.</p>
+
+							<p>Für traditionelle BIOS-Systeme können diese Dateien bearbeitet werden: <span class="highlight-3">/boot/isolinux/syslinux.cfg</span> bzw. <span class="highlight-3">/boot/isolinux/gfxboot.cfg</span>. Für EFI-Systeme kann die Datei <span class="highlight-3">/boot/grub/x86_64-efi/grub.cfg</span> bearbeitet werden.</p>
+
+				  <h4>Persistenz und Firmware</h4>
+
+							<p>Siehe <a href="hd-install-opts-de.htm#fromiso-persist">Allgemeine Informationen zu fromiso und persist</a></p>
+
+							
+	</div>
+	<div id="rev">Page last revised 30/09/2011 1440 UTC</div>
 
 </div>
 </body>

@@ -334,7 +334,7 @@
 
 							<p> Wpa-roaming jest metodą, z którą można przeglądać i łączyć się z sieciami bezprzewodowymi <span class="highlight-3">z i / lub bez środowiskiem graficznym</span>.</p>
 
-							<p> Następująca konfiguracja prowadzi przy nie podłączonym kablu ethernet do nawiązaniu połączenia 'wlan0' z predefiniowaną preferowaną siecą bezprzewodowej lub do otwartej sieci bezprzewodowej. Po podłączeniu kabla ethernet do sieci kablowej natychmiast wstrzymuje się dostęp do sieci WiFi oraz 'eth0' łączy się do sieci LAN. Po odłączeniu kabla sieciowego ponownie połącza się WiFi.</p>
+							<p> Następująca konfiguracja prowadzi przy nie podłączonym kablu ethernet do nawiązania połączenia 'wlan0' z predefiniowaną preferowaną siecą bezprzewodowej lub do otwartej sieci bezprzewodowej. Po podłączeniu kabla ethernet do sieci kablowej natychmiast wstrzymuje się dostęp do sieci WiFi oraz 'eth0' łączy się do sieci LAN. Po odłączeniu kabla sieciowego ponownie połącza się WiFi.</p>
 
 				<h3>Ustawianie konfiguracji sieci </h3>
 
@@ -354,12 +354,12 @@ iface wlan0 inet manual
 #this line must always be here
 iface default inet dhcp
 </pre>
-							<p>Następnie potrzebuje 'wpa_supplicant' plik konfiguracyjny 'wpa-roam.conf'</p>
+							<p>Następnie tworzymy potrzebny procesowi 'wpa_supplicant' plik konfiguracyjny 'wpa-roam.conf'</p>
 
 <pre>
 cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-roam.conf
 </pre>
-							<p>Za pomocą edytora  otworzyć plik.</p>
+							<p>Za pomocą edytora  otwórz plik.</p>
 <pre>
 &lt;editor&gt; /etc/wpa_supplicant/wpa-roam.conf
 </pre>
@@ -368,7 +368,7 @@ cp /usr/share/doc/wpasupplicant/examples/wpa-roam.conf /etc/wpa_supplicant/wpa-r
 <pre>
 update_config=1
 </pre>
-							<p>Aby skonfigurować laptopa lub komputera stacjonarnego, że tylko otrzymuje dostęp do zabezpieczonej sieci natychmiast odkomentuj linii, (usuń znak <span class="highlight-2">#</span>), dla WEP lub WPA-WPA2PSK: </p>
+							<p>Aby dokonać konfiguracji laptopa lub komputera stacjonarnego tak, aby otrzymywał dostęp tylko do zabezpieczonej sieci, natychmiast odkomentuj linię, (usuń znak <span class="highlight-2">#</span>), dla WEP lub WPA-WPA2PSK: </p>
 
 							<p>Przykład WEP:</p>
 <pre>
@@ -415,7 +415,7 @@ key_mgmt=WPA2-PSK
 wpa_state=COMPLETED
 ip_address=192.168.1.102
 </pre>
-							<p>Jeśli nie widać ip_address= numery komputer nie jest podłączony. Więc sprawdź konfiguracje po zatrzymanju wlan0: </p>
+							<p>Jeśli nie widać ip_address=n.u.m.e.r komputer nie jest podłączony. W tym wypadku sprawdź konfigurację po zatrzymaniu wlan0: </p>
 
 <pre>
 wpa_action wlan0 stop
@@ -525,7 +525,7 @@ network={
 }
 </pre>
 
-							<p>Z "disabled = 1" komputer nie będzie się łączyć automatycznie z otwartymi siecami (open WLANs), trzeba rozpocząć roamingu poprzez wpa_gui lub wpa_cli. Do automatycznego roamingu nie korzystaj z opcji w całości lub stawiaj # przed linią z opcją "disabled = 1".</p>
+							<p>Z "disabled = 1" komputer nie będzie się łączyć automatycznie z otwartymi siecami (open WLANs), trzeba rozpocząć roaming poprzez wpa_gui lub wpa_cli. Do automatycznego roamingu nie korzystaj z opcji w całości lub stawiaj # przed linią z opcją "disabled = 1".</p>
 
 				<h5>Szyfrowanie WEP</h5>
 							<p>Jeśli chcesz dodać sieci szyfrowanych WEP do wpa-roam.conf na stałe, składnia jest taka:</p>
@@ -555,15 +555,15 @@ network={
 <pre>
 tar -cf- /etc/network/interfaces /etc/wpa_supplicant/wpa-roam.conf  |  gpg -c > backup_name.tar.gpg
 </pre>
-							<p>A file has now been created in $ HOME:<br />
+							<p>W $ HOME został utworzony plik:<br />
 							backup_name.tar.gpg</p>
 
-							<p>To list the contents of the backup_name.tar.gpg file:</p>
+							<p>Aby wyświetlić zawartość pliku backup_name.tar.gpg:</p>
 
 <pre>
 gpg -d -o - backup_name.tar.gpg  | tar vtf -
 </pre>
-							<p>To extract and decrypt the contents of the archive backup_name.tar.gpg file:</p>
+							<p>Aby wydobyć i odszyfrować zawartość pliku archive backup_name.tar.gpg:</p>
 
 <pre>
 gpg -d -o - backup_name.tar.gpg  | tar vxf -
@@ -593,19 +593,19 @@ $ pwgen -s 63 1
 VltnfGmGKXovVv2rmrCFFXBZ55Mij5bA6WytVJnVoKUqRn6dfjldG6MBrRo0Cdi
 </pre>
 						  <ul>
-							<li>-s = bezpieczne (żadnych mnemonics (przypomnienia))</li>
+							<li>-s = bezpieczne (bez mnemoników - przypominaczy)</li>
 							<li>63 = liczba znaków </li>
 							<li>1 = generuje tylko jedno losowe hasło </li>
 
 						  </ul>
-							<p>Bez opcji -s zostanie wygenerowany hasło do wymówienia. Nie jest to zalecane: </p>
+							<p>Bez opcji -s zostanie wygenerowane hasło możliwe do wymówienia. Jest jednak mało prawdopodobne, że takie będziesz chciał: </p>
 <pre>
 $ pwgen 8 3
 Sooxae2s Niew9ugh Hi7eeloo
 </pre>
-							<p>Po wygenerowaniu hasła przechowywuj w pliku tekstowym na USB flash i zastosowuj hasła na innych komputerów, które używają sieci bezprzewodowej. Nie przechowuj hasła na komputerze. </p>
+							<p>Po wygenerowaniu hasła przechowywuj je w pliku tekstowym na pen-ie USB i za jego pomocą stosuj na innych komputerach, które używają sieci bezprzewodowej. Nie przechowuj hasła na swoim komputerze. </p>
 
-						<h6>Przykład konfiguracji routera:</h6>
+						<h6>Przykład finalnych ustawień routera:</h6>
 <pre>
 Version: WPA2-PSK
 Encryption: AES

@@ -330,13 +330,13 @@
 
             						<p class="highlight-2">Pentru utilizarea zilnică recomandăm tipul de fișiere ext4. Este sistemul de fişiere implicit în aptosid şi este foarte bine întreţinut.</p>
 
-							<p>Cu acest cod puteţi porni sistemul de pe o imagine ISO care se află pe Hard Disc,(tip ext2/3/4) ceea ce este mult mai rapid decât pornirea de pe CD (instalarea pe Hard Disc "fromiso" durează foarte puţin).</p>
+							<p>Cu acest cod puteţi porni sistemul de pe o imagine ISO care se află pe Hard-Disk (tip ext2/3/4) ceea ce este mult mai rapid decât pornirea de pe CD (instalarea pe Hard-Disk "fromiso" durează foarte puţin).</p>
 
 							<p>`fromiso` înseamnă mult mai rapid decât de pe CD/DVD şi lasă şi unitatea optică disponibilă. Ca o alternativă se poate folosi deasemeni și VMware.</p>
 
 				<h6>Cerinţe :</h6>
 
-		  					  <p>* un grub funcţional (de pe o dischetă, un sistem instalat pe Hard Disc sau de pe Live-CD)<br />
+		  					  <p>* un grub funcţional (de pe o dischetă, un sistem instalat pe Hard-Disk sau de pe Live-CD)<br />
 
 							* o imagine ISO de aptosid - ex.: aptosid.iso - şi o partiţie linux de tipul ext2/3/4 <br />
 							* Dacă veţi redenumi imaginea ISO în AptoSid.ISO va trebui să modificaţi toate comenzile ca atare, deoarece sistemul de numire a fişierelor în unix face diferența între literele mari și cele mici (case sensitive).</p>
@@ -521,7 +521,7 @@ $ man fll-iso2usb
 	<div class="divider" id="usb-hdd">
 			<h3>Instalarea completă pe un dispozitiv USB Hard Disk ca și instalarea pe o partiție</h3>
 
-				<p>Folosirea unui Hard Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala aptosid, îl cuplați la PC și nu mai aveți nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
+				<p>Folosirea unui Hard-Disk extern pe USB este una dintre opțiunile bune, (în particular pentru utilizatorii nou veniți de pe MS sau alte distribuții), pe care puteți instala aptosid, îl cuplați la PC și nu mai aveți nevoie de configurarea PC-ului pentru dual boot (repartiționare, modificarea lui grub etc).</p>
 
 				<p>Porniți instalarea de pe Live-ISO, (sau de pe un USB-stick/SD/flash-card), <span class="highlight-3">ca o instalare standard, nu un 'USB install'</span> și alegeți partiția de pe dispozitivul USB, unde se va instala aptosid, de examplu <span class="highlight-3">sdbX </span>și urmați pașii ceruți de programul de instalare aptosid. Grub trebuie scris pe partiția de pe USB HDD.</p>
 
@@ -535,7 +535,38 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-			<div id="rev"> Page last revised 26/04/2011 1210 UTC</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Instalarea completă pe un dispozitiv portabil și boot-abil GPT (la fel ca instalarea normală pe un HD)</h2>
+
+							<p> Citiți la <a href="part-gdisk-ro.htm#gdisk-1">Partiționarea cu <i>gdisk</i> pentru disk-uri GPT</a> apoi urmați instrucțiunile pentru <a href="hd-install-ro.htm">Opțiuni de instalare - HD, USB, VM și Cryptroot</a>.</p>
+
+	</div>
+	<div class="divider" id="usb-efi-1">
+			<h2>Dispozitive boot-abile (U)EFI portabile</h2>
+							<p><span class='highlight-1'>Aplicabil începând cu versiunea aptosid 2011-02.</span></p>
+
+							<p>Dacă doriți să folosiți la boot-are EFI fără a arde un mediu optic, atunci aveți nevoie de o partiție <i>vfat</i> care să conțină un încărcător de boot EFI portabil <span class="highlight-3">/efi/boot/bootx64.efi</span>. Imaginile iso aptosid amd64 includ asemenea fișier și o configurare grub care o poate încărca. Pentru a pregăti un stick să boot-eze așa, copiați conținutul aptosid iso la baza partiției formatate <span class="highlight-3">vfat</span> de pe stick-ul usb. De asemenea va trebui s-o marcați ca boot-abilă folosind un program de partiționare.</p>
+
+							<p>Desigur că simpla copiere a fișierelor pe partiția vfat a stick-ului usb nu vă va permite boot-area în modul tradițional al sistemului BIOS dar este relativ ușor să rezolvați asta folosind <i>syslinux</i> și <i>install-mbr</i>. Tot ce aveți nevoie este să rulați următoarele comenzi (fără ca stick-ul să fie mount-at): </p>
+
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdXN
+install-mbr /dev/sdX
+</pre>
+
+							<p>Un stick pregătit astfel, va boot-a atât prin EFI din meniul grub2 cât și din meniul tradițional grafic <i>gfxboot</i>.</p>
+
+							<p>Unul dintre avantajele de a avea un stick de felul acesta, comparativ cu un stick creat prin <i>isohybrid</i>, ar fi acela că puteți edita fișierele de boot de pe stick pentru a adăuga automat opțiunile preferate.</p>
+
+							<p>Pentru sistemele BIOS tradiționale puteți edita fișierul <span class="highlight-3">/boot/isolinux/syslinux.cfg</span> și/sau fișierul <span class="highlight-3">/boot/isolinux/gfxboot.cfg</span>. Pentru sistemele EFI puteți edita fișierul <span class="highlight-3">/boot/grub/x86_64-efi/grub.cfg</span>.</p>
+
+				  <h4>Persistență și firmware</h4>
+
+							<p>Vedeți <a href="hd-install-opts-ro.htm#persist-post">Informații generale despre <i>persist</i></a></p>
+
+							
+	</div>
+	<div id="rev">Page last revised 30/09/2011 1440 UTC</div>
 
 </div>
 </body>

@@ -560,8 +560,39 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Volledige installatie naar een opstartbare GPT  verwijderbare schijf (gedraagt zich als een normale HD installatie)</h2>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 26/04/2011 1210 UTC</div>
+							<p> Raadpleeg <a href="part-gdisk-nl.htm#gdisk-1">Partitioneren met gdisk voor GPT schijven</a> en volg de instructies voor <a href="hd-install-nl.htm">Installatie opties - HD, USB, VM en Cryptroot</a>.</p>
+
+	</div>
+	<div class="divider" id="usb-efi-1">
+			<h2>Opstartbare (U)EFI verwijderbare schijven</h2>
+							<p><span class='highlight-1'>Van toepassing vanaf de aptosid 2011-02 release.</span></p>
+
+							<p>Als je wil opstarten met EFI zonder een optische schijf te branden, dan heb je een vfat partitie nodig met een portable EFI bootloader <span class="highlight-3">/efi/boot/bootx64.efi</span>. De aptosid amd64 iso's bevatten een dergelijk bestand en een grub configuratie die het kan laden. Om een stick klaar te maken om op deze wijze op te starten, kopieer simpelweg de inhoud van de aptosid iso naar de root van een <span class="highlight-3">vfat</span> geformatteerde usb stick. Je mag niet vergeten de partitie als opstartbaar (bootable) te verklaren.</p>
+
+							<p>Natuurlijk zal het gewoon kopieren van de bestanden op een vfat usb stick je geen opstartbaar systeem geven op een standaard bios systeem. Het is echter vrij eenvoudig dit te bekomen met syslinux en install-mbr. Al je moet doen is het volgende laten draaien (zonder dat de stick is gemount): </p>
+
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdXN
+install-mbr /dev/sdX
+</pre>
+
+							<p>Een stick die op deze wijze werd voorbereid, zal zowel opstarten met EFI naar een grub2 menu en met een traditionele bios naar het grafische gfxboot menu.</p>
+
+							<p>Een van de voordelen van een dergelijke stick, is dat je de boot bestanden kan wijzigen en je eigen opties automatisch kan toevoegen, dit in tegenstelleing tot een stick gecreëerd met isohybrid. </p>
+
+							<p>Voor traditionele BIOS systemen kan je volgende bestanden wijzigen : <span class="highlight-3">/boot/isolinux/syslinux.cfg</span>en/of <span class="highlight-3">/boot/isolinux/gfxboot.cfg</span> .  Voor EFI systemen kan je volgend bestand wijzigen :<span class="highlight-3">/boot/grub/x86_64-efi/grub.cfg</span> .</p>
+
+				  <h4>Persistentie en firmware</h4>
+
+							<p>Zie <a href="hd-install-opts-nl.htm#fromiso-persist">Algemene informatie voor persistentie</a></p>
+
+							
+	</div>
+	<div id="rev">Page last revised 30/09/2011 1440 UTC</div>
+
 </div>
 </body>
 </html>

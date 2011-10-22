@@ -558,9 +558,39 @@ $ man fll-iso2usb
 							<li>Hvis du vil anvende installationen på andre maskiner skal du være opmærksom på at du skal justere et par ting for at få adgang til den anden maskinen harddiske, måske også xorg.conf og sikkert netværks konfigurationen.</li>
 						</ul>
 
+	</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Full installation to bootable GPT removable devices (behaves as a normal HD installation)</h2>
+
+							<p> Refer to <a href="part-gdisk-en.htm#gdisk-1">Partitioning with gdisk for GPT disks</a> and then follow the instructions for <a href="hd-install-en.htm">Installation options - HD, USB, VM and Cryptroot</a>.</p>
 
 	</div>
-			<div id="rev"> Content last revised 26/04/2011 1210 UTC</div>
+	<div class="divider" id="usb-efi-1">
+			<h2>Bootable (U)EFI removable devices</h2>
+							<p><span class='highlight-1'>Applicable from the aptosid 2011-02 release.</span></p>
+
+							<p>If you want to boot using EFI without burning optical media, then you need a vfat partition containing a portable EFI bootloader <span class="highlight-3">/efi/boot/bootx64.efi</span>. The aptosid amd64 isos include such a file and a grub configuration which it can load. To prepare a stick to boot this way, simply copy the contents of the aptosid iso to the root of a <span class="highlight-3">vfat</span> formatted usb stick. You should also mark the partition as bootable using a disk partitioning tool.</p>
+
+							<p>Of course simply copying the files onto a vfat usb stick will not let you boot it on a traditional bios system, however it is quite easy to enable this using syslinux and install-mbr. All you need to do is run (without the stick being mounted): </p>
+
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdXN
+install-mbr /dev/sdX
+</pre>
+
+							<p>A stick prepared this way, will boot both by EFI to the plain grub2 menu and by traditional bios to the graphical gfxboot menu.</p>
+
+							<p>One of the advantages of having a stick created this way, as opposed to a raw stick created due to using isohybrid, is that you can edit the boot files on the stick to add your preferred options automatically. </p>
+
+							<p>For traditional BIOS systems you can edit the <span class="highlight-3">/boot/isolinux/syslinux.cfg</span> file and/or the <span class="highlight-3">/boot/isolinux/gfxboot.cfg</span> file.  For EFI systems you can edit the <span class="highlight-3">/boot/grub/x86_64-efi/grub.cfg</span> file.</p>
+
+				  <h4>Persistence and firmware</h4>
+
+							<p>See <a href="hd-install-opts-da.htm#fromiso-persist">General information on persist</a></p>
+
+							
+	</div>
+	<div id="rev">Page last revised 30/09/2011 1440 UTC</div>
 
 </div>
 </body>

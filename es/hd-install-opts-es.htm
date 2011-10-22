@@ -559,7 +559,38 @@ $ man fll-iso2usb
 						</ul>
 
 	</div>
-	<div id="rev">Contenido revisado el 26/04/2011 1210 UTC</div>
+	<div class="divider" id="usb-gpt-1">
+			<h2>Instalación completa en un dispositivo GPT desmontable (es como una instalación normal en DD)</h2>
+
+							<p> Vea <a href="part-gdisk-es.htm#gdisk-1">Visión general de partición con GPT</a> y siga las instrucciones para <a href="hd-install-es.htm">Opciones de instalación: HD, USB, VM y Cryptroot</a>.</p>
+
+	</div>
+	<div class="divider" id="usb-efi-1">
+			<h2>Arranque con dispositivos (U)EFI desmontables</h2>
+							<p><span class='highlight-1'>Aplicable a partir de aptosid 2011-02.</span></p>
+
+							<p>Si desea arrancar usando EFI sin necesidad de quemar ningún medio óptico, necesitará una partición vfat que contenga un cargador de arranque portátil EFI <span class="highlight-3">/efi/boot/bootx64.efi</span>. Las imágenes iso de aptosid amd64 incluyen este fichero y una configuración de grub que se puede cargar en él. Para preparar un lápiz de memoria que arranque de esta manera, copie simplemente los contenidos de la iso de aptosid a la raiz del lápiz usb formateado <span class="highlight-3">vfat</span>. También debería marcar la partición como arrancable mediante una herramienta de partición de discos.</p>
+
+							<p>Claro está que copiar simplemente los ficheros en un lápiz usb formateado vfat no será suficiente para arrancar en un sistema bios tradicional, pero es bastante fácil hacerlo usando syslinux e install-mbr. Todo lo que necesitará hacer es dar la orden (sin que el lápiz esté montado): </p>
+
+<pre>
+syslinux -i -d /boot/isolinux /dev/sdXN
+install-mbr /dev/sdX
+</pre>
+
+							<p>Un lápiz de memoria así preparado arrancará tanto con EFI y el menú grub2 como con el arranque tradicional bios al menú gráfico de arranque gfxboot.</p>
+
+							<p>Una de las ventajas de tener un lápiz de memoria creado así, de forma opuesta a otro en crudo creado mediante isohybrid, es que usted puede editar los ficheros de arranque en el lápiz para añadir automáticamente sus opciones preferidas. </p>
+
+							<p>Para los sistemas BIOS tradicionales, puede editar el fichero <span class="highlight-3">/boot/isolinux/syslinux.cfg</span> y/o el fichero <span class="highlight-3">/boot/isolinux/gfxboot.cfg</span>. Para los sistemas EFI puede editar el fichero <span class="highlight-3">/boot/grub/x86_64-efi/grub.cfg</span>.</p>
+
+				  <h4>Persistencia y firmware</h4>
+
+							<p>Vea <a href="hd-install-opts-es.htm#fromiso-persist">Información General sobre 'fromiso' con 'persist'</a></p>
+
+							
+	</div>
+	<div id="rev">Page last revised 30/09/2011 1440 UTC</div>
 
 </div>
 </body>

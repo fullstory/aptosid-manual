@@ -547,7 +547,15 @@ fusermount -u local_mount_point
 </pre>
 							<p>Als je sshfs vaak gebruikt dan kan het zinvol zijn om in de fstab een extra regel op te nemen:</p>
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
+</pre>
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
 </pre>
 							<p>Hierdoor mag elke user die in de groep fuse voorkomt, een bestandssysteem mounten met het bekende mount commando:</p>
 <pre>
@@ -583,7 +591,7 @@ umount local_mount_point
 
 	</div>
 
-		<div id="rev">Inhoud het laatst gewijzigd op 15/09/2010 0630 UTC</div>
+		<div id="rev">Inhoud het laatst gewijzigd op 01/11/2011 0650 UTC</div>
 </div>
 </div>
 </body>

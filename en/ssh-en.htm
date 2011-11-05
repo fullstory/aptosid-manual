@@ -538,9 +538,17 @@ sshfs username@remote_hostname:directory local_mount_point
 <pre>
 fusermount -u local_mount_point
 </pre>
-							<p>If you use sshfs frequently it would be a good choice to add a fstab entry:</p>
+							<p>If you use sshfs frequently it would be a good choice to add an fstab entry:</p>
 <pre>
-sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
+</pre>
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
 </pre>
 							<p>This will allow every user which is part of the group fuse to mount the filesystem by using the well known mount command:</p>
 <pre>mount /path/to/mount/point</pre>
@@ -570,7 +578,7 @@ umount local_mount_point
 </pre>
 
 	</div>
-			<div id="rev">Content last revised 22/09/2010 1450 UTC</div>
+			<div id="rev">Content last revised 01/11/2011 0650 UTC</div>
 
 </div>
 </body>

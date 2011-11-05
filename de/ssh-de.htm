@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by hubi Wed, 15 Sep 2010 13:49:01 +0000 -->
+<!-- Last translation revision by hubi Tue, 01 Nov 2011 13:54:33 +0000 -->
 <div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
 <!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
@@ -550,7 +550,15 @@ fusermount -u lokaler_mountpunkt
 </pre>
 							<p>Bei regelmäßiger Nutzung von sshfs empfiehlt sich ein Eintrag in /etc/fstab:</p>
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
+</pre>
+							<p>Als nächstes muss das Kommentarzeichen vor <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span> weggenommen werden:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
 </pre>
 							<p>Dies ermöglicht jedem Nutzer der Gruppe fuse, das Dateisystem einzubinden bzw. zu lösen:</p>
 
@@ -580,7 +588,7 @@ umount lokaler_mountpunkt
 </pre>
 
 	</div>
-			<div id="rev">Content last revised 15/09/2010 0630 UTC</div>
+			<div id="rev">Content last revised 01/11/2011 0650 UTC</div>
 
 </div>
 </body>

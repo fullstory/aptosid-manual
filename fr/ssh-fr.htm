@@ -596,9 +596,16 @@ fusermount -u point_de_montage_local
 							<p>Si vous utilisez fréquemment SSHFS ce peut être intéressant d'ajoûter son entrée à votre fstab :</p>
 
 <pre>
-sshfs#@nom_machine_distante:/répertoire_distant /point_de_montage fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
 </pre>
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
 
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
+</pre>
 							<p>Ceci fera en sorte que tout utilisateur membre du groupe <span class="highlight-3">fuse</span> puisse monter le système de fichiers en utilisant la célèbre commande de montage :</p>
 
 <pre>
@@ -645,7 +652,7 @@ umount point_de_montage_local
 
 
 	</div>
-			<div id="rev">Dernière révision du contenu le 15/09/2010 0630 UTC</div>
+			<div id="rev">Dernière révision du contenu le 01/11/2011 0650 UTC</div>
 
 
 </div>

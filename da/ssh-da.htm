@@ -571,9 +571,17 @@ fusermount -u local_mount_point
 </pre>
 				<p>Hvis du bruger sshfs ofte, er det en god ide at lave en tilføjelse til fstab:</p>
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
 </pre>
-				<p>Dette vil tillade ethvert medlem af gruppen fuse, at montere filsystemet med den velkendte kommando 'mount':</p>
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
+</pre>
+							<p>Dette vil tillade ethvert medlem af gruppen fuse, at montere filsystemet med den velkendte kommando 'mount':</p>
 <pre>mount /path/to/mount/point</pre>
 				<p>Med den linie i din fstab kan du selvfølgelig også anvende kommandoen 'umount':</p>
 <pre>umount /path/to/mount/point</pre>
@@ -600,7 +608,7 @@ umount local_mount_point
 </pre>
 
 	</div>
-			<div id="rev">Content last revised 15/09/2010 0630 UTC</div>
+			<div id="rev">Content last revised 01/11/2011 0650 UTC</div>
 
 </div>
 </div>

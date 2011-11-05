@@ -571,12 +571,20 @@ sshfs uzivatelske_jmeno@nazev_vzdalenoho_pocitace:adresar mistni_pripojny_bod
 <pre>
 fusermount -u mistni_pripojny_bod
 </pre>
-<!--							<p>If you use sshfs frequently it would be a good choice to add a fstab entry:</p>-->
+<!--							<p>If you use sshfs frequently it would be a good choice to add an fstab entry:</p>-->
 							<p>Pokud často používate sshfs, bylo by výhodné přidat řádek do souboru fstba :</p>
 <pre>
-sshfs#@vzdalene_uzivatelske_jmeno:/vzdaleny_adresar /mistni_pripojny_bod fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
 </pre>
-<!--							<p>This will allow every user which is part of the group fuse to mount the filesystem by using the well known mount command:</p>-->
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
+</pre>
+							<!--							<p>This will allow every user which is part of the group fuse to mount the filesystem by using the well known mount command:</p>-->
 							<p>To umožní každému uživateli, který je součásti skupiny fuse, aby připojil souborový systém pomocí známého příkazu mount:</p>
 <pre>mount /cesta/k/pripojnemu/bodu</pre>
 <!--							<p>With that line in your fstab you can of course use the umount command too:</p>-->
@@ -610,7 +618,7 @@ umount mistni_pripojny_bod
 </pre>
 
 	</div>
-			<div id="rev">Obsah naposled revidován 15/09/2010 0630 UTC</div>
+			<div id="rev">Obsah naposled revidován 01/11/2011 0650 UTC</div>
 
 </div>
 </body>

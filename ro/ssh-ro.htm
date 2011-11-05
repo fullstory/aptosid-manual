@@ -374,7 +374,7 @@ MaxAuthTries 2
 </pre>
  				<p>Va trebui să adăugați fiecare din aceste intrări dacă ele nu există:</p>
 <pre>
-AllowUsers &lt;user names with spaces allowed to access via ssh&gt;
+AllowUsers &lt;sunt permise și nume de utilizatori care conțin spații pentru acces via ssh&gt;
 </pre>
  				<p><span class="highlight-3">AllowUsers &lt;xxx&gt;:</span> doar utilizatorii înregistraţi pot deschide ssh şi doar cu drepturi de utilizator, folosiţi <i>adduser</i> pentru a adăuga utilizatorul şi apoi specificaţi-i numele aici aşa:</p>
 <pre>
@@ -541,9 +541,17 @@ fusermount -u local_mount_point
 </pre>
 				<p>Dacă utilizaţi sshfs frecvent ar fi o decizie bună să adăugaţi o intrare în fstab:</p>
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
 </pre>
-				<p>Asta va permite oricărui utilizator ce face parte din grupul fuse să monteze sistemul de fişiere folosind binecunoscuta comandă mount:</p>
+							<p>Apoi de-comentați <span class="highlight-3">user_allow_other</span> în <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
+</pre>
+							<p>Asta va permite oricărui utilizator ce face parte din grupul fuse să monteze sistemul de fişiere folosind binecunoscuta comandă mount:</p>
 <pre>mount /path/to/mount/point</pre>
 				<p>Având aceasta linie în fstab veţi putea deasemeni folosi şi comanda  umount:</p>
 <pre>umount /path/to/mount/point</pre>
@@ -571,7 +579,7 @@ umount local_mount_point
 </pre>
 
 	</div>
-			<div id="rev">Content last revised 15/09/2010 0630 UTC</div>
+			<div id="rev">Content last revised 01/11/2011 0650 UTC</div>
 
 </div>
 </div>

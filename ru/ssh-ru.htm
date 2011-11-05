@@ -533,9 +533,17 @@ fusermount -u local_mount_point
 </pre>
 				<p>При регулярном использовании sshfs рекомендуется внести запись в /etc/fstab вида:</p>
 <pre>
-sshfs#@remote_hostname:/remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto 0 0
+sshfs#username@remote_hostname://remote_directory /local_mount_point fuse user,allow_other,uid=1000,gid=1000,noauto,fsname=sshfs#username@remote_hostname://remote_directory  0 0 
 </pre>
-				<p>Это делает возможным каждому пользователю группы fuse подсоединить файловую систему известной командой:</p>
+							<p>Next uncomment <span class="highlight-3">user_allow_other</span> in <span class="highlight-3">/etc/fuse.conf</span>:</p>
+
+<pre> 
+ # Allow non-root users to specify the 'allow_other' or 'allow_root'
+ # mount options.
+ #
+ user_allow_other
+</pre>
+							<p>Это делает возможным каждому пользователю группы fuse подсоединить файловую систему известной командой:</p>
 <pre>mount /путь/к/mount/точке</pre>
 				<p>Отсоединение можно произвести следующей командой:</p>
 <pre>umount /путь/кmount/точка</pre>
@@ -561,7 +569,7 @@ umount local_mount_point
 </pre>
 
 	</div>
-		<div id="rev">Содержание, последний раз пересмотрено 15/09/2010 0630 UTC</div>
+		<div id="rev">Содержание, последний раз пересмотрено 01/11/2011 0650 UTC</div>
 
 </div>
 </body>

@@ -20,7 +20,7 @@ I18N_LANGUAGES="
 	pt-br:Brazilian_Portuguese:Português::
 	ro:Romanian:Română::
 	ru:Russian:русский::
-	uk:Ukrainian:Українська::
+	ua:Ukrainian:Українська::
 "
 
 # clean up obsolete stuff

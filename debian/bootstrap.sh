@@ -6,7 +6,6 @@ set -e
 #	el:Greek:Ελληνικά::
 #	hr:Croatian:Hrvatski::
 #	hu:Hungarian:Magyar::
-#	uk:Ukrainian:Українська::
 I18N_LANGUAGES="
 	cz:Czech:Čeština::
 	da:Danish:Dansk::
@@ -21,6 +20,7 @@ I18N_LANGUAGES="
 	pt-br:Brazilian_Portuguese:Português::
 	ro:Romanian:Română::
 	ru:Russian:русский::
+	uk:Ukrainian:Українська::
 "
 
 # clean up obsolete stuff

@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 14/03/2011 0345 UTC -->
+<!-- Last translation revision polix 02/01/2012 0345 UTC -->
 <div id="menu"> <!-- menu starts here - ua language maintained by polix -->
 <!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
 <!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
@@ -330,16 +330,16 @@
 <!-- menu-en ends here --> </div>
 <div id="main-page">
 	<div class="divider" id="uuid">
-			<h2 id="top-header">Rebuilding fstab and creating mount points</h2>
-							<p class="highlight-3">By default aptosid uses uuid in your fstab when you install.</p>
+			<h2 id="top-header">Відновлення fstab і створення точок монтування</h2>
+							<p class="highlight-3">За замовчуванням aptosid використовує при установці UUID в fstab.</p>
 
-							<p>To show a newly created partition (say sda6 or sdb7), that does not appear in fstab or want to be mounted, in a terminal, (konsole), as user ($), type the following command:</p>
+							<p>Для перегляду новостворених і поки не включених у fstab (скажімо, sda6 або sdb7) розділів, або будь-яких інших доступних для монтування розділів жорсткого диска виконайте як звичайний користувач цю команду в терміналі::</p>
 
 <pre>
  ls -l /dev/disk/by-uuid
 </pre>
 
-							<p>It will output like this (bold is for example purposes only):</p>
+							<p>Висновок команди буде схожий на наведений нижче (виділення товстим шрифтом виключно для прикладу):</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 348ea9e6-7879-4332-8d7a-915507574a80 -> ../../sda4
@@ -349,12 +349,12 @@ lrwxrwxrwx 1 root root 10 2007-05-27 23:42 a83b8ede-a9df-4df6-bfc7-02b8b7a5f1f2 
 lrwxrwxrwx 1 root root 10 2007-05-27 23:42 <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> -> ../../sda6
 </pre>
 
-							<p>In this example <b>ad662d33-6934-459c-a128-bdf0393e0f44</b> is the missing entry. The next step is to enter the UUID partition to /etc/fstab. To add it to your fstab file use a text editor (like kate or kwrite) with root privileges:</p>
+							<p>У цьому прикладі рядок, що містить <b> ad662d33-6934-459c-a128-bdf0393e0f44 </b> відсутній у fstab. Наступним кроком стане додавання відповідної даному UUID рядки в файл / etc / fstab. Для цього підійде будь-який текстовий редактор (такий як kate або kwrite), запущений від імені суперкористувача root:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=ad662d33-6934-459c-a128-bdf0393e0f44</b> /media/disk1part6 ext4	auto,users,exec	0 2
 </pre>
-							<p>Another example:</p>
+							<p>Інший приклад:</p>
 
 <pre>
 lrwxrwxrwx 1 root root 10 2007-05-28 13:18 30ebb8eb-8f22-460c-b8dd-59140274829d -> ../../sdb8
@@ -370,64 +370,64 @@ rwxrwxrwx 1 root root 10 2007-05-28 13:18 <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14
 
 
 
-							<p>In this case <b>f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> is the missing entry and is added to /etc/fstab:</p>
+							<p>Тут відсутним в fstab записом є рядок, що містить <b> f9aa4027-ecdd-4a86-84e2-df2ef73fe14e </b>. Додайте відповідний запис в /etc/fstab:</p>
 <pre>
 # &lt;device file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt; &lt;pass&gt;
 <b>UUID=f9aa4027-ecdd-4a86-84e2-df2ef73fe14e</b> /media/disk2part7 ext4	auto,users,exec	0 2
 </pre>
 
-			<h3>Creating new mount points</h3>
-							<p> <span class="highlight-3">Note:</span> A mount point name, as noted in fstab, needs to have an existing directory. aptosid creates these directories during the installation process under <span class="highlight-3">/media</span> and they are named <span class="highlight-3">diskXpartX</span>.</p>
+			<h3>Створення нових точок монтування</h3>
+							<p> <span class="highlight-3">Примітка:</span> Імeні точки монтування, кoторoe відзначається в fstab, необхідно мати існуючий каталог. Aptosid створює ці папки під час процесу установки під <span class="highlight-3"> / media <span> і вони називаються <span class="highlight-3"> diskXpartX </span>..</p>
 
-							<p>If you have manipulated the partition table after the initial installation and assuming you have already altered fstab, (for example, 2 new partitions have been created), the directory for each mount point will not exist and it needs to be manually created.</p>
+							<p>Якщо Ви хочете маніпулювати таблицю розділів після початкової установки і передбачається, що ви вже змінили fstab, (наприклад, були створені 2 нових розділів), каталог для кожної точки монтування не буде існувати, і він повинен бути створений вручну.</p>
 
-					  <h5>Example:</h5>
+					  <h5>Приклад:</h5>
 
-							<p>First, as root, confirm the existing mount points:</p>
+							<p>Спочатку підтвердіть з правами root, існуючі точки монтування:</p>
 
 <pre>
 cd /media
 ls
 </pre>
-							<p>It should return the existing mount points, for example:</p>
+							<p>Мають бути показані існуючі точки монтування, наприклад:</p>
 <pre>
 disk1part1 disk1part3 disk2part1
 </pre>
-							<p>Staying in /media, create the mount points of the new partitions:</p>
+							<p>Перебувайте в / media, створіть точки підключення нових розділів:</p>
 <pre>
 mkdir disk1part6
 mkdir disk2part7
 </pre>
 
-							<p>To test or use partitions immediately:</p>
+							<p>Для перевірки або використовування розділів відразу:</p>
 <pre>
 mount /dev/sda6 /media/disk1part6
 mount /dev/sda6 /media/disk2part7
 </pre>
-							<p>Upon a reboot of the computer the filesystems will be mounted automatically. Read:</p>
+							<p>Після перезавантаження комп'ютера, файлові системи будуть автоматично встановлені.Чітайте:</p>
 <pre>
 man mount
 </pre>
 
 	</div>
 	<div class="divider" id="uuid-fstab">
-			<h2>Overview: UUID, Partition Labelling and fstab</h2>
-							<p>Persistent block device naming has been made possible by the introduction of udev and has some advantages over bus-based naming.</p>
+			<h2>Огляд: UUID, мітка розділу і fstab</h2>
+							<p>Довгі імена (persistent naming) в позначенні блокових пристроїв стали можливим з появою udev і надають кілька переваг у порівнянні з найменуваннями на базі Bus. Надалі маючи на увазі цей спосіб позначення ми будемо використовувати термін "довге найменування".</p>
 
-							<p>While Linux distributions and udev are evolving and hardware detection is becoming more reliable, there are also a number of new problems and changes:<br />
-				   			<b>1)</b> If you have more than one sata/scsi or ide disk controller and the order in which they are added is random, then this may result in device names like hdX and hdY switching around randomly on each boot. The same goes for sdX and sdY. Persistent naming allows you not to worry about this at all.<br />
-				  			<b>2)</b> With the introduction of the new libata pata support, all your ide hdX devices will become sdX devices at some point in the future. Again, with persistent naming, you won't even notice.<br />
-				   			<b>3)</b> Machines with both sata and ide controllers are quite common these days. With the libata changes mentioned above, the first problem will become even more common, as sata and ide hard drives will both have sdX names.</p>
+							<p>Розвиток Linux дистрибутивів і udev зробило більш надійним упізнання апаратних засобів, але одночасно з цим поставило необхідність вирішення ряду нових питань:<br />
+				   			<b>1)</b> Порядок підключення при наявності більш ніж одного контролера SATA / SCSI або простих контролерів IDE стає випадковим. Як наслідок імена одного і того ж виду пристроїв hdx / hdy або sdx / sdy випадково чергуються після кожної загрузкі.Іспользованіе "довгих найменувань" дозволяє більше не турбуватися про це.<br />
+				  			<b>2)</b> З впровадженням нової бібліотеки libata і підтримкою PATA все блокові пристрої, досі іменувалися як hdx, в майбутньому будуть називатися sdX. Використання "довгих найменувань" і в цьому випадку позбавляє користувача від неспокою. <br /> <br /> <b> 3) </b> Нині широко поширене одночасне використання контролерів SATA-і IDE типу. Завдяки використанню libata в цьому випадку всі жорсткі диски, незалежно від типу контролера, отримують імена виду sdX.<br />
+				   			<b>3)</b> Машини й з подвійним підключенням SATA і з IDE контролерами досить часто зустрічаються в ці дні. Із змінами libata говорилося вище, перша проблема стане ще більш звичайною справою, тому що у обох SATA і IDE жорстких дисків є SDX імена.</p>
 
-							<p class="highlight-3">By default aptosid will use uuid in your fstab when you install.</p>
+							<p class="highlight-3">За вищезгаданим причин aptosid використовує за замовчуванням UUID в /etc/fstab.</p>
 
-				<p>There are more reasons, but these are the most critical ones now and in the near future. That's why aptosid encourages you to change your setup to persistent naming schemes.</p>
+				<p>Існують й інші причини. Але перераховані - найбільш критичні як зараз, так і в найближчому майбутньому. Тому aptosid рекомендує використання схеми найменування блокових пристроїв з довгими іменами.</p>
 
-			<h2>The four different schemes for persistent naming:</h2>
+			<h2>4 схеми для "довгих найменувань":</h2>
 
-			<h4>1. Persistent Naming by UUID</h4>
+			<h4>1. За допомогою UUID</h4>
 
-							<p>UUID stands for Universally Unique Identifier and is a mechanism to give each filesystem a unique identifier. It is designed so that collisions are unlikely. All Linux filesystems (including swap) support UUID. FAT and NTFS filesystems don't support UUID, but are still listed in by-uuid with a unique identifier:</p>
+							<p>UUID (скорочення від "Universally Unique Identifier") це є механізм присвоєння унікальних позначень різних пристроїв. Унікальність кожного конкретного позначення обумовлена ​​вкрай низькою ймовірністю колізій (збігу імен).<br/> Всі файлові системи Linux включаючи swap, підтримують UUID. Хоча FAT-система та файлова система NTFS не підтримують UUID, для них також можливе створення унікального позначення в стилі "uuid"::</p>
 <pre>
 $ /bin/ls -lF /dev/disk/by-uuid/
 total 0
@@ -440,12 +440,12 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 B0DC1977DC193954 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 bae98338-ec29-4beb-aacf-107e44599b2e -> ../../sdb2
 </pre>
 
-							<p>As you can see, the fat and ntfs partitions have shorter names (sda6 and sdb1), but are still listed by uuid.</p>
+							<p>Як Ви бачите, розділи з fat і ntfs мають короткі імена (sda6 and sdb1), але все одно показані в UUID.</p>
 
 
-			<h4>2. Persistent Naming by LABEL</h4>
+			<h4>2. За допомогою МІТКИ (LABEL)</h4>
 
-							<p>Almost every filesystem type can have a label. All your partitions that have one are listed in the /dev/disk/by-label directory:</p>
+							<p>Практично кожен тип файлової системи може мати позначку. Розділи з міткою знаходяться в каталозі /dev/disk/by-label:</p>
 <pre>
 $ ls -lF /dev/disk/by-label
 total 0
@@ -458,9 +458,9 @@ lrwxrwxrwx 1 root root 10 Oct 16 10:27 swap -> ../../sda5
 lrwxrwxrwx 1 root root 10 Oct 16 10:27 windows -> ../../sdb1
 </pre>
 
-							<p>While labels may have recognisable names, you need to exercise extreme caution to negate name collisions.</p>
+							<p>Так як в якості міток використовуються повторювані імена, Вам треба бути гранично уважним, щоб уникнути плутанини.</p>
 
-							<p>You can change the labels of your filesystems using these commands:</p>
+							<p>Позначення мітки може змінюватися наступними командами:</p>
 <pre>
 * swap: Create a new swapspace like this: mkswap -L &lt;label&gt; /dev/XXX
 * ext2/ext3/ext4: e2label /dev/XXX &lt;label&gt;
@@ -471,42 +471,42 @@ but when you create the filesystem, use mkdosfs -n &lt;label&gt; &lt;other optio
 You may also change the label of an existing filesystem using Windows.
 * ntfs: ntfslabel /dev/XXX &lt;label&gt; or change it using Windows.
 </pre>
-							<p class="highlight-3">Be careful: The labels have to be unique to make this work", it applies equally to USB/firewire sticks and to harddisks. The LABEL=/ UUID= syntax is preferred over /dev/disk/by-*/ for UN*X partitions</p>
+							<p class="highlight-3">УВАГА: Щоб не виникло проблем, мітки повинні мати унікальне позначення. Це відноситься і до зовнішніх пристроїв (жорсткі диски, Sticks, і т.д.), які включаються через USB або FIrewire. Синтаксис LABEL = / UUID = для розділів UN * X краще, ніж / dev/disk/by- * /.</p>
 
 
 
-			<h4>3. Persistent Naming by id </h4>
+			<h4>3. За допомогою ID </h4>
 
-							<p>by-id creates a unique name depending on the hardware serial number.</p>
-			<h4>4. Persistent Naming by path</h4>
-							<p>by-path creates a unique name depending on the shortest physical path (according to sysfs). Both contain strings to indicate which subsystem they belong to and thus are not suitable for solving the problems mentioned in the beginning of this article. They won't be discussed any further here.</p>
+							<p>Метод by-id створює єдине позначення на основі серійного номера апаратних засобів.</p>
+			<h4>4. За допомогою рath</h4>
+							<p>by-path створює єдине позначення на основі самого короткого фізичного шляху (по sysfs).<br/><br/> Обидва вищезазначених методу містять рядки символів, які знімають показання, до якої підсистемі вони належать, і таким чином не підходять, для вирішення вище згаданих проблем і тут надалі не обговорюються.</p>
 
-			<h4>Enabling persistent naming</h4>
+			<h4>Використання довгих найменувань</h4>
 
-							<p>Having chosen which naming method you'd like to use, let's now enable persistent naming for your system:</p>
+							<p>Тут є приклад включення довгих найменувань у fstab:</p>
 
-			<h4>In fstab</h4>
+			<h4>В fstab</h4>
 
-							<p>Enabling persistent naming in /etc/fstab is easy;  just replace the device name in the first column by the new persistent name. In my example I would replace /dev/sda7 by one of the following:</p>
+							<p>Включення в / etc / fstab досить просто. Ім'я пристрою в першому стовпці замінюється на довге найменування. У нашому прикладі / dev/sda7 замінюється одним з двох варіантів:</p>
 <pre>
 /dev/disk/by-label/home or
 /dev/disk/by-uuid/31f8eb0d-612b-4805-835e-0e6d8b8c5591
 </pre>
-							<p>Do so for all the partitions in your fstab file.</p>
+							<p>Теж саме повторюється для всіх розділів у fstab.</p>
 
-							<p>Instead of giving the device explicitly, one may indicate the filesystem that is to be mounted by its UUID or volume label, writing LABEL=&lt;label&gt; or UUID=&lt;uuid&gt;, for example:</p>
+							<p>Замість використання безпосередньо довгого імені, для позначення підключається накопичувача, можна використовувати його UUID або мітку: LABEL =<label> або UUID = <uuid>.Наприклад:</p>
 <pre>
 LABEL=Boot
-</pre>				<p>or</p>
+</pre>				<p>або</p>
 <pre>
 UUID=3e6be9de-8139-11d1-9106-a43f08d823a6
 </pre>
-							<p>Source: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a>  who used <a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Content from wiki.archlinux.org available under GNU Free Documentation License 1.2 and has been re-edited for aptosid-manuals</p>
+							<p>Джерело: <a href="http://wiki.archlinux.org/index.php/Persistent_block_device_naming">wiki.archlinux.org</a> посилаючись на<a href=" http://marc.theaimsgroup.com/?l=linux-hotplug-devel&amp;m=114795097514527&amp;w=2">marc.theaimsgroup.com</a> Зміст wiki.archlinux.org є засвідченим як під GNU Free Documentation License 1.2. Редагувати і відповідно переведено для aptosid керівництв</p>
 
-							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">There is more on labeling here at lissot.net</a> </p>
+							<p><a href="http://www.lissot.net/partition/ext2fs/labels.html">Більше про мітки lissot.net</a> </p>
 
 	</div>
-			<div id="rev">Content last revised 26/04/2011 1355 UTC</div>
+			<div id="rev">Сторінка останний раз переглянута 26/04/2011 1355 UTC</div>
 </div>
 </body>
 </html>

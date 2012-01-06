@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision by RoEn 18/03/2011 1800 UTC-->
+<!-- Last translation revision by polix 27/12/2011 1800 UTC-->
 <div id="menu"> <!-- menu starts here - ru language maintained by RoEn -->
 <!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
 <!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
@@ -330,79 +330,78 @@
 <!-- menu-en ends here --> </div>
 <div id="main-page">
 		<div class="divider" id="part-lvm">
-				<h2 id="top-header">LVM partitioning - Logical Volume Manager</h2>
+				<h2 id="top-header">Разбиение LVM - управление логическими объемами</h2>
 
-							<p><span class="highlight-2"> This is a basic guide to get you started. It is your responsibilty to learn more about LVM. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</span></p>
+							<p><span class="highlight-2"> Это базовое руководство для Вашего начала работы. В Вашу обязанность входить узнавание больше информации о LVM. Источники и ресурсы находяться в нижней части этой страницы, однако они безусловно не являються исчерпывающими.</span></p>
 
-							<p>Applicable for aptosid-2010-03-apate forward.</p>
+							<p>Предназначено для релиза aptosid-2010-03-apate.</p>
 
-							<p>Logical volumes can span multiple disks and are scalable, unlike the traditional method of partitioning hard drives. </p>
+							<p>Логические объемы могут занимать несколько дисков и являются в отличие от традиционного метода разбиения жестких дисков масштабируемыми.</p>
 
-							<p>However, whether it be the traditional method of partitioning or partitioning to use LVM, partitioning is not something you do very often, thus it requires deep thought, along with trial and error, before you will be happy with the outcome you desire.</p>
+							<p>Тем не менее, будь ли это традиционный метод разметки или секционированое использование LVM, разбиения не то что Вы очень часто делаете, поэтому она требует глубокой логики наряду с методом проб и ошибок, прежде чем Вы будете довольны результатом работы.</p>
 
-							<p>There are 3 basic terms of of terminology you will need to know:</p>
+							<p>Есть 3 основных термина, которые Вы должны знать:</p>
 						  <ul>
-							<li><span class="highlight-3">Physical Volumes:</span> These are your physical disks, or disk partitions, such as /dev/sda or /dev/sdb1. These are what you would be used to using when mounting/unmounting things. Using LVM we can combine multiple physical volumes into volume groups. </li>
+							<li><span class="highlight-3">Физические объемы:</span> Это Ваши физические диски или разделы диска, такие как /dev/ или /dev/sdb1. Все это так важно как например иструкция по собирании которую Вы  бы использовали  при монтаже / размонтирования какой-нибудь вещи. С помощью LVM мы можем объединить несколько физических объемов в группы .</li>
 
-							<li><span class="highlight-3">Volume Groups:</span> A volume group is comprised of real physical volumes, and is the storage used to create logical volumes which you can create/resize/remove and use. You can consider a volume group like a "virtual disk" assembled from physical volumes. You can slice it up into "virtual partitions" which are logical volumes.</li>
+							<li><span class="highlight-3">Группы объемoв:</span> Группы объемов состоит из реальных физических объемов, и хранения используется для создания логических объемов, которые Вы можете создать/изменить/удалить и использовать. Вы можете считать группу объемов, как "виртуальный диск" собраный из физических объемов. Вы можете также разделить его на "виртуальные разделы", которые являются логическими объемами.</li>
 
-
-							<li><span class="highlight-3">Logical Volumes:</span> Logical volumes are the volumes that you will ultimately end up mounting upon your system. They can be added, removed, and resized on the fly. Since these are contained in the volume groups they can be bigger than any single physical volume you might have. (i.e. 4 x 250GB drives can be combined into one 1TB volume group, then split create 2 x 500GB logical volumes.)</li>
+							<li><span class="highlight-3">Логические объемы:</span> Логические объемы, являются объемами которые Вы будете в конечном итоге монтировать на Вашей системе. Они могут быть добавленными, удаленными, и измененными. Так как они находятся в группах  они могут быть больше, чем какой-либо один физический объем.(То есть 4 х 250 ГБ диски могут быть объединены в одну группу 1 Тб объема, то его раскол создасть 2 х 500 логических объемов.)</li>
 						  </ul>
 
-				<h3>There are 6 basic steps required</h3>
-							<p><span class="highlight-3">The assumption for the following example is based upon new unpartitioned disks or where a new partitioning scheme is required, which will delete all existing data on the partitions you wish to convert to an LVM.</span></p>
+				<h3>Есть 6 основных и необходимых шагов</h3>
+							<p><span class="highlight-3">Следующий пример основан на новых дисках. Tам разделы отсутствуют или там требуються новые схемы разбиения диска,на котором все данные будут удаленными, которые Вы хотите конвертировать в LVM.</span></p>
 
-							<p>Using cfdisk or fdisk is required, as to date Gparted and KDE Partition Manager, (partitionmanager), do not support LVM partitioning.</p>
+							<p>Вам нужно использовать сfdisk или fdisk так как на сегодняшний день Gparted и KDE Partition Manager не поддерживают перегородки LVM.</p>
 
 							<p><span class="highlight-3">Шаг 1: </span>Создание таблицы разделов:</p>
 <pre>
 cfdisk /dev/sda
-<span class="highlight-3"> n </span>to create a new partition on the disk
-<span class="highlight-3"> p  </span>to make this the primary partition
-<span class="highlight-3"> 1  </span>to give the partition the number 1 as an identifier
-<span class="highlight-3"> ### size allocation </span> ### Set first and last cylinders to the default values (press enter) to span the entire drive
-<span class="highlight-3"> t  </span>toggle the type of partition to create
-<span class="highlight-3"> 8e  </span>is the hex code for a Linux LVM
-<span class="highlight-3"> W </span>to write your changes to the disk. ##This will write the partition table. If you have realised that you made a mistake at this point, you could restore the old partition layout and your data will be fine.##
+<span class="highlight-3"> n </span>  создасть новый раздел на жестком диске
+<span class="highlight-3"> p  </span> сделает этот раздел основным разделом
+<span class="highlight-3"> 1  </span> дасть разделу номер 1 в качестве идентификации
+<span class="highlight-3"> ### установитьразмер кластера по Вашему желанию</span> ### Установите значения первого и последнего цилиндра по умолчанию (нажмите Enter) чтобы охватить весь диск
+<span class="highlight-3"> t  </span> переключить тип розділу для створення
+<span class="highlight-3"> 8e  </span> является шестнадцатеричным кодом для Linux LVM
+<span class="highlight-3"> W </span>запишеть Вашы изменения на диск. ## Это таблица разделов. Если Вы поняли,что Вы сделали ошибку в этот момент,Вы можете восстановить старую схему разделов диска и Ваши данные будут в порядке.##
 </pre>
 
-							<p>Should you want the volume to span 2 or more disks, repeat this process on each of the disks.</p>
+							<p>Если Bы хотите охватить объем 2 или более дисков, повторите эту процедуру на каждом из дисков.</p>
 
-							<p><span class="highlight-3">Шаг 2:</span> Setup the partition as a Physical Volume. This will delete any data:</p>
+							<p><span class="highlight-3">Шаг 2:</span> Настройте раздел в качестве физического объема. Это приведет к УДАЛЕНИЮ каких-либо данных:</p>
 
 <pre>
 pvcreate /dev/sda1
 </pre>
 
-							<p>Repeat the process on any other partitions as required.</p>
+							<p>Повторите процесс на любых других разделах,в соответствии с требованиями.</p>
 
-							<p><span class="highlight-3">Шаг 3:</span> Create the Volume Group:</p>
+							<p><span class="highlight-3">Шаг 3:</span> Создайте группу обьемов:</p>
 
 <pre>
 vgcreate vulcan /dev/sda1
 </pre>
-							<p>Should you wish to span 3 disks, for example, you include the other disks in the vgcreate command:</p>
+							<p>Если Вы хотите охватить 3 диска, если Вы например включаете другие диски, наберите эту команду:</p>
 
 <pre>
 vgcreate vulcan /dev/sda1 /dev/sdb1 /dev/sdc1
 </pre>
-							<p>If you have done this correctly you'll be able to see the result in the output of:</p>
+							<p>Если Вы сделали это правильно, Вы сможете увидеть результат с помощью команды:</p>
 <pre>
 vgscan
 </pre>
-							<p>vgdisplay will give you the <span class="highlight-3"> size </span> properties:</p>
+							<p>vgdisplay дасть Вам <span class="highlight-3"> size</span> свойства:</p>
 <pre>
 vgdisplay vulcan
 </pre>
-							<p><span class="highlight-3">Шаг 4:</span> Creating the Logical Volume. Now it is time for you to decide how big you want the logical volume to be initially. One advantage of LVM is that you can adjust the size of the volume on at will without needing to reboot.</p>
+							<p><span class="highlight-3">Шаг 4:</span> Создание логических oбьемов. Теперь пришло для Вас время, чтобы решить какой логический обьем Вы хотите иметь чтобы быть на начальном этапе. Одним из преимуществ является то,что с помощью LVM Вы можете регулировать размер обьема по своему желанию без необходимости перезагрузки.</p>
 
-							<p>Lets assume that you initially want a 300GB volume called spock within the lvm called vulcan:</p>
+							<p>Давайте предположим, что Вы изначально хотите создать 300 GB объема под названием spock в LVM разделе vulcan:</p>
 <pre>
 lvcreate -n spock --size 300g vulcan
 </pre>
 
-							<p><span class="highlight-3">Шаг 5:</span> Format the volume and be patient while it is formating , it could take a while:</p>
+							<p><span class="highlight-3">Шаг 5:</span> Отформатируйте объем и будете терпеливыми во время его форматирования. Это может занять некоторое время:</p>
 <pre>
 mkfs.ext4 /dev/vulcan/spock
 </pre>
@@ -410,17 +409,17 @@ mkfs.ext4 /dev/vulcan/spock
 <pre>
 mkdir /media/spock/
 </pre>
-							<p>Edit fstab with your favorite editor to mount the volume during boot up. </p>
+							<p>Змініть fstab з Вашим Улюблених редактором для монтування об'єму при завантаженні.</p>
 <pre>
 mcedit /etc/fstab
 </pre>
-							<p>Using <span class="highlight-3">/dev/vulcan/spock </span> is better than using UUID numbers with LVM, as then you can clone the filesystem and not have to worry about potential UUID collisions, especially with LVM, as you can end up with multiple filesystems with the same UUID number (snapshots being a prime example).</p>
+							<p>Использование<span class="highlight-3">/dev/vulcan/spock </span> лучше, чем использование UUID чисел с LVM, как и тогда Вы можете клонировать файловую систему, и Вам не придется беспокоиться о возможных UUID столкновений, особенно с LVM, каторый Вы можете в конечном итоге устроить на нескольких файловых систем с одинаковым числом UUID (Ярким примером этого является снимки).</p>
 
 
 <pre>
 /dev/vulcan/spock /media/spock/ ext4 auto,users,rw,exec,dev,relatime  0  2
 </pre>
-							<p><span class="highlight-3"> Optional:</span> Change the owner of the volume so that other users have read/write access to the LVM:</p>
+							<p><span class="highlight-3"> Необязательно:</span> Изменените объем владельца  так, чтобы другие пользователи не имели права на чтение/запись LVM:</p>
 
 <pre>
 chown root:users /media/spock
@@ -429,13 +428,13 @@ chown root:users /media/spock
 <pre>
 chmod 775 /media/spock
 </pre>
-							<p>Your basic LVM should now be set up.</p>
+							<p>Ваш основной LVM теперь должен быть установлен.</p>
 
 					    <h3>Изменение размеров</h3>
 
-							<p><span class="highlight-3">It is highly recommended that you use a live ISO to change the partition sizes. Whilst growing the partition 'on the fly' may be error free, the same can not be said when reducing the volume, as anomalies will cause data loss, particularly if <span class="highlight-2 "> / (root) </span> or <span class="highlight-2">/home</span> are involved.</span></p>
+							<p><span class="highlight-3">Настоятельно рекомендуется использовать Live-ISO для изменения размеров разделов. В то время растущий раздел 'на лету' может быть без ошибок, то же самое нельзя сказать, когда произходить снижение объема. Это приводить к потере данных, особенно если при этом  участвуют разделы <span class="highlight-2 "> / (root) </span> и <span class="highlight-2">/home</span>.</span></p>
 
-							<h5>To resize the volume from 300GB to 500GB, as used in this example:</h5>
+							<h5>Для изменения размеров объемом от 300 Гб до 500 Гб, используйте в данном примере команду:</h5>
 <pre>
 umount /media/spock/
 </pre>
@@ -443,7 +442,7 @@ umount /media/spock/
 <pre>
 lvextend -L+200g /dev/vulcan/spock
 </pre>
-							<p>Then run the command for the filesystem to be resized:</p>
+							<p>Затем выполните эту команду для файловой системы, чтобы она была изменена:</p>
 
 <pre>
 e2fsck -f /dev/vulcan/spock
@@ -456,11 +455,11 @@ resize2fs /dev/vulcan/spock
 <pre>
 mount /media/spock
 </pre>
-							<h5>To resize the volume from 300GB down to 280GB, as used in this example:</h5>
+							<h5>Для изменения размеров объемом от 300 ГБ до 280GB используйте в данном примере команду:</h5>
 <pre>
 umount /media/spock/
 </pre>
-							<p>Then run the command for the filesystem to be resized:</p>
+							<p>Затем выполните эту команду для файловой системы, чтобы она была изменена:</p>
 
 <pre>
 e2fsck -f /dev/vulcan/spock
@@ -470,7 +469,7 @@ e2fsck -f /dev/vulcan/spock
 resize2fs /dev/vulcan/spock 280g
 </pre>
 
-							<p>Then resize the volume</p>
+							<p>Потом измените размер объема</p>
 <pre>
 lvreduce -L-20g /dev/vulcan/spock
 </pre>
@@ -483,32 +482,32 @@ resize2fs /dev/vulcan/spock
 mount /media/spock
 </pre>
 
-					     <h5>An LVM GUI</h5>
-							<p><span class="highlight-3">system-config-lvm</span> provides a GUI and is available to help you manage your LVMs which is started from the command line as root:</p>
+					     <h5>LVM GUI</h5>
+							<p><span class="highlight-3">system-config-lvm</span> обеспечивает графический интерфейс и доступен для Вас, чтобы помочь Вам управлять LVM. Устанока system-config-lvm с правами администратора:</p>
 
 <pre>
 apt-get install system-config-lvm
-man system-config-lvm <span class="highlight-3"> # required reading</span>
+man system-config-lvm <span class="highlight-3"> # Пожалуйста это прочтите</span>
 </pre>
 
-				  <h5>Ссылки:</h5>
+				  <h5>Ссылки и ресурсы:</h5>
 						     <ul>
 							 <li><a href="http://www.debian-administration.org/articles/410"> Администрирование Debian - простое введение в работу с LVM</a></li>
 
-							 <li><a href="http://www.ibm.com/developerworks/linux/library/l-lvm2/"> IBM - Управление логическими томами</a></li>
+							 <li><a href="http://www.ibm.com/developerworks/linux/library/l-lvm2/"> IBM - Управление логическими объемами</a></li>
 
 							  <li><a href="http://www.ibm.com/developerworks/linux/library/l-resizing-partitions-2/index.html"> IBM - Изменение размеры разделов Linux, Часть 2: Усовершенствованное изменение размеров</a></li>
 
 
 							  <li> <a href="http://docs.google.com/viewer?a=v&amp;q=cache:1RMpacheCBcJ:www.redhat.com/docs/en-US/Red_Hat_Enterprise_Linux/5.4/pdf/Logical_Volume_Manager_Administration.pdf+%22Logical+Volume+Manager+Administration+%22&amp;hl=en&amp;pid=bl&amp;srcid=ADGEEShRiptIjzsnPNsCs4RgyUFNWkYcrDc3SkBSD6cTq39D6wye5JM3tP_ehcn37I5VWs84I_HI45rvG-n6YG4R2fE8hqDByq-KPhNEkha4zwphrR7QIUVnUz6omwY85e-ZEXX723Js&amp;sig=AHIEtbSJyxEst6Wue7_1_TeDYwB480azEw"> Red Hat - Руководство администратора по LVM</a></li>
 
-							  <li> <a href="http://ru.wikipedia.org/wiki/LVM">Менеджер логических томов</a></li>
+							  <li> <a href="http://ru.wikipedia.org/wiki/LVM">Менеджер логических объемов (Linux)</a></li>
 
 							  <li> <a href="http://thelinuxexperiment.com/guinea-pigs/jon-f/setting-up-an-lvm-for-storage/">Настройка LVM для хранения</a></li>
 
 							  <li> <a href="http://linuxhelp.blogspot.com/2005/04/creating-lvm-in-linux.html"> Создание LVM в Linux</a></li>
 
-							  <li> <a href="http://www.linuxconfig.org/Linux_lvm_-_Logical_Volume_Manager">Linux lvm - Менеджер логических томов</a></li>
+							  <li> <a href="http://www.linuxconfig.org/Linux_lvm_-_Logical_Volume_Manager">Linux lvm - Менеджер логических объемов</a></li>
 
 						      </ul>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="ru">
 <head>
 	<title>aptosid Manuals - Encryption Installations</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,10 +17,14 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision bluewater 01/11/2010 1120 -->
-<div id="menu"> <!-- menu starts here - ru language maintained by RoEn -->
-<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
-<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
+<!-- Last translation revision RoEn 14/12/2011 1120 -->
+<!--htdig_noindex--><div id="menu"> <!-- menu starts here - ru language maintained by RoEn -->
+<!--aptosid Operating System Manual menu-version-02.14.2012.01.30 -->
+<!-- menu last updated by bluewater 2012.01.30 1245 hrs UTC -->
+<ul>
+<li></li>
+<li><a></a></li>
+</ul>
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Главная страница aptosid.com, форума и вики" alt="aptosid.com logo" /></a>
 	</div>
@@ -28,7 +32,7 @@
 		<li><a href="manual-search-ru.htm#search-on"><img src="../lib/logos/manual-search-22x22.png" title="Поиск в руководстве" alt="Search" /> Варианты поиска</a> </li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Выбор языка - Choose another language" alt="Переключение языка" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Выбор языка - Choose another language CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU, UK" alt="Переключение языка CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU, UK" /></a>
 	</div>
 	<ul>
 <li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-ru.htm">Руководство aptosid</a>
@@ -233,7 +237,10 @@
 						    <li><a href="inet-ceni-ru.htm#dial-mod">56килобитовые модемы</a></li>
 						    <li><a href="inet-ceni-ru.htm#netcardconfig">Настройка сетевых карт с ceni</a></li>
 					</ul>
-					</li>
+				
+		<li><a href="nf-firm-ru.htm#fw-detect">Определение несвободного микропрограммного обеспечения - non-free </a></li>
+		<li><a href="nf-firm-ru.htm#non-free-firmware">Добавление non-free в список источников</a></li>
+				
 				</ul>
 			    </li>
 <li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-ru.htm">Управление пакетами и обновление системы с dist-upgrade</a>
@@ -320,34 +327,35 @@
 </ul>
 
 <div id="menu-header-4">
-<a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]"><img src="http://adfarm1.adition.com/banner?sid=399467&ts=[timestamp]" title="aptosid размещен на сервере webtropia.com" alt="aptosid размещен на сервере webtropia.com" /></a>
+<a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]"><img src="http://adfarm1.adition.com/banner?sid=399467&amp;ts=[timestamp]" title="aptosid размещен на сервере webtropia.com" alt="aptosid размещен на сервере webtropia.com" /></a>
 </div>
 
 <ul>
 <li><a></a></li>
 </ul>
 
-<!-- menu-en ends here --> </div>
+<!-- menu-en ends here --> </div><!--/htdig_noindex-->
 <div id="main-page">
 		<div class="divider" id="install-crypt">
 				<h2 id="top-header">Установка на шифрованный раздел root</h2>
 
-							<p><span class="highlight-2">Please note: There are some caveats using this guide for encrypting root or data partitions. These are:</span> </p>
+							<p><span class="highlight-2">Примечание: Обратите внимание на следующее, если Wы хотите зашифровать корневой раздел или раздел  данных:</span> </p>
 						    <ul>
 
-							<li>Applicable for aptosid-2010-03-apate forward.</li>
+							<li>Это руководство доступно с aptosid-2010-03-apate и позже.</li>
 
-							<li>This is a basic guide to get you started. It is your responsibilty to learn more about LUKS, cryptsetup and encryption. Sources and Resources are linked at the bottom of this page which will be of help, however the list is definitely not exhaustive.</li>
+							<li>Оно ябляется основным. Это Ваша ответственность, чтобы узнать больше о LUKS, cryptsetup и шифрования. Допольнительные сообщении Вы наидете в конце страницы. Однако, список является определенно не исчерпывающим.</li>
 
-							<li>cryptsetup cannot encrypt an existing data partition, so you must create a new partition, set it up with cryptsetup and then move your data onto it.</li>
+							<li>cryptsetup не может зашифровать существующие разделы данных. Ооэтому Вы должны создать новый раздел, установить его с cryptsetup, а затем записывааь в него свои данные.</li>
 
-							<li>You can also use key files and have multiple keys for the data, (up to 8,  including the removal of keys), which is outside the scope of this guide.</li>
+							<li>Вы можете также использовать ключевые файлы и несколько ключей для данных (до 8), в том числе удаление ключей. Но это уже выходит из рамки данного пособия.</li>
 
-							<li><span class="highlight-3">Do not forget the passphrases as you will lose access to everything! Even a chroot without knowing the passphrases will not of be of any help except for /boot.</span></li>
+							<li><span class="highlight-3">Не забудьте записать все свои пароли перед зашифрования разделов данных! Без него Вы не сможете получить доступ на данные! И таже а помощи Chroot и с паролами Вам доступно  только на /boot.</span></li>
 
-							<li>Early in the boot process you will be asked for your passphrase for the crypt device and the system will boot up as expected.</li>
+							<li>Пароль запрашивается в начале процесса загрузки и система система будет загружаться, как ожидается.</li>
+							
 						    </ul>
-					      <h3>Encryption examples:</h3>
+					      <h3>Примеры шифрования:</h3>
 						    <ul>
 							<li><a href="hd-install-crypt-en.htm#lvm">Шифрование в пределах групп LVM</a>.</li>
 
@@ -359,7 +367,7 @@
 			      <div class="divider" id="lvm">
 					      <h2>Шифрование в пределах групп LVM</h2>
 
-							<p><span class= "highlight-3">This example uses crypt inside the LVM volume to enable you let you split your home from <span class= "highlight-2"> / </span> and have a swap partition without needing multiple passwords and is applicable from aptosid-2010-03-apate and later.</span></p>
+							<p><span class= "highlight-3">Этот пример использует шифрование внутри группы LVM. Это позволяет Вам, разделить Ваш home from <span class= "highlight-2">/</span> и пользовать раздел swap. не нуждаясь в многократных паролях. Это применяется с aptosid-2010-03-apate и выше.</span></p>
 
 							<p>Before running the installer you must prepare the filesystems which will be used for the installation. For basic LVM partitioning  guidelines, you need to refer to <a href="part-lvm-en.htm#part=lvm">Logical Volume Manager - LVM partitioning</a>. </p>
 
@@ -411,18 +419,20 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 </pre>
 							</li>
 
-							<li><b>Now you are ready to run the installer where you should use:</b><br />
-							<span class= "highlight-3">vg-boot</span> for <span class= "highlight-3">/boot</span>,<br />
-							<span class= "highlight-3">cryptvg-root</span> for <span class= "highlight-2"> /</span>,<br />
-							<span class= "highlight-3">cryptvg-home</span> for <span class= "highlight-3">/home</span>,<br />
-							and <span class= "highlight-3">cryptvg-swap</span> for <span class= "highlight-3">swap</span> should be automagically recognised.</li>
+							<li>Теперь Вы готовы запустить инсталлятор, в котором Вы должны использовать:<br />
+							<span class= "highlight-3">vg-boot</span> для <span class= "highlight-3">/boot</span>,<br />
+							<span class= "highlight-3">cryptvg-root</span> для <span class= "highlight-2"> /</span>,<br />
+							<span class= "highlight-3">cryptvg-home</span> для <span class= "highlight-3">/home</span>,<br />
+							и <span class= "highlight-3">cryptvg-swap</span> <br /> <span class= "highlight-3">swap</span> должен быть автоматически признан.</li>
 						    </ol>
 
-							<p>The installed system should end up with a kernel command line including the following options:</p>
+							<p>В конечном итоге установленная система должна иметь командную строку ядра с следующими вариантами:</p>
 <pre>
 root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=cryptroot,lvm=cryptvg-root
 </pre>
-							<p>You now have the crypt and boot under the vg lvm volume group and the root, home and swap inside the vgcrypt lvm volume group which is inside your password protected encrypted device.</p>
+							<p>Теперь у вас есть скрып и загрузиться под группу томов LVM В.Г. и корень, раздел данных и свопа в объеме vgcrypt LVM группу, которая находится внутри защищен паролем зашифрованного устройства.
+							
+							You now have the crypt and boot under the vg lvm volume group and the root, home and swap inside the vgcrypt lvm volume group which is inside your password protected encrypted device.</p>
 <pre>
 cryptsetup luksOpen /dev/mapper/cryptvg-root cryptvg
 vgchange -a y
@@ -502,7 +512,8 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 </pre>
 
 					  <h3>Запуск программы инсталляции</h3>
-							<p><b>Теперь Вы готовы запустить инсталлятор, где Вы должны использовать::</b><br />
+					  
+							<p><b>Теперь Вы готовы запустить инсталлятор, где Вы должны использовать:</b><br /><br />
 							<span class= "highlight-3">sda1</span> для <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptroot</span> для <span class= "highlight-2"> /</span> и <span class= "highlight-3"> /home</span> <br />
 							<span class= "highlight-3">swap</span> должен быть автоматически признаны.</p>
@@ -524,7 +535,7 @@ man cryptsetup
 
 							<p><a href="http://www.redhat.com/">Redhat</a> и <a href="http://www.redhat.com/Fedora/">Fedora </a>.</p>
 
-							<p><a href="http://www.enterprisenetworkingplanet.com/netsecur/article.php/3683011"> Защитите ваши данныес с зашифрованным разделением Linux (англ.)</a>.</p>
+							<p><a href="http://www.enterprisenetworkingplanet.com/netsecur/article.php/3683011"> Защитите ваши данные с зашифрованным разделением Linux (англ.)</a>.</p>
 
 							<p><a href="http://blog.bodhizazen.net/linux/kvm-how-to-use-encrypted-images/">Как используют зашифрованные изображения в KVM (англ.)</a>.</p>
 

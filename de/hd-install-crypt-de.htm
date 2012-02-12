@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
 <head>
 	<title>aptosid Manuals - Crypt Installations</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,10 +17,14 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Tue, 06 Sep 2011 19:58:46 +0000 -->
-<div id="menu"> <!-- menu starts here de lang maintained by hubi -->
-<!--aptosid Operating System Manual menu-version-02.13.2011.09.09 -->
-<!-- menu last updated by bluewater 2011.09.09 0935 hrs UTC -->
+<!-- Last translation revision hubi Sun, 29 Jan 2012 12:56:34 +0000 -->
+<!--htdig_noindex--><div id="menu"> <!-- menu starts here de lang maintained by hubi -->
+<!--aptosid Operating System Manual menu-version-02.14.2012.01.30 -->
+<!-- menu last updated by bluewater 2012.01.30 1245 hrs UTC -->
+<ul>
+<li></li>
+<li><a></a></li>
+</ul>
 	<div id="menu-header">
 	      <a href="http://aptosid.com/"><img src="../lib/logos/manual-aptosid-logo.png" title="Zu aptosid.com (Forum und Wiki)" alt="aptosid.com logo" /></a>
 	</div>
@@ -28,7 +32,7 @@
 		<li><a href="manual-search-de.htm#search-on"> <img src="../lib/logos/manual-search-22x22.png" title="Handbuch Suche" alt="Suche" />Suche online - offline</a> </li>
 	</ul>
 	<div id="flags-2">
-			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Wählen Sie eine andere Sprache - Choose another language DE, EN" alt="lang-switch" /></a>
+			<a href="../flag-index.html"><img src="../lib/logos/aptosid-lang-100x64.png" title="Wählen Sie eine andere Sprache - Choose another language CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU, UK" alt="lang-switch CZ, DA, DE, EN, ES, FR, IT, JA, NL, PL, PT, RO, RU, UK" /></a>
 	</div>
 	<ul>
 <li onmouseover="showHide( 1 );" onmouseout="startTime();" ><a href="welcome-de.htm">aptosid-Handbuch</a>
@@ -234,6 +238,8 @@
 						    <li><a href="inet-ceni-de.htm#netcardconfig">Ceni (Erstellung einer Internetverbindung</a></li>
 					</ul>
 					</li>
+		<li><a href="nf-firm-de.htm#fw-detect">Ermittlung von nicht freier Firmware</a></li>
+		<li><a href="nf-firm-de.htm#non-free-firmware">non-free der Sources List anfügen</a></li>
 				</ul>
 			    </li>
 <li  onmouseover="showHide( 12 );" onmouseout="startTime();" ><a href="sys-admin-apt-de.htm">Paketmanager und Systemaktualisierung</a>
@@ -320,14 +326,14 @@
 </ul>
 
 <div id="menu-header-4">
-<a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]"><img src="http://adfarm1.adition.com/banner?sid=399467&ts=[timestamp]" title="aptosid is proudly hosted by webtropia.com" alt="aptosid is proudly hosted by webtropia.com" /></a>
+<a href="http://adfarm1.adition.com/click?sid=399467&amp;ts=[timestamp]"><img src="http://adfarm1.adition.com/banner?sid=399467&amp;ts=[timestamp]" title="aptosid is proudly hosted by webtropia.com" alt="aptosid is proudly hosted by webtropia.com" /></a>
 </div>
 
 <ul>
 <li><a></a></li>
 </ul>
 
-<!-- menu-en ends here --> </div>
+<!-- menu-en ends here --> </div><!--/htdig_noindex-->
 <div id="main-page">
 		<div class="divider" id="install-crypt">
 				<h2 id="top-header">Installation auf eine verschlüsselte root-Partition</h2>
@@ -388,7 +394,7 @@ cryptsetup --verify-passphrase --cipher aes-xts-plain:sha512 luksFormat /dev/map
 cryptsetup luksOpen /dev/mapper/vg-crypt cryptroot
 </pre>
 							</li>
-							<li>Nun wird die LVM innerhalb des verschlüsselten Dateisystems verwendet, um eine zweite LVM-Gruppe zu erstellen, welche für <span class= "highlight-3">/swap</span> und <span class= "highlight-3">/home</span> verwendet wird. Man verwendet <span class= "highlight-3">pvcreate</span> cryptroot zur Erstellung eines physischen LVM und <span class= "highlight-3">vgcreate</span>, um eine weitere LVM-Gruppe zu erstellen. Wir nennen sie <span class= "highlight-3">cryptvg</span>:
+							<li>Nun wird die LVM innerhalb des verschlüsselten Dateisystems verwendet, um eine zweite LVM-Gruppe zu erstellen, welche für <span class= "highlight-3">/swap</span> und <span class= "highlight-3">/home</span> verwendet wird. Mit <span class= "highlight-3">pvcreate</span> wird cryptroot ein physisches Volumen und mit <span class= "highlight-3">vgcreate</span> wird eine weitere Volumen-Gruppe erstellt, die wir <span class= "highlight-3">cryptvg</span> nennen:
 <pre>
 pvcreate /dev/mapper/cryptroot
 vgcreate cryptvg /dev/mapper/cryptroot
@@ -403,7 +409,7 @@ lvcreate -n home --size 80g cryptvg
 </pre>
 							Nun wurden die LVMs swap, root und home mit den Größen 2GB, 40GB bzw. 80GB erstellt.
 							</li>
-							<li>Nun werden die Dateisysteme für cryptvg-swap, cryptvg-root und cryptvg-home erstellt, damit sie für den Installer vorhanden sind:
+							<li>Im nächsten Schritt werden die Dateisysteme für cryptvg-swap, cryptvg-root und cryptvg-home erstellt, damit sie für den Installer vorhanden sind:
 <pre>
 mkswap /dev/mapper/cryptvg-swap
 mkfs.ext4 /dev/mapper/cryptvg-root
@@ -411,11 +417,11 @@ mkfs.ext4 /dev/mapper/cryptvg-home
 </pre>
 							</li>
 
-							<li><b>Der Installer kann nun gestartet werden, in dem folgende Optionen benutzt werden sollen:</b><br />
+							<li><b>Der Installer kann nun gestartet werden, wobei folgende Optionen benutzt werden sollen:</b><br />
 							<span class= "highlight-3">vg-boot</span> für <span class= "highlight-3">/boot</span>,<br />
 							<span class= "highlight-3">cryptvg-root</span> für <span class= "highlight-2"> /</span>,<br />
 							<span class= "highlight-3">cryptvg-home</span> für <span class= "highlight-3">/home</span>,<br />
-							und <span class= "highlight-3">cryptvg-swap</span> für <span class= "highlight-3">swap</span> sollten automatisch erkannt werden.</li>
+							<span class= "highlight-3">cryptvg-swap</span> für <span class= "highlight-3">swap</span> sollte automatisch erkannt werden.</li>
 						    </ol>
 
 							<p>Das installierte System sollte eine Kernel-Befehlszeile mit folgenden Optionen aufweisen:</p>
@@ -424,7 +430,7 @@ root=/dev/mapper/cryptvg-root cryptopts=source=/dev/mapper/vg-crypt,target=crypt
 </pre>
 							<p>crypt und boot sind innerhalb der LVM-Gruppe vg und root, home wie swap sind innerhalb der LVM-Gruppe vgcrypt (innerhalb des passwortgeschützten verschlüsselten Bereichs).</p>
 
-							<p><span class= "highlight-3">Note:</span> Falls auf ein bereits verschlüsseltes LVM-Volume installiert wird, muss dem Installer diese Information bereitgestellt werden:</p>
+							<p><span class= "highlight-3">Anmerkung:</span> Falls auf ein bereits verschlüsseltes LVM-Volume installiert wird, muss dem Installer diese Information bereitgestellt werden:</p>
 <pre>
 cryptsetup luksOpen /dev/mapper/cryptvg-root cryptvg
 vgchange -a y
@@ -507,13 +513,13 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 							<p><b>Nun kann der Installer geöffent werden und folgende Optionen sind zu benutzen:</b><br />
 							<span class= "highlight-3">sda1</span> für <span class= "highlight-3">/boot</span><br />
 							<span class= "highlight-3">cryptroot</span> für <span class= "highlight-2"> /</span> und <span class= "highlight-3"> /home</span> <br />
-							<span class= "highlight-3">swap</span> sollten automatisch erkannt werden.</p>
+							<span class= "highlight-3">swap</span> sollte automatisch erkannt werden.</p>
 
 							<p>Das installierte System sollte eine Kernel-Befehlszeile mit folgenden Optionen aufweisen (UUID wird benutzt):</p>
 <pre>
 root=/dev/mapper/cryptroot cryptopts=source=UUID=12345678-1234-1234-1234-1234567890AB,target=cryptroot
 </pre>
-							<p>/boot ist nun eine normale Partition, die swap-Partition ist verschlüsselt wie eine gemeinsame Partition für root und /home.</p>
+							<p>/boot ist nun eine normale Partition, die swap-Partition ist verschlüsselt wie auch die gemeinsame Partition für root und /home.</p>
 
 			      </div>
 				  <h3>Weitere Informationen:</h3>

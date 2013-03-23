@@ -17,7 +17,7 @@
         <![endif]-->
 </head>
 <body>
-<!-- Last translation revision hubi Mon, 06 Sep 2010 10:27:11 +0000 -->
+<!-- Last translation revision hubi Wed, 20 Mar 2013 15:39:12 +0000 -->
 <!--htdig_noindex--><div id="menu"> <!-- menu starts here de lang maintained by hubi -->
 <!--aptosid Operating System Manual menu-version-02.15.2013.01.10 -->
 <!-- menu last updated by bluewater 2013.01.10 0910 hrs UTC -->
@@ -350,7 +350,7 @@ username@hostname:~$
 
 								<p>"username" in obigem Beispiel entspricht dem Nutzernamen des angemeldeten Benutzers. Die <span class="highlight-3">Tilde ~</span> zeigt, man befindet sich in seinem Heimverzeichnis <span class="highlight-3">/home/username</span>, und das Dollarzeichen <span class="highlight-3">$</span> bedeutet, dass man im Terminal mit eingeschränkten Benutzerrechten angemeldet ist. Am Ende blinkt der Cursor. Dies alles ist die Kommandozeile. Hier werden Befehle eingegeben, die das Terminal ausführen soll.</p>
 
-								<p>Viele Befehle kann man nur mit Root-Rechten, also Administratorrechten, ausführen. Root-Rechte erhält man, indem man <span class="highlight-3">sux</span> eingibt und Enter drückt, hiernach muss man das Rootpasswort eingeben. Das Passwort wird während der Eingabe auf dem Bildschirm nicht angezeigt.</p>
+								<p>Viele Befehle kann man nur mit Root-Rechten, also Administratorrechten, ausführen. Root-Rechte erhält man, indem man <span class="highlight-3">su</span> eingibt und Enter drückt, hiernach muss man das Rootpasswort eingeben. Das Passwort wird während der Eingabe auf dem Bildschirm nicht angezeigt.</p>
 
 								<p>Ist die Eingabe korrekt, zeigt die Kommandozeile nun:</p>
 
@@ -415,8 +415,8 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[01;36m\]:\[\03
 
 				<h6>Änderung der Farbe für den Prompt von root#:</h6>
 <pre>
-sux
-&lt;editor&gt; /root/.bashrc
+su
+&lt;mcedit&gt; /root/.bashrc
 </pre>
 							<p>In der Zeile 39 wird das Kommentarzeichen entfernt und sie sieht so aus:</p>
 <pre>
@@ -434,58 +434,61 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[01;31m\]:\[\03
 							<p>Um die Hintergrundfarbe und die Fonts in einem Terminal zu ändern, finden sich die Optionen im Menü des Terminal.</p>
 
 
-		<div class="screenshot"><img src="../lib/images-common/images-terminal/terminal-colour-0.1.png" title="Terminal colours" alt="Terminal colours" /></div>
+		<div class="screenshot"><img src="../lib/images-common/images-terminal/terminal-colour-0.2.png" title="Terminal colours" alt="Terminal colours" /></div>
 
 							<p>Es gibt eine Unmenge an Einstellungsmöglichkeiten für Hintergrundfarben. Wir empfehlen eine eher schlichte Einstellung.</p>
 	</div>
 	<div class="divider" id="sux">
-	<h2>Über sux</h2>
-							<p>Eine Anzahl von Befehlen muss mit Root-Rechten gestartet werden. Diese erhält man durch Eingabe von:</p>
+		      <h2>Über die Nutzung von graphischen Anwendungen mit root-Rechten und des 'sux2'-Aliases</h2>
+							<p>Während <span class="highlight-3">&lt;su&gt;</span> das allgemeine Kommando ist, um Root-Rechte zu erlangen, ermöglichen die Kommandos <span class="highlight-3">kdesu &lt;Anwendung&gt;</span> bzw. <span class="highlight-3">gksu &lt;Anwendung&gt;</span> die Nutzung von GUI/X11-Anwendungen mit Root-Rechten vom Desktop aus.</p>
+
+							<p><span class="highlight-2">Diejenigen, die bisher <span class="highlight-3">sux</span> nutzten (sux ist seit einiger Zeit wegen eines 'login'-Sicherheitsupdate beschädigt), werden in dem Alias <a href="#alias">sux2 in der Zwischenzeit eine gute Option finden</a>, oder andererseits folgenden Befehl nutzen, um $user zu werden:</p> </span>
 <pre>
-sux
+$ suxterm
+</pre>
+							<p>In den meisten Fällen werden graphischen Anwendungen mit root-Rechten gestartet, um die Vorteile eines GUI-Editors wie kate, kwrite, mousepad oder leafpad - um nur einige zu nennen - zu nutzen. Root-Rechte werden auch für die GUI Partition-Anwendung gparted benötigt. (Siehe auch <a href="#sudo">sudo</a>).</p>
+
+							<p>Die Konsolen-Anwendungen wie mcedit, vim, vi oder emacs werden stark empfohlen als Editor, wobei gerade mcedit für Erstnutzer einer der intuitiven Editoren für Konsolen-Anwendungen darstellt. mcedit, vim, vi oder emacs sind möglicherweise die einzige Wahl für einen Konsolen-Editor. (<span class="highlight-3">mc</span> ist auch ein idealer File-Browser auf der Konsolen).</p>
+
+
+				<h4>Optionen in KDE</h4>
+
+							<p>Starten von kdesu in KDE:</p>
+<pre>
+Alt+F2
+</pre>
+							<p>oder Rechts-Klicken auf dem Desktop und Auswahl von:</p>
+<pre>
+Befehl ausführen
+</pre>
+							 <p>danach:</p>
+
+<pre>
+kdesu &lt;Anwendung&gt;
 </pre>
 
-							<p>Im Gegensatz zum allgemeinen Befehl 'su' erlaubt  <span class="highlight-3">sux</span> das Ausführen von Programmen mit graphischer Oberfläche mit Root-Rechten. <span class="highlight-3">sux</span> transferiert unter Benutzung von 'su' die X-Eigenschaften an den Zielnutzer. (Siehe auch <a href="#sudo"> sudo</a>).</p>
-
-							<p>Beispiele für die Verwendung graphischer Anwendungen mittels sux sind: die Bearbeitung einer Konfigurationsdatei mit kwrite oder kate, der Einsatz des Partitionierungsmanagers gparted oder die Verwendung von Dateimanagern wie dolphin oder thunar. </p>
-
-							<p>Einige KDE-Anwendungen benötigen <span class="highlight-3">dbus-launch</span> vor dem Anwendungsbefehl:</p>
+							<p>Einige KDE-Anwendungen erfordern <span class="highlight-3">dbus-launch</span> vor dem Anwendungsbefehl:</p>
 <pre>
 dbus-launch &lt;Anwendung&gt;
 </pre>
 
-				  <h6>KDE: Tastatur-Optionen</h6>
-							<p>Start von krunner in KDE:</p>
+				<h4>Optionen in Xfce</h4>
+							<p>Starten des Run-Befehls in Xfce:</p>
 <pre>
 Alt+F2
 </pre>
-							<p>oder Rechts-Klick auf dem Desktop und Auswahl von:</p>
+							<p>oder Rechts-Klicken auf dem Desktop und Auswahl von:</p>
 <pre>
 Befehl ausführen
 </pre>
 							 <p>danach:</p>
 
 <pre>
-kdesu &lt;Application&gt;
+gksu &lt;Anwendung&gt;
 </pre>
 
-
-				<h6>Xfce: Tastatur-Optionen</h6>
-							<p>Start des Run-Befehls in Xfce:</p>
-<pre>
-Alt+F2
-</pre>
-							<p>oder Rechts-Klick auf dem Desktop und Auswahl von:</p>
-<pre>
-Befehl ausführen
-</pre>
-							 <p>danach:</p>
-
-<pre>
-gksu &lt;Application&gt;
-</pre>
-					 <h6>Optionen für weitere Desktopumgebungen</h6>
-							<p>Eine andere Tastatur-Option für alle Desktopumgebungen ist:</p>
+					  <h4>Optionen in anderen Desktop-Managern</h4>
+							<p>Eine andere Tastatur-Option für alle Desktopumgebungen lautet:</p>
 <pre>
 Alt+F2
 </pre>
@@ -493,13 +496,84 @@ Alt+F2
 <pre>
 su-to-root -X -c &lt;Anwendung&gt;
 </pre>
-							<p><span class="highlight-3">Alle Tastatur-Optionen können in einem Terminal eingegeben werden.</span></p>
+					  <h3>Optionen auf der Konsole</h3>
+							<p>Starten von kdesu auf der Konsole:</p>
+<pre>
+/usr/lib/kde4/libexec/kdesu
+</pre>
+							<p>Starten von gksu auf der Konsole:</p>
+<pre>
+/usr/bin/gksu
+</pre>
+
+							<p>Eine andere mögliche Option wäre <span class="highlight-3">ssh -X root@localhost</span> anstelle von <span class="highlight-3">su-to-root -X -c </span> zu nutzen:</p>
+
+							
+<pre>
+ssh -X root@localhost
+</pre>
+							<p>Da ssh zwar per Default installiert, aber nicht aktiviert ist, ist dieser Dienst mit Root-Rechten zu starten:
+<pre>
+/etc/init.d/ssh start
+</pre>
+							<p>danach:</p>
+<pre>
+su-to-root -X -c &lt;Anwendung&gt;
+</pre>
+
+
 	</div>
+	<div class="divider" id="alias">
+				    <h2>Setzen eines <span class="highlight-3">sux2</span> benannten Alias auf der Konsole für kdesu, gksu, su-to-root -X -c oder ssh -X root@localhost</h2>
+
+							<p>Die Eingabe einer langen Befehlszeile in die Konsole ist häufig nervraubend, so dass sich als Lösung das Setzen eines Alias, hier <span class="highlight-3">sux2</span> genannt, anbietet.</p>
+
+							<p><span class="highlight-2">Anmerkung: In jedem der folgenden Beispiele lautet der Befehl zum Starten des Alias auf der Konsole:</span></p>
+
+<pre>
+<span class="highlight-2">sux2 &lt;Anwendung&gt;</span>
+</pre>
+					  <h5><span class="highlight-3">Setzen eines Alias</span></h5> 
+							<p>Die Verwendung von mcedit als <span class="highlight-3">$user </span>in den folgenden Beispielen ist beabsichtigt, jeder beliebige Editor kann verwenden werden:</p>
+<pre>
+$ mcedit ~/.bashrc
+</pre>
+							<p><span class="highlight-2">Hinweis: Um alle vorgenommenen Änderungen zu aktivieren, muss die Konsole geschlossen und neu startet werden.</span></p>
+
+					<h3><span class="highlight-3">Füge folgenden Code an das Ende der Datei ~/.bashrc:</span></h3>
+
+					<h4>Setzen eines Alias mit kdesu</h4>
+<pre>
+alias sux2='/usr/lib/kde4/libexec/kdesu' 
+</pre>				  
+
+					<h4>Setzen eines Alias mit gksu</h4> 
+<pre>
+alias sux2='/usr/bin/gksu'
+</pre>
+
+					<h4>Setzen eines Alias mit su-to-root -X -c</h4>
+<pre>
+alias sux2='su-to-root -X -c'
+</pre>
+
+					<h4>Setzen eines Alias mit ssh -X root@localhost</h4>
+<pre>
+alias sux2='ssh -X root@localhost'
+</pre>
+
+							<p>Vielleicht sollte eine Datei ~/.bash_alias angelegt werden, welche  alle Aliase enthält, die nützlich erscheinen. Dazu ist ist eine Datei mit dem Namen ~/.bash_alias zu erstellen. Lese dazu die Dateien ~/.bashrc und /usr/share/doc/bash-doc/examples:</p>
+<pre>
+apt-get install bash-doc
+</pre>
+
+							
+	 </div>
 	<div class="divider" id="sudo">
-					<h2>sudo ist nicht unterstützt</h2>
+					<h2>sudo wird nicht unterstützt</h2>
 							<p>sudo ist nicht aktiviert nach einer Installation, sondern steht nur im Live-Modus zur Verfügung, da kein Root-Passwort gesetzt ist. Der Grund ist: falls ein Angreifer das Nutzer-Passwort abgreift, hat er nicht Super-User-Rechte und kann keine schädlichen Veränderungen am System durchführen.</p>
 
-							<p>Ein anderes Problem mit sudo ist, dass  eine Root-Anwendung, die mit der Nutzerkonfiguration läuft, Berechtigungen ändern und somit für den Nutzer unbrauchbar machen kann. Die Verwendung von <span class="highlight-3"><a href="#sux">sux</a>, kdesu, gksu oder su-to-root -X -c</span> ist empfohlen!</p>
+							<p>Ein anderes Problem mit sudo ist, dass  eine Root-Anwendung, die mit der Nutzerkonfiguration läuft, Berechtigungen ändern und somit für den Nutzer unbrauchbar machen kann. Die Verwendung von <span class="highlight-3"><a href="#sux">sux2</a>, kdesu, gksu oder su-to-root -X -c or ssh -X root@localhost</span> ist empfohlen.</p>
 
 					  <h2>Arbeit als root</h2>
 							<p class="highlight-2">Achtung: Während man mit Root-Rechten eingeloggt ist, darf man alles, z. B. Dateien löschen, ohne die das Betriebssystem nicht mehr funktioniert, uvm. Wenn man mit Root-Rechten arbeitet, muss man sich darüber im Klaren sein, <b>was</b> man gerade macht, denn es ist leicht möglich, dem Betriebssystem irreparable Schäden zuzufügen.</p>
@@ -544,14 +618,14 @@ $ man apropos
 
 							<p>Eine sehr gute Einführung in die Konsole BASH findet sich auf <a href="http://linuxcommand.org/">linuxcommand.org</a>.</p>
 
-							<p class="highlight-3">Eine umfangreiche Liste von 687 Befehlen in alphabetischer Reihenfolge aus <i>Linux in a Nutshell, 5th Edition, O'Reilly Publications</i> gibt es <a href="http://www.linuxdevcenter.com/linux/cmd/#a">hier</a>. Sie sollte in keiner Bookmarksammlung fehlen!</p>
+							<p class="highlight-3">Eine sehr umfangreiche Liste der Befehle in alphabetischer Reihenfolge und quasi Pflichtlektüre ist: <a href="http://ss64.com/bash/">An A-Z Index of the Bash command line for Linux</a>.</p>
 
 							<p>Eine weitere der vielen guten Anleitungen ist <a href="http://linux.org.mt/article/terminal"><em>A Beginners' Bash</em></a> (auf Englisch).</p>
 
 							<p>Natürlich kann auch die favorisierte Suchmaschine verwendet werden, um mehr zu finden.</p>
 
 	</div>
-	<div class="divider" id="shell-scripts">
+<!--	<div class="divider" id="shell-scripts">
 		<h2>Skripte und wie man sie nutzt</h2>
 
 							<p>Ein Konsolen-Skript ist ein bequemer Weg, um mehrere Befehle in einer Datei zu bündeln. Die Eingabe des Dateinamen des Skripts führt die Befehle, die im Skript sind, aus. aptosid wird mit einigen sehr nützlichen Skripten ausgeliefert, welche Vereinfachungen der Systemadministration bieten.</p>
@@ -600,8 +674,8 @@ Welcome to aptosid-manuals http://manual.aptosid.com
 </pre>
 
 
-	</div>
-	<div id="rev">Content last revised 14/08/2010 0100 UTC</div>
+	</div> -->
+	<div id="rev">Content last revised 05/03/2013 1326 UTC</div>
 </div>
 </body>
 </html>

@@ -351,7 +351,7 @@ username@hostname:/home/usuario$
 
 							<p>Debe reconocer el username como su propio nombre de login. El <span class="highlight-3">~ (tilde)</span> indica que está en su directorio home (casa) y 	<span class="highlight-3">$</span> que ha entrado en el sistema con privilegios de usuario. Al final verá el cursor. Esto es la línea de comandos, donde puede entrar órdenes que desea ejecutar.</p>
 
-							<p>Muchos comandos tienen que ser ejecutados con privilegios de superusuario o root (raíz). Para hacer esto escriba <span class="highlight-3">sux</span> en el prompt y oprima Entrar. Entonces le pedirá su clave de root. Tipee la contraseña y oprima Entrar otra vez (fíjese que cuando tipea su contraseña no se muestra nada en la pantalla).</p>
+							<p>Muchos comandos tienen que ser ejecutados con privilegios de superusuario o root (raíz). Para hacer esto escriba <span class="highlight-3">su</span> en el prompt y oprima Entrar. Entonces le pedirá su clave de root. Tipee la contraseña y oprima Entrar otra vez (fíjese que cuando tipea su contraseña no se muestra nada en la pantalla).</p>
 
 							<p>Si la contraseña es correcta, el prompt se cambia a:</p>
 
@@ -419,8 +419,8 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[01;36m\]:\[\03
 
 				<h6>Para cambiar el color de su prompt de root#:</h6>
 <pre>
-sux
-&lt;editor&gt; /root/.bashrc
+su
+&lt;mcedit&gt; /root/.bashrc
 </pre>
 							<p>Vaya a la línea 39 y quite el comentario, quedará así:</p>
 <pre>
@@ -438,72 +438,146 @@ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[01;31m\]:\[\03
 							<p>Para cambiar el color de fondo y opciones de fuente de la terminal, vea el menú de opciones del terminal. </p>
 
 
-		<div class="screenshot"><img src="../lib/images-common/images-terminal/terminal-colour-0.1.png" title="Terminal colours" alt="Terminal colours" /></div>
+		<div class="screenshot"><img src="../lib/images-common/images-terminal/terminal-colour-0.2.png" title="Terminal colours" alt="Terminal colours" /></div>
 
 							<p>Hay muchas opciones disponibles para el cambio de colores, sin embargo recomendamos hacerlo sencillo.</p>
 	</div>
 	<div class="divider" id="sux">
-	<h2>Acerca de sux</h2>
-							<p>Un cierto número de comandos necesitan ser ejecutado con privilegios de root. Para lograr eso, escriba:</p>
+		      <h2>Sobre Xapps mientras se está como root en X y sux2 como un alias</h2>
+							<p>Si bien la orden corriente para convertirse en root es <span class="highlight-3">&lt;su&gt;</span>, si usa <span class="highlight-3">kdesu &lt;Aplicacion&gt;</span> o <span class="highlight-3">gksu &lt;Aplicacion&gt;</span> podrá usar programas GUI / X11 desde el escritorio y así root podrá iniciar aplicaciones gráficas.</p>
+
+							<p><span class="highlight-2">Para aquellos acostumbrados a usar<span class="highlight-3"> sux </span> (sux se ha roto por un 'login' de actualización de seguridad desde hace bastante tiempo), encontrarán que <a href="#alias">sux2, como un alias, es una buena opción de momento</a> y si no use, como $user:</p> </span>
 <pre>
-sux
+$ suxterm
+</pre>
+							<p>En muchos casos, usar un Xapp mientras se está como root es tener la ventaja de usar un editor GUI como kate, kwrite, mousepad o leafpad para nombrar solo unos pocos. Mientras se es root, X también es necesario para particionar en GUI mediante gparted. (Vease también <a href="#sudo"> sudo</a>).</p>
+
+							<p>Aplicaciones no-gui como mcedit, vim, vi, o emacs son altamente recomendables como editores, y mcedit es uno de los editores no-gui más intuitivos para ser usado como editor para usuarios novatos con X. mcedit, vim, vi o emacs posiblemente sean sus únicas opciones de un editor mientras no está en X. (<span class="highlight-3">mc</span> es un navegador de ficheros ideal estando fuera de X).</p>
+
+
+				<h4>Opciones en KDE</h4>
+
+							<p>Para comenzar kdesu en KDE:</p>
+<pre>
+Alt+F2
+</pre>
+							<p>o pulse con el botón derecho del ratón sobre el escritorio y escoja:</p>
+<pre>
+Run Command
+</pre>
+							 <p>entonces:</p>
+
+<pre>
+kdesu &lt;Aplicación&gt;
 </pre>
 
-							<p> El comando común para convertirse en root es "su", pero utilizando "sux" en su lugar podrá ejecutar aplicaciones gráficas de X11 desde la línea de comando. <span class="highlight-3">sux</span> es un envoltorio para el comando estándar que transfiere sus credenciales X al usuario destinatorio. (Vea también <a href="#sudo"> sudo</a>).</p>
-
-
-							<p>Un ejemplo de ejecución de una aplicación de X11 vía sux es el uso de un editor de texto como kate para editar un archivo de root, para hacer particionamiento con gparted o con un gestor de archivos como dolphin o thunar. <!--También puede alterar archivos root con un clic derecho, y escoger "editar como raíz", entra su clave de raíz, que lo llame el "kdesu" para validar la contraseña.--></p>
-
-							<p>Algunas aplicaciones de KDE requiren escribir <span class="highlight-3">dbus-launch</span> antes de la aplicación:</p>
+							<p>Algunas aplicaciones de KDE requieren <span class="highlight-3">dbus-launch</span> antes de la aplicación:</p>
 <pre>
 dbus-launch &lt;Aplicación&gt;
 </pre>
 
-				<h6>Opciones de teclado en el escritorio KDE</h6>
-							<p>Para lanzar krunner en KDE:</p>
+				<h4>Opciones en Xfce</h4>
+							<p>Para lanzar Ejecutar programa en Xfce:</p>
 <pre>
 Alt+F2
 </pre>
-							<p>o bien haga click con el botón derecho del ratón sobre el escritorio y elija:</p>
+							<p>o pulse con el botón derecho del ratón sobre el escritorio y escoja:</p>
 <pre>
-Run Command
+Ejecutar programa
 </pre>
-							 <p>y entonces:</p>
+							 <p>y a continuación:</p>
 
 <pre>
-kdesu &lt;Application&gt;
+gksu &lt;Aplicación&gt;
 </pre>
 
-				<h6>Opciones en Xfce</h6>
-							<p>Para lanzar Run Command in Xfce:</p>
+					  <h4>Opciones para otros gestores de escritorio</h4>
+							<p>Otra opción de teclado también genérica para los principales gestores de escritorio es:</p>
 <pre>
 Alt+F2
 </pre>
-							<p>o bien haga click con el botón derecho del ratón sobre el escritorio y elija:</p>
+							<p>y:</p>
 <pre>
-Run Command
+su-to-root -X -c &lt;Aplicacion&gt;
 </pre>
-							 <p>y entonces:</p>
+					  <h3>Opciones de terminal/consola</h3>
+							<p>Para correr kdesu desde un terminal:</p>
+<pre>
+/usr/lib/kde4/libexec/kdesu
+</pre>
+							<p>Para correr gksu desde un terminal:</p>
+<pre>
+/usr/bin/gksu
+</pre>
+
+							<p>Otra opción es <span class="highlight-3">ssh -X root@localhost</span> o bien use <span class="highlight-3">su-to-root -X -c </span>:</p>
+
+							
+<pre>
+ssh -X root@localhost
+</pre>
+							<p>Si bien ssh está instalado por defecto puede no estar activado. Para activar ssh, como root:
+<pre>
+/etc/init.d/ssh start
+</pre>
+							<p>o bien:</p>
+<pre>
+su-to-root -X -c &lt;application&gt;
+</pre>
+
+
+	</div>
+	<div class="divider" id="alias">
+				    <h2>Establecer un alias en un terminal para kdesu, gksu, su-to-root -X -c o ssh -X root@localhost llamado <span class="highlight-3">sux2</span></h2>
+
+							<p>Mecanografiar un comando largo en el terminal repetidamente no es algo ideal, por lo que la solución es establecer un alias en terminal/consola llamado <span class="highlight-3">sux2</span>.</p>
+
+							<p><span class="highlight-2">Nota: En cada uno de los ejemplos que siguen el comando para activar el alias en el terminal será:</span></p>
 
 <pre>
-gksu &lt;Application&gt;
+<span class="highlight-2">sux2 &lt;application&gt;</span>
 </pre>
-					  <h6>Opciones en otros gestores de escritorio</h6>
-							<p>La opción generica para los Gestores de Escritorios principales es:</p>
+					  <h5><span class="highlight-3">Establecer un alias</span></h5> 
+							<p>El uso de mcedit como <span class="highlight-3">$usuario </span>en los ejemplos siguientes es deliberado. Es usted libre de usar cualquier editor que desee:</p>
 <pre>
-Alt+F2
+$ mcedit ~/.bashrc
 </pre>
-							<p>y entonces:</p>
+							<p><span class="highlight-2">Nota: Para permitir cualquier cambio que haya hecho necesita cerrar el terminal/consola y volverlo a arrancar.</span></p>
+
+					<h3><span class="highlight-3">Añada el código siguiente al fichero ~/.bashrc poniéndolo al final:</span></h3>
+
+					  <h4>Establecer un alias para kdesu </h4>
 <pre>
-su-to-root -X -c &lt;Aplicación&gt;
+alias sux2='/usr/lib/kde4/libexec/kdesu' 
+</pre>				  
+
+					   <h4>Establecer un alias para gksu</h4> 
+<pre>
+alias sux2='/usr/bin/gksu'
 </pre>
-							<p><span class="highlight-3">Todas las opciones de teclado mencionadas antes pueden ser ejecutadas en un terminal.</span></p>
+
+					    <h4>Establecer su-to-root -X -c como un alias</h4>
+<pre>
+alias sux2='su-to-root -X -c'
+</pre>
+
+					    <h4>Establecer ssh -X root@localhost como un alias</h4>
+<pre>
+alias sux2='ssh -X root@localhost'
+</pre>
+
+							<p>Es posible que desee poner en práctica un fichero ~/.bash_alias para contener todos los alias que le sean útiles. Para ello haga un fichero llamado ~/.bash_alias. Lea el fichero ~/.bashrc y /usr/share/doc/bash-doc/examples:</p>
+<pre>
+apt-get install bash-doc
+</pre>
+
+							
 	</div>
 	<div class="divider" id="sudo">
 					<h2>sudo no está soportado</h2>
 							<p>sudo no está configurado por defecto en la instalación en el disco duro. Se puede usar si hemos arrancado con el CD en vivo ya que no hay, en vivo, ningún pasword de root. La razón para ello es que si un atacante consiguiera los paswords del usuario, no podría inmediatamente adquirir privilegios de super-usuario y hacer cambios potencialmente dañinos en su sistema.</p>
 
-							<p>Otro problema con sudo es que permite correr aplicaciones de root con una configuración de usuario, lo que puede saltarse o cambiar los permisos. En algunos casos esto podría hacer que una aplicación fuera inutilizable para el usuario. Use <span class="highlight-3"> <a href="#sux">sux</a>, kdesu, gksu o bien su-to-root -X -c como recomendamos!</span></p>
+							<p>Otro problema con sudo es que permite correr aplicaciones de root con una configuración de usuario, lo que puede saltarse o cambiar los permisos. En algunos casos esto podría hacer que una aplicación fuera inutilizable para el usuario. Use <span class="highlight-3"> <a href="#sux">sux2</a>, kdesu, gksu o bien su-to-root -X -c o ssh -X root@localhost o ssh -X root@localhost</span> como recomendamos.</p>
 
 					  <h2>Trabajando como root</h2>
 							<p class="highlight-2">AVISO: Mientras esté trabajando como super-usuario (o root, o raíz), el sistema no hará nada para inhibir el hacer cosas peligrosas como borrar archivos importantes, etc. Tiene que estar seguro de lo que va a hacer, ya que es posible dañar seriamente el sistema.</p>
@@ -547,14 +621,14 @@ $ apropos apt-
 
 							<p>Un tutoríal excelente en el uso de BASH es el de<a href="http://linuxcommand.org/"> linuxcommand.org</a></p>
 
-							<p class="highlight-3">Una lista muy amplia de 687 comandos en orden alfabético del libro<a href="http://www.linuxdevcenter.com/linux/cmd/#a"> Linux in a Nutshell, 5th Edition: O'Reilly Publications</a> puede encontrarse aquí. Es una referencia que todos debemos tener a mano.</p>
+							<p class="highlight-3">Una lista muy extensa de comandos en orden alfabético es <a href="http://ss64.com/bash/"> An A-Z Index of the Bash command line for Linux </a> y <i>debería</i> ser guardado en marcadores.</p>
 
 							<a>Hay muchos tutoriales disponibles en internet. Unos muy buenos para empezar son: <a href="http://linux.org.mt/article/terminal">A Beginner's Bash</a> y <a href="http://mipagina.euskaltel.es/iosus/linux/Bash-Prompt-HOWTO.html">Bash Prompt COMO</a></p>
 
 							<p>Use su buscador para encontrar otros. Entre "linux bash tutorial español" en Google sin las comillas.</p>
 
 	</div>
-	<div class="divider" id="shell-scripts">
+<!--	<div class="divider" id="shell-scripts">
 		<h2>Un "script" y como utilizarlos</h2>
 							<p>Un script de consola es una manera de agrupar múltiples comandos juntos en un archivo. Entrando solamente el nombre del script, los comandos incluidos serán ejecutados según su orden en el script. aptosid viene con varios scripts muy útiles para facilitar la vida de sus usuarios.</p>
 
@@ -602,8 +676,8 @@ Welcome to aptosid-manuals http://manual.aptosid.com
 </pre>
 
 
-	</div>
-			<div id="rev">Contenido modificado el 14/08/2010 0100 UTC</div>
+	</div> -->
+			<div id="rev">Contenido modificado el 05/03/2013 1326 UTC</div>
 
 </div>
 </body>
